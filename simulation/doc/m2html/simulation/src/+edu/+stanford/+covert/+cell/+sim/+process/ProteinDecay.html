@@ -1,0 +1,1136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinDecay</title>
+  <meta name="keywords" content="ProteinDecay">
+  <meta name="description" content="Protein Decay">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinDecay.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinDecay
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Decay</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Decay
+
+ @wholeCellModelID Process_ProteinDecay
+ @name             Protein Decay
+ @description
+   Biology
+   ===========
+   Poisson simulation of protein damage, repair, and decay mediated by
+   - chaperone: clpB chaperone refolds/disaggregates proteins by an
+     energy-dependent mechanism
+   - proteases: lon, ftsH; each is believed to processively cleave
+     peptides into smaller peptides of approximately 20 amino acids
+     - ftsH: cleaves peptides with tmRNA stalled translation proteolysis
+       tag; parameterized by
+       - fragment length (aa)
+       - kinetic rate (cleaves/s)
+       - energy per cleavage (ATP/cleavage)
+     - lon: cleaves all other peptides; parameterized by
+       - fragment length (aa)
+       - kinetic rate (cleaves/s)
+       - energy per cleavage (ATP/cleavage)
+   - several peptidases: the specific functions and kinetics of the
+     individual peptidases are unknown and not modelled; decay proceeds as
+     long as at least one of each peptidase is present
+
+ 1. Misfold proteins
+    - Protein misfolding is modeled as a poisson process
+      with a small rate constant
+ 2. Refold cytosolic proteins
+    - Occurs if clpB is present
+ 3. Decay macromolecular complexes
+    - Model decay is poisson process with rate parameter given by the
+      inverse weighted average half life of the complex's subunits
+    - Salvage bound prosthetic groups
+    - Mark subunits as damaged to be degraded by either the
+      protease/peptidase or ribonuclease machinery
+ 4. Decay protein monomers and proteolysis tagged polypeptides
+    - Model selection of monomers that decay as poisson process with rate
+      parameters equal to the decay rates (ln(2)/half life as computed by
+      the N-end rule) of the monomers.
+    - Execute decay reactions as long as the following are available
+      - Lon/FtsH protease for normal / ribosome-stalled peptides
+      - Complete peptidase complement
+      - Water for hydrolysis of peptide bonds
+
+   Knowledge Base
+   ===============
+   The knowledge base contains implements the N-end rule which predicts the
+   half life of every protein monomer based on the average experimentally
+   measured (in E. coli) protein half lives for each possible N-terminal amino
+   acid. Exceptions:
+   - signal sequences are assumed to have 0 half life
+   - proteolysis tagged polypeptides are assumed to have 0 half life
+
+   The knowledge base predicts the half lives of complexes as the weighted mean
+   of that of their constituent protein monomers and RNAs.
+
+   The knowledge base ProteinMonomer and ProteinComplex classes also computes
+   hydrolytic degradation reactions of every protein monomer and complex:
+   - the (modified) amino acids released by hydrolytic cleavage of every
+     protein monomer
+   - water required for hydrolytic peptide bond cleavage
+   - prosthetic groups released by cleavage
+
+   The ProteinMonomer class is also used to compute hydrolytic degradation
+   reactions for proteolysis tagged polypeptides.
+
+   Representation
+   ===============
+   The substrates, enzymes, monomers, RNAs, and complexs properties represent
+   the counts of metabolites, proteases and peptidases, protein monomers,
+   damaged RNAs, protein complexes. The substrates and enzymes properties have
+   only 1 compartment (cytosol). The monomers, RNAs, and complexs properties
+   have 5 compartments. The monomers and complexs properties represent all
+   forms of proteins (nascent, mature, damaged, folded, misfolded, etc.)
+
+   abortedSequences represents the sequences of every proteolysis tagged
+   monomer in the cytosol.
+
+   The process contains intermediate representation of protein complex
+   degradation, but not of protein monomer degradation, misfolding, or
+   refolding. Degrading complexes are broken up into the constituent RNAs and
+   monomers, and these components are marked as &quot;damaged&quot; and recognized by RNA
+   and protein monomer degradation as molecules with 0 half life. Protein
+   monomer degradation is treated as an all-or-nothing event that either
+   proceeds to complete with a time step or doesn't progress at all.
+
+   proteinMisfoldingRate represents the rate at which every protein misfolds in
+   seconds.
+
+   monomerDecayRates and complexDecayRates represent the decay rate of each
+   protein monomer and complex species in seconds. misfolded and damaged
+   proteins, signal sequences, and proteolysis tagged polypeptides have 0 half
+   lives. All other proteins have positive half lives.
+
+   monomerDecayReactions and complexDecayReactions represent the metabolites
+   required and released by hydrolytic cleavage of protein monomers and the
+   break down of macromolecular complexes into their constituent subunits and
+   sequestered prosthetic groups. monomerDecayReactions and
+   complexDecayReactions are computed by the knowledge base ProteinMonomer and
+   ProteinComplex classes.
+
+   Initialization
+   ===============
+   All protein monomers and complexs are initialized to the mature state. This
+   is accomplished by the simulation class initializeState method.
+
+   Simulation
+   ===============
+   This process models misfolding, refolding, and protein monomer and complex
+   degradation as an enyzme-dependent (excepct misfolding) poisson processes
+   with rate parameter:
+      lambda = proteins .* decayRates * stepSizeSec
+
+   Algorithm
+   +++++++++++++++
+   Each of misfolding, refolding, protein complex degradation, proteolysis
+   tagged monomer degradation, and protein monomer degradation use a variant of
+   the algorithm:
+
+   1. Stochastically select proteins to misfold/refolding/degrade based on
+      poission distribution with
+         lambda = proteins .* rates * stepSizeSec
+   2. Limit refolding/degradation by availability of water and energy
+   3. Limit protein refolding/degradation by available enzyme activity
+      a. Refolding requires ClpB
+      b. Protein monomer degradation requires Lon protease and 6 peptidases
+      c. Proteolysis tagged polypeptide degradation requires FtsH protease and
+         6 peptidases
+   4. Update counts of proteins
+   5. Update counts of metabolic reactants and byproducts of protein
+      refolding/degradation
+
+   Compartments
+   +++++++++++++++
+   - Misfolding: occurs in all compartments
+   - Refolding: occurs only in compartments where ClpB is present, that is the
+     cytosol (and terminal organelle cytosol)
+   - Complex degradation: occurs only in compartments where the protein decay
+     machinery (Lon protease and peptidases) are presents, that is the cytosol
+     (and terminal organelle cytosol)
+   - Proteolysis tagged polypeptide degradation: only exist in cytosol, and are
+     only degraded their (assumes they are accessible from within the cytosol
+     to the integral membrane FtsH protease)
+   - Protein monomer degradation:  occurs only in compartments where the Lon
+     protease and peptidases are present, that is the cytosol.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinDecay.html" class="code" title="">ProteinDecay</a>	Protein Decay</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinDecay.html" class="code" title="">ProteinDecay</a>	Protein Decay</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinDecay(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(~)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function evolveState_MisfoldProteins(this)</a></li><li><a href="#_sub12" class="code">function evolveState_RefoldProteins(this)</a></li><li><a href="#_sub13" class="code">function evolveState_DegradeComplexes(this)</a></li><li><a href="#_sub14" class="code">function evolveState_DegradeAbortedPolypeptides(this)</a></li><li><a href="#_sub15" class="code">function evolveState_DegradeMonomers(this)</a></li><li><a href="#_sub16" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Protein Decay</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinDecay</span>
+0004 <span class="comment">% @name             Protein Decay</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===========</span>
+0008 <span class="comment">%   Poisson simulation of protein damage, repair, and decay mediated by</span>
+0009 <span class="comment">%   - chaperone: clpB chaperone refolds/disaggregates proteins by an</span>
+0010 <span class="comment">%     energy-dependent mechanism</span>
+0011 <span class="comment">%   - proteases: lon, ftsH; each is believed to processively cleave</span>
+0012 <span class="comment">%     peptides into smaller peptides of approximately 20 amino acids</span>
+0013 <span class="comment">%     - ftsH: cleaves peptides with tmRNA stalled translation proteolysis</span>
+0014 <span class="comment">%       tag; parameterized by</span>
+0015 <span class="comment">%       - fragment length (aa)</span>
+0016 <span class="comment">%       - kinetic rate (cleaves/s)</span>
+0017 <span class="comment">%       - energy per cleavage (ATP/cleavage)</span>
+0018 <span class="comment">%     - lon: cleaves all other peptides; parameterized by</span>
+0019 <span class="comment">%       - fragment length (aa)</span>
+0020 <span class="comment">%       - kinetic rate (cleaves/s)</span>
+0021 <span class="comment">%       - energy per cleavage (ATP/cleavage)</span>
+0022 <span class="comment">%   - several peptidases: the specific functions and kinetics of the</span>
+0023 <span class="comment">%     individual peptidases are unknown and not modelled; decay proceeds as</span>
+0024 <span class="comment">%     long as at least one of each peptidase is present</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% 1. Misfold proteins</span>
+0027 <span class="comment">%    - Protein misfolding is modeled as a poisson process</span>
+0028 <span class="comment">%      with a small rate constant</span>
+0029 <span class="comment">% 2. Refold cytosolic proteins</span>
+0030 <span class="comment">%    - Occurs if clpB is present</span>
+0031 <span class="comment">% 3. Decay macromolecular complexes</span>
+0032 <span class="comment">%    - Model decay is poisson process with rate parameter given by the</span>
+0033 <span class="comment">%      inverse weighted average half life of the complex's subunits</span>
+0034 <span class="comment">%    - Salvage bound prosthetic groups</span>
+0035 <span class="comment">%    - Mark subunits as damaged to be degraded by either the</span>
+0036 <span class="comment">%      protease/peptidase or ribonuclease machinery</span>
+0037 <span class="comment">% 4. Decay protein monomers and proteolysis tagged polypeptides</span>
+0038 <span class="comment">%    - Model selection of monomers that decay as poisson process with rate</span>
+0039 <span class="comment">%      parameters equal to the decay rates (ln(2)/half life as computed by</span>
+0040 <span class="comment">%      the N-end rule) of the monomers.</span>
+0041 <span class="comment">%    - Execute decay reactions as long as the following are available</span>
+0042 <span class="comment">%      - Lon/FtsH protease for normal / ribosome-stalled peptides</span>
+0043 <span class="comment">%      - Complete peptidase complement</span>
+0044 <span class="comment">%      - Water for hydrolysis of peptide bonds</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   Knowledge Base</span>
+0047 <span class="comment">%   ===============</span>
+0048 <span class="comment">%   The knowledge base contains implements the N-end rule which predicts the</span>
+0049 <span class="comment">%   half life of every protein monomer based on the average experimentally</span>
+0050 <span class="comment">%   measured (in E. coli) protein half lives for each possible N-terminal amino</span>
+0051 <span class="comment">%   acid. Exceptions:</span>
+0052 <span class="comment">%   - signal sequences are assumed to have 0 half life</span>
+0053 <span class="comment">%   - proteolysis tagged polypeptides are assumed to have 0 half life</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   The knowledge base predicts the half lives of complexes as the weighted mean</span>
+0056 <span class="comment">%   of that of their constituent protein monomers and RNAs.</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   The knowledge base ProteinMonomer and ProteinComplex classes also computes</span>
+0059 <span class="comment">%   hydrolytic degradation reactions of every protein monomer and complex:</span>
+0060 <span class="comment">%   - the (modified) amino acids released by hydrolytic cleavage of every</span>
+0061 <span class="comment">%     protein monomer</span>
+0062 <span class="comment">%   - water required for hydrolytic peptide bond cleavage</span>
+0063 <span class="comment">%   - prosthetic groups released by cleavage</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%   The ProteinMonomer class is also used to compute hydrolytic degradation</span>
+0066 <span class="comment">%   reactions for proteolysis tagged polypeptides.</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   Representation</span>
+0069 <span class="comment">%   ===============</span>
+0070 <span class="comment">%   The substrates, enzymes, monomers, RNAs, and complexs properties represent</span>
+0071 <span class="comment">%   the counts of metabolites, proteases and peptidases, protein monomers,</span>
+0072 <span class="comment">%   damaged RNAs, protein complexes. The substrates and enzymes properties have</span>
+0073 <span class="comment">%   only 1 compartment (cytosol). The monomers, RNAs, and complexs properties</span>
+0074 <span class="comment">%   have 5 compartments. The monomers and complexs properties represent all</span>
+0075 <span class="comment">%   forms of proteins (nascent, mature, damaged, folded, misfolded, etc.)</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">%   abortedSequences represents the sequences of every proteolysis tagged</span>
+0078 <span class="comment">%   monomer in the cytosol.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">%   The process contains intermediate representation of protein complex</span>
+0081 <span class="comment">%   degradation, but not of protein monomer degradation, misfolding, or</span>
+0082 <span class="comment">%   refolding. Degrading complexes are broken up into the constituent RNAs and</span>
+0083 <span class="comment">%   monomers, and these components are marked as &quot;damaged&quot; and recognized by RNA</span>
+0084 <span class="comment">%   and protein monomer degradation as molecules with 0 half life. Protein</span>
+0085 <span class="comment">%   monomer degradation is treated as an all-or-nothing event that either</span>
+0086 <span class="comment">%   proceeds to complete with a time step or doesn't progress at all.</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   proteinMisfoldingRate represents the rate at which every protein misfolds in</span>
+0089 <span class="comment">%   seconds.</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   monomerDecayRates and complexDecayRates represent the decay rate of each</span>
+0092 <span class="comment">%   protein monomer and complex species in seconds. misfolded and damaged</span>
+0093 <span class="comment">%   proteins, signal sequences, and proteolysis tagged polypeptides have 0 half</span>
+0094 <span class="comment">%   lives. All other proteins have positive half lives.</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">%   monomerDecayReactions and complexDecayReactions represent the metabolites</span>
+0097 <span class="comment">%   required and released by hydrolytic cleavage of protein monomers and the</span>
+0098 <span class="comment">%   break down of macromolecular complexes into their constituent subunits and</span>
+0099 <span class="comment">%   sequestered prosthetic groups. monomerDecayReactions and</span>
+0100 <span class="comment">%   complexDecayReactions are computed by the knowledge base ProteinMonomer and</span>
+0101 <span class="comment">%   ProteinComplex classes.</span>
+0102 <span class="comment">%</span>
+0103 <span class="comment">%   Initialization</span>
+0104 <span class="comment">%   ===============</span>
+0105 <span class="comment">%   All protein monomers and complexs are initialized to the mature state. This</span>
+0106 <span class="comment">%   is accomplished by the simulation class initializeState method.</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">%   Simulation</span>
+0109 <span class="comment">%   ===============</span>
+0110 <span class="comment">%   This process models misfolding, refolding, and protein monomer and complex</span>
+0111 <span class="comment">%   degradation as an enyzme-dependent (excepct misfolding) poisson processes</span>
+0112 <span class="comment">%   with rate parameter:</span>
+0113 <span class="comment">%      lambda = proteins .* decayRates * stepSizeSec</span>
+0114 <span class="comment">%</span>
+0115 <span class="comment">%   Algorithm</span>
+0116 <span class="comment">%   +++++++++++++++</span>
+0117 <span class="comment">%   Each of misfolding, refolding, protein complex degradation, proteolysis</span>
+0118 <span class="comment">%   tagged monomer degradation, and protein monomer degradation use a variant of</span>
+0119 <span class="comment">%   the algorithm:</span>
+0120 <span class="comment">%</span>
+0121 <span class="comment">%   1. Stochastically select proteins to misfold/refolding/degrade based on</span>
+0122 <span class="comment">%      poission distribution with</span>
+0123 <span class="comment">%         lambda = proteins .* rates * stepSizeSec</span>
+0124 <span class="comment">%   2. Limit refolding/degradation by availability of water and energy</span>
+0125 <span class="comment">%   3. Limit protein refolding/degradation by available enzyme activity</span>
+0126 <span class="comment">%      a. Refolding requires ClpB</span>
+0127 <span class="comment">%      b. Protein monomer degradation requires Lon protease and 6 peptidases</span>
+0128 <span class="comment">%      c. Proteolysis tagged polypeptide degradation requires FtsH protease and</span>
+0129 <span class="comment">%         6 peptidases</span>
+0130 <span class="comment">%   4. Update counts of proteins</span>
+0131 <span class="comment">%   5. Update counts of metabolic reactants and byproducts of protein</span>
+0132 <span class="comment">%      refolding/degradation</span>
+0133 <span class="comment">%</span>
+0134 <span class="comment">%   Compartments</span>
+0135 <span class="comment">%   +++++++++++++++</span>
+0136 <span class="comment">%   - Misfolding: occurs in all compartments</span>
+0137 <span class="comment">%   - Refolding: occurs only in compartments where ClpB is present, that is the</span>
+0138 <span class="comment">%     cytosol (and terminal organelle cytosol)</span>
+0139 <span class="comment">%   - Complex degradation: occurs only in compartments where the protein decay</span>
+0140 <span class="comment">%     machinery (Lon protease and peptidases) are presents, that is the cytosol</span>
+0141 <span class="comment">%     (and terminal organelle cytosol)</span>
+0142 <span class="comment">%   - Proteolysis tagged polypeptide degradation: only exist in cytosol, and are</span>
+0143 <span class="comment">%     only degraded their (assumes they are accessible from within the cytosol</span>
+0144 <span class="comment">%     to the integral membrane FtsH protease)</span>
+0145 <span class="comment">%   - Protein monomer degradation:  occurs only in compartments where the Lon</span>
+0146 <span class="comment">%     protease and peptidases are present, that is the cytosol.</span>
+0147 <span class="comment">%</span>
+0148 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0149 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0150 <span class="comment">% Last updated: 8/4/2010</span>
+0151 
+0152 classdef <a href="ProteinDecay.html" class="code" title="">ProteinDecay</a> &lt; edu.stanford.covert.cell.sim.Process
+0153     <span class="comment">%property annotations</span>
+0154     properties (Constant)
+0155         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0156         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0157             <span class="string">'lonProteaseSpecificRate'</span>;
+0158             <span class="string">'lonProteaseEnergyCost'</span>;
+0159             <span class="string">'lonProteaseFragmentLength'</span>;
+0160             <span class="string">'ftsHProteaseSpecificRate'</span>;
+0161             <span class="string">'ftsHProteaseEnergyCost'</span>;
+0162             <span class="string">'ftsHProteaseFragmentLength'</span>;
+0163             <span class="string">'oligoendopeptidaseFSpecificRate'</span>;
+0164             <span class="string">'proteinMisfoldingRate'</span>;
+0165             <span class="string">'proteinComplexRNAComposition'</span>;
+0166             <span class="string">'proteinComplexMonomerComposition'</span>;
+0167             <span class="string">'monomerLonProteaseCleavages'</span>;
+0168             <span class="string">'monomerDecayReactions'</span>;
+0169             <span class="string">'complexDecayReactions'</span>;
+0170             };
+0171         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0172         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0173             <span class="string">'monomers'</span>;
+0174             <span class="string">'complexs'</span>;
+0175             <span class="string">'RNAs'</span>};
+0176     <span class="keyword">end</span>
+0177 
+0178     <span class="comment">%IDs, names, and local indices</span>
+0179     properties
+0180         stimuliWholeCellModelIDs = {};   <span class="comment">%whole cell model IDs of stimuli</span>
+0181 
+0182         substrateWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of substrates</span>
+0183         substrateIndexs_atp              <span class="comment">%index within substrates of ATP</span>
+0184         substrateIndexs_adp              <span class="comment">%index within substrates of ADP</span>
+0185         substrateIndexs_phosphate        <span class="comment">%index within substrates of inorganic phosphate</span>
+0186         substrateIndexs_hydrogen         <span class="comment">%index within substrates of hydrogen</span>
+0187         substrateIndexs_water            <span class="comment">%index within substrates of water</span>
+0188         substrateIndexs_aminoAcids       <span class="comment">%indices within substrates of amino acids</span>
+0189         substrateIndexs_methionine       <span class="comment">%index within substrates of methionine</span>
+0190         substrateIndexs_fmethionine      <span class="comment">%index within substrates of formylmethionine</span>
+0191         substrateIndexs_glutamate        <span class="comment">%index within substrates of glutamate</span>
+0192         substrateIndexs_glutamine        <span class="comment">%index within substrates of glutamine</span>
+0193         substrateIndexs_formate          <span class="comment">%index within substrates of formate</span>
+0194         substrateIndexs_ammonia          <span class="comment">%index within substrates of ammonia</span>
+0195 
+0196         enzymeWholeCellModelIDs = { <span class="comment">%enzyme whole cell model ids</span>
+0197             <span class="string">'MG_355_HEXAMER'</span>;    <span class="comment">%protease clpB            cytoplasmic</span>
+0198             <span class="string">'MG_239_HEXAMER'</span>;    <span class="comment">%protease La              cytoplasmic</span>
+0199             <span class="string">'MG_457_HEXAMER'</span>;    <span class="comment">%metalloprotease FtsH     integral membrane</span>
+0200             <span class="string">'MG_183_MONOMER'</span>;    <span class="comment">%oligoendopeptidase F     cytoplasmic</span>
+0201             <span class="string">'MG_324_MONOMER'</span>;    <span class="comment">%aminopeptidase           cytoplasmic</span>
+0202             <span class="string">'MG_391_HEXAMER'</span>;    <span class="comment">%cytosol aminopeptidase   cytoplasmic</span>
+0203             <span class="string">'MG_208_DIMER'</span>;      <span class="comment">%glycoprotease            cytoplasmic</span>
+0204             <span class="string">'MG_046_DIMER'</span>;      <span class="comment">%metalloendopeptidase     cytoplasmic</span>
+0205             <span class="string">'MG_020_MONOMER'</span>};   <span class="comment">%proline iminopeptidase   cytoplasmic</span>
+0206         enzymeIndexs_clpBProtease          = 1;      <span class="comment">%index within enzymes of protease clpB</span>
+0207         enzymeIndexs_lonProtease           = 2;      <span class="comment">%index within enzymes of protease La</span>
+0208         enzymeIndexs_ftsHProtease          = 3;      <span class="comment">%index within enzymes of metalloprotease FtsH</span>
+0209         enzymeIndexs_oligoendopeptidaseF   = 4;      <span class="comment">%index within enzymes of oligoendopeptidase F</span>
+0210         enzymeIndexs_aminopeptidase        = 5;      <span class="comment">%index within enzymes of aminopeptidase</span>
+0211         enzymeIndexs_cytosolAminopeptidase = 6;      <span class="comment">%index within enzymes of cytosol aminopeptidase</span>
+0212         enzymeIndexs_glycoprotease         = 7;      <span class="comment">%index within enzymes of glycoprotease</span>
+0213         enzymeIndexs_metalloendopeptidase  = 8;      <span class="comment">%index within enzymes of metalloendopeptidase</span>
+0214         enzymeIndexs_prolineIminopeptidase = 9;      <span class="comment">%index within enzymes of proline iminopeptidase</span>
+0215         enzymeIndexs_peptidases            = (4:9)'; <span class="comment">%index within enzymes of peptidases</span>
+0216         
+0217         rnaWholeCellModelIDs                        <span class="comment">%whole cell model IDs of RNA subunits</span>
+0218         damagedRNAGlobalIndexs                      <span class="comment">%indices of damaged rRNA, sRNA within simulation.RNAs</span>
+0219         
+0220         complexIndexs_modified                      <span class="comment">%indices of modified protein complexes within this.complexs</span>
+0221         complexIndexs_unmodified                    <span class="comment">%indices of unmodified protein complexes within this.complexs</span>
+0222     <span class="keyword">end</span>
+0223 
+0224     <span class="comment">%fixed biological constants</span>
+0225     properties
+0226         lonProteaseSpecificRate           <span class="comment">%lon protease kinetic rate (1.667) [PUB_0029]</span>
+0227         lonProteaseEnergyCost              <span class="comment">%lon protease energy requirement (6) [PUB_0029]</span>
+0228         lonProteaseFragmentLength         <span class="comment">%length of peptide fragments after cleavage by lon protease (20) [PUB_0029]</span>
+0229         ftsHProteaseSpecificRate            <span class="comment">%ftsH protease kinetic rate (0.03) [PUB_0031]</span>
+0230         ftsHProteaseEnergyCost            <span class="comment">%ftsH protease energy requirement (8.3) [PUB_0031]</span>
+0231         ftsHProteaseFragmentLength        <span class="comment">%length of peptide fragments after cleavage by ftsH protease (15) [PUB_0030]</span>
+0232         oligoendopeptidaseFSpecificRate   <span class="comment">%oligoendopeptidase F kinetic rate (27.474) [PUB_0035]</span>
+0233         proteinMisfoldingRate             <span class="comment">%expected number of misfolds per protein per time step (1e-6)</span>
+0234 
+0235         proteinComplexRNAComposition      <span class="comment">%RNA subunit composition of protein complexes (RNAs X protein complexes X compartments)</span>
+0236         proteinComplexMonomerComposition  <span class="comment">%protein monomer subunit composition of protein complexes (protein monomers X protein complexes X compartments)</span>
+0237 
+0238         monomerLonProteaseCleavages       <span class="comment">%number of lon protease cleavages required to degrade each protein monomer</span>
+0239         monomerDecayReactions             <span class="comment">%substrates consumed and produced by decay of each protein monomer</span>
+0240         complexDecayReactions             <span class="comment">%substrates consumed and produced by decay of each protein complex</span>
+0241     <span class="keyword">end</span>
+0242 
+0243     <span class="comment">%global state (stored locally for convenience)</span>
+0244     properties
+0245         RNAs                              <span class="comment">%counts of RNAs</span>
+0246         monomers                          <span class="comment">%counts of protein monomers</span>
+0247         complexs                          <span class="comment">%counts of protein complexes</span>
+0248     <span class="keyword">end</span>
+0249 
+0250     <span class="comment">%global state (referenced locally for convenience)</span>
+0251     properties
+0252         polypeptide                       <span class="comment">%New polypeptides state class</span>
+0253     <span class="keyword">end</span>
+0254     
+0255     <span class="comment">%constructor</span>
+0256     methods
+0257         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinDecay(wholeCellModelID, name)</a>
+0258             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0259         <span class="keyword">end</span>
+0260     <span class="keyword">end</span>
+0261 
+0262     <span class="comment">%communication between process/simulation</span>
+0263     methods
+0264         <span class="comment">%set references to state objects</span>
+0265         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0266             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0267             
+0268             this.polypeptide = simulation.state(<span class="string">'Polypeptide'</span>);
+0269             this.states = [this.states; {this.polypeptide}];
+0270         <span class="keyword">end</span>
+0271         
+0272         <span class="comment">%initialize constants</span>
+0273         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)            </a>
+0274             <span class="comment">%include all necessary metabolites</span>
+0275             decayReaction_nascentMonomers     = reshape([knowledgeBase.proteinMonomers.decayReaction],                    [], knowledgeBase.numProteinMonomers);
+0276             decayReaction_processedIMonomers  = reshape([knowledgeBase.proteinMonomers.processedISequenceDecayReaction],  [], knowledgeBase.numProteinMonomers);
+0277             decayReaction_processedIIMonomers = reshape([knowledgeBase.proteinMonomers.processedIISequenceDecayReaction], [], knowledgeBase.numProteinMonomers);
+0278             decayReaction_signalSequence      = reshape([knowledgeBase.proteinMonomers.signalSequenceDecayReaction],      [], knowledgeBase.numProteinMonomers);
+0279             decayReaction_foldedMonomers      = reshape([knowledgeBase.proteinMonomers.foldedSequenceDecayReaction],      [], knowledgeBase.numProteinMonomers);
+0280             decayReaction_matureMonomers      = reshape([knowledgeBase.proteinMonomers.matureSequenceDecayReaction],      [], knowledgeBase.numProteinMonomers);
+0281             decayReaction_nascentComplexs     = reshape([knowledgeBase.proteinComplexs.decayReaction],                    [], knowledgeBase.numProteinComplexs);
+0282             decayReaction_matureComplexs      = reshape([knowledgeBase.proteinComplexs.matureDecayReaction],              [], knowledgeBase.numProteinComplexs);
+0283             
+0284             m = this.metabolite;
+0285             gtpIdxs = m.getIndexs({<span class="string">'GTP'</span>; <span class="string">'H2O'</span>; <span class="string">'PI'</span>; <span class="string">'H'</span>});
+0286             gdpIdxs = m.getIndexs(<span class="string">'GDP'</span>);
+0287             <span class="keyword">for</span> i = 1:size(decayReaction_nascentComplexs, 2)
+0288                 tmp = decayReaction_nascentComplexs(gtpIdxs, i) ./ [1; 1; -1; -1];
+0289                 <span class="keyword">if</span> tmp(1) &amp;&amp; all(tmp == tmp(1))
+0290                     decayReaction_nascentComplexs(gdpIdxs, i) = tmp(1);
+0291                     decayReaction_nascentComplexs(gtpIdxs, i) = 0;
+0292                 <span class="keyword">end</span>
+0293                 
+0294                 tmp = decayReaction_matureComplexs(gtpIdxs, i) ./ [1; 1 ;-1; -1];
+0295                 <span class="keyword">if</span> tmp(1) &amp;&amp; all(tmp == tmp(1))
+0296                     decayReaction_matureComplexs(gdpIdxs, i) = tmp(1);
+0297                     decayReaction_matureComplexs(gtpIdxs, i) = 0;
+0298                 <span class="keyword">end</span>
+0299             <span class="keyword">end</span>
+0300             
+0301             this.substrateWholeCellModelIDs = unique([
+0302                 this.metabolite.wholeCellModelIDs(<span class="keyword">...</span>
+0303                 any(decayReaction_nascentMonomers,     2) | <span class="keyword">...</span>
+0304                 any(decayReaction_processedIMonomers,  2) | <span class="keyword">...</span>
+0305                 any(decayReaction_processedIIMonomers, 2) | <span class="keyword">...</span>
+0306                 any(decayReaction_signalSequence,      2) | <span class="keyword">...</span>
+0307                 any(decayReaction_foldedMonomers,      2) | <span class="keyword">...</span>
+0308                 any(decayReaction_matureMonomers,      2) | <span class="keyword">...</span>
+0309                 any(decayReaction_nascentComplexs,     2) | <span class="keyword">...</span>
+0310                 any(decayReaction_matureComplexs,      2));
+0311                 <span class="string">'ATP'</span>; <span class="string">'ADP'</span>; <span class="string">'PI'</span>; <span class="string">'H'</span>; <span class="string">'H2O'</span>; <span class="string">'NH3'</span>; <span class="string">'FOR'</span>]);
+0312             this.substrateIndexs_atp         = this.substrateIndexs({<span class="string">'ATP'</span>});
+0313             this.substrateIndexs_adp         = this.substrateIndexs({<span class="string">'ADP'</span>});
+0314             this.substrateIndexs_phosphate   = this.substrateIndexs({<span class="string">'PI'</span>});
+0315             this.substrateIndexs_hydrogen    = this.substrateIndexs({<span class="string">'H'</span>});
+0316             this.substrateIndexs_water       = this.substrateIndexs({<span class="string">'H2O'</span>});
+0317             this.substrateIndexs_aminoAcids  = this.substrateIndexs({<span class="string">'ALA'</span>; <span class="string">'ARG'</span>; <span class="string">'ASN'</span>; <span class="string">'ASP'</span>; <span class="string">'CYS'</span>; <span class="string">'GLN'</span>; <span class="string">'GLU'</span>; <span class="string">'GLY'</span>; <span class="string">'HIS'</span>; <span class="string">'ILE'</span>; <span class="string">'LEU'</span>; <span class="string">'LYS'</span>; <span class="string">'MET'</span>; <span class="string">'PHE'</span>; <span class="string">'PRO'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TRP'</span>; <span class="string">'TYR'</span>; <span class="string">'VAL'</span>; <span class="string">'FMET'</span>});
+0318             this.substrateIndexs_methionine  = this.substrateIndexs({<span class="string">'MET'</span>});
+0319             this.substrateIndexs_fmethionine = this.substrateIndexs({<span class="string">'FMET'</span>});
+0320             this.substrateIndexs_glutamate   = this.substrateIndexs({<span class="string">'GLU'</span>});
+0321             this.substrateIndexs_glutamine   = this.substrateIndexs({<span class="string">'GLN'</span>});
+0322             this.substrateIndexs_ammonia     = this.substrateIndexs({<span class="string">'NH3'</span>});
+0323             this.substrateIndexs_formate     = this.substrateIndexs({<span class="string">'FOR'</span>});
+0324 
+0325             <span class="comment">%call super class method</span>
+0326             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0327                 knowledgeBase, simulation, varargin{:});
+0328 
+0329             <span class="comment">%RNA, monomer, complex whole cell model IDs</span>
+0330             this.rnaWholeCellModelIDs = this.rna.wholeCellModelIDs(this.rna.damagedIndexs([this.rna.matureRRNAIndexs; this.rna.matureSRNAIndexs]));
+0331             
+0332             <span class="comment">%RNA indices</span>
+0333             this.damagedRNAGlobalIndexs = this.rna.damagedIndexs([this.rna.matureRRNAIndexs; this.rna.matureSRNAIndexs]);
+0334 
+0335             <span class="comment">%complex composition</span>
+0336             cplxRNAComp     = knowledgeBase.proteinComplexAllRNAComposition([this.gene.rRNAIndexs; this.gene.sRNAIndexs], :, this.compartment.cytosolIndexs);
+0337             cplxMonomerComp = knowledgeBase.proteinComplexAllMonomerComposition(:, :, this.compartment.cytosolIndexs);
+0338 
+0339             this.proteinComplexRNAComposition = zeros(size(cplxRNAComp,1), numel(this.complex.wholeCellModelIDs));
+0340             this.proteinComplexRNAComposition(:, this.complex.nascentIndexs)     = cplxRNAComp;
+0341             this.proteinComplexRNAComposition(:, this.complex.matureIndexs)      = cplxRNAComp;
+0342             this.proteinComplexRNAComposition(:, this.complex.inactivatedIndexs) = cplxRNAComp;
+0343             this.proteinComplexRNAComposition(:, this.complex.boundIndexs)       = cplxRNAComp;
+0344             this.proteinComplexRNAComposition(:, this.complex.misfoldedIndexs)   = cplxRNAComp;
+0345             this.proteinComplexRNAComposition(:, this.complex.damagedIndexs)     = cplxRNAComp;
+0346 
+0347             this.proteinComplexMonomerComposition = zeros(size(cplxMonomerComp,1), numel(this.complex.wholeCellModelIDs));
+0348             this.proteinComplexMonomerComposition(:, this.complex.nascentIndexs)     = cplxMonomerComp;
+0349             this.proteinComplexMonomerComposition(:, this.complex.matureIndexs)      = cplxMonomerComp;
+0350             this.proteinComplexMonomerComposition(:, this.complex.inactivatedIndexs) = cplxMonomerComp;
+0351             this.proteinComplexMonomerComposition(:, this.complex.boundIndexs)       = cplxMonomerComp;
+0352             this.proteinComplexMonomerComposition(:, this.complex.misfoldedIndexs)   = cplxMonomerComp;
+0353             this.proteinComplexMonomerComposition(:, this.complex.damagedIndexs)     = cplxMonomerComp;
+0354 
+0355             <span class="comment">%decay reactions</span>
+0356             this.monomerDecayReactions = zeros(numel(this.substrateWholeCellModelIDs), numel(this.monomer.wholeCellModelIDs));
+0357             this.complexDecayReactions = zeros(numel(this.substrateWholeCellModelIDs), numel(this.complex.wholeCellModelIDs));
+0358             
+0359             this.monomerDecayReactions(:, this.monomer.nascentIndexs)        = decayReaction_nascentMonomers(    this.substrateMetaboliteGlobalIndexs, :);
+0360             this.monomerDecayReactions(:, this.monomer.processedIIndexs)     = decayReaction_processedIMonomers( this.substrateMetaboliteGlobalIndexs, :);
+0361             this.monomerDecayReactions(:, this.monomer.processedIIIndexs)    = decayReaction_processedIIMonomers(this.substrateMetaboliteGlobalIndexs, :);
+0362             this.monomerDecayReactions(:, this.monomer.signalSequenceIndexs) = decayReaction_signalSequence(     this.substrateMetaboliteGlobalIndexs, :);
+0363             this.monomerDecayReactions(:, this.monomer.foldedIndexs)         = decayReaction_foldedMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0364             this.monomerDecayReactions(:, this.monomer.matureIndexs)         = decayReaction_matureMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0365             this.monomerDecayReactions(:, this.monomer.inactivatedIndexs)    = decayReaction_matureMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0366             this.monomerDecayReactions(:, this.monomer.boundIndexs)          = decayReaction_matureMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0367             this.monomerDecayReactions(:, this.monomer.misfoldedIndexs)      = decayReaction_matureMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0368             this.monomerDecayReactions(:, this.monomer.damagedIndexs)        = decayReaction_matureMonomers(     this.substrateMetaboliteGlobalIndexs, :);
+0369             
+0370             this.complexDecayReactions(:, this.complex.nascentIndexs)        = decayReaction_nascentComplexs(    this.substrateMetaboliteGlobalIndexs, :);
+0371             this.complexDecayReactions(:, this.complex.matureIndexs)         = decayReaction_matureComplexs(     this.substrateMetaboliteGlobalIndexs, :);
+0372             this.complexDecayReactions(:, this.complex.inactivatedIndexs)    = decayReaction_matureComplexs(     this.substrateMetaboliteGlobalIndexs, :);
+0373             this.complexDecayReactions(:, this.complex.boundIndexs)          = decayReaction_matureComplexs(     this.substrateMetaboliteGlobalIndexs, :);
+0374             this.complexDecayReactions(:, this.complex.misfoldedIndexs)      = decayReaction_matureComplexs(     this.substrateMetaboliteGlobalIndexs, :);
+0375             this.complexDecayReactions(:, this.complex.damagedIndexs)        = decayReaction_matureComplexs(     this.substrateMetaboliteGlobalIndexs, :);
+0376             
+0377             this.complexIndexs_modified = find(any(this.complexDecayReactions &gt; 0, 1)');
+0378             this.complexIndexs_unmodified = setdiff((1:numel(this.complex.wholeCellModelIDs))', this.complexIndexs_modified);
+0379             
+0380             this.monomerLonProteaseCleavages = max(0, ceil(this.monomer.lengths/this.lonProteaseFragmentLength)-1);
+0381         <span class="keyword">end</span>
+0382 
+0383         <span class="comment">%retrieve state from simulation</span>
+0384         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0385             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0386             
+0387             this.monomers = this.monomer.counts;
+0388             this.complexs = this.complex.counts;
+0389             this.RNAs = this.rna.counts(this.damagedRNAGlobalIndexs, :, :);
+0390         <span class="keyword">end</span>
+0391 
+0392         <span class="comment">%send state to simulation</span>
+0393         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0394             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0395 
+0396             this.monomer.counts = this.monomers;
+0397             this.complex.counts = this.complexs;
+0398             this.rna.counts(this.damagedRNAGlobalIndexs, :, :) = this.RNAs;
+0399         <span class="keyword">end</span>
+0400     <span class="keyword">end</span>
+0401 
+0402     <span class="comment">%allocate memory for state</span>
+0403     methods
+0404         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0405             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0406 
+0407             numCompartments = this.compartment.count;
+0408 
+0409             this.RNAs     = zeros(size(this.rnaWholeCellModelIDs,1),      numCompartments, numTimePoints);
+0410             this.monomers = zeros(size(this.monomer.wholeCellModelIDs,1), numCompartments, numTimePoints);
+0411             this.complexs = zeros(size(this.complex.wholeCellModelIDs,1), numCompartments, numTimePoints);
+0412         <span class="keyword">end</span>
+0413     <span class="keyword">end</span>
+0414 
+0415     <span class="comment">%model</span>
+0416     methods
+0417         <span class="comment">%Calculate</span>
+0418         <span class="comment">%- contribution to FBA objective</span>
+0419         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0420         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0421             <span class="comment">%% initialize</span>
+0422             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0423             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0424             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0425             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0426             
+0427             <span class="comment">%% substrate and byproducts</span>
+0428             <span class="comment">%refolding</span>
+0429             nRefolding = (sum(states.monomers) + sum(states.complexs)) * this.proteinMisfoldingRate;
+0430             
+0431             bmProd(this.substrateIndexs_atp)       = bmProd(this.substrateIndexs_atp)       + nRefolding;
+0432             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + nRefolding;
+0433             byProd(this.substrateIndexs_adp)       = byProd(this.substrateIndexs_adp)       + nRefolding;
+0434             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + nRefolding;
+0435             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + nRefolding;
+0436             
+0437             <span class="comment">%complex degradation</span>
+0438             bmProd = bmProd + max(0, -this.complexDecayReactions(:, this.complex.matureIndexs)) * states.complexDecays;
+0439             byProd = byProd + max(0,  this.complexDecayReactions(:, this.complex.matureIndexs)) * states.complexDecays;
+0440             
+0441             <span class="comment">%mature monomer degradation</span>
+0442             bmProd = bmProd + max(0, -this.monomerDecayReactions(:, this.monomer.matureIndexs)) * states.monomerDecays;
+0443             byProd = byProd + max(0,  this.monomerDecayReactions(:, this.monomer.matureIndexs)) * states.monomerDecays;
+0444             
+0445             lonCleavages = this.lonProteaseEnergyCost * states.monomerDecays' * this.monomerLonProteaseCleavages(this.monomer.matureIndexs);
+0446             bmProd(this.substrateIndexs_atp)       = bmProd(this.substrateIndexs_atp)       + lonCleavages;
+0447             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + lonCleavages;
+0448             byProd(this.substrateIndexs_adp)       = byProd(this.substrateIndexs_adp)       + lonCleavages;
+0449             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + lonCleavages;
+0450             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + lonCleavages;
+0451             
+0452             <span class="comment">%signal sequence degradation</span>
+0453             bmProd = bmProd + max(0, -this.monomerDecayReactions(:, this.monomer.signalSequenceIndexs)) * states.monomerProductions;
+0454             byProd = byProd + max(0,  this.monomerDecayReactions(:, this.monomer.signalSequenceIndexs)) * states.monomerProductions;
+0455             
+0456             lonCleavages = this.lonProteaseEnergyCost * states.monomerProductions' * <span class="keyword">...</span>
+0457                 (this.monomerLonProteaseCleavages(this.monomer.signalSequenceIndexs) .* <span class="keyword">...</span>
+0458                 any(this.monomerDecayReactions(:, this.monomer.signalSequenceIndexs), 1)');
+0459             bmProd(this.substrateIndexs_atp)       = bmProd(this.substrateIndexs_atp)       + lonCleavages;
+0460             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + lonCleavages;
+0461             byProd(this.substrateIndexs_adp)       = byProd(this.substrateIndexs_adp)       + lonCleavages;
+0462             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + lonCleavages;
+0463             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + lonCleavages;
+0464             
+0465             <span class="comment">%stalled polypeptide degradation</span>
+0466             ftsHCleavages = this.ftsHProteaseEnergyCost * 0;
+0467             bmProd(this.substrateIndexs_atp)       = bmProd(this.substrateIndexs_atp)       + ftsHCleavages;
+0468             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + ftsHCleavages;
+0469             byProd(this.substrateIndexs_adp)       = byProd(this.substrateIndexs_adp)       + ftsHCleavages;
+0470             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + ftsHCleavages;
+0471             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + ftsHCleavages;
+0472             
+0473             <span class="comment">%% enzymes</span>
+0474             minEnzExp(this.enzymeIndexs_lonProtease) = <span class="keyword">...</span>
+0475                 2 * states.monomerDecays0' * this.monomerLonProteaseCleavages(this.monomer.matureIndexs) / <span class="keyword">...</span>
+0476                 this.lonProteaseSpecificRate;
+0477             minEnzExp(this.enzymeIndexs_clpBProtease) = 2;
+0478             minEnzExp(this.enzymeIndexs_ftsHProtease) = 70; <span class="comment">%to keep pace with degrading aborted polypeptides</span>
+0479             minEnzExp(this.enzymeIndexs_peptidases)   = 2;
+0480         <span class="keyword">end</span>
+0481 
+0482         <span class="comment">%initialization: proteins initialized to mature/bound/inactivated state</span>
+0483         <span class="comment">%by simulation initializeState method</span>
+0484         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(~)</a>
+0485         <span class="keyword">end</span>
+0486         
+0487         <span class="comment">%resource requirements</span>
+0488         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0489             result = zeros(size(this.substrates));
+0490             
+0491             mnmers = sum(this.monomers(:, [this.compartment.cytosolIndexs this.compartment.terminalOrganelleCytosolIndexs]), 2);
+0492             cmplxs = sum(this.complexs(:, [this.compartment.cytosolIndexs this.compartment.terminalOrganelleCytosolIndexs]), 2);
+0493             
+0494             <span class="comment">%refolding</span>
+0495             nRefolding = (this.enzymes(this.enzymeIndexs_clpBProtease) &gt; 0) * ( <span class="keyword">...</span>
+0496                 sum(mnmers(this.monomer.misfoldedIndexs)) + <span class="keyword">...</span>
+0497                 sum(cmplxs(this.complex.misfoldedIndexs)));
+0498             
+0499             <span class="keyword">if</span> nRefolding &gt; 0 &amp;&amp; this.enzymes(this.enzymeIndexs_clpBProtease)
+0500                 result(this.substrateIndexs_atp)   = result(this.substrateIndexs_atp)   + nRefolding;
+0501                 result(this.substrateIndexs_water) = result(this.substrateIndexs_water) + nRefolding;
+0502             <span class="keyword">end</span>
+0503             
+0504             <span class="comment">%complex degradation</span>
+0505             cmplxDecays = cmplxs .* min(1, this.complex.decayRates);
+0506             result = result + max(0, -this.complexDecayReactions) * cmplxDecays;
+0507             
+0508             <span class="comment">%monomer degradation</span>
+0509             mnmerDecays = mnmers .* min(1, this.monomer.decayRates);
+0510             result = result + max(0, -this.monomerDecayReactions) * mnmerDecays;
+0511             result([this.substrateIndexs_atp; this.substrateIndexs_water]) = <span class="keyword">...</span>
+0512                 + result([this.substrateIndexs_atp; this.substrateIndexs_water]) <span class="keyword">...</span>
+0513                 + all(this.enzymes(this.enzymeIndexs_peptidases)) * this.lonProteaseEnergyCost * min(<span class="keyword">...</span>
+0514                     this.enzymes(this.enzymeIndexs_lonProtease) * this.lonProteaseSpecificRate, <span class="keyword">...</span>
+0515                     mnmerDecays' * this.monomerLonProteaseCleavages);
+0516             
+0517             <span class="comment">%stalled polypeptide degradation</span>
+0518             <span class="keyword">if</span> ~isempty(this.polypeptide.abortedPolypeptides)
+0519                 result([this.substrateIndexs_atp; this.substrateIndexs_water]) = <span class="keyword">...</span>
+0520                     result([this.substrateIndexs_atp; this.substrateIndexs_water]) + <span class="keyword">...</span>
+0521                     ceil(this.ftsHProteaseEnergyCost * min(<span class="keyword">...</span>
+0522                         ceil(this.enzymes(this.enzymeIndexs_ftsHProtease) * this.ftsHProteaseSpecificRate), <span class="keyword">...</span>
+0523                         sum(ceil(this.polypeptide.abortedSequenceLengths / this.ftsHProteaseFragmentLength) - 1)));
+0524                         
+0525                 result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0526                     result(this.substrateIndexs_water) + <span class="keyword">...</span>
+0527                     sum(this.polypeptide.abortedSequenceLengths - 1);
+0528             <span class="keyword">end</span>
+0529         <span class="keyword">end</span>
+0530 
+0531         <span class="comment">%simulation</span>
+0532         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0533             this.evolveState_MisfoldProteins();   <span class="comment">%misfold proteins</span>
+0534             this.evolveState_RefoldProteins();    <span class="comment">%refold proteins</span>
+0535             this.evolveState_DegradeComplexes();  <span class="comment">%degrade complexes to damaged monomers and RNAs</span>
+0536             this.evolveState_DegradeAbortedPolypeptides(); <span class="comment">%degrade proteolysis tagged monomers to amino acids</span>
+0537             this.evolveState_DegradeMonomers();   <span class="comment">%degrade monomers to amino acids (including monomers marked as damaged by evolveState_DegradeComplexes)</span>
+0538         <span class="keyword">end</span>
+0539 
+0540         <span class="comment">%Model protein misfolding (of mature; inactive; and inactivated forms)</span>
+0541         <span class="comment">%as a passive poisson process with rate proteinMisfoldingRate.</span>
+0542         <span class="comment">%</span>
+0543         <span class="comment">%Protein misfolding does not require metabolites or enzymes.</span>
+0544         <a name="_sub10" href="#_subfunctions" class="code">function evolveState_MisfoldProteins(this)</a>
+0545             <span class="comment">%% monomers</span>
+0546             misfolding = this.randStream.stochasticRound(<span class="keyword">...</span>
+0547                 this.monomers([this.monomer.matureIndexs; this.monomer.boundIndexs; this.monomer.inactivatedIndexs], :) <span class="keyword">...</span>
+0548                 * min(1, this.proteinMisfoldingRate * this.stepSizeSec));
+0549             misfolding(:, this.compartment.membraneIndexs) = 0;
+0550             misfolding(:, this.compartment.terminalOrganelleMembraneIndexs) = 0;
+0551             
+0552             <span class="keyword">if</span> any(misfolding(:))
+0553                 tmp = zeros(size(this.monomers));
+0554                 tmp([this.monomer.matureIndexs; this.monomer.boundIndexs; this.monomer.inactivatedIndexs], :) = -misfolding;
+0555                 tmp(this.monomer.misfoldedIndexs, :) = sum(permute(reshape(misfolding', [size(this.monomers, 2) numel(this.monomer.misfoldedIndexs) 3]), [2 1 3]), 3);
+0556                 notUpdatingProteins = this.monomer.updateExternalState(tmp, true);
+0557                 misfolding = misfolding - notUpdatingProteins([this.monomer.matureIndexs; this.monomer.boundIndexs; this.monomer.inactivatedIndexs], :);
+0558                 
+0559                 this.monomers([this.monomer.matureIndexs; this.monomer.boundIndexs; this.monomer.inactivatedIndexs], :) = <span class="keyword">...</span>
+0560                     this.monomers([this.monomer.matureIndexs; this.monomer.boundIndexs; this.monomer.inactivatedIndexs], :) - <span class="keyword">...</span>
+0561                     misfolding;
+0562                 this.monomers(this.monomer.misfoldedIndexs, :) = <span class="keyword">...</span>
+0563                     this.monomers(this.monomer.misfoldedIndexs, :) + <span class="keyword">...</span>
+0564                     sum(permute(reshape(misfolding', [size(this.monomers, 2) numel(this.monomer.misfoldedIndexs) 3]), [2 1 3]), 3);
+0565             <span class="keyword">end</span>
+0566             
+0567             <span class="comment">%% complexs</span>
+0568             misfolding = this.randStream.stochasticRound(<span class="keyword">...</span>
+0569                 this.complexs([this.complex.matureIndexs; this.complex.boundIndexs; this.complex.inactivatedIndexs], :) * <span class="keyword">...</span>
+0570                 min(1, this.proteinMisfoldingRate * this.stepSizeSec));
+0571             misfolding(:, this.compartment.membraneIndexs) = 0;
+0572             misfolding(:, this.compartment.terminalOrganelleMembraneIndexs) = 0;
+0573             
+0574             <span class="keyword">if</span> any(misfolding(:))
+0575                 tmp = zeros(size(this.complex.counts));
+0576                 tmp([this.complex.matureIndexs; this.complex.boundIndexs; this.complex.inactivatedIndexs], :) = -misfolding;
+0577                 tmp(this.complex.misfoldedIndexs, :) = sum(permute(reshape(misfolding', [size(this.complexs, 2) numel(this.complex.misfoldedIndexs) 3]), [2 1 3]), 3);
+0578                 notUpdatingProteins = this.complex.updateExternalState(tmp, true);
+0579                 misfolding = misfolding - notUpdatingProteins([this.complex.matureIndexs; this.complex.boundIndexs; this.complex.inactivatedIndexs], :);
+0580                 
+0581                 this.complexs([this.complex.matureIndexs; this.complex.boundIndexs; this.complex.inactivatedIndexs], :) = <span class="keyword">...</span>
+0582                     this.complexs([this.complex.matureIndexs;this.complex.boundIndexs; this.complex.inactivatedIndexs], :) - <span class="keyword">...</span>
+0583                     misfolding;
+0584                 this.complexs(this.complex.misfoldedIndexs, :) = <span class="keyword">...</span>
+0585                     this.complexs(this.complex.misfoldedIndexs, :) + <span class="keyword">...</span>
+0586                     sum(permute(reshape(misfolding', [size(this.complexs, 2) numel(this.complex.misfoldedIndexs) 3]), [2 1 3]), 3);
+0587             <span class="keyword">end</span>
+0588         <span class="keyword">end</span>
+0589 
+0590         <span class="comment">%Model protein refolding as a binary metabolite-limited process:</span>
+0591         <span class="comment">%If active ClpB is present in the cytosol and ATP is present, refold</span>
+0592         <span class="comment">%all misfolded cytoplasmic proteins up to the amount of available ATP.</span>
+0593         <span class="comment">%</span>
+0594         <span class="comment">%Because the ATP cost of ClpB-mediated protein refolding/disagggregation</span>
+0595         <span class="comment">%is unknown we assume that 1 ATP is required per refolding.</span>
+0596         <span class="comment">%</span>
+0597         <span class="comment">%Refolding proteins transition to the active state.</span>
+0598         <a name="_sub11" href="#_subfunctions" class="code">function evolveState_RefoldProteins(this)</a>
+0599             <span class="comment">%cumulative sum of misfolded monomers and complexes</span>
+0600             <span class="keyword">if</span> <span class="keyword">...</span>
+0601                     ~any(this.monomers(this.monomer.misfoldedIndexs, this.compartment.cytosolIndexs))                  &amp;&amp; <span class="keyword">...</span>
+0602                     ~any(this.monomers(this.monomer.misfoldedIndexs, this.compartment.terminalOrganelleCytosolIndexs)) &amp;&amp; <span class="keyword">...</span>
+0603                     ~any(this.complexs(this.complex.misfoldedIndexs, this.compartment.cytosolIndexs))                  &amp;&amp; <span class="keyword">...</span>
+0604                     ~any(this.complexs(this.complex.misfoldedIndexs, this.compartment.terminalOrganelleCytosolIndexs))
+0605                 <span class="keyword">return</span>;
+0606             <span class="keyword">end</span>
+0607             
+0608             <span class="comment">%indices</span>
+0609             cIdxs = [this.compartment.cytosolIndexs; this.compartment.terminalOrganelleCytosolIndexs];
+0610             reactantIdxs = [this.substrateIndexs_atp; this.substrateIndexs_water];
+0611             productIdxs  = [this.substrateIndexs_adp; this.substrateIndexs_phosphate; this.substrateIndexs_hydrogen];
+0612             
+0613             <span class="comment">%stochastically select proteins to refold, up to limit of available</span>
+0614             <span class="comment">%reactants</span>
+0615             cumsumMisfoldedProteins = cumsum([0;
+0616                 this.monomers(this.monomer.misfoldedIndexs, this.compartment.cytosolIndexs);
+0617                 this.monomers(this.monomer.misfoldedIndexs, this.compartment.terminalOrganelleCytosolIndexs);
+0618                 this.complexs(this.complex.misfoldedIndexs, this.compartment.cytosolIndexs);
+0619                 this.complexs(this.complex.misfoldedIndexs, this.compartment.terminalOrganelleCytosolIndexs)]);
+0620             numFoldingProteins = (this.enzymes(this.enzymeIndexs_clpBProtease) &gt; 0) * min([
+0621                 this.substrates(reactantIdxs)
+0622                 cumsumMisfoldedProteins(end)]);
+0623             <span class="keyword">if</span> numFoldingProteins == 0
+0624                 <span class="keyword">return</span>;
+0625             <span class="keyword">end</span>
+0626             
+0627             foldingProteinIdxs = this.randStream.randperm(cumsumMisfoldedProteins(end));
+0628             
+0629             foldingMonomers = zeros(size(this.monomer.matureIndexs,1), 2);
+0630             foldingComplexs = zeros(size(this.complex.matureIndexs,1), 2);
+0631             
+0632             <span class="keyword">for</span> i = 1:numFoldingProteins
+0633                 j = find(foldingProteinIdxs(i) &lt;= cumsumMisfoldedProteins, 1, <span class="string">'first'</span>) - 1;
+0634                 <span class="keyword">if</span> j &lt;= numel(this.monomer.matureIndexs)
+0635                     foldingMonomers(j,1) = foldingMonomers(j,1)+1;
+0636                 <span class="keyword">elseif</span> j &lt;= 2*numel(this.monomer.matureIndexs)
+0637                     foldingMonomers(j - numel(this.monomer.matureIndexs), 2) = foldingMonomers(j - numel(this.monomer.matureIndexs), 2) + 1;
+0638                 <span class="keyword">elseif</span> j &lt;= 2*numel(this.monomer.matureIndexs)+numel(this.complex.matureIndexs)
+0639                     foldingComplexs(j - 2*numel(this.monomer.matureIndexs), 1) = foldingComplexs(j - 2*numel(this.monomer.matureIndexs), 1) + 1;
+0640                 <span class="keyword">else</span>
+0641                     foldingComplexs(j - 2*numel(this.monomer.matureIndexs) - numel(this.complex.matureIndexs), 2) = foldingComplexs(j - 2*numel(this.monomer.matureIndexs)-numel(this.complex.matureIndexs), 2) + 1;
+0642                 <span class="keyword">end</span>
+0643             <span class="keyword">end</span>
+0644             
+0645             <span class="comment">%update metabolites</span>
+0646             this.substrates(reactantIdxs) = this.substrates(reactantIdxs) - numFoldingProteins;
+0647             this.substrates(productIdxs)  = this.substrates(productIdxs)  + numFoldingProteins;
+0648             
+0649             <span class="comment">%update monomers</span>
+0650             this.monomers(this.monomer.matureIndexs, cIdxs) = <span class="keyword">...</span>
+0651                 this.monomers(this.monomer.matureIndexs, cIdxs) + <span class="keyword">...</span>
+0652                 foldingMonomers;
+0653             this.monomers(this.monomer.misfoldedIndexs, cIdxs) = <span class="keyword">...</span>
+0654                 this.monomers(this.monomer.misfoldedIndexs, cIdxs) - <span class="keyword">...</span>
+0655                 foldingMonomers;
+0656             
+0657             <span class="comment">%update complexs</span>
+0658             this.complexs(this.complex.matureIndexs, cIdxs) = <span class="keyword">...</span>
+0659                 this.complexs(this.complex.matureIndexs, cIdxs) + <span class="keyword">...</span>
+0660                 foldingComplexs;
+0661             this.complexs(this.complex.misfoldedIndexs, cIdxs) = <span class="keyword">...</span>
+0662                 this.complexs(this.complex.misfoldedIndexs, cIdxs) - <span class="keyword">...</span>
+0663                 foldingComplexs;
+0664         <span class="keyword">end</span>
+0665 
+0666         <span class="comment">%Model complex degradation as a stochastic enzyme-dependent poisson</span>
+0667         <span class="comment">%process. To simplify the modeling of complex degradation, this method</span>
+0668         <span class="comment">%first stochastically selects cytosolic complexes to degrade, and then</span>
+0669         <span class="comment">%breaks up the selected complexes into their constituents parts:</span>
+0670         <span class="comment">%prosthetic groups, protein monomers, and RNAs, and finally relies on</span>
+0671         <span class="comment">%the protein  monomer and RNA degradation models</span>
+0672         <span class="comment">%(evolveState_DegradeMonomers and RNA Decay process, respectively) to</span>
+0673         <span class="comment">%degrade the individual components. The method marks the component</span>
+0674         <span class="comment">%protein monomers and RNAs and selected complexes as &quot;damaged&quot; (that is</span>
+0675         <span class="comment">%in a state with 0 half life), so that the the protein monomer and RNA</span>
+0676         <span class="comment">%machinery know to degrade these components.</span>
+0677         <span class="comment">%</span>
+0678         <span class="comment">%Note: only cytosolic complexes are degraded because the M. genitalium</span>
+0679         <span class="comment">%protein degradation machinery (protease La) is a cytosolic protein, except that</span>
+0680         <span class="comment">%all &quot;knocked&quot; out proteins are degraded.</span>
+0681         <a name="_sub12" href="#_subfunctions" class="code">function evolveState_DegradeComplexes(this)</a>
+0682             <span class="comment">%compartment indices</span>
+0683             iC = this.compartment.cytosolIndexs;
+0684             iTC = this.compartment.terminalOrganelleCytosolIndexs;
+0685             
+0686             <span class="comment">%stochastically choose complexes to decay</span>
+0687             decayingRates = this.complexs .* <span class="keyword">...</span>
+0688                 min(1e6, this.complex.decayRates(:, ones(1, this.compartment.count))) * this.stepSizeSec;
+0689             decayingRates(this.complex.decayRates &lt; 1e6, [1:iC-1  iC+1:iTC-1  iTC+1:end]) = 0;
+0690             decayingProteins = min(this.complexs, this.randStream.stochasticRound(decayingRates));
+0691             decayingRates(decayingProteins == 0) = 0;
+0692             <span class="keyword">if</span> ~any(decayingProteins(:))
+0693                 <span class="keyword">return</span>;
+0694             <span class="keyword">end</span>
+0695             decayedProteins = zeros(size(decayingProteins));
+0696             
+0697             <span class="comment">%% decay unmodified complexes</span>
+0698             decayingSimpleProteins = decayingProteins(this.complexIndexs_unmodified, :);
+0699             
+0700             <span class="comment">%decrement unmodified complexes</span>
+0701             <span class="keyword">if</span> any(decayingSimpleProteins(:))
+0702                 decayedProteins(this.complexIndexs_unmodified, :) = decayingSimpleProteins;
+0703             <span class="keyword">end</span>
+0704             
+0705             <span class="comment">%% decay modified complexes up to limit of metabolites</span>
+0706             <span class="comment">%(complex decay requires metabolites to reverse the affects of any</span>
+0707             <span class="comment">%modifications)</span>
+0708             decayingModifiedRates = decayingRates(this.complexIndexs_modified, :);
+0709             decayingModifiedProteins = decayingProteins(this.complexIndexs_modified, :);
+0710             decayedModifiedProteins = zeros(size(decayingModifiedProteins));
+0711             substrates = this.substrates;
+0712             <span class="keyword">while</span> any(decayingModifiedProteins(:))
+0713                 <span class="comment">%randomly select complex, weighted by copy number * decay rate</span>
+0714                 idx = this.randStream.randsample(numel(decayingModifiedRates), 1, true, decayingModifiedRates(:));
+0715                 iProtein = this.complexIndexs_modified(mod(idx - 1, numel(this.complexIndexs_modified)) + 1);
+0716                 
+0717                 <span class="comment">%check if sufficient resources available</span>
+0718                 <span class="keyword">if</span> any(substrates &lt; max(0, -this.complexDecayReactions(:, iProtein)))
+0719                     <span class="keyword">break</span>;
+0720                 <span class="keyword">end</span>
+0721                 
+0722                 <span class="comment">%decrement complexes</span>
+0723                 decayingModifiedProteins(idx) = decayingModifiedProteins(idx) - 1;
+0724                 decayedModifiedProteins(idx) = decayedModifiedProteins(idx) + 1;
+0725                 <span class="keyword">if</span> decayingModifiedProteins(idx) == 0
+0726                     decayingModifiedRates(idx) = 0;
+0727                 <span class="keyword">else</span>
+0728                     decayingModifiedRates(idx) = max(0, decayingModifiedRates(idx) - min(1e6, this.complex.decayRates(iProtein)) * this.stepSizeSec);
+0729                 <span class="keyword">end</span>
+0730                 
+0731                 <span class="comment">%release prosthetic groups,</span>
+0732                 <span class="comment">%invert any modifications</span>
+0733                 substrates = substrates + this.complexDecayReactions(:, iProtein);
+0734             <span class="keyword">end</span>
+0735             decayedProteins(this.complexIndexs_modified, :) = decayedModifiedProteins;
+0736             
+0737             tmp = -decayedProteins;
+0738             notUpdatingProteins = this.complex.updateExternalState(tmp, true);
+0739             decayedProteins = decayedProteins - notUpdatingProteins;
+0740             
+0741             <span class="comment">%decrease complexes. mark protein and RNA monomers for decay</span>
+0742             <span class="comment">%(that is put them in a state with 0 half life) by</span>
+0743             <span class="comment">%evolveState_DegradeMonomers and RNADecay</span>
+0744             this.complexs = this.complexs - decayedProteins;
+0745             this.monomers(this.monomer.damagedIndexs, iC) = <span class="keyword">...</span>
+0746                 this.monomers(this.monomer.damagedIndexs, iC) + <span class="keyword">...</span>
+0747                 this.proteinComplexMonomerComposition * sum(decayedProteins, 2);
+0748             this.RNAs(:, iC) = <span class="keyword">...</span>
+0749                 this.RNAs(:, iC) + <span class="keyword">...</span>
+0750                 this.proteinComplexRNAComposition * sum(decayedProteins, 2);
+0751             this.substrates = <span class="keyword">...</span>
+0752                 this.substrates + <span class="keyword">...</span>
+0753                 this.complexDecayReactions * sum(decayedProteins, 2);
+0754         <span class="keyword">end</span>
+0755 
+0756         <span class="comment">%Stochastically degrade proteolysis tagged monomers up to limit of</span>
+0757         <span class="comment">%available enzymes (metalloprotease FtsH and 6 peptidases) and their</span>
+0758         <span class="comment">%kinetics (only of FtsH; peptidase kinetics haven't been characterized;</span>
+0759         <span class="comment">%in this case we model that degradation can occur as only as at least 1</span>
+0760         <span class="comment">%of each peptidase species is present) and metabolites (hydrolytic</span>
+0761         <span class="comment">%cleavage requires water, and FtsH requires ATP). Because the specific</span>
+0762         <span class="comment">%function and mechanism of each peptidase hasn't been well characterized</span>
+0763         <span class="comment">%we assume that degradation requires all peptidases, and they don't</span>
+0764         <span class="comment">%require ATP. Proteolysis tagged polypeptides are assumed to be degraded</span>
+0765         <span class="comment">%immediately, that is they have a half life of 0.</span>
+0766         <a name="_sub13" href="#_subfunctions" class="code">function evolveState_DegradeAbortedPolypeptides(this)</a>
+0767             <span class="comment">%terminate early if no proteolysis tagged monomers</span>
+0768             <span class="keyword">if</span> isempty(this.polypeptide.abortedPolypeptides)
+0769                 <span class="keyword">return</span>;
+0770             <span class="keyword">end</span>
+0771             
+0772             <span class="comment">% import classes</span>
+0773             import edu.stanford.covert.cell.kb.ProteinMonomer;
+0774             
+0775             <span class="comment">%indices</span>
+0776             aaWaterIdxs = [
+0777                 this.substrateIndexs_aminoAcids;
+0778                 this.substrateIndexs_water];
+0779             energyIdxs = [
+0780                 this.substrateIndexs_atp;
+0781                 this.substrateIndexs_adp;
+0782                 this.substrateIndexs_phosphate;
+0783                 this.substrateIndexs_water;
+0784                 this.substrateIndexs_hydrogen];
+0785 
+0786             <span class="comment">%randomly order proteolysis tagged monomer</span>
+0787             <span class="keyword">if</span> numel(this.polypeptide.abortedPolypeptides) &gt; 1
+0788                 this.polypeptide.abortedPolypeptides = <span class="keyword">...</span>
+0789                     this.polypeptide.abortedPolypeptides(this.randStream.randperm(size(this.polypeptide.abortedPolypeptides, 1)), :);
+0790             <span class="keyword">end</span>
+0791             
+0792             <span class="comment">%determine number of monomers that can be cleaved</span>
+0793             cleavages = ceil(this.polypeptide.abortedSequenceLengths / this.ftsHProteaseFragmentLength) - 1;
+0794             peptidaseCosts = (1:numel(cleavages))';
+0795             <span class="keyword">if</span> any(cleavages)
+0796                 ftsHCosts = this.randStream.stochasticRound((this.enzymes(this.enzymeIndexs_ftsHProtease) * this.stepSizeSec) ./ cumsum(cleavages / this.ftsHProteaseSpecificRate));
+0797                 ftsHCosts(find(ftsHCosts == 0, 1, <span class="string">'first'</span>):end) = 0;
+0798             <span class="keyword">else</span>
+0799                 ftsHCosts = ones(size(cleavages));
+0800             <span class="keyword">end</span>
+0801             energyCosts = cumsum(this.randStream.stochasticRound(cleavages * this.ftsHProteaseEnergyCost));
+0802             waterCosts = energyCosts + cumsum(this.polypeptide.abortedSequenceLengths - 1);
+0803             numReactions = find(<span class="keyword">...</span>
+0804                 [0; peptidaseCosts] &lt;= min(this.enzymes(this.enzymeIndexs_peptidases)) * this.stepSizeSec &amp; <span class="keyword">...</span>
+0805                 [1; ftsHCosts]      &gt;= 1 &amp; <span class="keyword">...</span>
+0806                 [0; energyCosts]    &lt;= this.substrates(this.substrateIndexs_atp) &amp; <span class="keyword">...</span>
+0807                 [0; waterCosts]     &lt;= this.substrates(this.substrateIndexs_water), <span class="keyword">...</span>
+0808                 1, <span class="string">'last'</span>) - 1;
+0809             
+0810             <span class="comment">%stop if no degradation</span>
+0811             <span class="keyword">if</span> isempty(numReactions) || numReactions == 0
+0812                 <span class="keyword">return</span>;
+0813             <span class="keyword">end</span>
+0814             
+0815             <span class="comment">%loop over tagged monomers</span>
+0816             decayReactions = zeros(22, 1);
+0817             abortedSeqs = this.polypeptide.abortedSequences;
+0818             <span class="keyword">for</span> i = 1:numReactions
+0819                 decayReactions = <span class="keyword">...</span>
+0820                     + decayReactions <span class="keyword">...</span>
+0821                     + ProteinMonomer.computeDecayReaction(<span class="keyword">...</span>
+0822                     ProteinMonomer.computeBaseCount(abortedSeqs{i}, 22, 1:21, true),<span class="keyword">...</span>
+0823                     length(abortedSeqs{i}), 22)';
+0824             <span class="keyword">end</span>
+0825 
+0826             <span class="comment">%% update state</span>
+0827             <span class="comment">%metabolites</span>
+0828             this.substrates(aaWaterIdxs) = this.substrates(aaWaterIdxs) + decayReactions;
+0829             this.substrates(energyIdxs)  = this.substrates(energyIdxs) + [-1; 1; 1; -1; 1] * energyCosts(numReactions);
+0830 
+0831             <span class="comment">%proteolysis tagged monomers</span>
+0832             this.polypeptide.abortedPolypeptides = this.polypeptide.abortedPolypeptides(numReactions+1:<span class="keyword">end</span>, :);
+0833         <span class="keyword">end</span>
+0834 
+0835         <span class="comment">%Stochastically degrade monomers weighted by copy number and decay rate</span>
+0836         <span class="comment">%up to limit of available enzymes (monomers require protease La and 6</span>
+0837         <span class="comment">%peptidases) and their kinetics (except for the peptidases where</span>
+0838         <span class="comment">%their kinetics haven't been characterized; in this case we model that</span>
+0839         <span class="comment">%degradation can occur as only as at least 1 of each peptidase species</span>
+0840         <span class="comment">%is present) and metabolites (hydrolytic cleavage requires water, and</span>
+0841         <span class="comment">%Lon requires ATP). Because the specific function and  mechanism</span>
+0842         <span class="comment">%of each peptidase hasn't been well characterized we assume that</span>
+0843         <span class="comment">%degradation requires all peptidases, and they don't require ATP.</span>
+0844         <a name="_sub14" href="#_subfunctions" class="code">function evolveState_DegradeMonomers(this)</a>
+0845             <span class="comment">%indices</span>
+0846             iC = this.compartment.cytosolIndexs;
+0847             iTC = this.compartment.terminalOrganelleCytosolIndexs;
+0848             
+0849             <span class="comment">%decaying monomers</span>
+0850             decayingRates = this.monomers .* <span class="keyword">...</span>
+0851                 min(1e6, this.monomer.decayRates(:, ones(1, this.compartment.count))) * this.stepSizeSec;
+0852             decayingRates(this.monomer.decayRates &lt; 1e6, [1:iC-1  iC+1:iTC-1  iTC+1:end]) = 0;
+0853             decayingProteins = min(this.monomers, this.randStream.stochasticRound(decayingRates));
+0854             decayingRates(decayingProteins == 0) = 0;
+0855             <span class="keyword">if</span> ~any(decayingProteins(:))
+0856                 <span class="keyword">return</span>;
+0857             <span class="keyword">end</span>
+0858             decayedProteins = zeros(size(decayingProteins));
+0859             
+0860             iEnergy = [
+0861                 this.substrateIndexs_atp
+0862                 this.substrateIndexs_adp
+0863                 this.substrateIndexs_phosphate
+0864                 this.substrateIndexs_water
+0865                 this.substrateIndexs_hydrogen
+0866                 ];
+0867             
+0868             protease  = this.enzymes(this.enzymeIndexs_lonProtease) * this.stepSizeSec * this.lonProteaseSpecificRate;
+0869             peptidase = this.randStream.stochasticRound(min(this.enzymes(this.enzymeIndexs_peptidases)) * this.stepSizeSec);
+0870             
+0871             <span class="comment">%decay monomers up to limit of metabolites and enzymes</span>
+0872             substrates = this.substrates;
+0873             <span class="keyword">while</span> any(decayingProteins(:))
+0874                 <span class="comment">%randomly select monomer, weighted by copy number * decay rate</span>
+0875                 idx = this.randStream.randsample(numel(decayingRates), 1, true, decayingRates(:));
+0876                 iProtein = mod(idx - 1, size(this.monomers, 1)) + 1;
+0877                 
+0878                 <span class="comment">%check if sufficient resources available</span>
+0879                 substrateCost = -this.monomerDecayReactions(:, iProtein);
+0880                 substrateCost(iEnergy) = substrateCost(iEnergy) + <span class="keyword">...</span>
+0881                     [1; -1; -1; 1; -1] * this.lonProteaseEnergyCost * this.monomerLonProteaseCleavages(iProtein);
+0882                 proteaseCost = this.monomerLonProteaseCleavages(iProtein);
+0883                 
+0884                 <span class="keyword">if</span> <span class="keyword">...</span>
+0885                         any(substrates(iEnergy) &lt; max(0, substrateCost(iEnergy))) || <span class="keyword">...</span>
+0886                         this.randStream.stochasticRound(protease / proteaseCost) &lt; 1 || <span class="keyword">...</span>
+0887                         peptidase &lt; 1
+0888                     <span class="keyword">break</span>;
+0889                 <span class="keyword">end</span>
+0890                 
+0891                 <span class="comment">%update state</span>
+0892                 decayingProteins(idx) = decayingProteins(idx) - 1;
+0893                 decayedProteins(idx) = decayedProteins(idx) + 1;
+0894                 <span class="keyword">if</span> decayingProteins(idx) &lt;= 0
+0895                     decayingRates(idx) = 0;
+0896                 <span class="keyword">else</span>
+0897                     decayingRates(idx) = max(0, decayingRates(idx) - min(1e6, this.monomer.decayRates(iProtein)) * this.stepSizeSec);
+0898                 <span class="keyword">end</span>
+0899                 
+0900                 substrates = substrates - substrateCost;
+0901                 protease = max(0, protease - proteaseCost);
+0902             <span class="keyword">end</span>
+0903             
+0904             tmp = -decayedProteins;
+0905             notUpdatingProteins = this.monomer.updateExternalState(tmp, true);
+0906             decayedProteins = decayedProteins - notUpdatingProteins;
+0907             
+0908             this.monomers = this.monomers - decayedProteins;
+0909             this.substrates = <span class="keyword">...</span>
+0910                 this.substrates + <span class="keyword">...</span>
+0911                 this.monomerDecayReactions * sum(decayedProteins, 2);
+0912             this.substrates(iEnergy) = <span class="keyword">...</span>
+0913                 this.substrates(iEnergy) - <span class="keyword">...</span>
+0914                 [1; -1; -1; 1; -1] * this.lonProteaseEnergyCost * (this.monomerLonProteaseCleavages' * sum(decayedProteins, 2));
+0915         <span class="keyword">end</span>
+0916     <span class="keyword">end</span>
+0917 
+0918     <span class="comment">%get methods of dependent local state</span>
+0919     methods
+0920         <a name="_sub15" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0921             rnaMolecularWeights = this.rna.molecularWeights(this.rna.damagedIndexs([this.rna.matureRRNAIndexs; this.rna.matureSRNAIndexs]));
+0922             
+0923             <span class="keyword">if</span> size(this.RNAs, 3) == 1
+0924                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0925                     rnaMolecularWeights'           * sum(this.RNAs,     2) + <span class="keyword">...</span>
+0926                     this.monomer.molecularWeights' * sum(this.monomers, 2) + <span class="keyword">...</span>
+0927                     this.complex.molecularWeights' * sum(this.complexs, 2)) <span class="keyword">...</span>
+0928                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0929             <span class="keyword">else</span>
+0930                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0931                     permute(rnaMolecularWeights'           * permute(sum(this.RNAs,     2), [1 3 2]), [1 3 2]) + <span class="keyword">...</span>
+0932                     permute(this.monomer.molecularWeights' * permute(sum(this.monomers, 2), [1 3 2]), [1 3 2]) + <span class="keyword">...</span>
+0933                     permute(this.complex.molecularWeights' * permute(sum(this.complexs, 2), [1 3 2]), [1 3 2])) <span class="keyword">...</span>
+0934                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0935             <span class="keyword">end</span>
+0936         <span class="keyword">end</span>
+0937     <span class="keyword">end</span>
+0938 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

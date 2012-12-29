@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of NucleicAcid</title>
+  <meta name="keywords" content="NucleicAcid">
+  <meta name="description" content="Defines a nucleic acid. Base class for">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; NucleicAcid.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>NucleicAcid
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a nucleic acid. Base class for</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a nucleic acid. Base class for
+ - dsDNA
+   - Genome
+ - dsRNA
+ - ssDNA
+   - Gene
+   - TranscriptionUnit
+ - ssRNA
+   - mRNA
+   - rRNA
+   - tRNA
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="NucleicAcid.html" class="code" title="">NucleicAcid</a>	Defines a nucleic acid. Base class for</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="NucleicAcid.html" class="code" title="">NucleicAcid</a>	Defines a nucleic acid. Base class for</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = NucleicAcid(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function value = get.pI(this)</a></li><li><a href="#_sub3" class="code">function value = get.gcContent(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a nucleic acid. Base class for</span>
+0002 <span class="comment">% - dsDNA</span>
+0003 <span class="comment">%   - Genome</span>
+0004 <span class="comment">% - dsRNA</span>
+0005 <span class="comment">% - ssDNA</span>
+0006 <span class="comment">%   - Gene</span>
+0007 <span class="comment">%   - TranscriptionUnit</span>
+0008 <span class="comment">% - ssRNA</span>
+0009 <span class="comment">%   - mRNA</span>
+0010 <span class="comment">%   - rRNA</span>
+0011 <span class="comment">%   - tRNA</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Author: Jonathan Karr</span>
+0014 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0015 <span class="comment">% Last updated: 5/7/2009</span>
+0016 classdef <a href="NucleicAcid.html" class="code" title="">NucleicAcid</a> &lt; edu.stanford.covert.cell.kb.Polymer
+0017     <span class="comment">%computed properties</span>
+0018     properties (SetAccess = protected)
+0019         pI
+0020         gcContent
+0021     <span class="keyword">end</span>
+0022 
+0023     methods
+0024         <a name="_sub0" href="#_subfunctions" class="code">function this = NucleicAcid(knowledgeBase, wid, wholeCellModelID, name,</a><span class="keyword">...</span>
+0025                 sequence,<span class="keyword">...</span>
+0026                 comments, crossReferences)
+0027 
+0028             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0029 
+0030             this = edu.stanford.covert.cell.kb.NucleicAcid.empty(size(wid,1),0);
+0031             this(size(wid,1),1) = edu.stanford.covert.cell.kb.NucleicAcid;
+0032             <span class="keyword">for</span> i=1:size(wid,1)
+0033                 this(i,1).idx = i;
+0034                 this(i,1).knowledgeBase = knowledgeBase;
+0035                 this(i,1).wid = wid(i);
+0036                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0037                 this(i,1).name = name{i};
+0038                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0039                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0040                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0041                         this(i,1).crossReferences = crossReferences(i);
+0042                     <span class="keyword">else</span>
+0043                         this(i,1).crossReferences = struct;
+0044                         fields = fieldnames(crossReferences);
+0045                         <span class="keyword">for</span> j=1:size(fields,1)
+0046                             values = crossReferences.(fields{j});
+0047                             this(i,1).crossReferences.(fields{j}) = values(i);
+0048                         <span class="keyword">end</span>
+0049                     <span class="keyword">end</span>
+0050                 <span class="keyword">end</span>
+0051 
+0052                 this(i,1).sequence = sequence(i);
+0053             <span class="keyword">end</span>
+0054         <span class="keyword">end</span>
+0055 
+0056         <span class="comment">%http://isoelectric.ovh.org/files/practise-isoelectric-point.html</span>
+0057         <a name="_sub1" href="#_subfunctions" class="code">function value = get.pI(this)</a>
+0058             <span class="comment">%retrieve</span>
+0059             <span class="keyword">if</span> ~isempty(this.pI)
+0060                 value = this.pI;
+0061                 <span class="keyword">return</span>;
+0062             <span class="keyword">end</span>
+0063             
+0064             <span class="comment">%compute</span>
+0065             sequence = this.sequence;
+0066             numA = sum(<span class="string">'A'</span> == sequence);
+0067             numC = sum(<span class="string">'C'</span> == sequence);
+0068             numG = sum(<span class="string">'G'</span> == sequence);
+0069             numT = sum(<span class="string">'T'</span> == sequence);
+0070             numU = sum(<span class="string">'U'</span> == sequence);
+0071 
+0072             pH = 6.5;             <span class="comment">%starting point pI = 6.5 - theoretically it should be 7, but average protein pI is 6.5 so we increase the probability</span>
+0073             pHprev = 0.0;         <span class="comment">%of finding the solution</span>
+0074             pHnext = 14.0;        <span class="comment">%0-14 is possible pH range</span>
+0075             E = 0.01;             <span class="comment">%epsilon means precision [pI = pH ± E]</span>
+0076 
+0077             <span class="comment">%the infinite loop</span>
+0078             <span class="keyword">while</span> true
+0079 
+0080                 <span class="comment">% http://www.steve.gb.com/science/nucleic_acids.html</span>
+0081                 NQ = 0;
+0082                 <span class="comment">%NQ = NQ-1/(1+10^(3.65-pH));     %3' charge</span>
+0083                 NQ = NQ-numA/(1+10^(3.5-pH));   <span class="comment">%A charge</span>
+0084                 NQ = NQ-numC/(1+10^(4.2-pH));   <span class="comment">%C charge</span>
+0085                 NQ = NQ+numG/(1+10^(pH-9.2));   <span class="comment">%G charge</span>
+0086                 NQ = NQ-numG/(1+10^(1.6-pH));   <span class="comment">%G charge</span>
+0087                 NQ = NQ+numT/(1+10^(pH-9.7));   <span class="comment">%T charge</span>
+0088                 NQ = NQ+numU/(1+10^(pH-9.2));   <span class="comment">%U charge</span>
+0089                 <span class="comment">%NQ = NQ+1/(1+10^(pH-8.2));      %5' charge</span>
+0090 
+0091                 <span class="keyword">if</span> pH &gt;= 14.0
+0092                     throw(MException(<span class="string">'NucleicAcid:error'</span>,<span class="string">'pH higher than 14'</span>));
+0093                 <span class="keyword">end</span>
+0094 
+0095                 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%   BISECTION   %%%%%%%%%%%%%%%%%%%%%%%%</span>
+0096 
+0097                 <span class="comment">%we are out of range, thus the new pH value must be smaller</span>
+0098                 <span class="keyword">if</span> NQ &lt; 0
+0099                     temp = pH;
+0100                     pH = pH-((pH-pHprev)/2);
+0101                     pHnext = temp;
+0102 
+0103                 <span class="comment">%we used to small pH value, so we have to increase it</span>
+0104                 <span class="keyword">else</span>
+0105                     temp = pH;
+0106                     pH = pH + ((pHnext-pH)/2);
+0107                     pHprev = temp;
+0108                 <span class="keyword">end</span>
+0109 
+0110                 <span class="comment">%terminal condition, finding isoelectric point with given precision</span>
+0111                 <span class="keyword">if</span> (pH-pHprev&lt;E) &amp;&amp; (pHnext-pH&lt;E)
+0112                     <span class="keyword">break</span>;
+0113                 <span class="keyword">end</span>
+0114             <span class="keyword">end</span>
+0115 
+0116             value = pH;
+0117             
+0118             <span class="comment">%store</span>
+0119             this.pI = value;
+0120         <span class="keyword">end</span>
+0121 
+0122         <a name="_sub2" href="#_subfunctions" class="code">function value = get.gcContent(this)</a>
+0123             <span class="comment">%retrieve</span>
+0124             <span class="keyword">if</span> ~isempty(this.gcContent)
+0125                 value = this.gcContent;
+0126                 <span class="keyword">return</span>;
+0127             <span class="keyword">end</span>
+0128             
+0129             <span class="comment">%compute</span>
+0130             sequence = this.sequence;
+0131             value = (sum(<span class="string">'G'</span> == sequence) + sum(<span class="string">'C'</span> == sequence))/<span class="keyword">...</span>
+0132                 this.sequenceLength;
+0133             
+0134             <span class="comment">%store</span>
+0135             this.gcContent = value;
+0136         <span class="keyword">end</span>
+0137     <span class="keyword">end</span>
+0138 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

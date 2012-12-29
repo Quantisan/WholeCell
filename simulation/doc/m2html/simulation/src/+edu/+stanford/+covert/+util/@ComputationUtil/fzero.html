@@ -1,0 +1,829 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of fzero</title>
+  <meta name="keywords" content="fzero">
+  <meta name="description" content="FZERO  Single-variable nonlinear zero finding.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="../index.html">+util</a> &gt; <a href="index.html">@ComputationUtil</a> &gt; fzero.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util/@ComputationUtil&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>fzero
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>FZERO  Single-variable nonlinear zero finding.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [b,fval,exitflag,output] = fzero(FunFcnIn,x,options,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FZERO  Single-variable nonlinear zero finding. 
+   X = FZERO(FUN,X0) tries to find a zero of the function FUN near X0, 
+   if X0 is a scalar.  It first finds an interval containing X0 where the 
+   function values of the interval endpoints differ in sign, then searches 
+   that interval for a zero.  FUN is a function handle.  FUN accepts real 
+   scalar input X and returns a real scalar function value F, evaluated 
+   at X. The value X returned by FZERO is near a point where FUN changes 
+   sign (if FUN is continuous), or NaN if the search fails.  
+
+   X = FZERO(FUN,X0), where X0 is a vector of length 2, assumes X0 is a 
+   finite interval where the sign of FUN(X0(1)) differs from the sign of 
+   FUN(X0(2)). An error occurs if this is not true.  Calling FZERO with a
+   finite interval guarantees FZERO will return a value near a point where
+   FUN changes sign.
+
+   X = FZERO(FUN,X0), where X0 is a scalar value, uses X0 as a starting 
+   guess. FZERO looks for an interval containing a sign change for FUN and 
+   containing X0.  If no such interval is found, NaN is returned.  
+   In this case, the search terminates when the search interval 
+   is expanded until an Inf, NaN, or complex value is found. Note: if
+   the option FunValCheck is 'on', then an error will occur if an NaN or 
+   complex value is found.
+
+   X = FZERO(FUN,X0,OPTIONS) solves the equation with the default optimization
+   parameters replaced by values in the structure OPTIONS, an argument
+   created with the OPTIMSET function.  See OPTIMSET for details.  Used
+   options are Display, TolX, FunValCheck, OutputFcn, and PlotFcns. 
+
+   X = FZERO(PROBLEM) finds the zero of a function defined in PROBLEM. 
+   PROBLEM is a structure with the function FUN in PROBLEM.objective, 
+   the start point in PROBLEM.x0, the options structure in PROBLEM.options,
+   and solver name 'fzero' in PROBLEM.solver. The structure PROBLEM must have 
+   all the fields.
+
+   [X,FVAL]= FZERO(FUN,...) returns the value of the function described 
+   in FUN, at X.
+
+   [X,FVAL,EXITFLAG] = FZERO(...) returns an EXITFLAG that describes the 
+   exit condition of FZERO. Possible values of EXITFLAG and the corresponding 
+   exit conditions are
+
+     1  FZERO found a zero X.
+    -1  Algorithm terminated by output function.
+    -3  NaN or Inf function value encountered during search for an interval
+         containing a sign change.
+    -4  Complex function value encountered during search for an interval 
+         containing a sign change.
+    -5  FZERO may have converged to a singular point.
+    -6  FZERO can not detect a change in sign of the function.
+
+   [X,FVAL,EXITFLAG,OUTPUT] = FZERO(...) returns a structure OUTPUT
+   with the number of function evaluations in OUTPUT.funcCount, the
+   algorithm name in OUTPUT.algorithm, the number of iterations to
+   find an interval (if needed) in OUTPUT.intervaliterations, the
+   number of zero-finding iterations in OUTPUT.iterations, and the
+   exit message in OUTPUT.message.
+
+   Examples
+     FUN can be specified using @:
+        X = fzero(@sin,3)
+     returns pi.
+        X = fzero(@sin,3,optimset('Display','iter')) 
+     returns pi, uses the default tolerance and displays iteration information.
+
+     FUN can be an anonymous function:
+        X = fzero(@(x) sin(3*x),2)
+
+     FUN can be a parameterized function.  Use an anonymous function to
+     capture the problem-dependent parameters:
+        f = @(x,c) cos(c.*x);  % The parameterized function.
+        c = 2;                 % The parameter.
+        X = fzero(@(x) myfun(x,c),0.1)
+   
+   Limitations
+        X = fzero(@(x) abs(x)+1, 1) 
+     returns NaN since this function does not change sign anywhere on the 
+     real axis (and does not have a zero as well).
+        X = fzero(@tan,2)
+     returns X near 1.5708 because the discontinuity of this function near the 
+     point X gives the appearance (numerically) that the function changes sign at X.
+
+   See also ROOTS, FMINBND, FUNCTION_HANDLE.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>	Utility functions for various computations:</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [exitflag,msg] = disperr(y, fy, trace)</a></li><li><a href="#_sub2" class="code">function [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,</a></li><li><a href="#_sub3" class="code">function [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)</a></li><li><a href="#_sub4" class="code">function f = checkfun(x,userfcn,varargin)</a></li><li><a href="#_sub5" class="code">function strfcn = localChar(fcn)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [b,fval,exitflag,output] = fzero(FunFcnIn,x,options,varargin)</a>
+0002 <span class="comment">%FZERO  Single-variable nonlinear zero finding.</span>
+0003 <span class="comment">%   X = FZERO(FUN,X0) tries to find a zero of the function FUN near X0,</span>
+0004 <span class="comment">%   if X0 is a scalar.  It first finds an interval containing X0 where the</span>
+0005 <span class="comment">%   function values of the interval endpoints differ in sign, then searches</span>
+0006 <span class="comment">%   that interval for a zero.  FUN is a function handle.  FUN accepts real</span>
+0007 <span class="comment">%   scalar input X and returns a real scalar function value F, evaluated</span>
+0008 <span class="comment">%   at X. The value X returned by FZERO is near a point where FUN changes</span>
+0009 <span class="comment">%   sign (if FUN is continuous), or NaN if the search fails.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%   X = FZERO(FUN,X0), where X0 is a vector of length 2, assumes X0 is a</span>
+0012 <span class="comment">%   finite interval where the sign of FUN(X0(1)) differs from the sign of</span>
+0013 <span class="comment">%   FUN(X0(2)). An error occurs if this is not true.  Calling FZERO with a</span>
+0014 <span class="comment">%   finite interval guarantees FZERO will return a value near a point where</span>
+0015 <span class="comment">%   FUN changes sign.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   X = FZERO(FUN,X0), where X0 is a scalar value, uses X0 as a starting</span>
+0018 <span class="comment">%   guess. FZERO looks for an interval containing a sign change for FUN and</span>
+0019 <span class="comment">%   containing X0.  If no such interval is found, NaN is returned.</span>
+0020 <span class="comment">%   In this case, the search terminates when the search interval</span>
+0021 <span class="comment">%   is expanded until an Inf, NaN, or complex value is found. Note: if</span>
+0022 <span class="comment">%   the option FunValCheck is 'on', then an error will occur if an NaN or</span>
+0023 <span class="comment">%   complex value is found.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   X = FZERO(FUN,X0,OPTIONS) solves the equation with the default optimization</span>
+0026 <span class="comment">%   parameters replaced by values in the structure OPTIONS, an argument</span>
+0027 <span class="comment">%   created with the OPTIMSET function.  See OPTIMSET for details.  Used</span>
+0028 <span class="comment">%   options are Display, TolX, FunValCheck, OutputFcn, and PlotFcns.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   X = FZERO(PROBLEM) finds the zero of a function defined in PROBLEM.</span>
+0031 <span class="comment">%   PROBLEM is a structure with the function FUN in PROBLEM.objective,</span>
+0032 <span class="comment">%   the start point in PROBLEM.x0, the options structure in PROBLEM.options,</span>
+0033 <span class="comment">%   and solver name 'fzero' in PROBLEM.solver. The structure PROBLEM must have</span>
+0034 <span class="comment">%   all the fields.</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   [X,FVAL]= FZERO(FUN,...) returns the value of the function described</span>
+0037 <span class="comment">%   in FUN, at X.</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   [X,FVAL,EXITFLAG] = FZERO(...) returns an EXITFLAG that describes the</span>
+0040 <span class="comment">%   exit condition of FZERO. Possible values of EXITFLAG and the corresponding</span>
+0041 <span class="comment">%   exit conditions are</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%     1  FZERO found a zero X.</span>
+0044 <span class="comment">%    -1  Algorithm terminated by output function.</span>
+0045 <span class="comment">%    -3  NaN or Inf function value encountered during search for an interval</span>
+0046 <span class="comment">%         containing a sign change.</span>
+0047 <span class="comment">%    -4  Complex function value encountered during search for an interval</span>
+0048 <span class="comment">%         containing a sign change.</span>
+0049 <span class="comment">%    -5  FZERO may have converged to a singular point.</span>
+0050 <span class="comment">%    -6  FZERO can not detect a change in sign of the function.</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   [X,FVAL,EXITFLAG,OUTPUT] = FZERO(...) returns a structure OUTPUT</span>
+0053 <span class="comment">%   with the number of function evaluations in OUTPUT.funcCount, the</span>
+0054 <span class="comment">%   algorithm name in OUTPUT.algorithm, the number of iterations to</span>
+0055 <span class="comment">%   find an interval (if needed) in OUTPUT.intervaliterations, the</span>
+0056 <span class="comment">%   number of zero-finding iterations in OUTPUT.iterations, and the</span>
+0057 <span class="comment">%   exit message in OUTPUT.message.</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   Examples</span>
+0060 <span class="comment">%     FUN can be specified using @:</span>
+0061 <span class="comment">%        X = fzero(@sin,3)</span>
+0062 <span class="comment">%     returns pi.</span>
+0063 <span class="comment">%        X = fzero(@sin,3,optimset('Display','iter'))</span>
+0064 <span class="comment">%     returns pi, uses the default tolerance and displays iteration information.</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%     FUN can be an anonymous function:</span>
+0067 <span class="comment">%        X = fzero(@(x) sin(3*x),2)</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%     FUN can be a parameterized function.  Use an anonymous function to</span>
+0070 <span class="comment">%     capture the problem-dependent parameters:</span>
+0071 <span class="comment">%        f = @(x,c) cos(c.*x);  % The parameterized function.</span>
+0072 <span class="comment">%        c = 2;                 % The parameter.</span>
+0073 <span class="comment">%        X = fzero(@(x) myfun(x,c),0.1)</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   Limitations</span>
+0076 <span class="comment">%        X = fzero(@(x) abs(x)+1, 1)</span>
+0077 <span class="comment">%     returns NaN since this function does not change sign anywhere on the</span>
+0078 <span class="comment">%     real axis (and does not have a zero as well).</span>
+0079 <span class="comment">%        X = fzero(@tan,2)</span>
+0080 <span class="comment">%     returns X near 1.5708 because the discontinuity of this function near the</span>
+0081 <span class="comment">%     point X gives the appearance (numerically) that the function changes sign at X.</span>
+0082 <span class="comment">%</span>
+0083 <span class="comment">%   See also ROOTS, FMINBND, FUNCTION_HANDLE.</span>
+0084 
+0085 <span class="comment">%   Copyright 1984-2010 The MathWorks, Inc.</span>
+0086 <span class="comment">%   $Revision: 5.33.4.24 $  $Date: 2010/05/13 17:39:01 $</span>
+0087 
+0088 <span class="comment">%  This algorithm was originated by T. J. Dekker.  An Algol 60 version,</span>
+0089 <span class="comment">%  with some improvements, is given by R. P. Brent in &quot;Algorithms for</span>
+0090 <span class="comment">%  Minimization Without Derivatives&quot;, Prentice-Hall, 1973.  A Fortran</span>
+0091 <span class="comment">%  version is in Forsythe, Malcolm and Moler, &quot;Computer Methods</span>
+0092 <span class="comment">%  for Mathematical Computations&quot;, Prentice-Hall, 1976.</span>
+0093 
+0094 <span class="comment">%  Modified by Jonathan Karr, jkarr@stanford.edu 6/10/2011 for better error</span>
+0095 <span class="comment">%  reporting.</span>
+0096 
+0097 <span class="comment">% Initialization</span>
+0098 fcount = 0;
+0099 iter = 0;
+0100 intervaliter = 0;
+0101 exitflag = 1;
+0102 procedure = <span class="string">' '</span>;
+0103 
+0104 defaultopt = struct(<span class="string">'Display'</span>,<span class="string">'notify'</span>,<span class="string">'TolX'</span>,eps,<span class="string">'FunValCheck'</span>,<span class="string">'off'</span>,<span class="string">'OutputFcn'</span>,[],<span class="string">'PlotFcns'</span>,[]);
+0105 
+0106 <span class="comment">% If just 'defaults' passed in, return the default options in X</span>
+0107 <span class="keyword">if</span> nargin==1 &amp;&amp; nargout &lt;= 1 &amp;&amp; isequal(FunFcnIn,<span class="string">'defaults'</span>)
+0108     b = defaultopt;
+0109     <span class="keyword">return</span>
+0110 <span class="keyword">end</span>
+0111 
+0112 <span class="comment">% initialization</span>
+0113 <span class="keyword">if</span> nargin &lt; 3, 
+0114    options = []; 
+0115 <span class="keyword">end</span>
+0116 <span class="comment">% Detect problem structure input</span>
+0117 <span class="keyword">if</span> nargin == 1
+0118     <span class="keyword">if</span> isa(FunFcnIn,<span class="string">'struct'</span>)
+0119         [FunFcnIn,x,options] = separateOptimStruct(FunFcnIn);
+0120     <span class="keyword">else</span> <span class="comment">% Single input and non-structure.</span>
+0121         error(<span class="string">'MATLAB:fzero:InputArg'</span>,<span class="string">'The input should be either a structure with valid fields or at least two arguments to FZERO.'</span>);
+0122     <span class="keyword">end</span>
+0123 <span class="keyword">end</span>
+0124 
+0125 <span class="keyword">if</span> nargin == 0 
+0126     error(<span class="string">'MATLAB:fzero:NotEnoughInputs'</span>,<span class="keyword">...</span>
+0127         <span class="string">'FZERO requires at least two input arguments.'</span>); 
+0128 <span class="keyword">end</span>
+0129 
+0130 <span class="comment">% Check for non-double inputs</span>
+0131 <span class="keyword">if</span> ~isa(x,<span class="string">'double'</span>)
+0132   error(<span class="string">'MATLAB:fzero:NonDoubleInput'</span>, <span class="keyword">...</span>
+0133         <span class="string">'FZERO only accepts inputs of data type double.'</span>)
+0134 <span class="keyword">end</span>
+0135 
+0136 tol = optimget(options,<span class="string">'TolX'</span>,defaultopt,<span class="string">'fast'</span>);
+0137 funValCheck = strcmp(optimget(options,<span class="string">'FunValCheck'</span>,defaultopt,<span class="string">'fast'</span>),<span class="string">'on'</span>);
+0138 printtype = optimget(options,<span class="string">'Display'</span>,defaultopt,<span class="string">'fast'</span>);
+0139 <span class="keyword">switch</span> printtype
+0140     <span class="keyword">case</span> {<span class="string">'notify'</span>,<span class="string">'notify-detailed'</span>}
+0141         trace = 1;
+0142     <span class="keyword">case</span> {<span class="string">'none'</span>, <span class="string">'off'</span>}
+0143         trace = 0;
+0144     <span class="keyword">case</span> {<span class="string">'iter'</span>,<span class="string">'iter-detailed'</span>}
+0145         trace = 3;
+0146     <span class="keyword">case</span> {<span class="string">'final'</span>,<span class="string">'final-detailed'</span>}
+0147         trace = 2;
+0148     <span class="keyword">otherwise</span>
+0149         trace = 1;
+0150 <span class="keyword">end</span>
+0151 <span class="comment">% Handle the output functions</span>
+0152 outputfcn = optimget(options,<span class="string">'OutputFcn'</span>,defaultopt,<span class="string">'fast'</span>);
+0153 <span class="keyword">if</span> isempty(outputfcn)
+0154     haveoutputfcn = false;
+0155 <span class="keyword">else</span>
+0156     haveoutputfcn = true;
+0157     <span class="comment">% Parse OutputFcn which is needed to support cell array syntax for OutputFcn.</span>
+0158     outputfcn = createCellArrayOfFunctions(outputfcn,<span class="string">'OutputFcn'</span>);
+0159 <span class="keyword">end</span>
+0160 
+0161 <span class="comment">% Handle the plot functions</span>
+0162 plotfcns = optimget(options,<span class="string">'PlotFcns'</span>,defaultopt,<span class="string">'fast'</span>);
+0163 <span class="keyword">if</span> isempty(plotfcns)
+0164     haveplotfcn = false;
+0165 <span class="keyword">else</span>
+0166     haveplotfcn = true;
+0167     <span class="comment">% Parse PlotFcns which is needed to support cell array syntax for PlotFcns.</span>
+0168     plotfcns = createCellArrayOfFunctions(plotfcns,<span class="string">'PlotFcns'</span>);
+0169 <span class="keyword">end</span>
+0170 
+0171 <span class="comment">% Convert to function handle as needed.</span>
+0172 [FunFcn,errStruct] = fcnchk(FunFcnIn,length(varargin));
+0173 <span class="keyword">if</span> ~isempty(errStruct)
+0174     error(<span class="string">'MATLAB:fzero:InvalidFUN'</span>,errStruct.message)
+0175 <span class="keyword">end</span>
+0176 <span class="comment">% We know fcnchk succeeded if we got to here</span>
+0177 <span class="keyword">if</span> isa(FunFcn,<span class="string">'inline'</span>)      
+0178     <span class="keyword">if</span> isa(FunFcnIn,<span class="string">'inline'</span>)
+0179         Ffcnstr = inputname(1);  <span class="comment">% name of inline object such as f where f=inline('x*2');</span>
+0180         <span class="keyword">if</span> isempty(Ffcnstr)  <span class="comment">% inline('sin(x)')</span>
+0181             Ffcnstr = formula(FunFcn);  <span class="comment">% Grab formula, no argument name</span>
+0182         <span class="keyword">end</span>
+0183         Ftype = <span class="string">'inline object'</span>;
+0184     <span class="keyword">else</span>  <span class="comment">% not an inline originally (string expression).</span>
+0185         Ffcnstr = FunFcnIn;  <span class="comment">% get the string expression</span>
+0186         Ftype = <span class="string">'expression'</span>;
+0187     <span class="keyword">end</span>
+0188 <span class="keyword">elseif</span> isa(FunFcn,<span class="string">'function_handle'</span>) <span class="comment">% function handle</span>
+0189     Ffcnstr = func2str(FunFcn);  <span class="comment">% get the name passed in</span>
+0190     Ftype = <span class="string">'function_handle'</span>;
+0191 <span class="keyword">else</span>  <span class="comment">% Not converted, must be m-file or builtin</span>
+0192     Ffcnstr = FunFcnIn;  <span class="comment">% get the name passed in</span>
+0193     Ftype = <span class="string">'function'</span>;
+0194 <span class="keyword">end</span>
+0195 
+0196 <span class="comment">% Add a wrapper function to check for Inf/NaN/complex values</span>
+0197 <span class="keyword">if</span> funValCheck
+0198     <span class="comment">% Add a wrapper function, CHECKFUN, to check for NaN/complex values without</span>
+0199     <span class="comment">% having to change the calls that look like this:</span>
+0200     <span class="comment">% f = funfcn(x,varargin{:});</span>
+0201     <span class="comment">% x is the first argument to CHECKFUN, then the user's function,</span>
+0202     <span class="comment">% then the elements of varargin. To accomplish this we need to add the</span>
+0203     <span class="comment">% user's function to the beginning of varargin, and change funfcn to be</span>
+0204     <span class="comment">% CHECKFUN.</span>
+0205     varargin = {FunFcn, varargin{:}};
+0206     FunFcn = @<a href="#_sub4" class="code" title="subfunction f = checkfun(x,userfcn,varargin)">checkfun</a>;
+0207 <span class="keyword">end</span>
+0208 
+0209 <span class="comment">% Initialize the output and plot functions.</span>
+0210 <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0211     [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,[],<span class="string">'init'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0212         [],procedure,[],[],[],[],varargin{:});
+0213     <span class="keyword">if</span> stop
+0214         [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0215         <span class="keyword">if</span>  trace &gt; 0
+0216             disp(output.message)
+0217         <span class="keyword">end</span>
+0218         <span class="keyword">return</span>;
+0219     <span class="keyword">end</span>
+0220 <span class="keyword">end</span>
+0221 
+0222 <span class="keyword">if</span>  ~all(isfinite(x))
+0223     error(<span class="string">'MATLAB:fzero:Arg2NotFinite'</span>, <span class="string">'Second argument must be finite.'</span>)
+0224 <span class="keyword">end</span>
+0225 
+0226 <span class="comment">% Interval input</span>
+0227 <span class="keyword">if</span> (length(x) == 2) 
+0228     <span class="keyword">if</span> trace &gt; 2
+0229         disp(<span class="string">' '</span>) <span class="comment">%Initial blank line</span>
+0230     <span class="keyword">end</span>
+0231     a = x(1); savea=a;
+0232     b = x(2); saveb=b;
+0233     <span class="comment">% Put first feval in try catch</span>
+0234     <span class="keyword">try</span>
+0235         fa = FunFcn(a,varargin{:});
+0236     <span class="keyword">catch</span> ME
+0237         <span class="keyword">if</span> ~isempty(Ffcnstr)
+0238             ME.addCause(MException(<span class="string">'MATLAB:fzero:InvalidFunctionSupplied'</span>, <span class="keyword">...</span>
+0239                 <span class="string">'FZERO cannot continue because user supplied %s ==&gt; %s\nfailed with the error below.'</span>, <span class="keyword">...</span>
+0240                 Ftype, Ffcnstr)).rethrow();
+0241         <span class="keyword">else</span>
+0242             ME.addCause(MException(<span class="string">'MATLAB:fzero:InvalidFunctionSupplied'</span>, <span class="keyword">...</span>
+0243                 <span class="string">'FZERO cannot continue because user supplied %s\nfailed with the error below.'</span>, <span class="keyword">...</span>
+0244                 Ftype)).rethrow();
+0245         <span class="keyword">end</span>
+0246         
+0247     <span class="keyword">end</span>
+0248     
+0249     fb = FunFcn(b,varargin{:});
+0250     <span class="keyword">if</span> any(~isfinite([fa fb])) || any(~isreal([fa fb]))
+0251         error(<span class="string">'MATLAB:fzero:ValuesAtEndPtsComplexOrNotFinite'</span>,<span class="keyword">...</span>
+0252             <span class="string">'Function values at interval endpoints must be finite and real.'</span>)
+0253     <span class="keyword">end</span>
+0254     fcount = fcount + 2;
+0255     savefa = fa; savefb = fb;
+0256     
+0257     <span class="keyword">if</span> ( fa == 0 )
+0258         b = a;
+0259         msg = sprintf(<span class="string">'Zero find terminated.'</span>);
+0260         <span class="keyword">if</span> trace &gt; 1
+0261             disp(msg)
+0262         <span class="keyword">end</span>
+0263         output.intervaliterations = intervaliter;
+0264         output.iterations = iter;
+0265         output.funcCount = fcount;
+0266         output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0267         output.message = msg;
+0268         fval = fa;
+0269         <span class="keyword">return</span>
+0270     <span class="keyword">elseif</span> ( fb == 0)
+0271         <span class="comment">% b = b;</span>
+0272         msg = sprintf(<span class="string">'Zero find terminated.'</span>);
+0273         <span class="keyword">if</span> trace &gt; 1
+0274             disp(msg)
+0275         <span class="keyword">end</span>
+0276         output.intervaliterations = intervaliter;
+0277         output.iterations = iter;
+0278         output.funcCount = fcount;
+0279         output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0280         output.message = msg;
+0281         fval = fb;
+0282         <span class="keyword">return</span>
+0283     <span class="keyword">elseif</span> (fa &gt; 0) == (fb &gt; 0)
+0284         error(<span class="string">'MATLAB:fzero:ValuesAtEndPtsSameSign'</span>,<span class="keyword">...</span>
+0285             <span class="string">'The function values at the interval endpoints must differ in sign.'</span>)
+0286     <span class="keyword">end</span>
+0287     
+0288     <span class="comment">% Starting guess scalar input</span>
+0289 <span class="keyword">elseif</span> (length(x) == 1)
+0290     <span class="keyword">if</span> trace &gt; 2 
+0291         disp(<span class="string">' '</span>)
+0292         fprintf(<span class="string">'Search for an interval around %g containing a sign change:\n'</span>,x);
+0293         header = <span class="string">' Func-count    a          f(a)             b          f(b)        Procedure'</span>;
+0294     <span class="keyword">end</span>
+0295     <span class="comment">% Put first feval in try catch</span>
+0296     <span class="keyword">try</span>
+0297         fx = FunFcn(x,varargin{:});
+0298     <span class="keyword">catch</span> ME
+0299         <span class="keyword">if</span> ~isempty(Ffcnstr)
+0300             es = sprintf([<span class="string">'FZERO cannot continue because user supplied'</span> <span class="keyword">...</span>
+0301                     <span class="string">' %s ==&gt; %s\nfailed with the error below.'</span>],  <span class="keyword">...</span>
+0302                 Ftype, Ffcnstr);
+0303         <span class="keyword">else</span>
+0304             es = sprintf([<span class="string">'FZERO cannot continue because user supplied'</span> <span class="keyword">...</span>
+0305                     <span class="string">' %s\nfailed with the error below.'</span>],  <span class="keyword">...</span>
+0306                 Ftype);
+0307         <span class="keyword">end</span>
+0308         ME.addCause(MException(<span class="string">'MATLAB:fzero:InvalidFunctionSupplied'</span>, es)).rethrow();            
+0309     <span class="keyword">end</span>
+0310     fcount = fcount + 1;  
+0311     <span class="keyword">if</span> fx == 0
+0312         b = x;
+0313         msg = sprintf(<span class="string">'Zero find terminated.'</span>);
+0314         <span class="keyword">if</span> trace &gt; 1
+0315             disp(msg)
+0316         <span class="keyword">end</span>
+0317         output.intervaliterations = intervaliter;
+0318         output.iterations = iter;
+0319         output.funcCount = fcount;
+0320         output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0321         output.message = msg;
+0322         fval = fx;
+0323         <span class="keyword">return</span>
+0324     <span class="keyword">elseif</span> ~isfinite(fx) || ~isreal(fx)
+0325         error(<span class="string">'MATLAB:fzero:ValueAtInitGuessComplexOrNotFinite'</span>,<span class="keyword">...</span>
+0326             <span class="string">'Function value at starting guess must be finite and real.'</span>);
+0327     <span class="keyword">end</span>
+0328     
+0329     <span class="keyword">if</span> x ~= 0, 
+0330         dx = x/50;
+0331     <span class="keyword">else</span> 
+0332         dx = 1/50;
+0333     <span class="keyword">end</span>
+0334     
+0335     <span class="comment">% Find change of sign.</span>
+0336     twosqrt = sqrt(2); 
+0337     a = x; fa = fx; b = x; fb = fx;
+0338     
+0339     <span class="keyword">if</span> trace &gt; 2
+0340         disp(header)
+0341         procedure=<span class="string">'initial interval'</span>;
+0342         disp(sprintf(<span class="string">'%5.0f   %13.6g %13.6g %13.6g %13.6g   %s'</span>,fcount,a,fa,b,fb, procedure));
+0343     <span class="keyword">end</span>
+0344     <span class="comment">% OutputFcn and PlotFcns call</span>
+0345     <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0346         [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,x,<span class="string">'iter'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0347             fx,procedure,a,fa,b,fb,varargin{:}); <span class="comment">% a and b are x to start</span>
+0348         <span class="keyword">if</span> stop
+0349             [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0350             <span class="keyword">if</span>  trace &gt; 0
+0351                 disp(output.message)
+0352             <span class="keyword">end</span>
+0353             <span class="keyword">return</span>;
+0354         <span class="keyword">end</span>
+0355     <span class="keyword">end</span>
+0356 
+0357     <span class="keyword">while</span> (fa &gt; 0) == (fb &gt; 0)
+0358         intervaliter = intervaliter + 1;
+0359         dx = twosqrt*dx;
+0360         a = x - dx;  fa = FunFcn(a,varargin{:});
+0361         fcount = fcount + 1;
+0362         <span class="keyword">if</span> ~isfinite(fa) || ~isreal(fa) || ~isfinite(a)
+0363             [exitflag,msg] = <a href="#_sub1" class="code" title="subfunction [exitflag,msg] = disperr(y, fy, trace)">disperr</a>(a,fa,trace);
+0364             b = NaN; fval = NaN;
+0365             output.intervaliter = intervaliter;
+0366             output.iterations = iter;
+0367             output.funcCount = fcount;
+0368             output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0369             output.message = msg;
+0370             <span class="keyword">return</span>
+0371         <span class="keyword">end</span>
+0372 
+0373         <span class="keyword">if</span> (fa &gt; 0) ~= (fb &gt; 0) <span class="comment">% check for different sign</span>
+0374             <span class="comment">% Before we exit the while loop, print out the latest interval</span>
+0375             <span class="keyword">if</span> trace &gt; 2
+0376                 procedure=<span class="string">'search'</span>;
+0377                 disp(sprintf(<span class="string">'%5.0f   %13.6g %13.6g %13.6g %13.6g   %s'</span>,fcount,a,fa,b,fb, procedure));
+0378             <span class="keyword">end</span>
+0379             <span class="comment">% OutputFcn and PlotFcns call</span>
+0380             <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0381                 [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,x,<span class="string">'iter'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0382                     fx,procedure,a,fa,b,fb,varargin{:});
+0383                 <span class="keyword">if</span> stop
+0384                     [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0385                     <span class="keyword">if</span>  trace &gt; 0
+0386                         disp(output.message)
+0387                     <span class="keyword">end</span>
+0388                     <span class="keyword">return</span>;
+0389                 <span class="keyword">end</span>
+0390             <span class="keyword">end</span>
+0391             <span class="keyword">break</span>
+0392         <span class="keyword">end</span>
+0393         
+0394         b = x + dx;  fb = FunFcn(b,varargin{:});
+0395         <span class="keyword">if</span> ~isfinite(fb) || ~isreal(fb) || ~isfinite(b)
+0396             [exitflag,msg] = <a href="#_sub1" class="code" title="subfunction [exitflag,msg] = disperr(y, fy, trace)">disperr</a>(b,fb,trace);
+0397             b = NaN; fval = NaN;
+0398             output.intervaliter = intervaliter;
+0399             output.iterations = iter;
+0400             output.funcCount = fcount;
+0401             output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0402             output.message = msg;
+0403             <span class="keyword">return</span>
+0404         <span class="keyword">end</span>
+0405         fcount = fcount + 1;        
+0406         <span class="keyword">if</span> trace &gt; 2
+0407             procedure=<span class="string">'search'</span>;
+0408             disp(sprintf(<span class="string">'%5.0f   %13.6g %13.6g %13.6g %13.6g   %s'</span>,fcount,a,fa,b,fb, procedure));
+0409         <span class="keyword">end</span>
+0410         <span class="comment">% OutputFcn and PlotFcns call</span>
+0411         <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0412             [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,x,<span class="string">'iter'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0413                 fx,procedure,a,fa,b,fb,varargin{:});
+0414             <span class="keyword">if</span> stop
+0415                 [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0416                 <span class="keyword">if</span>  trace &gt; 0
+0417                     disp(output.message)
+0418                 <span class="keyword">end</span>
+0419                 <span class="keyword">return</span>;
+0420             <span class="keyword">end</span>
+0421         <span class="keyword">end</span>
+0422     <span class="keyword">end</span> <span class="comment">% while</span>
+0423     
+0424     <span class="keyword">if</span> trace &gt; 2
+0425         disp(<span class="string">' '</span>)
+0426         fprintf(<span class="string">'Search for a zero in the interval [%g, %g]:\n'</span>,a,b);
+0427     <span class="keyword">end</span>
+0428     savea = a; savefa = fa; saveb = b; savefb = fb;
+0429 <span class="keyword">else</span>
+0430     error(<span class="string">'MATLAB:fzero:LengthArg2'</span>, <span class="string">'Second argument must be of length 1 or 2.'</span>);
+0431 <span class="keyword">end</span> <span class="comment">% if (length(x) == 2</span>
+0432 
+0433 fc = fb;
+0434 procedure = <span class="string">'initial'</span>;
+0435 header2 = <span class="string">' Func-count    x          f(x)             Procedure'</span>;
+0436 <span class="keyword">if</span> trace &gt; 2
+0437     disp(header2)
+0438 <span class="keyword">end</span>
+0439 <span class="comment">% Main loop, exit from middle of the loop</span>
+0440 <span class="keyword">while</span> fb ~= 0 &amp;&amp; a ~= b
+0441     <span class="comment">% Insure that b is the best result so far, a is the previous</span>
+0442     <span class="comment">% value of b, and c is on the opposite side of the zero from b.</span>
+0443     <span class="keyword">if</span> (fb &gt; 0) == (fc &gt; 0)
+0444         c = a;  fc = fa;
+0445         d = b - a;  e = d;
+0446     <span class="keyword">end</span>
+0447     <span class="keyword">if</span> abs(fc) &lt; abs(fb)
+0448         a = b;    b = c;    c = a;
+0449         fa = fb;  fb = fc;  fc = fa;
+0450     <span class="keyword">end</span>
+0451     
+0452     <span class="comment">% Convergence test and possible exit</span>
+0453     m = 0.5*(c - b);
+0454     toler = 2.0*tol*max(abs(b),1.0);
+0455     <span class="keyword">if</span> (abs(m) &lt;= toler) || (fb == 0.0) 
+0456         <span class="keyword">break</span>
+0457     <span class="keyword">end</span>
+0458     <span class="keyword">if</span> trace &gt; 2
+0459         disp(sprintf(<span class="string">'%5.0f   %13.6g %13.6g        %s'</span>,fcount, b, fb, procedure));
+0460     <span class="keyword">end</span>
+0461     <span class="comment">% OutputFcn and PlotFcns call</span>
+0462     <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0463         [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,b,<span class="string">'iter'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0464             fb,procedure,savea,savefa,saveb,savefb,varargin{:});
+0465         <span class="keyword">if</span> stop
+0466             [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0467             <span class="keyword">if</span>  trace &gt; 0
+0468                 disp(output.message)
+0469             <span class="keyword">end</span>
+0470             <span class="keyword">return</span>;
+0471         <span class="keyword">end</span>
+0472     <span class="keyword">end</span>
+0473     
+0474     <span class="comment">% Choose bisection or interpolation</span>
+0475     <span class="keyword">if</span> (abs(e) &lt; toler) || (abs(fa) &lt;= abs(fb))
+0476         <span class="comment">% Bisection</span>
+0477         d = m;  e = m;
+0478         procedure=<span class="string">'bisection'</span>;
+0479     <span class="keyword">else</span>
+0480         <span class="comment">% Interpolation</span>
+0481         s = fb/fa;
+0482         <span class="keyword">if</span> (a == c)
+0483             <span class="comment">% Linear interpolation</span>
+0484             p = 2.0*m*s;
+0485             q = 1.0 - s;
+0486         <span class="keyword">else</span>
+0487             <span class="comment">% Inverse quadratic interpolation</span>
+0488             q = fa/fc;
+0489             r = fb/fc;
+0490             p = s*(2.0*m*q*(q - r) - (b - a)*(r - 1.0));
+0491             q = (q - 1.0)*(r - 1.0)*(s - 1.0);
+0492         <span class="keyword">end</span>;
+0493         <span class="keyword">if</span> p &gt; 0, q = -q; <span class="keyword">else</span> p = -p; <span class="keyword">end</span>;
+0494         <span class="comment">% Is interpolated point acceptable</span>
+0495         <span class="keyword">if</span> (2.0*p &lt; 3.0*m*q - abs(toler*q)) &amp;&amp; (p &lt; abs(0.5*e*q))
+0496             e = d;  d = p/q;
+0497             procedure=<span class="string">'interpolation'</span>;
+0498         <span class="keyword">else</span>
+0499             d = m;  e = m;
+0500             procedure=<span class="string">'bisection'</span>;
+0501         <span class="keyword">end</span>;
+0502     <span class="keyword">end</span> <span class="comment">% Interpolation</span>
+0503     
+0504     <span class="comment">% Next point</span>
+0505     a = b;
+0506     fa = fb;
+0507     <span class="keyword">if</span> abs(d) &gt; toler, b = b + d;
+0508     <span class="keyword">elseif</span> b &gt; c, b = b - toler;
+0509     <span class="keyword">else</span> b = b + toler;
+0510     <span class="keyword">end</span>
+0511     fb = FunFcn(b,varargin{:});
+0512     fcount = fcount + 1;
+0513     iter = iter + 1;
+0514 <span class="keyword">end</span> <span class="comment">% Main loop</span>
+0515 
+0516 fval = fb; <span class="comment">% b is the best value</span>
+0517 
+0518 <span class="comment">% Output last chosen b</span>
+0519 <span class="keyword">if</span> trace &gt; 2
+0520     disp(sprintf(<span class="string">'%5.0f   %13.6g %13.6g        %s'</span>,fcount, b, fb, procedure));
+0521 <span class="keyword">end</span>
+0522 
+0523 <span class="comment">% OutputFcn and PlotFcns call</span>
+0524 <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0525     [xOutputfcn, optimValues, stop] = <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,b,<span class="string">'iter'</span>,fcount,iter,intervaliter, <span class="keyword">...</span>
+0526         fb,procedure,savea,savefa,saveb,savefb,varargin{:});
+0527     <span class="keyword">if</span> stop
+0528         [b,fval,exitflag,output] = <a href="#_sub3" class="code" title="subfunction [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)">cleanUpInterrupt</a>(xOutputfcn,optimValues);
+0529         <span class="keyword">if</span>  trace &gt; 0
+0530             disp(output.message)
+0531         <span class="keyword">end</span>
+0532         <span class="keyword">return</span>;
+0533     <span class="keyword">end</span>
+0534 <span class="keyword">end</span>
+0535 
+0536 output.intervaliterations = intervaliter;
+0537 output.iterations = iter;
+0538 output.funcCount = fcount;
+0539 output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0540 
+0541 <span class="keyword">if</span> abs(fval) &lt;= max(abs(savefa),abs(savefb))
+0542     msg = sprintf(<span class="string">'Zero found in the interval [%g, %g]'</span>,savea,saveb);
+0543 <span class="keyword">else</span>
+0544     exitflag = -5; 
+0545     msg = sprintf([<span class="keyword">...</span>
+0546         <span class="string">'Current point x may be near a singular point. The interval [%g, %g] \n'</span>, <span class="keyword">...</span><span class="comment"> </span>
+0547         <span class="string">'reduced to the requested tolerance and the function changes sign in the interval,\n'</span>, <span class="keyword">...</span>
+0548         <span class="string">'but f(x) increased in magnitude as the interval reduced.'</span>],savea,saveb);
+0549 <span class="keyword">end</span>
+0550 <span class="keyword">if</span> trace &gt; 1
+0551     disp(<span class="string">' '</span>)
+0552     disp(msg)
+0553 <span class="keyword">end</span>
+0554 output.message = msg;
+0555 <span class="comment">% Outputfcn and PlotFcns call</span>
+0556 <span class="keyword">if</span> haveoutputfcn || haveplotfcn
+0557     <a href="#_sub2" class="code" title="subfunction [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  ">callOutputAndPlotFcns</a>(outputfcn,plotfcns,b,<span class="string">'done'</span>,fcount,iter,intervaliter,fval,procedure,savea,savefa,saveb,savefb,varargin{:});
+0558 <span class="keyword">end</span>
+0559 
+0560 
+0561 <span class="comment">%------------------------------------------------------------------</span>
+0562 
+0563 <a name="_sub1" href="#_subfunctions" class="code">function [exitflag,msg] = disperr(y, fy, trace)</a>
+0564 <span class="comment">%DISPERR Display an appropriate error message when FY is Inf,</span>
+0565 <span class="comment">%   NaN, or complex.  Assumes Y is the value and FY is the function</span>
+0566 <span class="comment">%   value at Y. If FY is neither Inf, NaN, or complex, it generates</span>
+0567 <span class="comment">%   an error message.</span>
+0568 
+0569 <span class="keyword">if</span> ~isfinite(fy)  <span class="comment">% NaN or Inf detected</span>
+0570     exitflag = -3;
+0571     msg = <span class="keyword">...</span>
+0572         sprintf([<span class="string">'Exiting fzero: aborting search for an interval containing a sign change\n'</span> <span class="keyword">...</span>
+0573                  <span class="string">'    because NaN or Inf function value encountered during search.\n'</span> <span class="keyword">...</span>
+0574                  <span class="string">'(Function value at %g is %g.)\n'</span> <span class="keyword">...</span>
+0575                  <span class="string">'Check function or try again with a different starting value.'</span>],y,fy);
+0576     <span class="keyword">if</span> trace &gt; 0
+0577         disp(msg)
+0578     <span class="keyword">end</span>
+0579 <span class="keyword">elseif</span> ~isreal(fy) <span class="comment">% Complex value detected</span>
+0580     exitflag = -4;
+0581     msg = <span class="keyword">...</span>
+0582         sprintf([<span class="string">'Exiting fzero: aborting search for an interval containing a sign change\n'</span> <span class="keyword">...</span>
+0583                  <span class="string">'    because complex function value encountered during search.\n'</span> <span class="keyword">...</span>
+0584                  <span class="string">'(Function value at %g is %s.)\n'</span> <span class="keyword">...</span>
+0585                  <span class="string">'Check function or try again with a different starting value.'</span>],y,num2str(fy));
+0586     <span class="keyword">if</span> trace &gt; 0
+0587         disp(msg)        
+0588     <span class="keyword">end</span>
+0589 <span class="keyword">elseif</span> ~isfinite(y) <span class="comment">% Inf detected in bracketting stage</span>
+0590     exitflag = -6;
+0591     msg = <span class="keyword">...</span>
+0592         sprintf([<span class="string">'Exiting fzero: aborting search for an interval containing a sign change\n'</span> <span class="keyword">...</span>
+0593                  <span class="string">'    because no sign change is detected during search.\n'</span> <span class="keyword">...</span>
+0594                  <span class="string">'Function may not have a root.'</span>]);
+0595     <span class="keyword">if</span> trace &gt; 0
+0596         disp(msg)        
+0597     <span class="keyword">end</span>
+0598 
+0599 <span class="keyword">else</span>
+0600     error(<span class="string">'MATLAB:fzero:disperr:InvalidArg'</span>,<span class="keyword">...</span>
+0601         <span class="string">'DISPERR (in FZERO) called with invalid argument.'</span>)
+0602 <span class="keyword">end</span>
+0603 
+0604 <span class="comment">%--------------------------------------------------------------------------</span>
+0605 <a name="_sub2" href="#_subfunctions" class="code">function [xOutputfcn, optimValues, stop] = callOutputAndPlotFcns(outputfcn,plotfcns,x,state,fcount,iter,intervaliter,  </a><span class="keyword">...</span>
+0606     f,procedure,a,fvala,b,fvalb,varargin)
+0607 <span class="comment">% CALLOUTPUTANDPLOTFCNS assigns values to the struct OptimValues and then calls the</span>
+0608 <span class="comment">% outputfcn/plotfcns.</span>
+0609 <span class="comment">%</span>
+0610 <span class="comment">% state - can have the values 'init','iter', or 'done'.</span>
+0611 <span class="comment">% We do not handle the case 'interrupt' because we do not want to update</span>
+0612 <span class="comment">% xOutputfcn or optimValues (since the values could be inconsistent) before calling</span>
+0613 <span class="comment">% the outputfcn; in that case the outputfcn/plotfcns are called directly rather than</span>
+0614 <span class="comment">% calling it inside callOutputAndPlotFcns.</span>
+0615 
+0616 <span class="comment">% For the 'done' state we do not check the value of 'stop' because the</span>
+0617 <span class="comment">% optimization is already done.</span>
+0618 optimValues.funccount = fcount;
+0619 optimValues.iteration = iter;
+0620 optimValues.intervaliteration = intervaliter;
+0621 optimValues.fval = f;
+0622 optimValues.procedure = procedure;
+0623 optimValues.intervala = a;
+0624 optimValues.fvala = fvala;
+0625 optimValues.intervalb = b;
+0626 optimValues.fvalb = fvalb;
+0627 
+0628 xOutputfcn = x;  <span class="comment">% set xOutputfcn to be x</span>
+0629 stop = false;
+0630 <span class="comment">% Call output functions</span>
+0631 <span class="keyword">if</span> ~isempty(outputfcn)
+0632     <span class="keyword">switch</span> state
+0633         <span class="keyword">case</span> {<span class="string">'iter'</span>,<span class="string">'init'</span>}
+0634             stop = callAllOptimOutputFcns(outputfcn,xOutputfcn,optimValues,state,varargin{:}) || stop;
+0635         <span class="keyword">case</span> <span class="string">'done'</span>
+0636             callAllOptimOutputFcns(outputfcn,xOutputfcn,optimValues,state,varargin{:});
+0637         <span class="keyword">otherwise</span>
+0638             error(<span class="string">'MATLAB:fzero:InvalidState'</span>,<span class="string">'Unknown state in CALLOUTPUTANDPLOTFCNS.'</span>)
+0639     <span class="keyword">end</span>
+0640 <span class="keyword">end</span>
+0641 <span class="comment">% Call plot functions</span>
+0642 <span class="keyword">if</span> ~isempty(plotfcns)
+0643     <span class="keyword">switch</span> state
+0644         <span class="keyword">case</span> {<span class="string">'iter'</span>,<span class="string">'init'</span>}
+0645             stop = callAllOptimPlotFcns(plotfcns,xOutputfcn,optimValues,state,varargin{:}) || stop;
+0646         <span class="keyword">case</span> <span class="string">'done'</span>
+0647             callAllOptimPlotFcns(plotfcns,xOutputfcn,optimValues,state,varargin{:});
+0648         <span class="keyword">otherwise</span>
+0649             error(<span class="string">'MATLAB:fzero:InvalidState'</span>,<span class="string">'Unknown state in CALLOUTPUTANDPLOTFCNS.'</span>)
+0650     <span class="keyword">end</span>
+0651 <span class="keyword">end</span>
+0652 
+0653 <span class="comment">%--------------------------------------------------------------------------</span>
+0654 <a name="_sub3" href="#_subfunctions" class="code">function [b,fval,exitflag,output] = cleanUpInterrupt(xOutputfcn,optimValues)</a>
+0655 <span class="comment">% CLEANUPINTERRUPT updates or sets all the output arguments of FMINBND when the optimization</span>
+0656 <span class="comment">% is interrupted.</span>
+0657 
+0658 b = xOutputfcn;
+0659 fval = optimValues.fval;
+0660 exitflag = -1; 
+0661 output.intervaliterations = optimValues.intervaliteration;
+0662 output.iterations = optimValues.iteration;
+0663 output.funcCount = optimValues.funccount;
+0664 output.algorithm = <span class="string">'bisection, interpolation'</span>;
+0665 output.message = <span class="string">'Optimization terminated prematurely by user.'</span>;
+0666 
+0667 <span class="comment">%--------------------------------------------------------------------------</span>
+0668 <a name="_sub4" href="#_subfunctions" class="code">function f = checkfun(x,userfcn,varargin)</a>
+0669 <span class="comment">% CHECKFUN checks for complex or NaN results from userfcn.</span>
+0670 
+0671 f = userfcn(x,varargin{:});
+0672 <span class="comment">% Note: we do not check for Inf as FZERO handles it naturally.  ???</span>
+0673 <span class="keyword">if</span> isnan(f)
+0674     error(<span class="string">'MATLAB:fzero:checkfun:NaNFval'</span>, <span class="keyword">...</span>
+0675         <span class="string">'User function ''%s'' returned NaN when evaluated at %g;\n FZERO cannot continue.'</span>, <span class="keyword">...</span>
+0676         <a href="#_sub5" class="code" title="subfunction strfcn = localChar(fcn)">localChar</a>(userfcn), x);  
+0677 <span class="keyword">elseif</span> ~isreal(f)
+0678     error(<span class="string">'MATLAB:fzero:checkfun:ComplexFval'</span>, <span class="keyword">...</span>
+0679         <span class="string">'User function ''%s'' returned a complex value when evaluated at %g;\n FZERO cannot continue.'</span>, <span class="keyword">...</span>
+0680         <a href="#_sub5" class="code" title="subfunction strfcn = localChar(fcn)">localChar</a>(userfcn),x);  
+0681 <span class="keyword">end</span>
+0682 
+0683 <span class="comment">%--------------------------------------------------------------------------</span>
+0684 <a name="_sub5" href="#_subfunctions" class="code">function strfcn = localChar(fcn)</a>
+0685 <span class="comment">% Convert the fcn to a string for printing</span>
+0686 
+0687 <span class="keyword">if</span> ischar(fcn)
+0688     strfcn = fcn;
+0689 <span class="keyword">elseif</span> isa(fcn,<span class="string">'inline'</span>)
+0690     strfcn = char(fcn);
+0691 <span class="keyword">elseif</span> isa(fcn,<span class="string">'function_handle'</span>)
+0692     strfcn = func2str(fcn);
+0693 <span class="keyword">else</span>
+0694     <span class="keyword">try</span>
+0695         strfcn = char(fcn);
+0696     <span class="keyword">catch</span> ME
+0697         strfcn = <span class="string">'(name not printable)'</span>;
+0698     <span class="keyword">end</span>
+0699 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

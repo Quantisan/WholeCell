@@ -1,0 +1,628 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of EmpiricalFormula</title>
+  <meta name="keywords" content="EmpiricalFormula">
+  <meta name="description" content="EmpiricalFormula">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; EmpiricalFormula.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>EmpiricalFormula
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>EmpiricalFormula</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> EmpiricalFormula
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/18/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>	EmpiricalFormula</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>	EmpiricalFormula</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = EmpiricalFormula(formula)</a></li><li><a href="#_sub2" class="code">function value = weight(this)</a></li><li><a href="#_sub3" class="code">function value = mass(this)</a></li><li><a href="#_sub4" class="code">function value = number(this)</a></li><li><a href="#_sub5" class="code">function tf = isequal(A, B)</a></li><li><a href="#_sub6" class="code">function C = eq(A,B)</a></li><li><a href="#_sub7" class="code">function C = ne(A,B)</a></li><li><a href="#_sub8" class="code">function C = uplus(A)</a></li><li><a href="#_sub9" class="code">function C = uminus(A)</a></li><li><a href="#_sub10" class="code">function C = plus(A, B)</a></li><li><a href="#_sub11" class="code">function C = minus(A, B)</a></li><li><a href="#_sub12" class="code">function C = times(A, B)</a></li><li><a href="#_sub13" class="code">function C = mtimes(A, B)</a></li><li><a href="#_sub14" class="code">function C = rdivide(A, B)</a></li><li><a href="#_sub15" class="code">function C = ldivide(A, B)</a></li><li><a href="#_sub16" class="code">function C = mrdivide(A, B)</a></li><li><a href="#_sub17" class="code">function C = mldivide(A, B)</a></li><li><a href="#_sub18" class="code">function C = sum(A)</a></li><li><a href="#_sub19" class="code">function formula = cast(this, newclass)</a></li><li><a href="#_sub20" class="code">function formula = cell(this)</a></li><li><a href="#_sub21" class="code">function formula = char(this)</a></li><li><a href="#_sub22" class="code">function formula = struct(this)</a></li><li><a href="#_sub23" class="code">function disp(this)</a></li><li><a href="#_sub24" class="code">function display(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% EmpiricalFormula</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 7/18/2010</span>
+0006 classdef <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>
+0007     properties
+0008         H  = 0;
+0009         He = 0;
+0010         Li = 0;
+0011         Be = 0;
+0012         B  = 0;
+0013         C  = 0;
+0014         N  = 0;
+0015         O  = 0;
+0016         F  = 0;
+0017         Ne = 0;
+0018         Na = 0;
+0019         Mg = 0;
+0020         Al = 0;
+0021         Si = 0;
+0022         P  = 0;
+0023         S  = 0;
+0024         Cl = 0;
+0025         Ar = 0;
+0026         K  = 0;
+0027         Ca = 0;
+0028         Sc = 0;
+0029         Ti = 0;
+0030         V  = 0;
+0031         Cr = 0;
+0032         Mn = 0;
+0033         Fe = 0;
+0034         Co = 0;
+0035         Ni = 0;
+0036         Cu = 0;
+0037         Zn = 0;
+0038         Ga = 0;
+0039         Ge = 0;
+0040         As = 0;
+0041         Se = 0;
+0042         Br = 0;
+0043         Kr = 0;
+0044         Rb = 0;
+0045         Sr = 0;
+0046         Y  = 0;
+0047         Zr = 0;
+0048         Nb = 0;
+0049         Mo = 0;
+0050         Tc = 0;
+0051         Ru = 0;
+0052         Rh = 0;
+0053         Pd = 0;
+0054         Ag = 0;
+0055         Cd = 0;
+0056         In = 0;
+0057         Sn = 0;
+0058         Sb = 0;
+0059         Te = 0;
+0060         I  = 0;
+0061         Xe = 0;
+0062         Cs = 0;
+0063         Ba = 0;
+0064         La = 0;
+0065         Ce = 0;
+0066         Pr = 0;
+0067         Nd = 0;
+0068         Pm = 0;
+0069         Sm = 0;
+0070         Eu = 0;
+0071         Gd = 0;
+0072         Tb = 0;
+0073         Dy = 0;
+0074         Ho = 0;
+0075         Er = 0;
+0076         Tm = 0;
+0077         Yb = 0;
+0078         Lu = 0;
+0079         Hf = 0;
+0080         Ta = 0;
+0081         W  = 0;
+0082         Re = 0;
+0083         Os = 0;
+0084         Ir = 0;
+0085         Pt = 0;
+0086         Au = 0;
+0087         Hg = 0;
+0088         Tl = 0;
+0089         Pb = 0;
+0090         Bi = 0;
+0091         Po = 0;
+0092         At = 0;
+0093         Rn = 0;
+0094         Fr = 0;
+0095         Ra = 0;
+0096         Ac = 0;
+0097         Th = 0;
+0098         Pa = 0;
+0099         U  = 0;
+0100         Np = 0;
+0101         Pu = 0;
+0102         Am = 0;
+0103         Cm = 0;
+0104         Bk = 0;
+0105         Cf = 0;
+0106         Es = 0;
+0107         Fm = 0;
+0108         Md = 0;
+0109         No = 0;
+0110         Lr = 0;
+0111         Rf = 0;
+0112         Db = 0;
+0113         Sg = 0;
+0114         Bh = 0;
+0115         Hs = 0;
+0116         Mt = 0;
+0117         rGroups = <a href="#_sub22" class="code" title="subfunction formula = struct(this)">struct</a>;
+0118     <span class="keyword">end</span>
+0119 
+0120     properties (Constant=true)
+0121         elementNames = {
+0122             <span class="string">'H'</span>; <span class="string">'He'</span>; <span class="string">'Li'</span>; <span class="string">'Be'</span>;  <span class="string">'B'</span>;  <span class="string">'C'</span>;  <span class="string">'N'</span>;  <span class="string">'O'</span>;  <span class="string">'F'</span>; <span class="string">'Ne'</span>; <span class="string">'Na'</span>; <span class="string">'Mg'</span>; <span class="string">'Al'</span>; <span class="string">'Si'</span>;  <span class="string">'P'</span>;  <span class="string">'S'</span>;
+0123             <span class="string">'Cl'</span>; <span class="string">'Ar'</span>;  <span class="string">'K'</span>; <span class="string">'Ca'</span>; <span class="string">'Sc'</span>; <span class="string">'Ti'</span>;  <span class="string">'V'</span>; <span class="string">'Cr'</span>; <span class="string">'Mn'</span>; <span class="string">'Fe'</span>; <span class="string">'Co'</span>; <span class="string">'Ni'</span>; <span class="string">'Cu'</span>; <span class="string">'Zn'</span>; <span class="string">'Ga'</span>; <span class="string">'Ge'</span>;
+0124             <span class="string">'As'</span>; <span class="string">'Se'</span>; <span class="string">'Br'</span>; <span class="string">'Kr'</span>; <span class="string">'Rb'</span>; <span class="string">'Sr'</span>;  <span class="string">'Y'</span>; <span class="string">'Zr'</span>; <span class="string">'Nb'</span>; <span class="string">'Mo'</span>; <span class="string">'Tc'</span>; <span class="string">'Ru'</span>; <span class="string">'Rh'</span>; <span class="string">'Pd'</span>; <span class="string">'Ag'</span>; <span class="string">'Cd'</span>;
+0125             <span class="string">'In'</span>; <span class="string">'Sn'</span>; <span class="string">'Sb'</span>; <span class="string">'Te'</span>;  <span class="string">'I'</span>; <span class="string">'Xe'</span>; <span class="string">'Cs'</span>; <span class="string">'Ba'</span>; <span class="string">'La'</span>; <span class="string">'Ce'</span>; <span class="string">'Pr'</span>; <span class="string">'Nd'</span>; <span class="string">'Pm'</span>; <span class="string">'Sm'</span>; <span class="string">'Eu'</span>; <span class="string">'Gd'</span>;
+0126             <span class="string">'Tb'</span>; <span class="string">'Dy'</span>; <span class="string">'Ho'</span>; <span class="string">'Er'</span>; <span class="string">'Tm'</span>; <span class="string">'Yb'</span>; <span class="string">'Lu'</span>; <span class="string">'Hf'</span>; <span class="string">'Ta'</span>;  <span class="string">'W'</span>; <span class="string">'Re'</span>; <span class="string">'Os'</span>; <span class="string">'Ir'</span>; <span class="string">'Pt'</span>; <span class="string">'Au'</span>; <span class="string">'Hg'</span>;
+0127             <span class="string">'Tl'</span>; <span class="string">'Pb'</span>; <span class="string">'Bi'</span>; <span class="string">'Po'</span>; <span class="string">'At'</span>; <span class="string">'Rn'</span>; <span class="string">'Fr'</span>; <span class="string">'Ra'</span>; <span class="string">'Ac'</span>; <span class="string">'Th'</span>; <span class="string">'Pa'</span>;  <span class="string">'U'</span>; <span class="string">'Np'</span>; <span class="string">'Pu'</span>; <span class="string">'Am'</span>; <span class="string">'Cm'</span>;
+0128             <span class="string">'Bk'</span>; <span class="string">'Cf'</span>; <span class="string">'Es'</span>; <span class="string">'Fm'</span>; <span class="string">'Md'</span>; <span class="string">'No'</span>; <span class="string">'Lr'</span>; <span class="string">'Rf'</span>; <span class="string">'Db'</span>; <span class="string">'Sg'</span>; <span class="string">'Bh'</span>; <span class="string">'Hs'</span>; <span class="string">'Mt'</span>};
+0129     <span class="keyword">end</span>
+0130 
+0131     methods
+0132         <span class="comment">%4 ways to instatiate:</span>
+0133         <span class="comment">%(1) x = EmpiricalFormula()</span>
+0134         <span class="comment">%(2) x = EmpiricalFormula(string)</span>
+0135         <span class="comment">%(3) x = EmpiricalFormula(cell array of strings)</span>
+0136         <span class="comment">%(4) x = EmpiricalFormula(struct)</span>
+0137         <a name="_sub0" href="#_subfunctions" class="code">function this = EmpiricalFormula(formula)</a>
+0138             import edu.stanford.covert.util.EmpiricalFormula;
+0139 
+0140             <span class="keyword">if</span> ~exist(<span class="string">'formula'</span>,<span class="string">'var'</span>)
+0141                 <span class="keyword">return</span>;
+0142             <span class="keyword">end</span>
+0143 
+0144             <span class="keyword">if</span> ischar(formula) &amp;&amp; any(size(formula))
+0145                 formula = {formula};
+0146             <span class="keyword">end</span>
+0147 
+0148             this = EmpiricalFormula.empty(numel(formula),0);
+0149 
+0150             <span class="keyword">if</span> ischar(formula)
+0151             <span class="keyword">elseif</span> iscell(formula)
+0152                 this(numel(formula),1) = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>;
+0153                 this = reshape(this, size(formula));
+0154 
+0155                 <span class="keyword">for</span> i=1:numel(formula)
+0156                     tokens = regexp(formula{i},<span class="string">'([A-Z][a-z]*)(\d*)'</span>, <span class="string">'tokens'</span>);
+0157                     <span class="keyword">for</span> j=1:length(tokens)
+0158                         <span class="keyword">if</span> isempty(tokens{j}{2});
+0159                             tokens{j}{2}=1;
+0160                         <span class="keyword">else</span>
+0161                             tokens{j}{2}=str2double(tokens{j}{2});
+0162                         <span class="keyword">end</span>
+0163 
+0164                         <span class="keyword">if</span> tokens{j}{2}==0
+0165                             <span class="keyword">continue</span>;
+0166                         <span class="keyword">end</span>
+0167 
+0168                         <span class="keyword">if</span> ismember(tokens{j}{1}, EmpiricalFormula.elementNames)
+0169                             <span class="keyword">if</span> this(i).(tokens{j}{1})
+0170                                 throw(MException(<span class="string">'EmpiricalFormula:invalidEmpiricalFormula'</span>,<span class="string">'Elements cannot be repeated within a chemical formula'</span>));
+0171                             <span class="keyword">else</span>
+0172                                 this(i).(tokens{j}{1})=tokens{j}{2};
+0173                             <span class="keyword">end</span>
+0174                         <span class="keyword">else</span>
+0175                             <span class="keyword">if</span> isfield(this(i).rGroups, tokens{j}{1}) &amp;&amp; this(i).rGroups.(tokens{j}{1})
+0176                                 throw(MException(<span class="string">'EmpiricalFormula:invalidEmpiricalFormula'</span>,<span class="string">'Elements cannot be repeated within a chemical formula'</span>));
+0177                             <span class="keyword">else</span>
+0178                                 this(i).rGroups.(tokens{j}{1})=tokens{j}{2};
+0179                             <span class="keyword">end</span>
+0180                         <span class="keyword">end</span>
+0181                     <span class="keyword">end</span>
+0182                 <span class="keyword">end</span>
+0183             <span class="keyword">elseif</span> isstruct(formula)
+0184                 this(numel(formula),1) = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>;
+0185                 this = reshape(this, size(formula));
+0186 
+0187                 elements = fieldnames(formula);
+0188                 <span class="keyword">for</span> i=1:numel(formula)
+0189                     <span class="keyword">for</span> j=1:numel(elements)
+0190                         <span class="keyword">if</span> ismember(elements{j}, EmpiricalFormula.elementNames)
+0191                             this(i).(elements{j}) = double(formula(i).(elements{j}));
+0192                         <span class="keyword">elseif</span> formula(i).(elements{j})
+0193                             this(i).rGroups.(elements{j}) = double(formula(i).(elements{j}));
+0194                         <span class="keyword">end</span>
+0195                     <span class="keyword">end</span>
+0196                 <span class="keyword">end</span>
+0197             <span class="keyword">else</span>
+0198                 throw(MException(<span class="string">'EmpiricalFormula:unsupportedSyntax'</span>,<span class="string">'No constructor matches the input'</span>));
+0199             <span class="keyword">end</span>
+0200         <span class="keyword">end</span>
+0201     <span class="keyword">end</span>
+0202 
+0203     <span class="comment">%molecular weight, number</span>
+0204     methods
+0205         <a name="_sub1" href="#_subfunctions" class="code">function value = weight(this)</a>
+0206             import edu.stanford.covert.util.ConstantUtil;
+0207             import edu.stanford.covert.util.EmpiricalFormula;
+0208 
+0209             value = zeros(size(this));
+0210 
+0211             <span class="keyword">for</span> i=1:numel(this)
+0212                 <span class="keyword">if</span> ~isempty(fieldnames(this(i).rGroups))
+0213                     value(i) = NaN;
+0214                     <span class="keyword">continue</span>;
+0215                 <span class="keyword">end</span>
+0216 
+0217                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0218                     value(i) = value(i) + this(i).(EmpiricalFormula.elementNames{j}) * ConstantUtil.elements.(EmpiricalFormula.elementNames{j});
+0219                 <span class="keyword">end</span>
+0220             <span class="keyword">end</span>
+0221         <span class="keyword">end</span>
+0222 
+0223         <a name="_sub2" href="#_subfunctions" class="code">function value = mass(this)</a>
+0224             value = <a href="#_sub2" class="code" title="subfunction value = weight(this)">weight</a>(this);
+0225         <span class="keyword">end</span>
+0226 
+0227         <a name="_sub3" href="#_subfunctions" class="code">function value = number(this)</a>
+0228             import edu.stanford.covert.util.ConstantUtil;
+0229             import edu.stanford.covert.util.EmpiricalFormula;
+0230 
+0231             value = zeros(size(this));
+0232 
+0233             <span class="keyword">for</span> i=1:numel(this)
+0234                 <span class="keyword">if</span> ~isempty(fieldnames(this(i).rGroups))
+0235                     value(i) = NaN;
+0236                     <span class="keyword">continue</span>;
+0237                 <span class="keyword">end</span>
+0238 
+0239                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0240                     value(i) = value(i) + this(i).(EmpiricalFormula.elementNames{j}) * ConstantUtil.elementNumbers.(EmpiricalFormula.elementNames{j});
+0241                 <span class="keyword">end</span>
+0242             <span class="keyword">end</span>
+0243         <span class="keyword">end</span>
+0244     <span class="keyword">end</span>
+0245 
+0246     <span class="comment">%operators</span>
+0247     methods
+0248         <a name="_sub4" href="#_subfunctions" class="code">function tf = isequal(A, B)</a>
+0249             import edu.stanford.covert.util.EmpiricalFormula;
+0250 
+0251             tf = false;
+0252 
+0253             <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(class(A), class(B))
+0254                 <span class="keyword">return</span>;
+0255             <span class="keyword">end</span>
+0256 
+0257             <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(size(A), size(B))
+0258                 <span class="keyword">return</span>;
+0259             <span class="keyword">end</span>
+0260 
+0261             <span class="keyword">for</span> i=1:numel(A)
+0262                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0263                     <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A(i).(EmpiricalFormula.elementNames{j}), B(i).(EmpiricalFormula.elementNames{j}))
+0264                         <span class="keyword">return</span>;
+0265                     <span class="keyword">end</span>
+0266                 <span class="keyword">end</span>
+0267 
+0268                 rGroupsA = fieldnames(A(i).rGroups);
+0269                 rGroupsB = fieldnames(B(i).rGroups);
+0270                 rGroupsAB = intersect(rGroupsA,rGroupsB);
+0271                 rGroupsA = setdiff(rGroupsA, rGroupsAB);
+0272                 rGroupsB = setdiff(rGroupsB, rGroupsAB);
+0273                 <span class="keyword">for</span> j=1:numel(rGroupsAB)
+0274                     <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A(i).rGroups.(rGroupsAB{j}), B(i).rGroups.(rGroupsAB{j}))
+0275                         <span class="keyword">return</span>;
+0276                     <span class="keyword">end</span>
+0277                 <span class="keyword">end</span>
+0278                 <span class="keyword">for</span> j=1:numel(rGroupsA)
+0279                     <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A(i).rGroups.(rGroupsA{j}), 0)
+0280                         <span class="keyword">return</span>;
+0281                     <span class="keyword">end</span>
+0282                 <span class="keyword">end</span>
+0283                 <span class="keyword">for</span> j=1:numel(rGroupsB)
+0284                     <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(B(i).rGroups.(rGroupsB{j}), 0)
+0285                         <span class="keyword">return</span>;
+0286                     <span class="keyword">end</span>
+0287                 <span class="keyword">end</span>
+0288             <span class="keyword">end</span>
+0289 
+0290             tf = true;
+0291         <span class="keyword">end</span>
+0292 
+0293         <a name="_sub5" href="#_subfunctions" class="code">function C = eq(A,B)</a>
+0294             import edu.stanford.covert.util.EmpiricalFormula;
+0295 
+0296             <span class="keyword">if</span> ~isa(A, <span class="string">'EmpiricalFormula'</span>)
+0297                 A = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>(A);
+0298             <span class="keyword">end</span>
+0299 
+0300             <span class="keyword">if</span> ~isa(B, <span class="string">'EmpiricalFormula'</span>)
+0301                 B = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>(B);
+0302             <span class="keyword">end</span>
+0303 
+0304             <span class="keyword">if</span> numel(A)==1
+0305                 tmp=A;
+0306                 A=B;
+0307                 B=tmp;
+0308             <span class="keyword">end</span>
+0309 
+0310             C = false(size(A));
+0311 
+0312             <span class="keyword">if</span> numel(B)==1
+0313                 <span class="keyword">for</span> i=1:numel(A)
+0314                     C(i) = <a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A(i), B);
+0315                 <span class="keyword">end</span>
+0316             <span class="keyword">else</span>
+0317                 <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(size(A), size(B))
+0318                     throw(MException(<span class="string">'EmpiricalFormula:invalidDimensions'</span>,<span class="string">'Sizes of A and B must be equal'</span>));
+0319                 <span class="keyword">end</span>
+0320 
+0321                 <span class="keyword">for</span> i=1:numel(A)
+0322                     C(i)=<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A(i), B(i));
+0323                 <span class="keyword">end</span>
+0324             <span class="keyword">end</span>
+0325         <span class="keyword">end</span>
+0326 
+0327         <a name="_sub6" href="#_subfunctions" class="code">function C = ne(A,B)</a>
+0328             C = ~<a href="#_sub6" class="code" title="subfunction C = eq(A,B)">eq</a>(A,B);
+0329         <span class="keyword">end</span>
+0330     <span class="keyword">end</span>
+0331 
+0332     <span class="comment">%algebra</span>
+0333     methods
+0334         <a name="_sub7" href="#_subfunctions" class="code">function C = uplus(A)</a>
+0335             C = A;
+0336         <span class="keyword">end</span>
+0337 
+0338         <a name="_sub8" href="#_subfunctions" class="code">function C = uminus(A)</a>
+0339             import edu.stanford.covert.util.EmpiricalFormula;
+0340 
+0341             C = A;
+0342 
+0343             <span class="keyword">for</span> i=1:numel(A)
+0344                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0345                     C(i).(EmpiricalFormula.elementNames{j})=-A(i).(EmpiricalFormula.elementNames{j});
+0346                 <span class="keyword">end</span>
+0347 
+0348                 rGroups = fieldnames(A(i).rGroups);
+0349                 <span class="keyword">for</span> j=1:numel(rGroups)
+0350                     C(i).rGroups.(rGroups{j}) = -A(i).rGroups.(rGroups{j});
+0351                 <span class="keyword">end</span>
+0352             <span class="keyword">end</span>
+0353         <span class="keyword">end</span>
+0354 
+0355         <a name="_sub9" href="#_subfunctions" class="code">function C = plus(A, B)</a>
+0356             import edu.stanford.covert.util.EmpiricalFormula;
+0357 
+0358             <span class="keyword">if</span> ~isa(A, <span class="string">'EmpiricalFormula'</span>)
+0359                 A = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>(A);
+0360             <span class="keyword">end</span>
+0361 
+0362             <span class="keyword">if</span> ~isa(B, <span class="string">'EmpiricalFormula'</span>)
+0363                 B = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>(B);
+0364             <span class="keyword">end</span>
+0365 
+0366             <span class="keyword">if</span> numel(A)==1
+0367                 tmp=A;
+0368                 A=B;
+0369                 B=tmp;
+0370             <span class="keyword">end</span>
+0371 
+0372             C = A;
+0373 
+0374             <span class="keyword">if</span> numel(B)==1
+0375                 rGroups = fieldnames(B.rGroups);
+0376 
+0377                 <span class="keyword">for</span> i=1:numel(A)
+0378                     <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0379                         C(i).(EmpiricalFormula.elementNames{j}) = A(i).(EmpiricalFormula.elementNames{j}) + B.(EmpiricalFormula.elementNames{j});
+0380                     <span class="keyword">end</span>
+0381 
+0382                     <span class="keyword">for</span> j=1:numel(rGroups)
+0383                         <span class="keyword">if</span> isfield(A(i).rGroups, rGroups{j});
+0384                             C(i).rGroups.(rGroups{j}) = A(i).rGroups.(rGroups{j}) + B.rGroups.(rGroups{j});
+0385                             <span class="keyword">if</span> ~C(i).rGroups.(rGroups{j})
+0386                                 C(i).rGroups = rmfield(C(i).rGroups, rGroups{j});
+0387                             <span class="keyword">end</span>
+0388                         <span class="keyword">else</span>
+0389                             C(i).rGroups.(rGroups{j}) = B.rGroups.(rGroups{j});
+0390                         <span class="keyword">end</span>
+0391                     <span class="keyword">end</span>
+0392                 <span class="keyword">end</span>
+0393             <span class="keyword">else</span>
+0394                 <span class="keyword">if</span> ~<a href="#_sub5" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(size(A), size(B))
+0395                     throw(MException(<span class="string">'EmpiricalFormula:invalidDimensions'</span>,<span class="string">'Sizes of A and B must be equal'</span>));
+0396                 <span class="keyword">end</span>
+0397 
+0398                 <span class="keyword">for</span> i=1:numel(A)
+0399                     <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0400                         C(i).(EmpiricalFormula.elementNames{j}) = A(i).(EmpiricalFormula.elementNames{j}) + B(i).(EmpiricalFormula.elementNames{j});
+0401                     <span class="keyword">end</span>
+0402 
+0403                     rGroups = fieldnames(B(i).rGroups);
+0404                     <span class="keyword">for</span> j=1:numel(rGroups)
+0405                         <span class="keyword">if</span> isfield(A(i).rGroups, rGroups{j});
+0406                             C(i).rGroups.(rGroups{j}) = A(i).rGroups.(rGroups{j}) + B(i).rGroups.(rGroups{j});
+0407                             <span class="keyword">if</span> ~C(i).rGroups.(rGroups{j})
+0408                                 C(i).rGroups = rmfield(C(i).rGroups, rGroups{j});
+0409                             <span class="keyword">end</span>
+0410                         <span class="keyword">else</span>
+0411                             C(i).rGroups.(rGroups{j}) = B(i).rGroups.(rGroups{j});
+0412                         <span class="keyword">end</span>
+0413                     <span class="keyword">end</span>
+0414                 <span class="keyword">end</span>
+0415             <span class="keyword">end</span>
+0416         <span class="keyword">end</span>
+0417 
+0418         <a name="_sub10" href="#_subfunctions" class="code">function C = minus(A, B)</a>
+0419             C = A + -B;
+0420         <span class="keyword">end</span>
+0421 
+0422         <a name="_sub11" href="#_subfunctions" class="code">function C = times(A, B)</a>
+0423             C = A * B;
+0424         <span class="keyword">end</span>
+0425 
+0426         <a name="_sub12" href="#_subfunctions" class="code">function C = mtimes(A, B)</a>
+0427             import edu.stanford.covert.util.EmpiricalFormula;
+0428 
+0429             <span class="keyword">if</span> ~isa(A, <span class="string">'EmpiricalFormula'</span>)
+0430                 tmp = A;
+0431                 A = B;
+0432                 B = tmp;
+0433             <span class="keyword">end</span>
+0434 
+0435             <span class="keyword">if</span> ~isnumeric(B) || numel(B)~=1
+0436                 throw(MException(<span class="string">'EmpiricalFormula:error'</span>,<span class="string">'EmpiricalFormula only supports scalar multiplication'</span>))
+0437             <span class="keyword">end</span>
+0438 
+0439             C = A;
+0440 
+0441             <span class="keyword">for</span> i=1:numel(A)
+0442                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0443                     C(i).(EmpiricalFormula.elementNames{j}) = A(i).(EmpiricalFormula.elementNames{j}) * B;
+0444                 <span class="keyword">end</span>
+0445 
+0446                 rGroups = fieldnames(A(i).rGroups);
+0447                 <span class="keyword">for</span> j=1:numel(rGroups)
+0448                     C(i).rGroups.(rGroups{j}) = A(i).rGroups.(rGroups{j}) * B;
+0449                     <span class="keyword">if</span> ~C(i).rGroups.(rGroups{j})
+0450                         C(i).rGroups = rmfield(C(i).rGroups, rGroups{j});
+0451                     <span class="keyword">end</span>
+0452                 <span class="keyword">end</span>
+0453             <span class="keyword">end</span>
+0454         <span class="keyword">end</span>
+0455 
+0456         <a name="_sub13" href="#_subfunctions" class="code">function C = rdivide(A, B)</a>
+0457             C = A / B;
+0458         <span class="keyword">end</span>
+0459 
+0460         <a name="_sub14" href="#_subfunctions" class="code">function C = ldivide(A, B)</a>
+0461             C = B / A;
+0462         <span class="keyword">end</span>
+0463 
+0464         <a name="_sub15" href="#_subfunctions" class="code">function C = mrdivide(A, B)</a>
+0465             import edu.stanford.covert.util.EmpiricalFormula;
+0466 
+0467             <span class="keyword">if</span> isa(B, <span class="string">'EmpiricalFormula'</span>)
+0468                 throw(MException(<span class="string">'EmpiricalFormula:error'</span>,<span class="string">'Unsupported division'</span>))
+0469             <span class="keyword">end</span>
+0470 
+0471             C = A * (1/B);
+0472         <span class="keyword">end</span>
+0473 
+0474         <a name="_sub16" href="#_subfunctions" class="code">function C = mldivide(A, B)</a>
+0475             C = B / A;
+0476         <span class="keyword">end</span>
+0477     <span class="keyword">end</span>
+0478 
+0479     <span class="comment">%reduction</span>
+0480     methods
+0481         <a name="_sub17" href="#_subfunctions" class="code">function C = sum(A)</a>
+0482             import edu.stanford.covert.util.EmpiricalFormula;
+0483 
+0484             <span class="keyword">if</span> numel(A)==1
+0485                 C=A;
+0486                 <span class="keyword">return</span>;
+0487             <span class="keyword">end</span>
+0488 
+0489             C = <a href="EmpiricalFormula.html" class="code" title="">EmpiricalFormula</a>();
+0490 
+0491             <span class="keyword">for</span> i=1:numel(A)
+0492                 C = C + A(i);
+0493             <span class="keyword">end</span>
+0494         <span class="keyword">end</span>
+0495     <span class="keyword">end</span>
+0496 
+0497     <span class="comment">%type casting</span>
+0498     methods
+0499         <a name="_sub18" href="#_subfunctions" class="code">function formula = cast(this, newclass)</a>
+0500             <span class="keyword">switch</span> newclass
+0501                 <span class="keyword">case</span> <span class="string">'cell'</span>,    formula = <a href="#_sub20" class="code" title="subfunction formula = cell(this)">cell</a>(this);
+0502                 <span class="keyword">case</span> <span class="string">'char'</span>,    formula = <a href="#_sub21" class="code" title="subfunction formula = char(this)">char</a>(this);
+0503                 <span class="keyword">case</span> <span class="string">'struct'</span>,  formula = <a href="#_sub22" class="code" title="subfunction formula = struct(this)">struct</a>(this);
+0504                 <span class="keyword">otherwise</span>,      throw(MException(<span class="string">'EmpiricalFormula:error'</span>,<span class="string">'unable to convert EmpiricalFormula to %s'</span>,newclass));
+0505             <span class="keyword">end</span>
+0506         <span class="keyword">end</span>
+0507 
+0508         <a name="_sub19" href="#_subfunctions" class="code">function formula = cell(this)</a>
+0509             formula = <a href="#_sub20" class="code" title="subfunction formula = cell(this)">cell</a>(size(this));
+0510             <span class="keyword">for</span> i=1:numel(this)
+0511                 formula{i}=<a href="#_sub21" class="code" title="subfunction formula = char(this)">char</a>(this(i));
+0512             <span class="keyword">end</span>
+0513         <span class="keyword">end</span>
+0514 
+0515         <a name="_sub20" href="#_subfunctions" class="code">function formula = char(this)</a>
+0516             import edu.stanford.covert.util.EmpiricalFormula;
+0517 
+0518             <span class="keyword">if</span> numel(this)&gt;1
+0519                 throw(MException(<span class="string">'ChemicalFormula:error'</span>,<span class="string">'only a scalar chemical formula can be converted to a string'</span>));
+0520             <span class="keyword">end</span>
+0521 
+0522             formula = <span class="string">''</span>;
+0523 
+0524             <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0525                 <span class="keyword">if</span> this.(EmpiricalFormula.elementNames{j})==1
+0526                     formula = [formula EmpiricalFormula.elementNames{j}];
+0527                 <span class="keyword">elseif</span> this.(EmpiricalFormula.elementNames{j})&gt;1
+0528                     formula = [formula EmpiricalFormula.elementNames{j} num2str(this.(EmpiricalFormula.elementNames{j}))];
+0529                 <span class="keyword">end</span>
+0530             <span class="keyword">end</span>
+0531 
+0532             rGroups = fieldnames(this.rGroups);
+0533             <span class="keyword">for</span> j=1:numel(rGroups)
+0534                 <span class="keyword">if</span> this.rGroups.(rGroups{j})==1
+0535                     formula = [formula rGroups{j}];
+0536                 <span class="keyword">elseif</span> this.rGroups.(rGroups{j})&gt;1
+0537                     formula = [formula rGroups{j} num2str(this.rGroups.(rGroups{j}))];
+0538                 <span class="keyword">end</span>
+0539             <span class="keyword">end</span>
+0540         <span class="keyword">end</span>
+0541 
+0542         <a name="_sub21" href="#_subfunctions" class="code">function formula = struct(this)</a>
+0543             import edu.stanford.covert.util.EmpiricalFormula;
+0544 
+0545             formula = repmat(<a href="#_sub22" class="code" title="subfunction formula = struct(this)">struct</a>, size(this));
+0546             <span class="keyword">for</span> i=1:numel(this)
+0547                 <span class="keyword">for</span> j=1:numel(EmpiricalFormula.elementNames)
+0548                     <span class="keyword">if</span> this(i).(EmpiricalFormula.elementNames{j})
+0549                         formula(i).(EmpiricalFormula.elementNames{j})=this(i).(EmpiricalFormula.elementNames{j});
+0550                     <span class="keyword">end</span>
+0551                 <span class="keyword">end</span>
+0552 
+0553                 rGroups = fieldnames(this(i).rGroups);
+0554                 <span class="keyword">for</span> j=1:numel(rGroups)
+0555                     formula(i).(rGroups{j})=this(i).rGroups.(rGroups{j});
+0556                 <span class="keyword">end</span>
+0557             <span class="keyword">end</span>
+0558         <span class="keyword">end</span>
+0559     <span class="keyword">end</span>
+0560 
+0561     <span class="comment">%display</span>
+0562     methods
+0563         <a name="_sub22" href="#_subfunctions" class="code">function disp(this)</a>
+0564             this.display();
+0565         <span class="keyword">end</span>
+0566 
+0567         <a name="_sub23" href="#_subfunctions" class="code">function display(this)</a>
+0568             formulae = <a href="#_sub20" class="code" title="subfunction formula = cell(this)">cell</a>(this);
+0569             fprintf(<span class="string">'%dx1 EmpiricalFormula\n'</span>,numel(this));
+0570             <span class="keyword">for</span> i=1:numel(this)
+0571                 fprintf(<span class="string">'%4d.\t%s\n'</span>,i,formulae{i});
+0572             <span class="keyword">end</span>
+0573         <span class="keyword">end</span>
+0574     <span class="keyword">end</span>
+0575 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

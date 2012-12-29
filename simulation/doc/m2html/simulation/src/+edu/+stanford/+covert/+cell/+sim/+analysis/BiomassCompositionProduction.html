@@ -1,0 +1,501 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BiomassCompositionProduction</title>
+  <meta name="keywords" content="BiomassCompositionProduction">
+  <meta name="description" content="BiomassCompositionProduction">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; BiomassCompositionProduction.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>BiomassCompositionProduction
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>BiomassCompositionProduction</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BiomassCompositionProduction
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="BiomassCompositionProduction.html" class="code" title="">BiomassCompositionProduction</a>	BiomassCompositionProduction</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="BiomassCompositionProduction.html" class="code" title="">BiomassCompositionProduction</a>	BiomassCompositionProduction</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels, indentation] = allMetabolites(sim, bmComp, bmProd, byProd)</a></li><li><a href="#_sub3" class="code">function [content, colLabels, indentation] = metabolitesByWeightFraction(sim)</a></li><li><a href="#_sub4" class="code">function plotBiomassComposition(sim, axesHandle, bmComp)</a></li><li><a href="#_sub5" class="code">function plotWeightFractions(sim, axesHandle)</a></li><li><a href="#_sub6" class="code">function plotDNMPComposition(sim, axesHandle, bmComp)</a></li><li><a href="#_sub7" class="code">function plotNMPComposition(sim, axesHandle, bmComp)</a></li><li><a href="#_sub8" class="code">function plotAAComposition(sim, axesHandle, bmComp)</a></li><li><a href="#_sub9" class="code">function [bmComp, bmProd, byProd] = getResourceRequirements(sim)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%BiomassCompositionProduction</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 9/12/2010</span>
+0006 classdef <a href="BiomassCompositionProduction.html" class="code" title="">BiomassCompositionProduction</a>
+0007     properties (Constant)
+0008         nDryWeightFractions = 8;
+0009         dryWeightFractionIndex_DNA          = 1;
+0010         dryWeightFractionIndex_RNA          = 2;
+0011         dryWeightFractionIndex_Protein      = 3;
+0012         dryWeightFractionIndex_Lipid        = 4;
+0013         dryWeightFractionIndex_Polyamine    = 5;
+0014         dryWeightFractionIndex_Carbohydrate = 6;
+0015         dryWeightFractionIndex_Vitamin      = 7;
+0016         dryWeightFractionIndex_Ion          = 8;
+0017     <span class="keyword">end</span>
+0018     
+0019     methods (Static)
+0020         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0021             import edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction;
+0022             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0023             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0024             
+0025             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0026             
+0027             <span class="comment">%excel file</span>
+0028             [content, colLabels, indentation] = BiomassCompositionProduction.allMetabolites(sim, bmComp, bmProd, byProd);
+0029             <span class="keyword">if</span> nargin == 1
+0030                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0031             <span class="keyword">else</span>
+0032                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'All Metabolites'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0033             <span class="keyword">end</span>
+0034             
+0035             [content, colLabels, indentation] = BiomassCompositionProduction.metabolitesByWeightFraction(sim);
+0036             <span class="keyword">if</span> nargin == 1
+0037                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0038             <span class="keyword">else</span>
+0039                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'By Weight Fraction'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0040             <span class="keyword">end</span>
+0041                 
+0042             <span class="comment">% plots</span>
+0043             <span class="keyword">if</span> nargin == 1
+0044                 BiomassCompositionProduction.plotWeightFractions(sim, PlotUtil.newAxesHandle());
+0045                 BiomassCompositionProduction.plotDNMPComposition(sim, PlotUtil.newAxesHandle(), bmComp);
+0046                 BiomassCompositionProduction.plotNMPComposition(sim, PlotUtil.newAxesHandle(), bmComp);
+0047                 BiomassCompositionProduction.plotAAComposition(sim, PlotUtil.newAxesHandle(), bmComp);
+0048             <span class="keyword">else</span>
+0049                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0050                 BiomassCompositionProduction.plotBiomassComposition(sim, axesHandle, bmComp);
+0051                 saveas(figHandle, [fileName <span class="string">'.pdf'</span>]);
+0052                 close(figHandle);
+0053                 
+0054                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0055                 BiomassCompositionProduction.plotWeightFractions(sim, axesHandle);
+0056                 saveas(figHandle, [fileName <span class="string">'-WeightFractions.pdf'</span>]);
+0057                 close(figHandle);
+0058                 
+0059                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0060                 BiomassCompositionProduction.plotDNMPComposition(sim, axesHandle, bmComp);
+0061                 saveas(figHandle, [fileName <span class="string">'-dNMPComposition.pdf'</span>]);
+0062                 close(figHandle);
+0063                 
+0064                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0065                 BiomassCompositionProduction.plotNMPComposition(sim, axesHandle, bmComp);
+0066                 saveas(figHandle, [fileName <span class="string">'-NMPComposition.pdf'</span>]);
+0067                 close(figHandle);
+0068                 
+0069                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0070                 BiomassCompositionProduction.plotAAComposition(sim, axesHandle, bmComp);
+0071                 saveas(figHandle, [fileName <span class="string">'-AAComposition.pdf'</span>]);                
+0072                 close(figHandle);
+0073             <span class="keyword">end</span>
+0074         <span class="keyword">end</span>
+0075     <span class="keyword">end</span>
+0076     
+0077     methods (Static)
+0078         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels, indentation] = allMetabolites(sim, bmComp, bmProd, byProd)</a>
+0079             m = sim.state(<span class="string">'Metabolite'</span>);
+0080             
+0081             colLabels = {<span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="string">'Composition'</span>, <span class="string">'Production'</span>, <span class="string">'Byproduction'</span>};
+0082             content = cell(0, 6);
+0083             
+0084             <span class="comment">%dNMPs, dNTPs</span>
+0085             content = [content;
+0086                 {0 <span class="string">'dNMPs'</span> <span class="string">''</span> sum(sum(bmComp(m.dnmpIndexs, :))) sum(sum(bmProd(m.dnmpIndexs, :))) sum(sum(byProd(m.dnmpIndexs, :)))}
+0087                 num2cell(ones(size(m.dnmpIndexs))) m.wholeCellModelIDs(m.dnmpIndexs) m.names(m.dnmpIndexs) num2cell(sum(bmComp(m.dnmpIndexs, :), 2)) num2cell(sum(bmProd(m.dnmpIndexs, :), 2)) num2cell(sum(byProd(m.dnmpIndexs, :), 2))
+0088                 ];
+0089             content = [content;
+0090                 {0 <span class="string">'dNTPs'</span> <span class="string">''</span> sum(sum(bmComp(m.dntpIndexs, :))) sum(sum(bmProd(m.dntpIndexs, :))) sum(sum(byProd(m.dntpIndexs, :)))}
+0091                 num2cell(ones(size(m.dntpIndexs))) m.wholeCellModelIDs(m.dntpIndexs) m.names(m.dntpIndexs) num2cell(sum(bmComp(m.dntpIndexs, :), 2)) num2cell(sum(bmProd(m.dntpIndexs, :), 2)) num2cell(sum(byProd(m.dntpIndexs, :), 2))
+0092                 ];
+0093             
+0094             <span class="comment">%NMPs, NTPs</span>
+0095             content = [content;
+0096                 {0 <span class="string">'NMPs'</span> <span class="string">''</span> sum(sum(bmComp(m.nmpIndexs, :))) sum(sum(bmProd(m.nmpIndexs, :))) sum(sum(byProd(m.nmpIndexs, :)))}
+0097                 num2cell(ones(size(m.nmpIndexs))) m.wholeCellModelIDs(m.nmpIndexs) m.names(m.nmpIndexs) num2cell(sum(bmComp(m.nmpIndexs, :), 2)) num2cell(sum(bmProd(m.nmpIndexs, :), 2)) num2cell(sum(byProd(m.nmpIndexs, :), 2))
+0098                 ];
+0099             content = [content;
+0100                 {0 <span class="string">'NTPs'</span> <span class="string">''</span> sum(sum(bmComp(m.ntpIndexs, :))) sum(sum(bmProd(m.ntpIndexs, :))) sum(sum(byProd(m.ntpIndexs, :)))}
+0101                 num2cell(ones(size(m.ntpIndexs))) m.wholeCellModelIDs(m.ntpIndexs) m.names(m.ntpIndexs) num2cell(sum(bmComp(m.ntpIndexs, :), 2)) num2cell(sum(bmProd(m.ntpIndexs, :), 2)) num2cell(sum(byProd(m.ntpIndexs, :), 2))
+0102                 ];
+0103             
+0104             <span class="comment">%amino acids</span>
+0105             content = [content;
+0106                 {0 <span class="string">'Amino Acids'</span> <span class="string">''</span> sum(sum(bmComp(m.aminoAcidIndexs, :))) sum(sum(bmProd(m.aminoAcidIndexs, :))) sum(sum(byProd(m.aminoAcidIndexs, :)))}
+0107                 num2cell(ones(size(m.aminoAcidIndexs))) m.wholeCellModelIDs(m.aminoAcidIndexs) m.names(m.aminoAcidIndexs) num2cell(sum(bmComp(m.aminoAcidIndexs, :), 2)) num2cell(sum(bmProd(m.aminoAcidIndexs, :), 2)) num2cell(sum(byProd(m.aminoAcidIndexs, :), 2))
+0108                 ];
+0109             
+0110             <span class="comment">%lipids</span>
+0111             content = [content;
+0112                 {0 <span class="string">'Lipids'</span> <span class="string">''</span> sum(sum(bmComp(m.lipidIndexs, :))) sum(sum(bmProd(m.lipidIndexs, :))) sum(sum(byProd(m.lipidIndexs, :)))}
+0113                 num2cell(ones(size(m.lipidIndexs))) m.wholeCellModelIDs(m.lipidIndexs) m.names(m.lipidIndexs) num2cell(sum(bmComp(m.lipidIndexs, :), 2)) num2cell(sum(bmProd(m.lipidIndexs, :), 2)) num2cell(sum(byProd(m.lipidIndexs, :), 2))
+0114                 ];
+0115             
+0116             <span class="comment">%polyamines</span>
+0117             content = [content;
+0118                 {0 <span class="string">'Polyamines'</span> <span class="string">''</span> sum(sum(bmComp(m.polyamineIndexs, :))) sum(sum(bmProd(m.polyamineIndexs, :))) sum(sum(byProd(m.polyamineIndexs, :)))}
+0119                 num2cell(ones(size(m.polyamineIndexs))) m.wholeCellModelIDs(m.polyamineIndexs) m.names(m.polyamineIndexs) num2cell(sum(bmComp(m.polyamineIndexs, :), 2)) num2cell(sum(bmProd(m.polyamineIndexs, :), 2)) num2cell(sum(byProd(m.polyamineIndexs, :), 2))
+0120                 ];
+0121             
+0122             <span class="comment">%carbohydrates</span>
+0123             content = [content;
+0124                 {0 <span class="string">'Carbohydrates'</span> <span class="string">''</span> sum(sum(bmComp(m.carbohydrateIndexs, :))) sum(sum(bmProd(m.carbohydrateIndexs, :))) sum(sum(byProd(m.carbohydrateIndexs, :)))}
+0125                 num2cell(ones(size(m.carbohydrateIndexs))) m.wholeCellModelIDs(m.carbohydrateIndexs) m.names(m.carbohydrateIndexs) num2cell(sum(bmComp(m.carbohydrateIndexs, :), 2)) num2cell(sum(bmProd(m.carbohydrateIndexs, :), 2)) num2cell(sum(byProd(m.carbohydrateIndexs, :), 2))
+0126                 ];
+0127             
+0128             <span class="comment">%vitamins</span>
+0129             content = [content;
+0130                 {0 <span class="string">'Vitamins'</span> <span class="string">''</span> sum(sum(bmComp(m.vitaminIndexs, :))) sum(sum(bmProd(m.vitaminIndexs, :))) sum(sum(byProd(m.vitaminIndexs, :)))}
+0131                 num2cell(ones(size(m.vitaminIndexs))) m.wholeCellModelIDs(m.vitaminIndexs) m.names(m.vitaminIndexs) num2cell(sum(bmComp(m.vitaminIndexs, :), 2)) num2cell(sum(bmProd(m.vitaminIndexs, :), 2)) num2cell(sum(byProd(m.vitaminIndexs, :), 2))
+0132                 ];
+0133             
+0134             <span class="comment">%ions</span>
+0135             content = [content;
+0136                 {0 <span class="string">'Ions'</span> <span class="string">''</span> sum(sum(bmComp(m.ionIndexs, :))) sum(sum(bmProd(m.ionIndexs, :))) sum(sum(byProd(m.ionIndexs, :)))}
+0137                 num2cell(ones(size(m.ionIndexs))) m.wholeCellModelIDs(m.ionIndexs) m.names(m.ionIndexs) num2cell(sum(bmComp(m.ionIndexs, :), 2)) num2cell(sum(bmProd(m.ionIndexs, :), 2)) num2cell(sum(byProd(m.ionIndexs, :), 2))
+0138                 ];
+0139             
+0140             <span class="comment">%other</span>
+0141             otherIdxs = setdiff((1:numel(m.wholeCellModelIDs))', [
+0142                 m.dnmpIndexs
+0143                 m.dntpIndexs
+0144                 m.nmpIndexs
+0145                 m.ntpIndexs
+0146                 m.aminoAcidIndexs
+0147                 m.lipidIndexs
+0148                 m.polyamineIndexs
+0149                 m.carbohydrateIndexs
+0150                 m.vitaminIndexs
+0151                 m.ionIndexs]);
+0152             
+0153             otherIdxs = otherIdxs(any(bmComp(otherIdxs, :), 2) | any(bmProd(otherIdxs, :), 2) | any(byProd(otherIdxs, :), 2));
+0154             
+0155             content = [content;
+0156                 {0 <span class="string">'Other'</span> <span class="string">''</span> sum(sum(bmComp(otherIdxs, :))) sum(sum(bmProd(otherIdxs, :))) sum(sum(byProd(otherIdxs, :)))}
+0157                 num2cell(ones(size(otherIdxs))) m.wholeCellModelIDs(otherIdxs) m.names(otherIdxs) num2cell(sum(bmComp(otherIdxs, :), 2)) num2cell(sum(bmProd(otherIdxs, :), 2)) num2cell(sum(byProd(otherIdxs, :), 2))
+0158                 ];
+0159             
+0160             <span class="comment">%format output</span>
+0161             indentation = cell2mat(content(:, 1));
+0162             content = content(:, 2:end);
+0163         <span class="keyword">end</span>
+0164         
+0165         <a name="_sub2" href="#_subfunctions" class="code">function [content, colLabels, indentation] = metabolitesByWeightFraction(sim)</a>
+0166             import edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction;
+0167             mass = sim.state(<span class="string">'Mass'</span>);
+0168             m = sim.state(<span class="string">'Metabolite'</span>);
+0169             
+0170             colLabels = {<span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="string">'Composition'</span>, <span class="string">'Production'</span>, <span class="string">'Byproduction'</span>};
+0171             content = cell(0, 6);
+0172             
+0173             <span class="comment">%DNA</span>
+0174             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0175             bmComp = bmComp * mass.dryWeightFractionDNA;
+0176             bmProd = bmProd * mass.dryWeightFractionDNA;
+0177             byProd = byProd * mass.dryWeightFractionDNA;
+0178             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0179             content = [content;
+0180                 {0 <span class="string">'DNA'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0181                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0182                 ];
+0183             
+0184             <span class="comment">%RNA</span>
+0185             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0186             bmComp = bmComp * mass.dryWeightFractionRNA;
+0187             bmProd = bmProd * mass.dryWeightFractionRNA;
+0188             byProd = byProd * mass.dryWeightFractionRNA;
+0189             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0190             content = [content;
+0191                 {0 <span class="string">'RNA'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0192                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0193                 ];
+0194             
+0195             <span class="comment">%Protein</span>
+0196             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0197             bmComp = bmComp * mass.dryWeightFractionProtein;
+0198             bmProd = bmProd * mass.dryWeightFractionProtein;
+0199             byProd = byProd * mass.dryWeightFractionProtein;
+0200             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0201             content = [content;
+0202                 {0 <span class="string">'Protein'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0203                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0204                 ];
+0205             
+0206             <span class="comment">%Lipid</span>
+0207             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0208             bmComp = bmComp * mass.dryWeightFractionLipid;
+0209             bmProd = bmProd * mass.dryWeightFractionLipid;
+0210             byProd = byProd * mass.dryWeightFractionLipid;
+0211             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0212             content = [content;
+0213                 {0 <span class="string">'Lipid'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0214                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0215                 ];
+0216             
+0217             <span class="comment">%Polyamine</span>
+0218             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0219             bmComp = bmComp * mass.dryWeightFractionPolyamine;
+0220             bmProd = bmProd * mass.dryWeightFractionPolyamine;
+0221             byProd = byProd * mass.dryWeightFractionPolyamine;
+0222             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0223             content = [content;
+0224                 {0 <span class="string">'Polyamine'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0225                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0226                 ];
+0227             
+0228             <span class="comment">%Carbohydrate</span>
+0229             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0230             bmComp = bmComp * mass.dryWeightFractionCarbohydrate;
+0231             bmProd = bmProd * mass.dryWeightFractionCarbohydrate;
+0232             byProd = byProd * mass.dryWeightFractionCarbohydrate;
+0233             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0234             content = [content;
+0235                 {0 <span class="string">'Carbohydrate'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0236                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0237                 ];
+0238             
+0239             <span class="comment">%Vitamin</span>
+0240             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0241             bmComp = bmComp * mass.dryWeightFractionVitamin;
+0242             bmProd = bmProd * mass.dryWeightFractionVitamin;
+0243             byProd = byProd * mass.dryWeightFractionVitamin;
+0244             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0245             content = [content;
+0246                 {0 <span class="string">'Vitamin'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0247                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0248                 ];
+0249             
+0250             <span class="comment">%Ion</span>
+0251             [bmComp, bmProd, byProd] = edu.stanford.covert.cell.sim.analysis.BiomassCompositionProduction.getResourceRequirements(sim);
+0252             bmComp = bmComp * mass.dryWeightFractionIon;
+0253             bmProd = bmProd * mass.dryWeightFractionIon;
+0254             byProd = byProd * mass.dryWeightFractionIon;
+0255             idxs = find(any(bmComp, 2) | any(bmProd, 2) | any(byProd, 2));
+0256             content = [content;
+0257                 {0 <span class="string">'Ion'</span> <span class="string">''</span> sum(sum(bmComp(idxs, :))) sum(sum(bmProd(idxs, :))) sum(sum(byProd(idxs, :)))}
+0258                 num2cell(ones(size(idxs))) m.wholeCellModelIDs(idxs) m.names(idxs) num2cell(sum(bmComp(idxs, :), 2)) num2cell(sum(bmProd(idxs, :), 2)) num2cell(sum(byProd(idxs, :), 2))
+0259                 ];
+0260             
+0261             <span class="comment">%format output</span>
+0262             indentation = cell2mat(content(:, 1));
+0263             content = content(:, 2:end);
+0264         <span class="keyword">end</span>
+0265     <span class="keyword">end</span>
+0266     
+0267     methods (Static)
+0268         <a name="_sub3" href="#_subfunctions" class="code">function plotBiomassComposition(sim, axesHandle, bmComp)</a>
+0269             axesHandle1 = subplot(3, 3, 1:6);
+0270             axesHandle2 = subplot(3, 3, 7);
+0271             axesHandle3 = subplot(3, 3, 8);
+0272             axesHandle4 = subplot(3, 3, 9);
+0273             
+0274             pos = get(axesHandle1, <span class="string">'Position'</span>);
+0275             set(axesHandle1, <span class="string">'Position'</span>, [(pos(1:2) + pos(3:4)) - 1.1 * pos(3:4)  1.1 * pos(3:4)]);
+0276             
+0277             pos = get(axesHandle2, <span class="string">'Position'</span>);
+0278             set(axesHandle2, <span class="string">'Position'</span>, [(pos(1:2) + pos(3:4)) - 1.5 * pos(3:4)  1.5 * pos(3:4)]);
+0279             
+0280             pos = get(axesHandle3, <span class="string">'Position'</span>);
+0281             set(axesHandle3, <span class="string">'Position'</span>, [(pos(1:2) + pos(3:4)) - 1.5 * pos(3:4)  1.5 * pos(3:4)]);
+0282             
+0283             pos = get(axesHandle4, <span class="string">'Position'</span>);
+0284             set(axesHandle4, <span class="string">'Position'</span>, [(pos(1:2) + pos(3:4)) - 1.5 * pos(3:4)  1.5 * pos(3:4)]);            
+0285             
+0286             <span class="comment">%% weight fractions</span>
+0287             m = sim.state(<span class="string">'Mass'</span>);
+0288             values = [
+0289                 m.dryWeightFractionCarbohydrate
+0290                 m.dryWeightFractionDNA
+0291                 m.dryWeightFractionIon
+0292                 m.dryWeightFractionLipid
+0293                 m.dryWeightFractionPolyamine
+0294                 m.dryWeightFractionProtein
+0295                 m.dryWeightFractionRNA
+0296                 m.dryWeightFractionVitamin
+0297                 m.dryWeightFractionNucleotide];
+0298             values = values / sum(values);
+0299             labels = {
+0300                 <span class="string">'Carbohydrate'</span>
+0301                 <span class="string">'DNA'</span>
+0302                 <span class="string">'Ion'</span>
+0303                 <span class="string">'Lipid'</span>
+0304                 <span class="string">'Polyamine'</span>
+0305                 <span class="string">'Protein'</span>
+0306                 <span class="string">'RNA'</span>
+0307                 <span class="string">'Vitamin'</span>
+0308                 <span class="string">'Nucleotide'</span>
+0309                 };
+0310             
+0311             <span class="comment">%pie chart</span>
+0312             h = pie(axesHandle1, values, <span class="keyword">...</span>
+0313                 cellfun(@(value, label) {label sprintf(<span class="string">'(%.1f%%)'</span>, value * 100)}, num2cell(values), labels, <span class="string">'UniformOutput'</span>, false));
+0314             set(h(2:2:end), <span class="string">'FontSize'</span>, 12);
+0315             
+0316             <span class="comment">%turn off labels of smallest weight fractions</span>
+0317             idx = find(values &lt; 0.02) * 2;
+0318             <span class="keyword">for</span> i = 1:numel(idx)
+0319                 set(h(idx(i)), <span class="string">'Visible'</span>, <span class="string">'off'</span>)
+0320             <span class="keyword">end</span>
+0321             
+0322             <span class="comment">%% dNMP</span>
+0323             m = sim.state(<span class="string">'Metabolite'</span>);
+0324             idxs = [m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})];
+0325             values = sum(bmComp(idxs, :), 2);
+0326             values = values / sum(values);
+0327             labels = m.wholeCellModelIDs(idxs);
+0328             labels = {
+0329                 <span class="string">'dAMP'</span>
+0330                 <span class="string">'dCMP'</span>
+0331                 <span class="string">'dGMP'</span>
+0332                 <span class="string">'dTMP'</span>
+0333                 <span class="string">'m^6dAMP'</span>
+0334                 };
+0335             
+0336             <span class="comment">%pie chart</span>
+0337             h = pie(axesHandle2, values, labels);
+0338             set(h(2:2:end), <span class="string">'FontSize'</span>, 12);
+0339             
+0340             <span class="comment">%% NMP</span>
+0341             m = sim.state(<span class="string">'Metabolite'</span>);
+0342             idxs = m.nmpIndexs;
+0343             values = sum(bmComp(idxs, :), 2);
+0344             values = values / sum(values);
+0345             labels = m.names(idxs);
+0346             
+0347             <span class="comment">%pie chart</span>
+0348             h = pie(axesHandle3, values, labels);
+0349             set(h(2:2:end), <span class="string">'FontSize'</span>, 12);
+0350             
+0351             <span class="comment">%% AA</span>
+0352             m = sim.state(<span class="string">'Metabolite'</span>);
+0353             idxs = m.aminoAcidIndexs(1:20);
+0354             values = sum(bmComp(idxs, :), 2);
+0355             values = values / sum(values);
+0356             labels = num2cell(edu.stanford.covert.cell.kb.ProteinMonomer.bases);
+0357             
+0358             <span class="comment">%pie chart</span>
+0359             h = pie(axesHandle4, values, labels);
+0360             set(h(2:2:end), <span class="string">'FontSize'</span>, 12);
+0361         <span class="keyword">end</span>
+0362         
+0363         <a name="_sub4" href="#_subfunctions" class="code">function plotWeightFractions(sim, axesHandle)</a>
+0364             m = sim.state(<span class="string">'Mass'</span>);
+0365             
+0366             values = [
+0367                 m.dryWeightFractionCarbohydrate
+0368                 m.dryWeightFractionDNA
+0369                 m.dryWeightFractionIon
+0370                 m.dryWeightFractionLipid
+0371                 m.dryWeightFractionPolyamine
+0372                 m.dryWeightFractionProtein
+0373                 m.dryWeightFractionRNA
+0374                 m.dryWeightFractionVitamin
+0375                 m.dryWeightFractionNucleotide
+0376                 ];
+0377             labels = {
+0378                 <span class="string">'Carbohydrate'</span>
+0379                 <span class="string">'DNA'</span>
+0380                 <span class="string">'Ion'</span>
+0381                 <span class="string">'Lipid'</span>
+0382                 <span class="string">'Polyamine'</span>
+0383                 <span class="string">'Protein'</span>
+0384                 <span class="string">'RNA'</span>
+0385                 <span class="string">'Vitamin'</span>
+0386                 <span class="string">'Nucleotide'</span>
+0387                 };
+0388             
+0389             <span class="comment">%pie chart</span>
+0390             h = pie(axesHandle, values, <span class="keyword">...</span>
+0391                 cellfun(@(value, label) {label sprintf(<span class="string">'(%.1f%%)'</span>, value * 100)}, num2cell(values), labels, <span class="string">'UniformOutput'</span>, false));
+0392             
+0393             <span class="comment">%turn off labels of smallest weight fractions</span>
+0394             idx = find(values &lt; 0.009) * 2;
+0395             <span class="keyword">for</span> i = 1:numel(idx)
+0396                 set(h(idx(i)), <span class="string">'Visible'</span>, <span class="string">'off'</span>)
+0397             <span class="keyword">end</span>
+0398         <span class="keyword">end</span>
+0399         
+0400         <a name="_sub5" href="#_subfunctions" class="code">function plotDNMPComposition(sim, axesHandle, bmComp)</a>
+0401             m = sim.state(<span class="string">'Metabolite'</span>);
+0402             idxs = [m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})];
+0403             values = sum(bmComp(idxs, :), 2);
+0404             values = values / sum(values);
+0405             labels = m.names(idxs);
+0406             
+0407             <span class="comment">%pie chart</span>
+0408             pie(axesHandle, values, <span class="keyword">...</span>
+0409                 cellfun(@(value, label) sprintf(<span class="string">'%s\n(%.1f%%)'</span>, label, value * 100), num2cell(values), labels, <span class="string">'UniformOutput'</span>, false));
+0410         <span class="keyword">end</span>
+0411         
+0412         <a name="_sub6" href="#_subfunctions" class="code">function plotNMPComposition(sim, axesHandle, bmComp)</a>
+0413             m = sim.state(<span class="string">'Metabolite'</span>);
+0414             idxs = m.nmpIndexs;
+0415             values = sum(bmComp(idxs, :), 2);
+0416             values = values / sum(values);
+0417             labels = m.names(idxs);
+0418             
+0419             <span class="comment">%pie chart</span>
+0420             pie(axesHandle, values, <span class="keyword">...</span>
+0421                 cellfun(@(value, label) sprintf(<span class="string">'%s\n(%.1f%%)'</span>, label, value * 100), num2cell(values), labels, <span class="string">'UniformOutput'</span>, false));
+0422         <span class="keyword">end</span>
+0423         
+0424         <a name="_sub7" href="#_subfunctions" class="code">function plotAAComposition(sim, axesHandle, bmComp)</a>
+0425             m = sim.state(<span class="string">'Metabolite'</span>);
+0426             idxs = m.aminoAcidIndexs(1:20);
+0427             values = sum(bmComp(idxs, :), 2);
+0428             values = values / sum(values);
+0429             labels = m.names(idxs);
+0430             
+0431             <span class="comment">%pie chart</span>
+0432             pie(axesHandle, values, <span class="keyword">...</span>
+0433                 cellfun(@(value, label) sprintf(<span class="string">'%s\n(%.1f%%)'</span>, label, value * 100), num2cell(values), labels, <span class="string">'UniformOutput'</span>, false));
+0434         <span class="keyword">end</span>
+0435     <span class="keyword">end</span>
+0436     
+0437     methods (Static)
+0438         <a name="_sub8" href="#_subfunctions" class="code">function [bmComp, bmProd, byProd] = getResourceRequirements(sim)</a>
+0439             <span class="comment">%references</span>
+0440             m = sim.state(<span class="string">'Metabolite'</span>);
+0441             
+0442             <span class="comment">%calculate biomass composition, maintenance energy, and byproducts</span>
+0443             bmComp = m.biomassComposition;
+0444             bmProd = m.biomassProduction;
+0445             byProd = m.byproducts;
+0446         <span class="keyword">end</span>
+0447     <span class="keyword">end</span>
+0448 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

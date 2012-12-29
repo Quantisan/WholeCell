@@ -1,0 +1,16 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  ComputationUtil -> ComputationUtil;
+  ComputationUtil -> bilinearFit;
+  ComputationUtil -> cubicfcn;
+  ComputationUtil -> fzero;
+  ComputationUtil -> linearProgramming;
+  ComputationUtil -> quadraticProgramming;
+
+  ComputationUtil [URL="ComputationUtil.html"];
+  bilinearFit [URL="bilinearFit.html"];
+  cubicfcn [URL="cubicfcn.html"];
+  fzero [URL="fzero.html"];
+  linearProgramming [URL="linearProgramming.html"];
+  quadraticProgramming [URL="quadraticProgramming.html"];
+}

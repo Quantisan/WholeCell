@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Logger</title>
+  <meta name="keywords" content="Logger">
+  <meta name="description" content="Simulation logger interface:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; Logger.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Logger
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Simulation logger interface:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Simulation logger interface:
+- initialize
+- append
+- finalize
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/10/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Logger.html" class="code" title="">Logger</a>	Simulation logger interface:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Logger.html" class="code" title="">Logger</a>	Simulation logger interface:</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Simulation logger interface:</span>
+0002 <span class="comment">%- initialize</span>
+0003 <span class="comment">%- append</span>
+0004 <span class="comment">%- finalize</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0007 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0008 <span class="comment">% Last updated: 1/10/2011</span>
+0009 classdef <a href="Logger.html" class="code" title="">Logger</a> &lt; handle
+0010     methods (Abstract)
+0011         this = initialize(this, sim)
+0012         this = append(this, sim)
+0013         this = finalize(this, sim)
+0014     <span class="keyword">end</span>    
+0015 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

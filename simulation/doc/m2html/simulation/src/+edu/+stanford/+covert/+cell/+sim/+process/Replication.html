@@ -1,0 +1,1925 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Replication</title>
+  <meta name="keywords" content="Replication">
+  <meta name="description" content="Replication">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; Replication.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Replication
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Replication</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Replication
+
+ @wholeCellModelID Process_Replication
+ @name             Replication
+ @description
+   Biology
+   =================
+   DNA replication by replisomes is initiated by DnaA complex formation near
+   the oriC and proceeds bidirectionally from oriC to terC in the 5'-&gt;3'
+   direction along leading strand as well as in Okazaki fragments in the 5'-&gt;3'
+   direction along lagging strands. This process models the locations, kinetics,
+   and biochemistry of all the replication proteins:
+   - replicative DNA helicase
+   - DNA primase
+   - DNA polymerase core
+   - Beta-clamp loading complex / gamma complex
+   - Beta-clamp
+   - DNA ligase
+   - single stranded binding proteins
+
+   The exact mechanism replication initiation in M. genitalium is unknown.
+   Furthermore, because M. genitalium does not contain a DnaC homolog it is
+   difficult to infer M. genitalium repliciation initiation from studies of
+   other bacterial species.
+
+   Knowledge Base
+   =================
+   The knowledge base contains data curated from the literature and databases:
+   - the chromosome DNA sequence
+   - the DNA footprints of all replication proteins
+   - DNA binding protein displacement reactions (that is which proteins can
+     displace which other proteins from the chromosome)
+   - values of various structural and kinetic parameters
+   - subunit composition of the replication proteins
+
+   Representation
+   =================
+   The properties substrates, enzymes, and boundEnzymes represent the counts of
+   free metabolites, free replication proteins, and chromosally-bound
+   replication proteins. The chromosomes property polymerizedRegions represents
+   the regions of the chromosomes which have been polymerized (and the
+   base-pairing of strands). The chromosomes property strandBreaks represents
+   strand breaks 5' to each base. The chromosomes property complexBoundSites
+   represents represents the specific chromosomal location of all chromosomally
+   bound proteins.
+
+   Spatial Model
+   +++++++++++++++++
+   - Helicase is centered on the boundary between ssDNA and dsDNA. The position
+     over which it is centered is the next position to be melted.
+   - Polymerase core is centered on the boundary between ssDNA and dsDNA. The
+     position over which it is centered is the next position to be polymerized.
+   - There is no gap between the helicase and polymerase core or between the
+     polymerase core and the beta clamp.
+   - Backup beta clamps bind slightly upstream of the start site of Okazaki
+     fragments such that there will be no gap between the polymerase and beta
+     clamp, and the polymerase core will be centered on the Okazaki fragment
+     start site
+   - At replication initiation a the mother strands are separated such that the
+     leading polymerase cores are centered at oriC+-1 and the helicases are
+     slightly (11 nt) ahead
+   - During replication initiation (and the final step of replication after the
+     last Okazaki fragment has completed) the lagging polymerase and primase
+     are accounted for as part of a complex on the leading strand (containing
+     also the helicase, leading polymerase, gamma complex, and leading beta
+     clamp). At all other times, the lagging polymerase, lagging beta clamp,
+     and primase are accounted for as a complex on a different strand. This
+     allows us to separately keep track of the leading and lagging polymerase
+     positions.
+   - Backup beta clamps can't binding until half of the previous Okazaki
+     fragment has been polymerized
+   - In general there will be approximately 1 Okazaki fragment length gap
+     between the progess of DNA polymerase on the leading and lagging strands
+
+   Initialization
+   =================
+   The mother chromosome is initialized by the Chromosome class and
+   several processes:
+   - completely synthesized
+   - mother strands base pairing
+   - undamged, except methylated at restriction/modification sites (DNA repair
+     process)
+   - bound by various proteins
+     - SMCs (DNA condensation)
+     - RNA polymerase (Transcription)
+     - Transcription factors (Transcriptional regulation)
+     - Topoisomerases (supercoiling)
+     - DnaA (replication initiation)
+
+   Simulation
+   =================
+   The simulation consists of 8 subfunctions executed in a random order:
+   - Initiate replication (initiateReplication)
+     If DnaA complex assembled at OriC and sufficient protein and metabolites,
+     unwind small segment of DNA and binding helicase, primase, polymerase,
+     gamma complex, and beta clamp to chromosomes. Associate all proteins with
+     the leading strand. Chromosome will take care of dissassembly of the
+     DnaA complex. ReplicationInitiation will take care of dissociating the
+     released DnaA-ATP polymers.
+
+   - Advance replisomes: unwind and polymerize DNA, release SSBs (unwindAndPolymerizeDNA)
+     1. If first Okazaki fragment starting, associate primase, lagging polymerase
+        with lagging strand.
+     2. Advance leading and lagging polymerases and helicases up to limits
+        1. Polymerase and primase kinetics
+        2. Available dNTP for polymerization and energy for unwinding
+        3. Prevent leading strand progressing if no SSBs bound to lagging
+           strand
+        4. Accessibility of upstream regions to helicase and polymerases
+        5. Don't polymerize leading strand past terC or lagging strands past
+           ends of Okazaki fragments
+        6. Don't allow the leading strand and helicase to go way beyond the
+           lagging strand progress.
+        7. Pause progress is RNA polymerase is encountered.
+           If the replication loop (helicase) hits an RNAP, polymerization
+           pauses, the RNAP falls off, and its transcript is degraded. If it's
+           a head-on collision, the replication loop will not proceed for some
+           unknown amount of time (a fittable parameter). If it's a codirec-
+           tional collision, polymerization will continue at full speed the
+           following time step. (Mirkin 2004, Mirkin 2006, Mirkin 2007).
+           If occupied by RNA-polymerase, then calculate &quot;occupied DNA&quot; by base
+           polymerase is currently on -9 through +2. (Neidhardt 1990).
+
+   - Bind SSBs (freeAndBindSSBs)
+     Bind free SSB 4mers to stochastically to deterministically selected
+     positions within single-stranded regions as SSB 8mers
+
+   - Dissociate free SSB 8mers into 2 SSB 4mers (dissociateFreeSSBComplexes)
+     Dissociate released SSB 8mers into 2 SSB 4mers
+
+   - Initiate Okazaki fragment by bind beta-clamp (initiateOkazakiFragment)
+     Binding beta-clamp just downstream of the start position of the next
+     Okazaki fragment. Requires that
+     - There is beta-clamp monomer to form new beta-clamp dimer on chromosome
+     - There is energy for the gamma-complex to form the new beta-clamp
+     - The position is accessible to the beta-clamp
+     - The leading helicase has already passed the position
+     - The lagging strand is at least 1/2 done with the current Okazaki
+       fragment
+
+   - Terminate Okazaki fragment by releasing beta-clamp (terminateOkazakiFragment)
+     Release beta-clamp and associate lagging primase and polymerase with
+     backup beta-clamp (or if terminating the last Okazaki fragment,
+     associate the lagging primase and with the leading strand machinery).
+     Mark end of Okazaki fragment as having a single strand break to be ligated
+     by ligase.
+     Occurs if:
+     - Okazaki fragment finished polymerizing
+     - SSBs bound to lagging strand
+     - Lagging backup beta-clamp bound
+     - Leading machinery has advanced beyond the Okazaki fragment start site
+
+   - Terminate replication (terminateReplication)
+     Release bound replisomes from leading strands. Mark terC as having single
+     strand breaks to be ligated by ligase. Occurs if:
+     - Polymerization completed for both leading and lagging strands
+     - Lagging strand ligated (except for last ligation at terC which will
+       occur after the execution of this subfunction)
+
+   - Ligate DNA (ligateDNA)
+     Stochastically ligate single strand breaks up to
+     - Ligase kinetics
+     - Ligase availability
+     - NAD availability
+
+   References
+   =================
+   1. Mirkin, E.V., Mirkin, S.M. (2007). Replication fork stalling at natural
+      impediments. Microbiology and molecular biology reviews 71: 13-35.
+   2. Mirkin, E.V., Mirkin, S.M. (2005). Mechanisms of
+      Transcription-replication collisions in bacteria. molecular and cellular
+      biology 25: 888-895.
+   3. Mirkin, E.V., Roa, D.C., Nudler, E., Mirkin, S.M. (2006). Transcription
+      regulatory elements are punctuation marks for dna replication. PNAS 103:
+      7276-7281.
+   4. Miyata, M. &quot;Cell Division&quot;. Molecular biology and pathogenicity of
+      mycoplasmas. Razin, S., Herrmann, R. Kluwer Academic/Plenum Publishers,
+      2002. 117-130.
+   5. Rudolph, C.J., Dhillon, P., Moore, T., Lloyd, R.G. (2007). Avoiding and
+      resolving conflicts between DNA replication and transcription. DNA Repair
+      6: 981-993.
+   6. McGlynn, P., Guy, C.P. (2008). Replication forks blocked by protein-DNA
+      complexes have limited stability in vitro. J. Mol. Biol. 381: 249-255.
+   7. Kozlov AG and Lohman TM. (2002). Kinetic Mechanism
+      of Direct Transfer of Escherichia coli SSB Tetramers between
+      Single-Stranded DNA Molecules. Biochemistry. 41 (39): 11611-11627.
+      [PUB_0856]
+   8. Kunzelmann S, Morris C, Chavda AP, Eccleston JF, Webb MR (2010).
+      Mechanism of Interaction between Single-Stranded DNA Binding Protein
+      and DNA. Biochemistry 49(5): 843-52. [PUB_0857]
+   9. Roy R, Kozlov AG, Lohman TM, Ha T (2009). SSB protein diffusion on
+      single-stranded DNA stimulates RecA filament formation. Nature.
+      461(7267):1092-7. [PUB_0858]
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/19/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Replication.html" class="code" title="">Replication</a>	Replication</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Replication.html" class="code" title="">Replication</a>	Replication</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Replication(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function pos = calculatePrimaseBindingLocations(this, len)</a></li><li><a href="#_sub5" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, ~)</a></li><li><a href="#_sub6" class="code">function initializeState(~)</a></li><li><a href="#_sub7" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub8" class="code">function evolveState(this)</a></li><li><a href="#_sub9" class="code">function initiateReplication(this)</a></li><li><a href="#_sub10" class="code">function unwindAndPolymerizeDNA(this)</a></li><li><a href="#_sub11" class="code">function dissociateFreeSSBComplexes(this)</a></li><li><a href="#_sub12" class="code">function freeAndBindSSBs(this)</a></li><li><a href="#_sub13" class="code">function initiateOkazakiFragment(this)</a></li><li><a href="#_sub14" class="code">function terminateOkazakiFragment(this)</a></li><li><a href="#_sub15" class="code">function ligateDNA(this)</a></li><li><a href="#_sub16" class="code">function terminateReplication(this)</a></li><li><a href="#_sub17" class="code">function value = get.isDnaAORIComplexAssembled(this)</a></li><li><a href="#_sub18" class="code">function result = get.isAnyHelicaseBound(this)</a></li><li><a href="#_sub19" class="code">function result = get.isAnyPolymeraseBound(this)</a></li><li><a href="#_sub20" class="code">function result = get.leadingStrandElongating(this)</a></li><li><a href="#_sub21" class="code">function result = get.laggingStrandElongating(this)</a></li><li><a href="#_sub22" class="code">function result = get.leadingStrandPolymerized(this)</a></li><li><a href="#_sub23" class="code">function result = get.laggingStrandPolymerized(this)</a></li><li><a href="#_sub24" class="code">function result = get.strandPolymerized(this)</a></li><li><a href="#_sub25" class="code">function result = get.numLigations(this)</a></li><li><a href="#_sub26" class="code">function result = get.strandLigated(this)</a></li><li><a href="#_sub27" class="code">function result = get.strandDuplicated(this)</a></li><li><a href="#_sub28" class="code">function result = get.helicasePosition(this)</a></li><li><a href="#_sub29" class="code">function result = get.leadingPolymerasePosition(this)</a></li><li><a href="#_sub30" class="code">function result = get.laggingPolymerasePosition(this)</a></li><li><a href="#_sub31" class="code">function result = get.leadingPosition(this)</a></li><li><a href="#_sub32" class="code">function result = get.laggingPosition(this)</a></li><li><a href="#_sub33" class="code">function result = get.laggingBackupBetaClampPosition(this)</a></li><li><a href="#_sub34" class="code">function result = get.okazakiFragmentIndex(this)</a></li><li><a href="#_sub35" class="code">function result = get.okazakiFragmentPosition(this)</a></li><li><a href="#_sub36" class="code">function result = get.okazakiFragmentLength(this)</a></li><li><a href="#_sub37" class="code">function result = get.okazakiFragmentProgress(this)</a></li><li><a href="#_sub38" class="code">function result = get.leadingStrandBoundSSBs(this)</a></li><li><a href="#_sub39" class="code">function result = get.laggingStrandBoundSSBs(this)</a></li><li><a href="#_sub40" class="code">function result = get.numLeadingTemplateBoundSSBs(this)</a></li><li><a href="#_sub41" class="code">function result = get.numLaggingTemplateBoundSSBs(this)</a></li><li><a href="#_sub42" class="code">function result = get.areLaggingStrandSSBSitesBound(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Replication</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_Replication</span>
+0004 <span class="comment">% @name             Replication</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   =================</span>
+0008 <span class="comment">%   DNA replication by replisomes is initiated by DnaA complex formation near</span>
+0009 <span class="comment">%   the oriC and proceeds bidirectionally from oriC to terC in the 5'-&gt;3'</span>
+0010 <span class="comment">%   direction along leading strand as well as in Okazaki fragments in the 5'-&gt;3'</span>
+0011 <span class="comment">%   direction along lagging strands. This process models the locations, kinetics,</span>
+0012 <span class="comment">%   and biochemistry of all the replication proteins:</span>
+0013 <span class="comment">%   - replicative DNA helicase</span>
+0014 <span class="comment">%   - DNA primase</span>
+0015 <span class="comment">%   - DNA polymerase core</span>
+0016 <span class="comment">%   - Beta-clamp loading complex / gamma complex</span>
+0017 <span class="comment">%   - Beta-clamp</span>
+0018 <span class="comment">%   - DNA ligase</span>
+0019 <span class="comment">%   - single stranded binding proteins</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   The exact mechanism replication initiation in M. genitalium is unknown.</span>
+0022 <span class="comment">%   Furthermore, because M. genitalium does not contain a DnaC homolog it is</span>
+0023 <span class="comment">%   difficult to infer M. genitalium repliciation initiation from studies of</span>
+0024 <span class="comment">%   other bacterial species.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   Knowledge Base</span>
+0027 <span class="comment">%   =================</span>
+0028 <span class="comment">%   The knowledge base contains data curated from the literature and databases:</span>
+0029 <span class="comment">%   - the chromosome DNA sequence</span>
+0030 <span class="comment">%   - the DNA footprints of all replication proteins</span>
+0031 <span class="comment">%   - DNA binding protein displacement reactions (that is which proteins can</span>
+0032 <span class="comment">%     displace which other proteins from the chromosome)</span>
+0033 <span class="comment">%   - values of various structural and kinetic parameters</span>
+0034 <span class="comment">%   - subunit composition of the replication proteins</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   Representation</span>
+0037 <span class="comment">%   =================</span>
+0038 <span class="comment">%   The properties substrates, enzymes, and boundEnzymes represent the counts of</span>
+0039 <span class="comment">%   free metabolites, free replication proteins, and chromosally-bound</span>
+0040 <span class="comment">%   replication proteins. The chromosomes property polymerizedRegions represents</span>
+0041 <span class="comment">%   the regions of the chromosomes which have been polymerized (and the</span>
+0042 <span class="comment">%   base-pairing of strands). The chromosomes property strandBreaks represents</span>
+0043 <span class="comment">%   strand breaks 5' to each base. The chromosomes property complexBoundSites</span>
+0044 <span class="comment">%   represents represents the specific chromosomal location of all chromosomally</span>
+0045 <span class="comment">%   bound proteins.</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   Spatial Model</span>
+0048 <span class="comment">%   +++++++++++++++++</span>
+0049 <span class="comment">%   - Helicase is centered on the boundary between ssDNA and dsDNA. The position</span>
+0050 <span class="comment">%     over which it is centered is the next position to be melted.</span>
+0051 <span class="comment">%   - Polymerase core is centered on the boundary between ssDNA and dsDNA. The</span>
+0052 <span class="comment">%     position over which it is centered is the next position to be polymerized.</span>
+0053 <span class="comment">%   - There is no gap between the helicase and polymerase core or between the</span>
+0054 <span class="comment">%     polymerase core and the beta clamp.</span>
+0055 <span class="comment">%   - Backup beta clamps bind slightly upstream of the start site of Okazaki</span>
+0056 <span class="comment">%     fragments such that there will be no gap between the polymerase and beta</span>
+0057 <span class="comment">%     clamp, and the polymerase core will be centered on the Okazaki fragment</span>
+0058 <span class="comment">%     start site</span>
+0059 <span class="comment">%   - At replication initiation a the mother strands are separated such that the</span>
+0060 <span class="comment">%     leading polymerase cores are centered at oriC+-1 and the helicases are</span>
+0061 <span class="comment">%     slightly (11 nt) ahead</span>
+0062 <span class="comment">%   - During replication initiation (and the final step of replication after the</span>
+0063 <span class="comment">%     last Okazaki fragment has completed) the lagging polymerase and primase</span>
+0064 <span class="comment">%     are accounted for as part of a complex on the leading strand (containing</span>
+0065 <span class="comment">%     also the helicase, leading polymerase, gamma complex, and leading beta</span>
+0066 <span class="comment">%     clamp). At all other times, the lagging polymerase, lagging beta clamp,</span>
+0067 <span class="comment">%     and primase are accounted for as a complex on a different strand. This</span>
+0068 <span class="comment">%     allows us to separately keep track of the leading and lagging polymerase</span>
+0069 <span class="comment">%     positions.</span>
+0070 <span class="comment">%   - Backup beta clamps can't binding until half of the previous Okazaki</span>
+0071 <span class="comment">%     fragment has been polymerized</span>
+0072 <span class="comment">%   - In general there will be approximately 1 Okazaki fragment length gap</span>
+0073 <span class="comment">%     between the progess of DNA polymerase on the leading and lagging strands</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   Initialization</span>
+0076 <span class="comment">%   =================</span>
+0077 <span class="comment">%   The mother chromosome is initialized by the Chromosome class and</span>
+0078 <span class="comment">%   several processes:</span>
+0079 <span class="comment">%   - completely synthesized</span>
+0080 <span class="comment">%   - mother strands base pairing</span>
+0081 <span class="comment">%   - undamged, except methylated at restriction/modification sites (DNA repair</span>
+0082 <span class="comment">%     process)</span>
+0083 <span class="comment">%   - bound by various proteins</span>
+0084 <span class="comment">%     - SMCs (DNA condensation)</span>
+0085 <span class="comment">%     - RNA polymerase (Transcription)</span>
+0086 <span class="comment">%     - Transcription factors (Transcriptional regulation)</span>
+0087 <span class="comment">%     - Topoisomerases (supercoiling)</span>
+0088 <span class="comment">%     - DnaA (replication initiation)</span>
+0089 <span class="comment">%</span>
+0090 <span class="comment">%   Simulation</span>
+0091 <span class="comment">%   =================</span>
+0092 <span class="comment">%   The simulation consists of 8 subfunctions executed in a random order:</span>
+0093 <span class="comment">%   - Initiate replication (initiateReplication)</span>
+0094 <span class="comment">%     If DnaA complex assembled at OriC and sufficient protein and metabolites,</span>
+0095 <span class="comment">%     unwind small segment of DNA and binding helicase, primase, polymerase,</span>
+0096 <span class="comment">%     gamma complex, and beta clamp to chromosomes. Associate all proteins with</span>
+0097 <span class="comment">%     the leading strand. Chromosome will take care of dissassembly of the</span>
+0098 <span class="comment">%     DnaA complex. ReplicationInitiation will take care of dissociating the</span>
+0099 <span class="comment">%     released DnaA-ATP polymers.</span>
+0100 <span class="comment">%</span>
+0101 <span class="comment">%   - Advance replisomes: unwind and polymerize DNA, release SSBs (unwindAndPolymerizeDNA)</span>
+0102 <span class="comment">%     1. If first Okazaki fragment starting, associate primase, lagging polymerase</span>
+0103 <span class="comment">%        with lagging strand.</span>
+0104 <span class="comment">%     2. Advance leading and lagging polymerases and helicases up to limits</span>
+0105 <span class="comment">%        1. Polymerase and primase kinetics</span>
+0106 <span class="comment">%        2. Available dNTP for polymerization and energy for unwinding</span>
+0107 <span class="comment">%        3. Prevent leading strand progressing if no SSBs bound to lagging</span>
+0108 <span class="comment">%           strand</span>
+0109 <span class="comment">%        4. Accessibility of upstream regions to helicase and polymerases</span>
+0110 <span class="comment">%        5. Don't polymerize leading strand past terC or lagging strands past</span>
+0111 <span class="comment">%           ends of Okazaki fragments</span>
+0112 <span class="comment">%        6. Don't allow the leading strand and helicase to go way beyond the</span>
+0113 <span class="comment">%           lagging strand progress.</span>
+0114 <span class="comment">%        7. Pause progress is RNA polymerase is encountered.</span>
+0115 <span class="comment">%           If the replication loop (helicase) hits an RNAP, polymerization</span>
+0116 <span class="comment">%           pauses, the RNAP falls off, and its transcript is degraded. If it's</span>
+0117 <span class="comment">%           a head-on collision, the replication loop will not proceed for some</span>
+0118 <span class="comment">%           unknown amount of time (a fittable parameter). If it's a codirec-</span>
+0119 <span class="comment">%           tional collision, polymerization will continue at full speed the</span>
+0120 <span class="comment">%           following time step. (Mirkin 2004, Mirkin 2006, Mirkin 2007).</span>
+0121 <span class="comment">%           If occupied by RNA-polymerase, then calculate &quot;occupied DNA&quot; by base</span>
+0122 <span class="comment">%           polymerase is currently on -9 through +2. (Neidhardt 1990).</span>
+0123 <span class="comment">%</span>
+0124 <span class="comment">%   - Bind SSBs (freeAndBindSSBs)</span>
+0125 <span class="comment">%     Bind free SSB 4mers to stochastically to deterministically selected</span>
+0126 <span class="comment">%     positions within single-stranded regions as SSB 8mers</span>
+0127 <span class="comment">%</span>
+0128 <span class="comment">%   - Dissociate free SSB 8mers into 2 SSB 4mers (dissociateFreeSSBComplexes)</span>
+0129 <span class="comment">%     Dissociate released SSB 8mers into 2 SSB 4mers</span>
+0130 <span class="comment">%</span>
+0131 <span class="comment">%   - Initiate Okazaki fragment by bind beta-clamp (initiateOkazakiFragment)</span>
+0132 <span class="comment">%     Binding beta-clamp just downstream of the start position of the next</span>
+0133 <span class="comment">%     Okazaki fragment. Requires that</span>
+0134 <span class="comment">%     - There is beta-clamp monomer to form new beta-clamp dimer on chromosome</span>
+0135 <span class="comment">%     - There is energy for the gamma-complex to form the new beta-clamp</span>
+0136 <span class="comment">%     - The position is accessible to the beta-clamp</span>
+0137 <span class="comment">%     - The leading helicase has already passed the position</span>
+0138 <span class="comment">%     - The lagging strand is at least 1/2 done with the current Okazaki</span>
+0139 <span class="comment">%       fragment</span>
+0140 <span class="comment">%</span>
+0141 <span class="comment">%   - Terminate Okazaki fragment by releasing beta-clamp (terminateOkazakiFragment)</span>
+0142 <span class="comment">%     Release beta-clamp and associate lagging primase and polymerase with</span>
+0143 <span class="comment">%     backup beta-clamp (or if terminating the last Okazaki fragment,</span>
+0144 <span class="comment">%     associate the lagging primase and with the leading strand machinery).</span>
+0145 <span class="comment">%     Mark end of Okazaki fragment as having a single strand break to be ligated</span>
+0146 <span class="comment">%     by ligase.</span>
+0147 <span class="comment">%     Occurs if:</span>
+0148 <span class="comment">%     - Okazaki fragment finished polymerizing</span>
+0149 <span class="comment">%     - SSBs bound to lagging strand</span>
+0150 <span class="comment">%     - Lagging backup beta-clamp bound</span>
+0151 <span class="comment">%     - Leading machinery has advanced beyond the Okazaki fragment start site</span>
+0152 <span class="comment">%</span>
+0153 <span class="comment">%   - Terminate replication (terminateReplication)</span>
+0154 <span class="comment">%     Release bound replisomes from leading strands. Mark terC as having single</span>
+0155 <span class="comment">%     strand breaks to be ligated by ligase. Occurs if:</span>
+0156 <span class="comment">%     - Polymerization completed for both leading and lagging strands</span>
+0157 <span class="comment">%     - Lagging strand ligated (except for last ligation at terC which will</span>
+0158 <span class="comment">%       occur after the execution of this subfunction)</span>
+0159 <span class="comment">%</span>
+0160 <span class="comment">%   - Ligate DNA (ligateDNA)</span>
+0161 <span class="comment">%     Stochastically ligate single strand breaks up to</span>
+0162 <span class="comment">%     - Ligase kinetics</span>
+0163 <span class="comment">%     - Ligase availability</span>
+0164 <span class="comment">%     - NAD availability</span>
+0165 <span class="comment">%</span>
+0166 <span class="comment">%   References</span>
+0167 <span class="comment">%   =================</span>
+0168 <span class="comment">%   1. Mirkin, E.V., Mirkin, S.M. (2007). Replication fork stalling at natural</span>
+0169 <span class="comment">%      impediments. Microbiology and molecular biology reviews 71: 13-35.</span>
+0170 <span class="comment">%   2. Mirkin, E.V., Mirkin, S.M. (2005). Mechanisms of</span>
+0171 <span class="comment">%      Transcription-replication collisions in bacteria. molecular and cellular</span>
+0172 <span class="comment">%      biology 25: 888-895.</span>
+0173 <span class="comment">%   3. Mirkin, E.V., Roa, D.C., Nudler, E., Mirkin, S.M. (2006). Transcription</span>
+0174 <span class="comment">%      regulatory elements are punctuation marks for dna replication. PNAS 103:</span>
+0175 <span class="comment">%      7276-7281.</span>
+0176 <span class="comment">%   4. Miyata, M. &quot;Cell Division&quot;. Molecular biology and pathogenicity of</span>
+0177 <span class="comment">%      mycoplasmas. Razin, S., Herrmann, R. Kluwer Academic/Plenum Publishers,</span>
+0178 <span class="comment">%      2002. 117-130.</span>
+0179 <span class="comment">%   5. Rudolph, C.J., Dhillon, P., Moore, T., Lloyd, R.G. (2007). Avoiding and</span>
+0180 <span class="comment">%      resolving conflicts between DNA replication and transcription. DNA Repair</span>
+0181 <span class="comment">%      6: 981-993.</span>
+0182 <span class="comment">%   6. McGlynn, P., Guy, C.P. (2008). Replication forks blocked by protein-DNA</span>
+0183 <span class="comment">%      complexes have limited stability in vitro. J. Mol. Biol. 381: 249-255.</span>
+0184 <span class="comment">%   7. Kozlov AG and Lohman TM. (2002). Kinetic Mechanism</span>
+0185 <span class="comment">%      of Direct Transfer of Escherichia coli SSB Tetramers between</span>
+0186 <span class="comment">%      Single-Stranded DNA Molecules. Biochemistry. 41 (39): 11611-11627.</span>
+0187 <span class="comment">%      [PUB_0856]</span>
+0188 <span class="comment">%   8. Kunzelmann S, Morris C, Chavda AP, Eccleston JF, Webb MR (2010).</span>
+0189 <span class="comment">%      Mechanism of Interaction between Single-Stranded DNA Binding Protein</span>
+0190 <span class="comment">%      and DNA. Biochemistry 49(5): 843-52. [PUB_0857]</span>
+0191 <span class="comment">%   9. Roy R, Kozlov AG, Lohman TM, Ha T (2009). SSB protein diffusion on</span>
+0192 <span class="comment">%      single-stranded DNA stimulates RecA filament formation. Nature.</span>
+0193 <span class="comment">%      461(7267):1092-7. [PUB_0858]</span>
+0194 <span class="comment">%</span>
+0195 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0196 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0197 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0198 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0199 <span class="comment">% Last updated: 8/19/2010</span>
+0200 
+0201 <span class="comment">%TODO: consider moving requirement for SSBs in okazaki fragment termination to</span>
+0202 <span class="comment">%      initiation of next fragment</span>
+0203 classdef <a href="Replication.html" class="code" title="">Replication</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0204     <span class="comment">%property annotations</span>
+0205     properties (Constant)
+0206         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0207         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0208             <span class="string">'oriCPosition'</span>
+0209             <span class="string">'terCPosition'</span>
+0210             <span class="string">'enzymeComposition'</span>
+0211             <span class="string">'primaseBindingLocations'</span>
+0212             <span class="string">'primerLength'</span>
+0213             <span class="string">'dnaPolymeraseElongationRate'</span>
+0214             <span class="string">'ssbComplexSpacing'</span>
+0215             <span class="string">'okazakiFragmentMeanLength'</span>
+0216             <span class="string">'ligaseRate'</span>
+0217             <span class="string">'laggingBackupClampReloadingLength'</span>
+0218             <span class="string">'startingOkazakiLoopLength'</span>
+0219             <span class="string">'rnaPolymeraseCollisionMeanDwellTime'</span>
+0220             <span class="string">'ssbDissociationRate'</span>
+0221             <span class="string">'dnaAFunctionalBoxStartPositions'</span>
+0222             };
+0223         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0224         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0225         
+0226         leadingStrandIndexs = [1 4];
+0227         laggingStrandIndexs = [3 2];
+0228     <span class="keyword">end</span>
+0229     
+0230     <span class="comment">%IDs, names, and local indices</span>
+0231     properties
+0232         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0233         
+0234         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0235             <span class="string">'DATP'</span>; <span class="string">'DCTP'</span>; <span class="string">'DGTP'</span>; <span class="string">'DTTP'</span>;
+0236             <span class="string">'ATP'</span>; <span class="string">'CTP'</span>; <span class="string">'GTP'</span>; <span class="string">'UTP'</span>;
+0237             <span class="string">'PPI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>; <span class="string">'NAD'</span>; <span class="string">'NMN'</span>; <span class="string">'ADP'</span>; <span class="string">'AMP'</span>; <span class="string">'PI'</span>;
+0238             };
+0239         substrateIndexs_dntp        = (1:4)';
+0240         substrateIndexs_ntp         = (5:8)';
+0241         substrateIndexs_diphosphate = 9;
+0242         substrateIndexs_water       = 10;
+0243         substrateIndexs_hydrogen    = 11;
+0244         substrateIndexs_nad         = 12;
+0245         substrateIndexs_nmn         = 13;
+0246         substrateIndexs_atp         = 5;
+0247         substrateIndexs_adp         = 14;
+0248         substrateIndexs_amp         = 15;
+0249         substrateIndexs_phosphate   = 16;
+0250         
+0251         enzymeWholeCellModelIDs = { <span class="comment">%enzyme whole cell model ids</span>
+0252             <span class="string">'REPLISOME'</span>;                                            <span class="comment">%replisome</span>
+0253             <span class="string">'DNA_POLYMERASE_2CORE_BETA_CLAMP_GAMMA_COMPLEX_PRIMASE'</span>;<span class="comment">%DNA-directed DNA polymerase (2) core + beta-clamp + gamma-complex + primase</span>
+0254             <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_GAMMA_COMPLEX'</span>;         <span class="comment">%DNA-directed DNA polymerase core + beta-clamp + gamma-complex</span>
+0255             <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_PRIMASE'</span>;               <span class="comment">%DNA-directed DNA polymerase core + beta-clamp + primase</span>
+0256             <span class="string">'DNA_POLYMERASE_CORE'</span>;                                  <span class="comment">%DNA-directed DNA polymerase core</span>
+0257             <span class="string">'DNA_POLYMERASE_GAMMA_COMPLEX'</span>;                         <span class="comment">%DNA-directed DNA polymerase gamma complex</span>
+0258             <span class="string">'MG_001_MONOMER'</span>;                                       <span class="comment">%DNA polymerase III, beta subunit</span>
+0259             <span class="string">'MG_001_DIMER'</span>;                                         <span class="comment">%DNA polymerase III, beta clamp</span>
+0260             <span class="string">'MG_094_HEXAMER'</span>;                                       <span class="comment">%replicative DNA helicase</span>
+0261             <span class="string">'MG_254_MONOMER'</span>;                                       <span class="comment">%DNA ligase, NAD-dependent</span>
+0262             <span class="string">'MG_250_MONOMER'</span>;                                       <span class="comment">%DNA primase</span>
+0263             <span class="string">'MG_091_TETRAMER'</span>;                                      <span class="comment">%single-strand binding protein family, tetramer</span>
+0264             <span class="string">'MG_091_OCTAMER'</span>;                                       <span class="comment">%single-strand binding protein family, octamer</span>
+0265             };
+0266         enzymeIndexs_replisome                         = 1;
+0267         enzymeIndexs_2coreBetaClampGammaComplexPrimase = 2;
+0268         enzymeIndexs_coreBetaClampGammaComplex         = 3;
+0269         enzymeIndexs_coreBetaClampPrimase              = 4;
+0270         enzymeIndexs_core                              = 5;
+0271         enzymeIndexs_gammaComplex                      = 6;
+0272         enzymeIndexs_betaClampMonomer                  = 7;
+0273         enzymeIndexs_betaClamp                         = 8;
+0274         enzymeIndexs_helicase                          = 9;
+0275         enzymeIndexs_ligase                            = 10;
+0276         enzymeIndexs_primase                           = 11;
+0277         enzymeIndexs_ssb4mer                           = 12;
+0278         enzymeIndexs_ssb8mer                           = 13;
+0279         
+0280         complexIndexs_DnaA_1mer_ATP       <span class="comment">%index of DnaA-ATP 1mer within simulation.complexs</span>
+0281         complexIndexs_DnaA_7mer_ATP       <span class="comment">%index of DnaA-ATP 7mer within simulation.complexs</span>
+0282 
+0283         dnaAFunctionalBoxIndexs_R1234     <span class="comment">%index of R1-4 functional DnaA boxes within dnaAFunctionalBoxStartPositions</span>
+0284         dnaAFunctionalBoxIndexs_R5        <span class="comment">%index of R5 functional DnaA box within dnaAFunctionalBoxStartPositions</span>
+0285     <span class="keyword">end</span>
+0286     
+0287     <span class="comment">%fixed biological constants</span>
+0288     properties
+0289         oriCPosition                       <span class="comment">%oriC position</span>
+0290         terCPosition                       <span class="comment">%terC position</span>
+0291         
+0292         enzymeComposition                  <span class="comment">%replisome subunit composition</span>
+0293         
+0294         primaseBindingLocations            <span class="comment">%locations (randomly determined) where primers will bind the lagging strand to make okazaki fragments</span>
+0295         
+0296         primerLength                       <span class="comment">%length of primer that needs to form before an okazaki fragment can be replicated by DNA polymerase (nt) (11) [PUB_0606]</span>
+0297         dnaPolymeraseElongationRate        <span class="comment">%DNA polymerase elongation rate (nt/s) (100) [Miyata 2002]</span>
+0298         ssbComplexSpacing                  <span class="comment">%spacing between SSB octamers (nt) [PUB_0637]</span>
+0299         okazakiFragmentMeanLength          <span class="comment">%Average length of an Okazaki fragment (nt) [PUB_0623, Kornberg 1980, Xie 2008]</span>
+0300         ligaseRate                         <span class="comment">%Ligase Vmax (1/s) (0.04) [PUB_0488]</span>
+0301         laggingBackupClampReloadingLength  <span class="comment">%Length at which a second backup clamp binds the loading complex in terms of how many bases have been polymerized of the Okazaki fragment (750)</span>
+0302         startingOkazakiLoopLength          <span class="comment">%Length of DNA (bases) in the okazaki fragment loop right at the beginning of the fragment polymerization (50)</span>
+0303         rnaPolymeraseCollisionMeanDwellTime<span class="comment">%mean time of DNA polymerase stalling upon interaction with anti-directional RNA polymerase (s) [1.7 PUB_0799]</span>
+0304         ssbDissociationRate                <span class="comment">%dissociation rate of SSBs (1/s) [0.3 PUB_0857]</span>
+0305         
+0306         dnaAFunctionalBoxStartPositions    <span class="comment">%sorted start coordinates of functional DnaA boxes</span>
+0307     <span class="keyword">end</span>
+0308     
+0309     <span class="comment">%dependent local state (implemented as dependent property for convenience)</span>
+0310     properties (Dependent = true)
+0311         isDnaAORIComplexAssembled      <span class="comment">%boolean indicating whether or not a DnaA-ATP complex has formed at the oriC, if true replication can initiate</span>
+0312         isAnyHelicaseBound             <span class="comment">%boolean indicating whether or not any helicase is bound</span>
+0313         isAnyPolymeraseBound           <span class="comment">%boolean indicating whether or not any polymerase is bound</span>
+0314         leadingStrandElongating        <span class="comment">%whether replication elongation is in progress</span>
+0315         laggingStrandElongating        <span class="comment">%whether there is a backup clamp bound to each loading complex</span>
+0316         leadingStrandPolymerized       <span class="comment">%whether leading strands have been polymerized</span>
+0317         laggingStrandPolymerized       <span class="comment">%whether lagging strands have been polymerized</span>
+0318         strandPolymerized              <span class="comment">%whether leading and lagging strands have been polymerized</span>
+0319         numLigations                   <span class="comment">%number of ligations that have occurred (in replication order along lagging strand)</span>
+0320         strandLigated                  <span class="comment">%whether or not strands are completely ligated</span>
+0321         strandDuplicated               <span class="comment">%whether replication is complete and chromosome segregation can start</span>
+0322         
+0323         helicasePosition               <span class="comment">%helicase start coordinates</span>
+0324         leadingPolymerasePosition      <span class="comment">%leading polymerase start coordinates</span>
+0325         laggingPolymerasePosition      <span class="comment">%lagging polymerase start coordinates</span>
+0326         leadingPosition                <span class="comment">%next position to be polymerized on leading strands</span>
+0327         laggingPosition                <span class="comment">%next position to be polymerized on lagging strands</span>
+0328         laggingBackupBetaClampPosition <span class="comment">%lagging backup beta clamp start coordinates</span>
+0329         
+0330         okazakiFragmentIndex           <span class="comment">%index of the current/most recent Okazaki fragments</span>
+0331         okazakiFragmentPosition        <span class="comment">%5' position of the current/most recent Okazaki fragments, including the primer</span>
+0332         okazakiFragmentLength          <span class="comment">%length of the current/most recent Okazaki fragments, including the primer</span>
+0333         okazakiFragmentProgress        <span class="comment">%number of nucleotides polymerized of the current/most recent Okazaki fragments</span>
+0334         
+0335         leadingStrandBoundSSBs         <span class="comment">%sparse vector indicating where SSB complexes are bound</span>
+0336         laggingStrandBoundSSBs         <span class="comment">%sparse vector indicating where SSB complexes are bound</span>
+0337         numLeadingTemplateBoundSSBs    <span class="comment">%number of SSB 8mers bound to the leading strand's template</span>
+0338         numLaggingTemplateBoundSSBs    <span class="comment">%number of SSB 8mers bound to the lagging strand's template</span>
+0339         areLaggingStrandSSBSitesBound  <span class="comment">%true/false whether or not the lagging strand's template is sufficiently covered in SSB 8mers for replication to progress</span>
+0340     <span class="keyword">end</span>
+0341     
+0342     <span class="comment">%constructor</span>
+0343     methods
+0344         <a name="_sub0" href="#_subfunctions" class="code">function this = Replication(wholeCellModelID, name)</a>
+0345             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0346         <span class="keyword">end</span>
+0347     <span class="keyword">end</span>
+0348     
+0349     <span class="comment">%communication between process/simulation</span>
+0350     methods
+0351         <span class="comment">%set references to state objects</span>
+0352         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0353             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0354             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0355         <span class="keyword">end</span>
+0356         
+0357         <span class="comment">%initialize constants</span>
+0358         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0359             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0360             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(knowledgeBase, simulation, varargin{:});
+0361             
+0362             c = this.chromosome;
+0363             
+0364             <span class="comment">%oriC position</span>
+0365             oriC = findobj(knowledgeBase.genomeFeatures, <span class="string">'wholeCellModelID'</span>, <span class="string">'oriC'</span>);
+0366             this.oriCPosition = oriC.startCoordinate;
+0367             
+0368             <span class="comment">%terC position</span>
+0369             terC = findobj(knowledgeBase.genomeFeatures, <span class="string">'wholeCellModelID'</span>, <span class="string">'terC'</span>);
+0370             this.terCPosition = terC.startCoordinate;
+0371             
+0372             <span class="comment">%enzyme subunit composition</span>
+0373             this.enzymeComposition = zeros(numel(this.enzymeWholeCellModelIDs));
+0374             this.enzymeComposition(this.enzymeMonomerLocalIndexs, this.enzymeComplexLocalIndexs) = sum(knowledgeBase.proteinComplexMonomerComposition(this.gene.mRNAIndexs(this.enzymeMonomerGlobalIndexs), this.enzymeComplexGlobalIndexs, :), 3);
+0375             this.enzymeComposition(this.enzymeComplexLocalIndexs, this.enzymeComplexLocalIndexs) = sum(knowledgeBase.proteinComplexComplexComposition(this.enzymeComplexGlobalIndexs, this.enzymeComplexGlobalIndexs, :), 3);
+0376                          
+0377             <span class="comment">%primase binding locations</span>
+0378             this.primaseBindingLocations = {
+0379                 c.sequenceLen + 1 - this.calculatePrimaseBindingLocations(c.sequenceLen - this.terCPosition)
+0380                 this.calculatePrimaseBindingLocations(this.terCPosition)
+0381                 }';
+0382             
+0383             <span class="comment">%DnaA and its binding sites</span>
+0384             this.complexIndexs_DnaA_1mer_ATP = this.complex.getIndexs({<span class="string">'MG_469_1MER_ATP'</span>});
+0385             this.complexIndexs_DnaA_7mer_ATP = this.complex.getIndexs({<span class="string">'MG_469_7MER_ATP'</span>});
+0386             
+0387             dnaABoxes = findobj(knowledgeBase.genomeFeatures, <span class="string">'type'</span>, <span class="string">'DnaA box'</span>);            
+0388             [~, order] = sort([dnaABoxes.startCoordinate]);
+0389             dnaABoxes = dnaABoxes(order);
+0390             
+0391             dnaABoxNames = {dnaABoxes.name}';
+0392             [tfs, idxs] = ismember(dnaABoxNames, {
+0393                 <span class="string">'Functional box R1'</span>;
+0394                 <span class="string">'Functional box R2'</span>;
+0395                 <span class="string">'Functional box R3'</span>;
+0396                 <span class="string">'Functional box R4'</span>;
+0397                 <span class="string">'Functional box R5'</span>;
+0398                 });
+0399             
+0400             dnaABoxes = dnaABoxes(tfs);
+0401             this.dnaAFunctionalBoxStartPositions = <span class="keyword">...</span>
+0402                 ceil([dnaABoxes.startCoordinate]' + [dnaABoxes.sequenceLength]'/2 - c.complexDNAFootprints(this.complexIndexs_DnaA_1mer_ATP)/2);
+0403             
+0404             this.dnaAFunctionalBoxIndexs_R1234 = [
+0405                 find(idxs(tfs) == 1);
+0406                 find(idxs(tfs) == 2);
+0407                 find(idxs(tfs) == 3);
+0408                 find(idxs(tfs) == 4)];
+0409             this.dnaAFunctionalBoxIndexs_R5 = find(idxs(tfs) == 5);
+0410         <span class="keyword">end</span>
+0411         
+0412         <span class="comment">%Choose Okazaki fragment lengths randomly according to poisson distribution</span>
+0413         <span class="comment">%with mean = okazakiFragmentMeanLength.</span>
+0414         <a name="_sub3" href="#_subfunctions" class="code">function pos = calculatePrimaseBindingLocations(this, len)</a>
+0415             pos = this.randStream.random(<span class="string">'poiss'</span>, this.okazakiFragmentMeanLength, ceil(1.2 * len/this.okazakiFragmentMeanLength), 1);
+0416             <span class="keyword">while</span> sum(pos) &lt; len
+0417                 pos = [pos; this.randStream.random(<span class="string">'poiss'</span>, this.okazakiFragmentMeanLength, 10, 1)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0418             <span class="keyword">end</span>
+0419             
+0420             pos = [0; cumsum(pos)];
+0421             pos = len - pos(end:-1:1);
+0422             idx = find(pos &lt;= 0, 1, <span class="string">'last'</span>);
+0423             
+0424             pos(1:idx) = [];
+0425             <span class="keyword">if</span> pos(1) &lt; 0.6 * this.okazakiFragmentMeanLength
+0426                 pos(1) = [];
+0427             <span class="keyword">end</span>
+0428         <span class="keyword">end</span>
+0429     <span class="keyword">end</span>
+0430     
+0431     <span class="comment">%model</span>
+0432     methods
+0433         <span class="comment">%Calculate</span>
+0434         <span class="comment">%- contribution to FBA objective</span>
+0435         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0436         <a name="_sub4" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, ~)</a>
+0437             <span class="comment">%% import classes</span>
+0438             import edu.stanford.covert.util.ConstantUtil;
+0439             
+0440             <span class="comment">%% initialize</span>
+0441             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0442             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0443             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0444             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0445             
+0446             <span class="comment">%% substrate and byproducts</span>
+0447             c = this.chromosome;
+0448             m = this.metabolite;
+0449             mass = constants.states.Mass;
+0450             nOkazakiFragments = sum(cellfun(@numel, this.primaseBindingLocations));
+0451             
+0452             baseComp = getBaseCounts(c.sequence);
+0453             dnmpComp = [baseComp; nnz(c.damagedBases == m.m6ADIndexs)];
+0454             dnmpComp(1) = dnmpComp(1) - nnz(c.damagedBases == m.m6ADIndexs);
+0455             chrWt = dnmpComp' * (m.molecularWeights([m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})]) - ConstantUtil.elements.O - ConstantUtil.elements.H) / ConstantUtil.nAvogadro;
+0456             dntpProd = <span class="keyword">...</span>
+0457                 baseComp * min(1, mass.dryWeightFractionDNA * mass.cellInitialDryWeight / chrWt) + <span class="keyword">...</span><span class="comment">       </span>
+0458                 baseComp * max(0, mass.dryWeightFractionDNA * mass.cellInitialDryWeight - chrWt) / <span class="keyword">...</span>
+0459                 (baseComp' * m.molecularWeights(m.dntpIndexs)) * ConstantUtil.nAvogadro;
+0460             basesPol = c.sequenceLen * min(1, mass.dryWeightFractionDNA * mass.cellInitialDryWeight / chrWt);
+0461            
+0462             <span class="comment">%ATP for helicase to unwind mother chromosome</span>
+0463             bmProd(this.substrateIndexs_atp)         = bmProd(this.substrateIndexs_atp)         + basesPol;
+0464             bmProd(this.substrateIndexs_water)       = bmProd(this.substrateIndexs_water)       + basesPol;
+0465             byProd(this.substrateIndexs_adp)         = byProd(this.substrateIndexs_adp)         + basesPol;
+0466             byProd(this.substrateIndexs_phosphate)   = byProd(this.substrateIndexs_phosphate)   + basesPol;
+0467             byProd(this.substrateIndexs_hydrogen)    = byProd(this.substrateIndexs_hydrogen)    + basesPol;
+0468             
+0469             <span class="comment">%ATP used by gamma-complex to form beta-clamps</span>
+0470             nBetaClamps = sum(cellfun(@(x) ~isempty(x), this.primaseBindingLocations)) + nOkazakiFragments;
+0471             bmProd(this.substrateIndexs_atp)         = bmProd(this.substrateIndexs_atp)         + nBetaClamps;
+0472             bmProd(this.substrateIndexs_water)       = bmProd(this.substrateIndexs_water)       + nBetaClamps;
+0473             byProd(this.substrateIndexs_adp)         = byProd(this.substrateIndexs_adp)         + nBetaClamps;
+0474             byProd(this.substrateIndexs_phosphate)   = byProd(this.substrateIndexs_phosphate)   + nBetaClamps;
+0475             byProd(this.substrateIndexs_hydrogen)    = byProd(this.substrateIndexs_hydrogen)    + nBetaClamps;            
+0476             
+0477             <span class="comment">%dNTPs to polymerize new strands by end of replication phase</span>
+0478             bmProd(this.substrateIndexs_dntp)        = bmProd(this.substrateIndexs_dntp)        + dntpProd;
+0479             byProd(this.substrateIndexs_diphosphate) = byProd(this.substrateIndexs_diphosphate) + 2 * basesPol;
+0480             
+0481             <span class="comment">%Ligation: (2) DR5P + NAD ==&gt; AMP + dRibose5P_dRibose5P + H + NMN</span>
+0482             nLigations = sum(cellfun(@(x) ~isempty(x), this.primaseBindingLocations)) + nOkazakiFragments;
+0483             bmProd(this.substrateIndexs_nad)         = bmProd(this.substrateIndexs_nad)          + nLigations;
+0484             byProd(this.substrateIndexs_nmn)         = byProd(this.substrateIndexs_nmn)          + nLigations;
+0485             byProd(this.substrateIndexs_amp)         = byProd(this.substrateIndexs_amp)          + nLigations;
+0486             byProd(this.substrateIndexs_hydrogen)    = byProd(this.substrateIndexs_hydrogen)     + nLigations;
+0487             
+0488             <span class="comment">%% enzymes</span>
+0489             <span class="comment">%replisome:</span>
+0490             <span class="comment">%- helicase</span>
+0491             <span class="comment">%- polymerase core (2)</span>
+0492             <span class="comment">%- gamma-complex</span>
+0493             <span class="comment">%- beta-clamp (2 dimers = 4 monomers)</span>
+0494             <span class="comment">%- primase</span>
+0495             minEnzExp(this.enzymeIndexs_replisome) = 2;
+0496             
+0497             <span class="comment">%lagging stand backup beta-clamp</span>
+0498             minEnzExp(this.enzymeIndexs_betaClamp) = 2;
+0499             
+0500             <span class="comment">%ligase</span>
+0501             nLigations = sum(cellfun(@(x) ~isempty(x), this.primaseBindingLocations)) + sum(cellfun(@numel, this.primaseBindingLocations));
+0502             minEnzExp(this.enzymeIndexs_ligase) = nLigations / this.ligaseRate / constants.states.Time.replicationDuration;
+0503 
+0504             <span class="comment">%single-stranded binding protein</span>
+0505             ssbFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_ssb8mer);
+0506             ssDNALen = 2 * this.okazakiFragmentMeanLength;
+0507             minEnzExp(this.enzymeIndexs_ssb8mer) = 2 * ceil(ssDNALen / ssbFtpt);
+0508             
+0509             <span class="comment">%account for timing of replication</span>
+0510             minEnzExp = minEnzExp / exp(log(2) * constants.states.Time.replicationInitiationDuration / constants.states.Time.cellCycleLength);
+0511         <span class="keyword">end</span>
+0512         
+0513         <span class="comment">%initialization: simulation initialize state method initializes 1</span>
+0514         <span class="comment">%chromosome</span>
+0515         <a name="_sub5" href="#_subfunctions" class="code">function initializeState(~)</a>
+0516         <span class="keyword">end</span>
+0517         
+0518         <span class="comment">%resource requirements</span>
+0519         <a name="_sub6" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0520             c = this.chromosome;
+0521             
+0522             <span class="comment">%initialize</span>
+0523             result = zeros(size(this.substrates));
+0524             
+0525             <span class="comment">%ATP, water for initiation</span>
+0526             <span class="keyword">if</span> ~this.isAnyPolymeraseBound &amp;&amp; this.isDnaAORIComplexAssembled &amp;&amp; all(this.enzymes &gt;= 2 * this.enzymeComposition(:, this.enzymeIndexs_2coreBetaClampGammaComplexPrimase))
+0527                 helFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_helicase);
+0528                 corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+0529                 uwdLen = helFtpt3 + corFtpt5 + 1;
+0530                 result(this.substrateIndexs_atp)   = result(this.substrateIndexs_atp)   + 2 * (1 + uwdLen);
+0531                 result(this.substrateIndexs_water) = result(this.substrateIndexs_water) + 2 * (1 + uwdLen);
+0532             <span class="keyword">end</span>
+0533             
+0534             <span class="comment">%ATP for helicase to unwind mother chromosome</span>
+0535             <span class="keyword">if</span> this.isAnyHelicaseBound &amp;&amp; all(this.leadingStrandElongating)
+0536                 nLeadingStrandElongating = 2;
+0537                 nLaggingStrandElongating = nnz(this.laggingStrandElongating);
+0538                 isOriCCplx = this.isDnaAORIComplexAssembled;
+0539                 
+0540                 unwindLen = min(2, 2 * isOriCCplx + nLeadingStrandElongating) * this.dnaPolymeraseElongationRate;
+0541                 result(this.substrateIndexs_atp)   = result(this.substrateIndexs_atp)   + unwindLen;
+0542                 result(this.substrateIndexs_water) = result(this.substrateIndexs_water) + unwindLen;
+0543                 
+0544                 <span class="comment">%ATP used by gamma-complex to form beta-clamps</span>
+0545                 nBetaClamps = min(2, 2 * isOriCCplx + nLaggingStrandElongating) - nnz(this.laggingBackupBetaClampPosition);
+0546                 result(this.substrateIndexs_atp)   = result(this.substrateIndexs_atp)   + nBetaClamps;
+0547                 result(this.substrateIndexs_water) = result(this.substrateIndexs_water) + nBetaClamps;
+0548                 
+0549                 <span class="comment">%dNTPs to polymerize new strands</span>
+0550                 dnmpComp = [
+0551                     1 - c.sequenceGCContent;
+0552                     c.sequenceGCContent;
+0553                     c.sequenceGCContent;
+0554                     1-c.sequenceGCContent] / 2;
+0555                 result(this.substrateIndexs_dntp) = <span class="keyword">...</span>
+0556                     + result(this.substrateIndexs_dntp) <span class="keyword">...</span>
+0557                     + min(4, 2 * isOriCCplx + nLeadingStrandElongating + nLaggingStrandElongating) * <span class="keyword">...</span>
+0558                     this.dnaPolymeraseElongationRate * dnmpComp;
+0559             <span class="keyword">end</span>
+0560             
+0561             <span class="comment">%Ligation: (2) DR5P + NAD ==&gt; AMP + dRibose5P_dRibose5P + H + NMN</span>
+0562             result(this.substrateIndexs_nad) = <span class="keyword">...</span>
+0563                 + result(this.substrateIndexs_nad) <span class="keyword">...</span>
+0564                 + min(nnz(c.strandBreaks), ceil(this.enzymes(this.enzymeIndexs_ligase) * this.stepSizeSec * this.ligaseRate));
+0565         <span class="keyword">end</span>
+0566         
+0567         <span class="comment">%simulation</span>
+0568         <a name="_sub7" href="#_subfunctions" class="code">function evolveState(this)</a>
+0569             <span class="comment">%% check that replisome state is in sync</span>
+0570             cnts = this.boundEnzymes([
+0571                 this.enzymeIndexs_2coreBetaClampGammaComplexPrimase
+0572                 this.enzymeIndexs_coreBetaClampGammaComplex
+0573                 this.enzymeIndexs_coreBetaClampPrimase
+0574                 this.enzymeIndexs_helicase
+0575                 ]);
+0576             totPolCnts = [2 1 1] * cnts(1:3);
+0577             <span class="keyword">if</span> ~((totPolCnts == 0 || totPolCnts == 4) &amp;&amp; ((cnts(4) == 0 &amp;&amp; totPolCnts == 0) || cnts(4) == 2))
+0578                 msg = [];
+0579                 msg = [msg sprintf(<span class="string">'Replisome state out of sync\n'</span>)];
+0580                 msg = [msg sprintf(<span class="string">'- 2coreBetaClampGammaComplexPrimase %d\n'</span>, cnts(1))];
+0581                 msg = [msg sprintf(<span class="string">'- coreBetaClampGammaComplex %d\n'</span>, cnts(2))];
+0582                 msg = [msg sprintf(<span class="string">'- coreBetaClampPrimase %d\n'</span>, cnts(3))];
+0583                 msg = [msg sprintf(<span class="string">'- helicase %d'</span>, cnts(4))];
+0584                 throw(MException(<span class="string">'Replication:error'</span>, msg));
+0585             <span class="keyword">end</span>
+0586             
+0587             <span class="comment">%% simulate</span>
+0588             subfunctions = {
+0589                 @this.initiateReplication;        <span class="comment">%Initiate replication</span>
+0590                 @this.ligateDNA;                  <span class="comment">%Ligate DNA</span>
+0591                 @this.dissociateFreeSSBComplexes; <span class="comment">%Dissociate free SSB 8mers into 2 SSB 4mers</span>
+0592                 @this.freeAndBindSSBs;            <span class="comment">%Free, Bind SSBs</span>
+0593                 };
+0594             
+0595             <span class="comment">%Only execute if active replisomes</span>
+0596             <span class="keyword">if</span> this.isAnyHelicaseBound &amp;&amp; all(this.leadingStrandElongating)
+0597                 subfunctions = [
+0598                     subfunctions;{
+0599                     @this.unwindAndPolymerizeDNA;     <span class="comment">%Advance replisomes: unwind and polymerize DNA, release SSBs</span>
+0600                     @this.initiateOkazakiFragment;    <span class="comment">%Initiate Okazaki fragment by bind beta-clamp</span>
+0601                     @this.terminateOkazakiFragment;   <span class="comment">%Terminate Okazaki fragment by releasing beta-clamp</span>
+0602                     @this.terminateReplication;       <span class="comment">%Terminate replication</span>
+0603                     }];
+0604             <span class="keyword">end</span>
+0605             
+0606             order = this.randStream.randperm(numel(subfunctions));
+0607             <span class="keyword">for</span> i = 1:numel(subfunctions)
+0608                 subfunctions{order(i)}();
+0609             <span class="keyword">end</span>
+0610         <span class="keyword">end</span>
+0611         
+0612         <span class="comment">%Initiate replication if DnaA complex at oriC and sufficient proteins</span>
+0613         <span class="comment">%to form two replisomes:</span>
+0614         <span class="comment">%- form two replisomes at origin</span>
+0615         <span class="comment">%- indirectly (via Chromosome) disassemble DnaA complex</span>
+0616         <a name="_sub8" href="#_subfunctions" class="code">function initiateReplication(this)</a>
+0617             chrLen = this.chromosome.sequenceLen;
+0618             holFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase);
+0619             helFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_helicase);
+0620             helFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_helicase);
+0621             corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+0622             helCorSpacing = helFtpt3 + corFtpt5 + 1;
+0623             
+0624             <span class="comment">%check if DnaA complex at oriC and sufficient protein to form 2</span>
+0625             <span class="comment">%replisomes</span>
+0626             <span class="keyword">if</span> ~this.isDnaAORIComplexAssembled || any(this.leadingPolymerasePosition)
+0627                 <span class="keyword">return</span>;
+0628             <span class="keyword">end</span>
+0629             
+0630             <span class="comment">%warn if this would be a secondary initiation</span>
+0631             <span class="keyword">if</span> collapse(this.chromosome.polymerizedRegions) &gt; 2 * chrLen
+0632                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Unable to represent multiple replication initiation events per cell cycle'</span>);
+0633                 <span class="keyword">return</span>;
+0634             <span class="keyword">end</span>
+0635             
+0636             helPos = this.helicasePosition;
+0637             maxSteps = floor(min(this.substrates([this.substrateIndexs_atp; this.substrateIndexs_water])) / 2);
+0638             <span class="keyword">if</span> all(helPos)
+0639                 uwdOld = mod(-(1 - helFtpt3 - helPos(2)) - 1, chrLen) + 1;
+0640                 uwdLen = min(helCorSpacing - uwdOld, maxSteps);
+0641                 atpCost = 2 * uwdLen;
+0642                 <span class="keyword">if</span> uwdLen &lt;= 0
+0643                     <span class="keyword">return</span>;
+0644                 <span class="keyword">end</span>
+0645                 this.releaseProteinFromSites([helPos; this.leadingStrandIndexs]', false);
+0646             <span class="keyword">elseif</span> ~any(helPos)
+0647                 uwdLen = min(helCorSpacing, maxSteps - 1);
+0648                 uwdOld = 0;
+0649                 <span class="keyword">if</span> uwdLen &lt; 0 || this.enzymes(this.enzymeIndexs_helicase) &lt; 2
+0650                     <span class="keyword">return</span>;
+0651                 <span class="keyword">end</span>
+0652                 atpCost = 2 * (1 + uwdLen);
+0653             <span class="keyword">else</span>
+0654                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'All or no helicases should be bound'</span>));
+0655             <span class="keyword">end</span>
+0656             
+0657             <span class="comment">%bind helicase and unwind chromosome</span>
+0658             this.chromosome.setRegionUnwound(chrLen-uwdOld, -uwdLen);
+0659             this.chromosome.setRegionUnwound(1+uwdOld, uwdLen);
+0660             <span class="keyword">if</span> ~all(this.bindProteinToChromosome([chrLen-helFtpt5-uwdOld 1-helFtpt3+uwdOld; this.leadingStrandIndexs]', this.enzymeIndexs_helicase, <span class="keyword">...</span>
+0661                     [], [], true, false, [-uwdLen-1; uwdLen+1], true, []))
+0662                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'Both helicase must bind'</span>));
+0663             <span class="keyword">end</span>
+0664             
+0665             <span class="comment">%hydrolyze ATP used by gamma-complex to assemble beta-clamp, and by</span>
+0666             <span class="comment">%helicase to melt DNA</span>
+0667             this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - atpCost;
+0668             this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - atpCost;
+0669             this.substrates(this.substrateIndexs_adp)       = this.substrates(this.substrateIndexs_adp)       + atpCost;
+0670             this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + atpCost;
+0671             this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + atpCost;
+0672             
+0673             <span class="comment">%Form two replisomes (each with 2 cores, 1 gamma-complex, and 1 beta-clamp (MG_001 dimer)) at oriC</span>
+0674             <span class="keyword">if</span> uwdOld + uwdLen == helCorSpacing &amp;&amp; all(this.enzymes &gt;= 2 * this.enzymeComposition(:, this.enzymeIndexs_2coreBetaClampGammaComplexPrimase))
+0675                 this.enzymes = this.enzymes - 2 * this.enzymeComposition(:, this.enzymeIndexs_2coreBetaClampGammaComplexPrimase);
+0676                 this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) = this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) + 2;
+0677                 
+0678                 <span class="comment">%bind DNA polymerase core and beta-clamp to initiate leading strand</span>
+0679                 <span class="comment">%synthesis</span>
+0680                 <span class="keyword">if</span> ~all(this.bindProteinToChromosome([chrLen-corFtpt5 1+corFtpt5-holFtpt+1; this.leadingStrandIndexs]', <span class="keyword">...</span>
+0681                         this.enzymeIndexs_2coreBetaClampGammaComplexPrimase, [], [], true, false, 1, true, []))
+0682                     throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'Both polymerases must bind'</span>));
+0683                 <span class="keyword">end</span>
+0684             <span class="keyword">end</span>
+0685         <span class="keyword">end</span>
+0686         
+0687         <span class="comment">%Advance replisomes:</span>
+0688         <span class="comment">%- unwind DNA</span>
+0689         <span class="comment">%- polymerize DNA</span>
+0690         <span class="comment">%</span>
+0691         <span class="comment">%TODO: RNA primer</span>
+0692         <a name="_sub9" href="#_subfunctions" class="code">function unwindAndPolymerizeDNA(this)</a>
+0693             <span class="comment">%% Terminate early if no active replisomes</span>
+0694             <span class="keyword">if</span> ~this.isAnyHelicaseBound || ~all(this.leadingStrandElongating)
+0695                 <span class="keyword">return</span>;
+0696             <span class="keyword">end</span>
+0697             
+0698             <span class="comment">%% indices, parameters</span>
+0699             helGblIdx = this.enzymeGlobalIndexs(this.enzymeIndexs_helicase);
+0700             leadPolLclIdx = [this.enzymeIndexs_2coreBetaClampGammaComplexPrimase; this.enzymeIndexs_coreBetaClampGammaComplex];
+0701             leadPolGblIdx = this.enzymeGlobalIndexs(leadPolLclIdx);
+0702             lagPolGblIdx = this.enzymeGlobalIndexs(this.enzymeIndexs_coreBetaClampPrimase);
+0703             helFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_helicase);
+0704             helFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_helicase);
+0705             helFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_helicase);
+0706             holFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampGammaComplex);
+0707             corFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_core);
+0708             corFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_core);
+0709             corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+0710             bClmpFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_betaClamp);
+0711             
+0712             c = this.chromosome;
+0713             chrLen = c.sequenceLen;
+0714             firstBetaClampPos = [
+0715                 this.primaseBindingLocations{1}(1)-corFtpt3-bClmpFtpt
+0716                 this.primaseBindingLocations{2}(1)+corFtpt3+1]';
+0717             
+0718             <span class="comment">%% bind lagging polymerase to lagging strand</span>
+0719             leadingPolPos  = this.leadingPolymerasePosition;
+0720             laggingPolPos  = this.laggingPolymerasePosition;
+0721             
+0722             tfs = <span class="keyword">...</span>
+0723                 laggingPolPos == 0 &amp; <span class="keyword">...</span>
+0724                 this.laggingBackupBetaClampPosition == firstBetaClampPos &amp; <span class="keyword">...</span>
+0725                 c.complexBoundSites([leadingPolPos; this.leadingStrandIndexs]')' == leadPolGblIdx(1);
+0726             
+0727             <span class="keyword">if</span> tfs(1); laggingPolPos(1) = firstBetaClampPos(1);           <span class="keyword">end</span>;
+0728             <span class="keyword">if</span> tfs(2); laggingPolPos(2) = firstBetaClampPos(2) - corFtpt; <span class="keyword">end</span>;
+0729             
+0730             n = sum(tfs);
+0731             
+0732             this.releaseProteinFromSites([leadingPolPos(:, tfs);     this.leadingStrandIndexs(:,tfs)]', false);
+0733             this.releaseProteinFromSites([firstBetaClampPos(:, tfs); this.laggingStrandIndexs(:,tfs)]', false);
+0734             
+0735             this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) = this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) - n;
+0736             this.enzymes(this.enzymeIndexs_coreBetaClampGammaComplex)         = this.enzymes(this.enzymeIndexs_coreBetaClampGammaComplex)  + n;
+0737             this.enzymes(this.enzymeIndexs_core)                              = this.enzymes(this.enzymeIndexs_core)                       + n;
+0738             this.enzymes(this.enzymeIndexs_primase)                           = this.enzymes(this.enzymeIndexs_primase)                    + n;
+0739             
+0740             this.enzymes(this.enzymeIndexs_betaClamp)                         = this.enzymes(this.enzymeIndexs_betaClamp)                  - n;
+0741             this.enzymes(this.enzymeIndexs_betaClampMonomer)                  = this.enzymes(this.enzymeIndexs_betaClampMonomer)           + 2*n;
+0742             
+0743             this.enzymes(this.enzymeIndexs_betaClampMonomer)                  = this.enzymes(this.enzymeIndexs_betaClampMonomer)           - 2*n;
+0744             this.enzymes(this.enzymeIndexs_core)                              = this.enzymes(this.enzymeIndexs_core)                       - n;
+0745             this.enzymes(this.enzymeIndexs_primase)                           = this.enzymes(this.enzymeIndexs_primase)                    - n;
+0746             this.enzymes(this.enzymeIndexs_coreBetaClampPrimase)              = this.enzymes(this.enzymeIndexs_coreBetaClampPrimase)       + n;
+0747             
+0748             <span class="keyword">if</span> ~all(this.bindProteinToChromosome([leadingPolPos(:, tfs); this.leadingStrandIndexs(:,tfs)]', this.enzymeIndexs_coreBetaClampGammaComplex, [], [], true, false, 1, true, []))
+0749                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'All polymerases should bind.'</span>));
+0750             <span class="keyword">end</span>
+0751             <span class="keyword">if</span> ~all(this.bindProteinToChromosome([laggingPolPos(:, tfs); this.laggingStrandIndexs(:,tfs)]', this.enzymeIndexs_coreBetaClampPrimase, [], [], true, false, 1, true, []))
+0752                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'All polymerases should bind.'</span>));
+0753             <span class="keyword">end</span>
+0754             
+0755             <span class="comment">%% Calculate maximum unwinding and polymerization extent</span>
+0756             helicasePos = this.helicasePosition;
+0757             leadingPolPos  = this.leadingPolymerasePosition;
+0758             laggingPolPos  = this.laggingPolymerasePosition;
+0759             leadingPos  = this.leadingPosition;
+0760             laggingPos  = this.laggingPosition;
+0761             fPos = this.okazakiFragmentPosition;
+0762             fPrg = this.okazakiFragmentProgress;
+0763             fLen = this.okazakiFragmentLength;
+0764             
+0765             <span class="comment">%initialize limits</span>
+0766             limits = zeros(2, 2); <span class="comment">%[leading 1  leading 2; lagging 1  lagging 2]</span>
+0767             
+0768             <span class="comment">%primase kinetics</span>
+0769             limits(1, 1) = this.primerLength - (chrLen - leadingPos(1));
+0770             limits(1, 2) = this.primerLength - (leadingPos(2) - 1);
+0771             limits(2, 1) = this.primerLength - (laggingPos(1) - fPos(1));
+0772             limits(2, 2) = this.primerLength - (fPos(2) - laggingPos(2));
+0773             
+0774             <span class="comment">%DNA polymerase kinetics</span>
+0775             limits(limits &lt;= 0) = this.dnaPolymeraseElongationRate;
+0776             
+0777             <span class="comment">%polymerase must already be bound</span>
+0778             limits(1, :) = limits(1, :) .* (leadingPos ~= 0);
+0779             limits(2, :) = limits(2, :) .* (laggingPos ~= 0);
+0780             
+0781             <span class="comment">%prevent leading strand from progressing if no SSBs protecting lagging strand</span>
+0782             limits(1, :) = limits(1, :) .* this.areLaggingStrandSSBSitesBound;
+0783             
+0784             <span class="comment">%helicase</span>
+0785             this.releaseProteinFromSites([helicasePos; this.leadingStrandIndexs]', false);
+0786             [~, ~, ~, extents] = c.isRegionAccessible([helicasePos + [0 helFtpt-1]; this.leadingStrandIndexs]', [-1; 1] .* (limits(1, :) + helFtpt + 1)', <span class="keyword">...</span>
+0787                 [], helGblIdx, false, [], true, true);
+0788             limits(1, :) = max(0, abs(extents)-helFtpt-1);
+0789             
+0790             <span class="comment">%polymerase</span>
+0791             bndLeadPolIdx = ismembc2(c.complexBoundSites([leadingPolPos; this.leadingStrandIndexs]'), leadPolGblIdx);
+0792             this.releaseProteinFromSites([leadingPolPos; this.leadingStrandIndexs]', false);
+0793             [~, ~, ~, leadingExtents] = c.isRegionAccessible([leadingPolPos + [0 holFtpt-1]; this.leadingStrandIndexs]', [-1; 1] .* (limits(1, :) + holFtpt + 1)', <span class="keyword">...</span>
+0794                 [], leadPolGblIdx(1), false, [], true, true);
+0795             limits(1, :) = max(0, abs(leadingExtents)-holFtpt-1);
+0796             
+0797             <span class="keyword">if</span> laggingPos(1) ~= 0
+0798                 this.releaseProteinFromSites([laggingPolPos(1) this.laggingStrandIndexs(1)], false);
+0799                 [~, ~, ~, laggingExtents] = c.isRegionAccessible([laggingPolPos(1) this.laggingStrandIndexs(1)], limits(2, 1) + holFtpt + 1, <span class="keyword">...</span>
+0800                     [], lagPolGblIdx, false, [], true, true);
+0801                 limits(2, 1) = max(0, abs(laggingExtents)-holFtpt-1);
+0802             <span class="keyword">end</span>
+0803             <span class="keyword">if</span> laggingPos(2) ~= 0
+0804                 this.releaseProteinFromSites([laggingPolPos(2) this.laggingStrandIndexs(2)], false);
+0805                 [~, ~, ~, laggingExtents] = c.isRegionAccessible([laggingPolPos(2)+holFtpt-1 this.laggingStrandIndexs(2)], -(limits(2, 2) + holFtpt + 1), <span class="keyword">...</span>
+0806                     [], lagPolGblIdx, false, [], true, true);
+0807                 limits(2, 2) = max(0, abs(laggingExtents)-holFtpt-1);
+0808             <span class="keyword">end</span>
+0809             
+0810             <span class="comment">%no polymerized of lagging strands past end of Okazaki fragment</span>
+0811             limits(2, :) = min(limits(2, :), fLen - fPrg);
+0812             
+0813             <span class="comment">%prevent leading strand from getting too far ahead of lagging strand</span>
+0814             tmp = fPos;
+0815             <span class="keyword">if</span> fPos(1) == 0; tmp(1) = chrLen; <span class="keyword">end</span>;
+0816             <span class="keyword">if</span> fPos(2) == 0; tmp(2) = 1; <span class="keyword">end</span>;
+0817             limits(1, 1) = limits(1, 1) * ((tmp(1) - helicasePos(1) - helFtpt) &lt; 2 * this.okazakiFragmentMeanLength);
+0818             limits(1, 2) = limits(1, 2) * ((helicasePos(2) - tmp(2)) &lt; 2 * this.okazakiFragmentMeanLength);
+0819             
+0820             <span class="comment">%no helicase progress if the double-stranded region about the terC</span>
+0821             <span class="comment">%has non-zero linking number and would be annilated by unwinding</span>
+0822             <span class="keyword">if</span> <span class="keyword">...</span>
+0823                     helicasePos(1) + helFtpt5 &gt;= c.terCPosition + 1 &amp;&amp; <span class="keyword">...</span>
+0824                     helicasePos(1) + helFtpt5 - limits(1, 1) &lt; c.terCPosition+1 &amp;&amp; <span class="keyword">...</span>
+0825                     helicasePos(2) + helFtpt5 - 1 &lt;= c.terCPosition &amp;&amp; <span class="keyword">...</span>
+0826                     helicasePos(2) + helFtpt5 - 1 + limits(1, 2) &gt; c.terCPosition &amp;&amp; <span class="keyword">...</span>
+0827                     abs(c.linkingNumbers([min(c.terCPosition + 1, helicasePos(2) + helFtpt5 - 1) 1])) &gt; 1e-6
+0828                 limits(1, ceil(2 * this.randStream.rand())) = 0;
+0829             <span class="keyword">elseif</span> <span class="keyword">...</span>
+0830                     helicasePos(1) + helFtpt5 &gt;= c.terCPosition + 1 &amp;&amp; <span class="keyword">...</span>
+0831                     helicasePos(1) + helFtpt5 - limits(1, 1) &lt; c.terCPosition+1 &amp;&amp; <span class="keyword">...</span>
+0832                     (helicasePos(2) + helFtpt5 - 1 &gt; c.terCPosition || helicasePos(2) + helFtpt5 - 1 + limits(1, 2) &lt;= c.terCPosition) &amp;&amp; <span class="keyword">...</span>
+0833                     abs(c.linkingNumbers([min(c.terCPosition + 1, helicasePos(2) + helFtpt5 - 1) 1])) &gt; 1e-6 &amp;&amp; <span class="keyword">...</span>
+0834                     ~c.isRegionPolymerized([c.terCPosition 2], 1, false)
+0835                 limits(1, 1) = 0;
+0836             <span class="keyword">elseif</span> <span class="keyword">...</span>
+0837                     helicasePos(2) + helFtpt5 - 1 &lt;= c.terCPosition &amp;&amp; <span class="keyword">...</span>
+0838                     helicasePos(2) + helFtpt5 - 1 + limits(1, 2) &gt; c.terCPosition &amp;&amp; <span class="keyword">...</span>
+0839                     (helicasePos(1) + helFtpt5 &lt; c.terCPosition + 1 || helicasePos(1) + helFtpt5 - limits(1, 1) &gt;= c.terCPosition+1) &amp;&amp; <span class="keyword">...</span>
+0840                     abs(c.linkingNumbers([min(c.terCPosition + 1, helicasePos(2) + helFtpt5 - 1) 1])) &gt; 1e-6 &amp;&amp; <span class="keyword">...</span>
+0841                     ~c.isRegionPolymerized([c.terCPosition + 1 2], 1, false)
+0842                 limits(1, 2) = 0;
+0843             <span class="keyword">end</span>
+0844             
+0845             <span class="comment">%pause if collision with RNA polymerase</span>
+0846             [posStrands, vals] = find(c.complexBoundSites);
+0847             tfs = ismembc(vals, this.complex.rnaPolymeraseIndexs);
+0848             <span class="keyword">if</span> any(tfs)
+0849                 pos = posStrands(tfs, 1);
+0850                 strnds = posStrands(tfs, 2);
+0851                 rnaPolFtpt = c.getDNAFootprint([], this.complex.rnaPolymeraseIndexs(1));
+0852                 
+0853                 <span class="comment">%calculate limits based on RNA polymerase position</span>
+0854                 tmpLimits = zeros(2, 2);
+0855                 tfs = pos &lt; helicasePos(1)   &amp; mod(strnds, 2) == 1; <span class="keyword">if</span> any(tfs), tmpLimits(1, 1) = min(helicasePos(1) - (pos(tfs) + rnaPolFtpt));   <span class="keyword">end</span>
+0856                 tfs = pos &gt; helicasePos(2)   &amp; mod(strnds, 2) == 0; <span class="keyword">if</span> any(tfs), tmpLimits(1, 2) = min(pos(tfs) - (helicasePos(2) + helFtpt));      <span class="keyword">end</span>
+0857                 tfs = pos &gt; laggingPolPos(1) &amp; mod(strnds, 2) == 0; <span class="keyword">if</span> any(tfs), tmpLimits(2, 1) = min(pos(tfs) - (laggingPolPos(1) + holFtpt));    <span class="keyword">end</span>
+0858                 tfs = pos &lt; laggingPolPos(2) &amp; mod(strnds, 2) == 1; <span class="keyword">if</span> any(tfs), tmpLimits(2, 2) = min(laggingPolPos(2) - (pos(tfs) + rnaPolFtpt)); <span class="keyword">end</span>
+0859                  
+0860                 <span class="comment">%apply limits to DNA polymerase which are stalled</span>
+0861                 tfs = this.randStream.random(<span class="string">'poisson'</span>, 1 / this.rnaPolymeraseCollisionMeanDwellTime, [2 2]) == 0;
+0862                 limits(tfs) = min(limits(tfs), max(0, tmpLimits(tfs)));
+0863             <span class="keyword">end</span>
+0864             
+0865             <span class="comment">%no polymerization of leading strands past terC</span>
+0866             <span class="comment">%(move leading polymerization slightly past terC to make room for</span>
+0867             <span class="comment">%lagging polymerase)</span>
+0868             polLimits = limits;
+0869             polLimits(1, 1) = min(limits(1, 1), max(0, leadingPos(1) - this.terCPosition));
+0870             polLimits(1, 2) = min(limits(1, 2), max(0, this.terCPosition - leadingPos(2) + 1));
+0871 
+0872             limits(1, 1) = min(limits(1, 1), max(0, leadingPos(1) - (this.terCPosition-(corFtpt5+bClmpFtpt+corFtpt5+helFtpt3))));
+0873             limits(1, 2) = min(limits(1, 2), max(0, (this.terCPosition+1+(corFtpt5+bClmpFtpt+corFtpt5+helFtpt3)) - leadingPos(2)));
+0874             
+0875             <span class="comment">%dNTPs</span>
+0876             sequences = char(zeros(4, max(polLimits(:))));
+0877             sequences(1, 1:polLimits(1, 1)) = c.sequence(leadingPos(1) - (0:polLimits(1, 1)-1), 2)';
+0878             sequences(2, 1:polLimits(1, 2)) = c.sequence(leadingPos(2) + (0:polLimits(1, 2)-1), 3)';
+0879             sequences(3, 1:polLimits(2, 1)) = c.sequence(laggingPos(1) + (0:polLimits(2, 1)-1), 3)';
+0880             sequences(4, 1:polLimits(2, 2)) = c.sequence(laggingPos(2) - (0:polLimits(2, 2)-1), 2)';
+0881             
+0882             pols = min(polLimits, reshape(edu.stanford.covert.cell.sim.util.polymerize(<span class="keyword">...</span>
+0883                 sequences, this.substrates(this.substrateIndexs_dntp), <span class="string">'ACGT'</span>, <span class="string">' '</span>, 0, 0, this.randStream), [], 2)');
+0884             limits(pols ~= polLimits) = pols(pols ~= polLimits);
+0885             polLimits = pols;
+0886             
+0887             <span class="comment">%energy to unwind</span>
+0888             unwinds = min(polLimits(1, :), max(0, [
+0889                 (helicasePos(1) + helFtpt5) - this.terCPosition;
+0890                 this.terCPosition + 1 - (helicasePos(2)+helFtpt-helFtpt5-1)]'));
+0891             unwindLimits = min(unwinds, floor(unwinds / sum(unwinds) * min(this.substrates([this.substrateIndexs_atp; this.substrateIndexs_water]))));
+0892             
+0893             polLimits(1, unwinds ~= unwindLimits) = unwindLimits(unwinds ~= unwindLimits);
+0894             limits(1, unwinds ~= unwindLimits) = unwindLimits(unwinds ~= unwindLimits);
+0895             
+0896             <span class="comment">%% Unwind DNA</span>
+0897             <span class="comment">%advance helicase</span>
+0898             <span class="keyword">if</span> ~all(this.bindProteinToChromosome([helicasePos; this.leadingStrandIndexs]' , this.enzymeIndexs_helicase, <span class="keyword">...</span>
+0899                     [], [], true, false, [-1; 1] .* (limits(1,:) + 1)', true, []))
+0900                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'helicases must bind'</span>));
+0901             <span class="keyword">end</span>
+0902             
+0903             <span class="comment">%unwind chromosome</span>
+0904             c.setRegionUnwound(helicasePos(1)+helFtpt5,           -unwindLimits(1, 1));
+0905             c.setRegionUnwound(helicasePos(2)+helFtpt-helFtpt5-1,  unwindLimits(1, 2));
+0906             
+0907             <span class="comment">%update metabolites</span>
+0908             n = sum(unwindLimits(1, :));
+0909             this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - n;
+0910             this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - n;
+0911             this.substrates(this.substrateIndexs_adp)       = this.substrates(this.substrateIndexs_adp)       + n;
+0912             this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + n;
+0913             this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + n;
+0914             
+0915             <span class="comment">%% Polymerize DNA</span>
+0916             <span class="comment">%advance DNA polymerase</span>
+0917             <span class="keyword">if</span> ~this.bindProteinToChromosome([leadingPolPos(1) this.leadingStrandIndexs(1)], leadPolLclIdx(bndLeadPolIdx(1)), [], [], true, false, -(limits(1, 1)+1), true, [])
+0918                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'polymerases must bind'</span>));
+0919             <span class="keyword">end</span>
+0920             <span class="keyword">if</span> ~this.bindProteinToChromosome([leadingPolPos(2) this.leadingStrandIndexs(2)], leadPolLclIdx(bndLeadPolIdx(2)), [], [], true, false,  (limits(1, 2)+1), true, [])
+0921                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'polymerases must bind'</span>));
+0922             <span class="keyword">end</span>
+0923             <span class="keyword">if</span> laggingPos(1) ~= 0
+0924                 <span class="keyword">if</span> ~this.bindProteinToChromosome([laggingPolPos(1) this.laggingStrandIndexs(1)], this.enzymeIndexs_coreBetaClampPrimase, [], [], true, false, limits(2, 1)+1, true, [])
+0925                     throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'polymerases must bind'</span>));
+0926                 <span class="keyword">end</span>
+0927             <span class="keyword">end</span>
+0928             <span class="keyword">if</span> laggingPos(2) ~= 0
+0929                 <span class="keyword">if</span> ~this.bindProteinToChromosome([laggingPolPos(2) this.laggingStrandIndexs(2)], this.enzymeIndexs_coreBetaClampPrimase, [], [], true, false, -(limits(2, 2)+1), true, [])
+0930                     throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'polymerases must bind'</span>));
+0931                 <span class="keyword">end</span>
+0932             <span class="keyword">end</span>
+0933             
+0934             <span class="comment">%set regions polymerized</span>
+0935             c.setRegionPolymerized([leadingPos; 1 2]', [-1; 1] .* polLimits(1, :)');
+0936             c.setRegionPolymerized([laggingPos; 2 1]', [1; -1] .* polLimits(2, :)');
+0937             
+0938             <span class="comment">%update metabolites</span>
+0939             usedDNTPs = <span class="keyword">...</span>
+0940                 c.sequence.subsequenceBaseCounts(leadingPos(1) - (0:polLimits(1, 1)-1), 2) + <span class="keyword">...</span>
+0941                 c.sequence.subsequenceBaseCounts(leadingPos(2) + (0:polLimits(1, 2)-1), 3) + <span class="keyword">...</span>
+0942                 c.sequence.subsequenceBaseCounts(laggingPos(1) + (0:polLimits(2, 1)-1), 3) + <span class="keyword">...</span>
+0943                 c.sequence.subsequenceBaseCounts(laggingPos(2) - (0:polLimits(2, 2)-1), 2);
+0944             
+0945             this.substrates(this.substrateIndexs_dntp)        = this.substrates(this.substrateIndexs_dntp)        - usedDNTPs;
+0946             this.substrates(this.substrateIndexs_diphosphate) = this.substrates(this.substrateIndexs_diphosphate) + sum(usedDNTPs);
+0947         <span class="keyword">end</span>
+0948         
+0949         <span class="comment">%Dissociate free SSB 8mers into 2 SSB 4mers</span>
+0950         <a name="_sub10" href="#_subfunctions" class="code">function dissociateFreeSSBComplexes(this)</a>
+0951             this.enzymes(this.enzymeIndexs_ssb4mer) = <span class="keyword">...</span>
+0952                 this.enzymes(this.enzymeIndexs_ssb4mer) + <span class="keyword">...</span>
+0953                 2 * this.enzymes(this.enzymeIndexs_ssb8mer);
+0954             this.enzymes(this.enzymeIndexs_ssb8mer) = 0;
+0955         <span class="keyword">end</span>
+0956         
+0957         <span class="comment">%Free, Bind SSBs 8mers to single-stranded DNA</span>
+0958         <a name="_sub11" href="#_subfunctions" class="code">function freeAndBindSSBs(this)</a>
+0959             <span class="comment">%% free SSBs</span>
+0960             positionsStrands = this.releaseProteinFromChromosome(this.enzymeIndexs_ssb8mer, this.ssbDissociationRate, [], []);
+0961             
+0962             this.enzymes(this.enzymeIndexs_ssb4mer) = <span class="keyword">...</span>
+0963                 + this.enzymes(this.enzymeIndexs_ssb4mer) <span class="keyword">...</span>
+0964                 + 2 * size(positionsStrands, 1);
+0965             this.enzymes(this.enzymeIndexs_ssb8mer) = <span class="keyword">...</span>
+0966                 + this.enzymes(this.enzymeIndexs_ssb8mer) <span class="keyword">...</span>
+0967                 - size(positionsStrands, 1);
+0968             
+0969             <span class="comment">%% bind SSBs</span>
+0970             nPossibleSSB8mers = this.enzymes(this.enzymeIndexs_ssb4mer) / 2;
+0971             <span class="keyword">if</span> nPossibleSSB8mers &lt; 1
+0972                 <span class="keyword">return</span>;
+0973             <span class="keyword">end</span>
+0974             
+0975             c = this.chromosome;
+0976             
+0977             <span class="comment">%find accessible regions</span>
+0978             [rgnPosStrnds, rgnLens] = c.getAccessibleRegions([], this.enzymeGlobalIndexs(this.enzymeIndexs_ssb8mer));
+0979             <span class="keyword">if</span> isempty(rgnPosStrnds)
+0980                 <span class="keyword">return</span>;
+0981             <span class="keyword">end</span>
+0982             
+0983             <span class="comment">%SSB 8mer footprint and spacing</span>
+0984             ftpt = this.enzymeDNAFootprints(this.enzymeIndexs_ssb8mer);
+0985             spcg = this.ssbComplexSpacing;
+0986             
+0987             <span class="comment">%exclude regions near other SSB 8mers</span>
+0988             ssbPosStrnds = find(c.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_ssb8mer));
+0989             [rgnPosStrnds, rgnLens] = c.excludeRegions(rgnPosStrnds, rgnLens, <span class="keyword">...</span>
+0990                 [ssbPosStrnds(:, 1) - this.ssbComplexSpacing ssbPosStrnds(:, 2)], ftpt + 2*spcg);
+0991             <span class="keyword">if</span> isempty(rgnPosStrnds)
+0992                 <span class="keyword">return</span>;
+0993             <span class="keyword">end</span>
+0994             
+0995             <span class="comment">%split regions over terC</span>
+0996             idx = reshape(find(rgnPosStrnds(:, 1) &lt;= this.terCPosition &amp; rgnPosStrnds(:, 1) + rgnLens - 1 &gt; this.terCPosition), [], 1);
+0997             rgnPosStrnds = [rgnPosStrnds; repmat(this.terCPosition + 1, size(idx)) rgnPosStrnds(idx, 2)];
+0998             rgnLens = [rgnLens; rgnLens(idx) - (this.terCPosition - rgnPosStrnds(idx, 1) + 1)];
+0999             rgnLens(idx) = this.terCPosition - rgnPosStrnds(idx, 1) + 1;
+1000             
+1001             <span class="comment">%switch directions of region on far side of terC</span>
+1002             tfs = rgnPosStrnds(:, 1) &gt; this.terCPosition;
+1003             rgnPosStrnds(tfs, 1) = rgnPosStrnds(tfs, 1) + rgnLens(tfs, 1) - ftpt;
+1004             rgnLens(tfs) = -rgnLens(tfs);
+1005             
+1006             <span class="comment">%split regions into pieces large enough to bind just 1 SSB 8mer</span>
+1007             tfs1 = abs(rgnLens) == ftpt;
+1008             tfs2 = abs(rgnLens) &gt; ftpt;
+1009             rgnPosStrnds = [
+1010                 c.splitRegions(rgnPosStrnds(tfs2, :), rgnLens(tfs2), ftpt + spcg)
+1011                 rgnPosStrnds(tfs1, :)];
+1012             <span class="keyword">if</span> isempty(rgnPosStrnds)
+1013                 <span class="keyword">return</span>;
+1014             <span class="keyword">end</span>
+1015             
+1016             <span class="comment">%bind SSB 8mers to regions</span>
+1017             nBindings = min([
+1018                 size(rgnPosStrnds, 1);
+1019                 floor(nPossibleSSB8mers)]);
+1020             
+1021             this.enzymes(this.enzymeIndexs_ssb4mer) = this.enzymes(this.enzymeIndexs_ssb4mer) - 2*nBindings;
+1022             this.enzymes(this.enzymeIndexs_ssb8mer) = this.enzymes(this.enzymeIndexs_ssb8mer) +   nBindings;
+1023             
+1024             <span class="keyword">if</span> nBindings ~= sum(this.bindProteinToChromosome(rgnPosStrnds, this.enzymeIndexs_ssb8mer, nBindings, [], [], false, 1, false, []))
+1025                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'SSBs must bind'</span>));
+1026             <span class="keyword">end</span>
+1027         <span class="keyword">end</span>
+1028         
+1029         <span class="comment">%Bind beta-clamp to start of next Okazaki fragment</span>
+1030         <a name="_sub12" href="#_subfunctions" class="code">function initiateOkazakiFragment(this)</a>
+1031             <span class="comment">%Terminate early if no active replisomes</span>
+1032             <span class="keyword">if</span> ~this.isAnyHelicaseBound || ~all(this.leadingStrandElongating)
+1033                 <span class="keyword">return</span>;
+1034             <span class="keyword">end</span>
+1035             
+1036             helFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_helicase);
+1037             helFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_helicase);
+1038             corFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_core);
+1039             bClmpFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_betaClamp);
+1040             
+1041             fIdx = this.okazakiFragmentIndex;
+1042             fPrg = this.okazakiFragmentProgress;
+1043             helPos = this.helicasePosition;
+1044             bClmpPos = this.laggingBackupBetaClampPosition;
+1045             strndPol = this.strandPolymerized;
+1046             
+1047             <span class="comment">%Compute list of starting points of next Okazaki fragments that</span>
+1048             <span class="comment">%aren't yet bound by core/beta-clamps</span>
+1049             posStrnds = zeros(0, 2);
+1050             
+1051             <span class="keyword">if</span> <span class="keyword">...</span>
+1052                     fIdx(1) &lt; numel(this.primaseBindingLocations{1}) &amp;&amp; <span class="keyword">...</span>
+1053                     (fIdx(1) == 0  || (fIdx(1) &gt; 0 &amp;&amp; fPrg(1) &gt;= this.laggingBackupClampReloadingLength)) &amp;&amp; <span class="keyword">...</span>
+1054                     helPos(1) + helFtpt5 + 1 &lt; this.primaseBindingLocations{1}(fIdx(1)+1)-corFtpt3-bClmpFtpt &amp;&amp; <span class="keyword">...</span>
+1055                     bClmpPos(1) ~= this.primaseBindingLocations{1}(fIdx(1)+1)-corFtpt3-bClmpFtpt &amp;&amp; <span class="keyword">...</span>
+1056                     ~strndPol(1)
+1057                 
+1058                 posStrnds = [posStrnds; this.primaseBindingLocations{1}(fIdx(1)+1)-corFtpt3-bClmpFtpt this.laggingStrandIndexs(1)];
+1059             <span class="keyword">end</span>
+1060             
+1061             <span class="keyword">if</span> <span class="keyword">...</span>
+1062                     fIdx(2) &lt; numel(this.primaseBindingLocations{2}) &amp;&amp; <span class="keyword">...</span>
+1063                     (fIdx(2) == 0 || (fIdx(2) &gt; 0 &amp;&amp; fPrg(2) &gt;= this.laggingBackupClampReloadingLength)) &amp;&amp; <span class="keyword">...</span>
+1064                     helPos(2)+helFtpt3 &gt; this.primaseBindingLocations{2}(fIdx(2)+1)+corFtpt3+1+bClmpFtpt &amp;&amp; <span class="keyword">...</span>
+1065                     bClmpPos(2) ~= this.primaseBindingLocations{2}(fIdx(2)+1)+corFtpt3+1 &amp;&amp; <span class="keyword">...</span>
+1066                     ~strndPol(2)
+1067                 
+1068                 posStrnds = [posStrnds; this.primaseBindingLocations{2}(fIdx(2)+1)+corFtpt3+1 this.laggingStrandIndexs(2)];
+1069             <span class="keyword">end</span>
+1070             
+1071             <span class="comment">%Bind beta-clamp to starting point of next Okazaki fragments</span>
+1072             nBinding = floor(min([
+1073                 size(posStrnds, 1)
+1074                 this.substrates(this.substrateIndexs_atp)
+1075                 this.substrates(this.substrateIndexs_water)
+1076                 this.enzymes(this.enzymeIndexs_betaClampMonomer)/2]));
+1077             <span class="keyword">if</span> nBinding ~= sum(this.bindProteinToChromosome(posStrnds, this.enzymeIndexs_betaClamp, nBinding, [], true, false, 1, false, []))
+1078                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'Beta clamps must bind'</span>));
+1079             <span class="keyword">end</span>
+1080             
+1081             this.enzymes(this.enzymeIndexs_betaClampMonomer) = this.enzymes(this.enzymeIndexs_betaClampMonomer) - 2 * nBinding;
+1082             this.enzymes(this.enzymeIndexs_betaClamp)        = this.enzymes(this.enzymeIndexs_betaClamp)        +     nBinding;
+1083             
+1084             <span class="comment">%hydrolyze ATP used by gamma-complex to form beta-clamp</span>
+1085             this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - nBinding;
+1086             this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - nBinding;
+1087             this.substrates(this.substrateIndexs_adp)       = this.substrates(this.substrateIndexs_adp)       + nBinding;
+1088             this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + nBinding;
+1089             this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + nBinding;
+1090         <span class="keyword">end</span>
+1091         
+1092         <span class="comment">%Terminate Okazaki fragments which have been completely synthesized</span>
+1093         <span class="comment">%- release beta-clamp</span>
+1094         <span class="comment">%- binding core to beta-clamp of next Okazaki fragment</span>
+1095         <a name="_sub13" href="#_subfunctions" class="code">function terminateOkazakiFragment(this)</a>
+1096             <span class="comment">%Terminate early if no active replisomes</span>
+1097             <span class="keyword">if</span> ~this.isAnyHelicaseBound || ~all(this.leadingStrandElongating)
+1098                 <span class="keyword">return</span>;
+1099             <span class="keyword">end</span>
+1100             
+1101             c = this.chromosome;
+1102             chrLen = c.sequenceLen;
+1103             fIdx = this.okazakiFragmentIndex;
+1104             fPrg = this.okazakiFragmentProgress;
+1105             fLen = this.okazakiFragmentLength;
+1106             helPos = this.helicasePosition;
+1107             helFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_helicase);
+1108             holFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampPrimase);
+1109             corFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_core);
+1110             corFtpt3 = this.enzymeDNAFootprints3Prime(this.enzymeIndexs_core);
+1111             corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+1112             areLaggingStrandSSBSitesBound = this.areLaggingStrandSSBSitesBound;
+1113             laggingBackupBetaClampPosition = this.laggingBackupBetaClampPosition;
+1114             leadingPolymerasePosition = this.leadingPolymerasePosition;
+1115             laggingPolymerasePosition = this.laggingPolymerasePosition;
+1116             
+1117             <span class="comment">%calculate positions of core/beta-clamps that have reached end of</span>
+1118             <span class="comment">%Okazaki fragments and for which a core/beta-clamp is bound to the</span>
+1119             <span class="comment">%next Okazaki fragment</span>
+1120             releasePolPosStrnds = zeros(0, 2);
+1121             releaseBClmpPosStrnds = zeros(0, 2);
+1122             bindPolPosStrnds = zeros(0, 2);
+1123             terminatedPosStrnds = zeros(0, 2);
+1124             <span class="keyword">if</span> <span class="keyword">...</span>
+1125                     fIdx(1) &gt; 0 &amp;&amp; <span class="keyword">...</span>
+1126                     fPrg(1) == fLen(1) &amp;&amp; <span class="keyword">...</span>
+1127                     areLaggingStrandSSBSitesBound(1) &amp;&amp; <span class="keyword">...</span>
+1128                     (fIdx(1) == numel(this.primaseBindingLocations{1}) || (<span class="keyword">...</span>
+1129                     (fIdx(1) == numel(this.primaseBindingLocations{1}) - 1 || <span class="keyword">...</span>
+1130                     this.primaseBindingLocations{1}(fIdx(1)+1)-(helPos(1)+helFtpt) &gt; this.startingOkazakiLoopLength) &amp;&amp; <span class="keyword">...</span>
+1131                     laggingBackupBetaClampPosition(1) == this.primaseBindingLocations{1}(fIdx(1)+1)-(holFtpt-corFtpt5)+1))
+1132                 
+1133                 releasePolPosStrnds = [releasePolPosStrnds;
+1134                     laggingPolymerasePosition(1) this.laggingStrandIndexs(1)];
+1135                 <span class="keyword">if</span> fIdx(1) &lt; numel(this.primaseBindingLocations{1})
+1136                     releaseBClmpPosStrnds = [releaseBClmpPosStrnds;
+1137                         laggingBackupBetaClampPosition(1) this.laggingStrandIndexs(1)];
+1138                     bindPolPosStrnds = [bindPolPosStrnds;
+1139                         laggingBackupBetaClampPosition(1) this.laggingStrandIndexs(1)];
+1140                 <span class="keyword">else</span>
+1141                     terminatedPosStrnds = [terminatedPosStrnds;
+1142                         leadingPolymerasePosition(1) this.leadingStrandIndexs(1)];
+1143                 <span class="keyword">end</span>
+1144                 
+1145                 <span class="keyword">if</span> fIdx(1) == 1
+1146                     c.strandBreaks(chrLen, 3) = 1;
+1147                 <span class="keyword">else</span>
+1148                     c.strandBreaks(this.primaseBindingLocations{1}(fIdx(1)-1)-1, 3) = 1;
+1149                 <span class="keyword">end</span>
+1150             <span class="keyword">end</span>
+1151             <span class="keyword">if</span> <span class="keyword">...</span>
+1152                     fIdx(2) &gt; 0 &amp;&amp; <span class="keyword">...</span>
+1153                     fPrg(2) == fLen(2) &amp;&amp; <span class="keyword">...</span>
+1154                     areLaggingStrandSSBSitesBound(2) &amp;&amp; <span class="keyword">...</span>
+1155                     (fIdx(2) == numel(this.primaseBindingLocations{2}) || (<span class="keyword">...</span>
+1156                     (fIdx(2) == numel(this.primaseBindingLocations{2})-1 || <span class="keyword">...</span>
+1157                     helPos(2) - this.primaseBindingLocations{2}(fIdx(2)+1) &gt; this.startingOkazakiLoopLength) &amp;&amp; <span class="keyword">...</span>
+1158                     laggingBackupBetaClampPosition(2) == this.primaseBindingLocations{2}(fIdx(2)+1)+corFtpt3+1))
+1159                 
+1160                 releasePolPosStrnds = [releasePolPosStrnds;
+1161                     laggingPolymerasePosition(2) this.laggingStrandIndexs(2)];
+1162                 <span class="keyword">if</span> fIdx(2) &lt; numel(this.primaseBindingLocations{2})
+1163                     releaseBClmpPosStrnds = [releaseBClmpPosStrnds;
+1164                         laggingBackupBetaClampPosition(2) this.laggingStrandIndexs(2)];
+1165                     bindPolPosStrnds = [bindPolPosStrnds;
+1166                         laggingBackupBetaClampPosition(2)-corFtpt this.laggingStrandIndexs(2)];
+1167                 <span class="keyword">else</span>
+1168                     terminatedPosStrnds = [terminatedPosStrnds;
+1169                         leadingPolymerasePosition(2) this.leadingStrandIndexs(2)];
+1170                 <span class="keyword">end</span>
+1171                 
+1172                 <span class="keyword">if</span> fIdx(2) == 1
+1173                     c.strandBreaks(chrLen, 2) = 1;
+1174                 <span class="keyword">else</span>
+1175                     c.strandBreaks(this.primaseBindingLocations{2}(fIdx(2)-1), 2) = 1;
+1176                 <span class="keyword">end</span>
+1177             <span class="keyword">end</span>
+1178             
+1179             <span class="comment">%release the core/beta-clamp that have reached the end of the Okazki</span>
+1180             <span class="comment">%fragment</span>
+1181             this.releaseProteinFromSites(releasePolPosStrnds, false);
+1182             this.enzymes(this.enzymeIndexs_coreBetaClampPrimase) = this.enzymes(this.enzymeIndexs_coreBetaClampPrimase)    -   size(releasePolPosStrnds, 1);
+1183             this.enzymes(this.enzymeIndexs_primase)          = this.enzymes(this.enzymeIndexs_primase)          +   size(releasePolPosStrnds, 1);
+1184             this.enzymes(this.enzymeIndexs_core)             = this.enzymes(this.enzymeIndexs_core)             +   size(releasePolPosStrnds, 1);
+1185             this.enzymes(this.enzymeIndexs_betaClampMonomer) = this.enzymes(this.enzymeIndexs_betaClampMonomer) + 2*size(releasePolPosStrnds, 1);
+1186             
+1187             this.releaseProteinFromSites(releaseBClmpPosStrnds, false);
+1188             this.enzymes(this.enzymeIndexs_betaClamp)        = this.enzymes(this.enzymeIndexs_betaClamp)        -   size(releaseBClmpPosStrnds, 1);
+1189             this.enzymes(this.enzymeIndexs_betaClampMonomer) = this.enzymes(this.enzymeIndexs_betaClampMonomer) + 2*size(releaseBClmpPosStrnds, 1);
+1190             
+1191             <span class="keyword">if</span> ~all(this.bindProteinToChromosome(bindPolPosStrnds, this.enzymeIndexs_coreBetaClampPrimase, [], [], true, false, 1, false, []))
+1192                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'lagging strand polymerases must bind'</span>));
+1193             <span class="keyword">end</span>
+1194             this.enzymes(this.enzymeIndexs_primase)              = this.enzymes(this.enzymeIndexs_primase)              -   size(bindPolPosStrnds, 1);
+1195             this.enzymes(this.enzymeIndexs_core)                 = this.enzymes(this.enzymeIndexs_core)                 -   size(bindPolPosStrnds, 1);
+1196             this.enzymes(this.enzymeIndexs_betaClampMonomer)     = this.enzymes(this.enzymeIndexs_betaClampMonomer)     - 2*size(bindPolPosStrnds, 1);
+1197             this.enzymes(this.enzymeIndexs_coreBetaClampPrimase) = this.enzymes(this.enzymeIndexs_coreBetaClampPrimase) +   size(bindPolPosStrnds, 1);
+1198             
+1199             <span class="keyword">if</span> ~isempty(terminatedPosStrnds)
+1200                 n = size(terminatedPosStrnds, 1);
+1201                 this.modifyProteinOnChromosome(terminatedPosStrnds, this.enzymeIndexs_2coreBetaClampGammaComplexPrimase(ones(n, 1)));
+1202                 
+1203                 this.enzymes(this.enzymeIndexs_coreBetaClampGammaComplex)    = this.enzymes(this.enzymeIndexs_coreBetaClampGammaComplex)  - n;
+1204                 this.enzymes(this.enzymeIndexs_core)                         = this.enzymes(this.enzymeIndexs_core)                       + n;
+1205                 this.enzymes(this.enzymeIndexs_betaClampMonomer)             = this.enzymes(this.enzymeIndexs_betaClampMonomer)           + 2*n;
+1206                 this.enzymes(this.enzymeIndexs_gammaComplex)                 = this.enzymes(this.enzymeIndexs_gammaComplex)               + n;
+1207                 
+1208                 this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase)   = this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) + n;
+1209                 this.enzymes(this.enzymeIndexs_primase)                             = this.enzymes(this.enzymeIndexs_primase)                    - n;
+1210                 this.enzymes(this.enzymeIndexs_core)                                = this.enzymes(this.enzymeIndexs_core)                       - 2*n;
+1211                 this.enzymes(this.enzymeIndexs_betaClampMonomer)                    = this.enzymes(this.enzymeIndexs_betaClampMonomer)           - 2*n;
+1212                 this.enzymes(this.enzymeIndexs_gammaComplex)                        = this.enzymes(this.enzymeIndexs_gammaComplex)               - n;
+1213             <span class="keyword">end</span>
+1214         <span class="keyword">end</span>
+1215         
+1216         <span class="comment">%Ligate DNA</span>
+1217         <span class="comment">%(2) DR5P + NAD ==&gt; AMP + dRibose5P_dRibose5P + H + NMN</span>
+1218         <span class="comment">%</span>
+1219         <span class="comment">%Note: this function is redundant with evolveState_Ligate in DNARepair</span>
+1220         <a name="_sub14" href="#_subfunctions" class="code">function ligateDNA(this)</a>
+1221             c = this.chromosome;
+1222             
+1223             positionsStrands = find(c.singleStrandBreaks);
+1224             <span class="keyword">if</span> isempty(positionsStrands)
+1225                 <span class="keyword">return</span>;
+1226             <span class="keyword">end</span>
+1227                 
+1228             numReactions = max(0, floor(min([
+1229                 size(positionsStrands, 1);
+1230                 this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_ligase) * this.stepSizeSec * this.ligaseRate);
+1231                 this.substrates(this.substrateIndexs_nad)])));
+1232             <span class="keyword">if</span> numReactions == 0
+1233                 <span class="keyword">return</span>;
+1234             <span class="keyword">end</span>
+1235             
+1236             [~, ~, positionsStrands, numReactions] = this.bindProteinToChromosome(positionsStrands, <span class="keyword">...</span>
+1237                 this.enzymeIndexs_ligase, numReactions, [], false, true, 1, false, [1 2]);
+1238             <span class="keyword">if</span> numReactions == 0
+1239                 <span class="keyword">return</span>;
+1240             <span class="keyword">end</span>
+1241             
+1242             c.strandBreaks(positionsStrands) = 0;
+1243             
+1244             this.substrates(this.substrateIndexs_nad)      = this.substrates(this.substrateIndexs_nad)      - numReactions;
+1245             this.substrates(this.substrateIndexs_nmn)      = this.substrates(this.substrateIndexs_nmn)      + numReactions;
+1246             this.substrates(this.substrateIndexs_amp)      = this.substrates(this.substrateIndexs_amp)      + numReactions;
+1247             this.substrates(this.substrateIndexs_hydrogen) = this.substrates(this.substrateIndexs_hydrogen) + numReactions;
+1248         <span class="keyword">end</span>
+1249         
+1250         <span class="comment">%Terminate replication if replisomes have reached terC (meaning the</span>
+1251         <span class="comment">%chromosome has been duplicated)</span>
+1252         <span class="comment">%- dissolve replisomes</span>
+1253         <a name="_sub15" href="#_subfunctions" class="code">function terminateReplication(this)</a>
+1254             <span class="keyword">if</span> <span class="keyword">...</span>
+1255                     ~all(this.leadingStrandElongating) || <span class="keyword">...</span><span class="comment">  %Terminate early if no active replisomes</span>
+1256                     ~all(this.strandPolymerized)       || <span class="keyword">...</span><span class="comment">  %check if replisomes have reached terC</span>
+1257                     any(this.laggingStrandElongating)          <span class="comment">%check if last Okazaki fragment already terminated</span>
+1258                 <span class="keyword">return</span>;
+1259             <span class="keyword">end</span>
+1260             
+1261             <span class="comment">%set strand break</span>
+1262             this.chromosome.strandBreaks(this.terCPosition, 2:3) = 1;
+1263             
+1264             <span class="comment">%dissolve replisomes</span>
+1265             <span class="keyword">if</span> size(this.releaseProteinFromChromosome(this.enzymeIndexs_helicase, Inf, [], []), 1) ~= 2
+1266                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'Two helicases must be released'</span>));
+1267             <span class="keyword">end</span>
+1268             <span class="keyword">if</span> size(this.releaseProteinFromChromosome(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase, Inf, [], []), 1) ~= 2
+1269                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'Two polymerase complexes must be released'</span>));
+1270             <span class="keyword">end</span>
+1271             
+1272             this.enzymes = this.enzymes + 2 * this.enzymeComposition(:, this.enzymeIndexs_2coreBetaClampGammaComplexPrimase);
+1273             this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) = this.enzymes(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase) - 2;
+1274         <span class="keyword">end</span>
+1275     <span class="keyword">end</span>
+1276     
+1277     <span class="comment">%get methods of dependent local state</span>
+1278     methods
+1279         <a name="_sub16" href="#_subfunctions" class="code">function value = get.isDnaAORIComplexAssembled(this)</a>
+1280             c = this.chromosome;
+1281             [posStrnds, complexs] = find(c.complexBoundSites);
+1282             
+1283             <span class="comment">%check if any DnaA-ATP 7mers bound</span>
+1284             idxs7 = find(complexs == this.complexIndexs_DnaA_7mer_ATP);
+1285             <span class="keyword">if</span> length(idxs7) &lt; 4
+1286                 value = false;
+1287                 <span class="keyword">return</span>;
+1288             <span class="keyword">end</span>
+1289             
+1290             <span class="comment">%check if DnaA-ATP 1mer bound at R5 box on chromosome 1</span>
+1291             idxs1 = find(posStrnds(:, 1) == this.dnaAFunctionalBoxStartPositions(this.dnaAFunctionalBoxIndexs_R5));
+1292             <span class="keyword">if</span> ~any(complexs(idxs1) == this.complexIndexs_DnaA_1mer_ATP &amp; posStrnds(idxs1, 2) == 1)
+1293                 value = false;
+1294                 <span class="keyword">return</span>;
+1295             <span class="keyword">end</span>
+1296             
+1297             <span class="comment">%check if DnaA-ATP 7mers bound at R1-4 boxes on chromosome 1</span>
+1298             value = all(ismembc(this.dnaAFunctionalBoxStartPositions(this.dnaAFunctionalBoxIndexs_R1234, 1), posStrnds(idxs7(posStrnds(idxs7, 2) == 1), 1)));
+1299         <span class="keyword">end</span>
+1300         
+1301         <a name="_sub17" href="#_subfunctions" class="code">function result = get.isAnyHelicaseBound(this)</a>
+1302             [~, complexs] = find(this.chromosome.complexBoundSites);
+1303             result = any(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_helicase));
+1304         <span class="keyword">end</span>
+1305         
+1306         <a name="_sub18" href="#_subfunctions" class="code">function result = get.isAnyPolymeraseBound(this)</a>
+1307             [~, complexs] = find(this.chromosome.complexBoundSites);
+1308             result = <span class="keyword">...</span>
+1309                 any(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_2coreBetaClampGammaComplexPrimase)) || <span class="keyword">...</span>
+1310                 any(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_coreBetaClampGammaComplex)) || <span class="keyword">...</span>
+1311                 any(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_coreBetaClampPrimase));
+1312         <span class="keyword">end</span>
+1313         
+1314         <a name="_sub19" href="#_subfunctions" class="code">function result = get.leadingStrandElongating(this)</a>
+1315             result = <span class="keyword">...</span>
+1316                 this.helicasePosition &amp; <span class="keyword">...</span>
+1317                 this.leadingPolymerasePosition;
+1318         <span class="keyword">end</span>
+1319         
+1320         <a name="_sub20" href="#_subfunctions" class="code">function result = get.laggingStrandElongating(this)</a>
+1321             result = this.laggingPolymerasePosition ~= 0;
+1322         <span class="keyword">end</span>
+1323         
+1324         <a name="_sub21" href="#_subfunctions" class="code">function result = get.leadingStrandPolymerized(this)</a>
+1325             c = this.chromosome;
+1326             result = false(1, 2);
+1327             
+1328             [pos2, lens2] = find(c.polymerizedRegions(:, 2));
+1329             [pos4, lens4] = find(c.polymerizedRegions(:, 4));
+1330             result(1) = <span class="keyword">...</span>
+1331                 any(pos2(:,1) &lt;= this.terCPosition + 1 &amp; pos2(:,1) + lens2 - 1 == c.sequenceLen) &amp;&amp; <span class="keyword">...</span>
+1332                 any(pos4(:,1) &lt;= this.terCPosition + 1 &amp; pos4(:,1) + lens4 - 1 == c.sequenceLen);
+1333             
+1334             result(2) = <span class="keyword">...</span>
+1335                 all(c.polymerizedRegions([1 1; 1 3]) &gt;= this.terCPosition);
+1336         <span class="keyword">end</span>
+1337         
+1338         <a name="_sub22" href="#_subfunctions" class="code">function result = get.laggingStrandPolymerized(this)</a>
+1339             c = this.chromosome;
+1340             result = false(1, 2);
+1341             
+1342             [pos1, lens1] = find(c.polymerizedRegions(:, 1));
+1343             [pos3, lens3] = find(c.polymerizedRegions(:, 3));
+1344             result(1) = <span class="keyword">...</span>
+1345                 any(pos1(:,1) &lt;= this.terCPosition + 1 &amp; pos1(:,1) + lens1 - 1 == c.sequenceLen) &amp;&amp; <span class="keyword">...</span>
+1346                 any(pos3(:,1) &lt;= this.terCPosition + 1 &amp; pos3(:,1) + lens3 - 1 == c.sequenceLen);
+1347             
+1348             result(2) = <span class="keyword">...</span>
+1349                 all(c.polymerizedRegions([1 2; 1 4]) &gt;= this.terCPosition);
+1350         <span class="keyword">end</span>
+1351         
+1352         <a name="_sub23" href="#_subfunctions" class="code">function result = get.strandPolymerized(this)</a>
+1353             result = <span class="keyword">...</span>
+1354                 this.leadingStrandPolymerized &amp; <span class="keyword">...</span>
+1355                 this.laggingStrandPolymerized;
+1356         <span class="keyword">end</span>
+1357         
+1358         <a name="_sub24" href="#_subfunctions" class="code">function result = get.numLigations(this)</a>
+1359             fIdx = this.okazakiFragmentIndex;
+1360             fPrg = this.okazakiFragmentProgress;
+1361             
+1362             pos1 = [];
+1363             pos2 = [];
+1364             
+1365             <span class="keyword">if</span> fIdx(1) &gt; 0; pos1 = this.primaseBindingLocations{1}(1:fIdx(1)-2)-1; <span class="keyword">end</span>;
+1366             <span class="keyword">if</span> fIdx(2) &gt; 0; pos2 = this.primaseBindingLocations{2}(1:fIdx(2)-2)  ; <span class="keyword">end</span>;
+1367             
+1368             <span class="keyword">if</span> fIdx(1) &gt; 1
+1369                 pos1 = [pos1; 0];
+1370             <span class="keyword">end</span>
+1371             <span class="keyword">if</span> fIdx(2) &gt; 1
+1372                 pos2 = [pos2; 0];
+1373             <span class="keyword">end</span>
+1374             <span class="keyword">if</span> fIdx(1) == numel(this.primaseBindingLocations{1}) &amp;&amp; fPrg(1) &gt; 0
+1375                 pos1 = [pos1; this.terCPosition];
+1376             <span class="keyword">end</span>
+1377             <span class="keyword">if</span> fIdx(2) == numel(this.primaseBindingLocations{2}) &amp;&amp; fPrg(2) &gt; 0
+1378                 pos2 = [pos2; this.terCPosition];
+1379             <span class="keyword">end</span>
+1380             
+1381             strandPolymerized = this.strandPolymerized;
+1382             leadingPosition = this.leadingPosition;
+1383             <span class="keyword">if</span> strandPolymerized(1)
+1384                 pos1 = [0; this.primaseBindingLocations{1}(1:end)-1];
+1385             <span class="keyword">end</span>
+1386             <span class="keyword">if</span> strandPolymerized(2) &amp;&amp; (strandPolymerized(1) || any(leadingPosition))
+1387                 pos2 = [0; this.primaseBindingLocations{2}(1:end)];
+1388             <span class="keyword">end</span>
+1389             
+1390             result = zeros(1, 2);
+1391             result(1) = numel(pos1) - nnz(this.chromosome.strandBreaks(pos1, 3));
+1392             result(2) = numel(pos2) - nnz(this.chromosome.strandBreaks(pos2, 2));
+1393         <span class="keyword">end</span>
+1394         
+1395         <span class="comment">%Every Okazaki fragment needs to have been ligated on one end, and</span>
+1396         <span class="comment">%the last one on each strand needs to have been ligated on both</span>
+1397         <span class="comment">%ends.</span>
+1398         <a name="_sub25" href="#_subfunctions" class="code">function result = get.strandLigated(this)</a>
+1399             result = this.numLigations == <span class="keyword">...</span>
+1400                 [numel(this.primaseBindingLocations{1}) + 1 <span class="keyword">...</span>
+1401                 numel(this.primaseBindingLocations{2}) + 1];
+1402         <span class="keyword">end</span>
+1403         
+1404         <a name="_sub26" href="#_subfunctions" class="code">function result = get.strandDuplicated(this)</a>
+1405             result = <span class="keyword">...</span>
+1406                 this.strandPolymerized &amp; <span class="keyword">...</span>
+1407                 this.strandLigated &amp; <span class="keyword">...</span>
+1408                 this.helicasePosition == 0 &amp; <span class="keyword">...</span>
+1409                 this.leadingPosition == 0 &amp; <span class="keyword">...</span>
+1410                 this.laggingPosition == 0 &amp;  <span class="keyword">...</span>
+1411                 this.laggingBackupBetaClampPosition == 0;
+1412         <span class="keyword">end</span>
+1413         
+1414         <span class="comment">%helicase position</span>
+1415         <a name="_sub27" href="#_subfunctions" class="code">function result = get.helicasePosition(this)</a>
+1416             positionsStrands = find(this.chromosome.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_helicase));
+1417             
+1418             idxs1 = find(positionsStrands(:, 2) == this.leadingStrandIndexs(1));
+1419             idxs2 = find(positionsStrands(:, 2) == this.leadingStrandIndexs(2));
+1420             
+1421             <span class="keyword">if</span> numel(idxs1) &gt; 1 || numel(idxs2) &gt; 1
+1422                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'More than 1 active replisome'</span>));
+1423             <span class="keyword">end</span>
+1424             
+1425             result = zeros(1, 2);
+1426             <span class="keyword">if</span> ~isempty(idxs1)
+1427                 result(1) = positionsStrands(idxs1, 1);
+1428             <span class="keyword">end</span>
+1429             <span class="keyword">if</span> ~isempty(idxs2)
+1430                 result(2) = positionsStrands(idxs2, 1);
+1431             <span class="keyword">end</span>
+1432         <span class="keyword">end</span>
+1433         
+1434         <a name="_sub28" href="#_subfunctions" class="code">function result = get.leadingPolymerasePosition(this)</a>
+1435             polLclIdxs = [this.enzymeIndexs_coreBetaClampGammaComplex; this.enzymeIndexs_2coreBetaClampGammaComplexPrimase];
+1436             [positionsStrands, complexs] = find(this.chromosome.complexBoundSites);
+1437             tfs = complexs == this.enzymeGlobalIndexs(polLclIdxs(1)) | complexs == this.enzymeGlobalIndexs(polLclIdxs(2));
+1438             positionsStrands = positionsStrands(tfs, :);
+1439             
+1440             result = zeros(1, 2);
+1441             
+1442             idx = find(positionsStrands(:, 2) == this.leadingStrandIndexs(1));
+1443             <span class="keyword">if</span> numel(idx) &gt; 1
+1444                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'More than 1 active replisome'</span>));
+1445             <span class="keyword">elseif</span> numel(idx) == 1
+1446                 result(1) = positionsStrands(idx, 1);
+1447             <span class="keyword">end</span>
+1448             
+1449             idx = find(positionsStrands(:, 2) == this.leadingStrandIndexs(2));
+1450             <span class="keyword">if</span> numel(idx) &gt; 1
+1451                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'More than 1 active replisome'</span>));
+1452             <span class="keyword">elseif</span> numel(idx) == 1
+1453                 result(2) = positionsStrands(idx, 1);
+1454             <span class="keyword">end</span>
+1455         <span class="keyword">end</span>
+1456         
+1457         <a name="_sub29" href="#_subfunctions" class="code">function result = get.laggingPolymerasePosition(this)</a>
+1458             positionsStrands = find(this.chromosome.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_coreBetaClampPrimase));
+1459             idxs1 = find(positionsStrands(:, 2) == this.laggingStrandIndexs(1));
+1460             idxs2 = find(positionsStrands(:, 2) == this.laggingStrandIndexs(2));
+1461             
+1462             result = zeros(1, 2);
+1463             <span class="keyword">if</span> ~isempty(idxs1); result(1) = max(positionsStrands(idxs1, 1)); <span class="keyword">end</span>;
+1464             <span class="keyword">if</span> ~isempty(idxs2); result(2) = min(positionsStrands(idxs2, 1)); <span class="keyword">end</span>
+1465             
+1466             <span class="keyword">if</span> numel(idxs1) &gt; 2 || numel(idxs2) &gt; 2
+1467                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'More than 1 active replisome'</span>));
+1468             <span class="keyword">end</span>
+1469         <span class="keyword">end</span>
+1470         
+1471         <a name="_sub30" href="#_subfunctions" class="code">function result = get.leadingPosition(this)</a>
+1472             holFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampGammaComplex);
+1473             corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+1474             
+1475             result  = this.leadingPolymerasePosition;
+1476             <span class="keyword">if</span> result(1) ~= 0; result(1) = result(1) + corFtpt5;               <span class="keyword">end</span>;
+1477             <span class="keyword">if</span> result(2) ~= 0; result(2) = result(2) + holFtpt - corFtpt5 - 1; <span class="keyword">end</span>;
+1478             
+1479             result(result ~= 0) = mod(result(result ~= 0) - 1, this.chromosome.sequenceLen) + 1;
+1480         <span class="keyword">end</span>
+1481         
+1482         <a name="_sub31" href="#_subfunctions" class="code">function result = get.laggingPosition(this)</a>
+1483             holFtpt  = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampGammaComplex);
+1484             corFtpt5 = this.enzymeDNAFootprints5Prime(this.enzymeIndexs_core);
+1485             
+1486             result = this.laggingPolymerasePosition;
+1487             <span class="keyword">if</span> result(1) ~= 0; result(1) = result(1) + holFtpt - corFtpt5 - 1; <span class="keyword">end</span>;
+1488             <span class="keyword">if</span> result(2) ~= 0; result(2) = result(2) + corFtpt5;               <span class="keyword">end</span>;
+1489             
+1490             result(result ~= 0) = mod(result(result ~= 0) - 1, this.chromosome.sequenceLen) + 1;
+1491         <span class="keyword">end</span>
+1492         
+1493         <a name="_sub32" href="#_subfunctions" class="code">function result = get.laggingBackupBetaClampPosition(this)</a>
+1494             positionsStrands = find(this.chromosome.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_betaClamp));
+1495             idxs1 = find(positionsStrands(:, 2) == this.laggingStrandIndexs(1));
+1496             idxs2 = find(positionsStrands(:, 2) == this.laggingStrandIndexs(2));
+1497             
+1498             result = zeros(1, 2);
+1499             <span class="keyword">if</span> ~isempty(idxs1); result(1) = max(positionsStrands(idxs1, 1)); <span class="keyword">end</span>;
+1500             <span class="keyword">if</span> ~isempty(idxs2); result(2) = min(positionsStrands(idxs2, 1)); <span class="keyword">end</span>
+1501             
+1502             <span class="keyword">if</span> numel(idxs1) &gt; 1 || numel(idxs2) &gt; 1
+1503                 throw(MException(<span class="string">'Replication:error'</span>, <span class="string">'More than 1 active replisome'</span>));
+1504             <span class="keyword">end</span>
+1505         <span class="keyword">end</span>
+1506         
+1507         <a name="_sub33" href="#_subfunctions" class="code">function result = get.okazakiFragmentIndex(this)</a>
+1508             c = this.chromosome;
+1509             laggingPos = this.laggingPosition;
+1510             
+1511             adjLaggingPos = laggingPos;
+1512             <span class="keyword">if</span> laggingPos(1) ~= 0 &amp;&amp; laggingPos(1) &lt; 1/2 * this.terCPosition
+1513                 adjLaggingPos(1) = laggingPos(1) + this.chromosome.sequenceLen;
+1514             <span class="keyword">end</span>
+1515             <span class="keyword">if</span> laggingPos(2) ~= 0 &amp;&amp; laggingPos(2) &gt; 3/2 * this.terCPosition
+1516                 adjLaggingPos(2) = laggingPos(2) - this.chromosome.sequenceLen;
+1517             <span class="keyword">end</span>
+1518             
+1519             result = zeros(1, 2);
+1520             
+1521             idx1 = find(this.primaseBindingLocations{1} &lt;= adjLaggingPos(1) - (c.isRegionPolymerized([adjLaggingPos(1)-1 3], 1, false) &amp;&amp; adjLaggingPos(1) &gt; this.terCPosition+1), 1, <span class="string">'first'</span>);
+1522             idx2 = find(this.primaseBindingLocations{2} &gt;= adjLaggingPos(2) + (c.isRegionPolymerized([adjLaggingPos(2)+1 2], 1, false) &amp;&amp; adjLaggingPos(2) &lt; this.terCPosition),   1, <span class="string">'first'</span>);
+1523             <span class="keyword">if</span> laggingPos(1) ~= 0 &amp;&amp; ~isempty(idx1); result(1) = idx1; <span class="keyword">end</span>;
+1524             <span class="keyword">if</span> laggingPos(2) ~= 0 &amp;&amp; ~isempty(idx2); result(2) = idx2; <span class="keyword">end</span>;
+1525         <span class="keyword">end</span>
+1526         
+1527         <a name="_sub34" href="#_subfunctions" class="code">function result = get.okazakiFragmentPosition(this)</a>
+1528             okazakiFragmentIndex = this.okazakiFragmentIndex;
+1529             result = zeros(1, 2);
+1530             <span class="keyword">if</span> okazakiFragmentIndex(1) &gt; 0
+1531                 result(1) = this.primaseBindingLocations{1}(okazakiFragmentIndex(1));
+1532             <span class="keyword">end</span>
+1533             <span class="keyword">if</span> okazakiFragmentIndex(2) &gt; 0
+1534                 result(2) = this.primaseBindingLocations{2}(okazakiFragmentIndex(2));
+1535             <span class="keyword">end</span>
+1536         <span class="keyword">end</span>
+1537         
+1538         <a name="_sub35" href="#_subfunctions" class="code">function result = get.okazakiFragmentLength(this)</a>
+1539             okazakiFragmentIndex = this.okazakiFragmentIndex;
+1540             
+1541             starts = zeros(1, 2);
+1542             <span class="keyword">if</span> okazakiFragmentIndex(1) &gt; 0
+1543                 starts(1) = this.primaseBindingLocations{1}(okazakiFragmentIndex(1));
+1544             <span class="keyword">end</span>
+1545             <span class="keyword">if</span> okazakiFragmentIndex(2) &gt; 0
+1546                 starts(2) = this.primaseBindingLocations{2}(okazakiFragmentIndex(2));
+1547             <span class="keyword">end</span>
+1548             
+1549             ends = zeros(1, 2);
+1550             <span class="keyword">if</span> okazakiFragmentIndex(1) &gt; 1
+1551                 ends(1) = this.primaseBindingLocations{1}(okazakiFragmentIndex(1)-1) - 1;
+1552             <span class="keyword">elseif</span> okazakiFragmentIndex(1) == 1
+1553                 ends(1) = this.chromosome.sequenceLen;
+1554             <span class="keyword">end</span>
+1555             <span class="keyword">if</span> okazakiFragmentIndex(2) &gt; 1
+1556                 ends(2) = this.primaseBindingLocations{2}(okazakiFragmentIndex(2)-1) + 1;
+1557             <span class="keyword">elseif</span> okazakiFragmentIndex(2) == 1
+1558                 ends(2) = 1;
+1559             <span class="keyword">end</span>
+1560             
+1561             result = abs(ends-starts)+1;
+1562             result(okazakiFragmentIndex == 0) = 0;
+1563         <span class="keyword">end</span>
+1564         
+1565         <a name="_sub36" href="#_subfunctions" class="code">function result = get.okazakiFragmentProgress(this)</a>
+1566             laggingPos  = this.laggingPosition;
+1567             fIdx = this.okazakiFragmentIndex;
+1568             
+1569             adjLaggingPos = laggingPos;
+1570             <span class="keyword">if</span> laggingPos(1) ~= 0 &amp;&amp; laggingPos(1) &lt; 1/2* this.terCPosition
+1571                 adjLaggingPos(1) = laggingPos(1) + this.chromosome.sequenceLen;
+1572             <span class="keyword">end</span>
+1573             <span class="keyword">if</span> laggingPos(2) ~= 0 &amp;&amp; laggingPos(2) &gt; 3/2 * this.terCPosition
+1574                 adjLaggingPos(2) = laggingPos(2) - this.chromosome.sequenceLen;
+1575             <span class="keyword">end</span>
+1576             
+1577             result = zeros(1, 2);
+1578             <span class="keyword">if</span> laggingPos(1) ~= 0 &amp;&amp; fIdx(1) ~= 0; result(1) = adjLaggingPos(1) - this.primaseBindingLocations{1}(fIdx(1)); <span class="keyword">end</span>;
+1579             <span class="keyword">if</span> laggingPos(2) ~= 0 &amp;&amp; fIdx(2) ~= 0; result(2) = this.primaseBindingLocations{2}(fIdx(2)) - adjLaggingPos(2); <span class="keyword">end</span>;
+1580         <span class="keyword">end</span>
+1581         
+1582         <a name="_sub37" href="#_subfunctions" class="code">function result = get.leadingStrandBoundSSBs(this)</a>
+1583             import edu.stanford.covert.util.CircularSparseMat;
+1584             
+1585             helPos = this.helicasePosition;
+1586             polPos = this.leadingPolymerasePosition;
+1587             
+1588             posStrnds = find(this.chromosome.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_ssb8mer));
+1589             pos = posStrnds(:, 1);
+1590             str = posStrnds(:, 2);
+1591             
+1592             idx1 = [];
+1593             idx2 = [];
+1594             
+1595             <span class="keyword">if</span> polPos(1) ~= 0
+1596                 idx1 = find(<span class="keyword">...</span>
+1597                     str == 1 &amp; <span class="keyword">...</span>
+1598                     pos &lt; polPos(1) &amp; pos &gt; helPos(1));
+1599             <span class="keyword">end</span>
+1600             <span class="keyword">if</span> polPos(2) ~= 0
+1601                 idx2 = find(<span class="keyword">...</span>
+1602                     str == 4 &amp; <span class="keyword">...</span>
+1603                     pos &gt; polPos(2) &amp; pos &lt; helPos(2));
+1604             <span class="keyword">end</span>
+1605             
+1606             result = CircularSparseMat([pos(idx1) ones(size(idx1)); pos(idx2) repmat(2, size(idx2))], ones(numel(idx1) + numel(idx2), 1), [this.chromosome.sequenceLen, 2], 1);
+1607         <span class="keyword">end</span>
+1608         
+1609         <a name="_sub38" href="#_subfunctions" class="code">function result = get.laggingStrandBoundSSBs(this)</a>
+1610             import edu.stanford.covert.util.CircularSparseMat;
+1611             
+1612             helPos = this.helicasePosition;
+1613             
+1614             posStrnds = find(this.chromosome.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_ssb8mer));
+1615             pos = posStrnds(:, 1);
+1616             str = posStrnds(:, 2);
+1617             
+1618             fIdx = this.okazakiFragmentIndex;
+1619             
+1620             starts = zeros(1, 2);
+1621             <span class="keyword">if</span> fIdx(1) == 0
+1622                 starts(1) = this.chromosome.sequenceLen;
+1623             <span class="keyword">else</span>
+1624                 starts(1) = this.primaseBindingLocations{1}(fIdx(1));
+1625             <span class="keyword">end</span>
+1626             <span class="keyword">if</span> fIdx(2) == 0
+1627                 starts(2) = 1;
+1628             <span class="keyword">else</span>
+1629                 starts(2) = this.primaseBindingLocations{2}(fIdx(2));
+1630             <span class="keyword">end</span>
+1631             
+1632             idx1 = find(<span class="keyword">...</span>
+1633                 str == 4 &amp; <span class="keyword">...</span>
+1634                 pos &lt; starts(1) &amp; <span class="keyword">...</span>
+1635                 pos &gt; helPos(1));
+1636             idx2 = find(<span class="keyword">...</span>
+1637                 str == 1 &amp; <span class="keyword">...</span>
+1638                 pos &gt; starts(2) &amp; <span class="keyword">...</span>
+1639                 pos &lt; helPos(2));
+1640             
+1641             result = CircularSparseMat([pos(idx1) ones(size(idx1)); pos(idx2) repmat(2, size(idx2))], ones(numel(idx1) + numel(idx2), 1), [this.chromosome.sequenceLen, 2], 1);
+1642         <span class="keyword">end</span>
+1643         
+1644         <a name="_sub39" href="#_subfunctions" class="code">function result = get.numLeadingTemplateBoundSSBs(this)</a>
+1645             result = full(sum(this.leadingStrandBoundSSBs, 1));
+1646         <span class="keyword">end</span>
+1647         
+1648         <a name="_sub40" href="#_subfunctions" class="code">function result = get.numLaggingTemplateBoundSSBs(this)</a>
+1649             result = full(sum(this.laggingStrandBoundSSBs, 1));
+1650         <span class="keyword">end</span>
+1651         
+1652         <a name="_sub41" href="#_subfunctions" class="code">function result = get.areLaggingStrandSSBSitesBound(this)</a>
+1653             nBndSSBs = this.numLaggingTemplateBoundSSBs;
+1654             ssbFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_ssb8mer);
+1655             ssbSpcg = this.ssbComplexSpacing;
+1656             helPos = this.helicasePosition;
+1657             fIdx = this.okazakiFragmentIndex;
+1658             leadFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampGammaComplex);
+1659             lagFtpt = this.enzymeDNAFootprints(this.enzymeIndexs_coreBetaClampPrimase);
+1660             
+1661             starts = zeros(1, 2);
+1662             <span class="keyword">if</span> fIdx(1) == 0
+1663                 starts(1) = this.chromosome.sequenceLen;
+1664             <span class="keyword">else</span>
+1665                 starts(1) = this.primaseBindingLocations{1}(fIdx(1));
+1666             <span class="keyword">end</span>
+1667             <span class="keyword">if</span> fIdx(2) == 0
+1668                 starts(2) = 1;
+1669             <span class="keyword">else</span>
+1670                 starts(2) = this.primaseBindingLocations{2}(fIdx(2));
+1671             <span class="keyword">end</span>
+1672             
+1673             result = false(1, 2);
+1674             <span class="keyword">if</span> helPos(1) ~= 0; result(1) = nBndSSBs(1) &gt;= floor((starts(1) - helPos(1) - leadFtpt - lagFtpt) / (ssbFtpt + ssbSpcg) - 2); <span class="keyword">end</span>;
+1675             <span class="keyword">if</span> helPos(2) ~= 0; result(2) = nBndSSBs(2) &gt;= floor((helPos(2) - starts(2) - leadFtpt - lagFtpt) / (ssbFtpt + ssbSpcg) - 2); <span class="keyword">end</span>;
+1676         <span class="keyword">end</span>
+1677     <span class="keyword">end</span>
+1678 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

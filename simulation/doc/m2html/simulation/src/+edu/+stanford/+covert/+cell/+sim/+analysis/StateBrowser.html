@@ -1,0 +1,802 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of StateBrowser</title>
+  <meta name="keywords" content="StateBrowser">
+  <meta name="description" content="Creates GUI window which allows the user to quickly view plots of">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; StateBrowser.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>StateBrowser
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Creates GUI window which allows the user to quickly view plots of</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Creates GUI window which allows the user to quickly view plots of
+ simulation. User can either select plots from list box, or scroll through
+ plots using the previous and next page buttons.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/9/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="StateBrowser.html" class="code" title="">StateBrowser</a>	Creates GUI window which allows the user to quickly view plots of</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="StateBrowser.html" class="code" title="">StateBrowser</a>	Creates GUI window which allows the user to quickly view plots of</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = StateBrowser(dataDirectory, plotConfigurations, timeFrom, timeTo, timeBy, verbosity)</a></li><li><a href="#_sub2" class="code">function open(this)</a></li><li><a href="#_sub3" class="code">function layout(this)</a></li><li><a href="#_sub4" class="code">function close(this)</a></li><li><a href="#_sub5" class="code">function maximizeWindow(this)</a></li><li><a href="#_sub6" class="code">function selectDirectory(this, dataDirectory)</a></li><li><a href="#_sub7" class="code">function config = createPlotConfiguration(this)</a></li><li><a href="#_sub8" class="code">function createPlotConfigurationTabPanel(this)</a></li><li><a href="#_sub9" class="code">function [tabHandle, panelHandle] = createPlotConfigurationTab(this, plotNumber)</a></li><li><a href="#_sub10" class="code">function stateCallback(~, ~)</a></li><li><a href="#_sub11" class="code">function stateSubsetCallback(~, ~)</a></li><li><a href="#_sub12" class="code">function [tabHandle, panelHandle] = createPlotConfigurationNewTab(this)</a></li><li><a href="#_sub13" class="code">function selectPlotConfiguration(this, plotNumber)</a></li><li><a href="#_sub14" class="code">function addPlotConfigurationTab(this)</a></li><li><a href="#_sub15" class="code">function timeFromCallback(this)</a></li><li><a href="#_sub16" class="code">function timeToCallback(this)</a></li><li><a href="#_sub17" class="code">function timeByCallback(this)</a></li><li><a href="#_sub18" class="code">function plot(this)</a></li><li><a href="#_sub19" class="code">function selectFileToSave(this)</a></li><li><a href="#_sub20" class="code">function save(this, fileName)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Creates GUI window which allows the user to quickly view plots of</span>
+0002 <span class="comment">% simulation. User can either select plots from list box, or scroll through</span>
+0003 <span class="comment">% plots using the previous and next page buttons.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0006 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0007 <span class="comment">% Last updated: 5/9/2011</span>
+0008 classdef <a href="StateBrowser.html" class="code" title="">StateBrowser</a> &lt; handle
+0009     properties (SetAccess = protected)
+0010         simulationIdx
+0011         
+0012         selectedPlotNumber
+0013         plotConfigurations
+0014         plotData
+0015         
+0016         simulationMetadata
+0017         states
+0018         stateStrings
+0019         stateSubsets
+0020         timeMin
+0021         timeMax
+0022         timeStep
+0023         
+0024         timeFrom = 1;
+0025         timeTo = 1e9;
+0026         timeBy = 1;
+0027         
+0028         verbosity = 0;
+0029     <span class="keyword">end</span>
+0030     
+0031     <span class="comment">%handles</span>
+0032     properties (Access = protected)
+0033         figureHandle
+0034         optionPanelHandle
+0035         plotConfigurationSubpanelHandle
+0036         plotConfigurationTabButtonPanelHandle
+0037         plotConfigurationTabPanelHandle
+0038         plotConfigurationTabHandles
+0039         plotConfigurationPanelHandles
+0040         dataDirectorySubpanelHandle
+0041         dataDirectoryListboxHandle
+0042         dataDirectorySelectButtonHandle
+0043         simulationMetadataGridHandle
+0044         timeSubpanelHandle
+0045         timeFromLabelHandle
+0046         timeToLabelHandle
+0047         timeByLabelHandle
+0048         timeFromHandle
+0049         timeToHandle
+0050         timeByHandle
+0051         actionSubpanelHandle
+0052         plotButtonHandle
+0053         saveButtonHandle
+0054         plotPanelHandle
+0055         axesHandles
+0056     <span class="keyword">end</span>
+0057     
+0058     methods
+0059         <a name="_sub0" href="#_subfunctions" class="code">function this = StateBrowser(dataDirectory, plotConfigurations, timeFrom, timeTo, timeBy, verbosity)</a>
+0060             <span class="comment">%capture simulation metadata</span>
+0061             this.simulationMetadata = edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getSimulations();
+0062             
+0063             <span class="comment">%option window</span>
+0064             this.open();
+0065             
+0066             <span class="comment">%select simulation</span>
+0067             <span class="keyword">if</span> nargin == 0
+0068                 dataDirectory = this.simulationMetadata(1).directory;
+0069             <span class="keyword">end</span>
+0070             this.selectDirectory(dataDirectory);
+0071             
+0072             <span class="comment">%load plot configuration</span>
+0073             this.selectedPlotNumber = 1;
+0074             <span class="keyword">if</span> nargin &lt; 2
+0075                 this.plotConfigurations = this.createPlotConfiguration();
+0076                 this.createPlotConfigurationTabPanel();
+0077             <span class="keyword">else</span>
+0078                 this.plotConfigurations = plotConfigurations;
+0079                 <span class="keyword">for</span> i = 1:numel(plotConfigurations)
+0080                     [tfs, this.plotConfigurations(i).state] = ismember(this.plotConfigurations(i).state, this.stateStrings);
+0081                     <span class="keyword">if</span> ~all(tfs)
+0082                         throw(MException(<span class="string">'StateBrowser:error'</span>, <span class="string">'Undefined state %d'</span>, i));
+0083                     <span class="keyword">end</span>
+0084                     
+0085                     <span class="keyword">if</span> ~isempty(this.plotConfigurations(i).stateSubset)
+0086                         [tfs, this.plotConfigurations(i).stateSubset] = ismember(this.plotConfigurations(i).stateSubset, this.stateSubsets{this.plotConfigurations(i).state});
+0087                         <span class="keyword">if</span> ~all(tfs)
+0088                             throw(MException(<span class="string">'StateBrowser:error'</span>, <span class="string">'Undefined state subset %d'</span>, i));
+0089                         <span class="keyword">end</span>
+0090                     <span class="keyword">end</span>
+0091                 <span class="keyword">end</span>
+0092                 this.createPlotConfigurationTabPanel();
+0093             <span class="keyword">end</span>
+0094             
+0095             <span class="comment">%set time range</span>
+0096             <span class="keyword">if</span> nargin &gt;= 3
+0097                 this.timeFrom = timeFrom;
+0098             <span class="keyword">end</span>
+0099             <span class="keyword">if</span> nargin &gt;= 4
+0100                 this.timeTo = timeTo;
+0101             <span class="keyword">end</span>
+0102             <span class="keyword">if</span> nargin &gt;= 5
+0103                 this.timeBy = timeBy;
+0104             <span class="keyword">end</span>
+0105             
+0106             <span class="comment">%plot</span>
+0107             <span class="keyword">if</span> nargin &gt;= 2
+0108                 this.plot();
+0109             <span class="keyword">end</span>
+0110             
+0111             <span class="comment">%set verbosity</span>
+0112             <span class="keyword">if</span> nargin &gt;= 6
+0113                 this.verbosity = verbosity;
+0114             <span class="keyword">end</span>
+0115         <span class="keyword">end</span>
+0116         
+0117         <a name="_sub1" href="#_subfunctions" class="code">function open(this)</a>
+0118             <span class="keyword">if</span> ~isempty(this.figureHandle)
+0119                 <span class="keyword">return</span>;
+0120             <span class="keyword">end</span>
+0121             
+0122             <span class="comment">%% figure</span>
+0123             this.figureHandle = figure(<span class="string">'Name'</span>, <span class="string">'Whole Cell Simulation :: State Browser'</span>, <span class="keyword">...</span>
+0124                 <span class="string">'Position'</span>, [100 100 1200 800], <span class="keyword">...</span>
+0125                 <span class="string">'Units'</span>, <span class="string">'pixels'</span>, <span class="keyword">...</span>
+0126                 <span class="string">'Color'</span>, [0.9412 0.9412 0.9412], <span class="keyword">...</span>
+0127                 <span class="string">'NumberTitle'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0128                 <span class="string">'MenuBar'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0129                 <span class="string">'Toolbar'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0130                 <span class="string">'PaperPositionMode'</span>, <span class="string">'auto'</span>, <span class="keyword">...</span>
+0131                 <span class="string">'ResizeFcn'</span>, @(hObject, eventData) this.layout());
+0132             
+0133             <span class="comment">%% option panel</span>
+0134             this.optionPanelHandle = uipanel(<span class="keyword">...</span>
+0135                 <span class="string">'Parent'</span>, this.figureHandle, <span class="keyword">...</span>
+0136                 <span class="string">'Title'</span>, [], <span class="keyword">...</span>
+0137                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0138             
+0139             <span class="comment">%plot configure</span>
+0140             this.plotConfigurationSubpanelHandle = uipanel(<span class="keyword">...</span>
+0141                 <span class="string">'Parent'</span>, this.optionPanelHandle, <span class="keyword">...</span>
+0142                 <span class="string">'Title'</span>, [], <span class="keyword">...</span>
+0143                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0144             this.plotConfigurationTabButtonPanelHandle = uipanel(<span class="keyword">...</span>
+0145                 <span class="string">'Parent'</span>, this.plotConfigurationSubpanelHandle, <span class="keyword">...</span>
+0146                 <span class="string">'Title'</span>, [], <span class="keyword">...</span>
+0147                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0148             this.plotConfigurationTabPanelHandle = uipanel(<span class="string">'Parent'</span>, this.plotConfigurationSubpanelHandle, <span class="string">'Title'</span>, []);
+0149             this.createPlotConfigurationTabPanel();
+0150             
+0151             <span class="comment">%data directory</span>
+0152             this.dataDirectorySubpanelHandle = uipanel(<span class="keyword">...</span>
+0153                 <span class="string">'Parent'</span>, this.optionPanelHandle, <span class="keyword">...</span>
+0154                 <span class="string">'Title'</span>, <span class="string">'Simulation'</span>, <span class="keyword">...</span>
+0155                 <span class="string">'BorderType'</span>, <span class="string">'etchedin'</span>);
+0156             this.dataDirectoryListboxHandle = uicontrol(this.dataDirectorySubpanelHandle, <span class="keyword">...</span>
+0157                 <span class="string">'Style'</span>, <span class="string">'popupmenu'</span>,<span class="keyword">...</span>
+0158                 <span class="string">'String'</span>, {this.simulationMetadata.name}, <span class="keyword">...</span>
+0159                 <span class="string">'Value'</span>, 1, <span class="keyword">...</span>
+0160                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'Left'</span>, <span class="keyword">...</span>
+0161                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>);
+0162             this.dataDirectorySelectButtonHandle = uicontrol(this.dataDirectorySubpanelHandle, <span class="keyword">...</span>
+0163                 <span class="string">'Style'</span>, <span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0164                 <span class="string">'String'</span>, <span class="string">'Select'</span>, <span class="keyword">...</span>
+0165                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'Center'</span>, <span class="keyword">...</span>
+0166                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0167                 <span class="string">'Callback'</span>, @(hObject, eventData) this.selectDirectory());
+0168             <span class="keyword">if</span> ~isdeployed
+0169                 properties = [
+0170                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Name'</span>)
+0171                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Description'</span>)
+0172                     PropertyGridField(<span class="string">'integer'</span>, uint32(0), <span class="string">'Type'</span>, PropertyType(<span class="string">'uint32'</span>, <span class="string">'scalar'</span>), <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Length (s)'</span>)
+0173                     PropertyGridField(<span class="string">'integer'</span>, uint32(0), <span class="string">'Type'</span>, PropertyType(<span class="string">'uint32'</span>, <span class="string">'scalar'</span>), <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Revision'</span>)
+0174                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Differences From Revision'</span>)
+0175                     PropertyGridField(<span class="string">'integer'</span>, uint32(0), <span class="string">'Type'</span>, PropertyType(<span class="string">'uint32'</span>, <span class="string">'scalar'</span>), <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Knowledge Base WID'</span>)
+0176                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Group ID'</span>)
+0177                     PropertyGridField(<span class="string">'integer'</span>, uint32(0), <span class="string">'Type'</span>, PropertyType(<span class="string">'uint32'</span>, <span class="string">'scalar'</span>), <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Group Index'</span>)
+0178                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Start Time'</span>)
+0179                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'End Time'</span>)
+0180                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Output Directory'</span>)
+0181                     PropertyGridField(<span class="string">'integer'</span>, uint32(0), <span class="string">'Type'</span>, PropertyType(<span class="string">'uint32'</span>, <span class="string">'scalar'</span>), <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>,   <span class="string">'DisplayName'</span>, <span class="string">'Segment Size (s)'</span>)
+0182                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'Name'</span>)
+0183                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'Affiliation'</span>)
+0184                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'Username'</span>)
+0185                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'Email'</span>)
+0186                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'Hostname'</span>)
+0187                     PropertyGridField(<span class="string">'string'</span>,  <span class="string">''</span>,        <span class="string">'Type'</span>, PropertyType(<span class="string">'char'</span>, <span class="string">'row'</span>),      <span class="string">'Description'</span>, <span class="string">''</span>, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>,  <span class="string">'DisplayName'</span>, <span class="string">'IP'</span>)
+0188                     ];
+0189                 properties = properties.GetHierarchy();
+0190                 this.simulationMetadataGridHandle = PropertyGrid(this.dataDirectorySubpanelHandle, <span class="keyword">...</span>
+0191                     <span class="string">'Properties'</span>, properties, <span class="keyword">...</span>
+0192                     <span class="string">'Position'</span>, [0 0 0.5 1]);
+0193             <span class="keyword">end</span>
+0194             
+0195             <span class="comment">%time</span>
+0196             this.timeSubpanelHandle = uipanel(<span class="keyword">...</span>
+0197                 <span class="string">'Parent'</span>, this.optionPanelHandle, <span class="keyword">...</span>
+0198                 <span class="string">'Title'</span>, <span class="string">'Time'</span>, <span class="keyword">...</span>
+0199                 <span class="string">'BorderType'</span>, <span class="string">'etchedin'</span>);
+0200             
+0201             this.timeFromLabelHandle = uicontrol(<span class="keyword">...</span>
+0202                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0203                 <span class="string">'Style'</span>, <span class="string">'text'</span>, <span class="keyword">...</span>
+0204                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0205                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0206                 <span class="string">'String'</span>, <span class="string">'From'</span>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0207             this.timeFromHandle = uicontrol(<span class="keyword">...</span>
+0208                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0209                 <span class="string">'Style'</span>, <span class="string">'edit'</span>, <span class="keyword">...</span>
+0210                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0211                 <span class="string">'String'</span>, this.timeFrom, <span class="keyword">...</span>
+0212                 <span class="string">'Callback'</span>, @(hObject, eventData) this.timeFromCallback());
+0213             
+0214             this.timeToLabelHandle = uicontrol(<span class="keyword">...</span>
+0215                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0216                 <span class="string">'Style'</span>, <span class="string">'text'</span>, <span class="keyword">...</span>
+0217                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0218                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0219                 <span class="string">'String'</span>, <span class="string">'To'</span>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0220             this.timeToHandle = uicontrol(<span class="keyword">...</span>
+0221                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0222                 <span class="string">'Style'</span>, <span class="string">'edit'</span>, <span class="keyword">...</span>
+0223                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0224                 <span class="string">'String'</span>, this.timeTo, <span class="keyword">...</span>
+0225                 <span class="string">'Callback'</span>, @(hObject, eventData) this.timeToCallback());
+0226             
+0227             this.timeByLabelHandle = uicontrol(<span class="keyword">...</span>
+0228                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0229                 <span class="string">'Style'</span>, <span class="string">'text'</span>, <span class="keyword">...</span>
+0230                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0231                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0232                 <span class="string">'String'</span>, <span class="string">'By'</span>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0233             this.timeByHandle = uicontrol(<span class="keyword">...</span>
+0234                 <span class="string">'Parent'</span>, this.timeSubpanelHandle, <span class="keyword">...</span>
+0235                 <span class="string">'Style'</span>, <span class="string">'edit'</span>, <span class="keyword">...</span>
+0236                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0237                 <span class="string">'String'</span>, this.timeBy, <span class="keyword">...</span>
+0238                 <span class="string">'Callback'</span>, @(hObject, eventData) this.timeByCallback());
+0239             
+0240             <span class="comment">%action</span>
+0241             this.actionSubpanelHandle = uipanel(<span class="keyword">...</span>
+0242                 <span class="string">'Parent'</span>, this.optionPanelHandle, <span class="keyword">...</span>
+0243                 <span class="string">'Title'</span>, [], <span class="keyword">...</span>
+0244                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0245             this.plotButtonHandle = uicontrol(this.actionSubpanelHandle, <span class="keyword">...</span>
+0246                 <span class="string">'Style'</span>, <span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0247                 <span class="string">'String'</span>, <span class="string">'Plot'</span>, <span class="keyword">...</span>
+0248                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0249                 <span class="string">'Callback'</span>, @(hObject, eventData) this.plot);
+0250             this.saveButtonHandle = uicontrol(this.actionSubpanelHandle, <span class="keyword">...</span>
+0251                 <span class="string">'Style'</span>, <span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0252                 <span class="string">'String'</span>, <span class="string">'Save'</span>, <span class="keyword">...</span>
+0253                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0254                 <span class="string">'Callback'</span>, @(hObject, eventData) this.selectFileToSave);
+0255             
+0256             <span class="comment">%% plot panel</span>
+0257             this.plotPanelHandle = uipanel(<span class="string">'Parent'</span>, this.figureHandle, <span class="string">'Title'</span>, <span class="string">'Plots'</span>);
+0258             
+0259             <span class="comment">%% layout window</span>
+0260             this.layout();
+0261         <span class="keyword">end</span>
+0262         
+0263         <a name="_sub2" href="#_subfunctions" class="code">function layout(this)</a>
+0264             figureSize = get(this.figureHandle, <span class="string">'Position'</span>);
+0265             figureWidth = figureSize(3);
+0266             figureHeight = figureSize(4);
+0267             
+0268             optionPanelWidth = 300;
+0269             plotPanelWidth = figureWidth - optionPanelWidth - 20;
+0270             <span class="keyword">if</span> ~isdeployed
+0271                 dataDirectorySubpanelHeight = 210;
+0272                 simulationMetadataGridHeight = 178;
+0273             <span class="keyword">else</span>
+0274                 dataDirectorySubpanelHeight = 40;
+0275                 simulationMetadataGridHeight = 0;
+0276             <span class="keyword">end</span>
+0277             actionSubpanelHeight = 30;
+0278             timeSubpanelHeight = 75;
+0279             plotConfigurationSubpanelHeight = figureHeight - dataDirectorySubpanelHeight - actionSubpanelHeight - timeSubpanelHeight - 20-12;
+0280             tabButtonHeight = 25;
+0281             
+0282             <span class="comment">%main panels</span>
+0283             set(this.optionPanelHandle, <span class="string">'Position'</span>, [0 0 optionPanelWidth/figureWidth 1]);
+0284             set(this.plotPanelHandle, <span class="string">'Position'</span>, [(optionPanelWidth+20)/figureWidth 4/figureHeight (plotPanelWidth-4)/figureWidth 1-8/figureHeight]);
+0285             
+0286             <span class="comment">%option subpanels</span>
+0287             set(this.plotConfigurationSubpanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0288                 [4/optionPanelWidth (actionSubpanelHeight+timeSubpanelHeight)/figureHeight+16/figureHeight 1-8/optionPanelWidth plotConfigurationSubpanelHeight/figureHeight]);
+0289             set(this.dataDirectorySubpanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0290                 [8/optionPanelWidth (actionSubpanelHeight+plotConfigurationSubpanelHeight+timeSubpanelHeight)/figureHeight+27/figureHeight 1-16/optionPanelWidth dataDirectorySubpanelHeight/figureHeight]);
+0291             set(this.timeSubpanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0292                 [8/optionPanelWidth actionSubpanelHeight/figureHeight+12/figureHeight 1-16/optionPanelWidth timeSubpanelHeight/figureHeight]);
+0293             set(this.actionSubpanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0294                 [4/optionPanelWidth 4/figureHeight 1-8/optionPanelWidth actionSubpanelHeight/figureHeight]);
+0295             
+0296             <span class="comment">%option controls</span>
+0297             set(this.plotConfigurationTabButtonPanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0298                 [4/optionPanelWidth 1-tabButtonHeight/plotConfigurationSubpanelHeight 1-8/optionPanelWidth tabButtonHeight/plotConfigurationSubpanelHeight]);
+0299             set(this.plotConfigurationTabPanelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0300                 [4/optionPanelWidth 4/plotConfigurationSubpanelHeight 1-8/optionPanelWidth 1-(tabButtonHeight+2)/plotConfigurationSubpanelHeight]);
+0301             
+0302             set(this.dataDirectoryListboxHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0303                 [0.01 (2+6+simulationMetadataGridHeight)/dataDirectorySubpanelHeight 0.7 1-(8+simulationMetadataGridHeight)/dataDirectorySubpanelHeight])
+0304             set(this.dataDirectorySelectButtonHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0305                 [0.73 (2+6+simulationMetadataGridHeight)/dataDirectorySubpanelHeight 0.26 1-(8+simulationMetadataGridHeight)/dataDirectorySubpanelHeight])
+0306             <span class="keyword">if</span> ~isdeployed
+0307                 set(this.simulationMetadataGridHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0308                     [0.01 2/dataDirectorySubpanelHeight 0.98 simulationMetadataGridHeight/dataDirectorySubpanelHeight])
+0309             <span class="keyword">end</span>
+0310             
+0311             set(this.timeFromLabelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0312                 [0 0.71 0.1 0.25]);
+0313             set(this.timeToLabelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0314                 [0 0.39 0.1 0.25]);
+0315             set(this.timeByLabelHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0316                 [0 0.07 0.1 0.25]);
+0317             set(this.timeFromHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0318                 [0.11 0.71 0.88 0.25]);
+0319             set(this.timeToHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0320                 [0.11 0.39 0.88 0.25]);
+0321             set(this.timeByHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0322                 [0.11 0.07 0.88 0.25]);
+0323             
+0324             set(this.plotButtonHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0325                 [0.08 6/actionSubpanelHeight 0.4 1-10/actionSubpanelHeight])
+0326             set(this.saveButtonHandle, <span class="string">'Position'</span>, <span class="keyword">...</span>
+0327                 [0.52 6/actionSubpanelHeight 0.4 1-10/actionSubpanelHeight])
+0328             
+0329             this.createPlotConfigurationTabPanel();
+0330         <span class="keyword">end</span>
+0331         
+0332         <a name="_sub3" href="#_subfunctions" class="code">function close(this)</a>
+0333             delete(this.figureHandle);
+0334             
+0335             this.figureHandle = [];
+0336             this.optionPanelHandle = [];
+0337             this.plotConfigurationSubpanelHandle = [];
+0338             this.plotConfigurationTabButtonPanelHandle = [];
+0339             this.plotConfigurationTabPanelHandle = [];
+0340             this.plotConfigurationTabHandles = [];
+0341             this.plotConfigurationPanelHandles = [];
+0342             this.dataDirectorySubpanelHandle = [];
+0343             this.dataDirectorySelectButtonHandle = [];
+0344             this.dataDirectoryListboxHandle = [];
+0345             this.simulationMetadataGridHandle = [];
+0346             this.timeSubpanelHandle = [];
+0347             this.timeFromHandle = [];
+0348             this.timeToHandle = [];
+0349             this.timeByHandle = [];
+0350             this.actionSubpanelHandle = [];
+0351             this.plotButtonHandle = [];
+0352             this.saveButtonHandle = [];
+0353             this.plotPanelHandle = [];
+0354             this.axesHandles = [];
+0355         <span class="keyword">end</span>
+0356         
+0357         <span class="comment">%% layout window fullscreen</span>
+0358         <a name="_sub4" href="#_subfunctions" class="code">function maximizeWindow(this)</a>
+0359             <span class="keyword">if</span> ispc
+0360                 maxfig(this.figureHandle, 1);
+0361             <span class="keyword">else</span>
+0362                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Full screen not supported on this platform'</span>);
+0363             <span class="keyword">end</span>
+0364         <span class="keyword">end</span>
+0365         
+0366         <a name="_sub5" href="#_subfunctions" class="code">function selectDirectory(this, dataDirectory)</a>
+0367             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0368             
+0369             <span class="comment">%set variables</span>
+0370             <span class="keyword">if</span> nargin &gt; 1
+0371                 [~, this.simulationIdx] = ismember(dataDirectory, {this.simulationMetadata.directory});
+0372                 set(this.dataDirectoryListboxHandle, <span class="string">'Value'</span>, this.simulationIdx);
+0373             <span class="keyword">else</span>
+0374                 this.simulationIdx = get(this.dataDirectoryListboxHandle, <span class="string">'Value'</span>);
+0375             <span class="keyword">end</span>
+0376             
+0377             <span class="comment">%load simulation</span>
+0378             dataDirectory = this.simulationMetadata(this.simulationIdx).directory;
+0379             this.states = DiskLogger.getAvailableStates(dataDirectory);
+0380             this.stateStrings = cellfun(@(x, y) [x <span class="string">' - '</span> y], this.states(:, 1), this.states(:, 2), <span class="string">'UniformOutput'</span>, false);
+0381             this.stateSubsets = cell(size(this.stateStrings));
+0382             tmp = load(<span class="string">'src_test/+edu/+stanford/+covert/+cell/+sim/fixtures/Simulation.mat'</span>);
+0383             sim = tmp.fixture;
+0384             <span class="keyword">for</span> i = 1:numel(sim.states)
+0385                 s = sim.states{i};
+0386                 <span class="keyword">if</span> isa(s, <span class="string">'edu.stanford.covert.cell.sim.MoleculeCountState'</span>)
+0387                     j = find(strcmp(this.states(:,1), s.wholeCellModelID(7:end)) &amp; strcmp(this.states(:, 2), <span class="string">'counts'</span>));
+0388                     this.stateSubsets{j} = s.wholeCellModelIDs; <span class="comment">%#ok&lt;FNDSB&gt;</span>
+0389                 <span class="keyword">end</span>
+0390             <span class="keyword">end</span>
+0391             clear tmp smp s;
+0392             metadata = DiskLogger.loadMetadata(dataDirectory);
+0393             options = DiskLogger.loadOptions(dataDirectory);
+0394             this.timeMin = 1;
+0395             this.timeMax = metadata.lengthSec;
+0396             this.timeStep = options.stepSizeSec;
+0397             
+0398             <span class="comment">%setup metadata panel</span>
+0399             <span class="keyword">if</span> ~isdeployed
+0400                 properties = this.simulationMetadataGridHandle.Properties;
+0401                 md = this.simulationMetadata(this.simulationIdx);
+0402                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Name'</span>); tmp.Value = md.shortDescription;
+0403                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Description'</span>); tmp.Value = md.longDescription;
+0404                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Simulation'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Length (s)'</span>); tmp.Value = uint32(md.lengthSec);
+0405                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Revision'</span>); tmp.Value = uint32(md.revision);
+0406                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Differences From Revision'</span>); tmp.Value = md.differencesFromRevision;
+0407                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Knowledge Base WID'</span>); tmp.Value = uint32(md.knowledgeBaseWID);
+0408                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Group ID'</span>); tmp.Value = md.simGroup;
+0409                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Group Index'</span>); tmp.Value = uint32(md.simIdx);
+0410                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Start Time'</span>); tmp.Value = md.startTime;
+0411                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'End Time'</span>); tmp.Value = md.endTime;
+0412                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Output Directory'</span>); tmp.Value = md.outputDirectory;
+0413                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Metadata'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Segment Size (s)'</span>); tmp.Value = uint32(md.segmentSizeStep);
+0414                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Name'</span>); tmp.Value = [md.firstName <span class="string">' '</span> md.lastName];
+0415                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Affiliation'</span>); tmp.Value = md.affiliation;
+0416                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Username'</span>); tmp.Value = md.userName;
+0417                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Email'</span>); tmp.Value = md.email;
+0418                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Hostname'</span>); tmp.Value = md.hostName;
+0419                 tmp = findobj(properties, <span class="string">'Category'</span>, <span class="string">'Reseacher'</span>, <span class="string">'-and'</span>, <span class="string">'DisplayName'</span>, <span class="string">'IP'</span>); tmp.Value = md.ipAddress;
+0420                 <span class="keyword">for</span> i = 1:numel(properties)
+0421                     <span class="keyword">if</span> ischar(properties(i).Value)
+0422                         properties(i).Description = properties(i).Value;
+0423                     <span class="keyword">else</span>
+0424                         properties(i).Description = num2str(properties(i).Value);
+0425                     <span class="keyword">end</span>
+0426                 <span class="keyword">end</span>
+0427                 this.simulationMetadataGridHandle.Properties = properties;
+0428                 this.simulationMetadataGridHandle.DisableToolBar();
+0429                 set(this.simulationMetadataGridHandle.Control, <span class="string">'BorderType'</span>, <span class="string">'none'</span>)
+0430             <span class="keyword">end</span>
+0431             
+0432             this.timeFromCallback();
+0433             this.timeToCallback();
+0434             this.timeByCallback();
+0435         <span class="keyword">end</span>
+0436         
+0437         <a name="_sub6" href="#_subfunctions" class="code">function config = createPlotConfiguration(this)</a>
+0438             this.selectedPlotNumber = 1;
+0439             stateSubset = this.stateSubsets{1};
+0440             <span class="keyword">if</span> ~isempty(stateSubset)
+0441                 stateSubset = 1;
+0442             <span class="keyword">end</span>
+0443             
+0444             config = struct(<span class="keyword">...</span>
+0445                 <span class="string">'state'</span>, 1, <span class="keyword">...</span>
+0446                 <span class="string">'stateSubset'</span>, stateSubset);
+0447         <span class="keyword">end</span>
+0448         
+0449         <a name="_sub7" href="#_subfunctions" class="code">function createPlotConfigurationTabPanel(this)</a>
+0450             delete(this.plotConfigurationTabHandles);
+0451             delete(this.plotConfigurationPanelHandles);
+0452             
+0453             this.plotConfigurationTabHandles = [];
+0454             this.plotConfigurationPanelHandles = [];
+0455             
+0456             <span class="keyword">for</span> i = 1:numel(this.plotConfigurations)
+0457                 [tabHandle, panelHandle] = this.createPlotConfigurationTab(i);
+0458                 this.plotConfigurationTabHandles = [this.plotConfigurationTabHandles; tabHandle];
+0459                 this.plotConfigurationPanelHandles = [this.plotConfigurationPanelHandles; panelHandle];
+0460             <span class="keyword">end</span>
+0461             
+0462             [tabHandle, panelHandle] = this.createPlotConfigurationNewTab();
+0463             this.plotConfigurationTabHandles = [this.plotConfigurationTabHandles; tabHandle];
+0464             this.plotConfigurationPanelHandles = [this.plotConfigurationPanelHandles; panelHandle];
+0465             
+0466             set(this.plotConfigurationTabHandles(this.selectedPlotNumber), <span class="string">'BackgroundColor'</span>, [0.7 0.7 0.7]);
+0467             set(this.plotConfigurationPanelHandles(this.selectedPlotNumber), <span class="string">'Visible'</span>, <span class="string">'On'</span>);
+0468         <span class="keyword">end</span>
+0469         
+0470         <a name="_sub8" href="#_subfunctions" class="code">function [tabHandle, panelHandle] = createPlotConfigurationTab(this, plotNumber)</a>
+0471             tabW = min(0.15, 1/(1+numel(this.plotConfigurations)));
+0472             tabHandle = uicontrol(<span class="keyword">...</span>
+0473                 <span class="string">'Parent'</span>, this.plotConfigurationTabButtonPanelHandle, <span class="keyword">...</span>
+0474                 <span class="string">'style'</span>, <span class="string">'pushbutton'</span>, <span class="keyword">...</span>
+0475                 <span class="string">'String'</span>, sprintf(<span class="string">'Plot-%d'</span>, plotNumber), <span class="keyword">...</span>
+0476                 <span class="string">'BackgroundColor'</span>, [0.9412 0.9412 0.9412], <span class="keyword">...</span>
+0477                 <span class="string">'SelectionHighlight'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0478                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'left'</span>, <span class="keyword">...</span>
+0479                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>,<span class="keyword">...</span>
+0480                 <span class="string">'Position'</span>, [tabW * (plotNumber-1) 0 tabW 1], <span class="keyword">...</span>
+0481                 <span class="string">'Callback'</span>, @(hObject, eventData) this.selectPlotConfiguration(plotNumber));
+0482             panelHandle = uipanel(<span class="keyword">...</span>
+0483                 <span class="string">'Parent'</span>, this.plotConfigurationTabPanelHandle,<span class="keyword">...</span>
+0484                 <span class="string">'Visible'</span>, <span class="string">'off'</span>,<span class="keyword">...</span>
+0485                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>,<span class="keyword">...</span>
+0486                 <span class="string">'Position'</span>, [0 0 1 1], <span class="keyword">...</span>
+0487                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0488             
+0489             figureSize = get(this.figureHandle, <span class="string">'Position'</span>);
+0490             figureWidth = figureSize(3);
+0491             figureHeight = figureSize(4);
+0492             panelHeight = figureHeight - 30 - 30 - 4 - 25;
+0493             panelWidth = 300 - 8;
+0494             stateHeight = 20;
+0495             subsetHeight = panelHeight - stateHeight - 44;
+0496             
+0497             uicontrol(<span class="keyword">...</span>
+0498                 <span class="string">'Parent'</span>, panelHandle, <span class="keyword">...</span>
+0499                 <span class="string">'Style'</span>, <span class="string">'text'</span>, <span class="keyword">...</span>
+0500                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0501                 <span class="string">'Position'</span>, [4/panelWidth 1-(stateHeight+12)/panelHeight 41/panelWidth stateHeight/panelHeight], <span class="keyword">...</span>
+0502                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0503                 <span class="string">'String'</span>, <span class="string">'State'</span>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0504             stateHandle = uicontrol(<span class="keyword">...</span>
+0505                 <span class="string">'Parent'</span>, panelHandle, <span class="keyword">...</span>
+0506                 <span class="string">'Style'</span>, <span class="string">'popupmenu'</span>, <span class="keyword">...</span>
+0507                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0508                 <span class="string">'Position'</span>, [49/panelWidth 1-(stateHeight+8)/panelHeight 1-53/panelWidth 20/panelHeight], <span class="keyword">...</span>
+0509                 <span class="string">'String'</span>, this.stateStrings, <span class="keyword">...</span>
+0510                 <span class="string">'Value'</span>, this.plotConfigurations(plotNumber).state, <span class="keyword">...</span>
+0511                 <span class="string">'Callback'</span>, @<a href="#_sub10" class="code" title="subfunction stateCallback(~, ~)">stateCallback</a>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0512             
+0513             <span class="keyword">if</span> ~isempty(this.stateSubsets{this.plotConfigurations(plotNumber).state})
+0514                 enable = <span class="string">'on'</span>;
+0515                 nEl = numel(this.stateSubsets{this.plotConfigurations(plotNumber).state});
+0516             <span class="keyword">else</span>
+0517                 val2 = [];
+0518                 enable = <span class="string">'off'</span>;
+0519                 nEl = 0;
+0520             <span class="keyword">end</span>
+0521             uicontrol(<span class="keyword">...</span>
+0522                 <span class="string">'Parent'</span>, panelHandle, <span class="keyword">...</span>
+0523                 <span class="string">'Style'</span>, <span class="string">'text'</span>, <span class="keyword">...</span>
+0524                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0525                 <span class="string">'Position'</span>, [4/panelWidth 1-(stateHeight+8+20+10)/panelHeight 41/panelWidth 20/panelHeight], <span class="keyword">...</span>
+0526                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0527                 <span class="string">'String'</span>, <span class="string">'Subset'</span>); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0528             stateSubsetHandle = uicontrol(<span class="keyword">...</span>
+0529                 <span class="string">'Parent'</span>, panelHandle, <span class="keyword">...</span>
+0530                 <span class="string">'Style'</span>, <span class="string">'listbox'</span>, <span class="keyword">...</span>
+0531                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0532                 <span class="string">'Position'</span>, [49/panelWidth 1-(stateHeight+subsetHeight+36)/panelHeight 1-53/panelWidth subsetHeight/panelHeight], <span class="keyword">...</span>
+0533                 <span class="string">'String'</span>, this.stateSubsets{this.plotConfigurations(plotNumber).state}, <span class="keyword">...</span>
+0534                 <span class="string">'Value'</span>, this.plotConfigurations(plotNumber).stateSubset, <span class="keyword">...</span>
+0535                 <span class="string">'Min'</span>, 1, <span class="keyword">...</span>
+0536                 <span class="string">'Max'</span>, nEl, <span class="keyword">...</span>
+0537                 <span class="string">'Enable'</span>, enable, <span class="keyword">...</span>
+0538                 <span class="string">'Callback'</span>, @<a href="#_sub11" class="code" title="subfunction stateSubsetCallback(~, ~)">stateSubsetCallback</a>);
+0539             
+0540             <a name="_sub9" href="#_subfunctions" class="code">function stateCallback(~, ~)</a>
+0541                 this.plotConfigurations(plotNumber).state = get(stateHandle, <span class="string">'Value'</span>);
+0542                 this.plotConfigurations(plotNumber).stateSubset = 1;
+0543                 <span class="keyword">if</span> ~isempty(this.stateSubsets{get(stateHandle, <span class="string">'Value'</span>)})
+0544                     enable = <span class="string">'on'</span>;
+0545                 <span class="keyword">else</span>
+0546                     enable = <span class="string">'off'</span>;
+0547                 <span class="keyword">end</span>
+0548                 set(stateSubsetHandle, <span class="keyword">...</span>
+0549                     <span class="string">'String'</span>, this.stateSubsets{get(stateHandle, <span class="string">'Value'</span>)}, <span class="keyword">...</span>
+0550                     <span class="string">'Value'</span>, this.plotConfigurations(plotNumber).stateSubset, <span class="keyword">...</span>
+0551                     <span class="string">'Enable'</span>, enable, <span class="keyword">...</span>
+0552                     <span class="string">'Min'</span>, 1, <span class="keyword">...</span>
+0553                     <span class="string">'Max'</span>, numel(this.stateSubsets{get(stateHandle, <span class="string">'Value'</span>)}));
+0554             <span class="keyword">end</span>
+0555             
+0556             <a name="_sub10" href="#_subfunctions" class="code">function stateSubsetCallback(~, ~)</a>
+0557                 this.plotConfigurations(plotNumber).stateSubset = get(stateSubsetHandle, <span class="string">'Value'</span>);
+0558             <span class="keyword">end</span>
+0559         <span class="keyword">end</span>
+0560         
+0561         <a name="_sub11" href="#_subfunctions" class="code">function [tabHandle, panelHandle] = createPlotConfigurationNewTab(this)</a>
+0562             tabW = min(0.15, 1/(1+numel(this.plotConfigurations)));
+0563             tabHandle = uicontrol(<span class="keyword">...</span>
+0564                 <span class="string">'Parent'</span>, this.plotConfigurationTabButtonPanelHandle, <span class="keyword">...</span>
+0565                 <span class="string">'style'</span>, <span class="string">'pushbutton'</span>, <span class="keyword">...</span>
+0566                 <span class="string">'String'</span>, <span class="string">'+'</span>, <span class="keyword">...</span>
+0567                 <span class="string">'BackgroundColor'</span>, [0.9412 0.9412 0.9412], <span class="keyword">...</span>
+0568                 <span class="string">'SelectionHighlight'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0569                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="keyword">...</span>
+0570                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>,<span class="keyword">...</span>
+0571                 <span class="string">'Position'</span>, [tabW * numel(this.plotConfigurations) 0 min(tabW, 0.1) 1],<span class="keyword">...</span>
+0572                 <span class="string">'Callback'</span>, @(hObject, eventData) this.addPlotConfigurationTab());
+0573             panelHandle = uipanel(<span class="keyword">...</span>
+0574                 <span class="string">'Parent'</span>, this.plotConfigurationTabPanelHandle,<span class="keyword">...</span>
+0575                 <span class="string">'Visible'</span>, <span class="string">'off'</span>,<span class="keyword">...</span>
+0576                 <span class="string">'Units'</span>, <span class="string">'normalized'</span>,<span class="keyword">...</span>
+0577                 <span class="string">'Position'</span>, [0 0 1 1], <span class="keyword">...</span>
+0578                 <span class="string">'BorderType'</span>, <span class="string">'none'</span>);
+0579         <span class="keyword">end</span>
+0580         
+0581         <a name="_sub12" href="#_subfunctions" class="code">function selectPlotConfiguration(this, plotNumber)</a>
+0582             set(this.plotConfigurationTabHandles(this.selectedPlotNumber), <span class="keyword">...</span>
+0583                 <span class="string">'BackgroundColor'</span>, [0.9412 0.9412 0.9412]);
+0584             set(this.plotConfigurationPanelHandles(this.selectedPlotNumber), <span class="keyword">...</span>
+0585                 <span class="string">'Visible'</span>, <span class="string">'Off'</span>);
+0586             
+0587             set(this.plotConfigurationTabHandles(plotNumber), <span class="keyword">...</span>
+0588                 <span class="string">'BackgroundColor'</span>, [0.7 0.7 0.7]);
+0589             set(this.plotConfigurationPanelHandles(plotNumber), <span class="keyword">...</span>
+0590                 <span class="string">'Visible'</span>, <span class="string">'On'</span>);
+0591             
+0592             this.selectedPlotNumber = plotNumber;
+0593         <span class="keyword">end</span>
+0594         
+0595         <a name="_sub13" href="#_subfunctions" class="code">function addPlotConfigurationTab(this)</a>
+0596             this.plotConfigurations = [
+0597                 this.plotConfigurations
+0598                 this.createPlotConfiguration];
+0599             this.selectedPlotNumber = numel(this.plotConfigurations);
+0600             this.createPlotConfigurationTabPanel();
+0601         <span class="keyword">end</span>
+0602         
+0603         <a name="_sub14" href="#_subfunctions" class="code">function timeFromCallback(this)</a>
+0604             this.timeFrom = <span class="keyword">...</span>
+0605                 ceil((min(this.timeMax, max(this.timeMin, str2double(get(this.timeFromHandle, <span class="string">'String'</span>)))) -this.timeMin) / this.timeBy) * this.timeBy + this.timeMin;
+0606             this.timeTo = <span class="keyword">...</span>
+0607                 floor((min(this.timeMax, max(this.timeMin, max(this.timeFrom, str2double(get(this.timeToHandle, <span class="string">'String'</span>))))) -this.timeMin) / this.timeBy) * this.timeBy + this.timeMin;
+0608             set(this.timeFromHandle, <span class="string">'String'</span>, this.timeFrom);
+0609             set(this.timeToHandle, <span class="string">'String'</span>, this.timeTo);
+0610         <span class="keyword">end</span>
+0611         
+0612         <a name="_sub15" href="#_subfunctions" class="code">function timeToCallback(this)</a>
+0613             this.timeTo = <span class="keyword">...</span>
+0614                 floor((min(this.timeMax, max(this.timeMin, str2double(get(this.timeToHandle, <span class="string">'String'</span>)))) -this.timeMin) / this.timeBy) * this.timeBy + this.timeMin;
+0615             this.timeFrom = <span class="keyword">...</span>
+0616                 ceil((min(this.timeMax, max(this.timeMin, min(this.timeTo, str2double(get(this.timeFromHandle, <span class="string">'String'</span>))))) -this.timeMin) / this.timeBy) * this.timeBy + this.timeMin;
+0617             set(this.timeToHandle, <span class="string">'String'</span>, this.timeTo);
+0618             set(this.timeFromHandle, <span class="string">'String'</span>, this.timeFrom);
+0619         <span class="keyword">end</span>
+0620         
+0621         <a name="_sub16" href="#_subfunctions" class="code">function timeByCallback(this)</a>
+0622             this.timeBy = <span class="keyword">...</span>
+0623                 round(min(this.timeMax - this.timeMin,  max(this.timeStep, str2double(get(this.timeByHandle, <span class="string">'String'</span>)))) / this.timeStep) * this.timeStep;
+0624             set(this.timeByHandle, <span class="string">'String'</span>, this.timeBy);
+0625             this.timeFromCallback();
+0626             this.timeToCallback();
+0627         <span class="keyword">end</span>
+0628         
+0629         <a name="_sub17" href="#_subfunctions" class="code">function plot(this)</a>
+0630             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0631             
+0632             nRows = ceil(sqrt(numel(this.plotConfigurations)));
+0633             nCols = max(nRows, ceil(numel(this.plotConfigurations) / nRows));
+0634             nRows = ceil(numel(this.plotConfigurations) / nCols);
+0635             
+0636             delete(this.axesHandles);
+0637             this.axesHandles = [];
+0638             
+0639             this.plotData = repmat(struct(<span class="string">'time'</span>, [], <span class="string">'data'</span>, []), numel(this.plotConfigurations), 1);
+0640             <span class="keyword">for</span> i = 1:numel(this.plotConfigurations)
+0641                 axesHandle = subplot(nRows, nCols, i, <span class="string">'Parent'</span>, this.plotPanelHandle);
+0642                 cla(axesHandle);
+0643                 this.axesHandles = [
+0644                     this.axesHandles
+0645                     axesHandle];
+0646                 
+0647                 state = [this.states(this.plotConfigurations(i).state, :) <span class="string">':'</span> <span class="string">':'</span>];
+0648                 labels = {};
+0649                 <span class="keyword">if</span> ~isempty(this.stateSubsets{this.plotConfigurations(i).state})
+0650                     state{3} = this.plotConfigurations(i).stateSubset;
+0651                     labels = this.stateSubsets{this.plotConfigurations(i).state}(this.plotConfigurations(i).stateSubset);
+0652                 <span class="keyword">end</span>
+0653                 <span class="keyword">if</span> this.verbosity
+0654                     fprintf(<span class="string">'Loading data ... '</span>);
+0655                 <span class="keyword">end</span>
+0656                 stateVals = DiskLogger.load(<span class="keyword">...</span>
+0657                     this.simulationMetadata(this.simulationIdx).directory, <span class="keyword">...</span>
+0658                     [{<span class="string">'Time'</span> <span class="string">'values'</span> <span class="string">':'</span> <span class="string">':'</span>}; state], <span class="keyword">...</span>
+0659                     this.timeFrom, <span class="keyword">...</span>
+0660                     this.timeTo, <span class="keyword">...</span>
+0661                     this.timeBy, <span class="keyword">...</span>
+0662                     <span class="string">'extract'</span>);
+0663                 <span class="keyword">if</span> this.verbosity
+0664                     fprintf(<span class="string">'done\n'</span>);
+0665                 <span class="keyword">end</span>
+0666                 time = permute(stateVals.Time.values, [1 3 2]);
+0667                 data = permute(sum(stateVals.(state{1}).(state{2}), 2), [1 3 2]);
+0668                 
+0669                 this.plotData(i).time = time;
+0670                 this.plotData(i).data = data;
+0671                 
+0672                 <span class="keyword">if</span> isa(data, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0673                     data = full(sum(data ~= 0, 1));
+0674                 <span class="keyword">end</span>
+0675                 
+0676                 <span class="keyword">if</span> time(end) &gt; 2 * 3600
+0677                     time = time / 3600;
+0678                     timeLabel = <span class="string">'Time (h)'</span>;
+0679                 <span class="keyword">elseif</span> time(end) &gt; 2 * 60
+0680                     time = time / 60;
+0681                     timeLabel = <span class="string">'Time (m)'</span>;
+0682                 <span class="keyword">else</span>
+0683                     timeLabel = <span class="string">'Time (s)'</span>;
+0684                 <span class="keyword">end</span>
+0685                 <a href="#_sub18" class="code" title="subfunction plot(this)">plot</a>(axesHandle, time, data);
+0686                 xlabel(axesHandle, timeLabel, <span class="string">'FontSize'</span>, 12);
+0687                 ylabel(axesHandle, state(1:2), <span class="string">'FontSize'</span>, 12);
+0688                 xlim(axesHandle, [min(time) max(time)]);
+0689                 <span class="keyword">if</span> ~isempty(labels)
+0690                     legend(axesHandle, labels, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>);
+0691                 <span class="keyword">end</span>
+0692             <span class="keyword">end</span>
+0693         <span class="keyword">end</span>
+0694         
+0695         <a name="_sub18" href="#_subfunctions" class="code">function selectFileToSave(this)</a>
+0696             <span class="keyword">if</span> isdeployed
+0697                 fileFormats = {
+0698                     <span class="string">'*.mat'</span>, <span class="string">'MATLAB workspace (*.mat)'</span>
+0699                     };
+0700                 defualtFile = <span class="string">'plots.mat'</span>;
+0701             <span class="keyword">else</span>
+0702                 fileFormats = {
+0703                     <span class="string">'*.eps'</span>, <span class="string">'EPS Level 1 (*.ai)'</span>
+0704                     <span class="string">'*.jpg'</span>, <span class="string">'JPEG image (*.jpg)'</span>
+0705                     <span class="string">'*.fig'</span>, <span class="string">'MATLAB figure (*.fig)'</span>
+0706                     <span class="string">'*.mat'</span>, <span class="string">'MATLAB workspace (*.mat)'</span>
+0707                     <span class="string">'*.pdf'</span>, <span class="string">'Portable Document Format (*.pdf)'</span>
+0708                     <span class="string">'*.png'</span>, <span class="string">'Portable Network Graphics (*.png)'</span>
+0709                     <span class="string">'*.tif'</span>, <span class="string">'TIFF image, compressed (*.tif)'</span>
+0710                     };
+0711                 defualtFile = <span class="string">'plots.pdf'</span>;
+0712             <span class="keyword">end</span>
+0713             
+0714             <span class="comment">%prompt for file</span>
+0715             fileName = uiputfile(fileFormats, <span class="string">'Save plots'</span>, defualtFile);
+0716             
+0717             <span class="comment">%canceled</span>
+0718             <span class="keyword">if</span> fileName == 0
+0719                 <span class="keyword">return</span>;
+0720             <span class="keyword">end</span>
+0721             
+0722             <span class="comment">%save</span>
+0723             this.save(fileName);
+0724         <span class="keyword">end</span>
+0725         
+0726         <a name="_sub19" href="#_subfunctions" class="code">function save(this, fileName)</a>
+0727             <span class="keyword">if</span> isdeployed &amp;&amp; (length(fileName) &lt; 4 || ~isequal(fileName(end-3:end), <span class="string">'.mat'</span>))
+0728                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Figure printing not supported on this platform'</span>);
+0729                 <span class="keyword">return</span>;
+0730             <span class="keyword">end</span>
+0731             
+0732             <span class="keyword">if</span> this.verbosity
+0733                 fprintf(<span class="string">'Saving ...'</span>);
+0734             <span class="keyword">end</span>
+0735             <span class="keyword">if</span> length(fileName) &gt;= 4 &amp;&amp; isequal(fileName(end-3:end), <span class="string">'.mat'</span>)
+0736                 configurations = this.plotConfigurations;
+0737                 data = this.plotData;
+0738                 <a href="#_sub20" class="code" title="subfunction save(this, fileName)">save</a>(fileName, <span class="string">'data'</span>, <span class="string">'configurations'</span>);
+0739             <span class="keyword">else</span>
+0740                 saveas(this.figureHandle, fileName);
+0741             <span class="keyword">end</span>
+0742             <span class="keyword">if</span> this.verbosity
+0743                 fprintf(<span class="string">' done\n'</span>);
+0744             <span class="keyword">end</span>
+0745         <span class="keyword">end</span>
+0746     <span class="keyword">end</span>
+0747 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

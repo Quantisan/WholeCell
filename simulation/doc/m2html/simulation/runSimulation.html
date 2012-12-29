@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of runSimulation</title>
+  <meta name="keywords" content="runSimulation">
+  <meta name="description" content="Executes whole cell simulation.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; runSimulation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>runSimulation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Executes whole cell simulation.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function simulation = runSimulation(configDirectory, logToDisk, logToDatabase) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Executes whole cell simulation.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/9/2011
+% initialize</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>	CONFIG Returns configuration values.</li><li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>	SETPREFERENCES Sets MATLAB preferences</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Executes whole cell simulation.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0005 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updated: 1/9/2011</span>
+0007 <a name="_sub0" href="#_subfunctions" class="code">function simulation = runSimulation(configDirectory, logToDisk, logToDatabase)</a>
+0008 <span class="comment">%% initialize</span>
+0009 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>();
+0010 <a href="setPath.html" class="code" title="function setPath()">setPath</a>();
+0011 <a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>();
+0012 
+0013 <span class="comment">%% import</span>
+0014 import edu.stanford.covert.cell.sim.constant.Condition;
+0015 import edu.stanford.covert.cell.sim.util.ConditionSet;
+0016 import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0017 import edu.stanford.covert.cell.sim.util.DiskLogger;
+0018 import edu.stanford.covert.cell.sim.util.SummaryLogger;
+0019 import edu.stanford.covert.db.MySQLDatabase;
+0020 
+0021 <span class="comment">%% load simulation object</span>
+0022 load(<span class="string">'data/Simulation_fitted.mat'</span>);
+0023 
+0024 <span class="comment">%% process options, setup loggers</span>
+0025 summaryLogger = SummaryLogger(1, 2);
+0026 loggers = {summaryLogger};
+0027 
+0028 <span class="keyword">if</span> nargin &gt;= 1
+0029     <span class="keyword">if</span> ~exist([configDirectory filesep <span class="string">'conditions.xml'</span>], <span class="string">'file'</span>)
+0030         throw(MException(<span class="string">'runSimulation:error'</span>, <span class="string">'Directory must contain a condition xml file: %s'</span>, [configDirectory filesep <span class="string">'conditions.xml'</span>]));
+0031     <span class="keyword">end</span>
+0032     
+0033     data = ConditionSet.parseConditionSet(simulation, [configDirectory filesep <span class="string">'conditions.xml'</span>]);
+0034     data.metadata.knowledgeBaseWID = knowledgeBaseWID;
+0035     
+0036     simulation.applyOptions(data.options);
+0037     simulation.applyOptions(data.perturbations);
+0038     simulation.applyParameters(data.parameters);
+0039     summaryLogger.setOptions(struct(<span class="string">'verbosity'</span>, simulation.verbosity, <span class="string">'outputDirectory'</span>, configDirectory));
+0040 <span class="keyword">end</span>
+0041 
+0042 <span class="keyword">if</span> nargin &gt;= 2 &amp;&amp; ((ischar(logToDisk) &amp;&amp; strcmp(logToDisk, <span class="string">'true'</span>)) || logToDisk)
+0043     diskLogger = DiskLogger(configDirectory, 100);
+0044     diskLogger.addMetadata(data.metadata);
+0045     loggers = [loggers; {diskLogger}];
+0046 <span class="keyword">end</span>
+0047 
+0048 <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; ((ischar(logToDatabase) &amp;&amp; strcmp(logToDatabase, <span class="string">'true'</span>)) || logToDatabase)
+0049     databaseLogger = DatabaseLogger(MySQLDatabase(<a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>), 1000);
+0050     databaseLogger.addMetadata(data.metadata);
+0051     loggers = [loggers; {databaseLogger}];
+0052 <span class="keyword">end</span>
+0053 
+0054 <span class="comment">%% simulate</span>
+0055 <span class="keyword">try</span>
+0056     simulation.run(loggers);
+0057 <span class="keyword">catch</span> exception
+0058     <span class="keyword">if</span> nargin == 0
+0059         errFile = [<span class="string">'tmp'</span> filesep <span class="string">'simulation_error_'</span> datestr(now, <span class="string">'yyyy_mm_dd_HH_MM_SS_FFF'</span>) <span class="string">'.mat'</span>];
+0060     <span class="keyword">else</span>
+0061         errFile = [configDirectory filesep <span class="string">'err.mat'</span>];
+0062     <span class="keyword">end</span>
+0063     <span class="keyword">try</span>
+0064         save(errFile, <span class="string">'simulation'</span>);
+0065     <span class="keyword">catch</span> saveException
+0066         exception.addCause(MException(<span class="string">'Simulation:runTimeError'</span>, <span class="keyword">...</span>
+0067             <span class="string">'Simulation run-time error at %d. Unable to save simulation and exiting.'</span>, <span class="keyword">...</span>
+0068             simulation.state(<span class="string">'Time'</span>).values)).addCause(saveException).rethrow();
+0069     <span class="keyword">end</span>
+0070     exception.addCause(MException(<span class="string">'Simulation:runTimeError'</span>, <span class="keyword">...</span>
+0071         <span class="string">'Simulation run-time error at %d. Saving simulation at ''%s'' and exiting.'</span>, <span class="keyword">...</span>
+0072         simulation.state(<span class="string">'Time'</span>).values, errFile)).rethrow();
+0073 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

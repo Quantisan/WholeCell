@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of runDisplacementCalculation</title>
+  <meta name="keywords" content="runDisplacementCalculation">
+  <meta name="description" content="Calculates DNA-bound protein displacements">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; runDisplacementCalculation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>runDisplacementCalculation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Calculates DNA-bound protein displacements</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function runDisplacementCalculation(simBatch, simIdx, outDir) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Calculates DNA-bound protein displacements
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 4/6/2012</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Calculates DNA-bound protein displacements</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 4/6/2012</span>
+0006 <a name="_sub0" href="#_subfunctions" class="code">function runDisplacementCalculation(simBatch, simIdx, outDir)</a>
+0007 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>;
+0008 <a href="setPath.html" class="code" title="function setPath()">setPath</a>;
+0009 
+0010 <span class="comment">%import classes</span>
+0011 import edu.stanford.covert.cell.sim.analysis.Figures34;
+0012 import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0013 
+0014 <span class="comment">%parse inputs</span>
+0015 <span class="keyword">if</span> ischar(simIdx)
+0016     simIdx = str2num(simIdx);
+0017 <span class="keyword">end</span>
+0018 
+0019 <span class="comment">%run calculation</span>
+0020 simBatchDir = [SimulationDiskUtil.getBaseDir() filesep simBatch filesep];
+0021 Figures34.calculateDNABoundProteinDisplacements(outDir, simBatchDir, simIdx, 1, 1);</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

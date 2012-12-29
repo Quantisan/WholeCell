@@ -1,0 +1,18 @@
+/* Original from http://www.dynamicdrive.com/dynamicindex8/dhtmlwindow/index.htm.
+ */
+
+.drag-handle{ /*Overwrite default drag handle bar background color with below*/
+	background-color: #03277C;
+}
+
+#interVeil{ /*CSS for veil that covers entire page while modal window is visible*/
+	position: absolute;
+	background: black url(../images/icons/windowfiles/blackdot.gif);
+	width: 10px;
+	left: 0;
+	top: 0;
+	z-index: 5;
+	visibility: hidden;
+	filter:progid:DXImageTransform.Microsoft.alpha(opacity=80);
+	opacity: 0.8;
+}

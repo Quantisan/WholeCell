@@ -1,0 +1,14 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  Simulation -> Simulation;
+  Simulation -> evolveState;
+  Simulation -> initializeConstants;
+  Simulation -> initializeState;
+  Simulation -> run;
+
+  Simulation [URL="Simulation.html"];
+  evolveState [URL="evolveState.html"];
+  initializeConstants [URL="initializeConstants.html"];
+  initializeState [URL="initializeState.html"];
+  run [URL="run.html"];
+}

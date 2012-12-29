@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SimulationDatabaseUtil</title>
+  <meta name="keywords" content="SimulationDatabaseUtil">
+  <meta name="description" content="SimulationDatabaseUtil">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; SimulationDatabaseUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SimulationDatabaseUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SimulationDatabaseUtil</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SimulationDatabaseUtil
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 6/30/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationDatabaseUtil.html" class="code" title="">SimulationDatabaseUtil</a>	SimulationDatabaseUtil</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationDatabaseUtil.html" class="code" title="">SimulationDatabaseUtil</a>	SimulationDatabaseUtil</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function WID = selectSimulation(knowledgeBaseWID, database)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%SimulationDatabaseUtil</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 6/30/2011</span>
+0006 classdef <a href="SimulationDatabaseUtil.html" class="code" title="">SimulationDatabaseUtil</a>
+0007     methods (Static = true)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function WID = selectSimulation(knowledgeBaseWID, database)</a>
+0009             database.setNullValue(0);
+0010             database.prepareStatement(<span class="string">'CALL get_simulations(&quot;{Si}&quot;)'</span>, knowledgeBaseWID);
+0011             simulations = database.query();            
+0012             
+0013             <span class="comment">%display available simulations</span>
+0014             fprintf(<span class="string">'%s\t%s\t\t%s\t%s\t\t%s\n'</span>,<span class="string">'#'</span>,<span class="string">'Description             '</span>,<span class="string">'Revision'</span>,<span class="string">'Date               '</span>,<span class="string">'Investigator'</span>);
+0015             fprintf(<span class="string">'%s\t%s\t\t%s\t%s\t\t%s\n'</span>,<span class="string">'='</span>,<span class="string">'========================'</span>,<span class="string">'========'</span>,<span class="string">'==================='</span>,<span class="string">'============'</span>);
+0016             <span class="keyword">for</span> i=1:length(simulations.WID)
+0017                 shortDescription=[simulations.ShortDescription{i} <span class="string">'             '</span>];
+0018                 shortDescription=shortDescription(1:min(31,length(shortDescription)));
+0019                 fprintf([<span class="string">'%d.\t%s'</span> repmat(<span class="string">'\t'</span>,1,floor((37-length(shortDescription))/4)) <span class="string">'%d\t\t\t%s\t\t%s\n'</span>],<span class="keyword">...</span>
+0020                     i,shortDescription,simulations.Revision(i),simulations.StartDate{i},simulations.Investigator{i});
+0021             <span class="keyword">end</span>
+0022             
+0023             <span class="comment">%select knowledge base</span>
+0024             selectedSimulation = 0;
+0025             <span class="keyword">while</span> ~isa(selectedSimulation,<span class="string">'double'</span>) || mod(selectedSimulation,1) || <span class="keyword">...</span>
+0026                     selectedSimulation &lt; 1 || selectedSimulation &gt; length(simulations.WID)
+0027                 selectedSimulation = input(<span class="string">'Please select a simulation (by number): '</span>);
+0028             <span class="keyword">end</span>
+0029             
+0030             <span class="comment">%return WID</span>
+0031             WID = simulations.WID(selectedSimulation);
+0032         <span class="keyword">end</span>
+0033     <span class="keyword">end</span>
+0034 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

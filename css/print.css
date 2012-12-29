@@ -1,0 +1,409 @@
+/* Print style sheet for Whole Cell Knowlege Base HTML interface. 
+ * Turns off 
+ *  - backgrounds, borders
+ *  - header, footer
+ *  - side panels
+ *
+ * Author: Jonathan Karr, jkarr@stanford.edu
+ * Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ * Last Updated: 3/23/2010
+ */
+
+input, textarea, select{
+    color: #000000;
+    background: transparent;
+    border: 1px solid black;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+input:hover, textarea:hover, select:hover{
+    background: transparent;
+}
+
+input:focus, textarea:focus, select:focus{
+    background: transparent;
+}
+
+#header, #sidebar, #footer {
+	display:none;
+	margin:0px;
+}
+
+#nav{
+	text-align:left;
+        padding:0px;
+        margin-bottom:10px;
+}
+
+#wrap{
+	width:auto;
+}
+
+#main{
+	padding-left:0px;
+}
+
+/*****************
+ * main
+ *****************/
+
+a.crossReference img{
+    display:none;
+}
+
+img.help{
+    display:none;
+}
+
+/******* View Table *******/
+#ViewTable.List{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#ViewTable.List th{
+    color:black;
+    background:transparent;
+    border-right:1px solid gray;
+    border-bottom:1px solid gray;
+}
+
+#ViewTable.List td{
+    border-bottom:1px solid gray;
+}
+
+#ViewTable.List tr:first-child th{
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+#ViewTable.List tr:first-child td:first-child{
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+#ViewTable.List tr:first-child td:last-child{
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#ViewTable.List tr:last-child th{
+    border-bottom:none;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#ViewTable.List tr:last-child td{
+    border-bottom:none;
+}
+
+#ViewTable.List tr:last-child td:last-child{
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#ViewTable.List tr:nth-child(even) td{
+    background:transparent;
+}
+
+#ViewTable.List tr:nth-child(odd) td{
+    background:transparent;
+}
+
+#ViewTable.List tr:hover td{
+    background:transparent;
+}
+
+#ViewTable.List tr.image:hover td{
+    background:transparent;
+}
+
+/******* View Table *******/
+#ViewTable.Table{
+    width:100%;
+}
+
+#ViewTable.Table tbody th{
+    text-align:right;
+    font-weight:bold;
+    padding:5px;
+    width:200px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#ViewTable.Table tbody td{
+    padding:5px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#ViewTable.Table tbody td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+}
+
+#ViewTable.Table td ul{
+    margin:0px;
+}
+
+#ViewTable.Table table{
+    width:100%;
+}
+
+#ViewTable.Table table th{
+    font-weight:normal;
+    font-style:italic;
+    border-bottom:none;
+    width:120px;
+}
+
+#ViewTable.Table table td{
+    border-bottom:none;
+}
+
+#ViewTable.Table tr.category td:last-child{
+    padding-right:0px;
+}
+#ViewTable.Table tr.category table td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+    padding-right:5px;
+}
+
+#ViewTable.Table tr:last-child th, #ViewTable.Table tr:last-child td{
+    border-bottom:none;
+}
+
+#ViewTable.Table tbody select, #ViewTable.Table tbody input, #ViewTable.Table tbody textarea{
+    width:100%;
+}
+
+#ViewTable.Table tbody tr:hover th, #ViewTable.Table tbody tr:hover td{
+    background: #A476DA;
+}
+
+#ViewTable.Table tbody tr.category:hover th, #ViewTable.Table tbody tr.category:hover td{
+    background: transparent;
+}
+
+#ViewTable.Table tbody tr.category table tr:hover th, #ViewTable.Table tbody tr.category table tr:hover td{
+    background: #A476DA;
+}
+
+/******* Edit List *******/
+#EditTable.List{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    padding:0px;
+}
+
+#EditTable.List tbody th{
+    border-bottom:none;
+}
+
+#EditTable.List tbody td{
+    border-bottom:none;
+}
+
+/******* Edit Table *******/
+#EditTable.Table tbody th{
+    border-bottom:none;
+}
+
+#EditTable.Table tbody td{
+    border-bottom:none;
+}
+
+/******* View Table *******/
+#Object.List{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#Object.List div{
+    padding:0px;
+}
+
+/******* View Table *******/
+#Object.Table{
+    width:100%;
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#Object.Table thead th{
+    background:transparent;
+    border-right: 1px solid gray;
+    color:black;
+}
+
+#Object.Table thead th:first-child{
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+#Object.Table thead th:last-child{
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    border-top-right-radius: 0px;
+    width:54px;
+    display:none;
+}
+
+#Object.Table tbody td{
+    border-top:1px solid gray;
+    border-right:1px solid gray;
+}
+
+#Object.Table tbody tr td:last-child{
+    display:none;
+}
+
+#Object.Table tbody tr:nth-child(even) td{
+    background:transparent;
+}
+
+#Object.Table tbody tr:nth-child(odd) td{
+    background:transparent;
+}
+
+#Object.Table tbody tr:hover td{
+    background:transparent;
+}
+
+#Object.Table tbody tr:last-child td:first-child{
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#Object.Table tbody tr:last-child td:last-child{
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+/******* Search Table *******/
+#Search.Table{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#Search.Table thead th{
+    background:transparent;
+    color:black;
+    border-right: 1px solid gray;
+}
+
+#Search.Table thead th:last-child{
+    display:none;
+}
+
+#Search.Table thead th:first-child{
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+#Search.Table thead th:last-child{
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#Search.Table tbody td{
+    border-top:1px solid gray;
+    border-right:1px solid gray;
+}
+
+#Search.Table tbody tr td:last-child{
+    display:none;
+}
+
+#Search.Table tbody tr:nth-child(even) td{
+    background:transparent;
+}
+
+#Search.Table tbody tr:nth-child(odd) td{
+    background:transparent;
+}
+
+#Search.Table tbody tr:hover td{
+    background:transparent;
+}
+
+#Search.Table tbody tr:last-child td:first-child{
+    -moz-border-radius-bottomleft:0px;
+    -webkit-border-bottom-left-radius:0px;
+}
+
+#Search.Table tbody tr:last-child td:last-child{
+    -moz-border-radius-bottomright:0px;
+    -webkit-border-bottom-right-radius:0px;
+}
+
+/******* Search List *******/
+#Search.List{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#Search.List div{
+    padding:0px;
+}
+
+/*****************
+ * code
+ *****************/
+#Code{
+    border:none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#Code div{
+    padding:0px;
+    padding-left:40px;
+}
+
+#Code div div{
+    padding:0px;
+}
+
+/*****************
+ * about
+ *****************/
+#main div.main{
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#main div.main div{
+    padding:0px;
+}

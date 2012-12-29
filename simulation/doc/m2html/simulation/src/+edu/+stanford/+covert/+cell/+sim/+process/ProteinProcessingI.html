@@ -1,0 +1,467 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinProcessingI</title>
+  <meta name="keywords" content="ProteinProcessingI">
+  <meta name="description" content="Protein Processing I">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinProcessingI.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinProcessingI
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Processing I</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Processing I
+
+ @wholeCellModelID Process_ProteinProcessingI
+ @name             Protein Processing I
+ @description
+   Biology
+   ===========
+   Following translation, nascent peptides are deformylated, cleaved,
+   translocated, folded, and modified. First, peptide deformylase (MG_106)
+   deformylates the N-terminal formylmethionine of each nascent peptide.
+   Second, methionine aminopeptidase (MG_172) cleaves the N-terminal methionine
+   of 35 peptides. Second (see protein translocation process), 117 integral
+   membrane, lipoproteins, and extracellular proteins bind the SecA translocase
+   and are translocated into and through the plasma membrane via the
+   SecYEGDF-YidC pore. Third (see protein processing II process), diacylglyceryl
+   is transferred to the C-terminal cysteine of the signal sequence of each
+   lipoprotein by diacylglyceryl transferase, and the signal sequence of each
+   lipoprotein is cleaved by signal peptidase II. Next (see protein
+   folding process), 85 peptides bind inorganic ions at particular sites
+   and 64 peptides fold with the assistance of the chaperones and chaperonins
+   DnaJ, DnaK, GroEL, GroES, and GrpE. All peptides require trigger factor
+   to properly fold. Finally (see protein modification process), 20 peptide
+   species are modified at 63 sites by 3 enzymes – serine/threonine protein
+   kinase, lipoate ligase, and alpha glutamate ligase.
+
+   This process simulates
+   - N-terminal peptide deformylation, and
+   - N-terminal amino acid cleavage.
+
+   Knowledge Base
+   ===========
+   Every M. genitalium protein requires deformylation, and roughly 7%
+   require N-terminal amino acid cleavage. N-terminal methionine cleavages were
+   reconstructed by mapping N-terminal methionine cleavages observed in
+   Shewanella oneidensis MR-1 [PUB_0280] onto homologous M. genitalium genes.
+   The N-terminal methionine cleavage state of each protein monomer is
+   organized in the knowledge base, and loaded into the
+   nascentMonomerNTerminalMethionineCleavages property of this process by the
+   initializeConstants method.
+
+   Representation
+   ===========
+   substrates, enzymes, unprocessedMonomers, and processedMonomers represent
+   the counts of metabolites, the deformylase and methionine aminopeptidase,
+   and nascent and deformylated, cleaved protein monomers. The compartment
+   dimension of each of these properties has length 1. That is the process only
+   accesses the counts of these objects in the relevant compartments. This
+   process doesn't represent any additional intermediate processed states. This
+   process treats N-terminal deformylation and methionine cleavage as an
+   all-or-nothing event that either proceeds to complete within a single time
+   step, or does not occur at all.
+
+   nascentMonomerNTerminalMethionineCleavages is a boolean which represents
+   whether or not the N-terminal methionine of each protein monomer must be
+   cleaved.
+
+   Initialization
+   ===============
+   All protein monomers are initialized to the mature state. This is
+   implemented by the simulation class initializeState method.
+
+   Simulation
+   ===========
+   1. Compute the maximum number of peptides that can be processed based on the
+      availability of the two enzymes.
+   2. Randomly select peptides to be processed, weighted by the counts of each
+      protein species.
+   3. Update the counts of unprocessed and processed proteins monomers.
+      Decrement the counts of available enzyme activity.
+   4. Compute the maximum number of peptides which don't require cleavage that
+      can be processed based on the availability of peptide deformylase
+      activity.
+   5. Randomly select peptides to be deformylated, weighted by the counts of
+      each protein species.
+   6. Update the counts of unprocessed and processed proteins monomers.
+      Decrement the counts of available deformylase activity.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/30/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinProcessingI.html" class="code" title="">ProteinProcessingI</a>	Protein Processing I</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinProcessingI.html" class="code" title="">ProteinProcessingI</a>	Protein Processing I</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinProcessingI(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function copyFromState(this)</a></li><li><a href="#_sub4" class="code">function copyToState(this)</a></li><li><a href="#_sub5" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(~)</a></li><li><a href="#_sub8" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub9" class="code">function evolveState(this)</a></li><li><a href="#_sub10" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Protein Processing I</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinProcessingI</span>
+0004 <span class="comment">% @name             Protein Processing I</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===========</span>
+0008 <span class="comment">%   Following translation, nascent peptides are deformylated, cleaved,</span>
+0009 <span class="comment">%   translocated, folded, and modified. First, peptide deformylase (MG_106)</span>
+0010 <span class="comment">%   deformylates the N-terminal formylmethionine of each nascent peptide.</span>
+0011 <span class="comment">%   Second, methionine aminopeptidase (MG_172) cleaves the N-terminal methionine</span>
+0012 <span class="comment">%   of 35 peptides. Second (see protein translocation process), 117 integral</span>
+0013 <span class="comment">%   membrane, lipoproteins, and extracellular proteins bind the SecA translocase</span>
+0014 <span class="comment">%   and are translocated into and through the plasma membrane via the</span>
+0015 <span class="comment">%   SecYEGDF-YidC pore. Third (see protein processing II process), diacylglyceryl</span>
+0016 <span class="comment">%   is transferred to the C-terminal cysteine of the signal sequence of each</span>
+0017 <span class="comment">%   lipoprotein by diacylglyceryl transferase, and the signal sequence of each</span>
+0018 <span class="comment">%   lipoprotein is cleaved by signal peptidase II. Next (see protein</span>
+0019 <span class="comment">%   folding process), 85 peptides bind inorganic ions at particular sites</span>
+0020 <span class="comment">%   and 64 peptides fold with the assistance of the chaperones and chaperonins</span>
+0021 <span class="comment">%   DnaJ, DnaK, GroEL, GroES, and GrpE. All peptides require trigger factor</span>
+0022 <span class="comment">%   to properly fold. Finally (see protein modification process), 20 peptide</span>
+0023 <span class="comment">%   species are modified at 63 sites by 3 enzymes – serine/threonine protein</span>
+0024 <span class="comment">%   kinase, lipoate ligase, and alpha glutamate ligase.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   This process simulates</span>
+0027 <span class="comment">%   - N-terminal peptide deformylation, and</span>
+0028 <span class="comment">%   - N-terminal amino acid cleavage.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   Knowledge Base</span>
+0031 <span class="comment">%   ===========</span>
+0032 <span class="comment">%   Every M. genitalium protein requires deformylation, and roughly 7%</span>
+0033 <span class="comment">%   require N-terminal amino acid cleavage. N-terminal methionine cleavages were</span>
+0034 <span class="comment">%   reconstructed by mapping N-terminal methionine cleavages observed in</span>
+0035 <span class="comment">%   Shewanella oneidensis MR-1 [PUB_0280] onto homologous M. genitalium genes.</span>
+0036 <span class="comment">%   The N-terminal methionine cleavage state of each protein monomer is</span>
+0037 <span class="comment">%   organized in the knowledge base, and loaded into the</span>
+0038 <span class="comment">%   nascentMonomerNTerminalMethionineCleavages property of this process by the</span>
+0039 <span class="comment">%   initializeConstants method.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   Representation</span>
+0042 <span class="comment">%   ===========</span>
+0043 <span class="comment">%   substrates, enzymes, unprocessedMonomers, and processedMonomers represent</span>
+0044 <span class="comment">%   the counts of metabolites, the deformylase and methionine aminopeptidase,</span>
+0045 <span class="comment">%   and nascent and deformylated, cleaved protein monomers. The compartment</span>
+0046 <span class="comment">%   dimension of each of these properties has length 1. That is the process only</span>
+0047 <span class="comment">%   accesses the counts of these objects in the relevant compartments. This</span>
+0048 <span class="comment">%   process doesn't represent any additional intermediate processed states. This</span>
+0049 <span class="comment">%   process treats N-terminal deformylation and methionine cleavage as an</span>
+0050 <span class="comment">%   all-or-nothing event that either proceeds to complete within a single time</span>
+0051 <span class="comment">%   step, or does not occur at all.</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   nascentMonomerNTerminalMethionineCleavages is a boolean which represents</span>
+0054 <span class="comment">%   whether or not the N-terminal methionine of each protein monomer must be</span>
+0055 <span class="comment">%   cleaved.</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   Initialization</span>
+0058 <span class="comment">%   ===============</span>
+0059 <span class="comment">%   All protein monomers are initialized to the mature state. This is</span>
+0060 <span class="comment">%   implemented by the simulation class initializeState method.</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%   Simulation</span>
+0063 <span class="comment">%   ===========</span>
+0064 <span class="comment">%   1. Compute the maximum number of peptides that can be processed based on the</span>
+0065 <span class="comment">%      availability of the two enzymes.</span>
+0066 <span class="comment">%   2. Randomly select peptides to be processed, weighted by the counts of each</span>
+0067 <span class="comment">%      protein species.</span>
+0068 <span class="comment">%   3. Update the counts of unprocessed and processed proteins monomers.</span>
+0069 <span class="comment">%      Decrement the counts of available enzyme activity.</span>
+0070 <span class="comment">%   4. Compute the maximum number of peptides which don't require cleavage that</span>
+0071 <span class="comment">%      can be processed based on the availability of peptide deformylase</span>
+0072 <span class="comment">%      activity.</span>
+0073 <span class="comment">%   5. Randomly select peptides to be deformylated, weighted by the counts of</span>
+0074 <span class="comment">%      each protein species.</span>
+0075 <span class="comment">%   6. Update the counts of unprocessed and processed proteins monomers.</span>
+0076 <span class="comment">%      Decrement the counts of available deformylase activity.</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0079 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0080 <span class="comment">% Last updated: 7/30/2010</span>
+0081 classdef <a href="ProteinProcessingI.html" class="code" title="">ProteinProcessingI</a> &lt; edu.stanford.covert.cell.sim.Process
+0082     <span class="comment">%property annotations</span>
+0083     properties (Constant)
+0084         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0085         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0086             <span class="string">'deformylaseSpecificRate'</span>;
+0087             <span class="string">'methionineAminoPeptidaseSpecificRate'</span>;
+0088             <span class="string">'nascentMonomerNTerminalMethionineCleavages'</span>;            
+0089             };
+0090         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0091         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0092             <span class="string">'unprocessedMonomers'</span>;
+0093             <span class="string">'processedMonomers'</span>};
+0094     <span class="keyword">end</span>
+0095 
+0096     <span class="comment">%IDs, names, and local indices</span>
+0097     properties
+0098         stimuliWholeCellModelIDs = {};  <span class="comment">%whole cell model IDs of stimuli</span>
+0099 
+0100         substrateWholeCellModelIDs = {  <span class="comment">%whole cell model IDs of substrates</span>
+0101             <span class="string">'H2O'</span>;
+0102             <span class="string">'H'</span>;
+0103             <span class="string">'MET'</span>;
+0104             <span class="string">'FOR'</span>};
+0105         substrateIndexs_water      = 1; <span class="comment">%index within substrates of water</span>
+0106         substrateIndexs_hydrogen   = 2; <span class="comment">%index within substrates of hydrogen</span>
+0107         substrateIndexs_methionine = 3; <span class="comment">%index within substrates of methionine</span>
+0108         substrateIndexs_formate    = 4; <span class="comment">%index within substrates of formate</span>
+0109 
+0110         enzymeWholeCellModelIDs={       <span class="comment">%enzyme whole cell model ids</span>
+0111             <span class="string">'MG_106_DIMER'</span>;             <span class="comment">%peptide deformylase</span>
+0112             <span class="string">'MG_172_MONOMER'</span>};          <span class="comment">%methionine aminopeptidase, type I</span>
+0113         enzymeIndexs_deformylase              = 1; <span class="comment">%index within enzymes of peptide deformylase</span>
+0114         enzymeIndexs_methionineAminoPeptidase = 2; <span class="comment">%index within enzymes of methionine aminopeptidase, type I</span>
+0115 
+0116         unprocessedMonomerWholeCellModelIDs <span class="comment">%whole cell model IDs of unprocessed protein monomers</span>
+0117         processedMonomerWholeCellModelIDs   <span class="comment">%whole cell model IDs of processed protein monomers</span>
+0118     <span class="keyword">end</span>
+0119     
+0120     <span class="comment">%fixed biological constants</span>
+0121     properties
+0122         deformylaseSpecificRate                     <span class="comment">%number of reactions per second (38) [PUB_0021]</span>
+0123         methionineAminoPeptidaseSpecificRate        <span class="comment">%number of reactions per second (6) [PUB_0026]</span>
+0124         nascentMonomerNTerminalMethionineCleavages  <span class="comment">%whether N-terminal amino acid needs to be cleaved</span>
+0125     <span class="keyword">end</span>
+0126 
+0127     <span class="comment">%global state (stored locally for convenience)</span>
+0128     properties
+0129         unprocessedMonomers <span class="comment">%counts of unprocessed protein monomers</span>
+0130         processedMonomers   <span class="comment">%counts of processed protein monomers</span>
+0131     <span class="keyword">end</span>
+0132 
+0133     <span class="comment">%constructor</span>
+0134     methods
+0135         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinProcessingI(wholeCellModelID, name)</a>
+0136             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0137         <span class="keyword">end</span>
+0138     <span class="keyword">end</span>
+0139 
+0140     <span class="comment">%communication between process/simulation</span>
+0141     methods
+0142         <span class="comment">%initialize constants</span>
+0143         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0144             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0145 
+0146             this.unprocessedMonomerWholeCellModelIDs = this.monomer.wholeCellModelIDs(this.monomer.nascentIndexs);
+0147             this.processedMonomerWholeCellModelIDs   = this.monomer.wholeCellModelIDs(this.monomer.processedIIndexs);
+0148 
+0149             this.nascentMonomerNTerminalMethionineCleavages = knowledgeBase.proteinMonomerNTerminalMethionineCleavages;
+0150         <span class="keyword">end</span>
+0151 
+0152         <span class="comment">%retrieve state from simulation</span>
+0153         <a name="_sub2" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0154             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0155 
+0156             this.unprocessedMonomers = this.monomer.counts(this.monomer.nascentIndexs,    this.compartment.cytosolIndexs, :);
+0157             this.processedMonomers   = this.monomer.counts(this.monomer.processedIIndexs, this.compartment.cytosolIndexs, :);
+0158         <span class="keyword">end</span>
+0159 
+0160         <span class="comment">%send state to simulation</span>
+0161         <a name="_sub3" href="#_subfunctions" class="code">function copyToState(this)</a>
+0162             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0163 
+0164             this.monomer.counts(this.monomer.nascentIndexs,    this.compartment.cytosolIndexs, :) = this.unprocessedMonomers;
+0165             this.monomer.counts(this.monomer.processedIIndexs, this.compartment.cytosolIndexs, :) = this.processedMonomers;
+0166         <span class="keyword">end</span>
+0167     <span class="keyword">end</span>
+0168 
+0169     <span class="comment">%allocate memory for state</span>
+0170     methods
+0171         <a name="_sub4" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0172             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0173 
+0174             this.unprocessedMonomers = zeros(length(this.unprocessedMonomerWholeCellModelIDs), 1, numTimePoints);
+0175             this.processedMonomers   = zeros(length(this.processedMonomerWholeCellModelIDs),   1, numTimePoints);
+0176         <span class="keyword">end</span>
+0177     <span class="keyword">end</span>
+0178 
+0179     <span class="comment">%model</span>
+0180     methods
+0181         <span class="comment">%Calculate</span>
+0182         <span class="comment">%- contribution to FBA objective</span>
+0183         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0184         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0185             <span class="comment">%% initialize</span>
+0186             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0187             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0188             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0189             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0190             
+0191             <span class="comment">%% substrate and byproducts</span>
+0192             <span class="comment">%deformylation</span>
+0193             <span class="comment">%formyl-L-methionyl peptide + H2O &lt;==&gt; methionyl peptide + formate + H+</span>
+0194             bmProd(this.substrateIndexs_water)      = bmProd(this.substrateIndexs_water)    + sum(states.monomerProductions);
+0195             byProd(this.substrateIndexs_formate)    = byProd(this.substrateIndexs_formate)  + sum(states.monomerProductions);
+0196             byProd(this.substrateIndexs_hydrogen)   = byProd(this.substrateIndexs_hydrogen) + sum(states.monomerProductions);
+0197             
+0198             <span class="comment">%N-terminal methionine cleavage</span>
+0199             bmProd(this.substrateIndexs_water)      = bmProd(this.substrateIndexs_water)      + states.monomerProductions' * this.nascentMonomerNTerminalMethionineCleavages;
+0200             byProd(this.substrateIndexs_methionine) = byProd(this.substrateIndexs_methionine) + states.monomerProductions' * this.nascentMonomerNTerminalMethionineCleavages;
+0201             
+0202             <span class="comment">%% enzymes</span>
+0203             <span class="comment">%deformylation</span>
+0204             minEnzExp(this.enzymeIndexs_deformylase) = 2 * sum(states.monomerProductions0) / this.deformylaseSpecificRate;
+0205             
+0206             <span class="comment">%N-terminal methionine cleavage</span>
+0207             minEnzExp(this.enzymeIndexs_methionineAminoPeptidase) = <span class="keyword">...</span>
+0208                 2 * (states.monomerProductions0' * this.nascentMonomerNTerminalMethionineCleavages) / <span class="keyword">...</span>
+0209                 this.methionineAminoPeptidaseSpecificRate;
+0210         <span class="keyword">end</span>
+0211 
+0212         <span class="comment">%initialization: monomers initialized to mature/bound/inactivated state</span>
+0213         <span class="comment">%by simulation initializeState method</span>
+0214         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(~)</a>
+0215         <span class="keyword">end</span>
+0216 
+0217         <span class="comment">%resource requirements</span>
+0218         <a name="_sub7" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0219             <span class="comment">%Numbers of enzymes</span>
+0220             deformylaseLimit = ceil(this.enzymes(this.enzymeIndexs_deformylase) * this.deformylaseSpecificRate * this.stepSizeSec);
+0221             cleavageLimit = ceil(this.enzymes(this.enzymeIndexs_methionineAminoPeptidase) * <span class="keyword">...</span>
+0222                 this.methionineAminoPeptidaseSpecificRate * this.stepSizeSec);
+0223             
+0224             <span class="comment">%initialize</span>
+0225             result = zeros(size(this.substrates));
+0226             
+0227             <span class="comment">%upper bound on metabolites</span>
+0228             result(this.substrateIndexs_water) = min(<span class="keyword">...</span>
+0229                 + min(deformylaseLimit, sum(this.unprocessedMonomers)) <span class="keyword">...</span><span class="comment">                                          %deformylation: formyl-L-methionyl peptide + H2O &lt;==&gt; methionyl peptide + formate + H+</span>
+0230                 + min(cleavageLimit, this.nascentMonomerNTerminalMethionineCleavages' * this.unprocessedMonomers)); <span class="comment">%N-terminal methionine cleavage</span>
+0231         <span class="keyword">end</span>
+0232 
+0233         <span class="comment">%simulation</span>
+0234         <span class="comment">%- Deformylation: formyl-L-methionyl peptide + H2O &lt;==&gt; methionyl peptide + formate + H+</span>
+0235         <span class="comment">%- N-terminal methionine cleavage</span>
+0236         <a name="_sub8" href="#_subfunctions" class="code">function evolveState(this)</a>
+0237             <span class="comment">%Numbers of enzymes</span>
+0238             deformylaseLimit = this.enzymes(this.enzymeIndexs_deformylase) * this.deformylaseSpecificRate * this.stepSizeSec;
+0239             cleavageLimit = this.enzymes(this.enzymeIndexs_methionineAminoPeptidase) * <span class="keyword">...</span>
+0240                 this.methionineAminoPeptidaseSpecificRate * this.stepSizeSec;
+0241             
+0242             <span class="comment">%Simulate deformylation and cleavage</span>
+0243             <span class="keyword">if</span> cleavageLimit &gt; 0 &amp;&amp; any(this.unprocessedMonomers(this.nascentMonomerNTerminalMethionineCleavages))
+0244                 <span class="comment">%compute maximum of transformations that can occur, limited by</span>
+0245                 <span class="comment">%- unprocessed protein monomers</span>
+0246                 <span class="comment">%- enzymes (kinetics, availability)</span>
+0247                 transformations = this.unprocessedMonomers;
+0248                 transformations = transformations * <span class="keyword">...</span>
+0249                     min(1, deformylaseLimit / sum(transformations));
+0250                 transformations(this.nascentMonomerNTerminalMethionineCleavages) = <span class="keyword">...</span>
+0251                     transformations(this.nascentMonomerNTerminalMethionineCleavages) * <span class="keyword">...</span>
+0252                     min(1, cleavageLimit / sum(transformations(this.nascentMonomerNTerminalMethionineCleavages)));
+0253                 transformations = this.randStream.stochasticRound(transformations);
+0254                 
+0255                 <span class="comment">%water availability</span>
+0256                 <span class="keyword">if</span> sum(transformations) + sum(transformations(this.nascentMonomerNTerminalMethionineCleavages)) &gt; <span class="keyword">...</span>
+0257                        this.substrates(this.substrateIndexs_water)
+0258                    water_cleavage = this.randStream.stochasticRound(this.substrates(this.substrateIndexs_water) * <span class="keyword">...</span>
+0259                        2 * sum(transformations(this.nascentMonomerNTerminalMethionineCleavages)) / <span class="keyword">...</span>
+0260                        (sum(transformations) + sum(transformations(this.nascentMonomerNTerminalMethionineCleavages))));
+0261                    water_deformylations = this.substrates(this.substrateIndexs_water) - water_cleavage;
+0262                    <span class="keyword">if</span> any(transformations(this.nascentMonomerNTerminalMethionineCleavages))
+0263                        transformations(this.nascentMonomerNTerminalMethionineCleavages) = <span class="keyword">...</span>
+0264                            min(transformations(this.nascentMonomerNTerminalMethionineCleavages), <span class="keyword">...</span>
+0265                            this.randStream.mnrnd(floor(water_cleavage / 2), <span class="keyword">...</span>
+0266                            transformations(this.nascentMonomerNTerminalMethionineCleavages) / <span class="keyword">...</span>
+0267                            sum(transformations(this.nascentMonomerNTerminalMethionineCleavages)))');
+0268                    <span class="keyword">end</span>
+0269                    <span class="keyword">if</span> any(transformations(~this.nascentMonomerNTerminalMethionineCleavages))
+0270                        transformations(~this.nascentMonomerNTerminalMethionineCleavages) = <span class="keyword">...</span>
+0271                            min(transformations(~this.nascentMonomerNTerminalMethionineCleavages), <span class="keyword">...</span>
+0272                            this.randStream.mnrnd(water_deformylations, <span class="keyword">...</span>
+0273                            transformations(~this.nascentMonomerNTerminalMethionineCleavages) / <span class="keyword">...</span>
+0274                            sum(transformations(~this.nascentMonomerNTerminalMethionineCleavages)))');
+0275                    <span class="keyword">end</span>
+0276                 <span class="keyword">end</span>
+0277                 
+0278                 <span class="comment">%update numbers of monomers</span>
+0279                 this.processedMonomers   = this.processedMonomers   + transformations;
+0280                 this.unprocessedMonomers = this.unprocessedMonomers - transformations;
+0281                 
+0282                 <span class="comment">%update enzyme availability</span>
+0283                 deformylaseLimit = max(0, deformylaseLimit - sum(transformations));
+0284                 
+0285                 <span class="comment">%update metabolites</span>
+0286                 this.substrates([this.substrateIndexs_water; this.substrateIndexs_formate; this.substrateIndexs_hydrogen]) = <span class="keyword">...</span>
+0287                     this.substrates([this.substrateIndexs_water; this.substrateIndexs_formate; this.substrateIndexs_hydrogen]) + <span class="keyword">...</span>
+0288                     [-1; 1; 1] * sum(transformations);
+0289                 
+0290                 this.substrates([this.substrateIndexs_water; this.substrateIndexs_methionine]) = <span class="keyword">...</span>
+0291                     this.substrates([this.substrateIndexs_water; this.substrateIndexs_methionine]) + <span class="keyword">...</span>
+0292                     [-1; 1] * sum(transformations(this.nascentMonomerNTerminalMethionineCleavages));
+0293             <span class="keyword">end</span>
+0294 
+0295             <span class="comment">%% Continue to simulate deformylation only</span>
+0296 
+0297             <span class="comment">%compute maximum of transformations that can occur, limited by</span>
+0298             <span class="comment">%- unprocessed protein monomers</span>
+0299             <span class="comment">%- enzymes (kinetics, availability)</span>
+0300             transformations = this.unprocessedMonomers;
+0301             transformations(this.nascentMonomerNTerminalMethionineCleavages) = 0;
+0302             <span class="keyword">if</span> deformylaseLimit &gt; 0 &amp;&amp; any(transformations)
+0303                 transformations = transformations * <span class="keyword">...</span>
+0304                     min(1, deformylaseLimit / sum(transformations));
+0305 
+0306                 transformations = this.randStream.stochasticRound(transformations);
+0307                 <span class="keyword">if</span> sum(transformations) &gt; this.substrates(this.substrateIndexs_water)
+0308                     transformations = min(transformations, this.randStream.mnrnd(this.substrates(this.substrateIndexs_water), transformations / sum(transformations))');
+0309                 <span class="keyword">end</span>
+0310 
+0311                 <span class="comment">%update numbers of monomers</span>
+0312                 this.processedMonomers   = this.processedMonomers   + transformations;
+0313                 this.unprocessedMonomers = this.unprocessedMonomers - transformations;
+0314 
+0315                 <span class="comment">%update metabolites</span>
+0316                 this.substrates([this.substrateIndexs_water; this.substrateIndexs_formate; this.substrateIndexs_hydrogen]) = <span class="keyword">...</span>
+0317                     this.substrates([this.substrateIndexs_water; this.substrateIndexs_formate; this.substrateIndexs_hydrogen]) + <span class="keyword">...</span>
+0318                     [-1; 1; 1] * sum(transformations);
+0319             <span class="keyword">end</span>
+0320         <span class="keyword">end</span>
+0321     <span class="keyword">end</span>
+0322 
+0323     <span class="comment">%get methods of dependent local state</span>
+0324     methods
+0325         <a name="_sub9" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0326             <span class="keyword">if</span> size(this.unprocessedMonomers, 3) == 1
+0327                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0328                     this.monomer.molecularWeights(this.monomer.nascentIndexs)'    * this.unprocessedMonomers + <span class="keyword">...</span>
+0329                     this.monomer.molecularWeights(this.monomer.processedIIndexs)' * this.processedMonomers) <span class="keyword">...</span>
+0330                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0331             <span class="keyword">else</span>
+0332                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0333                     permute(this.monomer.molecularWeights(this.monomer.nascentIndexs)'    * permute(this.unprocessedMonomers,[1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0334                     permute(this.monomer.molecularWeights(this.monomer.processedIIndexs)' * permute(this.processedMonomers,  [1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0335                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0336             <span class="keyword">end</span>
+0337         <span class="keyword">end</span>
+0338     <span class="keyword">end</span>
+0339 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

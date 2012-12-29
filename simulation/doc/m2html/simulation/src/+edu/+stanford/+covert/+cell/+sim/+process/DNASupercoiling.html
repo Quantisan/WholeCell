@@ -1,0 +1,746 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DNASupercoiling</title>
+  <meta name="keywords" content="DNASupercoiling">
+  <meta name="description" content="DNASupercoiling">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; DNASupercoiling.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>DNASupercoiling
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>DNASupercoiling</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DNASupercoiling
+
+ @wholeCellModelID Process_DNASupercoiling
+ @name             DNA Supercoiling
+ @description
+   Biology
+   ===========
+   DNA gyrase and topoisomerase IV each use 2 ATP to induce 2
+   negative
+   supercoils each time they act. Occasionally, topoisomerase IV can also
+   induce positive supercoils but that is not considered in our model.
+   Topoisomerase I acts to induce positive supercoils. Gyrase, topoisomerase
+   IV, and topoisomerase I act at rates of 1.2, 2.5, and 1 strand passing
+   events per second respectively.
+ 
+   We use a calculation of the DNA's linking number (LK) in order to track
+   the supercoiling of the DNA.  The &amp;delta;LK is the difference between the
+   current level of DNA supercoiling and the relaxed level of DNA
+   supercoiling. The LKrelaxed is defined as number of base pairs/10.5, in which
+   10.5 is the number of bases per turn in a relaxed double helix. As the
+   replication loops move, the LKcurrent deviates from this relaxed state,
+   and gyrases and topoisomerases help bring the DNA back to the relaxed
+   state. The superhelical density, or specific linking number density,
+   &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;, is defined as the:
+      (LKcurrent - LKrelaxed)/LKrelaxed. 
+   The activity of gyrases and topoisomerases depends on the &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;
+   of the DNA. Although there is likely a more complex relationship between the
+   DNA supercoiling and enzyme activity, we model the enzyme activity as a
+   combination of step functions and logistic functions. 
+   Topoisomerase IV can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is
+   higher than 0. Topoisomerase I can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is lower
+   than zero. Gyrase can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is higher than -0.1.
+   Within, the regions where gyrase and topoI are allowed to act, we apply
+   a logistic function describing the probability of activity, centered
+   around equilibrium sigma, -0.06. For TopoI, the probability of activity
+   approaches 1 as the sigma gets more positive. For gyrase, the
+   probability of activity approaches 1 as
+   
+   We model up to three regions on the chromosomes and track their LKs
+   separately. Before replication, &quot;unreplicated DNA&quot; is the only region
+   present. The enzymes may act on the chromosome affecting the LKcurrent,
+   and experimentally it has been shown that the enzymes would obtain an
+   LKcurrent such that the steady state &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is =-0.06. As the
+   replication loop progresses, &quot;unreplicated DNA&quot; is the region downstream of
+   the two replication loops.  The number of bases in this region decreases
+   during replication, meaning that the LKrelaxed decreases. The LKcurrent then,
+   is too high, and must be brought down towards the LKrelaxed by inducing
+   negative supercoils.
+   
+   The second and third regions are the replicated DNA upstream of the
+   replication loops on each of the two chromosomes. As new uncoiled DNA is
+   formed, it is already coiled, but gyrases and topoisomerases can continue
+   to act on this DNA, ideally maintaining the steady state &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;.
+   After replication is complete, these two regions are the only two that exist.
+   
+   It is essential that the &amp;detlta;LK in the region downstream of the replication
+   loops be brought down to 0 by the end of replication.
+   
+   Another consideration is the processivity of the enzymes when bound to the
+   DNA. Topoisomerase IV is highly processive and will stay bound to the DNA
+   as long as the &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is greater than zero. Topoisomerase I is
+   not highly processive, and essentially acts on the DNA and falls back off
+   right away gyrase will stay bound to the DNA for about 30-60 seconds. We model
+   gyrase processivity as a poisson distribution with &amp;lambda; = 45 seconds.
+   
+   In this process, we go through all free gyrases and topoisomerases in
+   random order,  determine what regions they can bind in, and randomly bind
+   them to a large enough open position on the DNA. We adjust the linking
+   number based on all enzyme actions, and account for the usage of ATP. We
+   also track the processivity of gyrase and topoisomerase IV, and unbind
+   them from the DNA when appropriate.
+   
+   If replication is in progress, we first knock off any enzymes that the
+   replication loop collides into.
+
+   There is an effect of supercoiling on the probabilities of gene 
+   transcription (Peter 2004). While fold change at differnt sigmas have
+   been calculated for many E. coli genes, here, for simplicity, we are
+   only including the effects on the 5 supercoiling genes: gyrB, gyrA,
+   parC, parE, and topA. These genes exist in 3 transcription units. Peter
+   2004 has data for the fold change of expression of each of these genes
+   are various values of sigma (ranging from sigma -0.06-0.02) at various 
+   experimental conditions. Due to the limited data and large variation within
+   the data, we have decided to use a linear fit of the fold change data and 
+   extrapolate the linear fit within the sigma range of -0.08 to 0.07 where 
+   the linear fit seems reasonable. Outside of this range, we estimate a
+   constant fold change of expression. While there is a separate set of
+   data for each of the 5 genes, our model requires a single probability
+   of transcription for each transcription unit. The data for the first
+   gene in each transcription unit is used (gyrB, and parE). TopA is
+   transcribed with genes that are not supercoiling related. The
+   expression of those genes (MG_119, 120, 121) will also get affected by 
+   this process. The general trend is that gyrase and topoIV will have an
+   increased expression when sigma is higher than the equilibrium, and
+   that topoI will have a higher expression when sigma is lower than the
+   equilibrium. Fold changes for gyrase will vary between 0.14 and 6.57.
+   Fold changes for topoIV will vary between 0.98 and 1.14. Fold changes
+   for topoI will vary between 0.042 and 1.15. 
+   
+   References
+   ===============
+   1. Ullsperger, C., Cozzarelli, N.R. (1996). Contrasting enzymatic activities
+      of topoisomerase IV and DnA gyrase from Escherichia coli. Journal of Bio
+      Chem 271: 31549-31555. [PUB_0236]
+   2. Dekker, N.H., Viard, T., Bouthier de la Tour, C., Duguet, M., Bensimon,
+      D., Croquette, V. (2003). Thermophilic Topoisomerase I on a single DNA
+      molecule. Journal of molecular biology 329: 271-282. [PUB_0502]
+   3. Gore, J., Bryant, Z., Stone, M.D., Nollmann, M., Cozzarelli, N.R.,
+      Bustamante, C. (2006). Mechanochemical analysis of DNA gyrase using rotor
+      bead tracking. Nature 439: 100-104. [PUB_0751]
+   4. Bates, A. (2006). DNA Topoisomerases: Single Gyrase Caught in the Act.
+      Current Biology 16: 204-206. [PUB_0752]
+   5. Peng, H., Marians, K.J. (1995). The Interaction of Escherichia coli
+      Topoisomerase IV with DNA. Journal of Biological Chemistry 42:
+      25286–25290. [PUB_0694]
+   6. Wang, J. (1996) DNA Topoisomerases. Annual Reviews 65: 635-692. [PUB_0693]
+   7. Peter, B.J., Arsuaga, J., Breier, A.M., Khodursky, A.B., Brown,
+      P.O., Cozzarelli, N.R. (2004) Genomic transcriptional response to loss
+      of chromosomal supercoiling in Escherichia coli. Genome Biology 5:
+      1-13. [PUB_0920]
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 11/18/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNASupercoiling.html" class="code" title="">DNASupercoiling</a>	DNASupercoiling</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNASupercoiling.html" class="code" title="">DNASupercoiling</a>	DNASupercoiling</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = DNASupercoiling(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a></li><li><a href="#_sub5" class="code">function initializeState(this)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li><li><a href="#_sub8" class="code">function foldChange = calcRNAPolymeraseBindingProbFoldChange(this, dsPosStrands, lengths, linkingNumbers)</a></li><li><a href="#_sub9" class="code">function value = buildEnzymeProperties(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%DNASupercoiling</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_DNASupercoiling</span>
+0004 <span class="comment">% @name             DNA Supercoiling</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===========</span>
+0008 <span class="comment">%   DNA gyrase and topoisomerase IV each use 2 ATP to induce 2</span>
+0009 <span class="comment">%   negative</span>
+0010 <span class="comment">%   supercoils each time they act. Occasionally, topoisomerase IV can also</span>
+0011 <span class="comment">%   induce positive supercoils but that is not considered in our model.</span>
+0012 <span class="comment">%   Topoisomerase I acts to induce positive supercoils. Gyrase, topoisomerase</span>
+0013 <span class="comment">%   IV, and topoisomerase I act at rates of 1.2, 2.5, and 1 strand passing</span>
+0014 <span class="comment">%   events per second respectively.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   We use a calculation of the DNA's linking number (LK) in order to track</span>
+0017 <span class="comment">%   the supercoiling of the DNA.  The &amp;delta;LK is the difference between the</span>
+0018 <span class="comment">%   current level of DNA supercoiling and the relaxed level of DNA</span>
+0019 <span class="comment">%   supercoiling. The LKrelaxed is defined as number of base pairs/10.5, in which</span>
+0020 <span class="comment">%   10.5 is the number of bases per turn in a relaxed double helix. As the</span>
+0021 <span class="comment">%   replication loops move, the LKcurrent deviates from this relaxed state,</span>
+0022 <span class="comment">%   and gyrases and topoisomerases help bring the DNA back to the relaxed</span>
+0023 <span class="comment">%   state. The superhelical density, or specific linking number density,</span>
+0024 <span class="comment">%   &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;, is defined as the:</span>
+0025 <span class="comment">%      (LKcurrent - LKrelaxed)/LKrelaxed.</span>
+0026 <span class="comment">%   The activity of gyrases and topoisomerases depends on the &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;</span>
+0027 <span class="comment">%   of the DNA. Although there is likely a more complex relationship between the</span>
+0028 <span class="comment">%   DNA supercoiling and enzyme activity, we model the enzyme activity as a</span>
+0029 <span class="comment">%   combination of step functions and logistic functions.</span>
+0030 <span class="comment">%   Topoisomerase IV can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is</span>
+0031 <span class="comment">%   higher than 0. Topoisomerase I can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is lower</span>
+0032 <span class="comment">%   than zero. Gyrase can only act if &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is higher than -0.1.</span>
+0033 <span class="comment">%   Within, the regions where gyrase and topoI are allowed to act, we apply</span>
+0034 <span class="comment">%   a logistic function describing the probability of activity, centered</span>
+0035 <span class="comment">%   around equilibrium sigma, -0.06. For TopoI, the probability of activity</span>
+0036 <span class="comment">%   approaches 1 as the sigma gets more positive. For gyrase, the</span>
+0037 <span class="comment">%   probability of activity approaches 1 as</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   We model up to three regions on the chromosomes and track their LKs</span>
+0040 <span class="comment">%   separately. Before replication, &quot;unreplicated DNA&quot; is the only region</span>
+0041 <span class="comment">%   present. The enzymes may act on the chromosome affecting the LKcurrent,</span>
+0042 <span class="comment">%   and experimentally it has been shown that the enzymes would obtain an</span>
+0043 <span class="comment">%   LKcurrent such that the steady state &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is =-0.06. As the</span>
+0044 <span class="comment">%   replication loop progresses, &quot;unreplicated DNA&quot; is the region downstream of</span>
+0045 <span class="comment">%   the two replication loops.  The number of bases in this region decreases</span>
+0046 <span class="comment">%   during replication, meaning that the LKrelaxed decreases. The LKcurrent then,</span>
+0047 <span class="comment">%   is too high, and must be brought down towards the LKrelaxed by inducing</span>
+0048 <span class="comment">%   negative supercoils.</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   The second and third regions are the replicated DNA upstream of the</span>
+0051 <span class="comment">%   replication loops on each of the two chromosomes. As new uncoiled DNA is</span>
+0052 <span class="comment">%   formed, it is already coiled, but gyrases and topoisomerases can continue</span>
+0053 <span class="comment">%   to act on this DNA, ideally maintaining the steady state &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt;.</span>
+0054 <span class="comment">%   After replication is complete, these two regions are the only two that exist.</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   It is essential that the &amp;detlta;LK in the region downstream of the replication</span>
+0057 <span class="comment">%   loops be brought down to 0 by the end of replication.</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   Another consideration is the processivity of the enzymes when bound to the</span>
+0060 <span class="comment">%   DNA. Topoisomerase IV is highly processive and will stay bound to the DNA</span>
+0061 <span class="comment">%   as long as the &amp;sigma;&lt;sub&gt;sp&lt;/sub&gt; is greater than zero. Topoisomerase I is</span>
+0062 <span class="comment">%   not highly processive, and essentially acts on the DNA and falls back off</span>
+0063 <span class="comment">%   right away gyrase will stay bound to the DNA for about 30-60 seconds. We model</span>
+0064 <span class="comment">%   gyrase processivity as a poisson distribution with &amp;lambda; = 45 seconds.</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%   In this process, we go through all free gyrases and topoisomerases in</span>
+0067 <span class="comment">%   random order,  determine what regions they can bind in, and randomly bind</span>
+0068 <span class="comment">%   them to a large enough open position on the DNA. We adjust the linking</span>
+0069 <span class="comment">%   number based on all enzyme actions, and account for the usage of ATP. We</span>
+0070 <span class="comment">%   also track the processivity of gyrase and topoisomerase IV, and unbind</span>
+0071 <span class="comment">%   them from the DNA when appropriate.</span>
+0072 <span class="comment">%</span>
+0073 <span class="comment">%   If replication is in progress, we first knock off any enzymes that the</span>
+0074 <span class="comment">%   replication loop collides into.</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">%   There is an effect of supercoiling on the probabilities of gene</span>
+0077 <span class="comment">%   transcription (Peter 2004). While fold change at differnt sigmas have</span>
+0078 <span class="comment">%   been calculated for many E. coli genes, here, for simplicity, we are</span>
+0079 <span class="comment">%   only including the effects on the 5 supercoiling genes: gyrB, gyrA,</span>
+0080 <span class="comment">%   parC, parE, and topA. These genes exist in 3 transcription units. Peter</span>
+0081 <span class="comment">%   2004 has data for the fold change of expression of each of these genes</span>
+0082 <span class="comment">%   are various values of sigma (ranging from sigma -0.06-0.02) at various</span>
+0083 <span class="comment">%   experimental conditions. Due to the limited data and large variation within</span>
+0084 <span class="comment">%   the data, we have decided to use a linear fit of the fold change data and</span>
+0085 <span class="comment">%   extrapolate the linear fit within the sigma range of -0.08 to 0.07 where</span>
+0086 <span class="comment">%   the linear fit seems reasonable. Outside of this range, we estimate a</span>
+0087 <span class="comment">%   constant fold change of expression. While there is a separate set of</span>
+0088 <span class="comment">%   data for each of the 5 genes, our model requires a single probability</span>
+0089 <span class="comment">%   of transcription for each transcription unit. The data for the first</span>
+0090 <span class="comment">%   gene in each transcription unit is used (gyrB, and parE). TopA is</span>
+0091 <span class="comment">%   transcribed with genes that are not supercoiling related. The</span>
+0092 <span class="comment">%   expression of those genes (MG_119, 120, 121) will also get affected by</span>
+0093 <span class="comment">%   this process. The general trend is that gyrase and topoIV will have an</span>
+0094 <span class="comment">%   increased expression when sigma is higher than the equilibrium, and</span>
+0095 <span class="comment">%   that topoI will have a higher expression when sigma is lower than the</span>
+0096 <span class="comment">%   equilibrium. Fold changes for gyrase will vary between 0.14 and 6.57.</span>
+0097 <span class="comment">%   Fold changes for topoIV will vary between 0.98 and 1.14. Fold changes</span>
+0098 <span class="comment">%   for topoI will vary between 0.042 and 1.15.</span>
+0099 <span class="comment">%</span>
+0100 <span class="comment">%   References</span>
+0101 <span class="comment">%   ===============</span>
+0102 <span class="comment">%   1. Ullsperger, C., Cozzarelli, N.R. (1996). Contrasting enzymatic activities</span>
+0103 <span class="comment">%      of topoisomerase IV and DnA gyrase from Escherichia coli. Journal of Bio</span>
+0104 <span class="comment">%      Chem 271: 31549-31555. [PUB_0236]</span>
+0105 <span class="comment">%   2. Dekker, N.H., Viard, T., Bouthier de la Tour, C., Duguet, M., Bensimon,</span>
+0106 <span class="comment">%      D., Croquette, V. (2003). Thermophilic Topoisomerase I on a single DNA</span>
+0107 <span class="comment">%      molecule. Journal of molecular biology 329: 271-282. [PUB_0502]</span>
+0108 <span class="comment">%   3. Gore, J., Bryant, Z., Stone, M.D., Nollmann, M., Cozzarelli, N.R.,</span>
+0109 <span class="comment">%      Bustamante, C. (2006). Mechanochemical analysis of DNA gyrase using rotor</span>
+0110 <span class="comment">%      bead tracking. Nature 439: 100-104. [PUB_0751]</span>
+0111 <span class="comment">%   4. Bates, A. (2006). DNA Topoisomerases: Single Gyrase Caught in the Act.</span>
+0112 <span class="comment">%      Current Biology 16: 204-206. [PUB_0752]</span>
+0113 <span class="comment">%   5. Peng, H., Marians, K.J. (1995). The Interaction of Escherichia coli</span>
+0114 <span class="comment">%      Topoisomerase IV with DNA. Journal of Biological Chemistry 42:</span>
+0115 <span class="comment">%      25286–25290. [PUB_0694]</span>
+0116 <span class="comment">%   6. Wang, J. (1996) DNA Topoisomerases. Annual Reviews 65: 635-692. [PUB_0693]</span>
+0117 <span class="comment">%   7. Peter, B.J., Arsuaga, J., Breier, A.M., Khodursky, A.B., Brown,</span>
+0118 <span class="comment">%      P.O., Cozzarelli, N.R. (2004) Genomic transcriptional response to loss</span>
+0119 <span class="comment">%      of chromosomal supercoiling in Escherichia coli. Genome Biology 5:</span>
+0120 <span class="comment">%      1-13. [PUB_0920]</span>
+0121 <span class="comment">%</span>
+0122 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0123 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0124 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0125 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0126 <span class="comment">% Last updated: 11/18/2010</span>
+0127 classdef <a href="DNASupercoiling.html" class="code" title="">DNASupercoiling</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0128     <span class="comment">%property annotations</span>
+0129     properties (Constant)
+0130         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0131         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0132             <span class="string">'gyraseMeanDwellTime'</span>;
+0133             <span class="string">'gyraseSigmaLimit'</span>;
+0134             <span class="string">'topoISigmaLimit'</span>;
+0135             <span class="string">'topoIVSigmaLimit'</span>;
+0136             <span class="string">'gyraseDeltaLK'</span>;
+0137             <span class="string">'topoIDeltaLK'</span>;
+0138             <span class="string">'topoIVDeltaLK'</span>;
+0139             <span class="string">'gyraseActivityRate'</span>;
+0140             <span class="string">'topoIActivityRate'</span>;
+0141             <span class="string">'topoIVActivityRate'</span>;
+0142             <span class="string">'gyraseATPCost'</span>;
+0143             <span class="string">'topoIATPCost'</span>;
+0144             <span class="string">'topoIVATPCost'</span>;
+0145             <span class="string">'foldChangeSlopes'</span>; 
+0146             <span class="string">'foldChangeIntercepts'</span>;
+0147             <span class="string">'foldChangeLowerSigmaLimit'</span>;
+0148             <span class="string">'foldChangeUpperSigmaLimit'</span>; 
+0149             <span class="string">'numTranscriptionUnits'</span>;
+0150             <span class="string">'tuIndexs'</span>;
+0151             <span class="string">'tuCoordinates'</span>;
+0152             };
+0153         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0154         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0155     <span class="keyword">end</span>
+0156 
+0157     <span class="comment">%IDs, names, and local indices</span>
+0158     properties
+0159         stimuliWholeCellModelIDs = {};   <span class="comment">%whole cell model IDs of stimuli</span>
+0160         substrateWholeCellModelIDs = {   <span class="comment">%whole cell model IDs of substrates</span>
+0161             <span class="string">'ATP'</span>; <span class="string">'ADP'</span>; <span class="string">'PI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0162         substrateIndexs_atp       = 1;
+0163         substrateIndexs_adp       = 2;
+0164         substrateIndexs_phosphate = 3;
+0165         substrateIndexs_water     = 4;
+0166         substrateIndexs_hydrogen  = 5;
+0167 
+0168         enzymeWholeCellModelIDs = {      <span class="comment">%whole cell model IDs of enzymes</span>
+0169             <span class="string">'DNA_GYRASE'</span>;                <span class="comment">%DNA gyrase</span>
+0170             <span class="string">'MG_203_204_TETRAMER'</span>;       <span class="comment">%DNA topoisomerase IV</span>
+0171             <span class="string">'MG_122_MONOMER'</span>};           <span class="comment">%DNA topoisomerase I</span>
+0172         enzymeIndexs_gyrase = 1;
+0173         enzymeIndexs_topoIV = 2;
+0174         enzymeIndexs_topoI  = 3;
+0175     <span class="keyword">end</span>
+0176     
+0177     <span class="comment">%fixed biological constants</span>
+0178     properties
+0179         gyraseMeanDwellTime       <span class="comment">%Mean dwell time of gyrase to bind DNA [45s; PUB_0753]</span>
+0180         
+0181         gyraseSigmaLimit          <span class="comment">%superhelical density (\sigma_{sp}) above which gyrase acts [-0.1; PUB_0753]</span>
+0182         topoISigmaLimit           <span class="comment">%superhelical density (\sigma_{sp}) above which topoisomerase I acts [0; PUB_0502]</span>
+0183         topoIVSigmaLimit          <span class="comment">%superhelical density (\sigma_{sp}) below which topoisomerase IV acts [0; PUB_0753]</span>
+0184         
+0185         gyraseDeltaLK             <span class="comment">%number of supercoils introduced by each gyrase strand passing event [-2; PUB_0695]</span>
+0186         topoIDeltaLK              <span class="comment">%number of supercoils introduced by each topoisomerase I strand passing event [1; PUB_0502]</span>
+0187         topoIVDeltaLK             <span class="comment">%number of supercoils introduced by each topoisomerase IV strand passing event [-2]</span>
+0188         
+0189         gyraseActivityRate        <span class="comment">%strand passing events per second per enzyme [1.2; PUB_0753]</span>
+0190         topoIActivityRate         <span class="comment">%strand passing events per second per enzyme [1.0; PUB_0502]</span>
+0191         topoIVActivityRate        <span class="comment">%strand passing events per second per enzyme [2.5; PUB_0750]</span>
+0192         
+0193         gyraseATPCost             <span class="comment">%ATP hydrolyzed per gyrase-catalyzed strand passing event [2]</span>
+0194         topoIATPCost              <span class="comment">%ATP hydrolyzed per topoisomerase I-catalyzed strand passing event [0]</span>
+0195         topoIVATPCost             <span class="comment">%ATP hydrolyzed per topoisomerase IV-catalyzed strand passing event [2]</span>
+0196         
+0197         topoILogisiticConst       <span class="comment">%fittable parameter controlling the steapness of the the logistic function of topoI activity around equilibrium sigma [100]</span>
+0198         gyrLogisiticConst         <span class="comment">%fittable parameter controlling the steapness of the the logistic function of gyrase activity around equilibrium sigma [-100]</span>
+0199         
+0200         enzymeProperties          <span class="comment">%struct built by buildEnzymeProperties</span>
+0201         
+0202         foldChangeSlopes          <span class="comment">%slopes of linear fit of sigma-gene expression data [gyrase, topo IV, topo I] [PUB_0920]</span>
+0203         foldChangeIntercepts      <span class="comment">%y-intercepts of linear fit of sigma-gene expression data [gyrase, topo IV, topo I] [PUB_0920]</span>
+0204         foldChangeLowerSigmaLimit <span class="comment">%lower bound of sigma for applying linear fit (fittable parameter)</span>
+0205         foldChangeUpperSigmaLimit <span class="comment">%upper bound of sigma for applying linear fit (fittable parameter)</span>
+0206         
+0207         numTranscriptionUnits     <span class="comment">%number of transcription units</span>
+0208         tuIndexs                  <span class="comment">%transcription units whose transcription probs will be affected by supercoiling [gyrase, topo IV, topo I]</span>
+0209         tuCoordinates             <span class="comment">%start coords of transcription units whose transcription probs will be affected by supercoiling [gyrase, topo IV, topo I]</span>
+0210     <span class="keyword">end</span>
+0211     
+0212     <span class="comment">%references to cell state</span>
+0213     properties
+0214         rnaPolymerase             <span class="comment">%reference to RNA polymerase state</span>
+0215     <span class="keyword">end</span>
+0216 
+0217     <span class="comment">%constructor</span>
+0218     methods
+0219         <a name="_sub0" href="#_subfunctions" class="code">function this = DNASupercoiling(wholeCellModelID, name)</a>
+0220             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0221         <span class="keyword">end</span>
+0222     <span class="keyword">end</span>
+0223 
+0224     <span class="comment">%communication between process/simulation</span>
+0225     methods
+0226         <span class="comment">%set references to state objects</span>
+0227         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0228             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0229             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0230             
+0231             this.rnaPolymerase = simulation.state(<span class="string">'RNAPolymerase'</span>);
+0232             this.states = [this.states; {this.rnaPolymerase}];
+0233         <span class="keyword">end</span>
+0234         
+0235         <span class="comment">%initialize constants</span>
+0236         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0237             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0238                 knowledgeBase, simulation, varargin{:});
+0239             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(<span class="keyword">...</span>
+0240                 knowledgeBase, simulation, varargin{:});            
+0241             
+0242             c = this.chromosome;
+0243             
+0244             this.enzymeProperties = this.buildEnzymeProperties();
+0245             
+0246             <span class="comment">%get transcription unit indices</span>
+0247             [~, geneIndexs] = ismember({<span class="string">'MG_003'</span>, <span class="string">'MG_203'</span>, <span class="string">'MG_122'</span>}, this.gene.wholeCellModelIDs);
+0248             [this.tuIndexs, ~] = find(this.rna.nascentRNAGeneComposition(geneIndexs, :)');            
+0249             this.numTranscriptionUnits = numel(c.transcriptionUnitStartCoordinates);
+0250             this.tuCoordinates = c.transcriptionUnitStartCoordinates(this.tuIndexs);
+0251         <span class="keyword">end</span>
+0252     <span class="keyword">end</span>
+0253 
+0254     <span class="comment">%model</span>
+0255     methods        
+0256         <span class="comment">%Calculate sufficient metabolites and enzymes to achieve the observed</span>
+0257         <span class="comment">%mean superhelical density after replication of the daughter chromosome:</span>
+0258         <span class="comment">%</span>
+0259         <span class="comment">%  (LK after replication) = 2 * (LK before replication)</span>
+0260         <span class="comment">%                         = (LK before replication)</span>
+0261         <span class="comment">%                            + (links introduced by DNA pol)</span>
+0262         <span class="comment">%                            - (links pushed ahead of replisome and resolved by gyrase)</span>
+0263         <span class="comment">%                            - (links introduced behind replisome by gryase to return to steady-state superhelical density)</span>
+0264         <span class="comment">%               2*LK_{ss} = LK_{ss} + 2*LK_{0} - LK_{ss} - 2*(LK_{0} - LK_{ss})</span>
+0265         <span class="comment">%</span>
+0266         <span class="comment">%That is calculate:</span>
+0267         <span class="comment">%- contribution to FBA objective</span>
+0268         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0269         <span class="comment">%</span>
+0270         <span class="comment">%FitConstants accounts for topoisomerase I / gyrase expression balance</span>
+0271         <span class="comment">%required to achieve the observed steady state superhelical density.</span>
+0272         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a>
+0273             <span class="comment">%initialize</span>
+0274             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0275             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0276             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0277             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0278             
+0279             <span class="comment">%references</span>
+0280             c = this.chromosome;
+0281             t = constants.states.Time;
+0282             
+0283             <span class="comment">%number of links to be resolved by gyrase, and number of gyrase</span>
+0284             <span class="comment">%link resolution reactions</span>
+0285             <span class="comment">%- links that need to be resolved because of replication</span>
+0286             <span class="comment">%- links that need to be resolved to counter-balance the effect</span>
+0287             <span class="comment">%  of topoisomerase I</span>
+0288             nRxn = 0;
+0289             
+0290             LK_0  =  c.sequenceLen / c.relaxedBasesPerTurn;
+0291             LK_ss = (1 + c.equilibriumSuperhelicalDensity) * LK_0;
+0292             dLK = - LK_ss - 2*(LK_0 - LK_ss);
+0293             nRxn = nRxn + dLK / this.gyraseDeltaLK;
+0294             
+0295             topoIProps = this.enzymeProperties(this.enzymeIndexs_topoI);
+0296             gyrProps = this.enzymeProperties(this.enzymeIndexs_gyrase);
+0297             nRxn = nRxn + 0.25 * <span class="keyword">...</span><span class="comment"> %factor of 0.25 added based on observing simulations</span>
+0298                 abs(states.monomers(this.enzymeGlobalIndexs(this.enzymeIndexs_topoI)) * <span class="keyword">...</span>
+0299                 topoIProps.activityRate * topoIProps.deltaLK / gyrProps.deltaLK);
+0300             
+0301             <span class="comment">%substrates and byproducts</span>
+0302             nATP = nRxn * this.enzymeProperties(this.enzymeIndexs_gyrase).atpCost;
+0303             bmProd(this.substrateIndexs_atp)       = nATP;
+0304             bmProd(this.substrateIndexs_water)     = nATP;
+0305             byProd(this.substrateIndexs_adp)       = nATP;
+0306             byProd(this.substrateIndexs_phosphate) = nATP;
+0307             byProd(this.substrateIndexs_hydrogen)  = nATP;
+0308             
+0309             <span class="comment">%gyrase</span>
+0310             minEnzExp(this.enzymeIndexs_gyrase) = <span class="keyword">...</span>
+0311                 nRxn / t.replicationDuration / this.gyraseActivityRate / <span class="keyword">...</span>
+0312                 exp(log(2) * t.replicationInitiationDuration / t.cellCycleLength);
+0313         <span class="keyword">end</span>
+0314 
+0315         <span class="comment">%initialization:</span>
+0316         <span class="comment">%- Simulation initializeState method initializes 1</span>
+0317         <span class="comment">%  chromosome with linkingNumber such that the superhelical density is</span>
+0318         <span class="comment">%  equal to the equilibriumSuperhelicalDensity</span>
+0319         <span class="comment">%- Here we bind all gyrase to the</span>
+0320         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(this)</a>
+0321             <span class="comment">%bind gyrase</span>
+0322             nGyraseBinding = this.randStream.stochasticRound(<span class="keyword">...</span>
+0323                 this.enzymes(this.enzymeIndexs_gyrase) * <span class="keyword">...</span>
+0324                 (1 - 1/this.gyraseMeanDwellTime/this.stepSizeSec));
+0325             this.bindProteinToChromosomeStochastically(this.enzymeIndexs_gyrase, <span class="keyword">...</span>
+0326                 nGyraseBinding);
+0327             
+0328             <span class="comment">%Calculate effects of supercoiling on probability of transcription</span>
+0329             this.rnaPolymerase.supercoilingBindingProbFoldChange = this.calcRNAPolymeraseBindingProbFoldChange();
+0330         <span class="keyword">end</span>
+0331         
+0332         <span class="comment">%resource requirements</span>
+0333         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0334             <span class="comment">%chromosome reference</span>
+0335             c = this.chromosome;
+0336             
+0337             <span class="comment">%initialize</span>
+0338             result = zeros(size(this.substrates));
+0339             
+0340             <span class="comment">%ATP needed for gyrase activity</span>
+0341             [~, sigmas] = find(c.superhelicalDensity);
+0342             
+0343             enzProps = this.enzymeProperties(this.enzymeIndexs_gyrase);
+0344             nATP = enzProps.atpCost * ceil(<span class="keyword">...</span>
+0345                 (this.enzymes(this.enzymeIndexs_gyrase) + this.boundEnzymes(this.enzymeIndexs_gyrase)) * <span class="keyword">...</span>
+0346                 enzProps.activityRate *  max(enzProps.probOfActivityFunc(sigmas, c)));
+0347             
+0348             result(this.substrateIndexs_atp)   = nATP;
+0349             result(this.substrateIndexs_water) = nATP;
+0350         <span class="keyword">end</span>
+0351 
+0352         <span class="comment">%simulation</span>
+0353         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0354             import edu.stanford.covert.util.CircularSparseMat;
+0355             import edu.stanford.covert.util.ComputationUtil;
+0356             
+0357             c = this.chromosome;
+0358             
+0359             <span class="comment">%get enzyme properties</span>
+0360             enzProps = this.enzymeProperties;
+0361 
+0362             <span class="comment">% Calculate sigmas</span>
+0363             [tmpPosStrands, lengths] = find(c.doubleStrandedRegions);
+0364             tmpIdxs = find(mod(tmpPosStrands(:, 2), 2));
+0365             dsPosStrands = tmpPosStrands(tmpIdxs, :);
+0366             lengths = lengths(tmpIdxs, 1);
+0367             
+0368             [~, linkingNumbers] = find(c.linkingNumbers);
+0369             linkingNumbers = linkingNumbers(tmpIdxs, 1);
+0370             sigmas = (linkingNumbers - lengths/c.relaxedBasesPerTurn) ./ (lengths/c.relaxedBasesPerTurn);
+0371 
+0372             <span class="comment">% Determine which regions accommodate which proteins.</span>
+0373             legal = [<span class="keyword">...</span>
+0374                 sigmas &gt; this.gyraseSigmaLimit <span class="keyword">...</span>
+0375                 sigmas &gt; this.topoIVSigmaLimit <span class="keyword">...</span>
+0376                 sigmas &lt; this.topoISigmaLimit];
+0377 
+0378             <span class="comment">% Unbind topoIV where it can't act.</span>
+0379             this.releaseProteinFromChromosome(<span class="keyword">...</span>
+0380                 this.enzymeIndexs_topoIV, Inf,<span class="keyword">...</span>
+0381                 dsPosStrands(legal(:, this.enzymeIndexs_topoIV), :),<span class="keyword">...</span><span class="comment"> %protected regions</span>
+0382                 lengths(legal(:, this.enzymeIndexs_topoIV)));
+0383             
+0384             <span class="comment">% Probabilistically unbind gyrase.</span>
+0385             this.releaseProteinFromChromosome(this.enzymeIndexs_gyrase, 1 / this.gyraseMeanDwellTime, [], []);
+0386             
+0387             <span class="comment">% Bind enzymes in regions with accommodating sigmas.</span>
+0388             order = this.randStream.randperm(length(this.enzymes));
+0389             transientlyBinding = zeros(size(legal));
+0390             <span class="keyword">for</span> i = 1:length(order)
+0391                 j = order(i);
+0392                 
+0393                 <span class="keyword">if</span> enzProps(j).meanDwellTime == 0
+0394                     <span class="keyword">if</span> numel(lengths) == 1 &amp;&amp; lengths == c.sequenceLen
+0395                         [~, mons] = find(c.monomerBoundSites);
+0396                         [~, cpxs] = find(c.complexBoundSites);
+0397                         space = lengths <span class="keyword">...</span>
+0398                             - sum(c.monomerDNAFootprints(mons, 1)) <span class="keyword">...</span>
+0399                             - sum(c.complexDNAFootprints(cpxs, 1)) <span class="keyword">...</span>
+0400                             - nnz(c.damagedSites);
+0401                         transientlyBinding(1, j) = min(this.enzymes(j, 1), space / this.enzymeDNAFootprints(j, 1));
+0402                     <span class="keyword">elseif</span> numel(lengths) == 2 &amp;&amp; all(lengths == c.sequenceLen)
+0403                         [monPosStrnds, mons] = find(c.monomerBoundSites);
+0404                         [cpxPosStrnds, cpxs] = find(c.complexBoundSites);
+0405                         space = zeros(2, 1);
+0406                         space(1) = lengths(1) <span class="keyword">...</span>
+0407                             - sum(c.monomerDNAFootprints(mons(monPosStrnds(:, 2) &lt;=2 ), 1)) <span class="keyword">...</span>
+0408                             - sum(c.complexDNAFootprints(cpxs(cpxPosStrnds(:, 2) &lt;=2 ), 1)) <span class="keyword">...</span>
+0409                             - nnz(c.damagedSites(:, 1:2));
+0410                         space(2) = lengths(2) <span class="keyword">...</span>
+0411                             - sum(c.monomerDNAFootprints(mons(monPosStrnds(:, 2) &gt;2 ), 1)) <span class="keyword">...</span>
+0412                             - sum(c.complexDNAFootprints(cpxs(cpxPosStrnds(:, 2) &gt;2 ), 1)) <span class="keyword">...</span>
+0413                             - nnz(c.damagedSites(:, 3:4));
+0414                         transientlyBinding(:, j) = min(this.enzymes(j, 1), sum(space) / this.enzymeDNAFootprints(j, 1)) * <span class="keyword">...</span>
+0415                             space / sum(space);
+0416                         <span class="keyword">if</span> this.randStream.rand &lt; 0.5
+0417                             transientlyBinding(1, j) = ComputationUtil.roundHalfUp(transientlyBinding(1, j));
+0418                             transientlyBinding(2, j) = ComputationUtil.roundHalfDown(transientlyBinding(2, j));
+0419                         <span class="keyword">else</span>
+0420                             transientlyBinding(2, j) = ComputationUtil.roundHalfUp(transientlyBinding(2, j));
+0421                             transientlyBinding(1, j) = ComputationUtil.roundHalfDown(transientlyBinding(1, j));
+0422                         <span class="keyword">end</span>
+0423                     <span class="keyword">else</span>
+0424                         [monPosStrnds, mons] = find(c.monomerBoundSites);
+0425                         [cmpPosStrnds, cmps] = find(c.complexBoundSites);
+0426                         dmgPosStrnds = find(c.damagedSites);
+0427                         monPos = monPosStrnds(:, 1);
+0428                         cmpPos = cmpPosStrnds(:, 1);
+0429                         dmgPos = dmgPosStrnds(:, 1);
+0430                         monChrs = ceil(monPosStrnds(:, 2) / 2);
+0431                         cmpChrs = ceil(cmpPosStrnds(:, 2) / 2);
+0432                         dmgChrs = ceil(dmgPosStrnds(:, 2) / 2);
+0433                         
+0434                         space = zeros(size(lengths));
+0435                         <span class="keyword">for</span> k = 1:numel(lengths)
+0436                             <span class="keyword">if</span> ~legal(k, j)
+0437                                 <span class="keyword">continue</span>;
+0438                             <span class="keyword">end</span>
+0439                             
+0440                             monTfs = monPos &gt;= dsPosStrands(k, 1) &amp; monPos &lt;= dsPosStrands(k, 1) + lengths(k, 1) - 1;
+0441                             cmpTfs = cmpPos &gt;= dsPosStrands(k, 1) &amp; cmpPos &lt;= dsPosStrands(k, 1) + lengths(k, 1) - 1;
+0442                             dmgTfs = dmgPos &gt;= dsPosStrands(k, 1) &amp; dmgPos &lt;= dsPosStrands(k, 1) + lengths(k, 1) - 1;
+0443                             monTfs(monTfs) = monChrs(monTfs, 1) == dsPosStrands(k, 2);
+0444                             cmpTfs(cmpTfs) = cmpChrs(cmpTfs, 1) == dsPosStrands(k, 2);
+0445                             dmgTfs(dmgTfs) = dmgChrs(dmgTfs, 1) == dsPosStrands(k, 2);
+0446                             
+0447                             space(k, 1) = <span class="keyword">...</span>
+0448                                 + lengths(k, 1) <span class="keyword">...</span>
+0449                                 - sum(c.monomerDNAFootprints(mons(monTfs, 1), 1)) <span class="keyword">...</span>
+0450                                 - sum(c.monomerDNAFootprints(cmps(cmpTfs, 1), 1)) <span class="keyword">...</span>
+0451                                 - sum(dmgTfs);
+0452                         <span class="keyword">end</span>
+0453                         
+0454                         <span class="keyword">if</span> numel(lengths) == 1
+0455                             transientlyBinding(:, j) = min(this.enzymes(j, 1), space / this.enzymeDNAFootprints(j, 1));
+0456                         <span class="keyword">else</span>
+0457                             transientlyBinding(:, j) = space / sum(space) * min(this.enzymes(j, 1), sum(space) / this.enzymeDNAFootprints(j, 1));
+0458                         <span class="keyword">end</span>
+0459                     <span class="keyword">end</span>
+0460                 <span class="keyword">elseif</span> any(legal(:, j))
+0461                     this.bindProteinToChromosomeStochastically(<span class="keyword">...</span>
+0462                         j, [], dsPosStrands(legal(:,j),:), lengths(legal(:,j)));
+0463                 <span class="keyword">end</span>
+0464             <span class="keyword">end</span>
+0465 
+0466             <span class="comment">% Calculate new linking numbers and do substrate accounting.</span>
+0467             enzProps = enzProps(this.randStream.randperm(length(enzProps)));
+0468             <span class="keyword">for</span> i = 1:size(dsPosStrands, 1)
+0469                 len = lengths(i);
+0470                 <span class="keyword">for</span> j = 1:length(enzProps)
+0471                     <span class="keyword">if</span> legal(i, enzProps(j).idx)
+0472                         <span class="keyword">if</span> enzProps(j).meanDwellTime == 0
+0473                             nBound = transientlyBinding(i, enzProps(j).idx);
+0474                         <span class="keyword">else</span>
+0475                             nBound = size(this.findProteinInRegion(<span class="keyword">...</span>
+0476                                 dsPosStrands(i, 1), dsPosStrands(i, 2), len, enzProps(j).idx), 1);
+0477                         <span class="keyword">end</span>
+0478                         <span class="comment">% use logistic function to determine the</span>
+0479                         <span class="comment">% probability of enzyme activity</span>
+0480                         <span class="comment">% Use sigmas from beginning of timestep, before any</span>
+0481                         <span class="comment">% enzymes have acted</span>
+0482                         probOfActivity = enzProps(j).probOfActivityFunc(sigmas(i),c);
+0483                         nStrandPassingEvents = min([
+0484                             this.randStream.stochasticRound(nBound * enzProps(j).activityRate *  probOfActivity);
+0485                             fix(this.substrates([this.substrateIndexs_atp; this.substrateIndexs_water]) / enzProps(j).atpCost)
+0486                             ]);
+0487                         <span class="comment">%adjust linking number</span>
+0488                         linkingNumbers(i) = linkingNumbers(i) + enzProps(j).deltaLK * nStrandPassingEvents;
+0489                         
+0490                         <span class="comment">%substrate accounting</span>
+0491                         nATP = nStrandPassingEvents * enzProps(j).atpCost;
+0492                         this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - nATP;
+0493                         this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - nATP;
+0494                         this.substrates(this.substrateIndexs_adp)       = this.substrates(this.substrateIndexs_adp)       + nATP;
+0495                         this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + nATP;
+0496                         this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + nATP;
+0497                     <span class="keyword">end</span>
+0498                 <span class="keyword">end</span>
+0499             <span class="keyword">end</span>
+0500             c.linkingNumbers = CircularSparseMat(<span class="keyword">...</span>
+0501                 [dsPosStrands; dsPosStrands(:, 1) dsPosStrands(:, 2)+1], [linkingNumbers; linkingNumbers], <span class="keyword">...</span>
+0502                 [c.sequenceLen c.nCompartments], 1);    
+0503             <span class="comment">%Calculate effects of supercoiling on probability of transcription</span>
+0504             this.rnaPolymerase.supercoilingBindingProbFoldChange = this.calcRNAPolymeraseBindingProbFoldChange(dsPosStrands, lengths, linkingNumbers);
+0505         <span class="keyword">end</span>
+0506         
+0507         <a name="_sub7" href="#_subfunctions" class="code">function foldChange = calcRNAPolymeraseBindingProbFoldChange(this, dsPosStrands, lengths, linkingNumbers)</a>
+0508             c = this.chromosome;
+0509             
+0510             <span class="keyword">if</span> nargin == 1
+0511                 [tmpPosStrands, lengths] = find(c.doubleStrandedRegions);
+0512                 tmpIdxs = find(mod(tmpPosStrands(:, 2),2));
+0513                 dsPosStrands = tmpPosStrands(tmpIdxs, :);
+0514                 lengths = lengths(tmpIdxs, 1);
+0515                 
+0516                 [~, linkingNumbers] = find(c.linkingNumbers);
+0517                 linkingNumbers = linkingNumbers(tmpIdxs, 1);
+0518             <span class="keyword">end</span>
+0519             
+0520             foldChange = ones(size(c.transcriptionUnitStartCoordinates, 1), 2); <span class="comment">%initialize fold change</span>
+0521             sigmas = (linkingNumbers - lengths/c.relaxedBasesPerTurn) ./ (lengths/c.relaxedBasesPerTurn);
+0522             <span class="keyword">for</span> i = 1:length(this.tuCoordinates)
+0523                 <span class="comment">%find double stranded region where transcription unit lies</span>
+0524                 rgnIdxs = find(<span class="keyword">...</span>
+0525                     dsPosStrands(:,1)               &lt;= this.tuCoordinates(i) &amp; <span class="keyword">...</span>
+0526                     dsPosStrands(:,1) + lengths - 1 &gt;= this.tuCoordinates(i));
+0527                 
+0528                 <span class="keyword">for</span> j = 1:numel(rgnIdxs)
+0529                     <span class="comment">%piecewise linear function of sigma of double stranded region</span>
+0530                     <span class="comment">%where transcription unit lies</span>
+0531                     thresholdedSigma = min(<span class="keyword">...</span>
+0532                         max(sigmas(rgnIdxs(j)), this.foldChangeLowerSigmaLimit),<span class="keyword">...</span>
+0533                         this.foldChangeUpperSigmaLimit);
+0534                     foldChange(<span class="keyword">...</span>
+0535                         this.tuIndexs(i), ceil(dsPosStrands(rgnIdxs(j), 2)/2)) = <span class="keyword">...</span>
+0536                         this.foldChangeIntercepts(i) + this.foldChangeSlopes(i) * thresholdedSigma;
+0537                 <span class="keyword">end</span>
+0538             <span class="keyword">end</span>
+0539         <span class="keyword">end</span>
+0540         
+0541         <a name="_sub8" href="#_subfunctions" class="code">function value = buildEnzymeProperties(this)</a>
+0542             value = [<span class="keyword">...</span>
+0543                 struct(<span class="keyword">...</span>
+0544                     <span class="string">'idx'</span>, this.enzymeIndexs_gyrase,<span class="keyword">...</span>
+0545                     <span class="string">'sigmaLimit'</span>, this.gyraseSigmaLimit, <span class="keyword">...</span>
+0546                     <span class="string">'isActiveInRegion'</span>, @(sigmas) sigmas &gt; this.gyraseSigmaLimit, <span class="keyword">...</span>
+0547                     <span class="string">'atpCost'</span>, this.gyraseATPCost,<span class="keyword">...</span>
+0548                     <span class="string">'deltaLK'</span>, this.gyraseDeltaLK,<span class="keyword">...</span>
+0549                     <span class="string">'activityRate'</span>, this.gyraseActivityRate,<span class="keyword">...</span>
+0550                     <span class="string">'meanDwellTime'</span>, this.gyraseMeanDwellTime,<span class="keyword">...</span>
+0551                     <span class="string">'probOfActivityFunc'</span>, @(sigma, c) 1 ./ (1 + exp(this.gyrLogisiticConst * (sigma - c.equilibriumSuperhelicalDensity))));
+0552                 struct(<span class="keyword">...</span>
+0553                     <span class="string">'idx'</span>, this.enzymeIndexs_topoIV,<span class="keyword">...</span>
+0554                     <span class="string">'sigmaLimit'</span>, this.topoIVSigmaLimit, <span class="keyword">...</span>
+0555                     <span class="string">'isActiveInRegion'</span>, @(sigmas) sigmas &gt; this.topoIVSigmaLimit, <span class="keyword">...</span>
+0556                     <span class="string">'atpCost'</span>, this.topoIVATPCost,<span class="keyword">...</span>
+0557                     <span class="string">'deltaLK'</span>, this.topoIVDeltaLK,<span class="keyword">...</span>
+0558                     <span class="string">'activityRate'</span>, this.topoIVActivityRate,<span class="keyword">...</span>
+0559                     <span class="string">'meanDwellTime'</span>, NaN,<span class="keyword">...</span>
+0560                     <span class="string">'probOfActivityFunc'</span>, @(sigma, c) ones(size(sigma)));
+0561                 struct(<span class="keyword">...</span>
+0562                     <span class="string">'idx'</span>, this.enzymeIndexs_topoI,<span class="keyword">...</span>
+0563                     <span class="string">'sigmaLimit'</span>, this.topoISigmaLimit, <span class="keyword">...</span>
+0564                     <span class="string">'isActiveInRegion'</span>, @(sigmas) sigmas &lt; this.topoISigmaLimit, <span class="keyword">...</span>
+0565                     <span class="string">'atpCost'</span>, this.topoIATPCost,<span class="keyword">...</span>
+0566                     <span class="string">'deltaLK'</span>, this.topoIDeltaLK,<span class="keyword">...</span>
+0567                     <span class="string">'activityRate'</span>, this.topoIActivityRate,<span class="keyword">...</span>
+0568                     <span class="string">'meanDwellTime'</span>, 0,<span class="keyword">...</span>
+0569                     <span class="string">'probOfActivityFunc'</span>, @(sigma, c) 1 ./ (1 + exp(this.topoILogisiticConst * (sigma - c.equilibriumSuperhelicalDensity))))];
+0570         <span class="keyword">end</span>
+0571     <span class="keyword">end</span>
+0572 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

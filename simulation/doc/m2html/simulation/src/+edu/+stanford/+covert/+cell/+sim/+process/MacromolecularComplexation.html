@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of MacromolecularComplexation</title>
+  <meta name="keywords" content="MacromolecularComplexation">
+  <meta name="description" content="Macromolecular complexation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; MacromolecularComplexation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>MacromolecularComplexation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Macromolecular complexation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Macromolecular complexation
+
+ @wholeCellModelID Process_MacromolecularComplexation
+ @name             Macromolecular complexation
+ @description
+   Biology
+   ===============
+   An important step in the synthesis of functional enzymes is the
+   stochiometric formation of macromolecular complexes. Macromolecular
+   complexation is kinetically fast, and energetically favorable.
+   Consequently, the model assumes that complexation is limited only by
+   subunit availability, and proceeds to completion rapidly. In addition,
+   we assume that each complex forms with the same specific rate.
+
+   Knowledge Base
+   ===============
+   As of 8/17/2010 the M. genitalium knowledge base contained 155
+   macromolecular complexes involving 262 protein monomer species and 5 RNA
+   species, and 277 links between protein/RNA/complex subunit species and
+   complexes. Of these 155 complexes, detailed information is available on
+   the formation of 6, and these six complexes are formed in other processes.
+   The remaining 149 are formed by this process. The following table lists
+   several statistics about the macromolecular complexation network.
+
+      Statistic                                      Value
+      ===========================================    ===========
+      Mean no. subunit species per complex           1.8 +/- 3.2
+      Min, Max no. subunits species per complex      1 - 34
+      Mean no. subunits per complex                  5 +/- 15.6
+      Min, Max no. subunits per complex              2 - 192
+      Mean no. complexes per monomer species         1 +/ 0.1
+      Min, Max no. complexes per monomer species     1 - 2
+      No. subunits participating in &gt;1 complexes     5
+      No. subunits which are themselves complexes    5
+      No. complexes formed in this process            149
+      No. complexes formed in other processes          6
+
+   Representation
+   ===============
+   Two properties are used to represent the counts of the 149 macromolecular
+   complexes formed by this process (complexs), and of free macromolecular
+   complex subunits (substrates).
+
+   Four properties are used to represent the structure of the macromolecular
+   complex - subunit network: complexComposition, complexNetworks,
+   substrates2complexNetworks, and complexs2complexNetworks. complexComposition
+   is an adjancency matrix between subunits and complexes populated from the
+   knowledge base; entries contain the number of subunits of each type in each
+   complex. complexNetworks is cell array containing the clustering of
+   complexComposition built by findNonInteractingRowsAndColumns called by
+   initializeConstants; each entry represents a disconnected part of the
+   macromolecular complex - subunit network, which can be simulated separate from
+   all other disconnected parts. substrates2complexNetworks and
+   complexs2complexNetworks represent mappings between substrates and complexs
+   and the disconnected parts of the macromolecular complex - subunit network
+   stored in complexNetworks.
+
+   Initialization
+   ===============
+   Macromolecular complexes are initialized up to the amounts of RNA and
+   protein subunits initialized by other processes.
+
+   Simulation
+   ===============
+   Macromolecular complexes are formed assuming:
+   1) Complexation is highly energetically favorable and
+   2) Complexation is fast, and thus
+   3) Macromolecular complexes are formed to completion; that is until
+      there are insufficient free monomers to form additional complexes.
+
+   Complexes are formed according to Monte Carlo simulation for
+   each independent protein complex network (previously established by
+   initializeConstants and stored in complexNetworks,
+   substrates2complexNetworks, and complexs2complexNetworks). First,
+   we use mass-action kinetics to compute the relative formation rate of
+   each complex. Specifically we compute the relative formation rate as
+   the product of the concentration of all monomers raised to the power of
+   their stoichiometries within the complex. Second we stochastically form
+   complexes according the computed formation rates. This is repeated until
+   no further complexes can form.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Markus Covert, mcovert@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="MacromolecularComplexation.html" class="code" title="">MacromolecularComplexation</a>	Macromolecular complexation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="MacromolecularComplexation.html" class="code" title="">MacromolecularComplexation</a>	Macromolecular complexation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = MacromolecularComplexation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function initializeComplexNetworks(this)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li><li><a href="#_sub12" class="code">function proteinComplexs = buildProteinComplexs_montecarlokinetic(</a></li><li><a href="#_sub13" class="code">function rates = buildProteinComplexs_rates_collisionTheory(</a></li><li><a href="#_sub14" class="code">function ub = buildProteinComplexs_bounds(totalProteinMonomers, proteinComplexMatrix)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Macromolecular complexation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_MacromolecularComplexation</span>
+0004 <span class="comment">% @name             Macromolecular complexation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   An important step in the synthesis of functional enzymes is the</span>
+0009 <span class="comment">%   stochiometric formation of macromolecular complexes. Macromolecular</span>
+0010 <span class="comment">%   complexation is kinetically fast, and energetically favorable.</span>
+0011 <span class="comment">%   Consequently, the model assumes that complexation is limited only by</span>
+0012 <span class="comment">%   subunit availability, and proceeds to completion rapidly. In addition,</span>
+0013 <span class="comment">%   we assume that each complex forms with the same specific rate.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   Knowledge Base</span>
+0016 <span class="comment">%   ===============</span>
+0017 <span class="comment">%   As of 8/17/2010 the M. genitalium knowledge base contained 155</span>
+0018 <span class="comment">%   macromolecular complexes involving 262 protein monomer species and 5 RNA</span>
+0019 <span class="comment">%   species, and 277 links between protein/RNA/complex subunit species and</span>
+0020 <span class="comment">%   complexes. Of these 155 complexes, detailed information is available on</span>
+0021 <span class="comment">%   the formation of 6, and these six complexes are formed in other processes.</span>
+0022 <span class="comment">%   The remaining 149 are formed by this process. The following table lists</span>
+0023 <span class="comment">%   several statistics about the macromolecular complexation network.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%      Statistic                                      Value</span>
+0026 <span class="comment">%      ===========================================    ===========</span>
+0027 <span class="comment">%      Mean no. subunit species per complex           1.8 +/- 3.2</span>
+0028 <span class="comment">%      Min, Max no. subunits species per complex      1 - 34</span>
+0029 <span class="comment">%      Mean no. subunits per complex                  5 +/- 15.6</span>
+0030 <span class="comment">%      Min, Max no. subunits per complex              2 - 192</span>
+0031 <span class="comment">%      Mean no. complexes per monomer species         1 +/ 0.1</span>
+0032 <span class="comment">%      Min, Max no. complexes per monomer species     1 - 2</span>
+0033 <span class="comment">%      No. subunits participating in &gt;1 complexes     5</span>
+0034 <span class="comment">%      No. subunits which are themselves complexes    5</span>
+0035 <span class="comment">%      No. complexes formed in this process            149</span>
+0036 <span class="comment">%      No. complexes formed in other processes          6</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   Representation</span>
+0039 <span class="comment">%   ===============</span>
+0040 <span class="comment">%   Two properties are used to represent the counts of the 149 macromolecular</span>
+0041 <span class="comment">%   complexes formed by this process (complexs), and of free macromolecular</span>
+0042 <span class="comment">%   complex subunits (substrates).</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   Four properties are used to represent the structure of the macromolecular</span>
+0045 <span class="comment">%   complex - subunit network: complexComposition, complexNetworks,</span>
+0046 <span class="comment">%   substrates2complexNetworks, and complexs2complexNetworks. complexComposition</span>
+0047 <span class="comment">%   is an adjancency matrix between subunits and complexes populated from the</span>
+0048 <span class="comment">%   knowledge base; entries contain the number of subunits of each type in each</span>
+0049 <span class="comment">%   complex. complexNetworks is cell array containing the clustering of</span>
+0050 <span class="comment">%   complexComposition built by findNonInteractingRowsAndColumns called by</span>
+0051 <span class="comment">%   initializeConstants; each entry represents a disconnected part of the</span>
+0052 <span class="comment">%   macromolecular complex - subunit network, which can be simulated separate from</span>
+0053 <span class="comment">%   all other disconnected parts. substrates2complexNetworks and</span>
+0054 <span class="comment">%   complexs2complexNetworks represent mappings between substrates and complexs</span>
+0055 <span class="comment">%   and the disconnected parts of the macromolecular complex - subunit network</span>
+0056 <span class="comment">%   stored in complexNetworks.</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   Initialization</span>
+0059 <span class="comment">%   ===============</span>
+0060 <span class="comment">%   Macromolecular complexes are initialized up to the amounts of RNA and</span>
+0061 <span class="comment">%   protein subunits initialized by other processes.</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   Simulation</span>
+0064 <span class="comment">%   ===============</span>
+0065 <span class="comment">%   Macromolecular complexes are formed assuming:</span>
+0066 <span class="comment">%   1) Complexation is highly energetically favorable and</span>
+0067 <span class="comment">%   2) Complexation is fast, and thus</span>
+0068 <span class="comment">%   3) Macromolecular complexes are formed to completion; that is until</span>
+0069 <span class="comment">%      there are insufficient free monomers to form additional complexes.</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   Complexes are formed according to Monte Carlo simulation for</span>
+0072 <span class="comment">%   each independent protein complex network (previously established by</span>
+0073 <span class="comment">%   initializeConstants and stored in complexNetworks,</span>
+0074 <span class="comment">%   substrates2complexNetworks, and complexs2complexNetworks). First,</span>
+0075 <span class="comment">%   we use mass-action kinetics to compute the relative formation rate of</span>
+0076 <span class="comment">%   each complex. Specifically we compute the relative formation rate as</span>
+0077 <span class="comment">%   the product of the concentration of all monomers raised to the power of</span>
+0078 <span class="comment">%   their stoichiometries within the complex. Second we stochastically form</span>
+0079 <span class="comment">%   complexes according the computed formation rates. This is repeated until</span>
+0080 <span class="comment">%   no further complexes can form.</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0083 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0084 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0085 <span class="comment">% Last updated: 1/4/2010</span>
+0086 classdef  <a href="MacromolecularComplexation.html" class="code" title="">MacromolecularComplexation</a> &lt; edu.stanford.covert.cell.sim.Process
+0087     <span class="comment">%property annotations</span>
+0088     properties (Constant)
+0089         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0090         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0091             <span class="string">'complexComposition'</span>;
+0092             <span class="string">'complexNetworks'</span>;
+0093             <span class="string">'substrates2complexNetworks'</span>;
+0094             <span class="string">'complexs2complexNetworks'</span>;
+0095             };
+0096         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0097         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0098             <span class="string">'complexs'</span>};
+0099     <span class="keyword">end</span>
+0100 
+0101     <span class="comment">%IDs, names, and local indices</span>
+0102     properties
+0103         stimuliWholeCellModelIDs   = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0104         substrateWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of subunits</span>
+0105         enzymeWholeCellModelIDs    = {}; <span class="comment">%enzyme whole cell model ids</span>
+0106         complexWholeCellModelIDs   = {}; <span class="comment">%whole cell model IDs of macromolecular complexes</span>
+0107 
+0108         complexGlobalIndexs              <span class="comment">%complex row indices within simulation.complexs</span>
+0109         complexCompartmentIndexs         <span class="comment">%complex compartment indices within simulation.compartment.wholeCellModelIDs</span>
+0110         complexGlobalCompartmentIndexs   <span class="comment">%complex row &amp; column indices within simulation.complexs</span>
+0111     <span class="keyword">end</span>
+0112 
+0113     <span class="comment">%fixed biological constants</span>
+0114     properties
+0115         complexComposition           <span class="comment">%protein complex composition (monomers X complexes X compartments)</span>
+0116         complexNetworks              <span class="comment">%decomposition of complexComposition into independent networks</span>
+0117         substrates2complexNetworks   <span class="comment">%network index of each subunit</span>
+0118         complexs2complexNetworks     <span class="comment">%network index of each protein complex, index of zero indicates not to model complexation using this process</span>
+0119     <span class="keyword">end</span>
+0120 
+0121     <span class="comment">%global state (stored locally for convenience)</span>
+0122     properties
+0123         complexs                     <span class="comment">%numbers of macromolecular complexes</span>
+0124     <span class="keyword">end</span>
+0125 
+0126     <span class="comment">%constructor</span>
+0127     methods
+0128         <a name="_sub0" href="#_subfunctions" class="code">function this = MacromolecularComplexation(wholeCellModelID, name)</a>
+0129             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0130         <span class="keyword">end</span>
+0131     <span class="keyword">end</span>
+0132 
+0133     <span class="comment">%communication between process/simulation</span>
+0134     methods
+0135         <span class="comment">%initialize constants</span>
+0136         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0137             <span class="comment">%subunits</span>
+0138             this.substrateWholeCellModelIDs = cell(knowledgeBase.numGenes,1);
+0139             this.substrateWholeCellModelIDs(this.gene.mRNAIndexs) = this.monomer.wholeCellModelIDs(this.monomer.matureIndexs);
+0140             this.substrateWholeCellModelIDs(this.gene.rRNAIndexs) = this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureRRNAIndexs));
+0141             this.substrateWholeCellModelIDs(this.gene.sRNAIndexs) = this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureSRNAIndexs));
+0142             this.substrateWholeCellModelIDs(this.gene.tRNAIndexs) = this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureTRNAIndexs));
+0143 
+0144             <span class="comment">%complexs</span>
+0145             process = findobj(knowledgeBase.processes, <span class="string">'wholeCellModelID'</span>, this.wholeCellModelID);
+0146             complexProcesses = [knowledgeBase.proteinComplexs.complexFormationProcess]';
+0147             complexIdxs = find(complexProcesses == process);
+0148             this.complexGlobalIndexs = this.monomer.nascentIndexs(complexIdxs);
+0149             this.complexCompartmentIndexs = this.complex.compartments(this.complexGlobalIndexs);
+0150             this.complexGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0151                 [numel(this.complex.wholeCellModelIDs) numel(this.compartment.wholeCellModelIDs)], <span class="keyword">...</span>
+0152                 this.complexGlobalIndexs, <span class="keyword">...</span>
+0153                 this.complexCompartmentIndexs);
+0154 
+0155             this.complexWholeCellModelIDs = this.complex.wholeCellModelIDs(this.complexGlobalIndexs);
+0156 
+0157             this.complexComposition = sum(<span class="keyword">...</span>
+0158                 knowledgeBase.proteinComplexRNAComposition(:, complexIdxs, :) + <span class="keyword">...</span>
+0159                 knowledgeBase.proteinComplexMonomerComposition(:, complexIdxs, :), 3);
+0160 
+0161             <span class="comment">%1. Reshape monomer-complex network: [monomers-Compartment-1 x Complexs; monomers-Compartment-2 x Complexs; ... ; monomers-Compartment-n x Complexs]</span>
+0162             <span class="comment">%   a. permute dimensions</span>
+0163             <span class="comment">%   b. reshape</span>
+0164             <span class="comment">%   c. transpose</span>
+0165             <span class="comment">%2. Ignore complexes formed by other processes</span>
+0166             <span class="comment">%3. Break monomer-complex network up into disjoint sets and build complexes for each set</span>
+0167             this.initializeComplexNetworks();
+0168             
+0169             <span class="comment">%call super class method to compute substrate mapping onto</span>
+0170             <span class="comment">%simulation and get substrate molecular weights</span>
+0171             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation);
+0172         <span class="keyword">end</span>
+0173         
+0174         <a name="_sub2" href="#_subfunctions" class="code">function initializeComplexNetworks(this)</a>
+0175             [substrates2complexNetworks, complexs2complexNetworks, complexNetworks] = <span class="keyword">...</span>
+0176                 edu.stanford.covert.util.findNonInteractingRowsAndColumns(this.complexComposition); <span class="comment">%#ok&lt;*PROP&gt;</span>
+0177             
+0178             this.substrates2complexNetworks = zeros(size(substrates2complexNetworks));
+0179             this.complexs2complexNetworks = zeros(size(complexs2complexNetworks));
+0180             this.complexNetworks = cell(1, 1);
+0181             j = 1;
+0182             <span class="keyword">for</span> i = 1:length(complexNetworks)
+0183                 <span class="keyword">if</span> size(complexNetworks{i}, 2) == 0
+0184                 <span class="keyword">elseif</span> size(complexNetworks{i}, 2) == 1
+0185                     this.substrates2complexNetworks(substrates2complexNetworks == i) = 1;
+0186                     this.complexs2complexNetworks(complexs2complexNetworks == i) = 1;
+0187                 <span class="keyword">else</span>
+0188                     j = j + 1;
+0189                     
+0190                     this.substrates2complexNetworks(substrates2complexNetworks == i) = j;
+0191                     this.complexs2complexNetworks(complexs2complexNetworks == i) = j;
+0192                     this.complexNetworks{j, 1} = complexNetworks{i};
+0193                 <span class="keyword">end</span>
+0194             <span class="keyword">end</span>
+0195             this.complexNetworks{1} = this.complexComposition(this.substrates2complexNetworks == 1, this.complexs2complexNetworks == 1);
+0196             
+0197             this.substrateWholeCellModelIDs = this.substrateWholeCellModelIDs(this.substrates2complexNetworks &gt; 0);
+0198             
+0199             this.complexWholeCellModelIDs = this.complexWholeCellModelIDs(this.complexs2complexNetworks &gt; 0);
+0200             this.complexGlobalIndexs = this.complexGlobalIndexs(this.complexs2complexNetworks &gt; 0);
+0201             this.complexCompartmentIndexs = this.complexCompartmentIndexs(this.complexs2complexNetworks &gt; 0);
+0202             this.complexGlobalCompartmentIndexs = this.complexGlobalCompartmentIndexs(this.complexs2complexNetworks &gt; 0);
+0203             
+0204             this.complexComposition = this.complexComposition(this.substrates2complexNetworks&gt;0, this.complexs2complexNetworks&gt;0);
+0205             this.substrates2complexNetworks = this.substrates2complexNetworks(this.substrates2complexNetworks &gt; 0);
+0206             this.complexs2complexNetworks = this.complexs2complexNetworks(this.complexs2complexNetworks &gt; 0);
+0207         <span class="keyword">end</span>
+0208 
+0209         <span class="comment">%retrieve state from simulation</span>
+0210         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0211             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0212 
+0213             numTime = size(this.complexs, 3);
+0214 
+0215             <span class="keyword">if</span> numTime == 1
+0216                 this.complexs = this.complex.counts(this.complexGlobalCompartmentIndexs);
+0217             <span class="keyword">else</span>
+0218                 this.complexs = permute(this.complex.counts(sub2ind(<span class="keyword">...</span>
+0219                     size(this.complex.counts), <span class="keyword">...</span>
+0220                     repmat(this.complexGlobalIndexs, 1, numTime), <span class="keyword">...</span>
+0221                     repmat(this.complexCompartmentIndexs, 1, numTime),<span class="keyword">...</span>
+0222                     repmat(1:numTime, length(this.complexGlobalIndexs), 1))),<span class="keyword">...</span>
+0223                     [1 3 2]);
+0224             <span class="keyword">end</span>
+0225         <span class="keyword">end</span>
+0226 
+0227         <span class="comment">%send state to simulation</span>
+0228         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0229             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0230 
+0231             <span class="comment">%complexs</span>
+0232             numTime = size(this.complexs, 3);
+0233             
+0234             <span class="keyword">if</span> numTime == 1
+0235                 this.complex.counts(this.complexGlobalCompartmentIndexs) = this.complexs;
+0236             <span class="keyword">else</span>
+0237                 this.complex.counts(sub2ind(<span class="keyword">...</span>
+0238                     size(this.complex.counts), <span class="keyword">...</span>
+0239                     repmat(this.complexGlobalIndexs, 1, numTime), <span class="keyword">...</span>
+0240                     repmat(this.complexCompartmentIndexs, 1, numTime),<span class="keyword">...</span>
+0241                     repmat(1:numTime, length(this.complexGlobalIndexs), 1))) = <span class="keyword">...</span>
+0242                     permute(this.complexs, [1 3 2]);
+0243             <span class="keyword">end</span>
+0244         <span class="keyword">end</span>
+0245     <span class="keyword">end</span>
+0246 
+0247     <span class="comment">%allocate memory for state</span>
+0248     methods
+0249         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0250             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0251 
+0252             this.complexs = zeros(length(this.complexWholeCellModelIDs), 1, numTimePoints);
+0253         <span class="keyword">end</span>
+0254     <span class="keyword">end</span>
+0255 
+0256     <span class="comment">%model</span>
+0257     methods
+0258         <span class="comment">%Calculate</span>
+0259         <span class="comment">%- contribution to FBA objective</span>
+0260         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0261         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0262             <span class="comment">%no substrates or enzymes required for passive macromolecular</span>
+0263             <span class="comment">%complexation</span>
+0264             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0265             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0266             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0267             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0268         <span class="keyword">end</span>
+0269         
+0270         <span class="comment">%initialization</span>
+0271         <span class="comment">%- monomers initialized to mature/bound/inactivated state</span>
+0272         <span class="comment">%  by simulation initializeState method</span>
+0273         <span class="comment">%- complexes initialized by</span>
+0274         <span class="comment">%  1. Macromolecular complexation</span>
+0275         <span class="comment">%  2. Ribosome assembly</span>
+0276         <span class="comment">%  3. Protein folding</span>
+0277         <span class="comment">%  4. Protein activation</span>
+0278         <span class="comment">%</span>
+0279         <span class="comment">%Here we use evolveState to form protein complexes</span>
+0280         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0281             this.evolveState();
+0282         <span class="keyword">end</span>
+0283 
+0284         <span class="comment">%resource requirements</span>
+0285         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0286             result = zeros(size(this.substrates));
+0287         <span class="keyword">end</span>
+0288 
+0289         <span class="comment">%simulation</span>
+0290         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0291             newComplexs = zeros(size(this.complexs));
+0292             
+0293             <span class="comment">%subunits only involved in one complex (i.e. no competition)</span>
+0294             newComplexs(this.complexs2complexNetworks == 1) = <a href="#_sub14" class="code" title="subfunction ub = buildProteinComplexs_bounds(totalProteinMonomers, proteinComplexMatrix)">buildProteinComplexs_bounds</a>(<span class="keyword">...</span>
+0295                 this.substrates(this.substrates2complexNetworks == 1, 1),<span class="keyword">...</span>
+0296                 this.complexNetworks{1});
+0297             
+0298             <span class="comment">%subunits involved in multiple complexes (i.e. competition): Run</span>
+0299             <span class="comment">%Monte Carlo simulation for each independent protein complex network</span>
+0300             <span class="keyword">for</span> i = 2:length(this.complexNetworks)
+0301                 newComplexs(this.complexs2complexNetworks == i) = <span class="keyword">...</span>
+0302                     <a href="#_sub12" class="code" title="subfunction proteinComplexs = buildProteinComplexs_montecarlokinetic(">buildProteinComplexs_montecarlokinetic</a>(<span class="keyword">...</span>
+0303                     this.substrates(this.substrates2complexNetworks == i), <span class="keyword">...</span>
+0304                     this.complexNetworks{i}, this.randStream);
+0305             <span class="keyword">end</span>
+0306             
+0307             <span class="comment">%stop if no new complexes</span>
+0308             <span class="keyword">if</span> ~any(newComplexs)
+0309                 <span class="keyword">return</span>;
+0310             <span class="keyword">end</span>
+0311             
+0312             this.complexs = this.complexs + newComplexs;
+0313             this.substrates = this.substrates - this.complexComposition * newComplexs;
+0314         <span class="keyword">end</span>
+0315     <span class="keyword">end</span>
+0316     
+0317     <span class="comment">%get methods of dependent local state</span>
+0318     methods
+0319         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0320             <span class="keyword">if</span> size(this.complexs, 3) == 1
+0321                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0322                     this.complex.molecularWeights(this.complexGlobalIndexs)' * this.complexs / <span class="keyword">...</span>
+0323                     edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0324             <span class="keyword">else</span>
+0325                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0326                     permute(<span class="keyword">...</span>
+0327                     this.complex.molecularWeights(this.complexGlobalIndexs)' * permute(this.complexs, [1 3 2]),<span class="keyword">...</span>
+0328                     [1 3 2]) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0329             <span class="keyword">end</span>
+0330         <span class="keyword">end</span>
+0331     <span class="keyword">end</span>
+0332 <span class="keyword">end</span>
+0333 
+0334 <a name="_sub11" href="#_subfunctions" class="code">function proteinComplexs = buildProteinComplexs_montecarlokinetic(</a><span class="keyword">...</span>
+0335         totalProteinMonomers, proteinComplexMatrix, randStream)
+0336     nComplexs = size(proteinComplexMatrix, 2);
+0337     proteinComplexs = zeros(nComplexs, 1);
+0338 
+0339     <span class="comment">%build complexes stochastically</span>
+0340     <span class="keyword">while</span> true
+0341         <span class="comment">%compute rate of building each complex</span>
+0342         cumprob = <a href="#_sub13" class="code" title="subfunction rates = buildProteinComplexs_rates_collisionTheory(">buildProteinComplexs_rates_collisionTheory</a>(<span class="keyword">...</span>
+0343             totalProteinMonomers, proteinComplexMatrix, <span class="string">'cumulative probability'</span>);
+0344 
+0345         <span class="comment">%stop when we can't make any more complexes</span>
+0346         <span class="keyword">if</span> isnan(cumprob(1)); <span class="keyword">break</span>; <span class="keyword">end</span>;
+0347 
+0348         <span class="comment">%select complex</span>
+0349         selectedComplex = find(randStream.rand() &lt; cumprob, 1, <span class="string">'first'</span>);
+0350         <span class="keyword">if</span> isempty(selectedComplex)
+0351             selectedComplex = find(cumprob == 1, 1, <span class="string">'first'</span>);
+0352         <span class="keyword">end</span>
+0353 
+0354         <span class="comment">%mass balance</span>
+0355         proteinComplexs(selectedComplex) = proteinComplexs(selectedComplex) + 1;
+0356         totalProteinMonomers = totalProteinMonomers - proteinComplexMatrix(:, selectedComplex);
+0357     <span class="keyword">end</span>
+0358 <span class="keyword">end</span>
+0359 
+0360 <a name="_sub12" href="#_subfunctions" class="code">function rates = buildProteinComplexs_rates_collisionTheory(</a><span class="keyword">...</span>
+0361         totalProteinMonomers, proteinComplexMatrix, normalization)
+0362     <span class="comment">%compute rate of building each complex</span>
+0363     <span class="comment">%Assumes that complexes form by all subunits simultaneously colliding.</span>
+0364     <span class="comment">%However, protein complexes do not assemble this way. Rather subunits are</span>
+0365     <span class="comment">%added sequentially. Thus this method will will underestimate the rate of</span>
+0366     <span class="comment">%formation of larger protein complexes relative to smaller complexes.</span>
+0367     <span class="comment">%Note: to get correct units subtract one from the sum(coefficients)</span>
+0368     <span class="comment">%term. Its not necessary to get the units correct because this factor</span>
+0369     <span class="comment">%is later normalized out.</span>
+0370     <span class="comment">%TODO: replace mean(totalProteinMonomers) with better estimate of volume</span>
+0371     rates = prod((totalProteinMonomers(:, ones(size(proteinComplexMatrix,2), 1)) / mean(totalProteinMonomers)) .^ proteinComplexMatrix, 1)';
+0372     
+0373     <span class="comment">%set rate to zero if upper zero</span>
+0374     ub = <a href="#_sub14" class="code" title="subfunction ub = buildProteinComplexs_bounds(totalProteinMonomers, proteinComplexMatrix)">buildProteinComplexs_bounds</a>(totalProteinMonomers, proteinComplexMatrix);
+0375     rates(ub == 0) = 0;
+0376     
+0377     <span class="keyword">if</span> nargin &gt;= 3
+0378         <span class="keyword">switch</span> normalization(1)
+0379             <span class="keyword">case</span> <span class="string">'c'</span> <span class="comment">%cumulative probability</span>
+0380                 rates = cumsum(rates);
+0381                 rates = rates / rates(end);
+0382             <span class="keyword">case</span> <span class="string">'p'</span> <span class="comment">%probability</span>
+0383                 rates = rates / sum(rates);
+0384             <span class="keyword">otherwise</span>
+0385                 throw(MException(<span class="string">'MacromolecularComplexation:error'</span>, <span class="string">'Invalid normalization'</span>));
+0386         <span class="keyword">end</span>
+0387     <span class="keyword">end</span>
+0388 <span class="keyword">end</span>
+0389 
+0390 <a name="_sub13" href="#_subfunctions" class="code">function ub = buildProteinComplexs_bounds(totalProteinMonomers, proteinComplexMatrix)</a>
+0391     ub = floor(min(totalProteinMonomers(:, ones(1, size(proteinComplexMatrix, 2))) ./ proteinComplexMatrix, [], 1))';
+0392 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

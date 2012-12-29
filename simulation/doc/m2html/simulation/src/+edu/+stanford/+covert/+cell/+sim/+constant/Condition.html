@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Condition</title>
+  <meta name="keywords" content="Condition">
+  <meta name="description" content="Condition">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+constant</a> &gt; Condition.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+constant&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Condition
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Condition</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Condition
+
+  Author: Jonathan Karr
+  Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+  Last updated: 1/10/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Condition.html" class="code" title="">Condition</a>	Condition</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Condition.html" class="code" title="">Condition</a>	Condition</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function values = applyConditions(values, conditions, time)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Condition</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">%  Author: Jonathan Karr</span>
+0004 <span class="comment">%  Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">%  Last updated: 1/10/2011</span>
+0006 classdef <a href="Condition.html" class="code" title="">Condition</a>
+0007     <span class="comment">%indices of specific states within state vectors</span>
+0008     properties (Constant)
+0009         objectIndexs            = 1;
+0010         compartmentIndexs       = 2;
+0011         valueIndexs             = 3;
+0012         initialTimeIndexs       = 4;
+0013         finalTimeIndexs         = 5;
+0014         objectCompartmentIndexs = 6;
+0015     <span class="keyword">end</span>
+0016     
+0017     methods (Static)
+0018         <span class="comment">%Applies conditions at current time point</span>
+0019         <a name="_sub0" href="#_subfunctions" class="code">function values = applyConditions(values, conditions, time)</a>
+0020             import edu.stanford.covert.cell.sim.constant.Condition;
+0021             
+0022             conditions = conditions(<span class="keyword">...</span>
+0023                 time &gt;= conditions(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0024                 time &lt;= conditions(:, Condition.finalTimeIndexs), :);
+0025             
+0026             values(conditions(:, Condition.objectCompartmentIndexs)) = <span class="keyword">...</span>
+0027                 conditions(:, Condition.valueIndexs);
+0028         <span class="keyword">end</span>
+0029     <span class="keyword">end</span>
+0030 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

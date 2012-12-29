@@ -1,0 +1,652 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of FtsZPolymerization</title>
+  <meta name="keywords" content="FtsZPolymerization">
+  <meta name="description" content="FtsZPolymerization">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; FtsZPolymerization.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>FtsZPolymerization
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>FtsZPolymerization</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FtsZPolymerization
+
+ @wholeCellModelID Process_FtsZPolymerization
+ @name             FtsZPolymerization
+ @description
+
+ In the cytosol, FtsZ can exist in one of multiple states: inactivated monomer,
+ deactivated monomer (GDP bound), activated monomer (GTP bound), nucleated
+ (dimer of two activated monomers), or elongated (polymer of three or more
+ activated monomers). FtsZ molecules move between these states at rates
+ obtained from Chen et al. 2005 and Surovtsev et al. 2008.
+
+ The maximum polymer length is a fittable parameter. We currently use 9 (40nm),
+ the lower end of the range given for E. coli in Anderson 2004.
+
+ FtsZ polymerization is modeled using a set of differential equations
+ modified from that described in Surovtsev et al. 2008, involving the
+ activation, nucleation, and elongation of FtsZ polymers.
+ The main modifications were that the equations were simplified to not
+ include annealing and cyclization of FtsZ polymers.
+
+ Solving the equations results in a real-valued distribution of monomers and
+ filament lengths at each time step. This process discretizes the distribution
+ at each time step for compatibility with the rest of the simulation.
+
+ References
+ ===============
+ 1. Surovtsev, I.V., Morgan, J.J., Lindahl, P.A. (2008). Kinetic Modelling of the
+    Assembly, Dynamic Steady State, and Contraction of the FtsZ Ring in
+    Prokaryotic Cytokinesis. Plos CB 4: 1-19. [PUB_0164]
+ 2. Chen, Y., Bjornson, K., Redick, S.D., Erickson, H.P. (2005). A rapid
+    fluorescence assay for ftsZ assembly indicates cooperative assembly with a
+    dimer nucleus. Biophysical journal 88: 505-514. [PUB_0200]
+ 3. Li, Z., Trimble, M.J., Brun, Y.V., Jensen, G.J. (2007). The structure of
+    FtsZ filaments in vivo suggests a force-generating role in cell division.
+    EMBO 26: 4694-4708. [PUB_0611]
+ 4. Anderson, D.E., Gueiros-Filho, F.J., Erickson, H.P. (2004). Assembly
+    Dynamics of FtsZ Rings in Bacillus subtilis and Escherichia coli and
+    Effects of FtsZ-Regulating Proteins. Journal of Bacteriology 186:
+    5775-5781. [PUB_0217]
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 9/9/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FtsZPolymerization.html" class="code" title="">FtsZPolymerization</a>	FtsZPolymerization</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FtsZPolymerization.html" class="code" title="">FtsZPolymerization</a>	FtsZPolymerization</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = FtsZPolymerization(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, varargin)</a></li><li><a href="#_sub3" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a></li><li><a href="#_sub4" class="code">function initializeState(this)</a></li><li><a href="#_sub5" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub6" class="code">function evolveState(this)</a></li><li><a href="#_sub7" class="code">function [tout, yout] = integrateODEs(this, y0)</a></li><li><a href="#_sub8" class="code">function enzymes = discretizeEnzymes(this, enzymeConcentrations)</a></li><li><a href="#_sub9" class="code">function [enzymes, substrates] = applySubstrateLimits(this, enzymes, substrates)</a></li><li><a href="#_sub10" class="code">function result = moleculesToConcentration(this, count)</a></li><li><a href="#_sub11" class="code">function result = concentrationToMolecules(this, conc)</a></li><li><a href="#_sub12" class="code">function dydt = diff(y, p)</a></li><li><a href="#_sub13" class="code">function J = jacobian(y, p)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%FtsZPolymerization</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_FtsZPolymerization</span>
+0004 <span class="comment">% @name             FtsZPolymerization</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% In the cytosol, FtsZ can exist in one of multiple states: inactivated monomer,</span>
+0008 <span class="comment">% deactivated monomer (GDP bound), activated monomer (GTP bound), nucleated</span>
+0009 <span class="comment">% (dimer of two activated monomers), or elongated (polymer of three or more</span>
+0010 <span class="comment">% activated monomers). FtsZ molecules move between these states at rates</span>
+0011 <span class="comment">% obtained from Chen et al. 2005 and Surovtsev et al. 2008.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% The maximum polymer length is a fittable parameter. We currently use 9 (40nm),</span>
+0014 <span class="comment">% the lower end of the range given for E. coli in Anderson 2004.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% FtsZ polymerization is modeled using a set of differential equations</span>
+0017 <span class="comment">% modified from that described in Surovtsev et al. 2008, involving the</span>
+0018 <span class="comment">% activation, nucleation, and elongation of FtsZ polymers.</span>
+0019 <span class="comment">% The main modifications were that the equations were simplified to not</span>
+0020 <span class="comment">% include annealing and cyclization of FtsZ polymers.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Solving the equations results in a real-valued distribution of monomers and</span>
+0023 <span class="comment">% filament lengths at each time step. This process discretizes the distribution</span>
+0024 <span class="comment">% at each time step for compatibility with the rest of the simulation.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% References</span>
+0027 <span class="comment">% ===============</span>
+0028 <span class="comment">% 1. Surovtsev, I.V., Morgan, J.J., Lindahl, P.A. (2008). Kinetic Modelling of the</span>
+0029 <span class="comment">%    Assembly, Dynamic Steady State, and Contraction of the FtsZ Ring in</span>
+0030 <span class="comment">%    Prokaryotic Cytokinesis. Plos CB 4: 1-19. [PUB_0164]</span>
+0031 <span class="comment">% 2. Chen, Y., Bjornson, K., Redick, S.D., Erickson, H.P. (2005). A rapid</span>
+0032 <span class="comment">%    fluorescence assay for ftsZ assembly indicates cooperative assembly with a</span>
+0033 <span class="comment">%    dimer nucleus. Biophysical journal 88: 505-514. [PUB_0200]</span>
+0034 <span class="comment">% 3. Li, Z., Trimble, M.J., Brun, Y.V., Jensen, G.J. (2007). The structure of</span>
+0035 <span class="comment">%    FtsZ filaments in vivo suggests a force-generating role in cell division.</span>
+0036 <span class="comment">%    EMBO 26: 4694-4708. [PUB_0611]</span>
+0037 <span class="comment">% 4. Anderson, D.E., Gueiros-Filho, F.J., Erickson, H.P. (2004). Assembly</span>
+0038 <span class="comment">%    Dynamics of FtsZ Rings in Bacillus subtilis and Escherichia coli and</span>
+0039 <span class="comment">%    Effects of FtsZ-Regulating Proteins. Journal of Bacteriology 186:</span>
+0040 <span class="comment">%    5775-5781. [PUB_0217]</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0043 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0044 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0045 <span class="comment">% Last updated: 9/9/2010</span>
+0046 
+0047 classdef <a href="FtsZPolymerization.html" class="code" title="">FtsZPolymerization</a> &lt; edu.stanford.covert.cell.sim.Process
+0048     <span class="comment">%property annotations</span>
+0049     properties (Constant)
+0050         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0051         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0052             <span class="string">'maxPolymerLength'</span>;
+0053             <span class="string">'activationFwd'</span>;
+0054             <span class="string">'activationRev'</span>;
+0055             <span class="string">'exchangeFwd'</span>;
+0056             <span class="string">'exchangeRev'</span>;
+0057             <span class="string">'nucleationFwd'</span>;
+0058             <span class="string">'nucleationRev'</span>;
+0059             <span class="string">'elongationFwd'</span>;
+0060             <span class="string">'elongationRev'</span>;
+0061             };
+0062         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0063         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0064     <span class="keyword">end</span>
+0065 
+0066     <span class="comment">%IDs, names, and local indices</span>
+0067     properties
+0068         stimuliWholeCellModelIDs = {};     <span class="comment">%whole cell model IDs of stimuli</span>
+0069 
+0070         substrateWholeCellModelIDs = {     <span class="comment">%whole cell model IDs of substrates</span>
+0071             <span class="string">'GDP'</span>; <span class="string">'GTP'</span>; <span class="string">'PI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0072         substrateIndexs_gdp       = 1;
+0073         substrateIndexs_gtp       = 2;
+0074         substrateIndexs_phosphate = 3;
+0075         substrateIndexs_water     = 4;
+0076         substrateIndexs_hydrogen  = 5;
+0077 
+0078         enzymeWholeCellModelIDs = {     <span class="comment">%whole cell model IDs of enzymes</span>
+0079             <span class="string">'MG_224_MONOMER'</span>;           <span class="comment">%cell division protein FtsZ</span>
+0080             <span class="string">'MG_224_MONOMER_GDP'</span>;       <span class="comment">%cell division protein FtsZ deactivated</span>
+0081             <span class="string">'MG_224_MONOMER_GTP'</span>;       <span class="comment">%cell division protein FtsZ activated</span>
+0082             <span class="string">'MG_224_2MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 2mer</span>
+0083             <span class="string">'MG_224_3MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 3mer</span>
+0084             <span class="string">'MG_224_4MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 4mer</span>
+0085             <span class="string">'MG_224_5MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 5mer</span>
+0086             <span class="string">'MG_224_6MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 6mer</span>
+0087             <span class="string">'MG_224_7MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 7mer</span>
+0088             <span class="string">'MG_224_8MER_GTP'</span>;          <span class="comment">%cell division protein FtsZ activated 8mer</span>
+0089             <span class="string">'MG_224_9MER_GTP'</span>};         <span class="comment">%cell division protein FtsZ activated 9mer</span>
+0090         enzymeIndexs_FtsZ           = 1;
+0091         enzymeIndexs_FtsZ_GDP       = 2;
+0092         enzymeIndexs_FtsZ_GTP       = 3;
+0093         enzymeIndexs_FtsZ_dimer     = 4;
+0094         enzymeIndexs_FtsZ_9mer      = 11;
+0095         enzymeIndexs_FtsZ_activated = (3:11)';
+0096     <span class="keyword">end</span>
+0097 
+0098     <span class="comment">%fixed biological constants</span>
+0099     properties
+0100         maxPolymerLength      <span class="comment">%number of activated FtsZ subunits in longest polymer</span>
+0101         activationFwd         <span class="comment">% 1.1    1/s     kact1  [PUB_0200]</span>
+0102         activationRev         <span class="comment">% 0.01   1/s     kact2  [PUB_0200]</span>
+0103         exchangeFwd           <span class="comment">% 1e4    1/(Ms)  kexf   [PUB_0164]</span>
+0104         exchangeRev           <span class="comment">% 5e3    1/(Ms)  kexr   [PUB_0164]</span>
+0105         nucleationFwd         <span class="comment">% 4.2e6  1/(Ms)  knuc1  [PUB_0200]</span>
+0106         <span class="comment">%nucleationRev        % 7700   1/s     knuc2  [PUB_0200]</span>
+0107         nucleationRev         <span class="comment">% 40     1/s     knuc2  [PUB_0164]</span>
+0108         elongationFwd         <span class="comment">% 5.1e6  1/(Ms)  kel1   [PUB_0200]</span>
+0109         elongationRev         <span class="comment">% 2.9    1/s     kel2   [PUB_0200]</span>
+0110     <span class="keyword">end</span>
+0111 
+0112     <span class="comment">%constructor</span>
+0113     methods
+0114         <a name="_sub0" href="#_subfunctions" class="code">function this = FtsZPolymerization(wholeCellModelID, name)</a>
+0115             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0116         <span class="keyword">end</span>
+0117     <span class="keyword">end</span>
+0118 
+0119     <span class="comment">%communication between process/simulation</span>
+0120     methods
+0121         <span class="comment">%initialize constants</span>
+0122         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, varargin)</a>
+0123             this.initializeConstants@edu.stanford.covert.cell.sim.Process(varargin{:});
+0124             this.maxPolymerLength = length(this.enzymeIndexs_FtsZ_activated);
+0125         <span class="keyword">end</span>
+0126     <span class="keyword">end</span>
+0127     
+0128     <span class="comment">%model</span>
+0129     methods
+0130         <span class="comment">%Calculate</span>
+0131         <span class="comment">%- contribution to FBA objective</span>
+0132         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0133         <a name="_sub2" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a>
+0134             import import edu.stanford.covert.cell.sim.process.Cytokinesis;
+0135             
+0136             <span class="comment">%initialize</span>
+0137             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0138             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0139             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0140             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0141             
+0142             <span class="comment">%substrate and byproducts: FtsZ polymerization uses GTP to make</span>
+0143             <span class="comment">%FtsZ-GTP filaments for cytokinesis. Hydrolysis of the bound GTP is</span>
+0144             <span class="comment">%coupled to contraction in cytokinesis. Here we account for the</span>
+0145             <span class="comment">%bound GTP and GDP. The free metabolites involved in the hydrolysis</span>
+0146             <span class="comment">%of bound GTP to GDP are accounted for in Cytokinesis.</span>
+0147             [~, gtpCost] = Cytokinesis.calcRequiredPinchingCycles(this.geometry.width, <span class="keyword">...</span>
+0148                 constants.states.FtsZRing.numFtsZSubunitsPerFilament, constants.states.FtsZRing.filamentLengthInNm);
+0149             gdpCost = gtpCost;
+0150             
+0151             gtpCost = <span class="keyword">...</span>
+0152                 + gtpCost <span class="keyword">...</span>
+0153                 + (1:9) * states.complexProductions(this.enzymeGlobalIndexs(this.enzymeIndexs_FtsZ_activated));
+0154             gdpCost = <span class="keyword">...</span>
+0155                 + gdpCost <span class="keyword">...</span>
+0156                 - states.complexProductions(this.enzymeGlobalIndexs(this.enzymeIndexs_FtsZ_GDP)) <span class="keyword">...</span>
+0157                 - 9 * states.complexProductions(this.complex.getIndexs(<span class="string">'MG_224_9MER_GDP'</span>));
+0158             
+0159             bmProd(this.substrateIndexs_gtp) = gtpCost;
+0160             byProd(this.substrateIndexs_gdp) = gdpCost;
+0161             
+0162             <span class="comment">%enzymes: accounted for in Cytokinesis</span>
+0163         <span class="keyword">end</span>    
+0164 
+0165         <span class="comment">%initialization</span>
+0166         <a name="_sub3" href="#_subfunctions" class="code">function initializeState(this)</a>
+0167             <span class="comment">%Approach steady state, stop when converged</span>
+0168             maxSteps = 50; <span class="comment">%max number of steps to take to try to reach a steady state</span>
+0169             tol = max(1, 0.002 * sum(this.enzymes));  <span class="comment">%tolerance</span>
+0170             substrates = this.substrates;
+0171             this.substrates(:) = 1e6;
+0172             
+0173             enzymes = this.enzymes;
+0174             <span class="keyword">for</span> iStep = 1:maxSteps
+0175                 this.evolveState();
+0176                 
+0177                 <span class="comment">%check if enzymes converged</span>
+0178                 <span class="keyword">if</span> norm(enzymes - this.enzymes, Inf) &lt; tol
+0179                     <span class="keyword">break</span>;
+0180                 <span class="keyword">end</span>
+0181                 
+0182                 enzymes = this.enzymes;
+0183             <span class="keyword">end</span>
+0184             
+0185             this.substrates = substrates;
+0186         <span class="keyword">end</span>
+0187 
+0188         <span class="comment">%resource requirements</span>
+0189         <a name="_sub4" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0190             result = zeros(size(this.substrates));
+0191             result(this.substrateIndexs_gtp) = <span class="keyword">...</span>
+0192                 + this.enzymes(this.enzymeIndexs_FtsZ) <span class="keyword">...</span>
+0193                 + this.enzymes(this.enzymeIndexs_FtsZ_GDP);
+0194         <span class="keyword">end</span>
+0195 
+0196         <span class="comment">%simulation</span>
+0197         <a name="_sub5" href="#_subfunctions" class="code">function evolveState(this)</a>
+0198             <span class="keyword">if</span> ~any(this.enzymes)
+0199                 <span class="keyword">return</span>;
+0200             <span class="keyword">end</span>
+0201             
+0202             <span class="comment">%solve ODE</span>
+0203             [~, odeSolutions] = this.integrateODEs(this.moleculesToConcentration(this.enzymes));
+0204             
+0205             <span class="comment">%preserve mass balance by counting fractional polymers as monomers</span>
+0206             enzymes = this.discretizeEnzymes(odeSolutions(:, find(all(odeSolutions &gt;= 0, 1), 1, <span class="string">'last'</span>)));
+0207             
+0208             <span class="comment">%update substrate counts</span>
+0209             [this.enzymes, this.substrates] = this.applySubstrateLimits(enzymes, this.substrates);
+0210         <span class="keyword">end</span>
+0211     <span class="keyword">end</span>
+0212     
+0213     <span class="comment">%model helper functions</span>
+0214     methods
+0215         <span class="comment">%integrates ODE equations using modified ODE23S method</span>
+0216         <span class="comment">%</span>
+0217         <span class="comment">%requirements</span>
+0218         <span class="comment">%- tspan is increasing real 2 element vector with first element 0</span>
+0219         <span class="comment">%- d^2Y/dt^2 = df/ft = 0</span>
+0220         <a name="_sub6" href="#_subfunctions" class="code">function [tout, yout] = integrateODEs(this, y0)</a>
+0221             params = [
+0222                 this.activationFwd
+0223                 this.activationRev
+0224                 this.exchangeFwd
+0225                 this.exchangeRev
+0226                 this.nucleationFwd
+0227                 this.nucleationRev
+0228                 this.elongationFwd
+0229                 this.elongationRev
+0230                 this.moleculesToConcentration(this.substrates);
+0231                 ];
+0232 
+0233             <span class="comment">% Handle solver arguments</span>
+0234             neq = numel(y0);
+0235             tfinal = this.stepSizeSec;
+0236             hmax = 0.1 * this.stepSizeSec;
+0237             threshold = 0.1 / edu.stanford.covert.util.ConstantUtil.nAvogadro / this.geometry.volume;
+0238             rtol = 1e-2;
+0239             
+0240             <span class="comment">% Initialize method parameters.</span>
+0241             pow = 1/3;
+0242             d = 1 / (2 + sqrt(2));
+0243             e32 = 6 + sqrt(2);
+0244             
+0245             <span class="comment">% Compute the initial slope yp.</span>
+0246             t = 0;
+0247             y = y0;
+0248             f0 = <a href="#_sub12" class="code" title="subfunction dydt = diff(y, p)">diff</a>(y0, params);
+0249             dfdy = <a href="#_sub13" class="code" title="subfunction J = jacobian(y, p)">jacobian</a>(y, params);
+0250             
+0251             <span class="comment">% Compute an initial step size h using yp = y'(t).</span>
+0252             wt = max(abs(y), threshold);
+0253             
+0254             <span class="comment">% Compute y''(t) and a better initial step size.</span>
+0255             DfDt = dfdy*f0;
+0256             rh = 1.25 * sqrt(0.5 * max(abs(DfDt ./ wt))) / rtol^pow;
+0257             absh = 1/rh;
+0258             
+0259             <span class="comment">% Allocate memory if we're generating output.</span>
+0260             chunk = 100;
+0261             tout = zeros(1, chunk);
+0262             yout = zeros(neq, chunk);
+0263             nout = 1;
+0264             tout(nout) = t;
+0265             yout(:,nout) = y;
+0266             
+0267             <span class="comment">% THE MAIN LOOP</span>
+0268             done = false;
+0269             notFirstStep = false;
+0270             <span class="keyword">while</span> ~done
+0271                 hmin = 16*eps*t;
+0272                 absh = min(hmax, max(hmin, absh));
+0273                 h = absh;
+0274                 
+0275                 <span class="comment">% Stretch the step if within 10% of tfinal-t.</span>
+0276                 <span class="keyword">if</span> 1.1*absh &gt;= abs(tfinal - t)
+0277                     h = tfinal - t;
+0278                     absh = abs(h);
+0279                     done = true;
+0280                 <span class="keyword">end</span>
+0281                 
+0282                 <span class="keyword">if</span> notFirstStep <span class="comment">% J is already computed on first step</span>
+0283                     dfdy = <a href="#_sub13" class="code" title="subfunction J = jacobian(y, p)">jacobian</a>(y, params);
+0284                 <span class="keyword">end</span>
+0285                 
+0286                 <span class="comment">% LOOP FOR ADVANCING ONE STEP.</span>
+0287                 nofailed = true; <span class="comment">% no failed attempts</span>
+0288                 <span class="keyword">while</span> true <span class="comment">% Evaluate the formula.</span>
+0289                     Miter = eye(neq) - (h*d)*dfdy;  <span class="comment">% sparse if dfdy is sparse</span>
+0290                     k1aux = f0;
+0291                     
+0292                     [L,U,p] = lu(Miter,<span class="string">'vector'</span>);
+0293                     k1 = U \ (L \ k1aux(p));
+0294                     f1 = <a href="#_sub12" class="code" title="subfunction dydt = diff(y, p)">diff</a>(y + 0.5*h*k1, params);
+0295                     k2 = (U \ (L \ (f1(p) - k1(p)))) + k1;
+0296                     
+0297                     tnew = t + h;
+0298                     <span class="keyword">if</span> done
+0299                         tnew = tfinal; <span class="comment">% Hit end point exactly.</span>
+0300                     <span class="keyword">end</span>
+0301                     h = tnew - t; <span class="comment">% Purify h.</span>
+0302                     
+0303                     ynew = y + h*k2;
+0304                     f2 = <a href="#_sub12" class="code" title="subfunction dydt = diff(y, p)">diff</a>(ynew, params);
+0305                     k3aux = (f2 - e32*(k2 - f1) - 2*(k1 - f0));
+0306                     k3 = U \ (L \ k3aux(p));
+0307                     
+0308                     <span class="comment">% Estimate the error.</span>
+0309                     err = (absh/6) * <span class="keyword">...</span>
+0310                         max(abs((k1-2*k2+k3) ./ max(max(abs(y),abs(ynew)),threshold)));
+0311                     
+0312                     <span class="comment">% Accept the solution only if the weighted error is no more than the</span>
+0313                     <span class="comment">% tolerance rtol.  Estimate an h that will yield an error of rtol on</span>
+0314                     <span class="comment">% the next step or the next try at taking this step, as the case may be,</span>
+0315                     <span class="comment">% and use 0.8 of this value to avoid failures.</span>
+0316                     <span class="keyword">if</span> err &gt; rtol <span class="comment">% Failed step</span>
+0317                         <span class="keyword">if</span> absh &lt;= hmin
+0318                             warning(<span class="string">'MATLAB:ode23s:IntegrationTolNotMet'</span>,[<span class="string">'Failure at t=%e.  '</span> <span class="keyword">...</span>
+0319                                 <span class="string">'Unable to meet integration tolerances without reducing '</span> <span class="keyword">...</span>
+0320                                 <span class="string">'the step size below the smallest value allowed (%e) '</span> <span class="keyword">...</span>
+0321                                 <span class="string">'at time t.'</span>],t,hmin);
+0322                             
+0323                             tout = tout(1:nout);
+0324                             yout = yout(:, 1:nout);
+0325                             <span class="keyword">return</span>;
+0326                         <span class="keyword">end</span>
+0327                         
+0328                         nofailed = false;
+0329                         absh = max(hmin, absh * max(0.1, 0.8*(rtol/err)^pow));
+0330                         h = absh;
+0331                         done = false;
+0332                     <span class="keyword">else</span> <span class="comment">% Successful step</span>
+0333                         <span class="keyword">break</span>;
+0334                     <span class="keyword">end</span>
+0335                 <span class="keyword">end</span> <span class="comment">% while true</span>
+0336                 notFirstStep = true;
+0337                 
+0338                 oldnout = nout;
+0339                 nout = nout + 1;
+0340                 <span class="keyword">if</span> nout &gt; length(tout)
+0341                     tout = [tout, zeros(1,chunk)];  <span class="comment">%#ok&lt;AGROW&gt; % requires chunk &gt;= refine</span>
+0342                     yout = [yout, zeros(neq,chunk)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0343                 <span class="keyword">end</span>
+0344                 idx = oldnout+1:nout;
+0345                 tout(idx) = tnew;
+0346                 yout(:,idx) = ynew;
+0347                 
+0348                 <span class="keyword">if</span> done
+0349                     <span class="keyword">break</span>;
+0350                 <span class="keyword">end</span>
+0351                 
+0352                 <span class="comment">% If there were no failures compute a new h.</span>
+0353                 <span class="keyword">if</span> nofailed
+0354                     <span class="comment">% Note that absh may shrink by 0.8, and that err may be 0.</span>
+0355                     temp = 1.25*(err/rtol)^pow;
+0356                     <span class="keyword">if</span> temp &gt; 0.2
+0357                         absh = absh / temp;
+0358                     <span class="keyword">else</span>
+0359                         absh = 5.0*absh;
+0360                     <span class="keyword">end</span>
+0361                 <span class="keyword">end</span>
+0362                 
+0363                 <span class="comment">% Advance the integration one step.</span>
+0364                 t = tnew;
+0365                 y = ynew;
+0366                 f0 = f2; <span class="comment">% because formula is FSAL</span>
+0367                 
+0368             <span class="keyword">end</span> <span class="comment">% while ~done</span>
+0369             
+0370             tout = tout(1:nout);
+0371             yout = yout(:, 1:nout);
+0372         <span class="keyword">end</span>
+0373         
+0374         <a name="_sub7" href="#_subfunctions" class="code">function enzymes = discretizeEnzymes(this, enzymeConcentrations)</a>
+0375             enzymes = this.randStream.stochasticRound(this.concentrationToMolecules(enzymeConcentrations));
+0376             nMonomers = [1 1 1:this.maxPolymerLength];
+0377             <span class="keyword">while</span> true
+0378                 dMonomer = nMonomers * (enzymes - this.enzymes);
+0379                 <span class="keyword">if</span> dMonomer == 0
+0380                     <span class="keyword">break</span>;
+0381                 <span class="keyword">elseif</span> dMonomer &gt; 0
+0382                     idx = ceil(numel(nMonomers) * this.randStream.rand());
+0383                     <span class="keyword">if</span> enzymes(idx) &gt; 0
+0384                         enzymes(idx) = enzymes(idx) - 1;
+0385                         <span class="keyword">if</span> idx &gt; 2
+0386                             enzymes(idx - 1) = enzymes(idx - 1) + 1;
+0387                         <span class="keyword">end</span>
+0388                     <span class="keyword">end</span>
+0389                 <span class="keyword">elseif</span> dMonomer &lt; 0
+0390                     idx = ceil(numel(nMonomers) * this.randStream.rand());
+0391                     <span class="keyword">if</span> idx &gt; 2
+0392                         <span class="keyword">if</span> enzymes(idx - 1) &gt; 0
+0393                             enzymes(idx - 1) = enzymes(idx - 1) - 1;
+0394                             enzymes(idx) = enzymes(idx) + 1;
+0395                         <span class="keyword">end</span>
+0396                     <span class="keyword">else</span>
+0397                         enzymes(idx) = enzymes(idx) + 1;
+0398                     <span class="keyword">end</span>
+0399                 <span class="keyword">end</span>
+0400             <span class="keyword">end</span>
+0401         <span class="keyword">end</span>
+0402         
+0403         <a name="_sub8" href="#_subfunctions" class="code">function [enzymes, substrates] = applySubstrateLimits(this, enzymes, substrates)</a>
+0404             nGTP = [0 0 1:this.maxPolymerLength];
+0405             nGDP = [0 1 zeros(1, this.maxPolymerLength)];
+0406             
+0407             <span class="keyword">while</span> nGTP * (enzymes - this.enzymes) &gt; substrates(this.substrateIndexs_gtp)
+0408                 idx = find(enzymes(this.enzymeIndexs_FtsZ_activated), 1, <span class="string">'first'</span>);
+0409                 enzymes(this.enzymeIndexs_FtsZ_activated(idx)) = <span class="keyword">...</span>
+0410                     enzymes(this.enzymeIndexs_FtsZ_activated(idx)) - 1;
+0411                 enzymes(this.enzymeIndexs_FtsZ) = <span class="keyword">...</span>
+0412                     enzymes(this.enzymeIndexs_FtsZ) + idx;
+0413             <span class="keyword">end</span>
+0414             
+0415             <span class="keyword">while</span> nGDP * (enzymes - this.enzymes) &gt; <span class="keyword">...</span>
+0416                     substrates(this.substrateIndexs_gdp) + <span class="keyword">...</span>
+0417                     min(substrates(this.substrateIndexs_water), <span class="keyword">...</span>
+0418                     substrates(this.substrateIndexs_gtp) - nGTP * (enzymes - this.enzymes))
+0419                 enzymes(this.enzymeIndexs_FtsZ_GDP) = <span class="keyword">...</span>
+0420                     enzymes(this.enzymeIndexs_FtsZ_GDP) - 1;
+0421                 enzymes(this.enzymeIndexs_FtsZ) = <span class="keyword">...</span>
+0422                     enzymes(this.enzymeIndexs_FtsZ) + 1;
+0423             <span class="keyword">end</span>
+0424             
+0425             substrates(this.substrateIndexs_gtp) = <span class="keyword">...</span>
+0426                 + substrates(this.substrateIndexs_gtp) <span class="keyword">...</span>
+0427                 - nGTP * (enzymes - this.enzymes);
+0428             substrates(this.substrateIndexs_gdp) = <span class="keyword">...</span>
+0429                 + substrates(this.substrateIndexs_gdp) <span class="keyword">...</span>
+0430                 - nGDP * (enzymes - this.enzymes);
+0431             
+0432             substrates = substrates <span class="keyword">...</span>
+0433                 + [1; -1; 1; -1; 1] * max(0, -substrates(this.substrateIndexs_gdp));
+0434         <span class="keyword">end</span>
+0435         
+0436         <a name="_sub9" href="#_subfunctions" class="code">function result = moleculesToConcentration(this, count)</a>
+0437             N = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0438             result = count / (N * this.geometry.volume);
+0439         <span class="keyword">end</span>
+0440         
+0441         <a name="_sub10" href="#_subfunctions" class="code">function result = concentrationToMolecules(this, conc)</a>
+0442             N = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0443             result = conc * (N * this.geometry.volume);
+0444         <span class="keyword">end</span>
+0445     <span class="keyword">end</span>
+0446 <span class="keyword">end</span>
+0447 
+0448 <span class="comment">%Computes dy/dt given y, the vector of FtsZ molecule concentrations.</span>
+0449 <a name="_sub11" href="#_subfunctions" class="code">function dydt = diff(y, p)</a>
+0450 <span class="comment">% activationFwd = p(1);</span>
+0451 <span class="comment">% activationRev = p(2);</span>
+0452 <span class="comment">% exchangeFwd = p(3);</span>
+0453 <span class="comment">% exchangeRev = p(4);</span>
+0454 <span class="comment">% nucleationFwd = p(5);</span>
+0455 <span class="comment">% nucleationRev = p(6);</span>
+0456 <span class="comment">% elongationFwd = p(7);</span>
+0457 <span class="comment">% elongationRev = p(8);</span>
+0458 <span class="comment">% gdpConcentration = p(9);</span>
+0459 <span class="comment">% gtpConcentration = p(10);</span>
+0460 
+0461 dydt = zeros(size(y));
+0462 
+0463 <span class="comment">%inactive monomer</span>
+0464 dydt(1, :) = <span class="keyword">...</span>
+0465     - p(1) * y(1, :) <span class="keyword">...</span>
+0466     + p(2) * y(3, :);
+0467 <span class="comment">%deactivated monomer</span>
+0468 dydt(2, :) = <span class="keyword">...</span>
+0469     - p(3) * y(2, :) * p(10) <span class="keyword">...</span>
+0470     + p(4) * y(3, :) * p(9);
+0471 <span class="comment">%activated monomer</span>
+0472 dydt(3, :) = <span class="keyword">...</span>
+0473     + p(1) * y(1, :) <span class="keyword">...</span>
+0474     - p(2) * y(3, :) <span class="keyword">...</span>
+0475     + p(3) * y(2, :) * p(10) <span class="keyword">...</span>
+0476     - p(4) * y(3, :) * p(9) <span class="keyword">...</span>
+0477     - 2 * p(5) * y(3, :) .^2 <span class="keyword">...</span>
+0478     + 2 * p(6) * y(4, :) <span class="keyword">...</span>
+0479     - p(7) * y(3, :) .* sum(y(4:end-1, :), 1) <span class="keyword">...</span>
+0480     + p(8) * sum(y(5:<span class="keyword">end</span>, :), 1);
+0481 <span class="comment">%activated dimer</span>
+0482 dydt(4, :) = <span class="keyword">...</span>
+0483     + p(5) * y(3, :) .^2 <span class="keyword">...</span>
+0484     - p(6) * y(4, :) <span class="keyword">...</span>
+0485     - p(7) * y(3, :) .* y(4, :) <span class="keyword">...</span>
+0486     + p(8) * y(5, :);
+0487 <span class="comment">%activated polymer</span>
+0488 <span class="keyword">for</span> i = 5:size(y, 1)-1
+0489     dydt(i, :) = <span class="keyword">...</span>
+0490         + p(7) * y(3, :) .* y(i-1, :) <span class="keyword">...</span>
+0491         - p(8) * y(i, :) <span class="keyword">...</span>
+0492         - p(7) * y(3, :) .* y(i, :) <span class="keyword">...</span>
+0493         + p(8) * y(i+1, :);
+0494 <span class="keyword">end</span>
+0495 dydt(<span class="keyword">end</span>, :) = <span class="keyword">...</span>
+0496     + p(7) * y(3, :) .* y(end-1, :)<span class="keyword">...</span>
+0497     - p(8) * y(<span class="keyword">end</span>, :);
+0498 <span class="keyword">end</span>
+0499 
+0500 <a name="_sub12" href="#_subfunctions" class="code">function J = jacobian(y, p)</a>
+0501 <span class="comment">% activationFwd = p(1);</span>
+0502 <span class="comment">% activationRev = p(2);</span>
+0503 <span class="comment">% exchangeFwd = p(3);</span>
+0504 <span class="comment">% exchangeRev = p(4);</span>
+0505 <span class="comment">% nucleationFwd = p(5);</span>
+0506 <span class="comment">% nucleationRev = p(6);</span>
+0507 <span class="comment">% elongationFwd = p(7);</span>
+0508 <span class="comment">% elongationRev = p(8);</span>
+0509 <span class="comment">% gdpConcentration = p(9);</span>
+0510 <span class="comment">% gtpConcentration = p(10);</span>
+0511 
+0512 J = zeros(numel(y));
+0513 
+0514 <span class="comment">%inactive monomer</span>
+0515 J(1, 1) = - p(1);
+0516 J(1, 3) = + p(2);
+0517 <span class="comment">%deactivated monomer</span>
+0518 J(2, 2) = - p(3) * p(10);
+0519 J(2, 3) = + p(4) * p(9);
+0520 <span class="comment">%activated monomer</span>
+0521 J(3, 1) = + p(1);
+0522 J(3, 2) = + p(3) * p(10);
+0523 J(3, 3) = <span class="keyword">...</span>
+0524     - p(2) <span class="keyword">...</span>
+0525     - p(4) * p(9) <span class="keyword">...</span>
+0526     - 4 * p(5) * y(3) <span class="keyword">...</span>
+0527     - p(7) * sum(y(4:end-1));
+0528 J(3, 4) = <span class="keyword">...</span>
+0529     + 2 * p(6);
+0530 J(3, 5:end) = <span class="keyword">...</span>
+0531     + p(8);
+0532 J(3, 4:end-1) = J(3, 4:end-1) <span class="keyword">...</span>
+0533     - p(7) * y(3);
+0534 <span class="comment">%activated dimer</span>
+0535 J(4, 3) = <span class="keyword">...</span>
+0536     + 2 * p(5) * y(3) <span class="keyword">...</span>
+0537     - p(7) * y(4);
+0538 J(4, 4) = <span class="keyword">...</span>
+0539     - p(6) <span class="keyword">...</span>
+0540     - p(7) * y(3);
+0541 J(4, 5) = <span class="keyword">...</span>
+0542     + p(8);
+0543 <span class="comment">%activated polymer</span>
+0544 <span class="keyword">for</span> i = 5:size(y, 1)-1
+0545     J(i, 3) = <span class="keyword">...</span>
+0546         + p(7) * y(i-1) <span class="keyword">...</span>
+0547         - p(7) * y(i);
+0548     J(i, i-1) = <span class="keyword">...</span>
+0549         + p(7) * y(3);
+0550     J(i, i) = <span class="keyword">...</span>
+0551         - p(8) <span class="keyword">...</span>
+0552         - p(7) * y(3);
+0553     J(i, i+1) = <span class="keyword">...</span>
+0554         + p(8);
+0555 <span class="keyword">end</span>
+0556 J(<span class="keyword">end</span>, 3)     = + p(7) * y(end-1);
+0557 J(<span class="keyword">end</span>, end-1) = + p(7) * y(3);
+0558 J(<span class="keyword">end</span>, end)   = - p(8);
+0559 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ConstantUtil</title>
+  <meta name="keywords" content="ConstantUtil">
+  <meta name="description" content="Defines constants">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; ConstantUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ConstantUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines constants</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines constants
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="ConstantUtil.html" class="code" title="">ConstantUtil</a>	Defines constants</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="ConstantUtil.html" class="code" title="">ConstantUtil</a>	Defines constants</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines constants</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="ConstantUtil.html" class="code" title="">ConstantUtil</a>
+0007     properties (Constant=true)
+0008         nAvogadro=6.0221417930e23;
+0009         elements=struct(<span class="keyword">...</span>
+0010             <span class="string">'H'</span>,1.0079,<span class="keyword">...</span>
+0011             <span class="string">'He'</span>,4.0026,<span class="keyword">...</span>
+0012             <span class="string">'Li'</span>,6.941,<span class="keyword">...</span>
+0013             <span class="string">'Be'</span>,9.0122,<span class="keyword">...</span>
+0014             <span class="string">'B'</span>,10.811,<span class="keyword">...</span>
+0015             <span class="string">'C'</span>,12.0107,<span class="keyword">...</span>
+0016             <span class="string">'N'</span>,14.0067,<span class="keyword">...</span>
+0017             <span class="string">'O'</span>,15.9994,<span class="keyword">...</span>
+0018             <span class="string">'F'</span>,18.9984,<span class="keyword">...</span>
+0019             <span class="string">'Ne'</span>,20.1797,<span class="keyword">...</span>
+0020             <span class="string">'Na'</span>,22.9897,<span class="keyword">...</span>
+0021             <span class="string">'Mg'</span>,24.305,<span class="keyword">...</span>
+0022             <span class="string">'Al'</span>,26.9815,<span class="keyword">...</span>
+0023             <span class="string">'Si'</span>,28.0855,<span class="keyword">...</span>
+0024             <span class="string">'P'</span>,30.9738,<span class="keyword">...</span>
+0025             <span class="string">'S'</span>,32.065,<span class="keyword">...</span>
+0026             <span class="string">'Cl'</span>,35.453,<span class="keyword">...</span>
+0027             <span class="string">'Ar'</span>,39.948,<span class="keyword">...</span>
+0028             <span class="string">'K'</span>,39.0983,<span class="keyword">...</span>
+0029             <span class="string">'Ca'</span>,40.078,<span class="keyword">...</span>
+0030             <span class="string">'Sc'</span>,44.9559,<span class="keyword">...</span>
+0031             <span class="string">'Ti'</span>,47.867,<span class="keyword">...</span>
+0032             <span class="string">'V'</span>,50.9415,<span class="keyword">...</span>
+0033             <span class="string">'Cr'</span>,51.9961,<span class="keyword">...</span>
+0034             <span class="string">'Mn'</span>,54.938,<span class="keyword">...</span>
+0035             <span class="string">'Fe'</span>,55.845,<span class="keyword">...</span>
+0036             <span class="string">'Co'</span>,58.9332,<span class="keyword">...</span>
+0037             <span class="string">'Ni'</span>,58.6934,<span class="keyword">...</span>
+0038             <span class="string">'Cu'</span>,63.546,<span class="keyword">...</span>
+0039             <span class="string">'Zn'</span>,65.39,<span class="keyword">...</span>
+0040             <span class="string">'Ga'</span>,69.723,<span class="keyword">...</span>
+0041             <span class="string">'Ge'</span>,72.64,<span class="keyword">...</span>
+0042             <span class="string">'As'</span>,74.9216,<span class="keyword">...</span>
+0043             <span class="string">'Se'</span>,78.96,<span class="keyword">...</span>
+0044             <span class="string">'Br'</span>,79.904,<span class="keyword">...</span>
+0045             <span class="string">'Kr'</span>,83.8,<span class="keyword">...</span>
+0046             <span class="string">'Rb'</span>,85.4678,<span class="keyword">...</span>
+0047             <span class="string">'Sr'</span>,87.62,<span class="keyword">...</span>
+0048             <span class="string">'Y'</span>,88.9059,<span class="keyword">...</span>
+0049             <span class="string">'Zr'</span>,91.224,<span class="keyword">...</span>
+0050             <span class="string">'Nb'</span>,92.9064,<span class="keyword">...</span>
+0051             <span class="string">'Mo'</span>,95.94,<span class="keyword">...</span>
+0052             <span class="string">'Tc'</span>,98,<span class="keyword">...</span>
+0053             <span class="string">'Ru'</span>,101.07,<span class="keyword">...</span>
+0054             <span class="string">'Rh'</span>,102.9055,<span class="keyword">...</span>
+0055             <span class="string">'Pd'</span>,106.42,<span class="keyword">...</span>
+0056             <span class="string">'Ag'</span>,107.8682,<span class="keyword">...</span>
+0057             <span class="string">'Cd'</span>,112.411,<span class="keyword">...</span>
+0058             <span class="string">'In'</span>,114.818,<span class="keyword">...</span>
+0059             <span class="string">'Sn'</span>,118.71,<span class="keyword">...</span>
+0060             <span class="string">'Sb'</span>,121.76,<span class="keyword">...</span>
+0061             <span class="string">'Te'</span>,127.6,<span class="keyword">...</span>
+0062             <span class="string">'I'</span>,126.9045,<span class="keyword">...</span>
+0063             <span class="string">'Xe'</span>,131.293,<span class="keyword">...</span>
+0064             <span class="string">'Cs'</span>,132.9055,<span class="keyword">...</span>
+0065             <span class="string">'Ba'</span>,137.327,<span class="keyword">...</span>
+0066             <span class="string">'La'</span>,138.9055,<span class="keyword">...</span>
+0067             <span class="string">'Ce'</span>,140.116,<span class="keyword">...</span>
+0068             <span class="string">'Pr'</span>,140.9077,<span class="keyword">...</span>
+0069             <span class="string">'Nd'</span>,144.24,<span class="keyword">...</span>
+0070             <span class="string">'Pm'</span>,145,<span class="keyword">...</span>
+0071             <span class="string">'Sm'</span>,150.36,<span class="keyword">...</span>
+0072             <span class="string">'Eu'</span>,151.964,<span class="keyword">...</span>
+0073             <span class="string">'Gd'</span>,157.25,<span class="keyword">...</span>
+0074             <span class="string">'Tb'</span>,158.9253,<span class="keyword">...</span>
+0075             <span class="string">'Dy'</span>,162.5,<span class="keyword">...</span>
+0076             <span class="string">'Ho'</span>,164.9303,<span class="keyword">...</span>
+0077             <span class="string">'Er'</span>,167.259,<span class="keyword">...</span>
+0078             <span class="string">'Tm'</span>,168.9342,<span class="keyword">...</span>
+0079             <span class="string">'Yb'</span>,173.04,<span class="keyword">...</span>
+0080             <span class="string">'Lu'</span>,174.967,<span class="keyword">...</span>
+0081             <span class="string">'Hf'</span>,178.49,<span class="keyword">...</span>
+0082             <span class="string">'Ta'</span>,180.9479,<span class="keyword">...</span>
+0083             <span class="string">'W'</span>,183.84,<span class="keyword">...</span>
+0084             <span class="string">'Re'</span>,186.207,<span class="keyword">...</span>
+0085             <span class="string">'Os'</span>,190.23,<span class="keyword">...</span>
+0086             <span class="string">'Ir'</span>,192.217,<span class="keyword">...</span>
+0087             <span class="string">'Pt'</span>,195.078,<span class="keyword">...</span>
+0088             <span class="string">'Au'</span>,196.9665,<span class="keyword">...</span>
+0089             <span class="string">'Hg'</span>,200.59,<span class="keyword">...</span>
+0090             <span class="string">'Tl'</span>,204.3833,<span class="keyword">...</span>
+0091             <span class="string">'Pb'</span>,207.2,<span class="keyword">...</span>
+0092             <span class="string">'Bi'</span>,208.9804,<span class="keyword">...</span>
+0093             <span class="string">'Po'</span>,209,<span class="keyword">...</span>
+0094             <span class="string">'At'</span>,210,<span class="keyword">...</span>
+0095             <span class="string">'Rn'</span>,222,<span class="keyword">...</span>
+0096             <span class="string">'Fr'</span>,223,<span class="keyword">...</span>
+0097             <span class="string">'Ra'</span>,226,<span class="keyword">...</span>
+0098             <span class="string">'Ac'</span>,227,<span class="keyword">...</span>
+0099             <span class="string">'Th'</span>,232.0381,<span class="keyword">...</span>
+0100             <span class="string">'Pa'</span>,231.0359,<span class="keyword">...</span>
+0101             <span class="string">'U'</span>,238.0289,<span class="keyword">...</span>
+0102             <span class="string">'Np'</span>,237,<span class="keyword">...</span>
+0103             <span class="string">'Pu'</span>,244,<span class="keyword">...</span>
+0104             <span class="string">'Am'</span>,243,<span class="keyword">...</span>
+0105             <span class="string">'Cm'</span>,247,<span class="keyword">...</span>
+0106             <span class="string">'Bk'</span>,247,<span class="keyword">...</span>
+0107             <span class="string">'Cf'</span>,251,<span class="keyword">...</span>
+0108             <span class="string">'Es'</span>,252,<span class="keyword">...</span>
+0109             <span class="string">'Fm'</span>,257,<span class="keyword">...</span>
+0110             <span class="string">'Md'</span>,258,<span class="keyword">...</span>
+0111             <span class="string">'No'</span>,259,<span class="keyword">...</span>
+0112             <span class="string">'Lr'</span>,262,<span class="keyword">...</span>
+0113             <span class="string">'Rf'</span>,261,<span class="keyword">...</span>
+0114             <span class="string">'Db'</span>,262,<span class="keyword">...</span>
+0115             <span class="string">'Sg'</span>,266,<span class="keyword">...</span>
+0116             <span class="string">'Bh'</span>,264,<span class="keyword">...</span>
+0117             <span class="string">'Hs'</span>,277,<span class="keyword">...</span>
+0118             <span class="string">'Mt'</span>,268);
+0119         elementNumbers=struct(<span class="keyword">...</span>
+0120             <span class="string">'H'</span>, 1,<span class="keyword">...</span>
+0121             <span class="string">'He'</span>,4,<span class="keyword">...</span>
+0122             <span class="string">'Li'</span>,7,<span class="keyword">...</span>
+0123             <span class="string">'Be'</span>,9,<span class="keyword">...</span>
+0124             <span class="string">'B'</span>, 11,<span class="keyword">...</span>
+0125             <span class="string">'C'</span>, 12,<span class="keyword">...</span>
+0126             <span class="string">'N'</span>, 14,<span class="keyword">...</span>
+0127             <span class="string">'O'</span>, 16,<span class="keyword">...</span>
+0128             <span class="string">'F'</span>, 19,<span class="keyword">...</span>
+0129             <span class="string">'Ne'</span>,20,<span class="keyword">...</span>
+0130             <span class="string">'Na'</span>,23,<span class="keyword">...</span>
+0131             <span class="string">'Mg'</span>,24,<span class="keyword">...</span>
+0132             <span class="string">'Al'</span>,27,<span class="keyword">...</span>
+0133             <span class="string">'Si'</span>,28,<span class="keyword">...</span>
+0134             <span class="string">'P'</span>, 31,<span class="keyword">...</span>
+0135             <span class="string">'S'</span>, 32,<span class="keyword">...</span>
+0136             <span class="string">'Cl'</span>,35,<span class="keyword">...</span>
+0137             <span class="string">'Ar'</span>,40,<span class="keyword">...</span>
+0138             <span class="string">'K'</span>, 39,<span class="keyword">...</span>
+0139             <span class="string">'Ca'</span>,40,<span class="keyword">...</span>
+0140             <span class="string">'Sc'</span>,45,<span class="keyword">...</span>
+0141             <span class="string">'Ti'</span>,48,<span class="keyword">...</span>
+0142             <span class="string">'V'</span>, 51,<span class="keyword">...</span>
+0143             <span class="string">'Cr'</span>,52,<span class="keyword">...</span>
+0144             <span class="string">'Mn'</span>,55,<span class="keyword">...</span>
+0145             <span class="string">'Fe'</span>,56,<span class="keyword">...</span>
+0146             <span class="string">'Co'</span>,59,<span class="keyword">...</span>
+0147             <span class="string">'Ni'</span>,59,<span class="keyword">...</span>
+0148             <span class="string">'Cu'</span>,64,<span class="keyword">...</span>
+0149             <span class="string">'Zn'</span>,65,<span class="keyword">...</span>
+0150             <span class="string">'Ga'</span>,70,<span class="keyword">...</span>
+0151             <span class="string">'Ge'</span>,73,<span class="keyword">...</span>
+0152             <span class="string">'As'</span>,75,<span class="keyword">...</span>
+0153             <span class="string">'Se'</span>,79,<span class="keyword">...</span>
+0154             <span class="string">'Br'</span>,80,<span class="keyword">...</span>
+0155             <span class="string">'Kr'</span>,84,<span class="keyword">...</span>
+0156             <span class="string">'Rb'</span>,85,<span class="keyword">...</span>
+0157             <span class="string">'Sr'</span>,87,<span class="keyword">...</span>
+0158             <span class="string">'Y'</span>, 89,<span class="keyword">...</span>
+0159             <span class="string">'Zr'</span>,91,<span class="keyword">...</span>
+0160             <span class="string">'Nb'</span>,93,<span class="keyword">...</span>
+0161             <span class="string">'Mo'</span>,96,<span class="keyword">...</span>
+0162             <span class="string">'Tc'</span>,98,<span class="keyword">...</span>
+0163             <span class="string">'Ru'</span>,101,<span class="keyword">...</span>
+0164             <span class="string">'Rh'</span>,103,<span class="keyword">...</span>
+0165             <span class="string">'Pd'</span>,107,<span class="keyword">...</span>
+0166             <span class="string">'Ag'</span>,108,<span class="keyword">...</span>
+0167             <span class="string">'Cd'</span>,112,<span class="keyword">...</span>
+0168             <span class="string">'In'</span>,115,<span class="keyword">...</span>
+0169             <span class="string">'Sn'</span>,119,<span class="keyword">...</span>
+0170             <span class="string">'Sb'</span>,122,<span class="keyword">...</span>
+0171             <span class="string">'Te'</span>,128,<span class="keyword">...</span>
+0172             <span class="string">'I'</span>, 127,<span class="keyword">...</span>
+0173             <span class="string">'Xe'</span>,131,<span class="keyword">...</span>
+0174             <span class="string">'Cs'</span>,133,<span class="keyword">...</span>
+0175             <span class="string">'Ba'</span>,137,<span class="keyword">...</span>
+0176             <span class="string">'La'</span>,139,<span class="keyword">...</span>
+0177             <span class="string">'Ce'</span>,140,<span class="keyword">...</span>
+0178             <span class="string">'Pr'</span>,141,<span class="keyword">...</span>
+0179             <span class="string">'Nd'</span>,144,<span class="keyword">...</span>
+0180             <span class="string">'Pm'</span>,145,<span class="keyword">...</span>
+0181             <span class="string">'Sm'</span>,150,<span class="keyword">...</span>
+0182             <span class="string">'Eu'</span>,152,<span class="keyword">...</span>
+0183             <span class="string">'Gd'</span>,157,<span class="keyword">...</span>
+0184             <span class="string">'Tb'</span>,159,<span class="keyword">...</span>
+0185             <span class="string">'Dy'</span>,163,<span class="keyword">...</span>
+0186             <span class="string">'Ho'</span>,165,<span class="keyword">...</span>
+0187             <span class="string">'Er'</span>,167,<span class="keyword">...</span>
+0188             <span class="string">'Tm'</span>,169,<span class="keyword">...</span>
+0189             <span class="string">'Yb'</span>,173,<span class="keyword">...</span>
+0190             <span class="string">'Lu'</span>,175,<span class="keyword">...</span>
+0191             <span class="string">'Hf'</span>,178,<span class="keyword">...</span>
+0192             <span class="string">'Ta'</span>,181,<span class="keyword">...</span>
+0193             <span class="string">'W'</span>, 184,<span class="keyword">...</span>
+0194             <span class="string">'Re'</span>,186,<span class="keyword">...</span>
+0195             <span class="string">'Os'</span>,190,<span class="keyword">...</span>
+0196             <span class="string">'Ir'</span>,192,<span class="keyword">...</span>
+0197             <span class="string">'Pt'</span>,195,<span class="keyword">...</span>
+0198             <span class="string">'Au'</span>,197,<span class="keyword">...</span>
+0199             <span class="string">'Hg'</span>,201,<span class="keyword">...</span>
+0200             <span class="string">'Tl'</span>,204,<span class="keyword">...</span>
+0201             <span class="string">'Pb'</span>,207,<span class="keyword">...</span>
+0202             <span class="string">'Bi'</span>,209,<span class="keyword">...</span>
+0203             <span class="string">'Po'</span>,209,<span class="keyword">...</span>
+0204             <span class="string">'At'</span>,210,<span class="keyword">...</span>
+0205             <span class="string">'Rn'</span>,222,<span class="keyword">...</span>
+0206             <span class="string">'Fr'</span>,223,<span class="keyword">...</span>
+0207             <span class="string">'Ra'</span>,226,<span class="keyword">...</span>
+0208             <span class="string">'Ac'</span>,227,<span class="keyword">...</span>
+0209             <span class="string">'Th'</span>,232,<span class="keyword">...</span>
+0210             <span class="string">'Pa'</span>,231,<span class="keyword">...</span>
+0211             <span class="string">'U'</span>, 238,<span class="keyword">...</span>
+0212             <span class="string">'Np'</span>,237,<span class="keyword">...</span>
+0213             <span class="string">'Pu'</span>,244,<span class="keyword">...</span>
+0214             <span class="string">'Am'</span>,243,<span class="keyword">...</span>
+0215             <span class="string">'Cm'</span>,247,<span class="keyword">...</span>
+0216             <span class="string">'Bk'</span>,247,<span class="keyword">...</span>
+0217             <span class="string">'Cf'</span>,251,<span class="keyword">...</span>
+0218             <span class="string">'Es'</span>,252,<span class="keyword">...</span>
+0219             <span class="string">'Fm'</span>,257,<span class="keyword">...</span>
+0220             <span class="string">'Md'</span>,258,<span class="keyword">...</span>
+0221             <span class="string">'No'</span>,259,<span class="keyword">...</span>
+0222             <span class="string">'Lr'</span>,262,<span class="keyword">...</span>
+0223             <span class="string">'Rf'</span>,261,<span class="keyword">...</span>
+0224             <span class="string">'Db'</span>,262,<span class="keyword">...</span>
+0225             <span class="string">'Sg'</span>,266,<span class="keyword">...</span>
+0226             <span class="string">'Bh'</span>,264,<span class="keyword">...</span>
+0227             <span class="string">'Hs'</span>,277,<span class="keyword">...</span>
+0228             <span class="string">'Mt'</span>,268);
+0229         secondsPerMinute = 60;
+0230         secondsPerHour=3600;
+0231         minutesPerHour=60;
+0232 
+0233         realmax = 1e10;
+0234     <span class="keyword">end</span>
+0235 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

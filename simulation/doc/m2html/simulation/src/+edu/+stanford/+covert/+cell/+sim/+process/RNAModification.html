@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNAModification</title>
+  <meta name="keywords" content="RNAModification">
+  <meta name="description" content="RNA Modification">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; RNAModification.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNAModification
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNA Modification</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNA Modification
+
+ @wholeCellModelID Process_RNAModification
+ @name             RNA Modification
+ @description
+   Biology
+   ==================
+   This process simulates r/tRNA modifications including
+   - rRNA methylation                                       MG_252_DIMER, MG_346_DIMER, MG_380_MONOMER, MG_463_MONOMER
+   - rRNA pseudouridation                                   MG_209_MONOMER, MG_370_MONOMER
+   - tRNA methylation                                       MG_347_DIMER, MG_445_DIMER
+   - tRNA pseudouridation                                   MG_182_DIMER
+   - tRNA lysidine synthetase                               MG_084_TETRAMER
+   - tRNA sulfur transfer                                   MG_295_MONOMER, MG_372_MONOMER
+   - tRNA uridine 5-carboxymethylaminomethyl modification   MG_008_379_TETRAMER
+
+   These modifications are believe to help RNAs fold properly and achieve their
+   catalytically active structure. The modifications are also believed to
+   improve RNA stability. In addition some tRNA modifications, namely the
+   modifications near the wobble position are believed to enhance codon
+   recognition. These modifications are enzymatically catalyzed by 13 proteins.
+
+   Knowledge Base
+   ==================
+   As of 8/11/2010 the M. genitalium knowledge base contained 91 RNA
+   modification reactions involving 38 RNAs and 13 enzymes. Each of the 38
+   RNAs is involved in 1-7 reactions. All other RNAs require no
+   modification and are guaranteed to progress through this phase of RNA
+   maturation in a single time step.
+
+   The knowledge base representation of the stoichiometry of RNA
+   modification reactions includes both the unmodified nucleic acid of the
+   unmodified RNA on the left-hand-side and the modified nucleic acid of
+   the resulting modified RNA on the right-hand-side.
+
+   Representation
+   ==================
+   The counts of unmodified and fully modified RNAs are represented by the
+   unmodifiedRNAs and modifiedRNAs properties. Intermediate modified
+   states (RNAs which have some, but not all of their requisite
+   modifications) are not represented here. The molecular weights of the
+   unmodified and fully modified RNAs are computed by the knowledge base RNA
+   classes.
+
+   This process uses the reactionModificationMatrix, reactionCatalysisMatrix,
+   reactionStoichiometryMatrix, and enzymeBounds properties to represent the
+   modifications required to mature each RNA. These properties are
+   initialized from the knowledge base by initializeConstants.
+   reactionModificationMatrix represents the RNA modified by each reaction.
+   reactionCatalysisMatrix represents the enzyme which catalyzes each reaction.
+   enzymeBounds represents the kcat of the enzyme for each reaction.
+   reactionStoichiometryMatrix represents the free metabolites reactants and
+   products of each reaction. Note reactionStoichiometryMatrix used in this
+   reaction is different from that of the superclass. The
+   reactionStoichiometryMatrix used here does not include either the unmodified
+   nucleic acid of the unmodified RNA on the left-hand-side of reactions or the
+   modified nucleic acid of the resulting modified RNA on the right-hand-side
+   of reactions; these nucleic acids are represented within the unmodified and
+   modified RNAs. For this process to mature a RNA, each of the reactions which
+   modifies that RNA must proceed.
+
+   Initialization
+   ==================
+   All RNAs are initialized to the mature state. This is accomplished by the
+   simulation class initializeState method.
+
+   Simulation
+   ==================
+   While(true)
+     1. Calculate numbers of RNAs that can be modified based on
+        substrate, enzyme, and unmodified RNA availability and kinetics.
+     2. Randomly select RNA to modify weighted by limits calculated in
+        step (1).
+     3. Update substrates, enzymes, unmodified RNAs
+     4. Repeat until insufficient resources to further modify RNAs
+   End
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/10/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAModification.html" class="code" title="">RNAModification</a>	RNA Modification</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAModification.html" class="code" title="">RNAModification</a>	RNA Modification</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RNAModification(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function initializeSpeciesNetwork(this)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(~)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNA Modification</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_RNAModification</span>
+0004 <span class="comment">% @name             RNA Modification</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ==================</span>
+0008 <span class="comment">%   This process simulates r/tRNA modifications including</span>
+0009 <span class="comment">%   - rRNA methylation                                       MG_252_DIMER, MG_346_DIMER, MG_380_MONOMER, MG_463_MONOMER</span>
+0010 <span class="comment">%   - rRNA pseudouridation                                   MG_209_MONOMER, MG_370_MONOMER</span>
+0011 <span class="comment">%   - tRNA methylation                                       MG_347_DIMER, MG_445_DIMER</span>
+0012 <span class="comment">%   - tRNA pseudouridation                                   MG_182_DIMER</span>
+0013 <span class="comment">%   - tRNA lysidine synthetase                               MG_084_TETRAMER</span>
+0014 <span class="comment">%   - tRNA sulfur transfer                                   MG_295_MONOMER, MG_372_MONOMER</span>
+0015 <span class="comment">%   - tRNA uridine 5-carboxymethylaminomethyl modification   MG_008_379_TETRAMER</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   These modifications are believe to help RNAs fold properly and achieve their</span>
+0018 <span class="comment">%   catalytically active structure. The modifications are also believed to</span>
+0019 <span class="comment">%   improve RNA stability. In addition some tRNA modifications, namely the</span>
+0020 <span class="comment">%   modifications near the wobble position are believed to enhance codon</span>
+0021 <span class="comment">%   recognition. These modifications are enzymatically catalyzed by 13 proteins.</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   Knowledge Base</span>
+0024 <span class="comment">%   ==================</span>
+0025 <span class="comment">%   As of 8/11/2010 the M. genitalium knowledge base contained 91 RNA</span>
+0026 <span class="comment">%   modification reactions involving 38 RNAs and 13 enzymes. Each of the 38</span>
+0027 <span class="comment">%   RNAs is involved in 1-7 reactions. All other RNAs require no</span>
+0028 <span class="comment">%   modification and are guaranteed to progress through this phase of RNA</span>
+0029 <span class="comment">%   maturation in a single time step.</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   The knowledge base representation of the stoichiometry of RNA</span>
+0032 <span class="comment">%   modification reactions includes both the unmodified nucleic acid of the</span>
+0033 <span class="comment">%   unmodified RNA on the left-hand-side and the modified nucleic acid of</span>
+0034 <span class="comment">%   the resulting modified RNA on the right-hand-side.</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   Representation</span>
+0037 <span class="comment">%   ==================</span>
+0038 <span class="comment">%   The counts of unmodified and fully modified RNAs are represented by the</span>
+0039 <span class="comment">%   unmodifiedRNAs and modifiedRNAs properties. Intermediate modified</span>
+0040 <span class="comment">%   states (RNAs which have some, but not all of their requisite</span>
+0041 <span class="comment">%   modifications) are not represented here. The molecular weights of the</span>
+0042 <span class="comment">%   unmodified and fully modified RNAs are computed by the knowledge base RNA</span>
+0043 <span class="comment">%   classes.</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%   This process uses the reactionModificationMatrix, reactionCatalysisMatrix,</span>
+0046 <span class="comment">%   reactionStoichiometryMatrix, and enzymeBounds properties to represent the</span>
+0047 <span class="comment">%   modifications required to mature each RNA. These properties are</span>
+0048 <span class="comment">%   initialized from the knowledge base by initializeConstants.</span>
+0049 <span class="comment">%   reactionModificationMatrix represents the RNA modified by each reaction.</span>
+0050 <span class="comment">%   reactionCatalysisMatrix represents the enzyme which catalyzes each reaction.</span>
+0051 <span class="comment">%   enzymeBounds represents the kcat of the enzyme for each reaction.</span>
+0052 <span class="comment">%   reactionStoichiometryMatrix represents the free metabolites reactants and</span>
+0053 <span class="comment">%   products of each reaction. Note reactionStoichiometryMatrix used in this</span>
+0054 <span class="comment">%   reaction is different from that of the superclass. The</span>
+0055 <span class="comment">%   reactionStoichiometryMatrix used here does not include either the unmodified</span>
+0056 <span class="comment">%   nucleic acid of the unmodified RNA on the left-hand-side of reactions or the</span>
+0057 <span class="comment">%   modified nucleic acid of the resulting modified RNA on the right-hand-side</span>
+0058 <span class="comment">%   of reactions; these nucleic acids are represented within the unmodified and</span>
+0059 <span class="comment">%   modified RNAs. For this process to mature a RNA, each of the reactions which</span>
+0060 <span class="comment">%   modifies that RNA must proceed.</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%   Initialization</span>
+0063 <span class="comment">%   ==================</span>
+0064 <span class="comment">%   All RNAs are initialized to the mature state. This is accomplished by the</span>
+0065 <span class="comment">%   simulation class initializeState method.</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   Simulation</span>
+0068 <span class="comment">%   ==================</span>
+0069 <span class="comment">%   While(true)</span>
+0070 <span class="comment">%     1. Calculate numbers of RNAs that can be modified based on</span>
+0071 <span class="comment">%        substrate, enzyme, and unmodified RNA availability and kinetics.</span>
+0072 <span class="comment">%     2. Randomly select RNA to modify weighted by limits calculated in</span>
+0073 <span class="comment">%        step (1).</span>
+0074 <span class="comment">%     3. Update substrates, enzymes, unmodified RNAs</span>
+0075 <span class="comment">%     4. Repeat until insufficient resources to further modify RNAs</span>
+0076 <span class="comment">%   End</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0079 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0080 <span class="comment">% Last updated: 8/10/2010</span>
+0081 classdef <a href="RNAModification.html" class="code" title="">RNAModification</a> &lt; edu.stanford.covert.cell.sim.ReactionProcess
+0082 
+0083     <span class="comment">%property annotations</span>
+0084     properties (Constant)
+0085         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0086         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0087             <span class="string">'speciesReactantByproductMatrix'</span>
+0088             <span class="string">'speciesReactantMatrix'</span>
+0089             };        
+0090         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0091         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0092             <span class="string">'unmodifiedRNAs'</span>;
+0093             <span class="string">'modifiedRNAs'</span>};
+0094     <span class="keyword">end</span>
+0095 
+0096     <span class="comment">%IDs, names, and local indices</span>
+0097     properties
+0098         substrateIndexs_amet                             <span class="comment">%index   within substrates of amet</span>
+0099         substrateIndexs_fthf5                            <span class="comment">%index   within substrates of 5-fthf</span>
+0100         substrateIndexs_cys                              <span class="comment">%index   within substrates of cysteine</span>
+0101         substrateIndexs_gly                              <span class="comment">%index   within substrates of glycine</span>
+0102         substrateIndexs_lys                              <span class="comment">%index   within substrates of lysine</span>
+0103         substrateIndexs_atp                              <span class="comment">%index   within substrates of ATP</span>
+0104         substrateIndexs_water                            <span class="comment">%index   within substrates of water</span>
+0105         substrateIndexs_hydrogen                         <span class="comment">%index   within substrates of hydrogen</span>
+0106         substrateIndexs_nmp                              <span class="comment">%indices within substrates of NMPs</span>
+0107         substrateIndexs_modifiedNMP                      <span class="comment">%indices within substrates of modified NMPs</span>
+0108 
+0109         enzymeIndexs_rRNA16SDimethyladenosineTransferase <span class="comment">%index within enzymes of   MG_463_MONOMER       rRNA 16S dimethyladenosine transferase</span>
+0110         enzymeIndexs_rRNA16SMethyltransferaseGidB        <span class="comment">%index within enzymes of   MG_380_MONOMER       rRNA 16S methyltransferase GidB</span>
+0111         enzymeIndexs_rRNA23SMethyltransferaseI           <span class="comment">%index within enzymes of   MG_252_DIMER         rRNA 23S methyltransferase I</span>
+0112         enzymeIndexs_rRNA23SMethyltransferaseII          <span class="comment">%index within enzymes of   MG_346_DIMER         rRNA 23S methyltransferase II</span>
+0113         enzymeIndexs_rRNA23SPseudouridineSynthaseI       <span class="comment">%index within enzymes of   MG_209_MONOMER       rRNA 23S pseudouridine synthase I</span>
+0114         enzymeIndexs_rRNA23SPseudouridineSynthaseII      <span class="comment">%index within enzymes of   MG_370_MONOMER       rRNA 23S pseudouridine synthase II</span>
+0115         enzymeIndexs_tRNAGuanineN1Methyltransferase      <span class="comment">%index within enzymes of   MG_445_DIMER         tRNA guanine-N1-methyltransferase</span>
+0116         enzymeIndexs_tRNAGuanineN7Methyltransferase      <span class="comment">%index within enzymes of   MG_347_DIMER         tRNA guanine-N7-methyltransferase</span>
+0117         enzymeIndexs_tRNALysidineSynthetase              <span class="comment">%index within enzymes of   MG_084_TETRAMER      tRNA lysidine synthetase</span>
+0118         enzymeIndexs_tRNAPseudouridineSynthase           <span class="comment">%index within enzymes of   MG_182_DIMER         tRNA pseudouridine synthase</span>
+0119         enzymeIndexs_tRNAUracil2Sulfurtransferase        <span class="comment">%index within enzymes of   MG_295_MONOMER       tRNA uracil-2-sulfurtransferase</span>
+0120         enzymeIndexs_tRNAUracil4Sulfurtransferase        <span class="comment">%index within enzymes of   MG_372_DIMER         tRNA uracil-4-sulfurtransferase</span>
+0121         enzymeIndexs_tRNAUracil5Carboxymethylaminomethyl <span class="comment">%index within enzymes of   MG_008_379_TETRAMER  tRNA uracil-5-carboxymethylaminomethyl</span>
+0122 
+0123         unmodifiedRNAWholeCellModelIDs                   <span class="comment">%whole cell model ids of unmodified RNAs</span>
+0124         modifiedRNAWholeCellModelIDs                     <span class="comment">%whole cell model ids of modified RNAs</span>
+0125         
+0126         rnaIndexs_modified    <span class="comment">%indices of RNAs that are modified within unmodifiedRNAWholeCellModelIDs</span>
+0127         rnaIndexs_unmodified  <span class="comment">%indices of RNAs that are not modified within unmodifiedRNAWholeCellModelIDs</span>
+0128         rnaMask_modified      <span class="comment">%boolean indicating RNAs that are modified</span>
+0129         rnaMask_unmodified    <span class="comment">%boolean indicating RNAs that are not modified</span>
+0130         
+0131         speciesIndexs_enzymes <span class="comment">%indexs of enzyme species within speciesReactantByproductMatrix, speciesReactantMatrix</span>
+0132     <span class="keyword">end</span>
+0133 
+0134     <span class="comment">%fixed biological constants</span>
+0135     properties
+0136         speciesReactantByproductMatrix <span class="comment">%stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; unmodified RNAs]</span>
+0137         speciesReactantMatrix          <span class="comment">%reactant stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; unmodified RNAs]</span>
+0138     <span class="keyword">end</span>
+0139 
+0140     <span class="comment">%global state (copied locally for convenience)</span>
+0141     properties
+0142         unmodifiedRNAs <span class="comment">%counts of unmodified RNAs (RNAs X 1 X time)</span>
+0143         modifiedRNAs   <span class="comment">%counts of modified RNAs   (RNAs X 1 X time)</span>
+0144     <span class="keyword">end</span>
+0145 
+0146     <span class="comment">%constructor</span>
+0147     methods
+0148         <a name="_sub0" href="#_subfunctions" class="code">function this = RNAModification(wholeCellModelID, name)</a>
+0149             this = this@edu.stanford.covert.cell.sim.ReactionProcess(wholeCellModelID, name);
+0150         <span class="keyword">end</span>
+0151     <span class="keyword">end</span>
+0152 
+0153     <span class="comment">%communication between process/simulation</span>
+0154     methods
+0155         <span class="comment">%initialize constants</span>
+0156         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0157             this.initializeConstants@edu.stanford.covert.cell.sim.ReactionProcess(knowledgeBase, simulation, varargin{:});
+0158 
+0159             <span class="comment">%metabolites indices</span>
+0160             this.substrateIndexs_amet        = this.substrateIndexs({<span class="string">'AMET'</span>});
+0161             this.substrateIndexs_fthf5       = this.substrateIndexs({<span class="string">'FTHF5'</span>});
+0162             this.substrateIndexs_cys         = this.substrateIndexs({<span class="string">'CYS'</span>});
+0163             this.substrateIndexs_gly         = this.substrateIndexs({<span class="string">'GLY'</span>});
+0164             this.substrateIndexs_lys         = this.substrateIndexs({<span class="string">'LYS'</span>});
+0165             this.substrateIndexs_atp         = this.substrateIndexs({<span class="string">'ATP'</span>});
+0166             this.substrateIndexs_water       = this.substrateIndexs({<span class="string">'H2O'</span>});
+0167             this.substrateIndexs_hydrogen    = this.substrateIndexs({<span class="string">'H'</span>});
+0168             this.substrateIndexs_nmp         = this.substrateIndexs({<span class="string">'AMP'</span>; <span class="string">'CMP'</span>; <span class="string">'GMP'</span>; <span class="string">'UMP'</span>});
+0169             this.substrateIndexs_modifiedNMP = this.substrateMetaboliteLocalIndexs(<span class="keyword">...</span>
+0170                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).category}, <span class="keyword">...</span>
+0171                 <span class="string">'modified ribonucleotide monophosphate'</span>));
+0172 
+0173             <span class="comment">%enzyme indices</span>
+0174             this.enzymeIndexs_rRNA16SDimethyladenosineTransferase = this.enzymeIndexs({<span class="string">'MG_463_MONOMER'</span>});      <span class="comment">%dimethyladenosine transferase</span>
+0175             this.enzymeIndexs_rRNA16SMethyltransferaseGidB        = this.enzymeIndexs({<span class="string">'MG_380_MONOMER'</span>});      <span class="comment">%methyltransferase GidB</span>
+0176             this.enzymeIndexs_rRNA23SMethyltransferaseI           = this.enzymeIndexs({<span class="string">'MG_252_DIMER'</span>});        <span class="comment">%23S rRNA methyltransferase; G2251</span>
+0177             this.enzymeIndexs_rRNA23SMethyltransferaseII          = this.enzymeIndexs({<span class="string">'MG_346_DIMER'</span>});        <span class="comment">%23S rRNA methyltransferase; U2552</span>
+0178             this.enzymeIndexs_rRNA23SPseudouridineSynthaseI       = this.enzymeIndexs({<span class="string">'MG_209_MONOMER'</span>});      <span class="comment">%23S rRNA pseudouridine synthase; U955, U2504, U2580</span>
+0179             this.enzymeIndexs_rRNA23SPseudouridineSynthaseII      = this.enzymeIndexs({<span class="string">'MG_370_MONOMER'</span>});      <span class="comment">%23S rRNA pseudouridine synthase; U1911, U1915, U1917</span>
+0180             this.enzymeIndexs_tRNAGuanineN1Methyltransferase      = this.enzymeIndexs({<span class="string">'MG_445_DIMER'</span>});        <span class="comment">%tRNA (guanine-N1)-methyltransferase</span>
+0181             this.enzymeIndexs_tRNAGuanineN7Methyltransferase      = this.enzymeIndexs({<span class="string">'MG_347_DIMER'</span>});        <span class="comment">%tRNA (guanine-N(7)-)-methyltransferase</span>
+0182             this.enzymeIndexs_tRNALysidineSynthetase              = this.enzymeIndexs({<span class="string">'MG_084_TETRAMER'</span>});     <span class="comment">%tRNA(Ile)-lysidine synthetase</span>
+0183             this.enzymeIndexs_tRNAPseudouridineSynthase           = this.enzymeIndexs({<span class="string">'MG_182_DIMER'</span>});        <span class="comment">%tRNA pseudouridine synthase A</span>
+0184             this.enzymeIndexs_tRNAUracil2Sulfurtransferase        = this.enzymeIndexs({<span class="string">'MG_295_MONOMER'</span>});      <span class="comment">%tRNA U34 sulfurtransferase</span>
+0185             this.enzymeIndexs_tRNAUracil4Sulfurtransferase        = this.enzymeIndexs({<span class="string">'MG_372_DIMER'</span>});        <span class="comment">%thiamine biosynthesis/tRNA modification protein ThiI</span>
+0186             this.enzymeIndexs_tRNAUracil5Carboxymethylaminomethyl = this.enzymeIndexs({<span class="string">'MG_008_379_TETRAMER'</span>}); <span class="comment">%tRNA uridine 5-carboxymethylaminomethyl modification enzyme</span>
+0187 
+0188             <span class="comment">%RNAs</span>
+0189             this.unmodifiedRNAWholeCellModelIDs = this.rna.wholeCellModelIDs(this.rna.processedIndexs);
+0190             this.modifiedRNAWholeCellModelIDs   = this.rna.wholeCellModelIDs(this.rna.matureIndexs);
+0191 
+0192             <span class="comment">%RNA modification reactions</span>
+0193             <span class="comment">%- Note in constrast to the knowledge base,</span>
+0194             <span class="comment">%  reactionStoichiometryMatrix doesn't include the unmodified</span>
+0195             <span class="comment">%  nucleic acid of the unmodified RNA on the left-hand-side or</span>
+0196             <span class="comment">%  the modified nucleic acid of the resulting modified RNA.</span>
+0197             <span class="comment">%- In constrast to other processes where</span>
+0198             <span class="comment">%  reactionModificationMatrix maps genes onto reactions, here</span>
+0199             <span class="comment">%  reactionModificationMatrix maps RNAs onto reactions</span>
+0200             <span class="comment">%- In contrast to other processes where entries in</span>
+0201             <span class="comment">%  reactionModificationMatrix contain the positions of the</span>
+0202             <span class="comment">%  modification in the modified macromolecule, here entries of</span>
+0203             <span class="comment">%  reactionModificationMatrix are simply 0 or 1</span>
+0204             this.reactionStoichiometryMatrix(this.substrateIndexs_nmp, :) = <span class="keyword">...</span>
+0205                 max(this.reactionStoichiometryMatrix(this.substrateIndexs_nmp, :), 0);
+0206             this.reactionStoichiometryMatrix(this.substrateIndexs_modifiedNMP, :) = 0;
+0207             this.reactionModificationMatrix = (this.reactionModificationMatrix &gt; 0) * <span class="keyword">...</span>
+0208                 this.rna.matureRNAGeneComposition;
+0209             
+0210             this.rnaMask_modified = any(this.reactionModificationMatrix, 1);
+0211             this.rnaMask_unmodified = ~any(this.reactionModificationMatrix, 1);
+0212             
+0213             this.rnaIndexs_modified = find(this.rnaMask_modified);
+0214             this.rnaIndexs_unmodified = find(this.rnaMask_unmodified);
+0215             
+0216             this.initializeSpeciesNetwork();
+0217         <span class="keyword">end</span>
+0218         
+0219         <span class="comment">%initialize reaction stoichiomety to be used in evolveState:</span>
+0220         <span class="comment">%  [RNA modifications] X [subtrates; enzymes; unmodified RNAs]</span>
+0221         <a name="_sub2" href="#_subfunctions" class="code">function initializeSpeciesNetwork(this)            </a>
+0222             numMetabolites = size(this.reactionStoichiometryMatrix, 1);
+0223             numEnzymes     = size(this.reactionCatalysisMatrix, 2);
+0224             numRNAs        = sum(this.rnaMask_modified);
+0225             
+0226             this.speciesIndexs_enzymes = (1:numEnzymes)' + numMetabolites;
+0227             
+0228             this.speciesReactantByproductMatrix = [this.reactionModificationMatrix(:, this.rnaMask_modified)' * [<span class="keyword">...</span>
+0229                 -this.reactionStoichiometryMatrix'<span class="keyword">...</span>
+0230                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:,2) * this.stepSizeSec, 1, numEnzymes)]<span class="keyword">...</span>
+0231                 eye(numRNAs)];
+0232             this.speciesReactantMatrix = [this.reactionModificationMatrix(:, this.rnaMask_modified)' * max(0, [<span class="keyword">...</span>
+0233                 -this.reactionStoichiometryMatrix'<span class="keyword">...</span>
+0234                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:, 2) * this.stepSizeSec, 1, numEnzymes)])<span class="keyword">...</span>
+0235                 eye(numRNAs)];
+0236         <span class="keyword">end</span>
+0237 
+0238         <span class="comment">%retrieve state from simulation</span>
+0239         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0240             this.copyFromState@edu.stanford.covert.cell.sim.ReactionProcess();
+0241 
+0242             this.unmodifiedRNAs = this.rna.counts(this.rna.processedIndexs, this.compartment.cytosolIndexs, :);
+0243             this.modifiedRNAs   = this.rna.counts(this.rna.matureIndexs,    this.compartment.cytosolIndexs, :);
+0244         <span class="keyword">end</span>
+0245 
+0246         <span class="comment">%send state to simulation</span>
+0247         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0248             this.copyToState@edu.stanford.covert.cell.sim.ReactionProcess();
+0249 
+0250             this.rna.counts(this.rna.processedIndexs, this.compartment.cytosolIndexs, :) = this.unmodifiedRNAs;
+0251             this.rna.counts(this.rna.matureIndexs,    this.compartment.cytosolIndexs, :) = this.modifiedRNAs;
+0252         <span class="keyword">end</span>
+0253     <span class="keyword">end</span>
+0254 
+0255     <span class="comment">%allocate memory for state</span>
+0256     methods
+0257         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0258             this.allocateMemoryForState@edu.stanford.covert.cell.sim.ReactionProcess(numTimePoints);
+0259 
+0260             this.unmodifiedRNAs = zeros(length(this.unmodifiedRNAWholeCellModelIDs), 1, numTimePoints);
+0261             this.modifiedRNAs   = zeros(length(this.modifiedRNAWholeCellModelIDs),   1, numTimePoints);
+0262         <span class="keyword">end</span>
+0263     <span class="keyword">end</span>
+0264 
+0265     <span class="comment">%model</span>
+0266     methods
+0267         <span class="comment">%Calculate</span>
+0268         <span class="comment">%- contribution to FBA objective</span>
+0269         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0270         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0271             <span class="comment">%substrate and byproducts</span>
+0272             nRxn = this.reactionModificationMatrix * states.rnaProductions;
+0273 
+0274             bmProd = max(0, -this.reactionStoichiometryMatrix) * nRxn;
+0275             byProd = max(0,  this.reactionStoichiometryMatrix) * nRxn;
+0276             
+0277             <span class="comment">%enzymes</span>
+0278             minEnzExp = 2 * this.reactionCatalysisMatrix' * <span class="keyword">...</span>
+0279                 ((this.reactionModificationMatrix * states.rnaProductions0) ./ this.enzymeBounds(:, 2));
+0280             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0281         <span class="keyword">end</span>      
+0282 
+0283         <span class="comment">%initialization: RNAs initialized to mature/aminoacylated state by</span>
+0284         <span class="comment">%simulation initializeState method</span>
+0285         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(~)</a>
+0286         <span class="keyword">end</span>
+0287 
+0288         <span class="comment">%resource requirements</span>
+0289         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0290             result = <span class="keyword">...</span>
+0291                 max(0, -this.reactionStoichiometryMatrix) * min(<span class="keyword">...</span>
+0292                 ceil(this.reactionCatalysisMatrix * this.enzymes * this.stepSizeSec), <span class="keyword">...</span>
+0293                 (this.reactionModificationMatrix * this.unmodifiedRNAs));
+0294         <span class="keyword">end</span>
+0295 
+0296         <span class="comment">%simulation</span>
+0297         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0298             <span class="comment">%% update RNAs that don't require modification</span>
+0299             this.modifiedRNAs(this.rnaMask_unmodified) = <span class="keyword">...</span>
+0300                 this.modifiedRNAs(this.rnaMask_unmodified) + <span class="keyword">...</span>
+0301                 this.unmodifiedRNAs(this.rnaMask_unmodified);
+0302             this.unmodifiedRNAs(this.rnaMask_unmodified) = 0;
+0303             
+0304             <span class="comment">%% stop early if no RNAs need to be modified</span>
+0305             <span class="keyword">if</span> ~any(this.unmodifiedRNAs)
+0306                 <span class="keyword">return</span>;
+0307             <span class="keyword">end</span>
+0308 
+0309             <span class="comment">%% simulate RNA modification</span>
+0310             numRNAs = numel(this.rnaIndexs_modified);
+0311             
+0312             species = [
+0313                 this.substrates;
+0314                 this.enzymes;
+0315                 this.unmodifiedRNAs(this.rnaMask_modified)]';
+0316             
+0317             reactionFluxes = zeros(size(this.speciesReactantByproductMatrix, 1), 1);
+0318             anyFlux = false;
+0319             
+0320             limits = species(ones(numRNAs, 1), :) ./ this.speciesReactantMatrix;
+0321             limits(:, this.substrateIndexs_water) = NaN;
+0322             limits(:, this.substrateIndexs_hydrogen) = NaN;
+0323             reactionLimits = min(limits, [], 2)';
+0324             reactionLimits(isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 0) = 0;
+0325             isReactionInactive = reactionLimits &lt;= 0;
+0326             
+0327             <span class="keyword">while</span> true
+0328                 <span class="comment">%compute maximum number of each RNA species that can be modified</span>
+0329                 limits = species(ones(numRNAs, 1), :) ./ max(0, this.speciesReactantByproductMatrix);
+0330                 limits(:, this.substrateIndexs_water) = NaN;
+0331                 limits(:, this.substrateIndexs_hydrogen) = NaN;
+0332                 reactionLimits = min(<span class="keyword">...</span>
+0333                     this.randStream.stochasticRound(min(limits(:, this.speciesIndexs_enzymes), [], 2)), <span class="keyword">...</span>
+0334                     min(limits(:, [1:this.speciesIndexs_enzymes(1)-1 this.speciesIndexs_enzymes(end)+1:end]), [], 2))';
+0335                 reactionLimits(isReactionInactive | isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 1) = 0;
+0336 
+0337                 <span class="comment">%stop if no more substrates can be modified</span>
+0338                 <span class="keyword">if</span> ~any(reactionLimits); <span class="keyword">break</span>; <span class="keyword">end</span>;
+0339                 anyFlux = true;
+0340                 
+0341                 <span class="comment">%pick reaction</span>
+0342                 selectedReaction = this.randStream.randsample(numel(reactionLimits), 1, true, reactionLimits);
+0343                 reactionFluxes(selectedReaction) = <span class="keyword">...</span>
+0344                     reactionFluxes(selectedReaction) + 1;
+0345 
+0346                 <span class="comment">%update metabolites, enzymes, unmodified RNAs</span>
+0347                 species = species - this.speciesReactantByproductMatrix(selectedReaction, :);
+0348             <span class="keyword">end</span>
+0349 
+0350             <span class="comment">%stop if no reactions can proceed</span>
+0351             <span class="keyword">if</span> ~anyFlux
+0352                 <span class="keyword">return</span>;
+0353             <span class="keyword">end</span>
+0354             
+0355             <span class="comment">% update substrates</span>
+0356             this.substrates = this.substrates + <span class="keyword">...</span>
+0357                 this.reactionStoichiometryMatrix * this.reactionModificationMatrix(:, this.rnaMask_modified) * reactionFluxes;
+0358 
+0359             <span class="comment">%update RNAs that require modification</span>
+0360             this.unmodifiedRNAs(this.rnaMask_modified) = this.unmodifiedRNAs(this.rnaMask_modified) - reactionFluxes;
+0361             this.modifiedRNAs(this.rnaMask_modified)   = this.modifiedRNAs(this.rnaMask_modified)   + reactionFluxes;
+0362         <span class="keyword">end</span>
+0363     <span class="keyword">end</span>
+0364 
+0365     <span class="comment">%get methods of dependent local state</span>
+0366     methods
+0367         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0368             <span class="keyword">if</span> size(this.unmodifiedRNAs, 3) == 1
+0369                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0370                     this.rna.molecularWeights(this.rna.processedIndexs)' * this.unmodifiedRNAs + <span class="keyword">...</span>
+0371                     this.rna.molecularWeights(this.rna.matureIndexs)'    * this.modifiedRNAs) <span class="keyword">...</span>
+0372                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0373             <span class="keyword">else</span>
+0374                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0375                     permute(this.rna.molecularWeights(this.rna.processedIndexs)' * permute(this.unmodifiedRNAs, [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0376                     permute(this.rna.molecularWeights(this.rna.matureIndexs)'    * permute(this.modifiedRNAs,   [1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0377                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0378             <span class="keyword">end</span>
+0379         <span class="keyword">end</span>
+0380     <span class="keyword">end</span>
+0381 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

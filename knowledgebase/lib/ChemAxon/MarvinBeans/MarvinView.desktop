@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=MarvinView
+Exec=/bin/sh "/usr/share/ChemAxon/MarvinBeans/MarvinView"
+Icon=/usr/share/ChemAxon/MarvinBeans/.install4j/MarvinView.png
+Categories=Application;

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of KnowledgeBaseUtil</title>
+  <meta name="keywords" content="KnowledgeBaseUtil">
+  <meta name="description" content="Utility functions for working with the knowledge base database.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; KnowledgeBaseUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>KnowledgeBaseUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Utility functions for working with the knowledge base database.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Utility functions for working with the knowledge base database.
+ - get WID of latest knowledge base, simulation
+ - select knowledge base and simulation from lists of available knowledge
+   bases and simulations, and return WID
+ - get archived code of a simulation
+ - create, retrieve contacts
+ - create connection to knowledge base
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="KnowledgeBaseUtil.html" class="code" title="">KnowledgeBaseUtil</a>	Utility functions for working with the knowledge base database.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="KnowledgeBaseUtil.html" class="code" title="">KnowledgeBaseUtil</a>	Utility functions for working with the knowledge base database.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function WID = selectLatestKnowledgeBase(database)</a></li><li><a href="#_sub2" class="code">function WID = selectKnowledgeBase(database)</a></li><li><a href="#_sub3" class="code">function simulationWID = selectLatestSimulation(knowledgeBaseWID, database)</a></li><li><a href="#_sub4" class="code">function simulationWID = selectSimulation(knowledgeBaseWID, database)</a></li><li><a href="#_sub5" class="code">function getSimulationCodeArchive(simulationWID, fileName, database)</a></li><li><a href="#_sub6" class="code">function wid = getContact(investigator, knowledgeBaseWID, database)</a></li><li><a href="#_sub7" class="code">function wid = newContact(investigator, knowledgeBaseWID, database)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Utility functions for working with the knowledge base database.</span>
+0002 <span class="comment">% - get WID of latest knowledge base, simulation</span>
+0003 <span class="comment">% - select knowledge base and simulation from lists of available knowledge</span>
+0004 <span class="comment">%   bases and simulations, and return WID</span>
+0005 <span class="comment">% - get archived code of a simulation</span>
+0006 <span class="comment">% - create, retrieve contacts</span>
+0007 <span class="comment">% - create connection to knowledge base</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Author: Jonathan Karr</span>
+0010 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0011 <span class="comment">% Last updated: 5/7/2009</span>
+0012 classdef <a href="KnowledgeBaseUtil.html" class="code" title="">KnowledgeBaseUtil</a>
+0013     methods (Static = true)
+0014         <span class="comment">%Get WID of the latest knowledge base</span>
+0015         <a name="_sub0" href="#_subfunctions" class="code">function WID = selectLatestKnowledgeBase(database)</a>
+0016             database.setNullValue(0);
+0017             database.prepareStatement(<span class="string">'CALL get_latest_knowledgebase(''WholeCell'')'</span>);
+0018             WID = database.query().WID(1);
+0019         <span class="keyword">end</span>
+0020 
+0021         <span class="comment">%Prompt user to select a knowledge base from the list of avaiable</span>
+0022         <span class="comment">%knowledge bases</span>
+0023         <a name="_sub1" href="#_subfunctions" class="code">function WID = selectKnowledgeBase(database)</a>
+0024             <span class="comment">%query available datasets</span>
+0025             database.setNullValue(0);
+0026             database.prepareStatement(<span class="string">'CALL get_knowledgebases(&quot;{S}&quot;,&quot;{S}&quot;)'</span>, <span class="string">'WholeCell'</span>, <span class="string">'Y'</span>);
+0027             knowledgebases = database.query();
+0028 
+0029             <span class="comment">%display available datasets</span>
+0030             fprintf(<span class="string">'%s\t%s\t\t\t%s\t\t%s\t\t%s\n'</span>, <span class="string">'#'</span>, <span class="string">'Name'</span>, <span class="string">'Version'</span>, <span class="string">'    Insert Date    '</span>, <span class="string">'Investigator'</span>);
+0031             fprintf(<span class="string">'%s\t%s\t\t\t%s\t\t%s\t\t%s\n'</span>, <span class="string">'='</span>, <span class="string">'===='</span>, <span class="string">'======='</span>, <span class="string">'==================='</span>, <span class="string">'============'</span>);
+0032             <span class="keyword">for</span> i=1:length(knowledgebases.WID)
+0033                 fprintf([<span class="string">'%d.\t%s'</span> repmat(<span class="string">'\t'</span>,1,floor((19-length(knowledgebases.Name{i}))/4)) <span class="string">'%s\t\t%s\t\t%s\n'</span>], <span class="keyword">...</span>
+0034                     i, knowledgebases.Name{i}, knowledgebases.Version{i}, knowledgebases.InsertDate{i}, knowledgebases.Investigator{i});
+0035             <span class="keyword">end</span>
+0036 
+0037             <span class="comment">%select knowledge base</span>
+0038             selectedKnowledgeBase = 0;
+0039             <span class="keyword">while</span> ~isa(selectedKnowledgeBase, <span class="string">'double'</span>) || mod(selectedKnowledgeBase, 1) ~= 0 || <span class="keyword">...</span>
+0040                     selectedKnowledgeBase &lt; 1 || selectedKnowledgeBase &gt; length(knowledgebases.WID)
+0041                 selectedKnowledgeBase = input(<span class="string">'Please select a dataset (by number): '</span>);
+0042             <span class="keyword">end</span>
+0043 
+0044             <span class="comment">%return WID</span>
+0045             WID = knowledgebases.WID(selectedKnowledgeBase);
+0046         <span class="keyword">end</span>
+0047 
+0048         <span class="comment">%Get WID of the latest simulation for knowledge base</span>
+0049         <a name="_sub2" href="#_subfunctions" class="code">function simulationWID = selectLatestSimulation(knowledgeBaseWID, database)</a>
+0050             database.setNullValue(0);
+0051             database.prepareStatement(<span class="string">'CALL get_latest_simulation(&quot;{Si}&quot;)'</span>, knowledgeBaseWID);
+0052             simulationWID = database.query().WID;
+0053         <span class="keyword">end</span>
+0054 
+0055         <span class="comment">%Prompt user to select a simulation from the list of avaiable</span>
+0056         <span class="comment">%simulations for the selected knowledge base</span>
+0057         <a name="_sub3" href="#_subfunctions" class="code">function simulationWID = selectSimulation(knowledgeBaseWID, database)</a>
+0058             <span class="comment">%retrieve list of simulations from database</span>
+0059             database.setNullValue(0);
+0060             database.prepareStatement(<span class="string">'CALL get_simulations(&quot;{Si}&quot;)'</span>, knowledgeBaseWID);
+0061             simulations = database.query();
+0062 
+0063             <span class="comment">%display list of available simulations</span>
+0064             fprintf(<span class="string">'%s\t%s\t\t\t\t\t\t\t\t\t\t\t%s\t%s\t\t\t\t\t%s\n'</span>, <span class="string">'#'</span>, <span class="string">'Label'</span>, <span class="string">'Investigator'</span>, <span class="string">'Date'</span>, <span class="string">'Description'</span>);
+0065             fprintf(<span class="string">'%s\t%s\t\t\t\t\t\t\t\t\t\t\t%s\t%s\t\t\t\t\t%s\n'</span>, <span class="string">'='</span>, <span class="string">'====='</span>, <span class="string">'============'</span>, <span class="string">'===='</span>, <span class="string">'==========='</span>);
+0066             <span class="keyword">for</span> i = 1:length(simulations.WID)
+0067                 fprintf([<span class="string">'%d.\t%s'</span> repmat(<span class="string">'\t'</span>,1,ceil((48-length(simulations.Label{i}))/4)) <span class="string">'%s\t%s\t\t%s\n'</span>], <span class="keyword">...</span>
+0068                     i, simulations.Label{i}, simulations.Investigator{i}, simulations.Date{i}, char(simulations.Description{i}));
+0069             <span class="keyword">end</span>
+0070 
+0071             <span class="comment">%prompt user to select simulation</span>
+0072             selectedSimulation=0;
+0073             <span class="keyword">while</span> ~isa(selectedSimulation, <span class="string">'double'</span>) || mod(selectedSimulation, 1) ~= 0 || <span class="keyword">...</span>
+0074                     selectedSimulation &lt; 1 || selectedSimulation &gt; length(simulations.WID)
+0075                 selectedSimulation = input(<span class="string">'Please select a simulation: '</span>);
+0076             <span class="keyword">end</span>
+0077 
+0078             <span class="comment">%return WID</span>
+0079             simulationWID = simulations.WID(selectedSimulation);
+0080         <span class="keyword">end</span>
+0081 
+0082         <span class="comment">%Retrieves zip archive of simulation stored in BioWhareouse, stores</span>
+0083         <span class="comment">%zip archive to fileName</span>
+0084         <a name="_sub4" href="#_subfunctions" class="code">function getSimulationCodeArchive(simulationWID, fileName, database)</a>
+0085             <span class="comment">%retrieve archive from database</span>
+0086             database.setNullValue(0);
+0087             database.prepareStatement(<span class="string">'CALL get_simulation_codearchive(&quot;{Si}&quot;)'</span>, simulationWID);
+0088             archive = database.query();
+0089 
+0090             <span class="comment">%store archive to fileName</span>
+0091             fid = fopen(fileName, <span class="string">'w+'</span>);
+0092             fwrite(fid, cell2mat(archive.DifferencesFromRevision));
+0093             fclose(fid);
+0094         <span class="keyword">end</span>
+0095 
+0096         <a name="_sub5" href="#_subfunctions" class="code">function wid = getContact(investigator, knowledgeBaseWID, database)</a>
+0097             <span class="comment">%get WID of contact</span>
+0098             database.setNullValue(0);
+0099             database.prepareStatement(<span class="string">'CALL get_contact(&quot;{S}&quot;,&quot;{Si}&quot;)'</span>, <span class="keyword">...</span>
+0100                 investigator.email, knowledgeBaseWID);
+0101             wid = database.query().WID;
+0102 
+0103             <span class="comment">%is no contact exists, create contact</span>
+0104             <span class="keyword">if</span> isempty(wid)
+0105                 wid = edu.stanford.covert.cell.kb.KnowledgeBaseUtil.newContact(investigator, knowledgeBaseWID, database);
+0106             <span class="keyword">end</span>
+0107         <span class="keyword">end</span>
+0108 
+0109         <span class="comment">%create contact</span>
+0110         <a name="_sub6" href="#_subfunctions" class="code">function wid = newContact(investigator, knowledgeBaseWID, database)</a>
+0111             database.setNullValue(0);
+0112             database.prepareStatement(<span class="string">'CALL set_contact(&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{Si}&quot;)'</span>, <span class="keyword">...</span>
+0113                 investigator.firstName, investigator.lastName, investigator.email, investigator.affiliation, <span class="keyword">...</span>
+0114                 knowledgeBaseWID);
+0115             wid = database.query().WID;
+0116         <span class="keyword">end</span>
+0117     <span class="keyword">end</span>
+0118 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

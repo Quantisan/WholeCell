@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['gccontent',['gcContent',['../class_nucleic_acid.html#a9e37cb468fdec985ab6c55432f47c7b7',1,'NucleicAcid::gcContent()'],['../class_chromosome_sequence.html#a20d69a7a3d235a82dacec47775efc401',1,'ChromosomeSequence::gcContent()']]],
+  ['gene',['gene',['../class_protein_monomer.html#a3ed62467079d81c26c69f48a4ac7a79b',1,'ProteinMonomer::gene()'],['../class_process.html#a1684434db8926175490a433f2ea38467',1,'Process::gene()']]],
+  ['genecompartments',['geneCompartments',['../class_protein_monomer.html#a47cc7ca1907105c06c6ec8c167f0d899',1,'ProteinMonomer::geneCompartments()'],['../class_transcription_unit.html#aa99242eb4fd5e151550c50e361e99063',1,'TranscriptionUnit::geneCompartments()']]],
+  ['genecomposition',['geneComposition',['../class_knowledge_base.html#a6451d69083ade65da9ec38136dca1637',1,'KnowledgeBase']]],
+  ['generalclassification',['generalClassification',['../class_enzyme.html#a3dacd97535744c2709fab1114caa0cf8',1,'Enzyme']]],
+  ['genes',['genes',['../class_compartment.html#a1e41c70ba710d1e0d47d1dbceeb15c10',1,'Compartment::genes()'],['../class_genome.html#a71df953b4a49d64cf951844f082815d1',1,'Genome::genes()'],['../class_genome_feature.html#ad582b7f5b0f393122d113e6d047130f7',1,'GenomeFeature::genes()'],['../class_knowledge_base.html#ae2c3eae5bda44aa6bcbbb4104edf88d2',1,'KnowledgeBase::genes()'],['../class_reference.html#ad1d83703555c5760bc47045ae70ff59d',1,'Reference::genes()'],['../class_transcription_unit.html#a0125567a4adb0c1c9b3fd0c7b3d5d192',1,'TranscriptionUnit::genes()']]],
+  ['geneticcodeaminoacids',['geneticCodeAminoAcids',['../class_knowledge_base.html#afe18db7eb783d827c7ae11078b60e2a6',1,'KnowledgeBase']]],
+  ['geneticcodecodons',['geneticCodeCodons',['../class_knowledge_base.html#a7b0aea5fbf4cf932435950687ff070f0',1,'KnowledgeBase']]],
+  ['geneticcodestartaminoacids',['geneticCodeStartAminoAcids',['../class_knowledge_base.html#a09ecb88586f414b55c852cf2eb28f432',1,'KnowledgeBase']]],
+  ['geneticcodestartcodons',['geneticCodeStartCodons',['../class_knowledge_base.html#a5d7a9dbf9afd5004d282a839122bd1fc',1,'KnowledgeBase']]],
+  ['geneticcodestarttrnas',['geneticCodeStartTRNAs',['../class_knowledge_base.html#a327a159f4e733521fe9092d8def35566',1,'KnowledgeBase']]],
+  ['geneticcodetrnaaminoacylation',['geneticCodeTRNAAminoacylation',['../class_knowledge_base.html#ab23cd1a5baf0c91b7e0b97163d41a679',1,'KnowledgeBase']]],
+  ['geneticcodetrnas',['geneticCodeTRNAs',['../class_knowledge_base.html#abcddd9f5ec19605f66cd2007de73e6ba',1,'KnowledgeBase']]],
+  ['genome',['genome',['../class_gene.html#a3213549735c92da5c222706623966904',1,'Gene::genome()'],['../class_genome_feature.html#ad7755f6c9a6e6032c1bd191f29b1e8ac',1,'GenomeFeature::genome()'],['../class_knowledge_base.html#afb607e4b77b2dc08645369895024c7f9',1,'KnowledgeBase::genome()'],['../class_transcription_unit.html#a29d5b096300959594546d01053363a44',1,'TranscriptionUnit::genome()']]],
+  ['genomefeatures',['genomeFeatures',['../class_knowledge_base.html#a7eef793b1957f57838c6b6c1327ce37f',1,'KnowledgeBase::genomeFeatures()'],['../class_reference.html#a1390869f1ac95eaf63415925326536c6',1,'Reference::genomeFeatures()']]],
+  ['geometry',['geometry',['../class_process.html#a9b24a871f0f84fa40bc79a4dd1cc04db',1,'Process']]],
+  ['gravy',['gravy',['../class_protein.html#ad82cf2185dda6f335cfb92a33c636f0a',1,'Protein::gravy()'],['../class_protein_complex.html#a1bd7c42b1a9723040576f981959488ac',1,'ProteinComplex::gravy()'],['../class_protein_monomer.html#a6acf7352fcec997b46550537ccbe56eb',1,'ProteinMonomer::gravy()']]]
+];

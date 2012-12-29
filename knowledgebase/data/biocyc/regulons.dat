@@ -1,0 +1,23 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: regulons.dat
+# Date and time generated: March 29, 2012, 18:01:33
+#

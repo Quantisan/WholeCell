@@ -1,0 +1,843 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: enzymes.col
+# Date and time generated: March 29, 2012, 18:01:32
+#
+UNIQUE-ID	NAME	REACTION-EQUATION	PATHWAYS	PATHWAYS	PATHWAYS	PATHWAYS	COFACTORS	COFACTORS	COFACTORS	COFACTORS	ACTIVATORS	ACTIVATORS	ACTIVATORS	ACTIVATORS	INHIBITORS	INHIBITORS	INHIBITORS	INHIBITORS	SUBUNIT-COMPOSITION
+ENZRXN-FOR-AceE	pyruvate dehydrogenase	[c]: COA + NAD + PYR <==> ACCOA + CO2 + NADH	GLYCOLYSIS				FAD	TPP			TPP;GTP;AMP;cAMP;GMP;ADP;dobutamine								12*MG_271_MONOMER,60*MG_272_MONOMER,60*MG_273_MONOMER,60*MG_274_MONOMER
+ENZRXN-REV-AceE	pyruvate dehydrogenase	[c]: COA + NAD + PYR <==> ACCOA + CO2 + NADH	GLYCOLYSIS				FAD	TPP			TPP;GTP;AMP;cAMP;GMP;ADP;dobutamine								12*MG_271_MONOMER,60*MG_272_MONOMER,60*MG_273_MONOMER,60*MG_274_MONOMER
+ENZRXN-FOR-AckA	acetate kinase	[c]: ACTP + ADP <==> AC + ATP	PYRUVATE_METABOLISM								GL3P;Glucose-1,6-bisphosphate;FDP;SUCC								2*MG_357_MONOMER
+ENZRXN-REV-AckA	acetate kinase	[c]: ACTP + ADP <==> AC + ATP	PYRUVATE_METABOLISM								GL3P;Glucose-1,6-bisphosphate;FDP;SUCC								2*MG_357_MONOMER
+ENZRXN-FOR-AcpS	acyl-carrier protein synthase	[c]: COA + MG_287_MONOMER ==> H + MG_287_MONOMER_ACP + PAP	ARG_PRO_METABOLISM								APOACP;COA								2*MG_482_MONOMER
+ENZRXN-FOR-Adi	arginine deiminase	[c]: ARG + H2O <==> CITR + H + NH3																	2*MG_123_MONOMER
+ENZRXN-REV-Adi	arginine deiminase	[c]: ARG + H2O <==> CITR + H + NH3																	2*MG_123_MONOMER
+ENZRXN-FOR-Adk1	adenylate kinase (ATP)	[c]: AMP + ATP <==> (2) ADP	P1_PWY								Sulfhydryl compounds;Urea;CYS;2-MercaptoETOH;KCl;NH4Cl;(NH4)2SO4;AKG;Alanine;CDP;cis-Aconitate;FUM;GDP;ICIT;L-HIS;MAL;TDP;Threonine;UDP;Prostaglandins;CIT;Dithiothreitol;NaCl								1*MG_171_MONOMER
+ENZRXN-REV-Adk1	adenylate kinase (ATP)	[c]: AMP + ATP <==> (2) ADP	P1_PWY								Sulfhydryl compounds;Urea;CYS;2-MercaptoETOH;KCl;NH4Cl;(NH4)2SO4;AKG;Alanine;CDP;cis-Aconitate;FUM;GDP;ICIT;L-HIS;MAL;TDP;Threonine;UDP;Prostaglandins;CIT;Dithiothreitol;NaCl								1*MG_171_MONOMER
+ENZRXN-FOR-Adk2	adentylate kinase (GTP)	[c]: AMP + GTP <==> ADP + GDP	P1_PWY																1*MG_171_MONOMER
+ENZRXN-REV-Adk2	adentylate kinase (GTP)	[c]: AMP + GTP <==> ADP + GDP	P1_PWY																1*MG_171_MONOMER
+ENZRXN-FOR-Adk3	adentylate kinase (ITP)	[c]: AMP + ITP <==> ADP + IDP	P1_PWY																1*MG_171_MONOMER
+ENZRXN-REV-Adk3	adentylate kinase (ITP)	[c]: AMP + ITP <==> ADP + IDP	P1_PWY																1*MG_171_MONOMER
+ENZRXN-FOR-Adk4	deoxyadenylate kinase (dADP)	[c]: ATP + DAMP <==> ADP + DADP	P1_PWY								Sulfhydryl compounds;Urea;CYS;2-MercaptoETOH;KCl;NH4Cl;(NH4)2SO4;AKG;Alanine;CDP;cis-Aconitate;FUM;GDP;ICIT;L-HIS;MAL;TDP;Threonine;UDP;Prostaglandins;CIT;Dithiothreitol;NaCl								1*MG_171_MONOMER
+ENZRXN-REV-Adk4	deoxyadenylate kinase (dADP)	[c]: ATP + DAMP <==> ADP + DADP	P1_PWY								Sulfhydryl compounds;Urea;CYS;2-MercaptoETOH;KCl;NH4Cl;(NH4)2SO4;AKG;Alanine;CDP;cis-Aconitate;FUM;GDP;ICIT;L-HIS;MAL;TDP;Threonine;UDP;Prostaglandins;CIT;Dithiothreitol;NaCl								1*MG_171_MONOMER
+ENZRXN-FOR-Apt	adenine phosphoribosyltransferase	[c]: AD + PRPP ==> AMP + PPI	P1_PWY								Nucleotides				ATP, dATP, ADP, dADP, AMP, dAMP, GTP, ITP, XTP, and UTP				2*MG_276_MONOMER
+ENZRXN-FOR-AP_endonuclease	5'-apurinic/apyrimidinic endonuclease	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H																	1*MG_235_MONOMER
+ENZRXN-FOR-AP_lyase	3'-apurinic/apyrimidinic lyase	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H																	1*MG_498_MONOMER
+ENZRXN-FOR-AtpA	ATP synthase (four protons for one ATP) (periplasm)	ADP[c] + (4) H[e] + H[c] + PI[c] <==> ATP[c] + (4) H[c] + H2O[c]	OXIDATIVE_PHOSPHORYLATION								2,4-Dinitrophenol								1*MG_398_MONOMER,3*MG_399_MONOMER,1*MG_400_MONOMER,3*MG_401_MONOMER,1*MG_402_MONOMER,2*MG_403_MONOMER,10*MG_404_MONOMER,1*MG_405_MONOMER
+ENZRXN-REV-AtpA	ATP synthase (four protons for one ATP) (periplasm)	ADP[c] + (4) H[e] + H[c] + PI[c] <==> ATP[c] + (4) H[c] + H2O[c]	OXIDATIVE_PHOSPHORYLATION								2,4-Dinitrophenol								1*MG_398_MONOMER,3*MG_399_MONOMER,1*MG_400_MONOMER,3*MG_401_MONOMER,1*MG_402_MONOMER,2*MG_403_MONOMER,10*MG_404_MONOMER,1*MG_405_MONOMER
+ENZRXN-FOR-ATPHs_DNAReplication_Helicase	DNA unwinding	[c]: ATP + H2O ==> ADP + H + PI																	6*MG_094_MONOMER
+ENZRXN-FOR-ATPHs_DNASupercoiling_gyrase	Negative supercoiling (gyrase)	[c]: (2) ATP + (2) H2O ==> (2) ADP + (2) H + (2) PI																	2*MG_003_MONOMER,2*MG_004_MONOMER
+ENZRXN-FOR-ATPHs_DNASupercoiling_topoisomeraseI	Positive supercoiling (topoisomerase I)	 ==> 																	1*MG_122_MONOMER
+ENZRXN-FOR-ATPHs_DNASupercoiling_topoisomeraseIV	Negative supercoiling (topoisomerase I)	[c]: (2) ATP + (2) H2O ==> (2) ADP + (2) H + (2) PI																	2*MG_203_MONOMER,2*MG_204_MONOMER
+ENZRXN-FOR-ATPHs_ProteinTranslocation_SecA	Protein translocation (SecA)	[c]: ATP + H2O ==> ADP + H + PI	ALA_ASP_METABOLISM																2*MG_072_MONOMER
+ENZRXN-FOR-ATPHs_ProteinTranslocation_SRP	Protein translocation (SRP)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_0001,1*MG_048_MONOMER
+ENZRXN-FOR-AzoR	methyl red azoreductase	[c]: (2) H + methylRed + (2) NADH ==> aminodimethylaniline + anthranilate + (2) NAD																	2*MG_333_MONOMER
+ENZRXN-FOR-Cdd1	cytidine deaminase	[c]: CYTD + H2O ==> NH3 + URI	P1_PWY								URI;CYTD;5-BromoURI;Orotidine;DT;Dithiothreitol;GSH;EDTA;p-Chloromercuribenzoate;N-Ethylmaleimide;Iodoacetic acid								2*MG_052_MONOMER
+ENZRXN-FOR-Cdd2	deoxycytidine deaminase	[c]: DC + H2O ==> DU + NH3	P1_PWY								BromodeoxyURI								2*MG_052_MONOMER
+ENZRXN-FOR-CdsA1	CDP-diacylglycerol synthetase (n-C12:0)	CTP[c] + H[c] + PA120[m] <==> CDPDG120[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA1	CDP-diacylglycerol synthetase (n-C12:0)	CTP[c] + H[c] + PA120[m] <==> CDPDG120[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA2	CDP-diacylglycerol synthetase (n-C14:0)	CTP[c] + H[c] + PA140[m] <==> CDPDG140[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA2	CDP-diacylglycerol synthetase (n-C14:0)	CTP[c] + H[c] + PA140[m] <==> CDPDG140[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA3	CDP-diacylglycerol synthetase (n-C14:1)	CTP[c] + H[c] + PA141[m] <==> CDPDG141[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA3	CDP-diacylglycerol synthetase (n-C14:1)	CTP[c] + H[c] + PA141[m] <==> CDPDG141[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA4	CDP-diacylglycerol synthetase (n-C16:0)	CTP[c] + H[c] + PA160[m] <==> CDPDG160[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA4	CDP-diacylglycerol synthetase (n-C16:0)	CTP[c] + H[c] + PA160[m] <==> CDPDG160[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA5	CDP-diacylglycerol synthetase (n-C16:1)	CTP[c] + H[c] + PA161[m] <==> CDPDG161[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA5	CDP-diacylglycerol synthetase (n-C16:1)	CTP[c] + H[c] + PA161[m] <==> CDPDG161[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA6	CDP-diacylglycerol synthetase (n-C18:0)	CTP[c] + H[c] + PA180[m] <==> CDPDG180[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA6	CDP-diacylglycerol synthetase (n-C18:0)	CTP[c] + H[c] + PA180[m] <==> CDPDG180[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CdsA7	CDP-diacylglycerol synthetase (n-C18:1)	CTP[c] + H[c] + PA181[m] <==> CDPDG181[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-REV-CdsA7	CDP-diacylglycerol synthetase (n-C18:1)	CTP[c] + H[c] + PA181[m] <==> CDPDG181[m] + PPI[c]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_437_MONOMER
+ENZRXN-FOR-CholK	choline kinase	[c]: ATP + CHOL ==> ADP + H + pCHOL																	1*MG_356_MONOMER
+ENZRXN-FOR-CmkA1	cytidylate kinase (dCMP)	[c]: ATP + DCMP <==> ADP + DCDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								1*MG_330_MONOMER
+ENZRXN-REV-CmkA1	cytidylate kinase (dCMP)	[c]: ATP + DCMP <==> ADP + DCDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								1*MG_330_MONOMER
+ENZRXN-FOR-CmkA2	cytidylate kinase (CMP)	[c]: ATP + CMP <==> ADP + CDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								1*MG_330_MONOMER
+ENZRXN-REV-CmkA2	cytidylate kinase (CMP)	[c]: ATP + CMP <==> ADP + CDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								1*MG_330_MONOMER
+ENZRXN-FOR-CmkB3	UMP kinase	[c]: ATP + UMP <==> ADP + UDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								6*MG_434_MONOMER
+ENZRXN-REV-CmkB3	UMP kinase	[c]: ATP + UMP <==> ADP + UDP	P1_PWY								2-MercaptoETOH;Glutathione;CYS;OTHIO;reduced DL-alpha-lipoic acid;NADPH;Dithiothreitol								6*MG_434_MONOMER
+ENZRXN-FOR-CoaE	dephospho-CoA kinase	[c]: ATP + DPCOA ==> ADP + COA + H	COFACTOR_PROSTHETIC_BIOSYNTHESIS								CYS								1*MG_264_MONOMER
+ENZRXN-FOR-CpdB1	2',3'-cyclic-nucleotide phosphodiesterase (UMP)	[c]: H2O + U23CMP ==> H + U3MP																	1*MG_130_MONOMER
+ENZRXN-FOR-CpdB2	2',3'-cyclic-nucleotide phosphodiesterase (CMP)	[c]: C23CMP + H2O ==> C3MP + H																	1*MG_130_MONOMER
+ENZRXN-FOR-CpdB3	2',3'-cyclic-nucleotide phosphodiesterase (AMP)	[c]: A23CMP + H2O ==> A3MP + H																	1*MG_130_MONOMER
+ENZRXN-FOR-CpdB4	2',3'-cyclic-nucleotide phosphodiesterase (GMP)	[c]: G23CMP + H2O ==> G3MP + H																	1*MG_130_MONOMER
+ENZRXN-FOR-CpsG	phosphomannomutase	[c]: MAN6P <==> MAN1P	ALT_CARBON_METABOLISM								alpha-D-Mannose 1,6-diphosphate;Glucose-1,6-diphosphate;HIS;D-Mannose 1,6-bisphosphate;Insulin;Glucose-1,6-bisphosphate								3*MG_053_MONOMER
+ENZRXN-REV-CpsG	phosphomannomutase	[c]: MAN6P <==> MAN1P	ALT_CARBON_METABOLISM								alpha-D-Mannose 1,6-diphosphate;Glucose-1,6-diphosphate;HIS;D-Mannose 1,6-bisphosphate;Insulin;Glucose-1,6-bisphosphate								3*MG_053_MONOMER
+ENZRXN-FOR-CsdA	L-cysteine sulfinic acid desulfurase	[c]: (2) H + SALA ==> ALA + SO2									PL5P								2*MG_336_MONOMER
+ENZRXN-FOR-Dak1	deoxyadenylate kinase (dA:ATP)	[c]: ATP + DA ==> ADP + DAMP + H																	1*MG_171_MONOMER
+ENZRXN-FOR-Deformylation	Deformylation	[c]: fMetMet + H2O ==> FOR + H + MetMet																	2*MG_106_MONOMER
+ENZRXN-FOR-DeoC	deoxyribose-phosphate aldolase	[c]: DR5P ==> ACAL + T3P1	ALT_CARBON_METABOLISM								AC;Isobutanoate;Malonate;Propionate;AKG;Maleate;FUM;MAL;SUCC;CIT;Adipate;cis-Aconitate;DL-ICIT;Tricarballylate;FUM monomethyl ester;Glutarate								1*MG_050_MONOMER
+ENZRXN-FOR-DeoD1	purine-nucleoside phosphorylase (Deoxyinosine)	[c]: dINS + PI <==> DR1P + HYXN	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD1	purine-nucleoside phosphorylase (Deoxyinosine)	[c]: dINS + PI <==> DR1P + HYXN	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD2	purine-nucleoside phosphorylase (Deoxyadenosine)	[c]: DA + PI <==> AD + DR1P	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD2	purine-nucleoside phosphorylase (Deoxyadenosine)	[c]: DA + PI <==> AD + DR1P	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD3	purine-nucleoside phosphorylase (Deoxyguanosine)	[c]: DG + PI <==> DR1P + GN	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD3	purine-nucleoside phosphorylase (Deoxyguanosine)	[c]: DG + PI <==> DR1P + GN	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD4	purine-nucleoside phosphorylase (Inosine)	[c]: HYXN + R1P <==> (2) H + INS + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD4	purine-nucleoside phosphorylase (Inosine)	[c]: HYXN + R1P <==> (2) H + INS + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD5	purine-nucleoside phosphorylase (Adenosine)	[c]: AD + R1P <==> ADN + (2) H + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD5	purine-nucleoside phosphorylase (Adenosine)	[c]: AD + R1P <==> ADN + (2) H + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD6	purine-nucleoside phosphorylase (Guanosine)	[c]: GN + R1P <==> GSN + (2) H + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-REV-DeoD6	purine-nucleoside phosphorylase (Guanosine)	[c]: GN + R1P <==> GSN + (2) H + PI	P1_PWY								INS								6*MG_049_MONOMER
+ENZRXN-FOR-DeoD8	purine-nucleoside phosphorylase (Deoxyuridine)	[c]: DU + PI <==> DR1P + URA	P1_PWY								Urea								6*MG_049_MONOMER
+ENZRXN-REV-DeoD8	purine-nucleoside phosphorylase (Deoxyuridine)	[c]: DU + PI <==> DR1P + URA	P1_PWY								Urea								6*MG_049_MONOMER
+ENZRXN-FOR-deoxyribosephosphodiesterase	5'-deoxyribophosphodiesterase; exonuclease	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H																	1*MG_235_MONOMER
+ENZRXN-FOR-Dgk1	deoxyguanylate kinase (dG:ATP)	[c]: ATP + DG ==> ADP + DGMP + H																	2*MG_107_MONOMER
+ENZRXN-FOR-DhaK	Dihydroxyacetone phosphotransferase	[c]: DHA + PEP ==> PYR + T3P2	ALT_CARBON_METABOLISM																2*MG_369_MONOMER
+ENZRXN-FOR-DhfR1	dihydrofolate reductase	[c]: DHF + H + NADPH <==> NADP + THF	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Thiourea;p-Chloromercuribenzoate;Urea;NaCl;guanidinium hydrochloride;NH4;CaCl2;KBr;KI;MgCl2;Dithiothreitol;p-Hydroxymercuribenzoate;KCl;Cl-								4*MG_228_MONOMER
+ENZRXN-REV-DhfR1	dihydrofolate reductase	[c]: DHF + H + NADPH <==> NADP + THF	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Thiourea;p-Chloromercuribenzoate;Urea;NaCl;guanidinium hydrochloride;NH4;CaCl2;KBr;KI;MgCl2;Dithiothreitol;p-Hydroxymercuribenzoate;KCl;Cl-								4*MG_228_MONOMER
+ENZRXN-FOR-diadenylate_cyclase	diadenylate cyclase	[c]: (2) ATP ==> c_di_AMP + (2) PPI																	8*MG_105_MONOMER
+ENZRXN-FOR-DNALigation	DNA ligationi	[c]: (2) DR5P + NAD ==> AMP + dRibose5P_dRibose5P + H + NMN																	1*MG_254_MONOMER
+ENZRXN-FOR-DNAPolymerization_dATP	DNA polymerization (dATP)	[c]: DAMP + DATP ==> dApdAp + PPI																	1*MG_031_MONOMER,1*MG_261_MONOMER
+ENZRXN-FOR-DNAPolymerization_dCTP	DNA polymerization (dCTP)	[c]: DCMP + DCTP ==> dCpdCp + PPI																	1*MG_031_MONOMER,1*MG_261_MONOMER
+ENZRXN-FOR-DNAPolymerization_dGTP	DNA polymerization (dGTP)	[c]: DGMP + DGTP ==> dGpdGp + PPI																	1*MG_031_MONOMER,1*MG_261_MONOMER
+ENZRXN-FOR-DNAPolymerization_dTTP	DNA polymerization (dTTP)	[c]: DTMP + DTTP ==> dTpdTp + PPI																	1*MG_031_MONOMER,1*MG_261_MONOMER
+ENZRXN-FOR-DNAPrimerPolymerization_ATP	DNA primer polymerization (ATP)	[c]: AMP + ATP ==> ApAp + PPI																	1*MG_250_MONOMER
+ENZRXN-FOR-DNAPrimerPolymerization_CTP	DNA primer polymerization (CTP)	[c]: CMP + CTP ==> CpCp + PPI																	1*MG_250_MONOMER
+ENZRXN-FOR-DNAPrimerPolymerization_GTP	DNA primer polymerization (GTP)	[c]: GMP + GTP ==> GpGp + PPI																	1*MG_250_MONOMER
+ENZRXN-FOR-DNAPrimerPolymerization_UTP	DNA primer polymerization (UTP)	[c]: UMP + UTP ==> PPI + UpUp																	1*MG_250_MONOMER
+ENZRXN-FOR-DNAProcessiveCleavage_dAMP	DNA cleavage (dAMP)	[c]: dApdAp + H2O ==> (2) DAMP + H																	1*MG_190_MONOMER
+ENZRXN-FOR-DNAProcessiveCleavage_dCMP	DNA cleavage (dCMP)	[c]: dCpdCp + H2O ==> (2) DCMP + H																	1*MG_190_MONOMER
+ENZRXN-FOR-DNAProcessiveCleavage_dGMP	DNA cleavage (dGMP)	[c]: dGpdGp + H2O ==> (2) DGMP + H																	1*MG_190_MONOMER
+ENZRXN-FOR-DNAProcessiveCleavage_dTMP	DNA cleavage (dTMP)	[c]: dTpdTp + H2O ==> (2) DTMP + H																	1*MG_190_MONOMER
+ENZRXN-FOR-DNA_ligation_repair	DNA ligation	[c]: (2) DR5P + NAD ==> AMP + dRibose5P_dRibose5P + H + NMN																	1*MG_254_MONOMER
+ENZRXN-FOR-DNA_polymerization_dATP_repair	DNA polymerization (dATP)	[c]: DAMP + DATP ==> dApdAp + PPI																	1*MG_001_MONOMER
+ENZRXN-FOR-DNA_polymerization_dCTP_repair	DNA polymerization (dACP)	[c]: DCMP + DCTP ==> dCpdCp + PPI																	1*MG_001_MONOMER
+ENZRXN-FOR-DNA_polymerization_dGTP_repair	DNA polymerization (dGTP)	[c]: DGMP + DGTP ==> dGpdGp + PPI																	1*MG_001_MONOMER
+ENZRXN-FOR-DNA_polymerization_dTTP_repair	DNA polymerization (dGTP)	[c]: DTMP + DTTP ==> dTpdTp + PPI																	1*MG_001_MONOMER
+ENZRXN-FOR-DNA_RM_EcoD_Methylation	EcoD DNA restriction/modification, DNA base methylation (adenine ==> 6-methyladenine; S-Adenosyl-L-methionine)	[c]: AD + AMET ==> AHCYS + H + m6AD																	1*MG_438_MONOMER
+ENZRXN-FOR-DNA_RM_EcoD_Restriction	EcoD DNA restriction/modification, DNA restriction	[c]: ATP + (2) dRibose5P_dRibose5P + (3) H2O ==> ADP + (4) DR5P + (3) H + PI																	1*MG_438_MONOMER
+ENZRXN-FOR-DNA_RM_MunI_Methylation	MunI DNA restriction/modification, DNA base methylation (adenine ==> 6-methyladenine; S-Adenosyl-L-methionine)	[c]: AD + AMET ==> AHCYS + H + m6AD																	2*MG_184_MONOMER
+ENZRXN-FOR-dRiboseP_lyase	deoxyribose 5'-phosphate lyase	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H																	1*MG_001_MONOMER
+ENZRXN-FOR-Eno	enolase	[c]: G2P <==> H2O + PEP	GLYCOLYSIS								PI								2*MG_407_MONOMER
+ENZRXN-REV-Eno	enolase	[c]: G2P <==> H2O + PEP	GLYCOLYSIS								PI								2*MG_407_MONOMER
+ENZRXN-FOR-Fba	fructose-bisphosphate aldolase	[c]: FDP <==> T3P1 + T3P2	GLYCOLYSIS								CIT;AKG;PEP;GL3P;CYS;Nonidet-P40;Tween 80;Tween 20;Triton X-100;ETOH								2*MG_023_MONOMER
+ENZRXN-REV-Fba	fructose-bisphosphate aldolase	[c]: FDP <==> T3P1 + T3P2	GLYCOLYSIS								CIT;AKG;PEP;GL3P;CYS;Nonidet-P40;Tween 80;Tween 20;Triton X-100;ETOH								2*MG_023_MONOMER
+ENZRXN-FOR-FolD1	methylenetetrahydrofolate dehydrogenase (NADP)	[c]: METTHF + NADP <==> (2) H + METHF + NADPH	FOLATE_METABOLISM								PI;2-MercaptoETOH;CYS;Glutathione;2,3-Dimercaptopropanol;Formaldehyde								2*MG_013_MONOMER
+ENZRXN-REV-FolD1	methylenetetrahydrofolate dehydrogenase (NADP)	[c]: METTHF + NADP <==> (2) H + METHF + NADPH	FOLATE_METABOLISM								PI;2-MercaptoETOH;CYS;Glutathione;2,3-Dimercaptopropanol;Formaldehyde								2*MG_013_MONOMER
+ENZRXN-FOR-FolD2	methenyltetrahydrofolate cyclohydrolase	[c]: H2O + METHF <==> FTHF10 + H	FOLATE_METABOLISM								2',5'-ADP;PI								2*MG_013_MONOMER
+ENZRXN-REV-FolD2	methenyltetrahydrofolate cyclohydrolase	[c]: H2O + METHF <==> FTHF10 + H	FOLATE_METABOLISM								2',5'-ADP;PI								2*MG_013_MONOMER
+ENZRXN-FOR-Fre1	FAD reductase	[c]: FAD + H + NADH ==> FADH2 + NAD	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Dithiothreitol;Thiophenol;PEG 400;flavin reductase PheA2								1*MG_342_MONOMER
+ENZRXN-FOR-Fre3	flavin reductase (NADP)	[c]: H + NADPH + RIBFLV ==> NADP + RBFLVRD	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Dithiothreitol;Thiophenol;PEG 400;flavin reductase PheA2								1*MG_342_MONOMER
+ENZRXN-FOR-Fre5	FMN reductase	[c]: FMN + H + NADH ==> FMNH2 + NAD	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Acrinol;Atebrin;Catalase;Diethyldithiocarbamate;2,3-Diphosphoglycerate;HgCl2;8-Hydroxyquinoline;inositolhexaphosphate;monoiodoAC;N-Ethylmaleimide;PCMB;Potassium cyanide;Superoxide dismutase								1*MG_342_MONOMER
+ENZRXN-FOR-Fre6	FMN reductase	[c]: FMN + H + NADPH ==> FMNH2 + NADP	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Acrinol;Atebrin;Catalase;Diethyldithiocarbamate;2,3-Diphosphoglycerate;HgCl2;8-Hydroxyquinoline;inositolhexaphosphate;monoiodoAC;N-Ethylmaleimide;PCMB;Potassium cyanide;Superoxide dismutase								1*MG_342_MONOMER
+ENZRXN-FOR-FruK1	fructose-1-phosphate kinase	[c]: ATP + F1P ==> ADP + FDP + H	ALT_CARBON_METABOLISM																2*MG_063_MONOMER
+ENZRXN-FOR-FruK2	tagatose-6-phosphate kinase	[c]: ATP + TAG6P ==> ADP + H + TAG16P	ALT_CARBON_METABOLISM								NH4								3*MG_053_MONOMER
+ENZRXN-FOR-FthC	methylenetetrahydrofolate cyclohydrase	[c]: ATP + FTHF10 + (3) H <==> ADP + METTHF + PI	FOLATE_METABOLISM								5-formyltetrahydrofolate polyGLU								1*MG_245_MONOMER
+ENZRXN-REV-FthC	methylenetetrahydrofolate cyclohydrase	[c]: ATP + FTHF10 + (3) H <==> ADP + METTHF + PI	FOLATE_METABOLISM								5-formyltetrahydrofolate polyGLU								1*MG_245_MONOMER
+ENZRXN-FOR-FTHFS	formate-tetrahydrofolate ligase	[c]: ATP + FOR + THF ==> ADP + FTHF10 + PI	FOLATE_METABOLISM																2*MG_013_MONOMER
+ENZRXN-FOR-GalE	UDPglucose 4-epimerase	[c]: UDPGAL <==> UDPG	ALT_CARBON_METABOLISM				NAD				G6P;F6P;G1P;Fructose 4-phosphate;NAD+;UDP;UMP;GAL1P;GAL6P								2*MG_118_MONOMER
+ENZRXN-REV-GalE	UDPglucose 4-epimerase	[c]: UDPGAL <==> UDPG	ALT_CARBON_METABOLISM				NAD				G6P;F6P;G1P;Fructose 4-phosphate;NAD+;UDP;UMP;GAL1P;GAL6P								2*MG_118_MONOMER
+ENZRXN-FOR-GalU1	UTP-glucose-1-phosphate uridylyltransferase (irreversible)	[c]: G1P + H + UTP <==> PPI + UDPG	ENVELOPE_BIOSYNTHESIS																4*MG_453_MONOMER
+ENZRXN-REV-GalU1	UTP-glucose-1-phosphate uridylyltransferase (irreversible)	[c]: G1P + H + UTP <==> PPI + UDPG	ENVELOPE_BIOSYNTHESIS																4*MG_453_MONOMER
+ENZRXN-FOR-GapA	glyceraldehyde-3-phosphate dehydrogenase	[c]: NAD + PI + T3P1 <==> DPG + H + NADH	GLYCOLYSIS								2,3-Dimercaptopropanol;EDTA;CYS;dithioerythritol;GSH;2-MercaptoETOH;NADPH;Acetone;propan-1-ol;Propan-2-ol;ETOH;tetrabutylammonium chloride								4*MG_301_MONOMER
+ENZRXN-REV-GapA	glyceraldehyde-3-phosphate dehydrogenase	[c]: NAD + PI + T3P1 <==> DPG + H + NADH	GLYCOLYSIS								2,3-Dimercaptopropanol;EDTA;CYS;dithioerythritol;GSH;2-MercaptoETOH;NADPH;Acetone;propan-1-ol;Propan-2-ol;ETOH;tetrabutylammonium chloride								4*MG_301_MONOMER
+ENZRXN-FOR-Glf	FAD reductase	[c]: UDPGAL ==> UDPGALF	ENVELOPE_BIOSYNTHESIS				FAD												2*MG_137_MONOMER
+ENZRXN-FOR-GlpK	glycerol kinase	[c]: ATP + GL ==> ADP + GL3P	ALT_CARBON_METABOLISM								1,3-butanediol;1,3-Propanediol;1,4-Butanediol;1-Butanol;1-Chloro-2-propanol;2,3-Butanediol;2-Butanol;2-ChloroETOH;2-Methyl-1-propanol;2-Methyl-2-propanol;2-Pentanol;3-methyl-1-butanol;Cyclohexanol;Ethanediol methyl ether;ETOH;METOH;1-Propanol;2-P								4*MG_038_MONOMER
+ENZRXN-FOR-GlpQ1	Glycerophosphodiester phosphodiesterase (Glycerophosphocholine)	[c]: GPCH + H2O ==> CHOL + GL3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_293_MONOMER
+ENZRXN-FOR-GlpQ2	Glycerophosphodiester phosphodiesterase (Glycerophosphoethanolamine)	[c]: GPE + H2O ==> ETN + GL3P + H	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_293_MONOMER
+ENZRXN-FOR-GlpQ3	Glycerophosphodiester phosphodiesterase (Glycerophosphoserine)	[c]: GPS + H2O ==> GL3P + SER	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_293_MONOMER
+ENZRXN-FOR-GlpQ4	Glycerophosphodiester phosphodiesterase (Glycerophosphoglycerol)	[c]: GPG + H2O ==> GL + GL3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_293_MONOMER
+ENZRXN-FOR-GlpQ5	Glycerophosphodiester phosphodiesterase (Glycerophosphoinositol)	[c]: GPI + H2O ==> GL3P + INOS	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_293_MONOMER
+ENZRXN-FOR-GlyA3	glycine hydroxymethyltransferase, reversible	[c]: (2) H + SER + THF ==> GLY + H2O + METTHF	GLY_SER_METABOLISM				PL5P												4*MG_394_MONOMER
+ENZRXN-FOR-GlyA4	Threonine aldolase	[c]: THR ==> ACAL + GLY	THR_LYS_METABOLISM				PL5P												4*MG_394_MONOMER
+ENZRXN-FOR-glycosyltransferase_Ceramide16_GalCer16	glycosyltransferase (Ceramide (d18:1/16:0) ==> galactosyl-?-Ceramide (d18:1/16:0))	Ceramide16[m] + UDPGAL[c] ==> GalCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_Ceramide16_GlcCer16	glycosyltransferase (Ceramide (d18:1/16:0) ==> glucosyl-?-Ceramide (d18:1/16:0))	Ceramide16[m] + UDPG[c] ==> GlcCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG160_GalDAG160	glycosyltransferase (Diacylglycerol (n-16:0) ==> galactosyl-?-diacylglycerol(16:0/16:1(9Z)))	DAG160[m] + UDPGAL[c] ==> GalDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG160_GlcDAG160	glycosyltransferase (Diacylglycerol (n-16:0) ==> glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	DAG160[m] + UDPG[c] ==> GlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG161_GalDAG161	glycosyltransferase (Diacylglycerol (n-16:1) ==> galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	DAG161[m] + UDPGAL[c] ==> GalDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG161_GlcDAG161	glycosyltransferase (Diacylglycerol (n-16:1) ==> glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	DAG161[m] + UDPG[c] ==> GlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG181_GalDAG181	glycosyltransferase (Diacylglycerol (n-18:1) ==> galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	DAG181[m] + UDPGAL[c] ==> GalDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_DAG181_GlcDAG181	glycosyltransferase (Diacylglycerol (n-18:1) ==> glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	DAG181[m] + UDPG[c] ==> GlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalCer16_GalGalCer16	glycosyltransferase (galactosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-galactosyl-?-Ceramide (d18:1/16:0))	GalCer16[m] + UDPGAL[c] ==> GalGalCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalCer16_GlcGalCer16	glycosyltransferase (galactosyl-?-Ceramide (d18:1/16:0) ==> glucosyl-?1-4-galactosyl-?-Ceramide (d18:1/16:0))	GalCer16[m] + UDPG[c] ==> GlcGalCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG160_GalGalDAG160	glycosyltransferase (galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalDAG160[m] + UDPGAL[c] ==> GalGalDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG160_GlcGalDAG160	glycosyltransferase (galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalDAG160[m] + UDPG[c] ==> GlcGalDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG161_GalGalDAG161	glycosyltransferase (galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalDAG161[m] + UDPGAL[c] ==> GalGalDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG161_GlcGalDAG161	glycosyltransferase (galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalDAG161[m] + UDPG[c] ==> GlcGalDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG181_GalGalDAG181	glycosyltransferase (galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalDAG181[m] + UDPGAL[c] ==> GalGalDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalDAG181_GlcGalDAG181	glycosyltransferase (galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalDAG181[m] + UDPG[c] ==> GlcGalDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG160_GalGalGalDAG160	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalGalDAG160[m] + UDPGAL[c] ==> GalGalGalDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG160_GlcGalGalDAG160	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalGalDAG160[m] + UDPG[c] ==> GlcGalGalDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG161_GalGalGalDAG161	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalGalDAG161[m] + UDPGAL[c] ==> GalGalGalDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG161_GlcGalGalDAG161	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalGalDAG161[m] + UDPG[c] ==> GlcGalGalDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG181_GalGalGalDAG181	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalGalDAG181[m] + UDPGAL[c] ==> GalGalGalDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGalDAG181_GlcGalGalDAG181	glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalGalDAG181[m] + UDPG[c] ==> GlcGalGalDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcCer16_GalGalGlcCer16	glycosyltransferase (galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0))	GalGlcCer16[m] + UDPGAL[c] ==> GalGalGlcCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG160_GalGalGlcDAG160	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalGlcDAG160[m] + UDPGAL[c] ==> GalGalGlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG160_GlcGalGlcDAG160	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	GalGlcDAG160[m] + UDPG[c] ==> GlcGalGlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG161_GalGalGlcDAG161	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalGlcDAG161[m] + UDPGAL[c] ==> GalGalGlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG161_GlcGalGlcDAG161	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GalGlcDAG161[m] + UDPG[c] ==> GlcGalGlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG181_GalGalGlcDAG181	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalGlcDAG181[m] + UDPGAL[c] ==> GalGalGlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GalGlcDAG181_GlcGalGlcDAG181	glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GalGlcDAG181[m] + UDPG[c] ==> GlcGalGlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcCer16_GalGlcCer16	glycosyltransferase (glucosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0))	GlcCer16[m] + UDPGAL[c] ==> GalGlcCer16[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG160_GalGlcDAG160	glycosyltransferase (glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	GlcDAG160[m] + UDPGAL[c] ==> GalGlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG160_GlcGlcDAG160	glycosyltransferase (glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	GlcDAG160[m] + UDPG[c] ==> GlcGlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG161_GalGlcDAG161	glycosyltransferase (glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GlcDAG161[m] + UDPGAL[c] ==> GalGlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG161_GlcGlcDAG161	glycosyltransferase (glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GlcDAG161[m] + UDPG[c] ==> GlcGlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG181_GalGlcDAG181	glycosyltransferase (glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GlcDAG181[m] + UDPGAL[c] ==> GalGlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcDAG181_GlcGlcDAG181	glycosyltransferase (glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GlcDAG181[m] + UDPG[c] ==> GlcGlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcGlcDAG160_GlcGlcGlcDAG160	glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))	GlcGlcDAG160[m] + UDPG[c] ==> GlcGlcGlcDAG160[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcGlcDAG161_GlcGlcGlcDAG161	glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))	GlcGlcDAG161[m] + UDPG[c] ==> GlcGlcGlcDAG161[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_GlcGlcDAG181_GlcGlcGlcDAG181	glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))	GlcGlcDAG181[m] + UDPG[c] ==> GlcGlcGlcDAG181[m] + H[c] + UDP[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_PG160_DAG160	glycosyltransferase (Phosphatidylglycerol (dihexadecanoyl, n-C16:0) ==> Diacylglycerol (n-16:0))	H2O[c] + PG160[m] ==> DAG160[m] + GL3P[c] + (2) H[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_PG161_DAG161	glycosyltransferase (Phosphatidylglycerol (dihexadec-9-enoyl, n-C16:1) ==> Diacylglycerol (n-16:1))	H2O[c] + PG161[m] ==> DAG161[m] + GL3P[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-glycosyltransferase_PG181_DAG181	glycosyltransferase (Phosphatidylglycerol (dioctadec-11-enoyl, n-C18:1) ==> Diacylglycerol (n-18:1))	H2O[c] + PG181[m] ==> DAG181[m] + GL3P[c]																	1*MG_517_MONOMER
+ENZRXN-FOR-Gmk1	guanylate kinase (GMP:ATP)	[c]: ATP + GMP <==> ADP + GDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-REV-Gmk1	guanylate kinase (GMP:ATP)	[c]: ATP + GMP <==> ADP + GDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-FOR-Gmk2	deoxyguanylate kinase (dGMP:ATP)	[c]: ATP + DGMP <==> ADP + DGDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-REV-Gmk2	deoxyguanylate kinase (dGMP:ATP)	[c]: ATP + DGMP <==> ADP + DGDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-FOR-Gmk3	guanylate kinase (GMP:dATP)	[c]: DATP + GMP <==> DADP + GDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-REV-Gmk3	guanylate kinase (GMP:dATP)	[c]: DATP + GMP <==> DADP + GDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-FOR-Gmk4	deoxyguanylate kinase (dGMP:dATP)	[c]: DATP + DGMP <==> DADP + DGDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-REV-Gmk4	deoxyguanylate kinase (dGMP:dATP)	[c]: DATP + DGMP <==> DADP + DGDP	P1_PWY																2*MG_107_MONOMER
+ENZRXN-FOR-GpmA	phosphoglycerate mutase	[c]: G3P <==> G2P	GLYCOLYSIS								2,3-Diphosphoglycerate;2,3-Bisphosphoglycerate;2-phosphohydroxyPYR;2-phosphoglycollate								1*MG_430_MONOMER
+ENZRXN-REV-GpmA	phosphoglycerate mutase	[c]: G3P <==> G2P	GLYCOLYSIS								2,3-Diphosphoglycerate;2,3-Bisphosphoglycerate;2-phosphohydroxyPYR;2-phosphoglycollate								1*MG_430_MONOMER
+ENZRXN-FOR-GpsA	glycerol-3-phosphate dehydrogenase (NAD)	[c]: FADH2 + H + T3P2 <==> FAD + GL3P									Bathocuproine;Chloroform;FAD;FMN;Phospholipid;Detergent;sodium oleate;Cardiolipin								2*MG_039_MONOMER
+ENZRXN-REV-GpsA	glycerol-3-phosphate dehydrogenase (NAD)	[c]: FADH2 + H + T3P2 <==> FAD + GL3P									Bathocuproine;Chloroform;FAD;FMN;Phospholipid;Detergent;sodium oleate;Cardiolipin								2*MG_039_MONOMER
+ENZRXN-FOR-GTPHs_ChromosomeSegregation_CobQ	Chromosome segregation (MraZ)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_470_MONOMER
+ENZRXN-FOR-GTPHs_ChromosomeSegregation_Era	Chromosome segregation (Era)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_384_MONOMER
+ENZRXN-FOR-GTPHs_ChromosomeSegregation_MraZ	Chromosome segregation (CobQ)	[c]: GTP + H2O ==> GDP + H + PI																	8*MG_221_MONOMER
+ENZRXN-FOR-GTPHs_ChromosomeSegregation_Obg	Chromosome segregation (Obg)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_387_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_EngA	Ribosome assembly (EngA)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_329_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_EngB	Ribosome assembly (EngB)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_335_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_Era	Ribosome assembly (Era)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_387_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_Obg	Ribosome assembly (Obg)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_384_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_RbfA	Ribosome assembly (RbfA)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_143_MONOMER
+ENZRXN-FOR-GTPHs_RibosomeAssembly_RbgA	Ribosome assembly (RbgA)	[c]: GTP + H2O ==> GDP + H + PI																	1*MG_442_MONOMER
+ENZRXN-FOR-HemG	protoporphyrinogen oxidase (aerobic)	[c]: (3) O2 + PPHG ==> (3) H2O2 + PPIX	COFACTOR_PROSTHETIC_BIOSYNTHESIS				FAD				Lipids;iron-EDTA;Diamide;H2O2;imidazole;Tween 20;n-octylglucopyranoside;Dicoumarol;Ubiquinone-10;ubiquinone-6;FAD;CYS;Dithiothreitol;Glutathione;Fatty acid;Oleic acid								4*MG_259_MONOMER
+ENZRXN-FOR-Hpt1	hypoxanthine phosphoribosyltransferase (Hypoxanthine)	[c]: HYXN + PRPP ==> IMP + PPI	P1_PWY								AC								4*MG_458_MONOMER
+ENZRXN-FOR-Hpt2	guanine phosphoribosyltransferase	[c]: GN + PRPP ==> GMP + PPI	P1_PWY								AC								4*MG_458_MONOMER
+ENZRXN-FOR-HR_DNAResection_dAMP	DNA resection (dAMP)	[c]: dApdAp + H2O ==> (2) DAMP + H																	1*MG_262_MONOMER
+ENZRXN-FOR-HR_DNAResection_dCMP	DNA resection (dCMP)	[c]: dCpdCp + H2O ==> (2) DCMP + H																	1*MG_262_MONOMER
+ENZRXN-FOR-HR_DNAResection_dGMP	DNA resection (dGMP)	[c]: dGpdGp + H2O ==> (2) DGMP + H																	1*MG_262_MONOMER
+ENZRXN-FOR-HR_DNAResection_dTMP	DNA resection (dTMP)	[c]: dTpdTp + H2O ==> (2) DTMP + H																	1*MG_262_MONOMER
+ENZRXN-FOR-HR_junctionMigration	DNA recombination Holliday junction migration	[c]: ATP + H2O ==> ADP + H + PI																	4*MG_358_MONOMER,6*MG_359_MONOMER
+ENZRXN-FOR-HR_junctionResolution	DNA recombination Holliday junction resolution	[c]: (2) dRibose5P_dRibose5P + (2) H2O ==> (4) DR5P + (2) H																	2*MG_352_MONOMER
+ENZRXN-FOR-HR_strandExchange	DNA recombination strand exchange	[c]: ATP + H2O ==> ADP + H + PI																	1*MG_339_MONOMER
+ENZRXN-FOR-LdhA	D-lactate dehydrogenase	[c]: H + NADH + PYR <==> LAC + NAD	PYRUVATE_METABOLISM								G3P;G2P;FDP;TAG16P;Glucose 1,6-diphosphate;PRPP;PI								4*MG_460_MONOMER
+ENZRXN-REV-LdhA	D-lactate dehydrogenase	[c]: H + NADH + PYR <==> LAC + NAD	PYRUVATE_METABOLISM								G3P;G2P;FDP;TAG16P;Glucose 1,6-diphosphate;PRPP;PI								4*MG_460_MONOMER
+ENZRXN-FOR-LIPASE_DIBUTYRIN_MG310	Triacylglycerol lipase (dibutyrin) (MG_310)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_DIBUTYRIN_MG310	Triacylglycerol lipase (dibutyrin) (MG_310)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_DIBUTYRIN_MG327	Triacylglycerol lipase (dibutyrin) (MG_327)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_DIBUTYRIN_MG327	Triacylglycerol lipase (dibutyrin) (MG_327)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_DIBUTYRIN_MG344	Triacylglycerol lipase (dibutyrin) (MG_344)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_DIBUTYRIN_MG344	Triacylglycerol lipase (dibutyrin) (MG_344)	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG310	Triacylglycerol lipase (methyl_ocdcea) (MG_310)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG310	Triacylglycerol lipase (methyl_ocdcea) (MG_310)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG327	Triacylglycerol lipase (methyl_ocdcea) (MG_327)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG327	Triacylglycerol lipase (methyl_ocdcea) (MG_327)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG344	Triacylglycerol lipase (methyl_ocdcea) (MG_344)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG344	Triacylglycerol lipase (methyl_ocdcea) (MG_344)	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG310	Triacylglycerol lipase (1-monobutyrin) (MG_310)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_MONOBUTYRIN_MG310	Triacylglycerol lipase (1-monobutyrin) (MG_310)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG327	Triacylglycerol lipase (1-monobutyrin) (MG_327)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_MONOBUTYRIN_MG327	Triacylglycerol lipase (1-monobutyrin) (MG_327)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG344	Triacylglycerol lipase (1-monobutyrin) (MG_344)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_MONOBUTYRIN_MG344	Triacylglycerol lipase (1-monobutyrin) (MG_344)	[e]: H2O + MONOBUTYRIN <==> BUT + GL																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG310	Triacylglycerol lipase (tributyrin) (MG_310)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRIBUTYRIN_MG310	Triacylglycerol lipase (tributyrin) (MG_310)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG327	Triacylglycerol lipase (tributyrin) (MG_327)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRIBUTYRIN_MG327	Triacylglycerol lipase (tributyrin) (MG_327)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG344	Triacylglycerol lipase (tributyrin) (MG_344)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRIBUTYRIN_MG344	Triacylglycerol lipase (tributyrin) (MG_344)	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRILAURIN_MG310	Triacylglycerol lipase (trilaurin) (MG_310)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRILAURIN_MG310	Triacylglycerol lipase (trilaurin) (MG_310)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRILAURIN_MG327	Triacylglycerol lipase (trilaurin) (MG_327)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRILAURIN_MG327	Triacylglycerol lipase (trilaurin) (MG_327)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRILAURIN_MG344	Triacylglycerol lipase (trilaurin) (MG_344)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRILAURIN_MG344	Triacylglycerol lipase (trilaurin) (MG_344)	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG310	Triacylglycerol lipase (trimyristin) (MG_310)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRIMYRISTIN_MG310	Triacylglycerol lipase (trimyristin) (MG_310)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG327	Triacylglycerol lipase (trimyristin) (MG_327)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRIMYRISTIN_MG327	Triacylglycerol lipase (trimyristin) (MG_327)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG344	Triacylglycerol lipase (trimyristin) (MG_344)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRIMYRISTIN_MG344	Triacylglycerol lipase (trimyristin) (MG_344)	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRIOLEIN_MG310	 Triacylglycerol lipase (triolein) (MG_310)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRIOLEIN_MG310	 Triacylglycerol lipase (triolein) (MG_310)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRIOLEIN_MG327	 Triacylglycerol lipase (triolein) (MG_327)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRIOLEIN_MG327	 Triacylglycerol lipase (triolein) (MG_327)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRIOLEIN_MG344	Triacylglycerol lipase (triolein) (MG_344)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRIOLEIN_MG344	Triacylglycerol lipase (triolein) (MG_344)	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRIPALMITIN_MG310	Triacylglycerol lipase (tripalmitin) (MG_310)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRIPALMITIN_MG310	Triacylglycerol lipase (tripalmitin) (MG_310)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRIPALMITIN_MG327	Triacylglycerol lipase (tripalmitin) (MG_310)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRIPALMITIN_MG327	Triacylglycerol lipase (tripalmitin) (MG_310)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRIPALMITIN_MG344	Triacylglycerol lipase (tripalmitin) (MG_344)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRIPALMITIN_MG344	Triacylglycerol lipase (tripalmitin) (MG_344)	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRISTEARIN_MG310	Triacylglycerol lipase (octadecanoate) (MG_310)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRISTEARIN_MG310	Triacylglycerol lipase (octadecanoate) (MG_310)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRISTEARIN_MG327	Triacylglycerol lipase (octadecanoate) (MG_327)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRISTEARIN_MG327	Triacylglycerol lipase (octadecanoate) (MG_327)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRISTEARIN_MG344	Triacylglycerol lipase (octadecanoate) (MG_344)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRISTEARIN_MG344	Triacylglycerol lipase (octadecanoate) (MG_344)	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG310	Triacylglycerol lipase (tri_hdcea_in) (MG_310)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG310	Triacylglycerol lipase (tri_hdcea_in) (MG_310)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG327	Triacylglycerol lipase (tri_hdcea_in) (MG_327)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG327	Triacylglycerol lipase (tri_hdcea_in) (MG_327)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG344	Triacylglycerol lipase (tri_hdcea_in) (MG_344)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG344	Triacylglycerol lipase (tri_hdcea_in) (MG_344)	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG310	Triacylglycerol lipase (tri_ttdcea_in) (MG_310)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG310	Triacylglycerol lipase (tri_ttdcea_in) (MG_310)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG327	Triacylglycerol lipase (tri_ttdcea_in) (MG_327)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG327	Triacylglycerol lipase (tri_ttdcea_in) (MG_327)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG344	Triacylglycerol lipase (tri_ttdcea_in) (MG_344)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG344	Triacylglycerol lipase (tri_ttdcea_in) (MG_344)	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA																	1*MG_344_MONOMER
+ENZRXN-FOR-LIPASE_TWEEN80_MG310	Triacylglycerol lipase (Tween 80) (MG_310)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_310_MONOMER
+ENZRXN-REV-LIPASE_TWEEN80_MG310	Triacylglycerol lipase (Tween 80) (MG_310)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_310_MONOMER
+ENZRXN-FOR-LIPASE_TWEEN80_MG327	Triacylglycerol lipase (Tween 80) (MG_327)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_327_MONOMER
+ENZRXN-REV-LIPASE_TWEEN80_MG327	Triacylglycerol lipase (Tween 80) (MG_327)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_327_MONOMER
+ENZRXN-FOR-LIPASE_TWEEN80_MG344	Triacylglycerol lipase (Tween 80) (MG_344)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_344_MONOMER
+ENZRXN-REV-LIPASE_TWEEN80_MG344	Triacylglycerol lipase (Tween 80) (MG_344)	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN																	1*MG_344_MONOMER
+ENZRXN-FOR-LplA	ATP:lipoate adenylyltransferase	[c]: ATP + H + LIPOATE ==> LIPOYLAMP + PPI																	1*MG_270_MONOMER
+ENZRXN-FOR-Mdh	malate dehydrogenase	[c]: MAL + NAD <==> H + NADH + OA	CITRIC_ACID_CYCLE								MAL;CIT;ICIT;2-MercaptoETOH;CYS;Glutathione;NaCl;Dithiothreitol;Sodium phosphate								4*MG_460_MONOMER
+ENZRXN-REV-Mdh	malate dehydrogenase	[c]: MAL + NAD <==> H + NADH + OA	CITRIC_ACID_CYCLE								MAL;CIT;ICIT;2-MercaptoETOH;CYS;Glutathione;NaCl;Dithiothreitol;Sodium phosphate								4*MG_460_MONOMER
+ENZRXN-FOR-MetF	5,10-methylenetetrahydrofolate reductase (NADH)	[c]: METTHF + NADH ==> MTHF + NAD	FOLATE_METABOLISM								Dithiothreitol;Arsenate;PI								4*MG_228_MONOMER
+ENZRXN-FOR-MetK	methionine adenosyltransferase	[c]: ATP + H2O + MET ==> AMET + PI + PPI																	4*MG_047_MONOMER
+ENZRXN-FOR-MG385r1	Glycerophosphodiester phosphodiesterase (Glycerophosphocholine)	[c]: GPCH + H2O ==> CHOL + GL3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_385_MONOMER
+ENZRXN-FOR-MG385r2	Glycerophosphodiester phosphodiesterase (Glycerophosphoethanolamine)	[c]: GPE + H2O ==> ETN + GL3P + H	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_385_MONOMER
+ENZRXN-FOR-MG385r3	Glycerophosphodiester phosphodiesterase (Glycerophosphoserine)	[c]: GPS + H2O ==> GL3P + SER	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_385_MONOMER
+ENZRXN-FOR-MG385r4	Glycerophosphodiester phosphodiesterase (Glycerophosphoglycerol)	[c]: GPG + H2O ==> GL + GL3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_385_MONOMER
+ENZRXN-FOR-MG385r5	Glycerophosphodiester phosphodiesterase (Glycerophosphoinositol)	[c]: GPI + H2O ==> GL3P + INOS	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_385_MONOMER
+ENZRXN-FOR-MG471_Aminoacylation	alanyl-tRNA (MG471) aminoacylation	[c]: ALA + ATP ==> AMP + PPI																	4*MG_292_MONOMER
+ENZRXN-FOR-MG471_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG471_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG471_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG472_Aminoacylation	isoleucyl-tRNA (MG472) aminoacylation	[c]: ATP + ILE ==> AMP + PPI																	1*MG_345_MONOMER
+ENZRXN-FOR-MG472_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG472_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG475_Aminoacylation	seryl-tRNA (MG475) aminoacylation	[c]: ATP + SER ==> AMP + PPI																	2*MG_005_MONOMER
+ENZRXN-FOR-MG475_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG479_Aminoacylation	threonyl-tRNA (MG479) aminoacylation	[c]: ATP + THR ==> AMP + PPI																	2*MG_375_MONOMER
+ENZRXN-FOR-MG479_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG483_Aminoacylation	cysteinyl-tRNA (MG483) aminoacylation	[c]: ATP + CYS ==> AMP + PPI																	1*MG_253_MONOMER
+ENZRXN-FOR-MG483_MODIFICATION_001	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG483_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG484_Aminoacylation	prolyl-tRNA (MG484) aminoacylation	[c]: ATP + PRO ==> AMP + PPI																	2*MG_283_MONOMER
+ENZRXN-FOR-MG484_MODIFICATION_001	tRNA (guanine-N(1)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP																	2*MG_445_MONOMER
+ENZRXN-FOR-MG484_MODIFICATION_002	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG484_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG485_Aminoacylation	methionyl-tRNA (MG485) aminoacylation	[c]: ATP + MET ==> AMP + PPI																	2*MG_021_MONOMER
+ENZRXN-FOR-MG485_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG485_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG486_Aminoacylation	isoleucyl-tRNA (MG486) aminoacylation	[c]: ATP + ILE ==> AMP + PPI																	1*MG_345_MONOMER
+ENZRXN-FOR-MG486_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG486_MODIFICATION_002	tRNA(Ile)-lysidine synthetase	[c]: ATP + CMP + LYS ==> AMP + (2) H + k2CMP + PPI																	4*MG_084_MONOMER
+ENZRXN-FOR-MG486_MODIFICATION_003	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG486_MODIFICATION_004	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG487_Aminoacylation	seryl-tRNA (MG487) aminoacylation	[c]: ATP + SER ==> AMP + PPI																	2*MG_005_MONOMER
+ENZRXN-FOR-MG487_MODIFICATION_001	tRNA (guanine-N(1)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP																	2*MG_445_MONOMER
+ENZRXN-FOR-MG487_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG488_Aminoacylation	formyl-methionyl-tRNA (MG488) aminoacylation	[c]: ATP + MET ==> AMP + PPI																	2*MG_021_MONOMER
+ENZRXN-FOR-MG488_Formyltransferase	methionyl-tRNA (MG488) formyltransferase	[c]: FTHF10 + MET ==> FMET + THF																	1*MG_365_MONOMER
+ENZRXN-FOR-MG488_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG488_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG488_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG489_Aminoacylation	aspartyl-tRNA (MG489) aminoacylation	[c]: ASP + ATP ==> AMP + PPI																	2*MG_036_MONOMER
+ENZRXN-FOR-MG489_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG490_Aminoacylation	phenylalanyl-tRNA (MG490) aminoacylation	[c]: ATP + PHE ==> AMP + PPI																	2*MG_194_MONOMER,2*MG_195_MONOMER
+ENZRXN-FOR-MG490_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG490_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG492_Aminoacylation	arginyl-tRNA (MG492) aminoacylation	[c]: ARG + ATP ==> AMP + PPI																	1*MG_378_MONOMER
+ENZRXN-FOR-MG492_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG492_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG493_Aminoacylation	glycyl-tRNA (MG493) aminoacylation	[c]: ATP + GLY ==> AMP + PPI																	2*MG_251_MONOMER
+ENZRXN-FOR-MG493_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG495_Aminoacylation	arginyl-tRNA (MG495) aminoacylation	[c]: ARG + ATP ==> AMP + PPI																	1*MG_378_MONOMER
+ENZRXN-FOR-MG495_MODIFICATION_001	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG495_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG496_Aminoacylation	tryptophanyl-tRNA (MG496) aminoacylation	[c]: ATP + TRP ==> AMP + PPI																	2*MG_126_MONOMER
+ENZRXN-FOR-MG496_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG497_Aminoacylation	arginyl-tRNA (MG497) aminoacylation	[c]: ARG + ATP ==> AMP + PPI																	1*MG_378_MONOMER
+ENZRXN-FOR-MG497_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG497_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG499_Aminoacylation	glycyl-tRNA (MG499) aminoacylation	[c]: ATP + GLY ==> AMP + PPI																	2*MG_251_MONOMER
+ENZRXN-FOR-MG499_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG500_Aminoacylation	leucyl-tRNA (MG500) aminoacylation	[c]: ATP + LEU ==> AMP + PPI																	1*MG_266_MONOMER
+ENZRXN-FOR-MG500_MODIFICATION_001	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG500_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG501_Aminoacylation	lysyl-tRNA (MG501) aminoacylation	[c]: ATP + LYS ==> AMP + PPI																	2*MG_136_MONOMER
+ENZRXN-FOR-MG501_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG501_MODIFICATION_002	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER																	1*MG_295_MONOMER
+ENZRXN-FOR-MG501_MODIFICATION_003	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF					FAD												2*MG_008_MONOMER,2*MG_379_MONOMER
+ENZRXN-FOR-MG501_MODIFICATION_004	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG501_MODIFICATION_005	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG502_Amidotransferase	glutamyl-tRNA (MG502) amidotransferase	[c]: ATP + GLN + GLU + H2O ==> ADP + GLN + GLU + H + PI																	1*MG_098_MONOMER,1*MG_099_MONOMER,1*MG_100_MONOMER
+ENZRXN-FOR-MG502_Aminoacylation	glutamy-tRNA (MG502) aminoacylation	[c]: ATP + GLU ==> AMP + PPI																	1*MG_462_MONOMER
+ENZRXN-FOR-MG502_MODIFICATION_001	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER																	1*MG_295_MONOMER
+ENZRXN-FOR-MG502_MODIFICATION_002	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF					FAD												2*MG_008_MONOMER,2*MG_379_MONOMER
+ENZRXN-FOR-MG502_MODIFICATION_003	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG502_MODIFICATION_004	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG503_Aminoacylation	tyrosyl-tRNA (MG503) aminoacylation	[c]: ATP + TYR ==> AMP + PPI																	2*MG_455_MONOMER
+ENZRXN-FOR-MG503_MODIFICATION_001	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG503_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG504_Aminoacylation	tryptophanyl-tRNA (MG504) aminoacylation	[c]: ATP + TRP ==> AMP + PPI																	2*MG_126_MONOMER
+ENZRXN-FOR-MG504_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG504_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG504_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG506_Aminoacylation	seryl-tRNA (MG506) aminoacylation	[c]: ATP + SER ==> AMP + PPI																	2*MG_005_MONOMER
+ENZRXN-FOR-MG506_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG507_Aminoacylation	seryl-tRNA (MG507) aminoacylation	[c]: ATP + SER ==> AMP + PPI																	2*MG_005_MONOMER
+ENZRXN-FOR-MG507_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG508_Aminoacylation	leucyl-tRNA (MG508) aminoacylation	[c]: ATP + LEU ==> AMP + PPI																	1*MG_266_MONOMER
+ENZRXN-FOR-MG508_MODIFICATION_001	tRNA (guanine-N(1)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP																	2*MG_445_MONOMER
+ENZRXN-FOR-MG508_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG508_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG509_Aminoacylation	lysyl-tRNA (MG509) aminoacylation	[c]: ATP + LYS ==> AMP + PPI																	2*MG_136_MONOMER
+ENZRXN-FOR-MG509_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG509_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG509_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG510_Aminoacylation	threonyl-tRNA (MG510) aminoacylation	[c]: ATP + THR ==> AMP + PPI																	2*MG_375_MONOMER
+ENZRXN-FOR-MG510_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG510_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG510_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG511_Aminoacylation	valyl-tRNA (MG511) aminoacylation	[c]: ATP + VAL ==> AMP + PPI																	1*MG_334_MONOMER
+ENZRXN-FOR-MG511_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG511_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG512_Aminoacylation	threonyl-tRNA (MG512) aminoacylation	[c]: ATP + THR ==> AMP + PPI																	2*MG_375_MONOMER
+ENZRXN-FOR-MG512_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG512_MODIFICATION_002	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG512_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG513_Aminoacylation	glutamyl-tRNA (MG513) aminoacylation	[c]: ATP + GLU ==> AMP + PPI																	1*MG_462_MONOMER
+ENZRXN-FOR-MG513_MODIFICATION_001	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER																	1*MG_295_MONOMER
+ENZRXN-FOR-MG513_MODIFICATION_002	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF					FAD												2*MG_008_MONOMER,2*MG_379_MONOMER
+ENZRXN-FOR-MG513_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG514_Aminoacylation	asparaginyl-tRNA (MG514) aminoacylation	[c]: ASN + ATP ==> AMP + PPI																	2*MG_113_MONOMER
+ENZRXN-FOR-MG514_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG514_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG518_Aminoacylation	histidyl-tRNA (MG518) aminoacylation	[c]: ATP + HIS ==> AMP + PPI																	2*MG_035_MONOMER
+ENZRXN-FOR-MG518_MODIFICATION_001	tRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	2*MG_182_MONOMER
+ENZRXN-FOR-MG518_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG519_Aminoacylation	leucyl-tRNA (MG519) aminoacylation	[c]: ATP + LEU ==> AMP + PPI																	1*MG_266_MONOMER
+ENZRXN-FOR-MG519_MODIFICATION_001	tRNA (guanine-N(1)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP																	2*MG_445_MONOMER
+ENZRXN-FOR-MG519_MODIFICATION_002	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG519_MODIFICATION_003	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG520_Aminoacylation	leucyl-tRNA (MG520) aminoacylation	[c]: ATP + LEU ==> AMP + PPI																	1*MG_266_MONOMER
+ENZRXN-FOR-MG520_MODIFICATION_001	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MG523_Aminoacylation	arginyl-tRNA (MG523) aminoacylation	[c]: ARG + ATP ==> AMP + PPI																	1*MG_378_MONOMER
+ENZRXN-FOR-MG523_MODIFICATION_001	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP																	2*MG_347_MONOMER
+ENZRXN-FOR-MG523_MODIFICATION_002	tRNA U8 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER																	2*MG_372_MONOMER
+ENZRXN-FOR-MGrrnA16S_MODIFICATION_001	16S rRNA (guanine-N(2)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m2GMP																	1*MG_380_MONOMER
+ENZRXN-FOR-MGrrnA16S_MODIFICATION_003	16S rRNA (adenine-N(6)-)-methyltransferase	[c]: AMET + AMP ==> AHCYS + H + m6AMP																	1*MG_463_MONOMER
+ENZRXN-FOR-MGrrnA16S_MODIFICATION_004	16S rRNA (adenine-N(6)-)-methyltransferase	[c]: AMET + m6AMP ==> AHCYS + H + m62AMP																	1*MG_463_MONOMER
+ENZRXN-FOR-MGrrnA16S_MODIFICATION_005	16S rRNA (adenine-N(6)-)-methyltransferase	[c]: AMET + AMP ==> AHCYS + H + m6AMP																	1*MG_463_MONOMER
+ENZRXN-FOR-MGrrnA16S_MODIFICATION_006	16S rRNA (adenine-N(6)-)-methyltransferase	[c]: AMET + m6AMP ==> AHCYS + H + m62AMP																	1*MG_463_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_002	23S rRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	1*MG_370_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_003	23S rRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	1*MG_370_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_004	23S rRNA (guanine-N(2)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + GmMP + H																	2*MG_252_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_005	23S rRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	1*MG_209_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_006	23S rRNA (uracil-N(2)-)-methyltransferase	[c]: AMET + UMP ==> AHCYS + H + UmMP																	2*MG_346_MONOMER
+ENZRXN-FOR-MGrrnA23S_MODIFICATION_007	23S rRNA pseudouridine synthase A	[c]: UMP ==> PSIURIMP																	1*MG_209_MONOMER
+ENZRXN-FOR-MG_0004_Aminoacylation	tmRNA (MG_0004) aminoacylation	[c]: ALA + ATP ==> AMP + PPI																	4*MG_292_MONOMER
+ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_002	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_003	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_004	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_005	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_166_MONOMER_MODIFICATION_001	alpha-L-glutamate ligase	[c]: (4) ATP + (4) GLU + (4) H2O ==> (4) ADP + (4) H + (4) H2O + (4) PI																	1*MG_012_MONOMER
+ENZRXN-FOR-MG_191_TerminalOrganelleAssembly_01	MgPa terminal organelle assembly	 ==> 																	1*MG_312_MONOMER
+ENZRXN-FOR-MG_217_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_217_TerminalOrganelleAssembly_01	P65 terminal organelle assembly	 ==> 																	1*MG_318_MONOMER
+ENZRXN-FOR-MG_218_TerminalOrganelleAssembly_01	HMW2 terminal organelle assembly	 ==> 																	1*MG_312_MONOMER
+ENZRXN-FOR-MG_218_TerminalOrganelleAssembly_02	HMW2 terminal organelle assembly	 ==> 																	1*MG_312_MONOMER
+ENZRXN-FOR-MG_272_MONOMER_MODIFICATION_001	protein lysine lipoate ligation	[c]: LIPOYLAMP + LYS ==> AMP + (2) H + LIPOYLLYS																	1*MG_270_MONOMER
+ENZRXN-FOR-MG_273_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_274_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_282_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_305_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_305_MONOMER_MODIFICATION_002	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_312_TerminalOrganelleAssembly_01	HMW1 terminal organelle assembly	 ==> 																	1*MG_218_MONOMER
+ENZRXN-FOR-MG_312_TerminalOrganelleAssembly_02	HMW1 terminal organelle assembly	 ==> 																	1*MG_218_MONOMER
+ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_002	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_003	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_004	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_005	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_317_TerminalOrganelleAssembly_01	HMW3 terminal organelle assembly	 ==> 																	1*MG_312_MONOMER
+ENZRXN-FOR-MG_318_TerminalOrganelleAssembly_01	P32 terminal organelle assembly	 ==> 																	1*MG_317_MONOMER
+ENZRXN-FOR-MG_328_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_342_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_002	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_003	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_004	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_005	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_006	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_007	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_008	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_009	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_010	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_011	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_386_TerminalOrganelleAssembly_01	P200 terminal organelle assembly	 ==> 																	1*MG_312_MONOMER
+ENZRXN-FOR-MG_392_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_392_MONOMER_MODIFICATION_002	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_002	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_003	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_004	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_005	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_006	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_007	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_008	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_009	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_002	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_003	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_427_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_427_MONOMER_MODIFICATION_002	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_001	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_002	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_003	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_004	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_005	protein tyrosine phosphorylation	[c]: ATP + TYR ==> ADP + H + pTYR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_006	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_007	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_008	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_009	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_001	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_002	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_003	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_002	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_003	protein threonine phosphorylation	[c]: ATP + THR ==> ADP + H + pTHR																	2*MG_109_MONOMER
+ENZRXN-FOR-MG_491_MONOMER_MODIFICATION_001	protein serine phosphorylation	[c]: ATP + SER ==> ADP + H + pSER																	2*MG_109_MONOMER
+ENZRXN-FOR-MsrA	L-methionine-S-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXSL + MG_124_MONOMER									thioredoxin, Zn [131]								1*MG_408_MONOMER
+ENZRXN-REV-MsrA	L-methionine-S-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXSL + MG_124_MONOMER									thioredoxin, Zn [131]								1*MG_408_MONOMER
+ENZRXN-FOR-MsrB	L-methionine-R-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXRL + MG_124_MONOMER									thioredoxin, Zn [131]								1*MG_448_MONOMER
+ENZRXN-REV-MsrB	L-methionine-R-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXRL + MG_124_MONOMER									thioredoxin, Zn [131]								1*MG_448_MONOMER
+ENZRXN-FOR-MutM_FAPyAD	base excision (4,6-diamino-5-N-formamidopyrimidine)	[c]: FAPydAMP + H2O ==> DR5P + FAPyAD																	1*MG_498_MONOMER
+ENZRXN-FOR-MutM_FAPyGN	base excision (2,6-diamino-4-hydroxy-5-formamidopyrimidine)	[c]: FAPydGMP + H2O ==> DR5P + FAPyGN																	1*MG_498_MONOMER
+ENZRXN-FOR-MutM_oxo8AD	base excision (8-hydroxyadenine)	[c]: H2O + oxo8dAMP ==> DR5P + oxo8AD																	1*MG_498_MONOMER
+ENZRXN-FOR-MutM_oxo8GN	base excision (8-Oxo-guanine; 8-hydroxyguanine)	[c]: H2O + oxo8dGMP ==> DR5P + oxo8GN																	1*MG_498_MONOMER
+ENZRXN-FOR-NadE	NAD synthase (nh3)	[c]: ATP + NAAD + NH3 ==> AMP + (3) H + NAD + PPI	COFACTOR_PROSTHETIC_BIOSYNTHESIS																2*MG_383_MONOMER
+ENZRXN-FOR-NadK	NAD kinase	[c]: ATP + NAD <==> ADP + NADP	COFACTOR_PROSTHETIC_BIOSYNTHESIS								CA+2;Adenine;AMP;Caffeine;R5P;imidazole;Nicotinic acid;Pyridine;Calmodulin;Quinolinic acid								6*MG_128_MONOMER
+ENZRXN-REV-NadK	NAD kinase	[c]: ATP + NAD <==> ADP + NADP	COFACTOR_PROSTHETIC_BIOSYNTHESIS								CA+2;Adenine;AMP;Caffeine;R5P;imidazole;Nicotinic acid;Pyridine;Calmodulin;Quinolinic acid								6*MG_128_MONOMER
+ENZRXN-FOR-NADR1	nicotinamide-nucleotide adenylyltransferase	[c]: ATP + H + NMN ==> NAD + PPI	COFACTOR_PROSTHETIC_BIOSYNTHESIS								SO42-;Epigallocatechin gallate;NH4Cl;Dithiothreitol								6*MG_240_MONOMER
+ENZRXN-FOR-NADR2	nicotinate-nucleotide adenylyltransferase	[c]: ATP + NH3 + NR ==> ADP + NMN + PI	P1_PWY																6*MG_240_MONOMER
+ENZRXN-FOR-NER_DNAExcision	DNA excision	[c]: ATP + H2O ==> ADP + H + PI																	2*MG_244_MONOMER
+ENZRXN-FOR-NER_DNAIncision	DNA incision	[c]: ATP + (2) dRibose5P_dRibose5P + (3) H2O ==> ADP + (4) DR5P + (3) H + PI																	1*MG_073_MONOMER,1*MG_206_MONOMER,2*MG_421_MONOMER
+ENZRXN-FOR-NOX	NADH dehydrogenase	[c]: H + NADH + O2 ==> H2O2 + NAD					FAD				AC;NAD+								4*MG_275_MONOMER
+ENZRXN-FOR-NrdEF_ADP	ribonucleoside-diphosphate reductase (ADP)	[c]: (2) ADP + MG_229_231_TETRAMER + O2 ==> (2) DADP + (2) H2O + MG_229_231_TETRAMER_ox	P1_PWY																2*MG_229_MONOMER,2*MG_231_MONOMER
+ENZRXN-FOR-NrdEF_CDP	ribonucleoside-diphosphate reductase (CDP)	[c]: (2) CDP + MG_229_231_TETRAMER + O2 ==> (2) DCDP + (2) H2O + MG_229_231_TETRAMER_ox	P1_PWY																2*MG_229_MONOMER,2*MG_231_MONOMER
+ENZRXN-FOR-NrdEF_GDP	ribonucleoside-diphosphate reductase (GDP)	[c]: (2) GDP + MG_229_231_TETRAMER + O2 ==> (2) DGDP + (2) H2O + MG_229_231_TETRAMER_ox	P1_PWY																2*MG_229_MONOMER,2*MG_231_MONOMER
+ENZRXN-FOR-NrdEF_maintenance	ribonucleoside-diphosphate reductase maintenance	[c]: (2) FMNH2 + (2) MG_124_MONOMER + MG_229_231_TETRAMER_ox ==> (2) FMN + (2) H2O + (2) MG_124_MONOMER_ox + MG_229_231_TETRAMER																	1*MG_230_MONOMER
+ENZRXN-FOR-NrdEF_UDP	ribonucleoside-diphosphate reductase (UDP)	[c]: MG_229_231_TETRAMER + O2 + (2) UDP ==> (2) DUDP + (2) H2O + MG_229_231_TETRAMER_ox	P1_PWY																2*MG_229_MONOMER,2*MG_231_MONOMER
+ENZRXN-FOR-NTerminalMethionineClevage	N-terminal methionine cleavage	[c]: H2O + MetMet ==> (2) MET																	1*MG_172_MONOMER
+ENZRXN-FOR-Pdp1	deoxyuridine phosphorylase	[c]: DU + PI <==> DR1P + URA	P1_PWY								Triton X-100								2*MG_051_MONOMER
+ENZRXN-REV-Pdp1	deoxyuridine phosphorylase	[c]: DU + PI <==> DR1P + URA	P1_PWY								Triton X-100								2*MG_051_MONOMER
+ENZRXN-FOR-Pdp2	thymidine phosphorylase	[c]: DT + PI <==> DR1P + THY	P1_PWY								Triton X-100								2*MG_051_MONOMER
+ENZRXN-REV-Pdp2	thymidine phosphorylase	[c]: DT + PI <==> DR1P + THY	P1_PWY								Triton X-100								2*MG_051_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_ALA	Peptidyl-tRNA hydrolysis (ALA)	[c]: AMP_ALA + H2O ==> ALA + AMP																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_ARG	Peptidyl-tRNA hydrolysis (ARG)	[c]: AMP_ARG + H2O ==> AMP + ARG + H																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_ASN	Peptidyl-tRNA hydrolysis (ASN)	[c]: AMP_ASN + H2O ==> AMP + ASN																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_ASP	Peptidyl-tRNA hydrolysis (ASP)	[c]: AMP_ASP + H2O ==> AMP + ASP																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_CYS	Peptidyl-tRNA hydrolysis (CYS)	[c]: AMP_CYS + H2O ==> AMP + CYS																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_FMET	Peptidyl-tRNA hydrolysis (MET)	[c]: AMP_FMET + H2O ==> AMP + FMET																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_GLN	Peptidyl-tRNA hydrolysis (GLN)	[c]: AMP_GLN + H2O ==> AMP + GLN																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_GLU	Peptidyl-tRNA hydrolysis (GLU)	[c]: AMP_GLU + H2O ==> AMP + GLU + H																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_GLY	Peptidyl-tRNA hydrolysis (GLY)	[c]: AMP_GLY + H2O ==> AMP + GLY																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_HIS	Peptidyl-tRNA hydrolysis (HIS)	[c]: AMP_HIS + H2O ==> AMP + HIS																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_ILE	Peptidyl-tRNA hydrolysis (ILE)	[c]: AMP_ILE + H2O ==> AMP + ILE																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_LEU	Peptidyl-tRNA hydrolysis (LEU)	[c]: AMP_LEU + H2O ==> AMP + LEU																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_LYS	Peptidyl-tRNA hydrolysis (LYS)	[c]: AMP_LYS + H2O ==> AMP + LYS																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_MET	Peptidyl-tRNA hydrolysis (MET)	[c]: AMP_MET + H2O ==> AMP + MET																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_PHE	Peptidyl-tRNA hydrolysis (PHE)	[c]: AMP_PHE + H2O ==> AMP + PHE																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_PRO	Peptidyl-tRNA hydrolysis (PRO)	[c]: AMP_PRO + H2O ==> AMP + PRO																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_SER	Peptidyl-tRNA hydrolysis (SER)	[c]: AMP_SER + H2O ==> AMP + SER																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_THR	Peptidyl-tRNA hydrolysis (THR)	[c]: AMP_THR + H2O ==> AMP + THR																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_TRP	Peptidyl-tRNA hydrolysis (TRP)	[c]: AMP_TRP + H2O ==> AMP + TRP																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_TYR	Peptidyl-tRNA hydrolysis (TYR)	[c]: AMP_TYR + H2O ==> AMP + TYR																	1*MG_083_MONOMER
+ENZRXN-FOR-PeptidylTRNAHs_VAL	Peptidyl-tRNA hydrolysis (VAL)	[c]: AMP_VAL + H2O ==> AMP + VAL																	1*MG_083_MONOMER
+ENZRXN-FOR-PfkA1	phosphofructokinase	[c]: ATP + F6P ==> ADP + FDP + H	GLYCOLYSIS								Glutathione;G6P;CIT;Cl-;NO3-;HAsO42-;HCO3-;SO42-;FDP;NH4;GDP;Glucose-1,6-bisphosphate;cAMP;ADP;AMP;FDP;Polyethylene glycol;Dimethylsulfoxide;Glycerol;cAMP-dependent protein kinase;Ph								4*MG_215_MONOMER
+ENZRXN-FOR-PfkA2	phosphofructokinase	[c]: F6P + GTP ==> FDP + GDP + H	GLYCOLYSIS								Glutathione;G6P;CIT;Cl-;NO3-;HAsO42-;HCO3-;SO42-;FDP;NH4;GDP;Glucose-1,6-bisphosphate;cAMP;ADP;AMP;FDP;Polyethylene glycol;Dimethylsulfoxide;Glycerol;cAMP-dependent protein kinase;Ph								4*MG_215_MONOMER
+ENZRXN-FOR-PfkA3	phosphofructokinase	[c]: DATP + F6P ==> DADP + FDP + H	GLYCOLYSIS																4*MG_215_MONOMER
+ENZRXN-FOR-PfkA4	phosphofructokinase	[c]: F6P + ITP ==> FDP + H + IDP	GLYCOLYSIS								Glutathione;G6P;CIT;Cl-;NO3-;HAsO42-;HCO3-;SO42-;FDP;NH4;GDP;Glucose-1,6-bisphosphate;cAMP;ADP;AMP;FDP;Polyethylene glycol;Dimethylsulfoxide;Glycerol;cAMP-dependent protein kinase;Ph								4*MG_215_MONOMER
+ENZRXN-FOR-PfkA5	phosphofructokinase	[c]: F6P + UTP <==> FDP + H + UDP	GLYCOLYSIS								Glutathione;G6P;CIT;Cl-;NO3-;HAsO42-;HCO3-;SO42-;FDP;NH4;GDP;Glucose-1,6-bisphosphate;cAMP;ADP;AMP;FDP;Polyethylene glycol;Dimethylsulfoxide;Glycerol;cAMP-dependent protein kinase;Ph								4*MG_215_MONOMER
+ENZRXN-REV-PfkA5	phosphofructokinase	[c]: F6P + UTP <==> FDP + H + UDP	GLYCOLYSIS								Glutathione;G6P;CIT;Cl-;NO3-;HAsO42-;HCO3-;SO42-;FDP;NH4;GDP;Glucose-1,6-bisphosphate;cAMP;ADP;AMP;FDP;Polyethylene glycol;Dimethylsulfoxide;Glycerol;cAMP-dependent protein kinase;Ph								4*MG_215_MONOMER
+ENZRXN-FOR-Pgi	glucose-6-phosphate isomerase	[c]: G6P <==> F6P	GLYCOLYSIS																2*MG_111_MONOMER
+ENZRXN-REV-Pgi	glucose-6-phosphate isomerase	[c]: G6P <==> F6P	GLYCOLYSIS																2*MG_111_MONOMER
+ENZRXN-FOR-Pgk1	phosphoglycerate kinase	[c]: ADP + DPG <==> ATP + G3P	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-REV-Pgk1	phosphoglycerate kinase	[c]: ADP + DPG <==> ATP + G3P	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-FOR-Pgk2	phosphoglycerate kinase	[c]: DPG + GDP <==> G3P + GTP	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-REV-Pgk2	phosphoglycerate kinase	[c]: DPG + GDP <==> G3P + GTP	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-FOR-Pgk3	phosphoglycerate kinase	[c]: DADP + DPG <==> DATP + G3P	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-REV-Pgk3	phosphoglycerate kinase	[c]: DADP + DPG <==> DATP + G3P	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-FOR-Pgk4	phosphoglycerate kinase	[c]: DPG + IDP <==> G3P + ITP	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-REV-Pgk4	phosphoglycerate kinase	[c]: DPG + IDP <==> G3P + ITP	GLYCOLYSIS								(NH4)2SO4;ATP4-;Sodium CIT;Sodium selenate;Sodium SUCC;SO42-;AC;1,3-Diphosphoglycerate								1*MG_300_MONOMER
+ENZRXN-FOR-Pgk5	phosphoglycerate kinase	[c]: DGDP + DPG <==> DGTP + G3P	GLYCOLYSIS																1*MG_300_MONOMER
+ENZRXN-REV-Pgk5	phosphoglycerate kinase	[c]: DGDP + DPG <==> DGTP + G3P	GLYCOLYSIS																1*MG_300_MONOMER
+ENZRXN-FOR-Pgm	phosphoglucomutase	[c]: G1P <==> G6P	ALT_CARBON_METABOLISM								EGTA;Glucose-1,6-diphosphate;EDTA;GSH;HIS;CYS;Imidazol;6-Phosphogluconate;ADP;F6P;D-glucose-1,6-bisphosphate								3*MG_053_MONOMER
+ENZRXN-REV-Pgm	phosphoglucomutase	[c]: G1P <==> G6P	ALT_CARBON_METABOLISM								EGTA;Glucose-1,6-diphosphate;EDTA;GSH;HIS;CYS;Imidazol;6-Phosphogluconate;ADP;F6P;D-glucose-1,6-bisphosphate								3*MG_053_MONOMER
+ENZRXN-FOR-PgsA1	Phosphatidylglycerol synthase (n-C16:0)	CDPDG160[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP160[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-REV-PgsA1	Phosphatidylglycerol synthase (n-C16:0)	CDPDG160[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP160[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-FOR-PgsA2	Phosphatidylglycerol synthase (n-C16:1)	CDPDG161[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP161[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-REV-PgsA2	Phosphatidylglycerol synthase (n-C16:1)	CDPDG161[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP161[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-FOR-PgsA3	Phosphatidylglycerol synthase (n-C18:1)	CDPDG181[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP181[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-REV-PgsA3	Phosphatidylglycerol synthase (n-C18:1)	CDPDG181[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP181[m]	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_114_MONOMER
+ENZRXN-FOR-PlsC1	1-tetradecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C12:0)	DDECG3P[c] + MG_287_MONOMER_ddcaACP[c] ==> MG_287_MONOMER_ACP[c] + PA120[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC2	1-tetradecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C14:0)	MG_287_MONOMER_myrsACP[c] + TDECG3P[c] ==> MG_287_MONOMER_ACP[c] + PA140[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC3	1-tetradec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C14:1)	MG_287_MONOMER_tdeACP[c] + TDECEG3P[c] ==> MG_287_MONOMER_ACP[c] + PA141[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC4	1-hexadecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C16:0)	(2) H[c] + HDECG3P[c] + MG_287_MONOMER_palmACP[c] ==> MG_287_MONOMER_ACP[c] + PA160[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC5	1-hexadec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C16:1)	HDECEG3P[c] + MG_287_MONOMER_hdeACP[c] ==> (2) H[c] + MG_287_MONOMER_ACP[c] + PA161[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC6	1-octadecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C18:0)	MG_287_MONOMER_ocdcaACP[c] + ODECG3P[c] ==> MG_287_MONOMER_ACP[c] + PA180[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsC7	1-octadec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C18:1)	MG_287_MONOMER_octeACP[c] + ODEC11GP[c] ==> MG_287_MONOMER_ACP[c] + PA181[m]	GLYCEROPHOSPHOLIPID_METBOLISM																1*MG_212_MONOMER
+ENZRXN-FOR-PlsX1	glycerol-3-phosphate acyltransferase (C12:0)	[c]: GL3P + MG_287_MONOMER_ddcaACP ==> DDECG3P + H + MG_287_MONOMER_ACP	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX2	glycerol-3-phosphate acyltransferase (C14:0)	[c]: GL3P + MG_287_MONOMER_myrsACP ==> H + MG_287_MONOMER_ACP + TDECG3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX3	glycerol-3-phosphate acyltransferase (C14:1)	[c]: GL3P + MG_287_MONOMER_tdeACP ==> H + MG_287_MONOMER_ACP + TDECEG3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX4	glycerol-3-phosphate acyltransferase (C16:0)	[c]: GL3P + MG_287_MONOMER_palmACP ==> (3) H + HDECG3P + MG_287_MONOMER_ACP	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX5	glycerol-3-phosphate acyltransferase (C16:1)	[c]: GL3P + H + MG_287_MONOMER_hdeACP ==> HDECEG3P + MG_287_MONOMER_ACP	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX6	glycerol-3-phosphate acyltransferase (C18:0)	[c]: GL3P + MG_287_MONOMER_ocdcaACP ==> H + MG_287_MONOMER_ACP + ODECG3P	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PlsX7	glycerol-3-phosphate acyltransferase (C18:1)	[c]: GL3P + MG_287_MONOMER_octeACP ==> H + MG_287_MONOMER_ACP + ODEC11GP	GLYCEROPHOSPHOLIPID_METBOLISM																2*MG_368_MONOMER
+ENZRXN-FOR-PncB	nicotinic acid mononucleotide pyrophosphorylase	[c]: ATP + (3) H + H2O + NAC + PRPP ==> ADP + NAMN + PI + PPI	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Tripolyphosphate;GSH;ATP								1*MG_037_MONOMER
+ENZRXN-FOR-Ppa	inorganic diphosphatase	[c]: H2O + PPI ==> H + (2) PI	ANAPLEROTIC_REACTIONS								K+;KCl;methylenebisphosphonate;methylene diphosphate;Gibberellic acid;Dithiothreitol								6*MG_351_MONOMER
+ENZRXN-FOR-ProLipoproteinDiacylglycerylTransferase	prolipoprotein diacylglyceryl transferase	CYS[c] + PG160[m] ==> diacylglycerolCys[c] + H[c] + SNGLYP[c]																	1*MG_086_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_ALA	Protein degradation (ALA)	[c]: AlaAla + ATP + (2) H2O ==> ADP + (2) ALA + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_ARG	Protein degradation (ARG)	[c]: ArgArg + ATP + (2) H2O ==> ADP + (2) ARG + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_ASN	Protein degradation (ASN)	[c]: AsnAsn + ATP + (2) H2O ==> ADP + (2) ASN + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_ASP	Protein degradation (ASP)	[c]: AspAsp + ATP + (2) H2O ==> ADP + (2) ASP + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_CYS	Protein degradation (CYS)	[c]: ATP + CysCys + (2) H2O ==> ADP + (2) CYS + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_GLN	Protein degradation (GLN)	[c]: ATP + GlnGln + (2) H2O ==> ADP + (2) GLN + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_GLU	Protein degradation (GLU)	[c]: ATP + GluGlu + (2) H2O ==> ADP + (2) GLU + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_GLY	Protein degradation (GLY)	[c]: ATP + GlyGly + (2) H2O ==> ADP + (2) GLY + H + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_HIS	Protein degradation (HIS)	[c]: ATP + (2) H2O + HisHis ==> ADP + H + (2) HIS + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_ILE	Protein degradation (ILE)	[c]: ATP + (2) H2O + IleIle ==> ADP + H + (2) ILE + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_LEU	Protein degradation (LEU)	[c]: ATP + (2) H2O + LeuLeu ==> ADP + H + (2) LEU + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_LYS	Protein degradation (LYS)	[c]: ATP + (2) H2O + LysLys ==> ADP + H + (2) LYS + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_MET	Protein degradation (MET)	[c]: ATP + (2) H2O + MetMet ==> ADP + H + (2) MET + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_PHE	Protein degradation (PHE)	[c]: ATP + (2) H2O + PhePhe ==> ADP + H + (2) PHE + PI																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_PRO	Protein degradation (PRO)	[c]: ATP + (2) H2O + ProPro ==> ADP + H + PI + (2) PRO																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_SER	Protein degradation (SER)	[c]: ATP + (2) H2O + SerSer ==> ADP + H + PI + (2) SER																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_THR	Protein degradation (THR)	[c]: ATP + (2) H2O + ThrThr ==> ADP + H + PI + (2) THR																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_TRP	Protein degradation (TRP)	[c]: ATP + (2) H2O + TrpTrp ==> ADP + H + PI + (2) TRP																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_TYR	Protein degradation (TYR)	[c]: ATP + (2) H2O + TyrTyr ==> ADP + H + PI + (2) TYR																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_FtsH_VAL	Protein degradation (VAL)	[c]: ATP + (2) H2O + ValVal ==> ADP + H + PI + (2) VAL																	6*MG_457_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_ALA	Protein degradation (ALA)	[c]: AlaAla + ATP + (2) H2O ==> ADP + (2) ALA + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_ARG	Protein degradation (ARG)	[c]: ArgArg + ATP + (2) H2O ==> ADP + (2) ARG + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_ASN	Protein degradation (ASN)	[c]: AsnAsn + ATP + (2) H2O ==> ADP + (2) ASN + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_ASP	Protein degradation (ASP)	[c]: AspAsp + ATP + (2) H2O ==> ADP + (2) ASP + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_CYS	Protein degradation (CYS)	[c]: ATP + CysCys + (2) H2O ==> ADP + (2) CYS + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_GLN	Protein degradation (GLN)	[c]: ATP + GlnGln + (2) H2O ==> ADP + (2) GLN + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_GLU	Protein degradation (GLU)	[c]: ATP + GluGlu + (2) H2O ==> ADP + (2) GLU + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_GLY	Protein degradation (GLY)	[c]: ATP + GlyGly + (2) H2O ==> ADP + (2) GLY + H + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_HIS	Protein degradation (HIS)	[c]: ATP + (2) H2O + HisHis ==> ADP + H + (2) HIS + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_ILE	Protein degradation (ILE)	[c]: ATP + (2) H2O + IleIle ==> ADP + H + (2) ILE + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_LEU	Protein degradation (LEU)	[c]: ATP + (2) H2O + LeuLeu ==> ADP + H + (2) LEU + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_LYS	Protein degradation (LYS)	[c]: ATP + (2) H2O + LysLys ==> ADP + H + (2) LYS + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_MET	Protein degradation (MET)	[c]: ATP + (2) H2O + MetMet ==> ADP + H + (2) MET + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_PHE	Protein degradation (PHE)	[c]: ATP + (2) H2O + PhePhe ==> ADP + H + (2) PHE + PI																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_PRO	Protein degradation (PRO)	[c]: ATP + (2) H2O + ProPro ==> ADP + H + PI + (2) PRO																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_SER	Protein degradation (SER)	[c]: ATP + (2) H2O + SerSer ==> ADP + H + PI + (2) SER																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_THR	Protein degradation (THR)	[c]: ATP + (2) H2O + ThrThr ==> ADP + H + PI + (2) THR																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_TRP	Protein degradation (TRP)	[c]: ATP + (2) H2O + TrpTrp ==> ADP + H + PI + (2) TRP																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_TYR	Protein degradation (TYR)	[c]: ATP + (2) H2O + TyrTyr ==> ADP + H + PI + (2) TYR																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinDegradation_Lon_VAL	Protein degradation (VAL)	[c]: ATP + (2) H2O + ValVal ==> ADP + H + PI + (2) VAL																	6*MG_239_MONOMER
+ENZRXN-FOR-ProteinPolymerization_ALA	Protein polymerization (Ala)	[c]: (2) ALA ==> AlaAla + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_ARG	Protein polymerization (Arg)	[c]: (2) ARG ==> ArgArg + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_ASN	Protein polymerization (Asn)	[c]: (2) ASN ==> AsnAsn + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_ASP	Protein polymerization (Asp)	[c]: (2) ASP ==> AspAsp + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_CYS	Protein polymerization (Cys)	[c]: (2) CYS ==> CysCys + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_GLN	Protein polymerization (Gln)	[c]: (2) GLN ==> GlnGln + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_GLU	Protein polymerization (Glu)	[c]: (2) GLU ==> GluGlu + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_GLY	Protein polymerization (Gly)	[c]: (2) GLY ==> GlyGly + H2O																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_HIS	Protein polymerization (His)	[c]: (2) HIS ==> H2O + HisHis																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_ILE	Protein polymerization (Ile)	[c]: (2) ILE ==> H2O + IleIle																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_LEU	Protein polymerization (Leu)	[c]: (2) LEU ==> H2O + LeuLeu																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_LYS	Protein polymerization (Lys)	[c]: (2) LYS ==> H2O + LysLys																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_MET	Protein polymerization (Met)	[c]: (2) MET ==> H2O + MetMet																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_PHE	Protein polymerization (Phe)	[c]: (2) PHE ==> H2O + PhePhe																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_PRO	Protein polymerization (Pro)	[c]: (2) PRO ==> H2O + ProPro																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_SER	Protein polymerization (Ser)	[c]: (2) SER ==> H2O + SerSer																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_THR	Protein polymerization (Thr)	[c]: (2) THR ==> H2O + ThrThr																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_TRP	Protein polymerization (Trp)	[c]: (2) TRP ==> H2O + TrpTrp																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_TYR	Protein polymerization (Tyr)	[c]: (2) TYR ==> H2O + TyrTyr																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-ProteinPolymerization_VAL	Protein polymerization (Val)	[c]: (2) VAL ==> H2O + ValVal																	1*RIBOSOME_30S,1*RIBOSOME_50S
+ENZRXN-FOR-PrsA	phosphoribosylpyrophosphate synthetase	[c]: ATP + R5P <==> AMP + H + PRPP	HISTIDINE_METABOLISM								1-Aminoethylphosphonate;EDTA;PI;Arsenate;SO42-;DTT;Sulfate								6*MG_058_MONOMER
+ENZRXN-REV-PrsA	phosphoribosylpyrophosphate synthetase	[c]: ATP + R5P <==> AMP + H + PRPP	HISTIDINE_METABOLISM								1-Aminoethylphosphonate;EDTA;PI;Arsenate;SO42-;DTT;Sulfate								6*MG_058_MONOMER
+ENZRXN-FOR-Pta	phosphotransacetylase	[c]: ACCOA + PI <==> ACTP + COA	PYRUVATE_METABOLISM								PYR;CYS;Hydrogen sulfide;1,3-dimercaptopropanol;thiolglycolic acid								2*MG_299_MONOMER
+ENZRXN-REV-Pta	phosphotransacetylase	[c]: ACCOA + PI <==> ACTP + COA	PYRUVATE_METABOLISM								PYR;CYS;Hydrogen sulfide;1,3-dimercaptopropanol;thiolglycolic acid								2*MG_299_MONOMER
+ENZRXN-FOR-Pyk_ADP	pyruvate kinase	[c]: ADP + H + PEP <==> ATP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P				AMP,Potassium sulfate				4*MG_216_MONOMER
+ENZRXN-REV-Pyk_ADP	pyruvate kinase	[c]: ADP + H + PEP <==> ATP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P				AMP,Potassium sulfate				4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_CDP	pyruvate kinase	[c]: CDP + H + PEP <==> CTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_CDP	pyruvate kinase	[c]: CDP + H + PEP <==> CTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_DADP	pyruvate kinase	[c]: DADP + H + PEP <==> DATP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_DADP	pyruvate kinase	[c]: DADP + H + PEP <==> DATP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_DCDP	pyruvate kinase	[c]: DCDP + H + PEP <==> DCTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_DCDP	pyruvate kinase	[c]: DCDP + H + PEP <==> DCTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_DGDP	pyruvate kinase	[c]: DGDP + H + PEP <==> DGTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_DGDP	pyruvate kinase	[c]: DGDP + H + PEP <==> DGTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_DTDP	pyruvate kinase	[c]: DTDP + H + PEP <==> DTTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_DTDP	pyruvate kinase	[c]: DTDP + H + PEP <==> DTTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_DUDP	pyruvate kinase	[c]: DUDP + H + PEP <==> DUTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_DUDP	pyruvate kinase	[c]: DUDP + H + PEP <==> DUTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_GDP	pyruvate kinase	[c]: GDP + H + PEP <==> GTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_GDP	pyruvate kinase	[c]: GDP + H + PEP <==> GTP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_IDP	pyruvate kinase	[c]: H + IDP + PEP <==> ITP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_IDP	pyruvate kinase	[c]: H + IDP + PEP <==> ITP + PYR	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_TDP	pyruvate kinase	[c]: H + PEP + TDP <==> PYR + TTP	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_TDP	pyruvate kinase	[c]: H + PEP + TDP <==> PYR + TTP	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-Pyk_UDP	pyruvate kinase	[c]: H + PEP + UDP <==> PYR + UTP	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-REV-Pyk_UDP	pyruvate kinase	[c]: H + PEP + UDP <==> PYR + UTP	GLYCOLYSIS								ASP;PEP;FDP;ASN;F6P;TAG6P;E4P;TAG16P;6-Phosphogluconate;ASP;G1P								4*MG_216_MONOMER
+ENZRXN-FOR-RelA1	GDP diphosphokinase	[c]: ATP + GDP ==> AMP + H + PPGPP									MN [96];								2*MG_278_MONOMER
+ENZRXN-FOR-RelA2	GTP diphosphokinase	[c]: ATP + GTP ==> AMP + GDPTP + H									MN [96];								2*MG_278_MONOMER
+ENZRXN-FOR-RibF1	riboflavin kinase	[c]: ATP + RIBFLV ==> ADP + FMN + H	COFACTOR_PROSTHETIC_BIOSYNTHESIS								Carbonate;NO3-;PI;SO42-								1*MG_145_MONOMER
+ENZRXN-FOR-RibF2	FMN adenylyltransferase	[c]: ATP + FMN + H ==> FAD + PPI	COFACTOR_PROSTHETIC_BIOSYNTHESIS																1*MG_145_MONOMER
+ENZRXN-FOR-RNACleavage_DeaD_AMP	RNA cleavage (AMP)	[c]: ApAp + ATP + (2) H2O ==> ADP + (2) AMP + (2) H + PI																	2*MG_425_MONOMER
+ENZRXN-FOR-RNACleavage_DeaD_CMP	RNA cleavage (CMP)	[c]: ATP + CpCp + (2) H2O ==> ADP + (2) CMP + (2) H + PI																	2*MG_425_MONOMER
+ENZRXN-FOR-RNACleavage_DeaD_GMP	RNA cleavage (GMP)	[c]: ATP + GpGp + (2) H2O ==> ADP + (2) GMP + (2) H + PI																	2*MG_425_MONOMER
+ENZRXN-FOR-RNACleavage_DeaD_UMP	RNA cleavage (UMP)	[c]: ATP + (2) H2O + UpUp ==> ADP + (2) H + PI + (2) UMP																	2*MG_425_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseIII_AMP	RNA cleavage (AMP)	[c]: ApAp + H2O ==> (2) AMP + H																	2*MG_367_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseIII_CMP	RNA cleavage (CMP)	[c]: CpCp + H2O ==> (2) CMP + H																	2*MG_367_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseIII_GMP	RNA cleavage (GMP)	[c]: GpGp + H2O ==> (2) GMP + H																	2*MG_367_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseIII_UMP	RNA cleavage (UMP)	[c]: H2O + UpUp ==> H + (2) UMP																	2*MG_367_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseJ_AMP	RNA cleavage (AMP)	[c]: ApAp + H2O ==> (2) AMP + H																	2*MG_139_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseJ_CMP	RNA cleavage (CMP)	[c]: CpCp + H2O ==> (2) CMP + H																	2*MG_139_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseJ_GMP	RNA cleavage (GMP)	[c]: GpGp + H2O ==> (2) GMP + H																	2*MG_139_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseJ_UMP	RNA cleavage (UMP)	[c]: H2O + UpUp ==> H + (2) UMP																	2*MG_139_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseP_AMP	RNA cleavage (AMP)	[c]: ApAp + H2O ==> (2) AMP + H																	1*MG_0003,1*MG_465_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseP_CMP	RNA cleavage (CMP)	[c]: CpCp + H2O ==> (2) CMP + H																	1*MG_0003,1*MG_465_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseP_GMP	RNA cleavage (GMP)	[c]: GpGp + H2O ==> (2) GMP + H																	1*MG_0003,1*MG_465_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseP_UMP	RNA cleavage (UMP)	[c]: H2O + UpUp ==> H + (2) UMP																	1*MG_0003,1*MG_465_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseR_AMP	RNA cleavage (AMP)	[c]: ApAp + H2O ==> (2) AMP + H																	1*MG_104_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseR_CMP	RNA cleavage (CMP)	[c]: CpCp + H2O ==> (2) CMP + H																	1*MG_104_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseR_GMP	RNA cleavage (GMP)	[c]: GpGp + H2O ==> (2) GMP + H																	1*MG_104_MONOMER
+ENZRXN-FOR-RNACleavage_RNAseR_UMP	RNA cleavage (UMP)	[c]: H2O + UpUp ==> H + (2) UMP																	1*MG_104_MONOMER
+ENZRXN-FOR-RNACleavage_RsgA_AMP	RNA cleavage (AMP)	[c]: ApAp + GTP + (2) H2O ==> (2) AMP + GDP + (2) H + PI																	1*MG_110_MONOMER
+ENZRXN-FOR-RNACleavage_RsgA_CMP	RNA cleavage (CMP)	[c]: CpCp + GTP + (2) H2O ==> (2) CMP + GDP + (2) H + PI																	1*MG_110_MONOMER
+ENZRXN-FOR-RNACleavage_RsgA_GMP	RNA cleavage (GMP)	[c]: GpGp + GTP + (2) H2O ==> GDP + (2) GMP + (2) H + PI																	1*MG_110_MONOMER
+ENZRXN-FOR-RNACleavage_RsgA_UMP	RNA cleavage (UMP)	[c]: GTP + (2) H2O + UpUp ==> GDP + (2) H + PI + (2) UMP																	1*MG_110_MONOMER
+ENZRXN-FOR-RnaPolymerization_ATP	RNA polymerization (ATP)	[c]: AMP + ATP ==> ApAp + PPI																	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+ENZRXN-FOR-RnaPolymerization_CTP	RNA polymerization (CTP)	[c]: CMP + CTP ==> CpCp + PPI																	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+ENZRXN-FOR-RnaPolymerization_GTP	RNA polymerization (GTP)	[c]: GMP + GTP ==> GpGp + PPI																	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+ENZRXN-FOR-RnaPolymerization_UTP	RNA polymerization (UTP)	[c]: UMP + UTP ==> PPI + UpUp																	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+ENZRXN-FOR-Rpe	ribulose 5-phosphate 3-epimerase	[c]: RL5P <==> X5P	NONOXIPENT_PWY																2*MG_112_MONOMER
+ENZRXN-REV-Rpe	ribulose 5-phosphate 3-epimerase	[c]: RL5P <==> X5P	NONOXIPENT_PWY																2*MG_112_MONOMER
+ENZRXN-FOR-RpiB	ribose-5-phosphate isomerase	[c]: RL5P <==> R5P	NONOXIPENT_PWY								2-MercaptoETOH;EDTA								2*MG_396_MONOMER
+ENZRXN-REV-RpiB	ribose-5-phosphate isomerase	[c]: RL5P <==> R5P	NONOXIPENT_PWY								2-MercaptoETOH;EDTA								2*MG_396_MONOMER
+ENZRXN-FOR-TatD_dAMP	deoxyribonuclease (dAMP)	[c]: dApdAp + H2O ==> (2) DAMP + H																	1*MG_009_MONOMER
+ENZRXN-FOR-TatD_dCMP	deoxyribonuclease (dCMP)	[c]: dCpdCp + H2O ==> (2) DCMP + H																	1*MG_009_MONOMER
+ENZRXN-FOR-TatD_dGMP	deoxyribonuclease (dGMP)	[c]: dGpdGp + H2O ==> (2) DGMP + H																	1*MG_009_MONOMER
+ENZRXN-FOR-TatD_dTMP	deoxyribonuclease (dTMP)	[c]: dTpdTp + H2O ==> (2) DTMP + H																	1*MG_009_MONOMER
+ENZRXN-FOR-Tdk1	deoxyuridine kinase (ATP:Deoxyuridine)	[c]: ATP + DU ==> ADP + DUMP + H	P1_PWY								Calmodulin;Dithiothreitol;ATP;DCDP;DCTP;GTP;Hydroxymethyl-DCDP;Hydroxymethyl-DCTP;Bovine serum albumin								2*MG_034_MONOMER
+ENZRXN-FOR-Tdk2	thymidine kinase (ATP:thymidine)	[c]: ATP + DT ==> ADP + DTMP + H	P1_PWY																2*MG_034_MONOMER
+ENZRXN-FOR-ThiL	thiamine-phosphate kinase	[c]: ATP + THMP <==> ADP + TPP	COFACTOR_PROSTHETIC_BIOSYNTHESIS																2*MG_372_MONOMER
+ENZRXN-REV-ThiL	thiamine-phosphate kinase	[c]: ATP + THMP <==> ADP + TPP	COFACTOR_PROSTHETIC_BIOSYNTHESIS																2*MG_372_MONOMER
+ENZRXN-FOR-ThyA	thymidylate synthase	[c]: DUMP + METTHF ==> DHF + DTMP + (2) H	P1_PWY								(NH4)2SO4;ATP;EDTA;dithioerythritol;Dithiothreitol;beta-mercaptoETOH;KCN;2,3-Dimercaptopropanol								2*MG_227_MONOMER
+ENZRXN-FOR-Tkt1	transketolase	[c]: R5P + X5P <==> S7P + T3P1	NONOXIPENT_PWY				TPP				CYS;ETOH								2*MG_066_MONOMER
+ENZRXN-REV-Tkt1	transketolase	[c]: R5P + X5P <==> S7P + T3P1	NONOXIPENT_PWY				TPP				CYS;ETOH								2*MG_066_MONOMER
+ENZRXN-FOR-Tkt2	transketolase	[c]: E4P + X5P <==> F6P + T3P1	NONOXIPENT_PWY				TPP				CYS;ETOH								2*MG_066_MONOMER
+ENZRXN-REV-Tkt2	transketolase	[c]: E4P + X5P <==> F6P + T3P1	NONOXIPENT_PWY				TPP				CYS;ETOH								2*MG_066_MONOMER
+ENZRXN-FOR-Tmk	thiamine kinase	[c]: ATP + DTMP <==> ADP + DTDP	COFACTOR_PROSTHETIC_BIOSYNTHESIS																2*MG_006_MONOMER
+ENZRXN-REV-Tmk	thiamine kinase	[c]: ATP + DTMP <==> ADP + DTDP	COFACTOR_PROSTHETIC_BIOSYNTHESIS																2*MG_006_MONOMER
+ENZRXN-FOR-TpiA	triose-phosphate isomerase	[c]: T3P2 <==> T3P1	GLYCOLYSIS								9-methyl-beta-carbolinium ion								2*MG_431_MONOMER
+ENZRXN-REV-TpiA	triose-phosphate isomerase	[c]: T3P2 <==> T3P1	GLYCOLYSIS								9-methyl-beta-carbolinium ion								2*MG_431_MONOMER
+ENZRXN-FOR-TrxB	thioredoxin reductase (NADPH)	[c]: H + MG_124_MONOMER_ox + NADPH <==> MG_124_MONOMER + NADP	OXIDATIVE_PHOSPHORYLATION				FAD				FADH2;CYS;KCN;PI;EDTA								2*MG_102_MONOMER
+ENZRXN-REV-TrxB	thioredoxin reductase (NADPH)	[c]: H + MG_124_MONOMER_ox + NADPH <==> MG_124_MONOMER + NADP	OXIDATIVE_PHOSPHORYLATION				FAD				FADH2;CYS;KCN;PI;EDTA								2*MG_102_MONOMER
+ENZRXN-FOR-TX_AROP11	L-phenylalanine reversible transport via proton symport	H[e] + TRP[e] <==> H[c] + TRP[c]																	2*MG_226_MONOMER
+ENZRXN-REV-TX_AROP11	L-phenylalanine reversible transport via proton symport	H[e] + TRP[e] <==> H[c] + TRP[c]																	2*MG_226_MONOMER
+ENZRXN-FOR-TX_AROP12	L-tryptophan reversible transport via proton symport	H[e] + PHE[e] <==> H[c] + PHE[c]																	2*MG_226_MONOMER
+ENZRXN-REV-TX_AROP12	L-tryptophan reversible transport via proton symport	H[e] + PHE[e] <==> H[c] + PHE[c]																	2*MG_226_MONOMER
+ENZRXN-FOR-TX_AROP13	L-tyrosine reversible transport via proton symport	H[e] + TYR[e] <==> H[c] + TYR[c]																	2*MG_226_MONOMER
+ENZRXN-REV-TX_AROP13	L-tyrosine reversible transport via proton symport	H[e] + TYR[e] <==> H[c] + TYR[c]																	2*MG_226_MONOMER
+ENZRXN-FOR-TX_AROP21	L-phenylalanine reversible transport via proton symport	H[e] + TRP[e] <==> H[c] + TRP[c]																	2*MG_225_MONOMER
+ENZRXN-REV-TX_AROP21	L-phenylalanine reversible transport via proton symport	H[e] + TRP[e] <==> H[c] + TRP[c]																	2*MG_225_MONOMER
+ENZRXN-FOR-TX_AROP22	L-tryptophan reversible transport via proton symport	H[e] + PHE[e] <==> H[c] + PHE[c]																	2*MG_225_MONOMER
+ENZRXN-REV-TX_AROP22	L-tryptophan reversible transport via proton symport	H[e] + PHE[e] <==> H[c] + PHE[c]																	2*MG_225_MONOMER
+ENZRXN-FOR-TX_AROP23	L-tyrosine reversible transport via proton symport	H[e] + TYR[e] <==> H[c] + TYR[c]																	2*MG_225_MONOMER
+ENZRXN-REV-TX_AROP23	L-tyrosine reversible transport via proton symport	H[e] + TYR[e] <==> H[c] + TYR[c]																	2*MG_225_MONOMER
+ENZRXN-FOR-TX_Cbi_Co	cobalt transport via ABC system	ATP[c] + CO[e] + H2O[c] ==> ADP[c] + CO[c] + H[c] + PI[c]																	1*MG_179_MONOMER,1*MG_180_MONOMER,2*MG_181_MONOMER
+ENZRXN-FOR-TX_Cbi_Ni	nickel transport via ABC system	ATP[c] + H2O[c] + NI[e] ==> ADP[c] + H[c] + NI[c] + PI[c]																	2*MG_302_MONOMER,1*MG_303_MONOMER,1*MG_304_MONOMER
+ENZRXN-FOR-TX_ComEC_dApdAp	DNA internalization (dApdAp)	(2) dApdAp[e] + H2O[e] ==> (2) DAMP[e] + dApdAp[c] + H[e]																	2*MG_316_MONOMER
+ENZRXN-FOR-TX_ComEC_dCpdCp	DNA internalization (dCpdCp)	(2) dCpdCp[e] + H2O[e] ==> (2) DCMP[e] + dCpdCp[c] + H[e]																	2*MG_316_MONOMER
+ENZRXN-FOR-TX_ComEC_dGpdGp	DNA internalization (dGpdGp)	(2) dGpdGp[e] + H2O[e] ==> (2) DGMP[e] + dGpdGp[c] + H[e]																	2*MG_316_MONOMER
+ENZRXN-FOR-TX_ComEC_dTpdTp	DNA internalization (dTpdTp)	(2) dTpdTp[e] + H2O[e] ==> (2) DTMP[e] + dTpdTp[c] + H[e]																	2*MG_316_MONOMER
+ENZRXN-FOR-TX_FRUPTS	D-fructose transport via PEP:Pyr PTS	FRU[e] + PEP[c] ==> F1P[c] + PYR[c]	TRANS_INNER																1*MG_041_MONOMER,2*MG_062_MONOMER,2*MG_429_MONOMER
+ENZRXN-FOR-TX_GL	glycerol transport via ABC system	ATP[c] + GL[e] + H2O[c] ==> ADP[c] + GL[c] + H[c] + PI[c]																	2*MG_186_MONOMER,1*MG_187_MONOMER,1*MG_188_MONOMER,1*MG_189_MONOMER
+ENZRXN-FOR-TX_GL3P	glycerol transport via ABC system	ATP[c] + GL3P[e] + H2O[c] ==> ADP[c] + GL3P[c] + H[c] + PI[c]																	2*MG_186_MONOMER,1*MG_187_MONOMER,1*MG_188_MONOMER,1*MG_189_MONOMER
+ENZRXN-FOR-TX_GLCPTS	D-glucose transport via PEP:Pyr PTS	GLC[e] + PEP[c] ==> G6P[c] + PYR[c]	TRANS_INNER																1*MG_041_MONOMER,2*MG_069_MONOMER,2*MG_429_MONOMER
+ENZRXN-FOR-TX_GLUP	glycerol transport via diffusion	GL[e] ==> GL[c]	TRANS_OUTER_PORIN																4*MG_033_MONOMER
+ENZRXN-FOR-TX_MdlB_doxorubicin	drug efflux (doxorubicin) via ABC system	ATP[c] + doxorubicin[c] + H2O[c] ==> ADP[c] + doxorubicin[e] + H[c] + PI[c]																	1*MG_014_MONOMER,1*MG_015_MONOMER
+ENZRXN-FOR-TX_MGTA_CA	calcium-transporting ATPase	ATP[c] + CA[e] + H2O[c] ==> ADP[c] + CA[c] + H[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_CU	copper-transporting ATPase	ATP[c] + CU[e] + H2O[c] ==> ADP[c] + CU[c] + H[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_FE2	iron (II) transporting ATPase	ATP[c] + FE2[e] + H2O[c] ==> ADP[c] + FE2[c] + H[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_FE3	iron (III) transporting ATPase	ATP[c] + FE3[e] + H2O[c] ==> ADP[c] + FE3[c] + H[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_MG	Magnesium-transporting ATPase	ATP[c] + H2O[c] + MG[e] ==> ADP[c] + H[c] + MG[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_MN	Manganese-transporting ATPase	ATP[c] + H2O[c] + MN[e] ==> ADP[c] + H[c] + MN[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_MOBD	molybdate transporting ATPase	ATP[c] + H2O[c] + MOBD[e] ==> ADP[c] + H[c] + MOBD[c] + PI[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_MGTA_ZN	zinc-transporting ATPase	ATP[c] + H2O[c] + ZN[e] ==> ADP[c] + H[c] + PI[c] + ZN[c]																	1*MG_071_MONOMER
+ENZRXN-FOR-TX_NAUP2	sodium transport out via proton antiport	H[c] + NA[e] <==> H[e] + NA[c]	TRANS_INORG_ION																2*MG_322_MONOMER,2*MG_323_MONOMER
+ENZRXN-REV-TX_NAUP2	sodium transport out via proton antiport	H[c] + NA[e] <==> H[e] + NA[c]	TRANS_INORG_ION																2*MG_322_MONOMER,2*MG_323_MONOMER
+ENZRXN-FOR-TX_NormM_acriflavine	drug efflux (acriflavine) via sodium antiport	acriflavine[c] + NA[e] ==> acriflavine[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_benzalkonium	drug efflux (benzalkonium) via sodium antiport	benzalkonium[c] + NA[e] ==> benzalkonium[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_berberine	drug efflux (berberine) via sodium antiport	berberine[c] + NA[e] ==> berberine[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_ciprofloxacin	drug efflux (ciprofloxacin) via sodium antiport	ciprofloxacin[c] + NA[e] ==> ciprofloxacin[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_crystalViolet	drug efflux (crystal violet) via sodium antiport	crystalViolet[c] + NA[e] ==> crystalViolet[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_doxorubicin	drug efflux (doxorubicin) via sodium antiport	doxorubicin[c] + NA[e] ==> doxorubicin[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_enoxacin	drug efflux (enoxacin) via sodium antiport	enoxacin[c] + NA[e] ==> enoxacin[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_ethidium	drug efflux (ethidium bromide) via sodium antiport	ethidium[c] + NA[e] ==> ethidium[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_lomefloxacin	drug efflux (lomefloxacin) via sodium antiport	lomefloxacin[c] + NA[e] ==> lomefloxacin[e] + NA[c]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_norfloxacin	drug efflux (norfloxacin) via sodium antiport	NA[e] + norfloxacin[c] ==> NA[c] + norfloxacin[e]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_novobiocin	drug efflux (novobiocin) via sodium antiport	NA[e] + novobiocin[c] ==> NA[c] + novobiocin[e]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_proflavine	drug efflux (proflavine) via sodium antiport	NA[e] + proflavine[c] ==> NA[c] + proflavine[e]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_rhodamine6G	drug efflux (rhodamine 6G) via sodium antiport	NA[e] + rhodamine6G[c] ==> NA[c] + rhodamine6G[e]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_NormM_tetraphenylphosphonium	drug efflux (tetraphenylphosphonium) via sodium antiport	NA[e] + tetraphenylphosphonium[c] ==> NA[c] + tetraphenylphosphonium[e]																	1*MG_447_MONOMER
+ENZRXN-FOR-TX_OppB_Ala	oligopeptide (Ala) transport via ABC system	AlaAla[e] + ATP[c] + H2O[c] ==> ADP[c] + AlaAla[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Arg	oligopeptide (Arg) transport via ABC system	ArgArg[e] + ATP[c] + H2O[c] ==> ADP[c] + ArgArg[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Asn	oligopeptide (Asn) transport via ABC system	AsnAsn[e] + ATP[c] + H2O[c] ==> ADP[c] + AsnAsn[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Asp	oligopeptide (Asp) transport via ABC system	AspAsp[e] + ATP[c] + H2O[c] ==> ADP[c] + AspAsp[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Cys	oligopeptide (Cys) transport via ABC system	ATP[c] + CysCys[e] + H2O[c] ==> ADP[c] + CysCys[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Gln	oligopeptide (Gln) transport via ABC system	ATP[c] + GlnGln[e] + H2O[c] ==> ADP[c] + GlnGln[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Glu	oligopeptide (Glu) transport via ABC system	ATP[c] + GluGlu[e] + H2O[c] ==> ADP[c] + GluGlu[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Gly	oligopeptide (Gly) transport via ABC system	ATP[c] + GlyGly[e] + H2O[c] ==> ADP[c] + GlyGly[c] + H[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_His	oligopeptide (His) transport via ABC system	ATP[c] + H2O[c] + HisHis[e] ==> ADP[c] + H[c] + HisHis[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Ile	oligopeptide (Ile) transport via ABC system	ATP[c] + H2O[c] + IleIle[e] ==> ADP[c] + H[c] + IleIle[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Leu	oligopeptide (Leu) transport via ABC system	ATP[c] + H2O[c] + LeuLeu[e] ==> ADP[c] + H[c] + LeuLeu[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Lys	oligopeptide (Lys) transport via ABC system	ATP[c] + H2O[c] + LysLys[e] ==> ADP[c] + H[c] + LysLys[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Met	oligopeptide (Met) transport via ABC system	ATP[c] + H2O[c] + MetMet[e] ==> ADP[c] + H[c] + MetMet[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Phe	oligopeptide (Phe) transport via ABC system	ATP[c] + H2O[c] + PhePhe[e] ==> ADP[c] + H[c] + PhePhe[c] + PI[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Pro	oligopeptide (Pro) transport via ABC system	ATP[c] + H2O[c] + ProPro[e] ==> ADP[c] + H[c] + PI[c] + ProPro[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Ser	oligopeptide (Ser) transport via ABC system	ATP[c] + H2O[c] + SerSer[e] ==> ADP[c] + H[c] + PI[c] + SerSer[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Thr	oligopeptide (Thr) transport via ABC system	ATP[c] + H2O[c] + ThrThr[e] ==> ADP[c] + H[c] + PI[c] + ThrThr[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Trp	oligopeptide (Trp) transport via ABC system	ATP[c] + H2O[c] + TrpTrp[e] ==> ADP[c] + H[c] + PI[c] + TrpTrp[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Tyr	oligopeptide (Tyr) transport via ABC system	ATP[c] + H2O[c] + TyrTyr[e] ==> ADP[c] + H[c] + PI[c] + TyrTyr[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_OppB_Val	oligopeptide (Val) transport via ABC system	ATP[c] + H2O[c] + ValVal[e] ==> ADP[c] + H[c] + PI[c] + ValVal[c]	TRANS_INNER																1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+ENZRXN-FOR-TX_PHNT	2-aminoethylphosphonate transport via ABC system	AEPP[e] + ATP[c] + H2O[c] ==> ADP[c] + AEPP[c] + H[c] + PI[c]	TRANS_INNER																1*MG_289_MONOMER,2*MG_290_MONOMER,2*MG_291_MONOMER
+ENZRXN-FOR-TX_PIUP1	phosphate transport via ABC system	ATP[c] + H2O[c] + PI[e] ==> ADP[c] + H[c] + (2) PI[c]	TRANS_INORG_ION																2*MG_410_MONOMER,2*MG_411_MONOMER,1*MG_412_MONOMER
+ENZRXN-FOR-TX_RIBUP	D-ribose transport via ABC system	ATP[c] + H2O[c] + RIB[e] ==> ADP[c] + H[c] + PI[c] + RIB[c]	TRANS_INNER																1*MG_040_MONOMER,2*MG_119_MONOMER,1*MG_120_MONOMER,1*MG_121_MONOMER
+ENZRXN-FOR-TX_SalX_nisin	drug efflux (nisin) via ABC system	ATP[c] + H2O[c] + nisin[c] ==> ADP[c] + H[c] + nisin[e] + PI[c]																	1*MG_467_MONOMER,2*MG_468_MONOMER,1*MG_526_MONOMER
+ENZRXN-FOR-TX_SPMDUP1	spermidine transport via ABC system	ATP[c] + H2O[c] + SPMD[e] ==> ADP[c] + H[c] + PI[c] + SPMD[c]	TRANS_INNER																2*MG_042_MONOMER,1*MG_043_MONOMER,1*MG_044_MONOMER,1*MG_045_MONOMER
+ENZRXN-FOR-TX_SPRDUP2	putrescine transport via ABC system	ATP[c] + H2O[c] + PTRC[e] ==> ADP[c] + H[c] + PI[c] + PTRC[c]	TRANS_INNER																2*MG_042_MONOMER,1*MG_043_MONOMER,1*MG_044_MONOMER,1*MG_045_MONOMER
+ENZRXN-FOR-TX_SunT_nisin	toxin secretion (nisin) via ABC system	ATP[c] + H2O[c] + nisin[c] ==> ADP[c] + H[c] + nisin[e] + PI[c]																	2*MG_390_MONOMER
+ENZRXN-FOR-TX_TRK	potassium transport in via proton symport	H[e] + K[e] <==> H[c] + K[c]	TRANS_INORG_ION																2*MG_322_MONOMER,2*MG_323_MONOMER
+ENZRXN-REV-TX_TRK	potassium transport in via proton symport	H[e] + K[e] <==> H[c] + K[c]	TRANS_INORG_ION																2*MG_322_MONOMER,2*MG_323_MONOMER
+ENZRXN-FOR-TX_UHPT1	Glucose-6-phosphate transport via phosphate antiport	G6P[e] + (2) PI[c] ==> G6P[c] + (2) PI[e]	TRANS_INNER																1*MG_061_MONOMER
+ENZRXN-FOR-TX_UHPT2	Fucose-1-phosphate transport via phosphate antiport	FUC1P[e] + (2) PI[c] ==> FUC1P[c] + (2) PI[e]	TRANS_INNER																1*MG_061_MONOMER
+ENZRXN-FOR-TX_UHPT3	Mannose-6-phosphate transport via phosphate antiport	MAN6P[e] + (2) PI[c] ==> MAN6P[c] + (2) PI[e]	TRANS_INNER																1*MG_061_MONOMER
+ENZRXN-FOR-Udk1	uridine kinase (GTP:Uridine)	[c]: GTP + URI ==> GDP + H + UMP	P1_PWY								2-MercaptoETOH;Dithiothreitol								4*MG_382_MONOMER
+ENZRXN-FOR-Udk2	cytidine kinase (GTP)	[c]: CYTD + GTP ==> CMP + GDP + H	P1_PWY								2-MercaptoETOH;Dithiothreitol								4*MG_382_MONOMER
+ENZRXN-FOR-Ung_ho5URA	base excision (5-hydroxyuracil)	[c]: H2O + ho5dUMP ==> DR5P + ho5URA																	1*MG_097_MONOMER
+ENZRXN-FOR-Ung_URA	base excision (uracil)	[c]: DUMP + H2O ==> DR5P + URA																	1*MG_097_MONOMER
+ENZRXN-FOR-Upp	uracil phosphoribosyltransferase	[c]: PRPP + URA ==> PPI + UMP	P1_PWY								Glutathione;DGTP;GSN-3',5'-diphosphate;GTP								3*MG_030_MONOMER
+ENZRXN-FOR-YbiV_deoxyG6P	sugar phosphatase (2-deoxy-glucose-6-phosphate)	[c]: deoxyG6P + H2O ==> deoxyGLC + (2) H + PI																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_F6P	sugar phosphatase (fructose-6-phosphate)	[c]: F6P + H2O ==> FRU + PI																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_G6P	sugar phosphatase (glucose-6-phosphate)	[c]: G6P + H2O ==> GLC + PI																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_GL2P	sugar phosphatase (sn-glycerol-2-phosphate)	[c]: GL2P + H2O ==> GL + PI																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_MAN6P	sugar phosphatase (mannose-6-phosphate)	[c]: H2O + MAN6P ==> MAN + PI																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_R5P	sugar phosphatase (ribose-5-phosphate)	[c]: H2O + R5P ==> PI + RIB																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_SBT6P	sugar phosphatase (sorbitol-6-phosphate)	[c]: H2O + SBT6P ==> H + PI + SBT																	2*MG_265_MONOMER
+ENZRXN-FOR-YbiV_SNGLYP	sugar phosphatase (sn-glycerol-1-phosphate)	[c]: H2O + SNGLYP ==> GL + PI																	2*MG_265_MONOMER

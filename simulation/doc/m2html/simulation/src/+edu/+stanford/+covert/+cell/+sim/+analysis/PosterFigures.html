@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of PosterFigures</title>
+  <meta name="keywords" content="PosterFigures">
+  <meta name="description" content="Poster Figures">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; PosterFigures.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>PosterFigures
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Poster Figures</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Poster Figures
+ Make figures for posters
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Created: 9/13/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PosterFigures.html" class="code" title="">PosterFigures</a>	Poster Figures</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PosterFigures.html" class="code" title="">PosterFigures</a>	Poster Figures</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(eventName, outputDir)</a></li><li><a href="#_sub2" class="code">function pioneer2011(outputDir)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Poster Figures</span>
+0002 <span class="comment">% Make figures for posters</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Created: 9/13/2011</span>
+0007 classdef <a href="PosterFigures.html" class="code" title="">PosterFigures</a>
+0008     methods (Static = true);
+0009         <a name="_sub0" href="#_subfunctions" class="code">function run(eventName, outputDir)</a>
+0010             import edu.stanford.covert.cell.sim.analysis.PosterFigures
+0011             
+0012             PosterFigures.(eventName)(outputDir);
+0013         <span class="keyword">end</span>
+0014         
+0015         <a name="_sub1" href="#_subfunctions" class="code">function pioneer2011(outputDir)</a>
+0016             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0017             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0018             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0019             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0020             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0021             import edu.stanford.covert.cell.sim.analysis.ProcessMetaboliteUsage;
+0022             
+0023             simBatchDir = <span class="string">'2011_09_09_19_17_51'</span>;
+0024             simNum = 1;
+0025             [~, ~, sim] = SimulationDiskUtil.getSimulation([simBatchDir filesep num2str(simNum)]);
+0026             
+0027             <span class="comment">%% Gene -&gt; RNA -&gt; Protein -&gt; Growth Correlation</span>
+0028             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0029             SingleCell.growth(sim, simBatchDir, simNum, figHandle)
+0030             saveas(figHandle, [outputDir filesep <span class="string">'Growth.eps'</span>], <span class="string">'epsc'</span>);
+0031             close(figHandle);
+0032             
+0033             <span class="comment">%% Chromosomal stuff</span>
+0034             [simDir, ~, sim] = SimulationDiskUtil.getSimulation([simBatchDir filesep num2str(simNum)]);
+0035             c = sim.state(<span class="string">'Chromosome'</span>);
+0036             
+0037             simIdx = num2str(SimulationDiskUtil.getSimulationIndex(simDir));
+0038             simTimeStamp = SimulationDiskUtil.getSimulationTimeStamp(simDir);
+0039             stateNames = {<span class="string">'ProteinComplex'</span> <span class="string">'counts'</span>
+0040                 <span class="string">'Chromosome'</span> <span class="string">'complexBoundSites'</span>
+0041                 <span class="string">'Chromosome'</span> <span class="string">'monomerBoundSites'</span>
+0042                 <span class="string">'Chromosome'</span> <span class="string">'polymerizedRegions'</span>
+0043                 <span class="string">'RNAPolymerase'</span> <span class="string">'positionStrands'</span>
+0044                 <span class="string">'RNAPolymerase'</span> <span class="string">'states'</span>
+0045                 <span class="string">'RNAPolymerase'</span> <span class="string">'transcriptionFactorBindingProbFoldChange'</span>
+0046                 <span class="string">'Time'</span> <span class="string">'values'</span>};
+0047             states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0048             
+0049             height = 1000;
+0050             width = 1000;
+0051             
+0052             RNAPSparseMat = ChromosomeSpaceTimePlot.makeRNAPSparseMat(states, sim);
+0053             
+0054             [ax, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0055             [densityBEMatrix, maxTime, maxSpace] = ChromosomeSpaceTimePlot.makeSpaceTimeDensityPlots(<span class="keyword">...</span>
+0056                 ax, sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0057                 ChromosomeSpaceTimePlot.chromProteins, [], width, height, simTimeStamp, simIdx);
+0058             close(figHandle);
+0059             [ax, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0060             set(figHandle, <span class="string">'Color'</span>, [1 1 1]);
+0061             ChromosomeSpaceTimePlot.plotCircularDensity(<span class="keyword">...</span>
+0062                 ax, densityBEMatrix, maxTime, sim, false, <span class="keyword">...</span>
+0063                 sprintf(<span class="string">'Circular Chromosome Density Plot\nSimulation: %s #%s'</span>, simTimeStamp, simIdx));
+0064             set(ax, <span class="string">'Position'</span>, [0.2 0.2 0.6 0.6])
+0065             saveas(figHandle, [outputDir filesep <span class="string">'CircularDensity.eps'</span>], <span class="string">'epsc'</span>);
+0066             close(figHandle);
+0067             
+0068             selectedTime = 4 * 3600;
+0069             [ax, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0070             ChromosomeSpaceTimePlot.makeRingPlot(<span class="keyword">...</span>
+0071                 ax, sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0072                 ChromosomeSpaceTimePlot.chromProteins, [], selectedTime, <span class="keyword">...</span>
+0073                 maxSpace);
+0074             saveas(figHandle, [outputDir filesep <span class="string">'RingPlot.eps'</span>], <span class="string">'epsc'</span>);
+0075             close(figHandle);
+0076 
+0077             
+0078             [ax, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0079             whatToShow = {<span class="string">'Topoisomerase IV'</span>, <span class="string">'DnaA Complex'</span>, <span class="string">'LuxR'</span>, <span class="string">'HTH Regulator'</span>, <span class="string">'Ferric uptake repressor'</span>, <span class="string">'Helicase'</span>};
+0080             ChromosomeSpaceTimePlot.plotSpaceTimeOverlay(<span class="keyword">...</span>
+0081                 ax, sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0082                 ChromosomeSpaceTimePlot.chromProteins, whatToShow, <span class="keyword">...</span>
+0083                 sprintf(<span class="string">'Chromosome 1\nSimulation: %s #%s'</span>, simTimeStamp, simIdx));
+0084             set(figHandle, <span class="string">'Renderer'</span>, <span class="string">'Painters'</span>)
+0085             saveas(figHandle, [outputDir filesep <span class="string">'SpaceTimeOverlay.eps'</span>], <span class="string">'epsc'</span>);
+0086             close(figHandle);
+0087             clear(<span class="string">'states'</span>, <span class="string">'stateNames'</span>, <span class="string">'RNAPSparseMat'</span>, <span class="string">'whatToShow'</span>, <span class="string">'height'</span>, <span class="string">'width'</span>);
+0088 <span class="comment">%</span>
+0089             <span class="comment">%% Metabolite Usages</span>
+0090             wIDsToShow = {<span class="string">'ATP'</span>, <span class="string">'GTP'</span>};
+0091             desiredInfo = <span class="string">'Usages'</span>;
+0092             [ax, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0093             ProcessMetaboliteUsage.processSingleCellMetaboliteHandler(wIDsToShow, <span class="string">'Usages'</span>, figHandle, <span class="string">'2011_09_09_19_17_51'</span>, simNum)
+0094             saveas(figHandle, [outputDir filesep <span class="string">'ProcessUsages.eps'</span>], <span class="string">'epsc'</span>);
+0095         <span class="keyword">end</span>
+0096     <span class="keyword">end</span>
+0097 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

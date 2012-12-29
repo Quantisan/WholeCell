@@ -1,0 +1,371 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: regulation.dat
+# Date and time generated: March 29, 2012, 18:01:33
+#
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_008
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_008
+REGULATED-ENTITY - TU_008
+REGULATOR - MG_236_MONOMER
+MODE - (10 0.2 TGA[TA]AAT[GC]ATT[AT]TCA[AT]T)
+GROWTH-CONDITIONS - 0.1 um FeCl3
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Fur transcriptional regulatory activity inferred from B. subtilis [PUB_0438 table 2, PUB_0419]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_016
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_016
+REGULATED-ENTITY - TU_016
+REGULATOR - MG_236_MONOMER
+MODE - ( 0.780195 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_085
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_085
+REGULATED-ENTITY - TU_085
+REGULATOR - MG_236_MONOMER
+MODE - ( 0.536531 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_097
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_097
+REGULATED-ENTITY - TU_097
+REGULATOR - MG_236_MONOMER
+MODE - ( 0.753258 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_196
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_196
+REGULATED-ENTITY - TU_196
+REGULATOR - MG_236_MONOMER
+MODE - (10 0.5 TGA[TA]AAT[GC]ATT[AT]TCA[AT]T)
+GROWTH-CONDITIONS - 0.1 um FeCl3
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Fur transcriptional regulatory activity inferred from B. subtilis [PUB_0438 table 2, PUB_0419]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_207
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_207
+REGULATED-ENTITY - TU_207
+REGULATOR - MG_236_MONOMER
+MODE - ( 0.883539 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_222
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_222
+REGULATED-ENTITY - TU_222
+REGULATOR - MG_236_MONOMER
+MODE - ( 1.13985 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418]. Binding site computed by aligning upstream regions (100bp) using MEME. Guell et al used the same procedure for M. pneumoniae, but identified a different motif [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_fur_TU_249
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_fur_TU_249
+REGULATED-ENTITY - TU_249
+REGULATOR - MG_236_MONOMER
+MODE - ( 1.24785 GT[TC]TTA[TAC]TTT[TGC]AA[AGT]AA)
+GROWTH-CONDITIONS - fur overexpression
+COMMENT - Fur transcription factor is activated by iron stress (low iron or iron deficiency), and negatively regulates expression of siderophore biosynthesis and ferri-siderophore uptake genes [PUB_0418, PUB_0419, PUB_0438]. Güell et al reported that Fur controls the expression of several genes in M. pneumoniae [PUB_0418]. We estimated the regulatory effect of Fur on the reported genes using the ratio of gene expression under fur overexpression to that of the average of the control conditions (GC_10-NaCl1.1, GC_10-NaCl1.2, and GC_10-NaCl1.3) [PUB_0418].
+//
+UNIQUE-ID - TranscriptionalRegulation_gntR_TU_063
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_gntR_TU_063
+REGULATED-ENTITY - TU_063
+REGULATOR - MG_101_MONOMER
+MODE - ( 0.02 ATACTTGTATACAAGTAT)
+GROWTH-CONDITIONS - absence of 10 mM gluconate
+COMMENT - GntR transcription factor is an HTH-type transcriptional regulator [PUB_0096] which represses its own transcription and that of genes involved in gluconate metabolism [PUB_0110, PUB_0196]. GntR transcriptional regulatory activity was inferred from B. subtilis [PUB_0433, PUB_0419]. GntR is repressed by gluconate [PUB_0110]. Consensus sequence ATACTTGTATACAAGTAT is 18 bp [PUB_0419]. In M. genitalium the upstream region doesn't contain the consensus binding sequence. Consequently, we wanted set the transcription factor binding site by setting its distance from the start codon to be the mean of that of observed transcription factors (56 nt). However, this would have overlapped with the LuxR binding site which is further upstream, so we set the GntR binding site to be just immediately downstream of the LuxR binding site.
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_010
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_010
+REGULATED-ENTITY - TU_010
+REGULATOR - MG_205_DIMER
+MODE - ( 0.3425 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186] and M. pneumoniae [PUB_0418]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433].
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_122
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_122
+REGULATED-ENTITY - TU_122
+REGULATOR - MG_205_DIMER
+MODE - ( 0.4785 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. However there is no CIRCE motif upstream of this transcription unit [PUB_0186].  Consequently, we set the transcription factor binding site by setting its distance from the start codon to be the mean of that of other HrcA binding sites (61 nt).
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_155
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_155
+REGULATED-ENTITY - TU_155
+REGULATOR - MG_205_DIMER
+MODE - ( 0.1751 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186] and M. pneumoniae [PUB_0418]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433].
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_208
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_208
+REGULATED-ENTITY - TU_208
+REGULATOR - MG_205_DIMER
+MODE - ( 0.3817 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186] and M. pneumoniae [PUB_0418]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433].
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_258
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_258
+REGULATED-ENTITY - TU_258
+REGULATOR - MG_205_DIMER
+MODE - ( 0.0778 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186] and M. pneumoniae [PUB_0418]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. However there is no CIRCE motif upstream of this transcription unit [PUB_0186].  Consequently, we set the transcription factor binding site by setting its distance from the start codon to be the mean of that of other HrcA binding sites (61 nt).
+//
+UNIQUE-ID - TranscriptionalRegulation_hrcA_TU_285
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_hrcA_TU_285
+REGULATED-ENTITY - TU_285
+REGULATOR - MG_205_DIMER
+MODE - ( 0.9009 CIRCE (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA))
+GROWTH-CONDITIONS - absence of 42C heat
+COMMENT - HrcA represses the transcription of the heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. HrcA recognizes the CIRCE motif (TTAGCACTCAAA[GC][TGC][ACGT]TT[TA]GAGTGCTAA). HrcA transcriptional regulatory activity was measured in M. genitalium [PUB_0186] and M. pneumoniae [PUB_0418]. HrcA is repressed by heat, leading to derepression or increased expression of chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433]. However there is no CIRCE motif upstream of this transcription unit [PUB_0186].  Consequently, we set the transcription factor binding site by setting its distance from the start codon to be the mean of that of other HrcA binding sites (61 nt).
+//
+UNIQUE-ID - TranscriptionalRegulation_luxR_TU_063
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_luxR_TU_063
+REGULATED-ENTITY - TU_063
+REGULATOR - MG_428_DIMER
+MODE - ( 1 NNNYRNNNNNNNNNNYRDNB)
+COMMENT - Canonical LuxR contains a C-terminal DNA-binding domain and an N-terminal signal binding domain. M. genitalium MG_428 contains only a DNA-binding domain. LuxR DNA-binding domain binds lux boxes with the consensus sequence NNNYRNNNNNNNNNNYRDNB [PUB_0505].
+/
+/MG_103 and MG_447 were identified as possible LuxR-regulated genes using the consensus sequence and this procedure:
+/
+/Use the minimal luxR promoter given from the literature and find best hits in the M. genitalium genome
+/Filter by those which have >10 bp identity with wildtype lux box
+/Filter by those which have >4 bp identity with sites 3-5 and 16-18
+/Filter by those with an 8bp palindrome or greater
+/
+/
+/Because MG_428 lacks the canonical N-terminal signal binding domain we have set the fold change activity of MG_428 on MG_103 and MG_447 to 1 (no effect). Searched genome for NNNYRNNNNNNNNNNYRDNB motif. Picked motif closest upstream to transcription unit.
+//
+UNIQUE-ID - TranscriptionalRegulation_luxR_TU_318
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_luxR_TU_318
+REGULATED-ENTITY - TU_318
+REGULATOR - MG_428_DIMER
+MODE - ( 1 A[CA]CTGTAA[AT][AT]*T[TGA]ACAG[GT]T)
+COMMENT - Canonical LuxR contains a C-terminal DNA-binding domain and an N-terminal signal binding domain. M. genitalium MG_428 contains only a DNA-binding domain. LuxR DNA-binding domain binds lux boxes with the consensus sequence A[CA]CTGTAA[AT][AT]*T[TGA]ACAG[GT]T [PUB_0505].
+/
+/MG_103 and MG_447 were identified as possible LuxR-regulated genes using the consensus sequence and this procedure:
+/
+/Use the minimal luxR promoter given from the literature and find best hits in the M. genitalium genome
+/Filter by those which have >10 bp identity with wildtype lux box
+/Filter by those which have >4 bp identity with sites 3-5 and 16-18
+/Filter by those with an 8bp palindrome or greater
+/
+/
+/Because MG_428 lacks the canonical N-terminal signal binding domain we have set the fold change activity of MG_428 on MG_103 and MG_447 to 1 (no effect).
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_008
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_008
+REGULATED-ENTITY - TU_008
+REGULATOR - MG_127_MONOMER
+MODE - ( 6.25337 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_014
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_014
+REGULATED-ENTITY - TU_014
+REGULATOR - MG_127_MONOMER
+MODE - ( 10.0123 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_030
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_030
+REGULATED-ENTITY - TU_030
+REGULATOR - MG_127_MONOMER
+MODE - ( 3.59777 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_051
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_051
+REGULATED-ENTITY - TU_051
+REGULATOR - MG_127_MONOMER
+MODE - ( 0.322394 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_063
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_063
+REGULATED-ENTITY - TU_063
+REGULATOR - MG_127_MONOMER
+MODE - ( 9.25683 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0112, PUB_0420, PUB_0434, PUB_0435, PUB_0436, PUB_0437]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_074
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_074
+REGULATED-ENTITY - TU_074
+REGULATOR - MG_127_MONOMER
+MODE - ( 0.203117 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_076
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_076
+REGULATED-ENTITY - TU_076
+REGULATOR - MG_127_MONOMER
+MODE - ( 14.8472 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0112, PUB_0420, PUB_0434, PUB_0435, PUB_0436, PUB_0437]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_113
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_113
+REGULATED-ENTITY - TU_113
+REGULATOR - MG_127_MONOMER
+MODE - ( 5.43749 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_180
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_180
+REGULATED-ENTITY - TU_180
+REGULATOR - MG_127_MONOMER
+MODE - ( 5.71537 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_190
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_190
+REGULATED-ENTITY - TU_190
+REGULATOR - MG_127_MONOMER
+MODE - ( 3.37688 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_198
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_198
+REGULATED-ENTITY - TU_198
+REGULATOR - MG_127_MONOMER
+MODE - ( 0.252897 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_207
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_207
+REGULATED-ENTITY - TU_207
+REGULATOR - MG_127_MONOMER
+MODE - ( 0.297064 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - TranscriptionalRegulation_spx_TU_326
+TYPES - Regulation-of-Transcription-Initiation
+ASSOCIATED-BINDING-SITE - BS0-TranscriptionalRegulation_spx_TU_326
+REGULATED-ENTITY - TU_326
+REGULATOR - MG_127_MONOMER
+MODE - ( 3.81207 )
+GROWTH-CONDITIONS - thiol stress (1 mM l-cysteine, l-methionine, MgSO4, or diamide)
+COMMENT - Spx is activated by thiol-specific oxidative stress, and enhances the expression of reductases [PUB_0434, PUB_0435, PUB_0436]. Spx transcriptional regulatory activity described by several groups [PUB_0434, PUB_0435, PUB_0436]. Doesn't directly interact with DNA. Effects transcription rates by interacting only with RNA polymerase [PUB_0434].
+//
+UNIQUE-ID - Regulation_DNA_GYRASE
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - DNA_GYRASE
+MECHANISM - !ciprofloxacin & !difloxacin & !sparfloxacin
+COMMENT - Fluoroquinolone antibiotics inhibit topoisomerase II / DNA gyrase [PUB_0847].
+//
+UNIQUE-ID - Regulation_MG_085_HEXAMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_085_HEXAMER
+MECHANISM - G6P>5
+COMMENT - Glucose-6-phosphate regulates catabolite repression through the pathway: glycolytic intermediates ? HprK ? Hpr/PtsH &#8867; sugar-specific PTS enzymes [PUB_0454]. That is under high levels of glycolytic intermediates (eg. glucose 6-phosphate, fructose 1,6-diphosphate, and 2-phosphoglycerate) HprK phosphorylates Hpr [PUB_0454, PUB_0458].
+//
+UNIQUE-ID - Regulation_MG_101_MONOMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_101_MONOMER
+MECHANISM - !stimulus_gluconate
+COMMENT - Represses GntR transcription factor [PUB_0110, PUB_0196].
+//
+UNIQUE-ID - Regulation_MG_127_MONOMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_127_MONOMER
+MECHANISM - stimulus_thiolStress
+COMMENT - Thiol stress activates Spx transcription factor [PUB_0434, PUB_0435, PUB_0436].
+//
+UNIQUE-ID - Regulation_MG_203_204_TETRAMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_203_204_TETRAMER
+MECHANISM - !ciprofloxacin & !difloxacin & !sparfloxacin
+COMMENT - Fluoroquinolone antibiotics inhibit topoisomerase IV [PUB_0847].
+//
+UNIQUE-ID - Regulation_MG_205_DIMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_205_DIMER
+MECHANISM - temperature>=43
+COMMENT - Heat represses HrcA transription factor leading to derepression of heat-shock proteins including chaperones and chaperonins [PUB_0186, PUB_0418, PUB_0419, PUB_0433].
+//
+UNIQUE-ID - Regulation_MG_236_MONOMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_236_MONOMER
+MECHANISM - stimulus_ironStress
+COMMENT - Iron stress activates Fur transcription factor [PUB_0418, PUB_0419, PUB_0438].
+//
+UNIQUE-ID - Regulation_MG_409_DIMER
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - MG_409_DIMER
+MECHANISM - PI>20
+COMMENT - PhoU (MG_409) regulates phosphate transport through two mechanisms at high phosphate levels (>20 mM): 1) inactivates PstABCS (MG_410, MG_411, MG_412), and 2) through PhoR transcriptional repression of the PhoU, PstABCS operon [PUB_0218, PUB_0453].
+//
+UNIQUE-ID - Regulation_RIBOSOME_30S
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - RIBOSOME_30S
+MECHANISM - !gentamicin & !spectinomycin & !streptomycin & !tetracycline
+COMMENT - Tetracycline and aminoglycoside antibiotic inhibit 30S ribosomal subunits [PUB_0847].
+//
+UNIQUE-ID - Regulation_RIBOSOME_50S
+TYPES - Regulation-of-Enzyme-Activity
+REGULATED-ENTITY - RIBOSOME_50S
+MECHANISM - !azithromycin & !chloramphenicol & !clarithromycin & !clindamycin & !erythromycin & !lincomycin & !pristinamycin
+COMMENT - Macrolide, lincosamide, and chloramphenicol antibiotics inhibit 50S ribosomal subunits [PUB_0847].
+//

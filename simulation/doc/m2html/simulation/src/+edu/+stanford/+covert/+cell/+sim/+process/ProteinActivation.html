@@ -1,0 +1,569 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinActivation</title>
+  <meta name="keywords" content="ProteinActivation">
+  <meta name="description" content="Protein Activation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinActivation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinActivation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Activation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Activation
+
+ @wholeCellModelID Process_ProteinActivation
+ @name             Protein Activation
+ @description
+   Biology
+   ================================
+   The activity of proteins and other macromolecules can be modulated by other
+   molecules such as free metabolites (and pseudo metabolites we've represented
+   as stimuli) both at the enzymatically active site, and at more distant
+   allosteric sites. This regulation helps proteins, and thereby the cell,
+   respond to changes in the internal and external environments, and maintain
+   homeostasis. From a network perspective, this regulation can give rise
+   to positive and negative feedback loops.
+
+   This process models protein regulation by transitioning proteins between
+   enzymatically active (simulation properties matureMonomers and
+   matureComplexs) and inactive states (simulation properties inactiveMonomers
+   and inactiveComplexs) according to boolean regulatory rules built from the
+   primary literature. Regulatory rules are evaluated independently for each
+   compartment. Proteins for which we have not implemented a regulatory
+   rule are assumed to always remain in the enyzmatically active state.
+
+   Knowledge Base
+   ================================
+   As of 8/9/2010 the M. genitalium knowledge base includes regulatory rules
+   for six proteins:
+   - MG_085_HEXAMER  HPr(Ser) kinase/phosphatase
+   - MG_101_MONOMER  Uncharacterized HTH-type transcriptional regulator
+   - MG_127_MONOMER  Spx subfamily protein
+   - MG_205_DIMER    heat-inducible transcription repressor HrcA, putative
+   - MG_236_MONOMER  ferric uptake repressor
+   - MG_409_DIMER    phosphate transport system regulatory protein PhoU,
+                     putative
+
+   Boolean activation rule syntax
+   ++++++++++++++++++++++++++++++++
+   - Boolean activation rules must evaluate to true or false where true
+     indicates that the protein species is active, and false indicates
+     the protein species is inactive. That is protein species are
+     activated/inactivated in an all-or-nothing fashion for each
+     compartment.
+   - Using Whole Cell Model IDs boolean rules can contain references to
+     counts/concentrations of several kinds of objects:
+     - stimuli                    count                (simulation.stimuli)
+     - metabolites                concentration (mM)   (simulation.metabolites)
+     - mature protein monomers    concentration (mM)   (simulation.matureIndexs)
+     - mature protein complexes   concentration (mM)   (simulation.matureComplexIndexs)
+     That is, Whole Cell Model IDs of knowledge base objects contained
+     within boolean rules will replaced by the current value or
+     concentration in mM of the corresponding knowledge base object before
+     evaluation of the boolean rule
+   - Boolean activation rules permit the operators: |, &amp;, +, -, !, &lt;, &gt;, &lt;=, &gt;=, ==
+   - Boolean activation rules permit parenthesis for grouping
+   - Boolean activation rules permit spaces
+
+   Examples
+   - objectID1 &gt; val1
+   - objectID1 &lt;= val1
+   - objectID1 == val1 | objectID2&gt;conc2
+   - objectID1 == val1 | !(objectID2&gt;conc2 &amp; objectID3&lt;=conc3 &amp; (objectID4+object5)&lt;conc5)
+
+   Representation
+   ================================
+   The substrates and inactivatedSubstrates properties represent the counts of
+   enzymatically active proteins in each compartment (all of the compartments
+   in the simulation are separately mapped to this process). stimuli represents
+   the  values of external perturbations and pseudo free metabolites
+   (simulation property stimuli), free metabolites, and macromolecules which
+   affect the activity of the proteins.
+
+   activationRules represents the boolean regulatory rules governing each of
+   the proteins in substrates. The activation rule for each protein is
+   evaluated independently for each compartment. Boolean rules are transcoded
+   to MATLAB syntax from the syntax described above during initializeConstants.
+   Boolean rules are evaluated using the MATLAB eval command in a workspace
+   where variables having the names of whole cell model ids of the stimuli are
+   defined and set to the value/concentration of the corresponding stimulus.
+
+   Initialization
+   ================================
+   The same boolean regulatory rules that are evaluated during the simulation
+   are evaluated during initialization. Proteins for which their regulatory
+   rule evaluates to false are initialized to the inactive state
+   (inactivatedSubstrates); proteins for which their regulatory rule evaluates to
+   true are initialized to the active state (substrates). This is achieved by
+   calling the evolveState method.
+
+   Simulation
+   ================================
+   For each compartment
+     1. Use scaleComponents to compute the concentrations of objects (except
+        stimuli objects) mapped to the process's stimuli property.
+     2. Assign to local variables named with the stimuli Whole Cell Model IDs
+        values equal that of the corresponding object (for stimuli objects) or
+        the concentration (for all other objects) of the corresponding object
+        computed in (1).
+     3. Evaluate boolean regulatory rule of each protein using the MATLAB eval
+        command.
+     4. Update substrates and inactivatedSubstrates properties based on (3).
+        Proteins whose boolean regulation rule evaluates to false are
+        transitioned from substrates to inactivatedSubstrates. Proteins whose
+        boolean regulation rule evaluates to true undergo the opposite
+        transition.
+   End
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/9/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinActivation.html" class="code" title="">ProteinActivation</a>	Protein Activation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinActivation.html" class="code" title="">ProteinActivation</a>	Protein Activation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinActivation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function value = transcodeActivationRules(~, value)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function activatedSubstrates = evaluateActivationRules(this)</a></li><li><a href="#_sub12" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001  <span class="comment">%Protein Activation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinActivation</span>
+0004 <span class="comment">% @name             Protein Activation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ================================</span>
+0008 <span class="comment">%   The activity of proteins and other macromolecules can be modulated by other</span>
+0009 <span class="comment">%   molecules such as free metabolites (and pseudo metabolites we've represented</span>
+0010 <span class="comment">%   as stimuli) both at the enzymatically active site, and at more distant</span>
+0011 <span class="comment">%   allosteric sites. This regulation helps proteins, and thereby the cell,</span>
+0012 <span class="comment">%   respond to changes in the internal and external environments, and maintain</span>
+0013 <span class="comment">%   homeostasis. From a network perspective, this regulation can give rise</span>
+0014 <span class="comment">%   to positive and negative feedback loops.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   This process models protein regulation by transitioning proteins between</span>
+0017 <span class="comment">%   enzymatically active (simulation properties matureMonomers and</span>
+0018 <span class="comment">%   matureComplexs) and inactive states (simulation properties inactiveMonomers</span>
+0019 <span class="comment">%   and inactiveComplexs) according to boolean regulatory rules built from the</span>
+0020 <span class="comment">%   primary literature. Regulatory rules are evaluated independently for each</span>
+0021 <span class="comment">%   compartment. Proteins for which we have not implemented a regulatory</span>
+0022 <span class="comment">%   rule are assumed to always remain in the enyzmatically active state.</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   Knowledge Base</span>
+0025 <span class="comment">%   ================================</span>
+0026 <span class="comment">%   As of 8/9/2010 the M. genitalium knowledge base includes regulatory rules</span>
+0027 <span class="comment">%   for six proteins:</span>
+0028 <span class="comment">%   - MG_085_HEXAMER  HPr(Ser) kinase/phosphatase</span>
+0029 <span class="comment">%   - MG_101_MONOMER  Uncharacterized HTH-type transcriptional regulator</span>
+0030 <span class="comment">%   - MG_127_MONOMER  Spx subfamily protein</span>
+0031 <span class="comment">%   - MG_205_DIMER    heat-inducible transcription repressor HrcA, putative</span>
+0032 <span class="comment">%   - MG_236_MONOMER  ferric uptake repressor</span>
+0033 <span class="comment">%   - MG_409_DIMER    phosphate transport system regulatory protein PhoU,</span>
+0034 <span class="comment">%                     putative</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   Boolean activation rule syntax</span>
+0037 <span class="comment">%   ++++++++++++++++++++++++++++++++</span>
+0038 <span class="comment">%   - Boolean activation rules must evaluate to true or false where true</span>
+0039 <span class="comment">%     indicates that the protein species is active, and false indicates</span>
+0040 <span class="comment">%     the protein species is inactive. That is protein species are</span>
+0041 <span class="comment">%     activated/inactivated in an all-or-nothing fashion for each</span>
+0042 <span class="comment">%     compartment.</span>
+0043 <span class="comment">%   - Using Whole Cell Model IDs boolean rules can contain references to</span>
+0044 <span class="comment">%     counts/concentrations of several kinds of objects:</span>
+0045 <span class="comment">%     - stimuli                    count                (simulation.stimuli)</span>
+0046 <span class="comment">%     - metabolites                concentration (mM)   (simulation.metabolites)</span>
+0047 <span class="comment">%     - mature protein monomers    concentration (mM)   (simulation.matureIndexs)</span>
+0048 <span class="comment">%     - mature protein complexes   concentration (mM)   (simulation.matureComplexIndexs)</span>
+0049 <span class="comment">%     That is, Whole Cell Model IDs of knowledge base objects contained</span>
+0050 <span class="comment">%     within boolean rules will replaced by the current value or</span>
+0051 <span class="comment">%     concentration in mM of the corresponding knowledge base object before</span>
+0052 <span class="comment">%     evaluation of the boolean rule</span>
+0053 <span class="comment">%   - Boolean activation rules permit the operators: |, &amp;, +, -, !, &lt;, &gt;, &lt;=, &gt;=, ==</span>
+0054 <span class="comment">%   - Boolean activation rules permit parenthesis for grouping</span>
+0055 <span class="comment">%   - Boolean activation rules permit spaces</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   Examples</span>
+0058 <span class="comment">%   - objectID1 &gt; val1</span>
+0059 <span class="comment">%   - objectID1 &lt;= val1</span>
+0060 <span class="comment">%   - objectID1 == val1 | objectID2&gt;conc2</span>
+0061 <span class="comment">%   - objectID1 == val1 | !(objectID2&gt;conc2 &amp; objectID3&lt;=conc3 &amp; (objectID4+object5)&lt;conc5)</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   Representation</span>
+0064 <span class="comment">%   ================================</span>
+0065 <span class="comment">%   The substrates and inactivatedSubstrates properties represent the counts of</span>
+0066 <span class="comment">%   enzymatically active proteins in each compartment (all of the compartments</span>
+0067 <span class="comment">%   in the simulation are separately mapped to this process). stimuli represents</span>
+0068 <span class="comment">%   the  values of external perturbations and pseudo free metabolites</span>
+0069 <span class="comment">%   (simulation property stimuli), free metabolites, and macromolecules which</span>
+0070 <span class="comment">%   affect the activity of the proteins.</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">%   activationRules represents the boolean regulatory rules governing each of</span>
+0073 <span class="comment">%   the proteins in substrates. The activation rule for each protein is</span>
+0074 <span class="comment">%   evaluated independently for each compartment. Boolean rules are transcoded</span>
+0075 <span class="comment">%   to MATLAB syntax from the syntax described above during initializeConstants.</span>
+0076 <span class="comment">%   Boolean rules are evaluated using the MATLAB eval command in a workspace</span>
+0077 <span class="comment">%   where variables having the names of whole cell model ids of the stimuli are</span>
+0078 <span class="comment">%   defined and set to the value/concentration of the corresponding stimulus.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">%   Initialization</span>
+0081 <span class="comment">%   ================================</span>
+0082 <span class="comment">%   The same boolean regulatory rules that are evaluated during the simulation</span>
+0083 <span class="comment">%   are evaluated during initialization. Proteins for which their regulatory</span>
+0084 <span class="comment">%   rule evaluates to false are initialized to the inactive state</span>
+0085 <span class="comment">%   (inactivatedSubstrates); proteins for which their regulatory rule evaluates to</span>
+0086 <span class="comment">%   true are initialized to the active state (substrates). This is achieved by</span>
+0087 <span class="comment">%   calling the evolveState method.</span>
+0088 <span class="comment">%</span>
+0089 <span class="comment">%   Simulation</span>
+0090 <span class="comment">%   ================================</span>
+0091 <span class="comment">%   For each compartment</span>
+0092 <span class="comment">%     1. Use scaleComponents to compute the concentrations of objects (except</span>
+0093 <span class="comment">%        stimuli objects) mapped to the process's stimuli property.</span>
+0094 <span class="comment">%     2. Assign to local variables named with the stimuli Whole Cell Model IDs</span>
+0095 <span class="comment">%        values equal that of the corresponding object (for stimuli objects) or</span>
+0096 <span class="comment">%        the concentration (for all other objects) of the corresponding object</span>
+0097 <span class="comment">%        computed in (1).</span>
+0098 <span class="comment">%     3. Evaluate boolean regulatory rule of each protein using the MATLAB eval</span>
+0099 <span class="comment">%        command.</span>
+0100 <span class="comment">%     4. Update substrates and inactivatedSubstrates properties based on (3).</span>
+0101 <span class="comment">%        Proteins whose boolean regulation rule evaluates to false are</span>
+0102 <span class="comment">%        transitioned from substrates to inactivatedSubstrates. Proteins whose</span>
+0103 <span class="comment">%        boolean regulation rule evaluates to true undergo the opposite</span>
+0104 <span class="comment">%        transition.</span>
+0105 <span class="comment">%   End</span>
+0106 <span class="comment">%</span>
+0107 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0108 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0109 <span class="comment">% Last updated: 8/9/2010</span>
+0110 
+0111 <span class="comment">%TODO: extend boolean regulatory rules to permite RNAs</span>
+0112 <span class="comment">%      - edit knowledgebase/schema.xml</span>
+0113 <span class="comment">%      - edit knowledgebase/classes/KnowledgeBaseObject.php</span>
+0114 <span class="comment">%      - edit simulation/src/.../KnowledgeBase.m</span>
+0115 <span class="comment">%      - edit simulation/src/.../ProteinMonomer.m</span>
+0116 <span class="comment">%      - edit simulation/src/.../ProteinComplex.m</span>
+0117 
+0118 classdef  <a href="ProteinActivation.html" class="code" title="">ProteinActivation</a> &lt; edu.stanford.covert.cell.sim.Process
+0119     <span class="comment">%property annotations</span>
+0120     properties (Constant)
+0121         optionNames__              = {}; <span class="comment">%names of properties that are options</span>
+0122         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0123             <span class="string">'activationRules'</span>};
+0124         fittedConstantNames__      = {}; <span class="comment">%names of properties that are fitted constants</span>
+0125         localStateNames__          = {   <span class="comment">%names of properties that are simulation state owned by the simulation or other processes</span>
+0126             <span class="string">'inactivatedSubstrates'</span>};
+0127     <span class="keyword">end</span>
+0128 
+0129     <span class="comment">%IDs, names, and local indices</span>
+0130     properties
+0131         stimuliWholeCellModelIDs     = {}; <span class="comment">%whole cell models of stimuli, set by initializeConstants from activation rules in knowledge base</span>
+0132         substrateWholeCellModelIDs   = {}; <span class="comment">%whole cell models of substrates, set by initializeConstants from activation rules in knowledge base</span>
+0133         enzymeWholeCellModelIDs      = {}; <span class="comment">%whole cell models of enzymes, not used</span>
+0134                 
+0135         inactivatedSubstrateMonomerGlobalCompartmentIndexs <span class="comment">%indices of inactivated monomer substrates within this.monomer.counts</span>
+0136         inactivatedSubstrateComplexGlobalCompartmentIndexs <span class="comment">%indices of inactivated complex substrates within simulation.complexs</span>
+0137     <span class="keyword">end</span>
+0138 
+0139     <span class="comment">%fixed biological constants</span>
+0140     properties
+0141         activationRules                       <span class="comment">%boolean rules governing the (in)activation of each substrate</span>
+0142     <span class="keyword">end</span>
+0143 
+0144     <span class="comment">%local state</span>
+0145     properties
+0146         inactivatedSubstrates                 <span class="comment">%counts of inactivated substrates; these have same whole cell models ids and molecular weights as substrates</span>
+0147     <span class="keyword">end</span>
+0148 
+0149     <span class="comment">%constructor</span>
+0150     methods
+0151         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinActivation(wholeCellModelID, name)</a>
+0152             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0153         <span class="keyword">end</span>
+0154     <span class="keyword">end</span>
+0155 
+0156     <span class="comment">%communication between process/simulation</span>
+0157     methods
+0158         <span class="comment">%initialize constants</span>
+0159         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)           </a>
+0160             <span class="comment">%find regulated monomers, complexs</span>
+0161             monomers = findobj(knowledgeBase.proteinMonomers, <span class="string">'-not'</span>, <span class="string">'activationRule'</span>, <span class="string">''</span>);
+0162             complexs = findobj(knowledgeBase.proteinComplexs, <span class="string">'-not'</span>, <span class="string">'activationRule'</span>, <span class="string">''</span>);
+0163 
+0164             <span class="comment">%whole cell model ids of regulated proteins</span>
+0165             this.substrateWholeCellModelIDs = {
+0166                 monomers.wholeCellModelID <span class="keyword">...</span>
+0167                 complexs.wholeCellModelID}';
+0168 
+0169             <span class="comment">%boolean regulatory rules of regulated proteins</span>
+0170             this.activationRules = this.transcodeActivationRules({
+0171                 monomers.activationRule <span class="keyword">...</span>
+0172                 complexs.activationRule}');
+0173             
+0174             <span class="comment">%whole cell model ids of stimuli, metabolites, and proteins which</span>
+0175             <span class="comment">%regulate the regulated proteins -- these links were created by parsing the</span>
+0176             <span class="comment">%activation rules when they were saved to the knowledge base,</span>
+0177             <span class="comment">%and loading into the MATLAB representation of the knowledge</span>
+0178             <span class="comment">%base from the MySQL database representation</span>
+0179             regulatorIDs = cell(0, 1);
+0180             <span class="keyword">for</span> i = 1:numel(monomers)
+0181                 <span class="keyword">if</span> ~isempty(monomers(i).stimuliRegulators)
+0182                     regulatorIDs = [
+0183                         regulatorIDs
+0184                         {monomers(i).stimuliRegulators.wholeCellModelID}'
+0185                         ]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0186                 <span class="keyword">end</span>
+0187                 <span class="keyword">if</span> ~isempty(monomers(i).metaboliteRegulators)
+0188                     regulatorIDs = [
+0189                         regulatorIDs
+0190                         {monomers(i).metaboliteRegulators.wholeCellModelID}'
+0191                         ];
+0192                 <span class="keyword">end</span>
+0193                 <span class="keyword">if</span> ~isempty(monomers(i).proteinMonomerRegulators)
+0194                     regulatorIDs = [
+0195                         regulatorIDs
+0196                         {monomers(i).proteinMonomerRegulators.wholeCellModelID}'
+0197                         ];
+0198                 <span class="keyword">end</span>
+0199                 <span class="keyword">if</span> ~isempty(monomers(i).proteinComplexRegulators)
+0200                     regulatorIDs = [
+0201                         regulatorIDs
+0202                         {monomers(i).proteinComplexRegulators.wholeCellModelID}'
+0203                         ];
+0204                 <span class="keyword">end</span>
+0205             <span class="keyword">end</span>
+0206             <span class="keyword">for</span> i = 1:numel(complexs)
+0207                 <span class="keyword">if</span> ~isempty(complexs(i).stimuliRegulators)
+0208                     regulatorIDs = [
+0209                         regulatorIDs
+0210                         {complexs(i).stimuliRegulators.wholeCellModelID}'
+0211                         ];
+0212                 <span class="keyword">end</span>
+0213                 <span class="keyword">if</span> ~isempty(complexs(i).metaboliteRegulators)
+0214                     regulatorIDs = [
+0215                         regulatorIDs
+0216                         {complexs(i).metaboliteRegulators.wholeCellModelID}'
+0217                         ];
+0218                 <span class="keyword">end</span>
+0219                 <span class="keyword">if</span> ~isempty(complexs(i).proteinMonomerRegulators)
+0220                     regulatorIDs = [
+0221                         regulatorIDs
+0222                         {complexs(i).proteinMonomerRegulators.wholeCellModelID}'
+0223                         ];
+0224                 <span class="keyword">end</span>
+0225                 <span class="keyword">if</span> ~isempty(complexs(i).proteinComplexRegulators)
+0226                     regulatorIDs = [
+0227                         regulatorIDs
+0228                         {complexs(i).proteinComplexRegulators.wholeCellModelID}'
+0229                         ];
+0230                 <span class="keyword">end</span>
+0231             <span class="keyword">end</span>
+0232             this.stimuliWholeCellModelIDs = unique(regulatorIDs);
+0233 
+0234             <span class="comment">%call super class method to construct mapping between process stimuli</span>
+0235             <span class="comment">%and substrates and the simulation</span>
+0236             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0237                 knowledgeBase, simulation, struct(<span class="keyword">...</span>
+0238                     <span class="string">'retainStimuliCompartments'</span>, true,<span class="keyword">...</span>
+0239                     <span class="string">'retainSubstrateCompartments'</span>, true,<span class="keyword">...</span>
+0240                     <span class="string">'retainEnzymeCompartments'</span>, true));
+0241 
+0242             <span class="comment">%inactivated substrate indices</span>
+0243             this.inactivatedSubstrateMonomerGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0244                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0245                 this.monomer.inactivatedIndexs(this.substrateMonomerGlobalIndexs), <span class="keyword">...</span>
+0246                 this.substrateMonomerCompartmentIndexs);
+0247             this.inactivatedSubstrateComplexGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0248                 [numel(this.complex.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0249                 this.complex.inactivatedIndexs(this.substrateComplexGlobalIndexs), <span class="keyword">...</span>
+0250                 this.substrateComplexCompartmentIndexs);
+0251         <span class="keyword">end</span>
+0252 
+0253         <span class="comment">%translate activation rules into MATLAB expressions</span>
+0254         <span class="comment">%- replace negation operator '!' with MATLAB negation operator '~'</span>
+0255         <a name="_sub2" href="#_subfunctions" class="code">function value = transcodeActivationRules(~, value)</a>
+0256             <span class="keyword">for</span> i = 1:length(value)
+0257                 value{i} = strrep(value{i},<span class="string">'!'</span>,<span class="string">'~'</span>);
+0258             <span class="keyword">end</span>
+0259         <span class="keyword">end</span>
+0260         
+0261         <span class="comment">%retrieve state from simulation</span>
+0262         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0263             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0264             
+0265             numTimePoints = size(this.inactivatedSubstrates, 3);
+0266             <span class="keyword">if</span> numTimePoints == 1
+0267                 this.inactivatedSubstrates(this.substrateMonomerLocalIndexs, :) = <span class="keyword">...</span>
+0268                     this.monomer.counts(this.inactivatedSubstrateMonomerGlobalCompartmentIndexs);
+0269                 
+0270                 this.inactivatedSubstrates(this.substrateComplexLocalIndexs, :) = <span class="keyword">...</span>
+0271                     this.complex.counts(this.inactivatedSubstrateComplexGlobalCompartmentIndexs);
+0272             <span class="keyword">else</span>
+0273                 this.inactivatedSubstrates(this.substrateMonomerLocalIndexs, :, :) = this.monomer.counts(<span class="keyword">...</span>
+0274                     sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0275                     repmat(this.monomer.inactivatedIndexs(this.substrateMonomerGlobalIndexs), [1 1 numTimePoints]), <span class="keyword">...</span>
+0276                     repmat(this.substrateMonomerCompartmentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0277                     permute(repmat((1:numTimePoints)',[1 size(this.substrateMonomerGlobalIndexs)]),[2 3 1])));
+0278                 
+0279                 this.inactivatedSubstrates(this.substrateComplexLocalIndexs, :, :) = this.complex.counts(<span class="keyword">...</span>
+0280                     sub2ind(size(this.complex.counts), <span class="keyword">...</span>
+0281                     repmat(this.complex.inactivatedIndexs(this.substrateComplexGlobalIndexs), [1 1 numTimePoints]), <span class="keyword">...</span>
+0282                     repmat(this.substrateComplexCompartmentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0283                     permute(repmat((1:numTimePoints)',[1 size(this.substrateComplexGlobalIndexs)]),[2 3 1])));
+0284             <span class="keyword">end</span>
+0285         <span class="keyword">end</span>
+0286         
+0287         <span class="comment">%send state to simulation</span>
+0288         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0289             this.copyToState@edu.stanford.covert.cell.sim.Process();                     
+0290             
+0291             numTimePoints = size(this.inactivatedSubstrates, 3);
+0292             <span class="keyword">if</span> numTimePoints == 1
+0293                 this.monomer.counts(this.inactivatedSubstrateMonomerGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0294                     this.inactivatedSubstrates(this.substrateMonomerLocalIndexs, :);
+0295                 
+0296                 this.complex.counts(this.inactivatedSubstrateComplexGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0297                     this.inactivatedSubstrates(this.substrateComplexLocalIndexs, :);
+0298             <span class="keyword">else</span>
+0299                 this.monomer.counts(<span class="keyword">...</span>
+0300                     sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0301                     repmat(this.monomer.inactivatedIndexs(this.substrateMonomerGlobalIndexs), [1 1 numTimePoints]), <span class="keyword">...</span>
+0302                     repmat(this.substrateMonomerCompartmentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0303                     permute(repmat((1:numTimePoints)',[1 size(this.substrateMonomerGlobalIndexs)]),[2 3 1]))) = <span class="keyword">...</span>
+0304                     this.inactivatedSubstrates(this.substrateMonomerLocalIndexs, :, :);
+0305                 
+0306                 this.complex.counts(<span class="keyword">...</span>
+0307                     sub2ind(size(this.complex.counts), <span class="keyword">...</span>
+0308                     repmat(this.complex.inactivatedIndexs(this.substrateComplexGlobalIndexs), [1 1 numTimePoints]), <span class="keyword">...</span>
+0309                     repmat(this.substrateComplexCompartmentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0310                     permute(repmat((1:numTimePoints)',[1 size(this.substrateComplexGlobalIndexs)]),[2 3 1]))) = <span class="keyword">...</span>
+0311                     this.inactivatedSubstrates(this.substrateComplexLocalIndexs, :, :);
+0312             <span class="keyword">end</span>
+0313         <span class="keyword">end</span>
+0314     <span class="keyword">end</span>
+0315 
+0316     <span class="comment">%allocate memory for state</span>
+0317     methods
+0318         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0319             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0320 
+0321             this.inactivatedSubstrates = zeros(size(this.substrates));
+0322         <span class="keyword">end</span>
+0323     <span class="keyword">end</span>
+0324 
+0325     <span class="comment">%model</span>
+0326     methods
+0327         <span class="comment">%Calculate</span>
+0328         <span class="comment">%- contribution to FBA objective</span>
+0329         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0330         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0331             <span class="comment">%no metabolites or enzymes needed</span>
+0332             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0333             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0334             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0335             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0336         <span class="keyword">end</span>
+0337         
+0338         <span class="comment">%initialization</span>
+0339         <span class="comment">%- monomers initialized to mature/bound/inactivated state</span>
+0340         <span class="comment">%  by simulation initializeState method</span>
+0341         <span class="comment">%- complexes initialized by</span>
+0342         <span class="comment">%  1. Macromolecular complexation</span>
+0343         <span class="comment">%  2. Ribosome assembly</span>
+0344         <span class="comment">%  3. Protein folding</span>
+0345         <span class="comment">%  4. Protein activation</span>
+0346         <span class="comment">%</span>
+0347         <span class="comment">%Here we use evolveState to evaluate and apply all protein activation</span>
+0348         <span class="comment">%rules to both monomers and complexes</span>
+0349         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0350             this.evolveState();
+0351         <span class="keyword">end</span>
+0352 
+0353         <span class="comment">%resource requirements</span>
+0354         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0355             result = zeros(size(this.substrates));
+0356         <span class="keyword">end</span>
+0357 
+0358         <span class="comment">%simulation</span>
+0359         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0360             i = this.evaluateActivationRules();
+0361             this.substrates(i) = this.substrates(i) + this.inactivatedSubstrates(i);
+0362             this.inactivatedSubstrates(i) = 0;
+0363 
+0364             j = ~i;
+0365             this.inactivatedSubstrates(j) = this.inactivatedSubstrates(j) + this.substrates(j);
+0366             this.substrates(j) = 0;
+0367         <span class="keyword">end</span>
+0368 
+0369         <a name="_sub10" href="#_subfunctions" class="code">function activatedSubstrates = evaluateActivationRules(this)            </a>
+0370             <span class="comment">%convert units of stimuli to mM</span>
+0371             stimuli = this.stimuli(:, this.compartment.extracellularIndexs) / <span class="keyword">...</span>
+0372                 (edu.stanford.covert.util.ConstantUtil.nAvogadro/1000) / <span class="keyword">...</span>
+0373                 this.geometry.volume;
+0374             stimuli(this.stimulusStimulusLocalIndexs) = <span class="keyword">...</span>
+0375                 this.stimuli(this.stimulusStimulusLocalIndexs, this.compartment.extracellularIndexs);
+0376 
+0377             <span class="comment">%evaluate regulatory rules</span>
+0378             activatedSubstrates = false(size(this.substrates));
+0379             <span class="keyword">for</span> j = 1:size(this.substrates, 2)
+0380                 <span class="keyword">if</span> ~any(this.substrates(:, j)) &amp;&amp; ~any(this.inactivatedSubstrates(:, j))
+0381                     <span class="keyword">continue</span>;
+0382                 <span class="keyword">end</span>
+0383                 
+0384                 <span class="keyword">for</span> i = 1:size(this.stimuli, 1)
+0385                     eval([this.stimuliWholeCellModelIDs{i} <span class="string">'='</span> num2str(stimuli(i)) <span class="string">';'</span>]);
+0386                 <span class="keyword">end</span>
+0387                 
+0388                 <span class="keyword">for</span> i = 1:size(this.substrates, 1)
+0389                     <span class="keyword">if</span> ~(this.substrates(i, j) || this.inactivatedSubstrates(i, j))
+0390                         <span class="keyword">continue</span>;
+0391                     <span class="keyword">end</span>
+0392                     activatedSubstrates(i, j) = logical(eval(this.activationRules{i}));
+0393                 <span class="keyword">end</span>
+0394             <span class="keyword">end</span>
+0395         <span class="keyword">end</span>
+0396     <span class="keyword">end</span>
+0397 
+0398     <span class="comment">%get methods of dependent local state</span>
+0399     methods
+0400         <a name="_sub11" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0401             <span class="keyword">if</span> size(this.inactivatedSubstrates, 3) == 1
+0402                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0403                     this.substrateMolecularWeights' * sum(this.inactivatedSubstrates, 2) <span class="keyword">...</span>
+0404                      / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0405             <span class="keyword">else</span>
+0406                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0407                     permute(this.substrateMolecularWeights' * permute(sum(this.inactivatedSubstrates, 2), [1 3 2]), [1 3 2]) <span class="keyword">...</span>
+0408                      / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0409             <span class="keyword">end</span>
+0410         <span class="keyword">end</span>
+0411     <span class="keyword">end</span>
+0412 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

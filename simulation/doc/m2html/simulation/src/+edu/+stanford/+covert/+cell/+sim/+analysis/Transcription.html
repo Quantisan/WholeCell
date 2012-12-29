@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Transcription</title>
+  <meta name="keywords" content="Transcription">
+  <meta name="description" content="Transcription">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Transcription.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Transcription
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Transcription</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Transcription
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcription.html" class="code" title="">Transcription</a>	Transcription</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcription.html" class="code" title="">Transcription</a>	Transcription</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function plotRNA_Polymerase_States(sim, axesHandle, time, ~)</a></li><li><a href="#_sub2" class="code">function plotRNA_Polymerase_State_Occupancies(sim, axesHandle, time, ~)</a></li><li><a href="#_sub3" class="code">function plotRNA_Polymerases(sim, axesHandle, time, ~)</a></li><li><a href="#_sub4" class="code">function plotRNA_Polymerase_Bound_Transcription_Units(sim, axesHandle, time, ~)</a></li><li><a href="#_sub5" class="code">function plotNTPs(sim, axesHandle, time, ~)</a></li><li><a href="#_sub6" class="code">function plotNMPs(sim, axesHandle, time, ~)</a></li><li><a href="#_sub7" class="code">function plotTranscription_Limits(sim, axesHandle, time, ~)</a></li><li><a href="#_sub8" class="code">function plotBound_Transcription_Factors(sim, axesHandle, time, ~)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Transcription</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 8/6/2011</span>
+0006 classdef <a href="Transcription.html" class="code" title="">Transcription</a>
+0007     <span class="comment">%plotting</span>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function plotRNA_Polymerase_States(sim, axesHandle, time, ~)</a>
+0010             import edu.stanford.covert.util.ConstantUtil;
+0011             
+0012             rnaPol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0013             
+0014             maxState = max(rnaPol.transcripts.transcriptionUnitLengths);
+0015             <span class="keyword">if</span> ndims(rnaPol.states) == 3
+0016                 colors = zeros([size(rnaPol.states) 3]);
+0017             <span class="keyword">else</span>
+0018                 colors = zeros([size(rnaPol.states) 1 3]);
+0019             <span class="keyword">end</span>
+0020             <span class="keyword">for</span> i = 1:size(rnaPol.states, 1)
+0021                 <span class="keyword">for</span> k = 1:size(rnaPol.states, 3)
+0022                     <span class="keyword">switch</span> rnaPol.states(i, 1, k)
+0023                         <span class="keyword">case</span> rnaPol.notExistValue
+0024                             colors(i,1,k,:) = [1 0 0];
+0025                         <span class="keyword">case</span> rnaPol.freeValue
+0026                             colors(i,1,k,:) = [0 1 0];
+0027                         <span class="keyword">case</span> rnaPol.nonSpecificallyBoundValue
+0028                             colors(i,1,k,:) = [0 0 1];
+0029                         <span class="keyword">otherwise</span>
+0030                             colors(i,1,k,:) = repmat(max(0, rnaPol.states(i,1,k)) / maxState, 1, 3);
+0031                     <span class="keyword">end</span>
+0032                 <span class="keyword">end</span>
+0033             <span class="keyword">end</span>
+0034             
+0035             colors = reshape(colors, [], size(rnaPol.states, 3), 3);
+0036             image(colors, <span class="string">'Parent'</span>, axesHandle);
+0037             
+0038             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0039             ylabel(axesHandle, <span class="string">'RNA Polymerase'</span>, <span class="string">'fontSize'</span>, 8);
+0040             
+0041             xTick = get(axesHandle, <span class="string">'XTick'</span>);
+0042             xTickLabel = round((xTick - 0.5) * max(time) / ConstantUtil.secondsPerHour / max(xTick));
+0043             set(axesHandle, <span class="string">'XTickLabel'</span>, xTickLabel);
+0044         <span class="keyword">end</span>
+0045         
+0046         <a name="_sub1" href="#_subfunctions" class="code">function plotRNA_Polymerase_State_Occupancies(sim, axesHandle, time, ~)</a>
+0047             rnaPol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0048             
+0049             labels = cell(4,1);
+0050             labels{rnaPol.activelyTranscribingIndex} = <span class="string">'Actively Transcribing'</span>;
+0051             labels{rnaPol.specificallyBoundIndex} = <span class="string">'Specifically Bound'</span>;
+0052             labels{rnaPol.nonSpecificallyBoundIndex} = <span class="string">'Non-specifically Bound'</span>;
+0053             labels{rnaPol.freeIndex} = <span class="string">'Free'</span>;
+0054             
+0055             plotHandles = plot(axesHandle, time / 3600, permute(rnaPol.stateOccupancies, [3 1 2]));
+0056             legend(plotHandles, labels);
+0057             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0058             ylabel(axesHandle, <span class="string">'Occupancy'</span>, <span class="string">'fontSize'</span>, 8);
+0059             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0060         <span class="keyword">end</span>
+0061         
+0062         <a name="_sub2" href="#_subfunctions" class="code">function plotRNA_Polymerases(sim, axesHandle, time, ~)</a>
+0063             rnaPol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0064             
+0065             rnaPolymeraseGeneStates = rnaPol.states;
+0066             rnaPolymeraseGenomeStates = zeros(size(rnaPolymeraseGeneStates));
+0067             <span class="keyword">for</span> i = 1:size(rnaPolymeraseGeneStates,1)
+0068                 <span class="keyword">for</span> k = 1:size(rnaPolymeraseGeneStates,3)
+0069                     <span class="keyword">switch</span> rnaPolymeraseGeneStates(i, 1, k)
+0070                         <span class="keyword">case</span> rnaPol.specificallyBoundValue
+0071                             rnaPolymeraseGenomeStates(i, 1, k) = rnaPol.transcripts.transcriptionUnitFivePrimeCoordinates(rnaPol.transcripts.boundTranscriptionUnits(i,1,k));
+0072                         <span class="keyword">case</span> rnaPol.activelyTranscribingValue
+0073                             rnaPolymeraseGenomeStates(i, 1, k) = rnaPol.transcripts.transcriptionUnitFivePrimeCoordinates(rnaPol.transcripts.boundTranscriptionUnits(i,1,k))+<span class="keyword">...</span>
+0074                                 (2*rnaPol.transcripts.transcriptionUnitDirections(rnaPol.transcripts.boundTranscriptionUnits(i,1,k))-1)*(rnaPolymeraseGeneStates(i,1,k)-1);
+0075                     <span class="keyword">end</span>
+0076                 <span class="keyword">end</span>
+0077             <span class="keyword">end</span>
+0078             
+0079             plot(axesHandle, time/3600, permute(rnaPolymeraseGenomeStates, [3 1 2]), <span class="string">'.'</span>);
+0080             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0081             ylabel(axesHandle, <span class="string">'Genome Coordinate'</span>, <span class="string">'fontSize'</span>, 8);
+0082             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0083             ylim(axesHandle, [rnaPol.freeValue-1 rnaPol.transcripts.genomeLength+1]);
+0084         <span class="keyword">end</span>
+0085         
+0086         <a name="_sub3" href="#_subfunctions" class="code">function plotRNA_Polymerase_Bound_Transcription_Units(sim, axesHandle, time, ~)</a>
+0087             rnaPol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0088             
+0089             numTimePoints = size(rnaPol.states,3);
+0090             
+0091             polymeraseTUs = rnaPol.transcripts.boundTranscriptionUnits;
+0092             boundTUs = zeros(length(rnaPol.transcripts.transcriptionUnitLengths), 1, numTimePoints);
+0093             <span class="keyword">for</span> i = 1:size(polymeraseTUs,1)
+0094                 <span class="keyword">for</span> k = 1:size(polymeraseTUs,3)
+0095                     <span class="keyword">if</span> polymeraseTUs(i,1,k) &gt; 0
+0096                         boundTUs(polymeraseTUs(i,1,k),1,k) = <span class="keyword">...</span>
+0097                             boundTUs(polymeraseTUs(i,1,k),1,k) + 1;
+0098                     <span class="keyword">end</span>
+0099                 <span class="keyword">end</span>
+0100             <span class="keyword">end</span>
+0101             
+0102             boundTUs = permute(boundTUs, [1 3 2]);
+0103             colors = repmat(boundTUs/(max(max(boundTUs))),[1 1 3]);
+0104             
+0105             image(colors,<span class="string">'Parent'</span>,axesHandle);
+0106             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0107             ylabel(axesHandle,<span class="string">'Transcription Unit'</span>,<span class="string">'fontSize'</span>,8);
+0108             
+0109             xTick = get(axesHandle,<span class="string">'XTick'</span>);
+0110             xTickLabel = round((xTick-0.5)*max(time)/3600/max(xTick));
+0111             set(axesHandle,<span class="string">'XTickLabel'</span>,xTickLabel);
+0112         <span class="keyword">end</span>
+0113         
+0114         <a name="_sub4" href="#_subfunctions" class="code">function plotNTPs(sim, axesHandle, time, ~)</a>
+0115             p = sim.process(<span class="string">'Transcription'</span>);
+0116             
+0117             plotHandles = plot(axesHandle, time / 3600, permute(p.substrates(p.substrateIndexs_ntp, :, :), [3 1 2]));
+0118             legend(plotHandles, p.substrateWholeCellModelIDs(p.substrateIndexs_ntp));
+0119             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0120             ylabel(axesHandle, <span class="string">'NTPs'</span>, <span class="string">'fontSize'</span>, 8);
+0121             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0122         <span class="keyword">end</span>
+0123         
+0124         <a name="_sub5" href="#_subfunctions" class="code">function plotNMPs(sim, axesHandle, time, ~)</a>
+0125             p = sim.process(<span class="string">'Transcription'</span>);
+0126             
+0127             plotHandles = plot(axesHandle, time / 3600, permute(p.substrates(p.substrateIndexs_nmp, :, :), [3 1 2]));
+0128             legend(plotHandles, p.substrateWholeCellModelIDs(p.substrateIndexs_nmp));
+0129             xlabel(axesHandle,<span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0130             ylabel(axesHandle,<span class="string">'NMPs'</span>, <span class="string">'fontSize'</span>, 8);
+0131             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0132         <span class="keyword">end</span>
+0133         
+0134         <span class="comment">%plot translation limits</span>
+0135         <a name="_sub6" href="#_subfunctions" class="code">function plotTranscription_Limits(sim, axesHandle, time, ~)</a>
+0136             p = sim.process(<span class="string">'Transcription'</span>);
+0137             
+0138             plotHandles = plot(axesHandle, time / 3600, permute(p.substrates(p.substrateIndexs_ntp), [3 1 2]));
+0139             legend(plotHandles, p.substrateWholeCellModelIDs(p.substrateIndexs_ntp));
+0140             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0141             ylabel(axesHandle, <span class="string">'NTP'</span>, <span class="string">'fontSize'</span>, 8);
+0142             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0143         <span class="keyword">end</span>
+0144         
+0145         <a name="_sub7" href="#_subfunctions" class="code">function plotBound_Transcription_Factors(sim, axesHandle, time, ~)</a>
+0146             p = sim.process(<span class="string">'Transcription'</span>);
+0147             
+0148             transcriptionFactors      = p.enzymes(p.enzymeIndexs_transcriptionFactors, :, :);
+0149             boundTranscriptionFactors = p.boundEnzymes(p.enzymeIndexs_transcriptionFactors, :, :);
+0150             
+0151             plotHandles = plot(axesHandle, time / 3600, permute(boundTranscriptionFactors./(transcriptionFactors+boundTranscriptionFactors), [3 1 2]));
+0152             legend(plotHandles, p.enzymeNames(p.enzymeIndexs_transcriptionFactors));
+0153             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0154             ylabel(axesHandle, <span class="string">'Fraction Bound'</span>, <span class="string">'fontSize'</span>, 8);
+0155             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0156             ylim(axesHandle, [0 1]);
+0157         <span class="keyword">end</span>
+0158     <span class="keyword">end</span>
+0159 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

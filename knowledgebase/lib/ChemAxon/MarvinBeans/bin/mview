@@ -1,0 +1,99 @@
+#!/bin/bash
+#
+# Unix shell script.
+#
+# Old JVMs: line numbers are only shown if the JIT is disabled
+# exec java -Djava.compiler=NONE <classname> $@
+# Increase maximum heap size (default is 64M in java 1.4)
+# exec java -Xmx128m <classname> $@
+
+
+pathconvert() {
+    cygpath.exe -w "$1"
+}
+
+JVMPATH="java"
+
+if [ -z "$OSTYPE" ]; then
+    if [ -f "/usr/bin/cygpath.exe" ]; then
+        OSTYPE=cygwin
+    fi
+fi
+
+case "$OSTYPE" in
+cygwin*)
+	dir=`dirname $0`
+        dir=`pathconvert $dir`
+        MARVINBEANSHOME="$dir\\.."
+	CLASSPATH="$MARVINBEANSHOME\\lib\\MarvinBeans.jar;$CLASSPATH"
+	;;
+*)
+	mypath=$0
+	while [ -h "$mypath" ]; do # Resolve symlinks
+		ls=`/bin/ls -ld "$mypath"`
+		link=`/usr/bin/expr "$ls" : '.*-> \(.*\)$'`
+		if /usr/bin/expr "$link" : '\/' > /dev/null; then
+			mypath="$link"
+		else
+			mypath=`/usr/bin/dirname "$mypath"`/"$link"
+		fi
+	done
+	dir=`/usr/bin/dirname $mypath`;
+        MARVINBEANSHOME="$dir/.."
+	CLASSPATH="$MARVINBEANSHOME/lib/MarvinBeans.jar:$CLASSPATH"
+	;;
+esac
+export CLASSPATH
+
+if [ -f "$MARVINBEANSHOME/bin/setup" ]; then
+    . "$MARVINBEANSHOME/bin/setup"
+fi
+
+# Parse -X* java options
+javaopts=""
+javaXopts=""
+for i in $@; do
+	if echo $1 | grep -e '^-X' > /dev/null; then
+		javaopts="$javaopts $1"
+		javaXopts="$javaXopts $1"
+		shift
+	elif [ $1 = "-server" ]; then
+		javaopts="$javaopts $1"
+		shift
+	elif [ $1 = "-client" ]; then
+		javaopts="$javaopts $1"
+		shift
+	else
+		break
+	fi
+done
+# ----------------- End of Marvin Script header ------------------------------
+
+
+if [ -z "$javaXopts" ]; then
+	# Default heap size if -X options are not specified.
+	javaopts="$javaopts -Xmx128m"
+fi
+
+case "$OSTYPE" in
+cygwin*)
+	# Workaround for the weird command line expansion behavior in DOS.
+	# The following trick is needed to prevent java.exe expanding the *
+	# wildcard.
+	argv=()
+	i=0
+	for v in "$@"; do
+		i=$(($i+1))
+		if [ "$v" = "*" ]; then
+			argv[$i]=\"*\"
+		else
+			argv[$i]=$v
+		fi
+	done
+
+	exec "$JVMPATH" $javaopts chemaxon.marvin.View "${argv[@]}"
+	;;
+*)
+	exec "$JVMPATH" $javaopts chemaxon.marvin.View "$@"
+	;;
+esac

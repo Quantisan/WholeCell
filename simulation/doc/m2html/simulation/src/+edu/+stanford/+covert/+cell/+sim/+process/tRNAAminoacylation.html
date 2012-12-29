@@ -1,0 +1,625 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of tRNAAminoacylation</title>
+  <meta name="keywords" content="tRNAAminoacylation">
+  <meta name="description" content="tRNA Aminoacylation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; tRNAAminoacylation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>tRNAAminoacylation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>tRNA Aminoacylation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">tRNA Aminoacylation
+
+ @wholeCellModelID Process_tRNAAminoacylation
+ @name             tRNA Aminoacylation
+ @description
+   Biology
+   ===============
+   In biological systems tRNAs serve as mediators between the ribosome and
+   the amino acids which forms peptide polymers. In this process we
+   simulate the conjugation of amino acids to the tRNAs which deliver them
+   to the ribosome. Additionally we simulate the aminoacylation of the
+   tmRNA which similarly delivers the amino acid alanine to stalled
+   ribosomes.
+
+   Knowledge Base
+   ===============
+   As of 8/11/2010 the M. genitalium knowledge base contains 39 tRNA
+   aminoacylation reactions involving
+   - 37 aminoacylation reactions, each assuming a cost of 1 ATP per
+     aminoacylation
+   - 2 transfer reactions
+   - 36 tRNAs and 1 tmRNA
+   - 21 enzymes
+   - 20 amino acid substrates and 10 additional substrates
+
+   The reaction kinetics stored in the knowledge base were compiled
+   several sources including SABIO-RK [PUB_0100].
+
+   Note: Unlike knowledge base representation, for transfer reactions
+   reactionStoichiometryMatrix doesn't include the already conjugated
+   amino acid on the left-hand-side or the the ultimate conjugated amino
+   acid on the right-hand-side.
+
+   Representation
+   ===============
+   substrates represents the counts of free metabolites available for tRNA
+   aminoacylation. enzymes represents the counts of proteins available to
+   catalyze tRNA aminoacylation reactions. freeRNAs and aminoacylatedRNAs
+   represent the counts of free, unaminoacylated and aminocylated RNAs. We do
+   not represent intermediate states in the aminoacylation of tRNAs.  The
+   molecular weights of the unaminoacylated and aminocylated tRNAs are computed
+   by the knowledge base RNA classes.
+
+   reactionStoichiometryMatrix, reactionModificationMatrix,
+   reactionCatalysisMatrix, and enzymeBounds represent the tRNA aminoacylation
+   reactions. reactionStoichiometryMatrix represents the free metabolites
+   required for  each reaction. reactionModificationMatrix represents the tRNA
+   aminoacylated by each reaction. reactionCatalysis represents the enzyme
+   required to aminoacylate each tRNA. enzymeBounds represents the kcat of the
+   catalyzing enzyme of each reaction. Note: reactionStoichiometryMatrix here
+   is slightly modified from that computed by the super class: amino acids
+   conjugated to tRNAs before and after transfer reactions have been removed
+   from the left- and righ-hand-side of reactionStoichiometryMatrix.
+
+   Initialization
+   ===============
+   tRNAs are all initialized to the aminoacylated state.
+
+   Simulation
+   ===============
+   Uses greedy algorithm to simulate tRNA aminacylation (complexation of
+   tRNAs with the specific amino acids that aminoacylate them).
+   1. Deterministically activate tRNAs up to the minimum of free tRNAs and
+      amino acids, proportional to free tRNAs
+   2. Stoichastically activate residual tRNAs using residual amino acids
+      with probabilities proportional to remaining free tRNAs
+
+      While(true)
+        1. Calculate numbers of protein monomers that can be modified based on
+           substrate, enzyme, and unmodified protein monomer availability and
+           kinetics.
+        2. Randomly select protein monomer to modify weighted by limits
+           calculated in step (1).
+        3. Update substrates, enzymes, unmodified protein monomers
+        4. Repeat until insufficient resources to further modify protein
+           monomers
+      End
+
+ Author: Markus Covert, mcovert@stanford.edu
+ Author: Jayodita Sanghvi, jayodita@stanfod.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/11/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="tRNAAminoacylation.html" class="code" title="">tRNAAminoacylation</a>	tRNA Aminoacylation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="tRNAAminoacylation.html" class="code" title="">tRNAAminoacylation</a>	tRNA Aminoacylation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = tRNAAminoacylation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function initializeSpeciesNetwork(this)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = get.tRNASynthetases(this)</a></li><li><a href="#_sub12" class="code">function value = get.tRNATransferases(this)</a></li><li><a href="#_sub13" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%tRNA Aminoacylation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_tRNAAminoacylation</span>
+0004 <span class="comment">% @name             tRNA Aminoacylation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   In biological systems tRNAs serve as mediators between the ribosome and</span>
+0009 <span class="comment">%   the amino acids which forms peptide polymers. In this process we</span>
+0010 <span class="comment">%   simulate the conjugation of amino acids to the tRNAs which deliver them</span>
+0011 <span class="comment">%   to the ribosome. Additionally we simulate the aminoacylation of the</span>
+0012 <span class="comment">%   tmRNA which similarly delivers the amino acid alanine to stalled</span>
+0013 <span class="comment">%   ribosomes.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   Knowledge Base</span>
+0016 <span class="comment">%   ===============</span>
+0017 <span class="comment">%   As of 8/11/2010 the M. genitalium knowledge base contains 39 tRNA</span>
+0018 <span class="comment">%   aminoacylation reactions involving</span>
+0019 <span class="comment">%   - 37 aminoacylation reactions, each assuming a cost of 1 ATP per</span>
+0020 <span class="comment">%     aminoacylation</span>
+0021 <span class="comment">%   - 2 transfer reactions</span>
+0022 <span class="comment">%   - 36 tRNAs and 1 tmRNA</span>
+0023 <span class="comment">%   - 21 enzymes</span>
+0024 <span class="comment">%   - 20 amino acid substrates and 10 additional substrates</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   The reaction kinetics stored in the knowledge base were compiled</span>
+0027 <span class="comment">%   several sources including SABIO-RK [PUB_0100].</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   Note: Unlike knowledge base representation, for transfer reactions</span>
+0030 <span class="comment">%   reactionStoichiometryMatrix doesn't include the already conjugated</span>
+0031 <span class="comment">%   amino acid on the left-hand-side or the the ultimate conjugated amino</span>
+0032 <span class="comment">%   acid on the right-hand-side.</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   Representation</span>
+0035 <span class="comment">%   ===============</span>
+0036 <span class="comment">%   substrates represents the counts of free metabolites available for tRNA</span>
+0037 <span class="comment">%   aminoacylation. enzymes represents the counts of proteins available to</span>
+0038 <span class="comment">%   catalyze tRNA aminoacylation reactions. freeRNAs and aminoacylatedRNAs</span>
+0039 <span class="comment">%   represent the counts of free, unaminoacylated and aminocylated RNAs. We do</span>
+0040 <span class="comment">%   not represent intermediate states in the aminoacylation of tRNAs.  The</span>
+0041 <span class="comment">%   molecular weights of the unaminoacylated and aminocylated tRNAs are computed</span>
+0042 <span class="comment">%   by the knowledge base RNA classes.</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   reactionStoichiometryMatrix, reactionModificationMatrix,</span>
+0045 <span class="comment">%   reactionCatalysisMatrix, and enzymeBounds represent the tRNA aminoacylation</span>
+0046 <span class="comment">%   reactions. reactionStoichiometryMatrix represents the free metabolites</span>
+0047 <span class="comment">%   required for  each reaction. reactionModificationMatrix represents the tRNA</span>
+0048 <span class="comment">%   aminoacylated by each reaction. reactionCatalysis represents the enzyme</span>
+0049 <span class="comment">%   required to aminoacylate each tRNA. enzymeBounds represents the kcat of the</span>
+0050 <span class="comment">%   catalyzing enzyme of each reaction. Note: reactionStoichiometryMatrix here</span>
+0051 <span class="comment">%   is slightly modified from that computed by the super class: amino acids</span>
+0052 <span class="comment">%   conjugated to tRNAs before and after transfer reactions have been removed</span>
+0053 <span class="comment">%   from the left- and righ-hand-side of reactionStoichiometryMatrix.</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   Initialization</span>
+0056 <span class="comment">%   ===============</span>
+0057 <span class="comment">%   tRNAs are all initialized to the aminoacylated state.</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   Simulation</span>
+0060 <span class="comment">%   ===============</span>
+0061 <span class="comment">%   Uses greedy algorithm to simulate tRNA aminacylation (complexation of</span>
+0062 <span class="comment">%   tRNAs with the specific amino acids that aminoacylate them).</span>
+0063 <span class="comment">%   1. Deterministically activate tRNAs up to the minimum of free tRNAs and</span>
+0064 <span class="comment">%      amino acids, proportional to free tRNAs</span>
+0065 <span class="comment">%   2. Stoichastically activate residual tRNAs using residual amino acids</span>
+0066 <span class="comment">%      with probabilities proportional to remaining free tRNAs</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%      While(true)</span>
+0069 <span class="comment">%        1. Calculate numbers of protein monomers that can be modified based on</span>
+0070 <span class="comment">%           substrate, enzyme, and unmodified protein monomer availability and</span>
+0071 <span class="comment">%           kinetics.</span>
+0072 <span class="comment">%        2. Randomly select protein monomer to modify weighted by limits</span>
+0073 <span class="comment">%           calculated in step (1).</span>
+0074 <span class="comment">%        3. Update substrates, enzymes, unmodified protein monomers</span>
+0075 <span class="comment">%        4. Repeat until insufficient resources to further modify protein</span>
+0076 <span class="comment">%           monomers</span>
+0077 <span class="comment">%      End</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0080 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanfod.edu</span>
+0081 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0082 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0083 <span class="comment">% Last updated: 8/11/2010</span>
+0084 
+0085 classdef <a href="tRNAAminoacylation.html" class="code" title="">tRNAAminoacylation</a> &lt; edu.stanford.covert.cell.sim.ReactionProcess
+0086     <span class="comment">%property annotations</span>
+0087     properties (Constant)
+0088         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0089         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0090             <span class="string">'monomerTRNACounts'</span>;
+0091             };
+0092         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0093         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0094             <span class="string">'freeRNAs'</span>;
+0095             <span class="string">'aminoacylatedRNAs'</span>};
+0096     <span class="keyword">end</span>
+0097 
+0098     <span class="comment">%IDs, names, and local indices</span>
+0099     properties
+0100         substrateIndexs_aminoAcids                   <span class="comment">%indices within substrates of amino acids</span>
+0101         substrateIndexs_glutamate                    <span class="comment">%index within substrates of glutamate</span>
+0102         substrateIndexs_glutamine                    <span class="comment">%index within substrates of glutamine</span>
+0103         substrateIndexs_methionine                   <span class="comment">%index within substrates of methionine</span>
+0104         substrateIndexs_fmethionine                  <span class="comment">%index within substrates of formylmethionine</span>
+0105         substrateIndexs_atp                          <span class="comment">%index within substrates of ATP</span>
+0106         substrateIndexs_amp                          <span class="comment">%index within substrates of AMP</span>
+0107         substrateIndexs_adp                          <span class="comment">%index within substrates of ADP</span>
+0108         substrateIndexs_diphosphate                  <span class="comment">%index within substrates of diphosphate</span>
+0109         substrateIndexs_phosphate                    <span class="comment">%index within substrates of inorganic phosphate</span>
+0110         substrateIndexs_water                        <span class="comment">%index within substrates of water</span>
+0111         substrateIndexs_hydrogen                     <span class="comment">%index within substrates of hydrogen</span>
+0112         substrateIndexs_fthf10                       <span class="comment">%index within substrates of 10-forymltetrahydrofolate</span>
+0113         substrateIndexs_thf                          <span class="comment">%index within substrates of tetrahydrofolate</span>
+0114 
+0115         enzymeIndexs_tRNASynthetases                 <span class="comment">%indices within enzymes of tRNA synthetases</span>
+0116         enzymeIndexs_tRNATransferases                <span class="comment">%indices within enzymes of tRNA transferases</span>
+0117         enzymeIndexs_tRNAGlutamylSynthetase          <span class="comment">%index within enzymes of tRNA glutamyl synthetase</span>
+0118         enzymeIndexs_tRNAMethionylSynthetase         <span class="comment">%index within enzymes of tRNA methionyl synthetase</span>
+0119         enzymeIndexs_tRNAGlutamylAmidotransferase    <span class="comment">%index within enzymes of tRNA glutamyl amidotransferase</span>
+0120         enzymeIndexs_tRNAMethionylFormyltransferase  <span class="comment">%index within enzymes of tRNA methionyl formyltransferase</span>
+0121         enzymeIndexs_tRNAs                           <span class="comment">%index within enzymes of tRNAs</span>
+0122         enzymeIndexs_tmRNA                           <span class="comment">%index within enzymes of tmRNA</span>
+0123 
+0124         reactionIndexs_aminoacylation                <span class="comment">%indices within reactions of tRNA aminoacylation reactions</span>
+0125         reactionIndexs_transfer                      <span class="comment">%indices within reactions of tRNA transfer reactions</span>
+0126         reactionIndexs_glutamylamidotransfer         <span class="comment">%index within reactions of tRNA glutamylamidotransfer reaction</span>
+0127         reactionIndexs_methionylformyltransfer       <span class="comment">%index within reactions of tRNA methionylformyltransfer reaction</span>
+0128 
+0129         compartmentWholeCellModelIDs                 <span class="comment">%whole cell model ids of compartments</span>
+0130         compartmentIndexs_cytosol                    <span class="comment">%index within compartments of cytosol</span>
+0131 
+0132         freeRNAWholeCellModelIDs                     <span class="comment">%whole cell model ids of free RNAs</span>
+0133         aminoacylatedRNAWholeCellModelIDs            <span class="comment">%whole cell model ids of aminoacylated RNAs</span>
+0134 
+0135         aminoacylatedRNAGlobalIndexs                 <span class="comment">%indices of aminoacylated RNAs within simulation.matureRNAIndexs</span>
+0136         aminoacylatedRNAtRNAIndexs                   <span class="comment">%indices of aminoacylated tRNAs within aminoacylatedRNAGlobalIndexs</span>
+0137         
+0138         speciesIndexs_enzymes                        <span class="comment">%indexs of enzyme species within speciesReactantByproductMatrix, speciesReactantMatrix</span>
+0139     <span class="keyword">end</span>
+0140 
+0141     <span class="comment">%fixed biological constants</span>
+0142     properties
+0143         monomerTRNACounts              <span class="comment">%numbers of each tRNA species required to translate each protein monomer species</span>
+0144         
+0145         speciesReactantByproductMatrix <span class="comment">%stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; free RNAs]</span>
+0146         speciesReactantMatrix          <span class="comment">%reactant stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; free RNAs]</span>
+0147     <span class="keyword">end</span>
+0148 
+0149     <span class="comment">%global state (stored locally for convenience)</span>
+0150     properties
+0151         freeRNAs          <span class="comment">%counts of free RNAs</span>
+0152         aminoacylatedRNAs <span class="comment">%counts of aminoacylated RNAs</span>
+0153     <span class="keyword">end</span>
+0154     
+0155     <span class="comment">%dependent global state (implemented as dependent property for</span>
+0156     <span class="comment">%convenience)</span>
+0157     properties (Dependent)
+0158         tRNASynthetases   <span class="comment">%counts of tRNA synthetases</span>
+0159         tRNATransferases  <span class="comment">%counts of tRNA transferases</span>
+0160     <span class="keyword">end</span>
+0161 
+0162     <span class="comment">%constructor</span>
+0163     methods
+0164         <a name="_sub0" href="#_subfunctions" class="code">function this = tRNAAminoacylation(wholeCellModelID, name)</a>
+0165             this = this@edu.stanford.covert.cell.sim.ReactionProcess(wholeCellModelID, name);
+0166         <span class="keyword">end</span>
+0167     <span class="keyword">end</span>
+0168 
+0169     <span class="comment">%communication between process/simulation</span>
+0170     methods
+0171         <span class="comment">%initialize constants</span>
+0172         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0173             <span class="comment">%import classes</span>
+0174             import edu.stanford.covert.util.ComputationUtil;
+0175 
+0176             <span class="comment">%call super class method to get knowledge base reactions</span>
+0177             this.initializeConstants@edu.stanford.covert.cell.sim.ReactionProcess(knowledgeBase, simulation, varargin{:});
+0178 
+0179             <span class="comment">%compartments</span>
+0180             this.compartmentWholeCellModelIDs = this.compartment.wholeCellModelIDs(this.compartment.cytosolIndexs);
+0181             this.compartmentIndexs_cytosol    = 1;
+0182 
+0183             <span class="comment">%create representation for GLN which super class leaves off</span>
+0184             <span class="comment">%because it cancels out in the knowledge base</span>
+0185             this.substrateWholeCellModelIDs  = [this.substrateWholeCellModelIDs; <span class="string">'GLN'</span>];
+0186             this.reactionStoichiometryMatrix = [this.reactionStoichiometryMatrix; zeros(1, size(this.reactionStoichiometryMatrix, 2))];
+0187             this.reactionCoenzymeMatrix      = [this.reactionCoenzymeMatrix zeros(size(this.reactionCoenzymeMatrix, 1), 1)];
+0188 
+0189             <span class="comment">%substrate indices</span>
+0190             this.substrateIndexs_aminoAcids  = this.substrateIndexs({<span class="string">'ALA'</span>; <span class="string">'ARG'</span>; <span class="string">'ASN'</span>; <span class="string">'ASP'</span>; <span class="string">'CYS'</span>; <span class="string">'GLN'</span>; <span class="string">'GLU'</span>; <span class="string">'GLY'</span>; <span class="string">'HIS'</span>; <span class="string">'ILE'</span>; <span class="string">'LEU'</span>; <span class="string">'LYS'</span>; <span class="string">'MET'</span>; <span class="string">'PHE'</span>; <span class="string">'PRO'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TRP'</span>; <span class="string">'TYR'</span>; <span class="string">'VAL'</span>});
+0191             this.substrateIndexs_glutamate   = this.substrateIndexs({<span class="string">'GLU'</span>});
+0192             this.substrateIndexs_glutamine   = this.substrateIndexs({<span class="string">'GLN'</span>});
+0193             this.substrateIndexs_methionine  = this.substrateIndexs({<span class="string">'MET'</span>});
+0194             this.substrateIndexs_fmethionine = this.substrateIndexs({<span class="string">'FMET'</span>});
+0195             this.substrateIndexs_atp         = this.substrateIndexs({<span class="string">'ATP'</span>});
+0196             this.substrateIndexs_amp         = this.substrateIndexs({<span class="string">'AMP'</span>});
+0197             this.substrateIndexs_adp         = this.substrateIndexs({<span class="string">'ADP'</span>});
+0198             this.substrateIndexs_diphosphate = this.substrateIndexs({<span class="string">'PPI'</span>});
+0199             this.substrateIndexs_phosphate   = this.substrateIndexs({<span class="string">'PI'</span>});
+0200             this.substrateIndexs_water       = this.substrateIndexs({<span class="string">'H2O'</span>});
+0201             this.substrateIndexs_hydrogen    = this.substrateIndexs({<span class="string">'H'</span>});
+0202             this.substrateIndexs_fthf10      = this.substrateIndexs({<span class="string">'FTHF10'</span>});
+0203             this.substrateIndexs_thf         = this.substrateIndexs({<span class="string">'THF'</span>});
+0204 
+0205             <span class="comment">%include tRNAs as enzymes</span>
+0206             this.enzymeWholeCellModelIDs = [
+0207                 this.enzymeWholeCellModelIDs;
+0208                 this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureTRNAIndexs));
+0209                 <span class="string">'MG_0004'</span>];
+0210 
+0211             <span class="comment">%enzyme indices</span>
+0212             this.enzymeIndexs_tRNASynthetases = this.enzymeIndexs({
+0213                 <span class="string">'MG_292_TETRAMER'</span>;       <span class="comment">%alanyl-tRNA synthetase</span>
+0214                 <span class="string">'MG_378_MONOMER'</span>;        <span class="comment">%arginyl-tRNA synthetase</span>
+0215                 <span class="string">'MG_036_DIMER'</span>;          <span class="comment">%aspartyl-tRNA synthetase</span>
+0216                 <span class="string">'MG_113_DIMER'</span>;          <span class="comment">%asparaginyl-tRNA synthetase</span>
+0217                 <span class="string">'MG_253_MONOMER'</span>;        <span class="comment">%cysteinyl-tRNA synthetase</span>
+0218                 <span class="string">'MG_462_MONOMER'</span>;        <span class="comment">%glutamyl-tRNA synthetase</span>
+0219                 <span class="string">'MG_251_DIMER'</span>;          <span class="comment">%glycyl-tRNA synthetase</span>
+0220                 <span class="string">'MG_035_DIMER'</span>;          <span class="comment">%histidyl-tRNA synthetase</span>
+0221                 <span class="string">'MG_345_MONOMER'</span>;        <span class="comment">%isoleucyl-tRNA synthetase</span>
+0222                 <span class="string">'MG_266_MONOMER'</span>;        <span class="comment">%leucyl-tRNA synthetase</span>
+0223                 <span class="string">'MG_136_DIMER'</span>;          <span class="comment">%lysyl-tRNA synthetase</span>
+0224                 <span class="string">'MG_021_DIMER'</span>;          <span class="comment">%methionyl-tRNA synthetase</span>
+0225                 <span class="string">'MG_194_195_TETRAMER'</span>;   <span class="comment">%phenylalanyl-tRNA synthetase</span>
+0226                 <span class="string">'MG_283_DIMER'</span>;          <span class="comment">%prolyl-tRNA synthetase</span>
+0227                 <span class="string">'MG_005_DIMER'</span>;          <span class="comment">%seryl-tRNA synthetase</span>
+0228                 <span class="string">'MG_375_DIMER'</span>;          <span class="comment">%threonyl-tRNA synthetase</span>
+0229                 <span class="string">'MG_126_DIMER'</span>;          <span class="comment">%tryptophanyl-tRNA synthetase</span>
+0230                 <span class="string">'MG_455_DIMER'</span>;          <span class="comment">%tyrosyl-tRNA synthetase</span>
+0231                 <span class="string">'MG_334_MONOMER'</span>});      <span class="comment">%valyl-tRNA synthetase</span>
+0232             this.enzymeIndexs_tRNATransferases = this.enzymeIndexs({
+0233                 <span class="string">'MG_098_099_100_TRIMER'</span>; <span class="comment">%glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase</span>
+0234                 <span class="string">'MG_365_MONOMER'</span>});      <span class="comment">%methionyl-tRNA formyltransferase</span>
+0235             this.enzymeIndexs_tRNAGlutamylSynthetase         = this.enzymeIndexs({<span class="string">'MG_462_MONOMER'</span>});        <span class="comment">%glutamyl-tRNA synthetase</span>
+0236             this.enzymeIndexs_tRNAMethionylSynthetase        = this.enzymeIndexs({<span class="string">'MG_021_DIMER'</span>});          <span class="comment">%methionyl-tRNA synthetase</span>
+0237             this.enzymeIndexs_tRNAGlutamylAmidotransferase   = this.enzymeIndexs({<span class="string">'MG_098_099_100_TRIMER'</span>}); <span class="comment">%glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase</span>
+0238             this.enzymeIndexs_tRNAMethionylFormyltransferase = this.enzymeIndexs({<span class="string">'MG_365_MONOMER'</span>});        <span class="comment">%methionyl-tRNA formyltransferase</span>
+0239             this.enzymeIndexs_tRNAs                          = this.enzymeIndexs(this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureTRNAIndexs)));
+0240             this.enzymeIndexs_tmRNA                          = this.enzymeIndexs({<span class="string">'MG_0004'</span>});
+0241 
+0242             <span class="comment">%RNAs</span>
+0243             this.reactionModificationMatrix(isnan(this.reactionModificationMatrix)) = 1;
+0244 
+0245             aaGenes = any(this.reactionModificationMatrix, 1)';
+0246             aaRNAs  = ComputationUtil.invertCompositionMatrix(this.rna.matureRNAGeneComposition) * aaGenes;
+0247             this.aminoacylatedRNAGlobalIndexs  = find(aaRNAs);
+0248             this.aminoacylatedRNAtRNAIndexs    = intersect(this.aminoacylatedRNAGlobalIndexs, this.rna.matureTRNAIndexs);
+0249 
+0250             this.freeRNAWholeCellModelIDs          = this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.aminoacylatedRNAGlobalIndexs));
+0251             this.aminoacylatedRNAWholeCellModelIDs = this.rna.wholeCellModelIDs(this.rna.aminoacylatedIndexs(this.aminoacylatedRNAGlobalIndexs));
+0252 
+0253             this.reactionModificationMatrix = this.reactionModificationMatrix(:, aaGenes);
+0254 
+0255             <span class="comment">%reaction indices</span>
+0256             this.reactionIndexs_aminoacylation          = find(strcmp(this.reactionTypes, <span class="string">'aminoacylation'</span>));
+0257             this.reactionIndexs_transfer                = find(strcmp(this.reactionTypes, <span class="string">'transfer'</span>));
+0258             this.reactionIndexs_glutamylamidotransfer   = this.reactionIndexs({<span class="string">'MG502_Amidotransferase'</span>});
+0259             this.reactionIndexs_methionylformyltransfer = this.reactionIndexs({<span class="string">'MG488_Formyltransferase'</span>});
+0260 
+0261             <span class="comment">%for transfer reactions unlike knowledge base representation,</span>
+0262             <span class="comment">%formulate reactionStoichiometryMatrix so that left-hand-side</span>
+0263             <span class="comment">%doesn't include the already conjugated amino acid, and the</span>
+0264             <span class="comment">%right-hand-side doesn't include the ultimate conjugated amino</span>
+0265             <span class="comment">%acid</span>
+0266             this.reactionStoichiometryMatrix(this.substrateIndexs_glutamine,   this.reactionIndexs_glutamylamidotransfer)   = -1;
+0267             this.reactionStoichiometryMatrix(this.substrateIndexs_glutamate,   this.reactionIndexs_glutamylamidotransfer)   =  1;
+0268             this.reactionStoichiometryMatrix(this.substrateIndexs_methionine,  this.reactionIndexs_methionylformyltransfer) =  0;
+0269             this.reactionStoichiometryMatrix(this.substrateIndexs_fmethionine, this.reactionIndexs_methionylformyltransfer) =  0;
+0270 
+0271             <span class="comment">%re-run super class method to update substrate and enzyme</span>
+0272             <span class="comment">%mappings to include GLN, the tRNAs, and the tmRNA</span>
+0273             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0274             
+0275             this.initializeSpeciesNetwork();
+0276 
+0277             <span class="comment">%protein monomers -- needed for fitting</span>
+0278             this.monomerTRNACounts = knowledgeBase.proteinMonomerTRNACounts;
+0279         <span class="keyword">end</span>
+0280         
+0281         <span class="comment">%initialize reaction stoichiomety to be used in evolveState:</span>
+0282         <span class="comment">%  [tRNA aminoacylations and transfers] X [subtrates; enzymes; free tRNAs]</span>
+0283         <a name="_sub2" href="#_subfunctions" class="code">function initializeSpeciesNetwork(this)</a>
+0284             <span class="comment">% formulate network: [tRNA aminoacylations and transfers] X [subtrates; enzymes; free tRNAs]</span>
+0285             numMetabolites = size(this.reactionStoichiometryMatrix, 1);
+0286             numEnzymes     = size(this.reactionCatalysisMatrix, 2);
+0287             numRNAs        = size(this.reactionModificationMatrix, 2);
+0288             
+0289             this.speciesReactantByproductMatrix = [this.reactionModificationMatrix' * [ <span class="keyword">...</span>
+0290                 -this.reactionStoichiometryMatrix' <span class="keyword">...</span>
+0291                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:, 2) * this.stepSizeSec, 1, numEnzymes)] <span class="keyword">...</span>
+0292                 eye(numRNAs)];
+0293             this.speciesReactantMatrix = [this.reactionModificationMatrix' * max(0, [ <span class="keyword">...</span>
+0294                 -this.reactionStoichiometryMatrix' <span class="keyword">...</span>
+0295                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:, 2) * this.stepSizeSec, 1, numEnzymes)]) <span class="keyword">...</span>
+0296                 eye(numRNAs)];
+0297             
+0298             this.speciesIndexs_enzymes = (1:numEnzymes)' + numMetabolites;
+0299         <span class="keyword">end</span>
+0300 
+0301         <span class="comment">%retrieve state from simulation</span>
+0302         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0303             this.copyFromState@edu.stanford.covert.cell.sim.ReactionProcess();
+0304 
+0305             this.freeRNAs          = this.rna.counts(this.rna.matureIndexs(       this.aminoacylatedRNAGlobalIndexs), this.compartment.cytosolIndexs, :);
+0306             this.aminoacylatedRNAs = this.rna.counts(this.rna.aminoacylatedIndexs(this.aminoacylatedRNAGlobalIndexs), this.compartment.cytosolIndexs, :);
+0307         <span class="keyword">end</span>
+0308 
+0309         <span class="comment">%send state to simulation</span>
+0310         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0311             this.copyToState@edu.stanford.covert.cell.sim.ReactionProcess();
+0312 
+0313             this.rna.counts(this.rna.matureIndexs(       this.aminoacylatedRNAGlobalIndexs), this.compartment.cytosolIndexs, :) = this.freeRNAs;
+0314             this.rna.counts(this.rna.aminoacylatedIndexs(this.aminoacylatedRNAGlobalIndexs), this.compartment.cytosolIndexs, :) = this.aminoacylatedRNAs;
+0315         <span class="keyword">end</span>
+0316     <span class="keyword">end</span>
+0317 
+0318     <span class="comment">%allocate memory for state</span>
+0319     methods
+0320         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0321             this.allocateMemoryForState@edu.stanford.covert.cell.sim.ReactionProcess(numTimePoints);
+0322 
+0323             this.freeRNAs          = zeros(length(this.aminoacylatedRNAGlobalIndexs), 1, numTimePoints);
+0324             this.aminoacylatedRNAs = zeros(length(this.aminoacylatedRNAGlobalIndexs), 1, numTimePoints);
+0325         <span class="keyword">end</span>
+0326     <span class="keyword">end</span>
+0327 
+0328     <span class="comment">%model</span>
+0329     methods
+0330         <span class="comment">%Calculate</span>
+0331         <span class="comment">%- contribution to FBA objective</span>
+0332         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0333         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0334             <span class="comment">%% substrate and byproducts</span>
+0335             <span class="comment">%aminoacylations of each t(m)RNA</span>
+0336             [~, idxs] = ismember(this.aminoacylatedRNAtRNAIndexs, this.aminoacylatedRNAGlobalIndexs);
+0337             aminoacylations = zeros(size(this.aminoacylatedRNAGlobalIndexs));
+0338             aminoacylations(idxs) = aminoacylations(idxs) + <span class="keyword">...</span>
+0339                 this.monomerTRNACounts' * states.monomerProductions;
+0340             
+0341             <span class="comment">%t(m)RNA aminoacylation reactions</span>
+0342             reactions = this.reactionModificationMatrix * aminoacylations;
+0343             
+0344             <span class="comment">%metabolic load of t(m)RNA aminoacylation reactions</span>
+0345             bmProd = max(0, -this.reactionStoichiometryMatrix) * reactions;
+0346             byProd = max(0,  this.reactionStoichiometryMatrix) * reactions;
+0347             
+0348             <span class="comment">%% enzymes</span>
+0349             <span class="comment">%initialize</span>
+0350             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0351             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0352             
+0353             <span class="comment">%tRNAs</span>
+0354             minEnzExp(this.enzymeIndexs_tRNAs) = 1.95 * this.monomerTRNACounts' * states.monomerProductions0;
+0355             
+0356             <span class="comment">%tmRNA</span>
+0357             minEnzExp(this.enzymeIndexs_tmRNA) = 0;
+0358 
+0359             <span class="comment">%tRNA synthetases, transferases</span>
+0360             [~, idxs] = ismember(this.aminoacylatedRNAtRNAIndexs, this.aminoacylatedRNAGlobalIndexs);
+0361             aminoacylations = states.rnaProductions0(this.aminoacylatedRNAGlobalIndexs);
+0362             aminoacylations(idxs)                = max(aminoacylations(idxs),                minEnzExp(this.enzymeIndexs_tRNAs));
+0363             aminoacylations(setdiff(1:<span class="keyword">end</span>,idxs)) = max(aminoacylations(setdiff(1:<span class="keyword">end</span>,idxs)), minEnzExp(this.enzymeIndexs_tmRNA));            
+0364             
+0365             minEnzExp(setdiff(1:<span class="keyword">end</span>, [this.enzymeIndexs_tRNAs; this.enzymeIndexs_tmRNA])) = <span class="keyword">...</span>
+0366                 + minEnzExp(setdiff(1:<span class="keyword">end</span>, [this.enzymeIndexs_tRNAs; this.enzymeIndexs_tmRNA])) <span class="keyword">...</span>
+0367                 + 3 * this.reactionCatalysisMatrix' * ((this.reactionModificationMatrix * aminoacylations) ./ this.enzymeBounds(:, 2));
+0368         <span class="keyword">end</span>
+0369 
+0370         <span class="comment">%initialization: RNAs initialized to mature state by simulation</span>
+0371         <span class="comment">%initializeState method. This class initializes RNAs to</span>
+0372         <span class="comment">%aminoacylated state.</span>
+0373         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0374             totalRNAs = this.aminoacylatedRNAs + this.freeRNAs;
+0375             this.aminoacylatedRNAs = ceil(2 / 3 * totalRNAs);
+0376             this.freeRNAs = totalRNAs - this.aminoacylatedRNAs;
+0377         <span class="keyword">end</span>
+0378 
+0379         <span class="comment">%resource requirements</span>
+0380         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0381             result = max(0, -this.reactionStoichiometryMatrix) * min(<span class="keyword">...</span>
+0382                 this.reactionModificationMatrix * (this.freeRNAs + this.aminoacylatedRNAs + 1), <span class="keyword">...</span>
+0383                 this.reactionCatalysisMatrix * this.enzymes(1:numel(this.speciesIndexs_enzymes)) * this.stepSizeSec);
+0384         <span class="keyword">end</span>
+0385         
+0386         <span class="comment">%simulation</span>
+0387         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0388             <span class="comment">%terminate early if no free RNAs</span>
+0389             <span class="keyword">if</span> ~any(this.freeRNAs)
+0390                 <span class="keyword">return</span>;
+0391             <span class="keyword">end</span>
+0392             
+0393             numRNAs = numel(this.freeRNAs);
+0394             
+0395             species = [
+0396                 this.substrates;
+0397                 this.enzymes(1:numel(this.speciesIndexs_enzymes));
+0398                 this.freeRNAs]';
+0399             
+0400             reactionFluxes = zeros(size(this.speciesReactantByproductMatrix, 1), 1);
+0401             anyFlux = false;
+0402             
+0403             limits = species(ones(numRNAs, 1), :) ./ this.speciesReactantMatrix;
+0404             limits(:, this.substrateIndexs_water) = NaN;
+0405             limits(:, this.substrateIndexs_hydrogen) = NaN;
+0406             reactionLimits = min(limits, [], 2)';
+0407             reactionLimits(isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 0) = 0;
+0408             isReactionInactive = reactionLimits &lt;= 0;
+0409             
+0410             <span class="keyword">while</span> true
+0411                 <span class="comment">%compute maximum number of each species that can be modified</span>
+0412                 limits = species(ones(numRNAs, 1), :) ./ max(0, this.speciesReactantByproductMatrix);                
+0413                 limits(:, this.substrateIndexs_water) = NaN;
+0414                 limits(:, this.substrateIndexs_hydrogen) = NaN;
+0415                 reactionLimits = min(<span class="keyword">...</span>
+0416                     this.randStream.stochasticRound(min(limits(:, this.speciesIndexs_enzymes), [], 2)), <span class="keyword">...</span>
+0417                     min(limits(:, [1:this.speciesIndexs_enzymes(1)-1  this.speciesIndexs_enzymes(end)+1:end]), [], 2))';
+0418                 reactionLimits(isReactionInactive | isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 1) = 0;
+0419                 
+0420                 <span class="comment">%stop if no more tRNA can be aminoacylated</span>
+0421                 <span class="keyword">if</span> ~any(reactionLimits)
+0422                     <span class="keyword">break</span>;
+0423                 <span class="keyword">end</span>
+0424                 anyFlux = true;
+0425                                
+0426                 edges = min([0 cumsum(reactionLimits(:)' / sum(reactionLimits))], 1);
+0427                 nRxns = min(reactionLimits(reactionLimits &gt; 0));
+0428                 <span class="keyword">if</span> nRxns &lt;= 1
+0429                     <span class="comment">%pick substrate, reaction, enzymes</span>
+0430                     [~, selectedReaction] = histc(rand(this.randStream, 1, 1), edges);
+0431                     reactionFluxes(selectedReaction) = <span class="keyword">...</span>
+0432                         + reactionFluxes(selectedReaction) <span class="keyword">...</span>
+0433                         + 1;
+0434                     
+0435                     <span class="comment">%decrement metabolites, enzymes, unmodified substrates; increment modified substrates</span>
+0436                     species = species - this.speciesReactantByproductMatrix(selectedReaction, :);
+0437                 <span class="keyword">else</span>
+0438                     <span class="comment">%pick substrate, reaction, enzymes</span>
+0439                     edges(end) = 1.1;
+0440                     selectedReactions = histc(rand(this.randStream, nRxns, 1), edges);
+0441                     selectedReactions = selectedReactions(1:end-1);
+0442                     selectedReactions = selectedReactions(:);
+0443                     reactionFluxes = <span class="keyword">...</span>
+0444                         + reactionFluxes <span class="keyword">...</span>
+0445                         + selectedReactions;
+0446                     
+0447                     <span class="comment">%decrement metabolites, enzymes, unmodified substrates; increment modified substrates</span>
+0448                     species = species - selectedReactions' * this.speciesReactantByproductMatrix;
+0449                 <span class="keyword">end</span>
+0450             <span class="keyword">end</span>
+0451             
+0452             <span class="comment">%stop if no reaction can proceed</span>
+0453             <span class="keyword">if</span> ~anyFlux
+0454                 <span class="keyword">return</span>;
+0455             <span class="keyword">end</span>
+0456             
+0457             <span class="comment">% update substrates</span>
+0458             this.substrates = this.substrates + <span class="keyword">...</span>
+0459                 this.reactionStoichiometryMatrix * this.reactionModificationMatrix * reactionFluxes;
+0460             
+0461             <span class="comment">% update RNAs</span>
+0462             this.freeRNAs          = this.freeRNAs          - reactionFluxes;
+0463             this.aminoacylatedRNAs = this.aminoacylatedRNAs + reactionFluxes;
+0464         <span class="keyword">end</span>
+0465     <span class="keyword">end</span>
+0466 
+0467     <span class="comment">%get methods of dependent global state</span>
+0468     methods
+0469         <a name="_sub10" href="#_subfunctions" class="code">function value = get.tRNASynthetases(this)</a>
+0470             value = this.enzymes(this.enzymeIndexs_tRNASynthetases,:,:);
+0471         <span class="keyword">end</span>
+0472 
+0473         <a name="_sub11" href="#_subfunctions" class="code">function value = get.tRNATransferases(this)</a>
+0474             value = this.enzymes(this.enzymeIndexs_tRNATransferases,:,:);
+0475         <span class="keyword">end</span>
+0476     <span class="keyword">end</span>
+0477 
+0478     <span class="comment">%get methods of dependent local state</span>
+0479     methods
+0480         <a name="_sub12" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0481             <span class="keyword">if</span> size(this.freeRNAs, 3) == 1
+0482                 value = this.getDryWeight@edu.stanford.covert.cell.sim.ReactionProcess() + (<span class="keyword">...</span>
+0483                     this.rna.molecularWeights(this.rna.matureIndexs(this.aminoacylatedRNAGlobalIndexs))'        * this.freeRNAs         + <span class="keyword">...</span>
+0484                     this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.aminoacylatedRNAGlobalIndexs))' * this.aminoacylatedRNAs) <span class="keyword">...</span>
+0485                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0486             <span class="keyword">else</span>
+0487                 value = this.getDryWeight@edu.stanford.covert.cell.sim.ReactionProcess() + (<span class="keyword">...</span>
+0488                     permute(this.rna.molecularWeights(this.rna.matureIndexs(this.aminoacylatedRNAGlobalIndexs))'        * permute(this.freeRNAs,         [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0489                     permute(this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.aminoacylatedRNAGlobalIndexs))' * permute(this.aminoacylatedRNAs,[1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0490                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0491             <span class="keyword">end</span>
+0492         <span class="keyword">end</span>
+0493     <span class="keyword">end</span>
+0494 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Replication</title>
+  <meta name="keywords" content="Replication">
+  <meta name="description" content="Replication">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Replication.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Replication
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Replication</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Replication
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 3/2/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Replication.html" class="code" title="">Replication</a>	Replication</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Replication.html" class="code" title="">Replication</a>	Replication</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(outputFileName)</a></li><li><a href="#_sub2" class="code">function durations = sampleDuration()</a></li><li><a href="#_sub3" class="code">function [time, primases, leadingPols, laggingPols, ssbs, ligases, segregation] = simulateReplication(seed)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Replication</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 3/2/2011</span>
+0006 classdef <a href="Replication.html" class="code" title="">Replication</a>
+0007     properties (Constant)
+0008         verbose = false;
+0009     <span class="keyword">end</span>
+0010     
+0011     methods (Static)
+0012         <a name="_sub0" href="#_subfunctions" class="code">function run(outputFileName)</a>
+0013             import edu.stanford.covert.cell.sim.analysis.Replication;
+0014             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0015                         
+0016             <span class="comment">% calculate</span>
+0017             [time primases leadingPols laggingPols ssbs ligases segregation] = Replication.simulateReplication();
+0018             durations = Replication.sampleDuration();
+0019             
+0020             <span class="comment">% save</span>
+0021             save([outputFileName <span class="string">'.mat'</span>], <span class="keyword">...</span>
+0022                 <span class="string">'time'</span>, <span class="string">'primases'</span>, <span class="keyword">...</span>
+0023                 <span class="string">'leadingPols'</span>, <span class="string">'laggingPols'</span>, <span class="keyword">...</span>
+0024                 <span class="string">'ssbs'</span>, <span class="string">'ligases'</span>, <span class="string">'segregation'</span>, <span class="keyword">...</span>
+0025                 <span class="string">'durations'</span>);            
+0026             
+0027             <span class="comment">% print</span>
+0028             colLabels = {<span class="keyword">...</span>
+0029                 <span class="string">'Time'</span>, <span class="string">'Primase-1'</span>, <span class="string">'Primase-2'</span>, <span class="keyword">...</span>
+0030                 <span class="string">'LeadingPol-1'</span>, <span class="string">'LeadingPol-2'</span>, <span class="string">'LaggingPol-1'</span>, <span class="string">'LaggingPol-2'</span>, <span class="keyword">...</span>
+0031                 <span class="string">'SSBs-1'</span>, <span class="string">'SSBs-2'</span>, <span class="string">'Ligase-1'</span>, <span class="string">'Ligase-2'</span>, <span class="string">'Segregation'</span>};
+0032             <span class="keyword">if</span> nargin == 0
+0033                 PrintUtil.printToStdIO(num2cell(durations), colLabels);
+0034             <span class="keyword">else</span>
+0035                 PrintUtil.printToFile(num2cell([time primases leadingPols laggingPols ssbs ligases segregation]), colLabels, [outputFileName <span class="string">'.xls'</span>], <span class="string">'Statistics'</span>);
+0036             <span class="keyword">end</span>
+0037             
+0038             colLabels = {<span class="string">'Duration'</span>};
+0039             PrintUtil.printToFile(num2cell(durations), colLabels, [outputFileName <span class="string">'.xls'</span>], <span class="string">'Duration'</span>);
+0040                         
+0041             <span class="comment">% plot</span>
+0042             <span class="keyword">if</span> nargin == 1, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0043             
+0044             maxTime = find(segregation);
+0045             
+0046             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0047             plot(axesHandle, time/60, primases)
+0048             xlim([0 maxTime]/60);
+0049             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0050             ylabel(<span class="string">'Primase Activity'</span>, <span class="string">'fontsize'</span>, 12);
+0051             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-primases.pdf'</span>]); <span class="keyword">end</span>
+0052             
+0053             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0054             plot(axesHandle, time/60, leadingPols)
+0055             xlim([0 maxTime]/60);
+0056             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0057             ylabel(<span class="string">'Leading Position'</span>, <span class="string">'fontsize'</span>, 12);
+0058             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-leadingPols.pdf'</span>]); <span class="keyword">end</span>
+0059             
+0060             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0061             plot(axesHandle, time/60, laggingPols)
+0062             xlim([0 maxTime]/60);
+0063             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0064             ylabel(<span class="string">'Lagging Position'</span>, <span class="string">'fontsize'</span>, 12);
+0065             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-laggingPols.pdf'</span>]); <span class="keyword">end</span>
+0066             
+0067             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0068             plot(axesHandle, time/60, ssbs)
+0069             xlim([0 maxTime]/60);
+0070             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0071             ylabel(<span class="string">'Bound SSBs'</span>, <span class="string">'fontsize'</span>, 12);
+0072             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-ssbs.pdf'</span>]); <span class="keyword">end</span>
+0073             
+0074             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0075             plot(axesHandle, time/60, ligases)
+0076             xlim([0 maxTime]/60);
+0077             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0078             ylabel(<span class="string">'Ligase Activity'</span>, <span class="string">'fontsize'</span>, 12);
+0079             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-ligases.pdf'</span>]); <span class="keyword">end</span>
+0080             
+0081             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0082             plot(axesHandle, time/60, segregation)
+0083             xlim([0 maxTime]/60);
+0084             xlabel(<span class="string">'Time (m)'</span>, <span class="string">'fontsize'</span>, 12)
+0085             ylabel(<span class="string">'Segregation Activity'</span>, <span class="string">'fontsize'</span>, 12);
+0086             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-segregation.pdf'</span>]); <span class="keyword">end</span>
+0087             
+0088             <span class="keyword">if</span> nargin == 0, [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle(); <span class="keyword">end</span>
+0089             hist(axesHandle, durations / 60);
+0090             xlabel(<span class="string">'Duration (m)'</span>, <span class="string">'fontsize'</span>, 12);
+0091             ylabel(<span class="string">'Frequency'</span>, <span class="string">'fontsize'</span>, 12);
+0092             <span class="keyword">if</span> nargin == 1, saveas(figHandle, [outputFileName <span class="string">'-segregation.pdf'</span>]); <span class="keyword">end</span>
+0093             
+0094             <span class="keyword">if</span> nargin == 1, close(figHandle); <span class="keyword">end</span>
+0095         <span class="keyword">end</span>
+0096     <span class="keyword">end</span>
+0097     
+0098     methods (Static)
+0099         <a name="_sub1" href="#_subfunctions" class="code">function durations = sampleDuration()</a>
+0100             import edu.stanford.covert.cell.sim.analysis.Replication;
+0101             
+0102             nTrials = 0;
+0103             durations = zeros(nTrials, 1);
+0104             parfor i = 1:nTrials
+0105                 <span class="keyword">if</span> Replication.verbose
+0106                     fprintf(<span class="string">'Trial = %d\n'</span>, i); 
+0107                 <span class="keyword">end</span>
+0108                 
+0109                 [~, ~, ~, ~, ~, ~, segregation] = Replication.simulateReplication(i);
+0110                 durations(i) = find(segregation);
+0111             <span class="keyword">end</span>
+0112         <span class="keyword">end</span>
+0113         
+0114         <a name="_sub2" href="#_subfunctions" class="code">function [time, primases, leadingPols, laggingPols, ssbs, ligases, segregation] = simulateReplication(seed)            </a>
+0115             import edu.stanford.covert.cell.sim.analysis.Replication;
+0116             import edu.stanford.covert.cell.sim.constant.ChromosomeSequence;
+0117             import edu.stanford.covert.util.CircularSparseMat;
+0118             
+0119             m = edu.stanford.covert.cell.sim.ProcessFixture.load(edu.stanford.covert.cell.sim.process.Replication([], <span class="string">'Replication'</span>));
+0120             m.verbosity = 0;
+0121             <span class="keyword">if</span> ~exist(<span class="string">'seed'</span>, <span class="string">'var'</span>)
+0122                 seed = 1;
+0123             <span class="keyword">end</span>
+0124             m.seed = seed;
+0125             m.seedRandStream();
+0126             
+0127             c = m.chromosome;           
+0128             
+0129             <span class="comment">% initial state</span>
+0130             c.initialize();
+0131             c.linkingNumbers(1, 1:2) = 0;
+0132             
+0133             m.substrates(:) = 0;
+0134             m.substrates(m.substrateIndexs_dntp) = [
+0135                 sum(sum(c.sequence(:, 2:3) == <span class="string">'A'</span>));
+0136                 sum(sum(c.sequence(:, 2:3) == <span class="string">'C'</span>));
+0137                 sum(sum(c.sequence(:, 2:3) == <span class="string">'G'</span>));
+0138                 sum(sum(c.sequence(:, 2:3) == <span class="string">'T'</span>))];
+0139             m.substrates(m.substrateIndexs_atp) = <span class="keyword">...</span>
+0140                 + size(c.sequence, 1) <span class="keyword">...</span><span class="comment">                              %helicase unwinding each base pair</span>
+0141                 + sum(cellfun(@numel, m.primaseBindingLocations)) <span class="keyword">...</span><span class="comment">  %lagging strand beta-clamp formation</span>
+0142                 + 2;                                                   <span class="comment">%leading strand beta-clamp formation</span>
+0143             m.substrates(m.substrateIndexs_water) = m.substrates(m.substrateIndexs_atp);
+0144             m.substrates(m.substrateIndexs_nad) = sum(cellfun(@numel,m.primaseBindingLocations)) + 2;
+0145             
+0146             m.enzymes = m.enzymeComposition(:, [m.enzymeIndexs_replisome; m.enzymeIndexs_betaClamp; m.enzymeIndexs_ssb8mer]) * [2; 2; 100];
+0147             m.enzymes(m.enzymeIndexs_ligase) = 100;
+0148             m.boundEnzymes(:) = 0;
+0149             
+0150             <span class="comment">%set up OriC complex</span>
+0151             c.complexBoundSites(m.dnaAFunctionalBoxStartPositions(m.dnaAFunctionalBoxIndexs_R1234), 1) = m.complexIndexs_DnaA_7mer_ATP;
+0152             c.complexBoundSites(m.dnaAFunctionalBoxStartPositions(m.dnaAFunctionalBoxIndexs_R5), 1) = m.complexIndexs_DnaA_1mer_ATP;
+0153             
+0154             <span class="comment">% evolve state</span>
+0155             nTime = 2*3600;
+0156             time = (1:nTime)';
+0157             primases = zeros(nTime, 2);
+0158             leadingPols = zeros(nTime, 2);
+0159             laggingPols = zeros(nTime, 2);
+0160             ssbs = zeros(nTime, 2);
+0161             ligases = zeros(nTime, 2);
+0162             segregation = zeros(nTime, 1);
+0163             
+0164             <span class="keyword">for</span> i = 1:nTime
+0165                 <span class="keyword">if</span> Replication.verbose &amp;&amp; mod(i, 100) == 1
+0166                     fprintf(<span class="string">'t = %d\n'</span>, i); 
+0167                 <span class="keyword">end</span>
+0168 
+0169                 oldStrandBreaks = c.strandBreaks;
+0170                 
+0171                 m.evolveState();
+0172                                 
+0173                 primases(i, :) = <span class="keyword">...</span>
+0174                     + ((m.okazakiFragmentIndex &gt; 0) &amp; (m.okazakiFragmentProgress &lt;= m.primerLength)) <span class="keyword">...</span>
+0175                     + (m.leadingPosition &lt;= m.primerLength);
+0176                 
+0177                 leadingPols(i, :) = m.leadingPosition;
+0178                 laggingPols(i, :) = m.laggingPosition;
+0179                 
+0180                 ssbs(i, :) = <span class="keyword">...</span>
+0181                     + m.numLeadingTemplateBoundSSBs <span class="keyword">...</span>
+0182                     + m.numLaggingTemplateBoundSSBs;
+0183                 
+0184                 <span class="keyword">if</span> nnz(oldStrandBreaks)
+0185                     subs1 = find(oldStrandBreaks);
+0186                     subs2 = find(c.strandBreaks);
+0187                     
+0188                     ligases(i, 1) = sum(~ismembc(subs1(subs1(:, 2)==2, 1), subs2(subs2(:,2)==2, 1)));
+0189                     ligases(i, 2) = sum(~ismembc(subs1(subs1(:, 2)==3, 1), subs2(subs2(:,2)==3, 1)));
+0190                 <span class="keyword">end</span>
+0191                 
+0192                 <span class="keyword">if</span> all(m.strandDuplicated)
+0193                     <span class="keyword">break</span>;
+0194                 <span class="keyword">end</span>
+0195             <span class="keyword">end</span>            
+0196             segregation(i+1, :) = 1;
+0197             
+0198             <span class="comment">%% assertions</span>
+0199             assertEqual([true true], m.strandDuplicated);            
+0200         <span class="keyword">end</span>
+0201     <span class="keyword">end</span>
+0202 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CircularMat</title>
+  <meta name="keywords" content="CircularMat">
+  <meta name="description" content="CircularMat">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; CircularMat.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CircularMat
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>CircularMat</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> CircularMat
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/18/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="CircularMat.html" class="code" title="">CircularMat</a>	CircularMat</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="CircularMat.html" class="code" title="">CircularMat</a>	CircularMat</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CircularMat(mat, circularDims)</a></li><li><a href="#_sub2" class="code">function value = isempty(this)</a></li><li><a href="#_sub3" class="code">function value = numel(this)</a></li><li><a href="#_sub4" class="code">function value = length(this)</a></li><li><a href="#_sub5" class="code">function value = size(this, varargin)</a></li><li><a href="#_sub6" class="code">function value = ndims(this)</a></li><li><a href="#_sub7" class="code">function this = reshape(this, varargin)</a></li><li><a href="#_sub8" class="code">function this = transpose(this)</a></li><li><a href="#_sub9" class="code">function this = ctranspose(this)</a></li><li><a href="#_sub10" class="code">function this = permute(this, dims)</a></li><li><a href="#_sub11" class="code">function this = squeeze(this)</a></li><li><a href="#_sub12" class="code">function value = subsref(this, s)</a></li><li><a href="#_sub13" class="code">function this = subsasgn(this, s, rhs)</a></li><li><a href="#_sub14" class="code">function inds = subsindex(this)</a></li><li><a href="#_sub15" class="code">function e = end(this, k, n)</a></li><li><a href="#_sub16" class="code">function C = cat(dim, varargin)</a></li><li><a href="#_sub17" class="code">function C = horzcat(varargin)</a></li><li><a href="#_sub18" class="code">function C = vertcat(varargin)</a></li><li><a href="#_sub19" class="code">function this = padarray(this, varargin)</a></li><li><a href="#_sub20" class="code">function this = abs(this)</a></li><li><a href="#_sub21" class="code">function this = sign(this)</a></li><li><a href="#_sub22" class="code">function this = sqrt(this)</a></li><li><a href="#_sub23" class="code">function this = realsqrt(this)</a></li><li><a href="#_sub24" class="code">function this = exp(this)</a></li><li><a href="#_sub25" class="code">function this = expm1(this)</a></li><li><a href="#_sub26" class="code">function this = log(this)</a></li><li><a href="#_sub27" class="code">function this = log1p(this)</a></li><li><a href="#_sub28" class="code">function this = log2(this)</a></li><li><a href="#_sub29" class="code">function this = log10(this)</a></li><li><a href="#_sub30" class="code">function this = reallog(this)</a></li><li><a href="#_sub31" class="code">function this = real(this)</a></li><li><a href="#_sub32" class="code">function this = imag(this)</a></li><li><a href="#_sub33" class="code">function this = angle(this)</a></li><li><a href="#_sub34" class="code">function this = conj(this)</a></li><li><a href="#_sub35" class="code">function val = isreal(this)</a></li><li><a href="#_sub36" class="code">function this = not(this)</a></li><li><a href="#_sub37" class="code">function C = or(A, B)</a></li><li><a href="#_sub38" class="code">function C = and(A, B)</a></li><li><a href="#_sub39" class="code">function C = xor(A, B)</a></li><li><a href="#_sub40" class="code">function C = uplus(A)</a></li><li><a href="#_sub41" class="code">function C = uminus(A)</a></li><li><a href="#_sub42" class="code">function C = plus(A, B)</a></li><li><a href="#_sub43" class="code">function C = minus(A, B)</a></li><li><a href="#_sub44" class="code">function C = times(A, B)</a></li><li><a href="#_sub45" class="code">function C = mtimes(A, B)</a></li><li><a href="#_sub46" class="code">function C = rdivide(A,B)</a></li><li><a href="#_sub47" class="code">function C = ldivide(A,B)</a></li><li><a href="#_sub48" class="code">function C = power(A,B)</a></li><li><a href="#_sub49" class="code">function C = mpower(A,B)</a></li><li><a href="#_sub50" class="code">function C = isequal(A,B)</a></li><li><a href="#_sub51" class="code">function assertElementsAlmostEqual(A, B, varargin)</a></li><li><a href="#_sub52" class="code">function C = eq(A, B)</a></li><li><a href="#_sub53" class="code">function C = ne(A, B)</a></li><li><a href="#_sub54" class="code">function C = le(A, B)</a></li><li><a href="#_sub55" class="code">function C = lt(A, B)</a></li><li><a href="#_sub56" class="code">function C = ge(A, B)</a></li><li><a href="#_sub57" class="code">function C = gt(A, B)</a></li><li><a href="#_sub58" class="code">function this = unique(this)</a></li><li><a href="#_sub59" class="code">function this = all(this, varargin)</a></li><li><a href="#_sub60" class="code">function this = any(this, varargin)</a></li><li><a href="#_sub61" class="code">function C = min(A, B, dim)</a></li><li><a href="#_sub62" class="code">function C = max(A, B, dim)</a></li><li><a href="#_sub63" class="code">function this = range(this, varargin)</a></li><li><a href="#_sub64" class="code">function this = sum(this, varargin)</a></li><li><a href="#_sub65" class="code">function this = mean(this, varargin)</a></li><li><a href="#_sub66" class="code">function this = var(this, varargin)</a></li><li><a href="#_sub67" class="code">function this = std(this, varargin)</a></li><li><a href="#_sub68" class="code">function val = norm(this, varargin)</a></li><li><a href="#_sub69" class="code">function varargout = find(this, varargin)</a></li><li><a href="#_sub70" class="code">function this = isnan(this)</a></li><li><a href="#_sub71" class="code">function this = isinf(this)</a></li><li><a href="#_sub72" class="code">function this = isfinite(this)</a></li><li><a href="#_sub73" class="code">function val = matClass(this)</a></li><li><a href="#_sub74" class="code">function this = matCast(this, newclass)</a></li><li><a href="#_sub75" class="code">function val = cast(this, newclass)</a></li><li><a href="#_sub76" class="code">function val = sparse(this)</a></li><li><a href="#_sub77" class="code">function val = char(this)</a></li><li><a href="#_sub78" class="code">function val = logical(this)</a></li><li><a href="#_sub79" class="code">function val = int8(this)</a></li><li><a href="#_sub80" class="code">function val = int16(this)</a></li><li><a href="#_sub81" class="code">function val = int32(this)</a></li><li><a href="#_sub82" class="code">function val = int64(this)</a></li><li><a href="#_sub83" class="code">function val = uint8(this)</a></li><li><a href="#_sub84" class="code">function val = uint16(this)</a></li><li><a href="#_sub85" class="code">function val = uint32(this)</a></li><li><a href="#_sub86" class="code">function val = uint64(this)</a></li><li><a href="#_sub87" class="code">function val = single(this)</a></li><li><a href="#_sub88" class="code">function val = double(this)</a></li><li><a href="#_sub89" class="code">function disp(this)</a></li><li><a href="#_sub90" class="code">function display(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% CircularMat</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 7/18/2010</span>
+0006 classdef <a href="CircularMat.html" class="code" title="">CircularMat</a>
+0007     properties (SetAccess=protected)
+0008         mat
+0009         circularDims
+0010     <span class="keyword">end</span>
+0011 
+0012     methods
+0013         <a name="_sub0" href="#_subfunctions" class="code">function this = CircularMat(mat, circularDims)</a>
+0014             <span class="keyword">if</span> ~exist(<span class="string">'mat'</span>,<span class="string">'var'</span>)
+0015                 mat = [];
+0016             <span class="keyword">end</span>
+0017 
+0018             <span class="keyword">if</span> ~exist(<span class="string">'circularDims'</span>,<span class="string">'var'</span>)
+0019                 circularDims = zeros(1,0);
+0020             <span class="keyword">end</span>
+0021 
+0022             <span class="keyword">if</span> <span class="keyword">...</span>
+0023                     <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(circularDims &<a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>; 1) || <span class="keyword">...</span>
+0024                     ~<a href="#_sub50" class="code" title="subfunction C = isequal(A,B)">isequal</a>(circularDims, ceil(<a href="#_sub31" class="code" title="subfunction this = real(this)">real</a>(circularDims))) || <span class="keyword">...</span>
+0025                     <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(circularDims &<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>; <a href="#_sub6" class="code" title="subfunction value = ndims(this)">ndims</a>(mat)) || <span class="keyword">...</span>
+0026                     ~isvector(circularDims) || <span class="keyword">...</span>
+0027                     <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(<a href="#_sub58" class="code" title="subfunction this = unique(this)">unique</a>(circularDims)) &<a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(circularDims)
+0028                 throw(MException(<span class="string">'CircularMat:invalidDimensions'</span>,<span class="keyword">...</span>
+0029                     <span class="string">'circular dimensions must be unique positive real integers &lt;= ndims(mat)'</span>));
+0030             <span class="keyword">end</span>
+0031 
+0032             this.mat = mat;
+0033             this.circularDims = <a href="#_sub7" class="code" title="subfunction this = reshape(this, varargin)">reshape</a>(sort(circularDims),1,[]);
+0034         <span class="keyword">end</span>
+0035     <span class="keyword">end</span>
+0036 
+0037     <span class="comment">%size</span>
+0038     methods
+0039         <a name="_sub1" href="#_subfunctions" class="code">function value = isempty(this)</a>
+0040             value = <a href="#_sub2" class="code" title="subfunction value = isempty(this)">isempty</a>(this.mat);
+0041         <span class="keyword">end</span>
+0042 
+0043         <a name="_sub2" href="#_subfunctions" class="code">function value = numel(this)</a>
+0044             value = <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(this.mat);
+0045         <span class="keyword">end</span>
+0046 
+0047         <a name="_sub3" href="#_subfunctions" class="code">function value = length(this)</a>
+0048             value = <a href="#_sub4" class="code" title="subfunction value = length(this)">length</a>(this.mat);
+0049         <span class="keyword">end</span>
+0050 
+0051         <a name="_sub4" href="#_subfunctions" class="code">function value = size(this, varargin)</a>
+0052             value = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat, varargin{:});
+0053         <span class="keyword">end</span>
+0054 
+0055         <a name="_sub5" href="#_subfunctions" class="code">function value = ndims(this)</a>
+0056             value = <a href="#_sub6" class="code" title="subfunction value = ndims(this)">ndims</a>(this.mat);
+0057         <span class="keyword">end</span>
+0058 
+0059         <a name="_sub6" href="#_subfunctions" class="code">function this = reshape(this, varargin)</a>
+0060             <span class="keyword">if</span> nargin == 3 &amp;&amp; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(varargin{1})&<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>;1
+0061                 this.mat = <a href="#_sub7" class="code" title="subfunction this = reshape(this, varargin)">reshape</a>(this.mat, varargin{1});
+0062                 <span class="keyword">if</span> <span class="keyword">...</span>
+0063                         <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(varargin{2} &<a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>; 1) || <span class="keyword">...</span>
+0064                         ~<a href="#_sub50" class="code" title="subfunction C = isequal(A,B)">isequal</a>(varargin{2}, ceil(<a href="#_sub31" class="code" title="subfunction this = real(this)">real</a>(varargin{2}))) || <span class="keyword">...</span>
+0065                         <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(varargin{2} &<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>; <a href="#_sub6" class="code" title="subfunction value = ndims(this)">ndims</a>(this.mat)) || <span class="keyword">...</span>
+0066                         ~isvector(varargin{2}) || <span class="keyword">...</span>
+0067                         <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(<a href="#_sub58" class="code" title="subfunction this = unique(this)">unique</a>(varargin{2})) &<a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(varargin{2})
+0068                     throw(MException(<span class="string">'CircularMat:invalidDimensions'</span>,<span class="keyword">...</span>
+0069                         <span class="string">'circular dimensions must be unique positive real integers &lt;= ndims(mat)'</span>));
+0070                 <span class="keyword">end</span>
+0071 
+0072                 this.circularDims = sort(<a href="#_sub7" class="code" title="subfunction this = reshape(this, varargin)">reshape</a>(varargin{2},1,[]));
+0073             <span class="keyword">else</span>
+0074                 this.mat = <a href="#_sub7" class="code" title="subfunction this = reshape(this, varargin)">reshape</a>(this.mat, varargin{:});
+0075                 this.circularDims = zeros(1,0);
+0076             <span class="keyword">end</span>
+0077         <span class="keyword">end</span>
+0078 
+0079         <a name="_sub7" href="#_subfunctions" class="code">function this = transpose(this)</a>
+0080             this.mat=<a href="#_sub8" class="code" title="subfunction this = transpose(this)">transpose</a>(this.mat);
+0081             this.circularDims(this.circularDims==1)=-1;
+0082             this.circularDims(this.circularDims==2)=1;
+0083             this.circularDims(this.circularDims==-1)=2;
+0084             this.circularDims = sort(this.circularDims);
+0085         <span class="keyword">end</span>
+0086 
+0087         <a name="_sub8" href="#_subfunctions" class="code">function this = ctranspose(this)</a>
+0088             this = <a href="#_sub34" class="code" title="subfunction this = conj(this)">conj</a>(<a href="#_sub8" class="code" title="subfunction this = transpose(this)">transpose</a>(this));
+0089         <span class="keyword">end</span>
+0090 
+0091         <a name="_sub9" href="#_subfunctions" class="code">function this = permute(this, dims)</a>
+0092             this.mat=<a href="#_sub10" class="code" title="subfunction this = permute(this, dims)">permute</a>(this.mat, dims);
+0093             this.circularDims = <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(ismember(dims, this.circularDims));
+0094         <span class="keyword">end</span>
+0095 
+0096         <a name="_sub10" href="#_subfunctions" class="code">function this = squeeze(this)</a>
+0097             [~,this.circularDims] = intersect(<a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat)==1), this.circularDims);
+0098             this.mat=<a href="#_sub11" class="code" title="subfunction this = squeeze(this)">squeeze</a>(this.mat);
+0099         <span class="keyword">end</span>
+0100 
+0101     <span class="keyword">end</span>
+0102 
+0103     <span class="comment">%subscript reference, assignment</span>
+0104     methods
+0105         <a name="_sub11" href="#_subfunctions" class="code">function value = subsref(this, s)</a>
+0106             import edu.stanford.covert.util.CircularMat;
+0107 
+0108             <span class="comment">%Case 1: Dot reference to properties</span>
+0109             <span class="keyword">if</span> strcmp(s(1).type,<span class="string">'.'</span>)
+0110                 value = builtin(<span class="string">'subsref'</span>, this, s);
+0111                 <span class="keyword">return</span>;
+0112             <span class="keyword">end</span>
+0113 
+0114             <span class="keyword">if</span> <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(s.subs)==1
+0115                 <span class="comment">%Case 2: linear indexing</span>
+0116                 value = <a href="CircularMat.html" class="code" title="">CircularMat</a>(<a href="#_sub12" class="code" title="subfunction value = subsref(this, s)">subsref</a>(this.mat, s));
+0117             <span class="keyword">else</span>
+0118                 <span class="comment">%Case 3: subscript indexing</span>
+0119                 keepCircularDims = false(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.circularDims));
+0120                 <span class="keyword">for</span> i=1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(this.circularDims)
+0121                     <span class="keyword">if</span> this.circularDims(i) &<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(s.subs)
+0122                         <span class="keyword">break</span>;
+0123                     <span class="keyword">end</span>
+0124 
+0125                     subs = s.subs{this.circularDims(i)};
+0126 
+0127                     <span class="keyword">if</span> isnumeric(subs)
+0128                         subs = mod(subs-1, <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat, this.circularDims(i)))+1;
+0129                     <span class="keyword">elseif</span> ischar(subs) &amp;&amp; strcmp(subs,<span class="string">':'</span>)
+0130                         keepCircularDims(i)=true;
+0131                     <span class="keyword">end</span>
+0132 
+0133                     s.subs{this.circularDims(i)} = subs;
+0134                 <span class="keyword">end</span>
+0135 
+0136                 value = <a href="CircularMat.html" class="code" title="">CircularMat</a>(<a href="#_sub12" class="code" title="subfunction value = subsref(this, s)">subsref</a>(this.mat, s), this.circularDims(1,keepCircularDims));
+0137             <span class="keyword">end</span>
+0138         <span class="keyword">end</span>
+0139 
+0140         <a name="_sub12" href="#_subfunctions" class="code">function this = subsasgn(this, s, rhs)</a>
+0141             import edu.stanford.covert.util.CircularMat;
+0142 
+0143             <span class="comment">%Case 1: Dot reference to properties</span>
+0144             <span class="keyword">if</span> strcmp(s(1).type,<span class="string">'.'</span>)
+0145                 this = builtin(<span class="string">'subsasgn'</span>, this, s, rhs);
+0146                 <span class="keyword">return</span>;
+0147             <span class="keyword">end</span>
+0148 
+0149             <span class="keyword">if</span> <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(s.subs)==1
+0150                 <span class="comment">%Case 2: linear indexing</span>
+0151                 this.mat = <a href="#_sub13" class="code" title="subfunction this = subsasgn(this, s, rhs)">subsasgn</a>(this.mat, s, rhs);
+0152             <span class="keyword">else</span>
+0153                 <span class="comment">%Case 3: subscript indexing</span>
+0154                 keepCircularDims = true(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.circularDims));
+0155                 <span class="keyword">for</span> i=1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(this.circularDims)
+0156                     <span class="keyword">if</span> this.circularDims(i) &<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(s.subs)
+0157                         <span class="keyword">break</span>;
+0158                     <span class="keyword">end</span>
+0159 
+0160                     subs = s.subs{this.circularDims(i)};
+0161 
+0162                     <span class="keyword">if</span> isnumeric(subs)
+0163                         subs = mod(subs-1, <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat, this.circularDims(i)))+1;
+0164                         <span class="keyword">if</span> <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(subs &<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>; <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat, this.circularDims(i)))
+0165                             keepCircularDims(i)=false;
+0166                         <span class="keyword">end</span>
+0167                     <span class="keyword">end</span>
+0168 
+0169                     s.subs{this.circularDims(i)} = subs;
+0170                 <span class="keyword">end</span>
+0171 
+0172                 this.mat = <a href="#_sub13" class="code" title="subfunction this = subsasgn(this, s, rhs)">subsasgn</a>(this.mat, s, rhs);
+0173                 this.circularDims=this.circularDims(1,keepCircularDims);
+0174             <span class="keyword">end</span>
+0175         <span class="keyword">end</span>
+0176 
+0177         <a name="_sub13" href="#_subfunctions" class="code">function inds = subsindex(this)</a>
+0178             inds = <a href="#_sub14" class="code" title="subfunction inds = subsindex(this)">subsindex</a>(this.mat);
+0179         <span class="keyword">end</span>
+0180 
+0181         <a name="_sub14" href="#_subfunctions" class="code">function e = end(this, k, n)</a>
+0182             e = feval(<span class="string">'end'</span>,this.mat, k, n);
+0183         <span class="keyword">end</span>
+0184     <span class="keyword">end</span>
+0185 
+0186     <span class="comment">%concatenation</span>
+0187     methods
+0188         <a name="_sub15" href="#_subfunctions" class="code">function C = cat(dim, varargin)</a>
+0189             import edu.stanford.covert.util.CircularMat;
+0190 
+0191             <span class="keyword">for</span> i=1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(varargin)
+0192                 <span class="keyword">if</span> isa(varargin{i}, <span class="string">'CircularMat'</span>);
+0193                     C = varargin{i};
+0194                     <span class="keyword">break</span>;
+0195                 <span class="keyword">end</span>
+0196             <span class="keyword">end</span>
+0197 
+0198             values = cell(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(varargin));
+0199             <span class="keyword">for</span> i=1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(varargin)
+0200                 <span class="keyword">if</span> isa(varargin{i}, <span class="string">'CircularMat'</span>);
+0201                     values{i}=varargin{i}.mat;
+0202                 <span class="keyword">else</span>
+0203                     values{i}=varargin{i};
+0204                 <span class="keyword">end</span>
+0205             <span class="keyword">end</span>
+0206 
+0207             C.mat = <a href="#_sub16" class="code" title="subfunction C = cat(dim, varargin)">cat</a>(dim, values{:});
+0208             <span class="keyword">if</span> ~<a href="#_sub2" class="code" title="subfunction value = isempty(this)">isempty</a>(C.circularDims) &amp;&amp; <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(values)&<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>;1
+0209                 C.circularDims(:, C.circularDims==dim)=[];
+0210             <span class="keyword">end</span>
+0211         <span class="keyword">end</span>
+0212 
+0213         <a name="_sub16" href="#_subfunctions" class="code">function C = horzcat(varargin)</a>
+0214             C = <a href="#_sub16" class="code" title="subfunction C = cat(dim, varargin)">cat</a>(2, varargin{:});
+0215         <span class="keyword">end</span>
+0216         <a name="_sub17" href="#_subfunctions" class="code">function C = vertcat(varargin)</a>
+0217             C = <a href="#_sub16" class="code" title="subfunction C = cat(dim, varargin)">cat</a>(1, varargin{:});
+0218         <span class="keyword">end</span>
+0219 
+0220         <a name="_sub18" href="#_subfunctions" class="code">function this = padarray(this, varargin)</a>
+0221             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0222             this.mat = <a href="#_sub19" class="code" title="subfunction this = padarray(this, varargin)">padarray</a>(this.mat, varargin{:});
+0223             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0224             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz==newsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(oldsiz))));
+0225         <span class="keyword">end</span>
+0226     <span class="keyword">end</span>
+0227 
+0228     <span class="comment">%element-wise functions</span>
+0229     methods
+0230         <a name="_sub19" href="#_subfunctions" class="code">function this = abs(this)</a>
+0231             this.mat=<a href="#_sub20" class="code" title="subfunction this = abs(this)">abs</a>(this.mat);
+0232         <span class="keyword">end</span>
+0233 
+0234         <a name="_sub20" href="#_subfunctions" class="code">function this = sign(this)</a>
+0235             this.mat = <a href="#_sub21" class="code" title="subfunction this = sign(this)">sign</a>(this.mat);
+0236         <span class="keyword">end</span>
+0237 
+0238         <a name="_sub21" href="#_subfunctions" class="code">function this = sqrt(this)</a>
+0239             this.mat = <a href="#_sub22" class="code" title="subfunction this = sqrt(this)">sqrt</a>(this.mat);
+0240         <span class="keyword">end</span>
+0241 
+0242         <a name="_sub22" href="#_subfunctions" class="code">function this = realsqrt(this)</a>
+0243             this.mat = <a href="#_sub23" class="code" title="subfunction this = realsqrt(this)">realsqrt</a>(this.mat);
+0244         <span class="keyword">end</span>
+0245 
+0246         <a name="_sub23" href="#_subfunctions" class="code">function this = exp(this)</a>
+0247             this.mat = <a href="#_sub24" class="code" title="subfunction this = exp(this)">exp</a>(this.mat);
+0248         <span class="keyword">end</span>
+0249 
+0250         <a name="_sub24" href="#_subfunctions" class="code">function this = expm1(this)</a>
+0251             this.mat = <a href="#_sub25" class="code" title="subfunction this = expm1(this)">expm1</a>(this.mat);
+0252         <span class="keyword">end</span>
+0253 
+0254         <a name="_sub25" href="#_subfunctions" class="code">function this = log(this)</a>
+0255             this.mat = <a href="#_sub26" class="code" title="subfunction this = log(this)">log</a>(this.mat);
+0256         <span class="keyword">end</span>
+0257 
+0258         <a name="_sub26" href="#_subfunctions" class="code">function this = log1p(this)</a>
+0259             this.mat = <a href="#_sub27" class="code" title="subfunction this = log1p(this)">log1p</a>(this.mat);
+0260         <span class="keyword">end</span>
+0261 
+0262         <a name="_sub27" href="#_subfunctions" class="code">function this = log2(this)</a>
+0263             this.mat = <a href="#_sub28" class="code" title="subfunction this = log2(this)">log2</a>(this.mat);
+0264         <span class="keyword">end</span>
+0265 
+0266         <a name="_sub28" href="#_subfunctions" class="code">function this = log10(this)</a>
+0267             this.mat = <a href="#_sub29" class="code" title="subfunction this = log10(this)">log10</a>(this.mat);
+0268         <span class="keyword">end</span>
+0269 
+0270         <a name="_sub29" href="#_subfunctions" class="code">function this = reallog(this)</a>
+0271             this.mat = <a href="#_sub30" class="code" title="subfunction this = reallog(this)">reallog</a>(this.mat);
+0272         <span class="keyword">end</span>
+0273     <span class="keyword">end</span>
+0274 
+0275     <span class="comment">%complex numbers</span>
+0276     methods
+0277         <a name="_sub30" href="#_subfunctions" class="code">function this = real(this)</a>
+0278             this.mat = <a href="#_sub31" class="code" title="subfunction this = real(this)">real</a>(this.mat);
+0279         <span class="keyword">end</span>
+0280 
+0281         <a name="_sub31" href="#_subfunctions" class="code">function this = imag(this)</a>
+0282             this.mat = <a href="#_sub32" class="code" title="subfunction this = imag(this)">imag</a>(this.mat);
+0283         <span class="keyword">end</span>
+0284 
+0285         <a name="_sub32" href="#_subfunctions" class="code">function this = angle(this)</a>
+0286             this.mat = <a href="#_sub33" class="code" title="subfunction this = angle(this)">angle</a>(this.mat);
+0287         <span class="keyword">end</span>
+0288 
+0289         <a name="_sub33" href="#_subfunctions" class="code">function this = conj(this)</a>
+0290             this.mat = <a href="#_sub34" class="code" title="subfunction this = conj(this)">conj</a>(this.mat);
+0291         <span class="keyword">end</span>
+0292 
+0293         <a name="_sub34" href="#_subfunctions" class="code">function val = isreal(this)</a>
+0294             val = <a href="#_sub35" class="code" title="subfunction val = isreal(this)">isreal</a>(this.mat);
+0295         <span class="keyword">end</span>
+0296     <span class="keyword">end</span>
+0297 
+0298     <span class="comment">%logic</span>
+0299     methods
+0300         <a name="_sub35" href="#_subfunctions" class="code">function this = not(this)</a>
+0301             this.mat = <a href="#_sub36" class="code" title="subfunction this = not(this)">not</a>(this.mat);
+0302         <span class="keyword">end</span>
+0303 
+0304         <a name="_sub36" href="#_subfunctions" class="code">function C = or(A, B)</a>
+0305             import edu.stanford.covert.util.CircularMat;
+0306 
+0307             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0308                 C = A;
+0309                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0310                     C.mat = <a href="#_sub37" class="code" title="subfunction C = or(A, B)">or</a>(A.mat, B.mat);
+0311                 <span class="keyword">else</span>
+0312                     C.mat = <a href="#_sub37" class="code" title="subfunction C = or(A, B)">or</a>(A.mat, B);
+0313                 <span class="keyword">end</span>
+0314             <span class="keyword">else</span>
+0315                 C = B;
+0316                 C.mat = <a href="#_sub37" class="code" title="subfunction C = or(A, B)">or</a>(A, B.mat);
+0317             <span class="keyword">end</span>
+0318         <span class="keyword">end</span>
+0319 
+0320         <a name="_sub37" href="#_subfunctions" class="code">function C = and(A, B)</a>
+0321             import edu.stanford.covert.util.CircularMat;
+0322 
+0323             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0324                 C = A;
+0325                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0326                     C.mat = <a href="#_sub38" class="code" title="subfunction C = and(A, B)">and</a>(A.mat, B.mat);
+0327                 <span class="keyword">else</span>
+0328                     C.mat = <a href="#_sub38" class="code" title="subfunction C = and(A, B)">and</a>(A.mat, B);
+0329                 <span class="keyword">end</span>
+0330             <span class="keyword">else</span>
+0331                 C = B;
+0332                 C.mat = <a href="#_sub38" class="code" title="subfunction C = and(A, B)">and</a>(A, B.mat);
+0333             <span class="keyword">end</span>
+0334         <span class="keyword">end</span>
+0335 
+0336         <a name="_sub38" href="#_subfunctions" class="code">function C = xor(A, B)</a>
+0337             import edu.stanford.covert.util.CircularMat;
+0338 
+0339             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0340                 C = A;
+0341                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0342                     C.mat = <a href="#_sub39" class="code" title="subfunction C = xor(A, B)">xor</a>(A.mat, B.mat);
+0343                 <span class="keyword">else</span>
+0344                     C.mat = <a href="#_sub39" class="code" title="subfunction C = xor(A, B)">xor</a>(A.mat, B);
+0345                 <span class="keyword">end</span>
+0346             <span class="keyword">else</span>
+0347                 C = B;
+0348                 C.mat = <a href="#_sub39" class="code" title="subfunction C = xor(A, B)">xor</a>(A, B.mat);
+0349             <span class="keyword">end</span>
+0350         <span class="keyword">end</span>
+0351     <span class="keyword">end</span>
+0352 
+0353     <span class="comment">%opertors</span>
+0354     methods
+0355         <a name="_sub39" href="#_subfunctions" class="code">function C = uplus(A)</a>
+0356             C = A;
+0357         <span class="keyword">end</span>
+0358 
+0359         <a name="_sub40" href="#_subfunctions" class="code">function C = uminus(A)</a>
+0360             C = A;
+0361             C.mat = -C.mat;
+0362         <span class="keyword">end</span>
+0363 
+0364         <a name="_sub41" href="#_subfunctions" class="code">function C = plus(A, B)</a>
+0365             import edu.stanford.covert.util.CircularMat;
+0366 
+0367             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0368                 C = A;
+0369                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0370                     C.mat = <a href="#_sub42" class="code" title="subfunction C = plus(A, B)">plus</a>(A.mat, B.mat);
+0371                 <span class="keyword">else</span>
+0372                     C.mat = <a href="#_sub42" class="code" title="subfunction C = plus(A, B)">plus</a>(A.mat, B);
+0373                 <span class="keyword">end</span>
+0374             <span class="keyword">else</span>
+0375                 C = B;
+0376                 C.mat = <a href="#_sub42" class="code" title="subfunction C = plus(A, B)">plus</a>(A, B.mat);
+0377             <span class="keyword">end</span>
+0378         <span class="keyword">end</span>
+0379 
+0380         <a name="_sub42" href="#_subfunctions" class="code">function C = minus(A, B)</a>
+0381             C = A + -B;
+0382         <span class="keyword">end</span>
+0383 
+0384         <a name="_sub43" href="#_subfunctions" class="code">function C = times(A, B)</a>
+0385             import edu.stanford.covert.util.CircularMat;
+0386 
+0387             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0388                 C = A;
+0389                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0390                     C.mat = <a href="#_sub44" class="code" title="subfunction C = times(A, B)">times</a>(A.mat, B.mat);
+0391                 <span class="keyword">else</span>
+0392                     C.mat = <a href="#_sub44" class="code" title="subfunction C = times(A, B)">times</a>(A.mat, B);
+0393                 <span class="keyword">end</span>
+0394             <span class="keyword">else</span>
+0395                 C = B;
+0396                 C.mat = <a href="#_sub44" class="code" title="subfunction C = times(A, B)">times</a>(A, B.mat);
+0397             <span class="keyword">end</span>
+0398         <span class="keyword">end</span>
+0399 
+0400         <a name="_sub44" href="#_subfunctions" class="code">function C = mtimes(A, B)</a>
+0401             import edu.stanford.covert.util.CircularMat;
+0402 
+0403             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0404                 C = A;
+0405                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0406                     C.mat = <a href="#_sub45" class="code" title="subfunction C = mtimes(A, B)">mtimes</a>(A.mat, B.mat);
+0407                 <span class="keyword">else</span>
+0408                     C.mat = <a href="#_sub45" class="code" title="subfunction C = mtimes(A, B)">mtimes</a>(A.mat, B);
+0409                 <span class="keyword">end</span>
+0410 
+0411                 <span class="keyword">if</span> ~<a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(B))
+0412                     C.circularDims = zeros(1,0);
+0413                 <span class="keyword">elseif</span> <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(B)&<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>;1
+0414                     C.circularDims(C.circularDims==2)=[];
+0415                 <span class="keyword">end</span>
+0416             <span class="keyword">else</span>
+0417                 C = B;
+0418                 C.mat = <a href="#_sub45" class="code" title="subfunction C = mtimes(A, B)">mtimes</a>(A, B.mat);
+0419                 C.circularDims(C.circularDims==1)=[];
+0420                 C.circularDims = C.circularDims + <a href="#_sub6" class="code" title="subfunction value = ndims(this)">ndims</a>(A) - 1;
+0421 
+0422                 <span class="keyword">if</span> ~<a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(A))
+0423                     C.circularDims = zeros(1,0);
+0424                 <span class="keyword">elseif</span> <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(A)&<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>;1
+0425                     C.circularDims(C.circularDims==1)=[];
+0426                     C.circularDims = C.circularDims + <a href="#_sub6" class="code" title="subfunction value = ndims(this)">ndims</a>(A)-1;
+0427                 <span class="keyword">end</span>
+0428             <span class="keyword">end</span>
+0429         <span class="keyword">end</span>
+0430 
+0431         <a name="_sub45" href="#_subfunctions" class="code">function C = rdivide(A,B)</a>
+0432             import edu.stanford.covert.util.CircularMat;
+0433 
+0434             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0435                 C = A;
+0436                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0437                     C.mat = <a href="#_sub46" class="code" title="subfunction C = rdivide(A,B)">rdivide</a>(A.mat, B.mat);
+0438                 <span class="keyword">else</span>
+0439                     C.mat = <a href="#_sub46" class="code" title="subfunction C = rdivide(A,B)">rdivide</a>(A.mat, B);
+0440                 <span class="keyword">end</span>
+0441             <span class="keyword">else</span>
+0442                 C = B;
+0443                 C.mat = <a href="#_sub46" class="code" title="subfunction C = rdivide(A,B)">rdivide</a>(A, B.mat);
+0444             <span class="keyword">end</span>
+0445         <span class="keyword">end</span>
+0446 
+0447         <a name="_sub46" href="#_subfunctions" class="code">function C = ldivide(A,B)</a>
+0448             import edu.stanford.covert.util.CircularMat;
+0449 
+0450             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0451                 C = A;
+0452                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0453                     C.mat = <a href="#_sub47" class="code" title="subfunction C = ldivide(A,B)">ldivide</a>(A.mat, B.mat);
+0454                 <span class="keyword">else</span>
+0455                     C.mat = <a href="#_sub47" class="code" title="subfunction C = ldivide(A,B)">ldivide</a>(A.mat, B);
+0456                 <span class="keyword">end</span>
+0457             <span class="keyword">else</span>
+0458                 C = B;
+0459                 C.mat = <a href="#_sub47" class="code" title="subfunction C = ldivide(A,B)">ldivide</a>(A, B.mat);
+0460             <span class="keyword">end</span>
+0461         <span class="keyword">end</span>
+0462 
+0463         <span class="comment">%function C = mrdivide(A, B)</span>
+0464         <span class="comment">%end</span>
+0465 
+0466         <span class="comment">%function C = mldivide(A, B)</span>
+0467         <span class="comment">%end</span>
+0468 
+0469         <a name="_sub47" href="#_subfunctions" class="code">function C = power(A,B)</a>
+0470             import edu.stanford.covert.util.CircularMat;
+0471 
+0472             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0473                 C = A;
+0474                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0475                     C.mat = <a href="#_sub48" class="code" title="subfunction C = power(A,B)">power</a>(A.mat, B.mat);
+0476                 <span class="keyword">else</span>
+0477                     C.mat = <a href="#_sub48" class="code" title="subfunction C = power(A,B)">power</a>(A.mat, B);
+0478                 <span class="keyword">end</span>
+0479             <span class="keyword">else</span>
+0480                 C = B;
+0481                 C.mat = <a href="#_sub48" class="code" title="subfunction C = power(A,B)">power</a>(A, B.mat);
+0482             <span class="keyword">end</span>
+0483         <span class="keyword">end</span>
+0484 
+0485         <a name="_sub48" href="#_subfunctions" class="code">function C = mpower(A,B)</a>
+0486             import edu.stanford.covert.util.CircularMat;
+0487 
+0488             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0489                 C = A;
+0490                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0491                     C.mat = <a href="#_sub49" class="code" title="subfunction C = mpower(A,B)">mpower</a>(A.mat, B.mat);
+0492                 <span class="keyword">else</span>
+0493                     C.mat = <a href="#_sub49" class="code" title="subfunction C = mpower(A,B)">mpower</a>(A.mat, B);
+0494                 <span class="keyword">end</span>
+0495             <span class="keyword">else</span>
+0496                 C = B;
+0497                 C.mat = <a href="#_sub49" class="code" title="subfunction C = mpower(A,B)">mpower</a>(A, B.mat);
+0498             <span class="keyword">end</span>
+0499         <span class="keyword">end</span>
+0500     <span class="keyword">end</span>
+0501 
+0502 
+0503     <span class="comment">%comparison</span>
+0504     methods
+0505         <a name="_sub49" href="#_subfunctions" class="code">function C = isequal(A,B)</a>
+0506             C = strcmp(class(A),class(B)) &amp;&amp; <span class="keyword">...</span>
+0507                 <a href="#_sub50" class="code" title="subfunction C = isequal(A,B)">isequal</a>(A.circularDims, B.circularDims) &amp;&amp; <span class="keyword">...</span>
+0508                 <a href="#_sub50" class="code" title="subfunction C = isequal(A,B)">isequal</a>(A.mat, B.mat);
+0509         <span class="keyword">end</span>
+0510 
+0511         <a name="_sub50" href="#_subfunctions" class="code">function assertElementsAlmostEqual(A, B, varargin)</a>
+0512             import edu.stanford.covert.util.CircularMat;
+0513 
+0514             assertEqual(<a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(A), <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(B));
+0515 
+0516             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0517                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0518                     <a href="#_sub51" class="code" title="subfunction assertElementsAlmostEqual(A, B, varargin)">assertElementsAlmostEqual</a>(A.mat, B.mat, varargin{:});
+0519                 <span class="keyword">else</span>
+0520                     <a href="#_sub51" class="code" title="subfunction assertElementsAlmostEqual(A, B, varargin)">assertElementsAlmostEqual</a>(A.mat, B, varargin{:});
+0521                 <span class="keyword">end</span>
+0522             <span class="keyword">else</span>
+0523                 <a href="#_sub51" class="code" title="subfunction assertElementsAlmostEqual(A, B, varargin)">assertElementsAlmostEqual</a>(A, B.mat, varargin{:});
+0524             <span class="keyword">end</span>
+0525         <span class="keyword">end</span>
+0526 
+0527         <a name="_sub51" href="#_subfunctions" class="code">function C = eq(A, B)</a>
+0528             import edu.stanford.covert.util.CircularMat;
+0529 
+0530             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0531                 C = A;
+0532                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0533                     C.mat = <a href="#_sub52" class="code" title="subfunction C = eq(A, B)">eq</a>(A.mat, B.mat);
+0534                 <span class="keyword">else</span>
+0535                     C.mat = <a href="#_sub52" class="code" title="subfunction C = eq(A, B)">eq</a>(A.mat, B);
+0536                 <span class="keyword">end</span>
+0537             <span class="keyword">else</span>
+0538                 C = B;
+0539                 C.mat = <a href="#_sub52" class="code" title="subfunction C = eq(A, B)">eq</a>(A, B.mat);
+0540             <span class="keyword">end</span>
+0541         <span class="keyword">end</span>
+0542 
+0543         <a name="_sub52" href="#_subfunctions" class="code">function C = ne(A, B)</a>
+0544             import edu.stanford.covert.util.CircularMat;
+0545 
+0546             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0547                 C = A;
+0548                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0549                     C.mat = <a href="#_sub53" class="code" title="subfunction C = ne(A, B)">ne</a>(A.mat, B.mat);
+0550                 <span class="keyword">else</span>
+0551                     C.mat = <a href="#_sub53" class="code" title="subfunction C = ne(A, B)">ne</a>(A.mat, B);
+0552                 <span class="keyword">end</span>
+0553             <span class="keyword">else</span>
+0554                 C = B;
+0555                 C.mat = <a href="#_sub53" class="code" title="subfunction C = ne(A, B)">ne</a>(A, B.mat);
+0556             <span class="keyword">end</span>
+0557         <span class="keyword">end</span>
+0558 
+0559         <a name="_sub53" href="#_subfunctions" class="code">function C = le(A, B)</a>
+0560             import edu.stanford.covert.util.CircularMat;
+0561 
+0562             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0563                 C = A;
+0564                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0565                     C.mat = <a href="#_sub54" class="code" title="subfunction C = le(A, B)">le</a>(A.mat, B.mat);
+0566                 <span class="keyword">else</span>
+0567                     C.mat = <a href="#_sub54" class="code" title="subfunction C = le(A, B)">le</a>(A.mat, B);
+0568                 <span class="keyword">end</span>
+0569             <span class="keyword">else</span>
+0570                 C = B;
+0571                 C.mat = <a href="#_sub54" class="code" title="subfunction C = le(A, B)">le</a>(A, B.mat);
+0572             <span class="keyword">end</span>
+0573         <span class="keyword">end</span>
+0574 
+0575         <a name="_sub54" href="#_subfunctions" class="code">function C = lt(A, B)</a>
+0576             import edu.stanford.covert.util.CircularMat;
+0577 
+0578             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0579                 C = A;
+0580                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0581                     C.mat = <a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>(A.mat, B.mat);
+0582                 <span class="keyword">else</span>
+0583                     C.mat = <a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>(A.mat, B);
+0584                 <span class="keyword">end</span>
+0585             <span class="keyword">else</span>
+0586                 C = B;
+0587                 C.mat = <a href="#_sub55" class="code" title="subfunction C = lt(A, B)">lt</a>(A, B.mat);
+0588             <span class="keyword">end</span>
+0589         <span class="keyword">end</span>
+0590 
+0591         <a name="_sub55" href="#_subfunctions" class="code">function C = ge(A, B)</a>
+0592             import edu.stanford.covert.util.CircularMat;
+0593 
+0594             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0595                 C = A;
+0596                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0597                     C.mat = <a href="#_sub56" class="code" title="subfunction C = ge(A, B)">ge</a>(A.mat, B.mat);
+0598                 <span class="keyword">else</span>
+0599                     C.mat = <a href="#_sub56" class="code" title="subfunction C = ge(A, B)">ge</a>(A.mat, B);
+0600                 <span class="keyword">end</span>
+0601             <span class="keyword">else</span>
+0602                 C = B;
+0603                 C.mat = <a href="#_sub56" class="code" title="subfunction C = ge(A, B)">ge</a>(A, B.mat);
+0604             <span class="keyword">end</span>
+0605         <span class="keyword">end</span>
+0606 
+0607         <a name="_sub56" href="#_subfunctions" class="code">function C = gt(A, B)</a>
+0608             import edu.stanford.covert.util.CircularMat;
+0609 
+0610             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0611                 C = A;
+0612                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0613                     C.mat = <a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>(A.mat, B.mat);
+0614                 <span class="keyword">else</span>
+0615                     C.mat = <a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>(A.mat, B);
+0616                 <span class="keyword">end</span>
+0617             <span class="keyword">else</span>
+0618                 C = B;
+0619                 C.mat = <a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>(A, B.mat);
+0620             <span class="keyword">end</span>
+0621         <span class="keyword">end</span>
+0622     <span class="keyword">end</span>
+0623 
+0624     <span class="comment">%set operators</span>
+0625     methods
+0626         <a name="_sub57" href="#_subfunctions" class="code">function this = unique(this)</a>
+0627             this.mat = <a href="#_sub58" class="code" title="subfunction this = unique(this)">unique</a>(this.mat);
+0628             this.circularDims = zeros(1,0);
+0629         <span class="keyword">end</span>
+0630 
+0631         <span class="comment">%function C = union(A, B, varargin); end</span>
+0632         <span class="comment">%function C = intersect(A, B, varargin); end</span>
+0633         <span class="comment">%function C = setdiff((A, B, varargin); end</span>
+0634         <span class="comment">%function C = setxor(A, B, varargin); end</span>
+0635         <span class="comment">%function C = ismember(A, B, varargin); end</span>
+0636     <span class="keyword">end</span>
+0637 
+0638     <span class="comment">%reduction</span>
+0639     methods
+0640         <a name="_sub58" href="#_subfunctions" class="code">function this = all(this, varargin)</a>
+0641             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0642             this.mat = <a href="#_sub59" class="code" title="subfunction this = all(this, varargin)">all</a>(this.mat, varargin{:});
+0643             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0644             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0645         <span class="keyword">end</span>
+0646 
+0647         <a name="_sub59" href="#_subfunctions" class="code">function this = any(this, varargin)</a>
+0648             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0649             this.mat = <a href="#_sub60" class="code" title="subfunction this = any(this, varargin)">any</a>(this.mat, varargin{:});
+0650             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0651             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0652         <span class="keyword">end</span>
+0653 
+0654         <a name="_sub60" href="#_subfunctions" class="code">function C = min(A, B, dim)</a>
+0655             import edu.stanford.covert.util.CircularMat;
+0656 
+0657             <span class="keyword">if</span> ~exist(<span class="string">'B'</span>,<span class="string">'var'</span>)
+0658                 C = A;
+0659                 C.mat = <a href="#_sub61" class="code" title="subfunction C = min(A, B, dim)">min</a>(C.mat,[],1);
+0660                 C.circularDims(1,C.circularDims==1)=[];
+0661                 <span class="keyword">return</span>
+0662             <span class="keyword">end</span>
+0663 
+0664             <span class="keyword">if</span> <a href="#_sub2" class="code" title="subfunction value = isempty(this)">isempty</a>(B)
+0665                 C = A;
+0666                 C.mat = <a href="#_sub61" class="code" title="subfunction C = min(A, B, dim)">min</a>(C.mat,[],dim);
+0667                 C.circularDims(1,C.circularDims==dim)=[];
+0668                 <span class="keyword">return</span>;
+0669             <span class="keyword">end</span>
+0670 
+0671             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0672                 C = A;
+0673                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0674                     C.mat = <a href="#_sub61" class="code" title="subfunction C = min(A, B, dim)">min</a>(A.mat, B.mat);
+0675                 <span class="keyword">else</span>
+0676                     C.mat = <a href="#_sub61" class="code" title="subfunction C = min(A, B, dim)">min</a>(A.mat, B);
+0677                 <span class="keyword">end</span>
+0678             <span class="keyword">else</span>
+0679                 C = B;
+0680                 C.mat = <a href="#_sub61" class="code" title="subfunction C = min(A, B, dim)">min</a>(A, B.mat);
+0681             <span class="keyword">end</span>
+0682         <span class="keyword">end</span>
+0683 
+0684         <a name="_sub61" href="#_subfunctions" class="code">function C = max(A, B, dim)</a>
+0685             import edu.stanford.covert.util.CircularMat;
+0686 
+0687             <span class="keyword">if</span> ~exist(<span class="string">'B'</span>,<span class="string">'var'</span>)
+0688                 C = A;
+0689                 C.mat = <a href="#_sub62" class="code" title="subfunction C = max(A, B, dim)">max</a>(C.mat,[],1);
+0690                 C.circularDims(1,C.circularDims==1)=[];
+0691                 <span class="keyword">return</span>
+0692             <span class="keyword">end</span>
+0693 
+0694             <span class="keyword">if</span> <a href="#_sub2" class="code" title="subfunction value = isempty(this)">isempty</a>(B)
+0695                 C = A;
+0696                 C.mat = <a href="#_sub62" class="code" title="subfunction C = max(A, B, dim)">max</a>(C.mat,[],dim);
+0697                 C.circularDims(1,C.circularDims==dim)=[];
+0698                 <span class="keyword">return</span>;
+0699             <span class="keyword">end</span>
+0700 
+0701             <span class="keyword">if</span> isa(A, <span class="string">'CircularMat'</span>)
+0702                 C = A;
+0703                 <span class="keyword">if</span> isa(B, <span class="string">'CircularMat'</span>)
+0704                     C.mat = <a href="#_sub62" class="code" title="subfunction C = max(A, B, dim)">max</a>(A.mat, B.mat);
+0705                 <span class="keyword">else</span>
+0706                     C.mat = <a href="#_sub62" class="code" title="subfunction C = max(A, B, dim)">max</a>(A.mat, B);
+0707                 <span class="keyword">end</span>
+0708             <span class="keyword">else</span>
+0709                 C = B;
+0710                 C.mat = <a href="#_sub62" class="code" title="subfunction C = max(A, B, dim)">max</a>(A, B.mat);
+0711             <span class="keyword">end</span>
+0712         <span class="keyword">end</span>
+0713 
+0714         <a name="_sub62" href="#_subfunctions" class="code">function this = range(this, varargin)</a>
+0715             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0716             this.mat = <a href="#_sub63" class="code" title="subfunction this = range(this, varargin)">range</a>(this.mat, varargin{:});
+0717             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0718             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0719         <span class="keyword">end</span>
+0720 
+0721         <a name="_sub63" href="#_subfunctions" class="code">function this = sum(this, varargin)</a>
+0722             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0723             this.mat = <a href="#_sub64" class="code" title="subfunction this = sum(this, varargin)">sum</a>(this.mat, varargin{:});
+0724             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0725             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0726         <span class="keyword">end</span>
+0727 
+0728         <a name="_sub64" href="#_subfunctions" class="code">function this = mean(this, varargin)</a>
+0729             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0730             this.mat = <a href="#_sub65" class="code" title="subfunction this = mean(this, varargin)">mean</a>(this.mat, varargin{:});
+0731             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0732             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0733         <span class="keyword">end</span>
+0734 
+0735         <a name="_sub65" href="#_subfunctions" class="code">function this = var(this, varargin)</a>
+0736             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0737             this.mat = <a href="#_sub66" class="code" title="subfunction this = var(this, varargin)">var</a>(this.mat, varargin{:});
+0738             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0739             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0740         <span class="keyword">end</span>
+0741 
+0742         <a name="_sub66" href="#_subfunctions" class="code">function this = std(this, varargin)</a>
+0743             oldsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0744             this.mat = <a href="#_sub67" class="code" title="subfunction this = std(this, varargin)">std</a>(this.mat, varargin{:});
+0745             newsiz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this.mat);
+0746             this.circularDims = intersect(this.circularDims, <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(oldsiz(1:<a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(newsiz))==newsiz));
+0747         <span class="keyword">end</span>
+0748 
+0749         <a name="_sub67" href="#_subfunctions" class="code">function val = norm(this, varargin)</a>
+0750             val = <a href="#_sub68" class="code" title="subfunction val = norm(this, varargin)">norm</a>(this.mat, varargin{:});
+0751         <span class="keyword">end</span>
+0752     <span class="keyword">end</span>
+0753 
+0754     <span class="comment">%find</span>
+0755     methods
+0756         <a name="_sub68" href="#_subfunctions" class="code">function varargout = find(this, varargin)</a>
+0757             <span class="keyword">switch</span> nargout
+0758                 <span class="keyword">case</span> 1
+0759                     varargout{1} = <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(this.mat, varargin{:});
+0760                 <span class="keyword">case</span> 2
+0761                     [varargout{1},varargout{2}] = <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(this.mat, varargin{:});
+0762                 <span class="keyword">case</span> 3
+0763                     [varargout{1},varargout{2},varargout{3}] = <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(this.mat, varargin{:});
+0764                 <span class="keyword">otherwise</span>
+0765                     [varargout{:}] = <a href="#_sub69" class="code" title="subfunction varargout = find(this, varargin)">find</a>(this.mat, varargin{:});
+0766             <span class="keyword">end</span>
+0767         <span class="keyword">end</span>
+0768     <span class="keyword">end</span>
+0769 
+0770     <span class="comment">%iss</span>
+0771     methods
+0772         <a name="_sub69" href="#_subfunctions" class="code">function this = isnan(this)</a>
+0773             this.mat = <a href="#_sub70" class="code" title="subfunction this = isnan(this)">isnan</a>(this.mat);
+0774         <span class="keyword">end</span>
+0775 
+0776         <a name="_sub70" href="#_subfunctions" class="code">function this = isinf(this)</a>
+0777             this.mat = <a href="#_sub71" class="code" title="subfunction this = isinf(this)">isinf</a>(this.mat);
+0778         <span class="keyword">end</span>
+0779 
+0780         <a name="_sub71" href="#_subfunctions" class="code">function this = isfinite(this)</a>
+0781             this.mat = <a href="#_sub72" class="code" title="subfunction this = isfinite(this)">isfinite</a>(this.mat);
+0782         <span class="keyword">end</span>
+0783     <span class="keyword">end</span>
+0784 
+0785     methods
+0786         <a name="_sub72" href="#_subfunctions" class="code">function val = matClass(this)</a>
+0787             val = class(this.mat);
+0788         <span class="keyword">end</span>
+0789 
+0790         <a name="_sub73" href="#_subfunctions" class="code">function this = matCast(this, newclass)</a>
+0791             this.mat = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, newclass);
+0792         <span class="keyword">end</span>
+0793 
+0794         <a name="_sub74" href="#_subfunctions" class="code">function val = cast(this, newclass)</a>
+0795             val = this.(newclass)();
+0796         <span class="keyword">end</span>
+0797 
+0798         <a name="_sub75" href="#_subfunctions" class="code">function val = sparse(this)</a>
+0799             val = <a href="#_sub76" class="code" title="subfunction val = sparse(this)">sparse</a>(this.mat);
+0800         <span class="keyword">end</span>
+0801 
+0802         <a name="_sub76" href="#_subfunctions" class="code">function val = char(this)</a>
+0803             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'char'</span>);
+0804         <span class="keyword">end</span>
+0805 
+0806         <a name="_sub77" href="#_subfunctions" class="code">function val = logical(this)</a>
+0807             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'logical'</span>);
+0808         <span class="keyword">end</span>
+0809 
+0810         <a name="_sub78" href="#_subfunctions" class="code">function val = int8(this)</a>
+0811             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'int8'</span>);
+0812         <span class="keyword">end</span>
+0813 
+0814         <a name="_sub79" href="#_subfunctions" class="code">function val = int16(this)</a>
+0815             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'int16'</span>);
+0816         <span class="keyword">end</span>
+0817 
+0818         <a name="_sub80" href="#_subfunctions" class="code">function val = int32(this)</a>
+0819             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'int32'</span>);
+0820         <span class="keyword">end</span>
+0821 
+0822         <a name="_sub81" href="#_subfunctions" class="code">function val = int64(this)</a>
+0823             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'int64'</span>);
+0824         <span class="keyword">end</span>
+0825 
+0826         <a name="_sub82" href="#_subfunctions" class="code">function val = uint8(this)</a>
+0827             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'uint8'</span>);
+0828         <span class="keyword">end</span>
+0829 
+0830         <a name="_sub83" href="#_subfunctions" class="code">function val = uint16(this)</a>
+0831             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'uint16'</span>);
+0832         <span class="keyword">end</span>
+0833 
+0834         <a name="_sub84" href="#_subfunctions" class="code">function val = uint32(this)</a>
+0835             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'uint32'</span>);
+0836         <span class="keyword">end</span>
+0837 
+0838         <a name="_sub85" href="#_subfunctions" class="code">function val = uint64(this)</a>
+0839             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'uint64'</span>);
+0840         <span class="keyword">end</span>
+0841 
+0842         <a name="_sub86" href="#_subfunctions" class="code">function val = single(this)</a>
+0843             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'single'</span>);
+0844         <span class="keyword">end</span>
+0845 
+0846         <a name="_sub87" href="#_subfunctions" class="code">function val = double(this)</a>
+0847             val = <a href="#_sub75" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.mat, <span class="string">'double'</span>);
+0848         <span class="keyword">end</span>
+0849     <span class="keyword">end</span>
+0850 
+0851     <span class="comment">%display</span>
+0852     methods
+0853         <a name="_sub88" href="#_subfunctions" class="code">function disp(this)</a>
+0854             <a href="#_sub90" class="code" title="subfunction display(this)">display</a>(this);
+0855         <span class="keyword">end</span>
+0856 
+0857         <a name="_sub89" href="#_subfunctions" class="code">function display(this)</a>
+0858             siz = <a href="#_sub5" class="code" title="subfunction value = size(this, varargin)">size</a>(this);
+0859             fprintf(<span class="string">'%d'</span>,siz(1));
+0860             fprintf(<span class="string">'x%d'</span>,siz(2:end));
+0861             fprintf(<span class="string">' CircularMat of type %s with '</span>,class(this.mat));
+0862             <span class="keyword">if</span> <a href="#_sub2" class="code" title="subfunction value = isempty(this)">isempty</a>(this.circularDims)
+0863                 fprintf(<span class="string">'no circular dimensions\n'</span>);
+0864             <span class="keyword">else</span>
+0865                  fprintf(<span class="string">'circular dimensions {%d'</span>,this.circularDims(1));
+0866                  <span class="keyword">if</span> <a href="#_sub3" class="code" title="subfunction value = numel(this)">numel</a>(this.circularDims)&<a href="#_sub57" class="code" title="subfunction C = gt(A, B)">gt</a>;1
+0867                      fprintf(<span class="string">', %d'</span>,this.circularDims(2:end));
+0868                  <span class="keyword">end</span>
+0869                  fprintf(<span class="string">'}\n'</span>,this.circularDims(2:end));
+0870             <span class="keyword">end</span>
+0871             <a href="#_sub90" class="code" title="subfunction display(this)">display</a>(this.mat);
+0872         <span class="keyword">end</span>
+0873     <span class="keyword">end</span>
+0874 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

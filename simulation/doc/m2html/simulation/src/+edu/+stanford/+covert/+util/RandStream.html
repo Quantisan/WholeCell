@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RandStream</title>
+  <meta name="keywords" content="RandStream">
+  <meta name="description" content="Wrapper over random method of statisics toolbox. Changes default random">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; RandStream.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RandStream
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Wrapper over random method of statisics toolbox. Changes default random</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Wrapper over random method of statisics toolbox. Changes default random
+ stream to the current object prior to evaluating statistics toolbox
+ method in order to draw random numbers from the current stream.
+
+ Also adds methods
+ - stochasticRound: rounding of floats to integers weighted by decimal
+   part
+
+ Usage
+ import edu.stanford.covert.util.RandStream;
+ RandStream('mcg16807', 'Seed', randomSeed)
+
+ Requirements:
+ - MATLAB statistics toolbox
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/22/2012</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="RandStream.html" class="code" title="">RandStream</a>	Wrapper over random method of statisics toolbox. Changes default random</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="RandStream.html" class="code" title="">RandStream</a>	Wrapper over random method of statisics toolbox. Changes default random</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RandStream(type, varargin)</a></li><li><a href="#_sub2" class="code">function reset(this, varargin)</a></li><li><a href="#_sub3" class="code">function setDefault(this)</a></li><li><a href="#_sub4" class="code">function resetDefault(this)</a></li><li><a href="#_sub5" class="code">function value = rand(this, varargin)</a></li><li><a href="#_sub6" class="code">function value = randi(this, varargin)</a></li><li><a href="#_sub7" class="code">function value = randn(this, varargin)</a></li><li><a href="#_sub8" class="code">function value = randperm(this, varargin)</a></li><li><a href="#_sub9" class="code">function value = random(this, name, varargin)</a></li><li><a href="#_sub10" class="code">function value = poissrnd(this, varargin)</a></li><li><a href="#_sub11" class="code">function value = mnrnd(this, varargin)</a></li><li><a href="#_sub12" class="code">function integers = randsample(this, n, k, replacement, w)</a></li><li><a href="#_sub13" class="code">function selectedCounts = randCounts(this, counts, N)</a></li><li><a href="#_sub14" class="code">function value = stochasticRound(this, value)</a></li><li><a href="#_sub15" class="code">function [mat, rndIdxs] = randomlySelectRows(this, mat, prob)</a></li><li><a href="#_sub16" class="code">function [mat, rndIdxs] = randomlySelectNRows(this, mat, nRndRows)</a></li><li><a href="#_sub17" class="code">function value = get.type(this)</a></li><li><a href="#_sub18" class="code">function value = get.seed(this)</a></li><li><a href="#_sub19" class="code">function value = get.numStreams(this)</a></li><li><a href="#_sub20" class="code">function value = get.streamIndex(this)</a></li><li><a href="#_sub21" class="code">function value = get.state(this)</a></li><li><a href="#_sub22" class="code">function set.state(this, value)</a></li><li><a href="#_sub23" class="code">function value = get.substream(this)</a></li><li><a href="#_sub24" class="code">function value = get.randnAlg(this)</a></li><li><a href="#_sub25" class="code">function set.randnAlg(this, value)</a></li><li><a href="#_sub26" class="code">function value = get.antithetic(this)</a></li><li><a href="#_sub27" class="code">function set.antithetic(this, value)</a></li><li><a href="#_sub28" class="code">function value = get.fullPrecision(this)</a></li><li><a href="#_sub29" class="code">function set.fullPrecision(this, value)</a></li><li><a href="#_sub30" class="code">function result = isequal(this, otherStream)</a></li><li><a href="#_sub31" class="code">function result = eq(this, otherStream)</a></li><li><a href="#_sub32" class="code">function result = ne(this, otherStream)</a></li><li><a href="#_sub33" class="code">function result = isEqual_RandStream(r1, r2)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Wrapper over random method of statisics toolbox. Changes default random</span>
+0002 <span class="comment">% stream to the current object prior to evaluating statistics toolbox</span>
+0003 <span class="comment">% method in order to draw random numbers from the current stream.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Also adds methods</span>
+0006 <span class="comment">% - stochasticRound: rounding of floats to integers weighted by decimal</span>
+0007 <span class="comment">%   part</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Usage</span>
+0010 <span class="comment">% import edu.stanford.covert.util.RandStream;</span>
+0011 <span class="comment">% RandStream('mcg16807', 'Seed', randomSeed)</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Requirements:</span>
+0014 <span class="comment">% - MATLAB statistics toolbox</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Author: Jonathan Karr</span>
+0017 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0018 <span class="comment">% Last updated: 1/22/2012</span>
+0019 classdef <a href="RandStream.html" class="code" title="">RandStream</a> &lt; handle
+0020     properties
+0021         defaultStream
+0022         randStream
+0023     <span class="keyword">end</span>
+0024     
+0025     properties (Dependent = true)
+0026         type
+0027         seed
+0028         numStreams
+0029         streamIndex
+0030         state
+0031         substream
+0032         randnAlg
+0033         antithetic
+0034         fullPrecision
+0035     <span class="keyword">end</span>
+0036     
+0037     <span class="comment">%constructor</span>
+0038     methods
+0039         <a name="_sub0" href="#_subfunctions" class="code">function this = RandStream(type, varargin)</a>
+0040             this.randStream = <a href="RandStream.html" class="code" title="">RandStream</a>(type, varargin{:});
+0041         <span class="keyword">end</span>
+0042     <span class="keyword">end</span>
+0043     
+0044     methods
+0045         <a name="_sub1" href="#_subfunctions" class="code">function reset(this, varargin)</a>
+0046             this.randStream.reset(varargin{:});
+0047         <span class="keyword">end</span>
+0048     <span class="keyword">end</span>
+0049     
+0050     methods
+0051         <a name="_sub2" href="#_subfunctions" class="code">function setDefault(this)</a>
+0052             <span class="keyword">if</span> verLessThan(<span class="string">'matlab'</span>, <span class="string">'7.13.0'</span>)
+0053                 <span class="comment">%hold on to default random stream</span>
+0054                 this.defaultStream = RandStream.getDefaultStream(); <span class="comment">%#ok&lt;GETRS&gt;</span>
+0055                 
+0056                 <span class="comment">%make this stream the default random stream</span>
+0057                 RandStream.setDefaultStream(this.randStream); <span class="comment">%#ok&lt;SETRS&gt;</span>
+0058             <span class="keyword">else</span>
+0059                 <span class="comment">%hold on to default random stream</span>
+0060                 this.defaultStream = RandStream.getGlobalStream();
+0061                 
+0062                 <span class="comment">%make this stream the default random stream</span>
+0063                 RandStream.setGlobalStream(this.randStream);
+0064             <span class="keyword">end</span>
+0065         <span class="keyword">end</span>
+0066         
+0067         <a name="_sub3" href="#_subfunctions" class="code">function resetDefault(this)</a>
+0068             <span class="comment">%reset default stream</span>
+0069             <span class="keyword">if</span> verLessThan(<span class="string">'matlab'</span>, <span class="string">'7.13.0'</span>)
+0070                 RandStream.setDefaultStream(this.defaultStream); <span class="comment">%#ok&lt;SETRS&gt;</span>
+0071             <span class="keyword">else</span>
+0072                 RandStream.setGlobalStream(this.defaultStream);
+0073             <span class="keyword">end</span>
+0074         <span class="keyword">end</span>
+0075     <span class="keyword">end</span>
+0076     
+0077     methods
+0078         <a name="_sub4" href="#_subfunctions" class="code">function value = rand(this, varargin)</a>
+0079             value = <a href="#_sub5" class="code" title="subfunction value = rand(this, varargin)">rand</a>(this.randStream, varargin{:});
+0080         <span class="keyword">end</span>
+0081         
+0082         <a name="_sub5" href="#_subfunctions" class="code">function value = randi(this, varargin)</a>
+0083             <span class="keyword">if</span> numel(varargin{1})==1 &amp;&amp; varargin{1} == 1
+0084                 siz = cell2mat(varargin(2:end));
+0085                 value = ones(siz);
+0086                 <span class="keyword">return</span>;
+0087             <span class="keyword">end</span>
+0088             value = <a href="#_sub6" class="code" title="subfunction value = randi(this, varargin)">randi</a>(this.randStream, varargin{:});
+0089         <span class="keyword">end</span>
+0090         
+0091         <a name="_sub6" href="#_subfunctions" class="code">function value = randn(this, varargin)</a>
+0092             value = <a href="#_sub7" class="code" title="subfunction value = randn(this, varargin)">randn</a>(this.randStream, varargin{:});
+0093         <span class="keyword">end</span>
+0094         
+0095         <a name="_sub7" href="#_subfunctions" class="code">function value = randperm(this, varargin)</a>
+0096             value = <a href="#_sub8" class="code" title="subfunction value = randperm(this, varargin)">randperm</a>(this.randStream, varargin{:});
+0097         <span class="keyword">end</span>
+0098         
+0099         <span class="comment">%Wrapper over random method of statisics toolbox. Changes</span>
+0100         <span class="comment">%default random stream to the current object prior to evaluating</span>
+0101         <span class="comment">%statistics toolbox method in order to draw random numbers from the</span>
+0102         <span class="comment">%current stream</span>
+0103         <a name="_sub8" href="#_subfunctions" class="code">function value = random(this, name, varargin)</a>
+0104             <span class="comment">%make this stream the default random stream</span>
+0105             this.setDefault();
+0106             
+0107             <span class="comment">%call database toolbox method, which implicity will use this</span>
+0108             <span class="comment">%stream</span>
+0109             value = <a href="#_sub9" class="code" title="subfunction value = random(this, name, varargin)">random</a>(name, varargin{:});
+0110             
+0111             <span class="comment">%reset default stream</span>
+0112             this.resetDefault();
+0113         <span class="keyword">end</span>
+0114         
+0115         <a name="_sub9" href="#_subfunctions" class="code">function value = poissrnd(this, varargin)</a>
+0116             <span class="comment">%make this stream the default random stream</span>
+0117             this.setDefault();
+0118             
+0119             <span class="comment">%call database toolbox method, which implicity will use this</span>
+0120             <span class="comment">%stream</span>
+0121             value = <a href="#_sub10" class="code" title="subfunction value = poissrnd(this, varargin)">poissrnd</a>(varargin{:});
+0122             
+0123             <span class="comment">%reset default stream</span>
+0124             this.resetDefault();
+0125         <span class="keyword">end</span>
+0126         
+0127         <a name="_sub10" href="#_subfunctions" class="code">function value = mnrnd(this, varargin)</a>
+0128             <span class="comment">%make this stream the default random stream</span>
+0129             this.setDefault();
+0130             
+0131             <span class="comment">%call database toolbox method, which implicity will use this</span>
+0132             <span class="comment">%stream</span>
+0133             value = <a href="#_sub11" class="code" title="subfunction value = mnrnd(this, varargin)">mnrnd</a>(varargin{:});
+0134             
+0135             <span class="comment">%reset default stream</span>
+0136             this.resetDefault();
+0137         <span class="keyword">end</span>
+0138         
+0139         <span class="comment">%weighted random selection of integers</span>
+0140         <a name="_sub11" href="#_subfunctions" class="code">function integers = randsample(this, n, k, replacement, w)</a>
+0141             validateattributes(n, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>, <span class="string">'integer'</span>, <span class="string">'finite'</span>, <span class="string">'scalar'</span>});
+0142             validateattributes(k, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>, <span class="string">'integer'</span>, <span class="string">'finite'</span>, <span class="string">'scalar'</span>});
+0143             validateattributes(w, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>, <span class="string">'finite'</span>});
+0144             
+0145             <span class="keyword">if</span> ~replacement
+0146                 validateattributes(k, {<span class="string">'numeric'</span>}, {<span class="string">'&lt;='</span>, n});
+0147             <span class="keyword">end</span>
+0148             <span class="keyword">if</span> n == 0 || k &lt;= 0 || ~any(w)
+0149                 integers = zeros(0, 1);
+0150                 <span class="keyword">return</span>;
+0151             <span class="keyword">end</span>
+0152             
+0153             <span class="keyword">if</span> ~replacement &amp;&amp; k &gt; 1
+0154                 <span class="keyword">if</span> all(w == w(1))
+0155                     integers = <a href="#_sub12" class="code" title="subfunction integers = randsample(this, n, k, replacement, w)">randsample</a>(this.randStream, n, k, replacement);
+0156                     <span class="keyword">return</span>;
+0157                 <span class="keyword">end</span>
+0158                 
+0159                 integers = find(w &gt;= realmax);
+0160                 <span class="keyword">if</span> numel(integers) &gt; k
+0161                     order = this.randperm(numel(integers));
+0162                     integers = integers(order(1:k));
+0163                 <span class="keyword">elseif</span> numel(integers) == k
+0164                     <span class="keyword">return</span>;
+0165                 <span class="keyword">end</span>
+0166                 
+0167                 w(integers) = 0;
+0168                 tfs = false(size(w));
+0169                 tfs(integers) = true;
+0170                 nMore = k - numel(integers);
+0171                 <span class="keyword">while</span> nMore &gt; 0 &amp;&amp; any(w)
+0172                     tmpIdxs = <a href="#_sub12" class="code" title="subfunction integers = randsample(this, n, k, replacement, w)">randsample</a>(this.randStream, n, nMore, true, w);
+0173                     tmpTfs = false(size(tmpIdxs));
+0174                     <span class="keyword">for</span> i = 1:numel(tmpIdxs)
+0175                         <span class="keyword">if</span> ~tfs(tmpIdxs(i))
+0176                             tfs(tmpIdxs(i)) = true;
+0177                             tmpTfs(i) = true;
+0178                         <span class="keyword">end</span>
+0179                     <span class="keyword">end</span>
+0180                     w(tmpIdxs) = 0;
+0181                     integers = [integers; tmpIdxs(tmpTfs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0182                     nMore = k - numel(integers);
+0183                 <span class="keyword">end</span>
+0184                 <span class="keyword">return</span>;
+0185             <span class="keyword">end</span>
+0186             
+0187             <span class="keyword">if</span> k == 1
+0188                 replacement = true;
+0189             <span class="keyword">end</span>
+0190             integers = <a href="#_sub12" class="code" title="subfunction integers = randsample(this, n, k, replacement, w)">randsample</a>(this.randStream, n, k, replacement, w);
+0191         <span class="keyword">end</span>
+0192         
+0193         <span class="comment">%returns number of times of each of numel(counts) item is selected of N</span>
+0194         <span class="comment">%total selections, where item selection is weighted by counts and</span>
+0195         <span class="comment">%without replacement.</span>
+0196         <a name="_sub12" href="#_subfunctions" class="code">function selectedCounts = randCounts(this, counts, N)</a>
+0197             validateattributes(counts, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>, <span class="string">'integer'</span>, <span class="string">'vector'</span>});
+0198             validateattributes(N, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>, <span class="string">'integer'</span>, <span class="string">'scalar'</span>});
+0199             
+0200             cumsumCounts = cumsum(counts);
+0201             positiveSelect = true;
+0202             validateattributes(N, {<span class="string">'numeric'</span>}, {<span class="string">'&lt;='</span>, cumsumCounts(end)});
+0203             <span class="keyword">if</span> N == cumsumCounts(end)
+0204                 selectedCounts = counts;
+0205                 <span class="keyword">return</span>;
+0206             <span class="keyword">elseif</span> N &gt; cumsumCounts(end) / 2
+0207                 positiveSelect = false;
+0208                 N = cumsumCounts(end) - N;
+0209             <span class="keyword">end</span>
+0210             
+0211             selectedCounts = zeros(size(counts));
+0212             <span class="keyword">for</span> i = 1:N
+0213                 idx = find(<a href="#_sub6" class="code" title="subfunction value = randi(this, varargin)">randi</a>(this.randStream, cumsumCounts(end)) &lt;= cumsumCounts, 1, <span class="string">'first'</span>);
+0214                 selectedCounts(idx) = selectedCounts(idx) + 1;
+0215                 cumsumCounts(idx:end) = cumsumCounts(idx:end) - 1;
+0216             <span class="keyword">end</span>
+0217             
+0218             <span class="keyword">if</span> ~positiveSelect
+0219                 selectedCounts = counts - selectedCounts;
+0220             <span class="keyword">end</span>
+0221         <span class="keyword">end</span>
+0222         
+0223         <span class="comment">%rounding of floats to integers weighted by decimal part</span>
+0224         <a name="_sub13" href="#_subfunctions" class="code">function value = stochasticRound(this, value)</a>
+0225             roundUp = <a href="#_sub5" class="code" title="subfunction value = rand(this, varargin)">rand</a>(this.randStream, size(value)) &lt; mod(value,1);
+0226             value(roundUp) = ceil(value(roundUp));
+0227             value(~roundUp) = floor(value(~roundUp));
+0228         <span class="keyword">end</span>
+0229         
+0230         <span class="comment">%randomly selects rows of a matrix mat, each with probability prob</span>
+0231         <a name="_sub14" href="#_subfunctions" class="code">function [mat, rndIdxs] = randomlySelectRows(this, mat, prob)</a>
+0232             nRndRows = this.stochasticRound(prob * size(mat,1));
+0233             [mat, rndIdxs] = this.randomlySelectNRows(mat, nRndRows);
+0234         <span class="keyword">end</span>
+0235         
+0236         <span class="comment">%randomly selects n rows of a matrix mat</span>
+0237         <a name="_sub15" href="#_subfunctions" class="code">function [mat, rndIdxs] = randomlySelectNRows(this, mat, nRndRows)</a>
+0238             rndIdxs = sort(<a href="#_sub12" class="code" title="subfunction integers = randsample(this, n, k, replacement, w)">randsample</a>(this.randStream, size(mat, 1), min(size(mat,1), nRndRows), false));
+0239             mat = mat(rndIdxs, :);
+0240         <span class="keyword">end</span>
+0241     <span class="keyword">end</span>
+0242     
+0243     <span class="comment">%getters, setters</span>
+0244     methods
+0245         <a name="_sub16" href="#_subfunctions" class="code">function value = get.type(this)</a>
+0246             value = this.randStream.Type;
+0247         <span class="keyword">end</span>
+0248         
+0249         <a name="_sub17" href="#_subfunctions" class="code">function value = get.seed(this)</a>
+0250             value = this.randStream.Seed;
+0251         <span class="keyword">end</span>
+0252         
+0253         <a name="_sub18" href="#_subfunctions" class="code">function value = get.numStreams(this)</a>
+0254             value = this.randStream.NumStreams;
+0255         <span class="keyword">end</span>
+0256         
+0257         <a name="_sub19" href="#_subfunctions" class="code">function value = get.streamIndex(this)</a>
+0258             value = this.randStream.StreamIndex;
+0259         <span class="keyword">end</span>
+0260         
+0261         <a name="_sub20" href="#_subfunctions" class="code">function value = get.state(this)</a>
+0262             value = this.randStream.State;
+0263         <span class="keyword">end</span>
+0264         
+0265         <a name="_sub21" href="#_subfunctions" class="code">function set.state(this, value)</a>
+0266             this.randStream.State = value;
+0267         <span class="keyword">end</span>
+0268         
+0269         <a name="_sub22" href="#_subfunctions" class="code">function value = get.substream(this)</a>
+0270             value = this.randStream.Substream;
+0271         <span class="keyword">end</span>
+0272         
+0273         <a name="_sub23" href="#_subfunctions" class="code">function value = get.randnAlg(this)</a>
+0274             value = this.randStream.RandnAlg;
+0275         <span class="keyword">end</span>
+0276         
+0277         <a name="_sub24" href="#_subfunctions" class="code">function set.randnAlg(this, value)</a>
+0278             this.randStream.RandnAlg = value;
+0279         <span class="keyword">end</span>
+0280         
+0281         <a name="_sub25" href="#_subfunctions" class="code">function value = get.antithetic(this)</a>
+0282             value = this.randStream.Antithetic;
+0283         <span class="keyword">end</span>
+0284         
+0285         <a name="_sub26" href="#_subfunctions" class="code">function set.antithetic(this, value)</a>
+0286             this.randStream.Antithetic = value;
+0287         <span class="keyword">end</span>
+0288         
+0289         <a name="_sub27" href="#_subfunctions" class="code">function value = get.fullPrecision(this)</a>
+0290             value = this.randStream.FullPrecision;
+0291         <span class="keyword">end</span>
+0292         
+0293         <a name="_sub28" href="#_subfunctions" class="code">function set.fullPrecision(this, value)</a>
+0294             this.randStream.FullPrecision = value;
+0295         <span class="keyword">end</span>
+0296     <span class="keyword">end</span>
+0297     
+0298     methods
+0299         <a name="_sub29" href="#_subfunctions" class="code">function result = isequal(this, otherStream)</a>
+0300             result = this == otherStream;
+0301         <span class="keyword">end</span>
+0302         
+0303         <a name="_sub30" href="#_subfunctions" class="code">function result = eq(this, otherStream)</a>
+0304             result = <span class="keyword">...</span>
+0305                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(class(this), class(otherStream)) &amp;&amp; <span class="keyword">...</span>
+0306                 this.isEqual_RandStream(this.randStream, otherStream.randStream) &amp;&amp; <span class="keyword">...</span>
+0307                 ((isempty(this.defaultStream) &amp;&amp; isempty(otherStream.defaultStream)) || this.isEqual_RandStream(this.defaultStream, otherStream.defaultStream)) &amp;&amp; <span class="keyword">...</span>
+0308                 ~this.isEqual_RandStream(this.randStream, this.defaultStream);
+0309         <span class="keyword">end</span>
+0310         
+0311         <a name="_sub31" href="#_subfunctions" class="code">function result = ne(this, otherStream)</a>
+0312             result = ~<a href="#_sub31" class="code" title="subfunction result = eq(this, otherStream)">eq</a>(this, otherStream);
+0313         <span class="keyword">end</span>
+0314     <span class="keyword">end</span>
+0315     
+0316     methods (Static = true)
+0317         <a name="_sub32" href="#_subfunctions" class="code">function result = isEqual_RandStream(r1, r2)</a>
+0318             result = <span class="keyword">...</span>
+0319                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(<span class="string">'RandStream'</span>, class(r1)) &amp;&amp; <span class="keyword">...</span>
+0320                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(<span class="string">'RandStream'</span>, class(r2)) &amp;&amp; <span class="keyword">...</span>
+0321                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.Type, r2.Type) &amp;&amp; <span class="keyword">...</span>
+0322                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.Seed, r2.Seed) &amp;&amp; <span class="keyword">...</span>
+0323                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.NumStreams, r2.NumStreams) &amp;&amp; <span class="keyword">...</span>
+0324                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.StreamIndex, r2.StreamIndex) &amp;&amp; <span class="keyword">...</span>
+0325                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.State, r2.State) &amp;&amp; <span class="keyword">...</span>
+0326                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.Substream, r2.Substream) &amp;&amp; <span class="keyword">...</span>
+0327                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.RandnAlg, r2.RandnAlg) &amp;&amp; <span class="keyword">...</span>
+0328                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.Antithetic, r2.Antithetic) &amp;&amp; <span class="keyword">...</span>
+0329                 <a href="#_sub30" class="code" title="subfunction result = isequal(this, otherStream)">isequal</a>(r1.FullPrecision, r2.FullPrecision);
+0330         <span class="keyword">end</span>
+0331     <span class="keyword">end</span>
+0332 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

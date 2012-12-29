@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of quadraticProgramming</title>
+  <meta name="keywords" content="quadraticProgramming">
+  <meta name="description" content="Provides a common interface to several quadratic programming solvers.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="../index.html">+util</a> &gt; <a href="index.html">@ComputationUtil</a> &gt; quadraticProgramming.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util/@ComputationUtil&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>quadraticProgramming
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Provides a common interface to several quadratic programming solvers.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [x, objective, errorFlag, errorMsg] = quadraticProgramming(H, f, A, b, Aeq, beq, lb, ub, x0, options) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Provides a common interface to several quadratic programming solvers.
+ Checks each solver for errors.
+
+ That is it solves the problem:
+   min 0.5 * x'*H*x + f'*x
+   subject to A*x&lt;=b, Aeq*x=beq, lb&lt;=x&lt;=ub
+
+ Requirements: at least one of the following quadratic programing solvers
+ - clp -- open source solve quadratic programming solver
+   http://control.ee.ethz.ch/~joloef/mexclp.zip
+ - minq
+   http://www.mat.univie.ac.at/~neum/software/minq/
+ - qpip -- open source solve quadratic programming solver
+   http://sigpromu.org/quadprog/index.html
+ - Optimization Toolbox - has quadprog, MATLAB's quadratic programming
+   solver. Note: quadprog is not very good. We suggest you use another
+   solver instead.
+   http://www.mathworks.com/products/optimization/
+ - Wolf
+   http://www.mathworks.com/matlabcentral/fileexchange/27397-quadratic-programming-by-wolfs-method
+
+ Author: Jonathan Karr
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/17/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>	Utility functions for various computations:</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [x, objective, errorFlag, errorMsg] = quadraticProgramming(H, f, A, b, Aeq, beq, lb, ub, x0, options)</a>
+0002 <span class="comment">% Provides a common interface to several quadratic programming solvers.</span>
+0003 <span class="comment">% Checks each solver for errors.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% That is it solves the problem:</span>
+0006 <span class="comment">%   min 0.5 * x'*H*x + f'*x</span>
+0007 <span class="comment">%   subject to A*x&lt;=b, Aeq*x=beq, lb&lt;=x&lt;=ub</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Requirements: at least one of the following quadratic programing solvers</span>
+0010 <span class="comment">% - clp -- open source solve quadratic programming solver</span>
+0011 <span class="comment">%   http://control.ee.ethz.ch/~joloef/mexclp.zip</span>
+0012 <span class="comment">% - minq</span>
+0013 <span class="comment">%   http://www.mat.univie.ac.at/~neum/software/minq/</span>
+0014 <span class="comment">% - qpip -- open source solve quadratic programming solver</span>
+0015 <span class="comment">%   http://sigpromu.org/quadprog/index.html</span>
+0016 <span class="comment">% - Optimization Toolbox - has quadprog, MATLAB's quadratic programming</span>
+0017 <span class="comment">%   solver. Note: quadprog is not very good. We suggest you use another</span>
+0018 <span class="comment">%   solver instead.</span>
+0019 <span class="comment">%   http://www.mathworks.com/products/optimization/</span>
+0020 <span class="comment">% - Wolf</span>
+0021 <span class="comment">%   http://www.mathworks.com/matlabcentral/fileexchange/27397-quadratic-programming-by-wolfs-method</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% Author: Jonathan Karr</span>
+0024 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0025 <span class="comment">% Last updated: 1/17/2011</span>
+0026 
+0027 solver = <span class="string">'clp'</span>;
+0028 <span class="keyword">if</span> exist(<span class="string">'options'</span>, <span class="string">'var'</span>) &amp;&amp; isstruct(options)
+0029     solver = options.solver;
+0030 <span class="keyword">end</span>
+0031 
+0032 solverOptions = struct;
+0033 <span class="keyword">if</span> exist(<span class="string">'options'</span>, <span class="string">'var'</span>) &amp;&amp; isstruct(options) &amp;&amp; isfield(options, <span class="string">'solverOptions'</span>) &amp;&amp; isfield(options.solverOptions, options.solver)
+0034     solverOptions = options.solverOptions.(options.solver);
+0035 <span class="keyword">end</span>
+0036 
+0037 <span class="keyword">switch</span> solver
+0038     <span class="keyword">case</span> <span class="string">'clp'</span>
+0039         [x, objective, exitFlag] = clp(H, f, A, b, Aeq, beq, lb, ub, solverOptions);
+0040         <span class="keyword">switch</span> exitFlag
+0041             <span class="keyword">case</span> 0, errorMsg = <span class="string">'optimal'</span>;
+0042             <span class="keyword">case</span> 1, errorMsg = <span class="string">'infeasible'</span>;
+0043             <span class="keyword">case</span> 2, errorMsg = <span class="string">'unbounded'</span>;
+0044         <span class="keyword">end</span>
+0045         errorFlag = exitFlag ~= 0;
+0046     <span class="keyword">case</span> <span class="string">'minqsep'</span>
+0047         [m, n] = size(Aeq);
+0048         printLevel = 1;
+0049         <span class="keyword">if</span> isfield(solverOptions, <span class="string">'printLevel'</span>), printLevel = solverOptions.printLevel; <span class="keyword">end</span>;
+0050         [x, objective, errorFlag] = minqsep(f, diag(H), [Aeq; eye(n); -eye(n)], <span class="keyword">...</span>
+0051             [beq; lb; -ub], [true(m, 1); false(n, 1); false(n, 1)], printLevel, x0);
+0052         <span class="keyword">switch</span> errorFlag
+0053             <span class="keyword">case</span> 0, errorMsg = <span class="string">'global minimizer found'</span>;
+0054             <span class="keyword">case</span> 1, errorMsg = <span class="string">'approximate solution; feasible set probably empty'</span>;
+0055             <span class="keyword">case</span> 99, errorMsg = <span class="string">'approximate solution; maxit exceeded'</span>;
+0056         <span class="keyword">end</span>
+0057     <span class="keyword">case</span> <span class="string">'qpip'</span>
+0058         display = 0;
+0059         mu = 0.0;
+0060         method = 1;
+0061         <span class="keyword">if</span> isfield(solverOptions, <span class="string">'display'</span>), display = solverOptions.display; <span class="keyword">end</span>;
+0062         <span class="keyword">if</span> isfield(solverOptions, <span class="string">'mu'</span>),      mu      = solverOptions.mu;      <span class="keyword">end</span>;
+0063         <span class="keyword">if</span> isfield(solverOptions, <span class="string">'method'</span>),  method  = solverOptions.method;  <span class="keyword">end</span>;
+0064         [x, exitFlag] = qpip(H, f, A, b, Aeq, beq, lb, ub, display, mu, method);
+0065         objective = x' *H * x + f' * x;
+0066         errorFlag = exitFlag ~= 0;
+0067         <span class="keyword">switch</span> exitFlag
+0068             <span class="keyword">case</span> 0,    errorMsg = <span class="string">'optimal'</span>;
+0069             <span class="keyword">otherwise</span>, errorMsg = <span class="string">'other error'</span>;
+0070         <span class="keyword">end</span>
+0071     <span class="keyword">case</span> <span class="string">'quadprog'</span>
+0072         [x, objective, exitFlag, output] = quadprog(H, f, A, b, Aeq, beq, lb, ub, x0, solverOptions);
+0073         errorFlag = exitFlag &lt;= 0;
+0074         errorMsg = output.message;
+0075     <span class="keyword">case</span> <span class="string">'wolf'</span>
+0076         [m, n] = size(Aeq);
+0077         [x, objective] = wolf(H, f, [beq; lb; ub],[Aeq; eye(n); eye(n)], <span class="keyword">...</span>
+0078             [zeros(m, 1); ones(n, 1); -ones(n, 1)], 1);
+0079         errorFlag = 0;
+0080         errorMsg = <span class="string">'optimal'</span>;
+0081     <span class="keyword">otherwise</span>
+0082         throw(MException(<span class="string">'ComputationUtil:error'</span>, <span class="string">'Invalid solver'</span>));
+0083 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of runAnalysis</title>
+  <meta name="keywords" content="runAnalysis">
+  <meta name="description" content="Analyzes whole cell simulations.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; runAnalysis.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>runAnalysis
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Analyzes whole cell simulations.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function runAnalysis(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Analyzes whole cell simulations.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 6/30/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>	SETPREFERENCES Sets MATLAB preferences</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Analyzes whole cell simulations.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 6/30/2011</span>
+0006 <a name="_sub0" href="#_subfunctions" class="code">function runAnalysis(varargin)</a>
+0007 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>();
+0008 <a href="setPath.html" class="code" title="function setPath()">setPath</a>();
+0009 <a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>();
+0010 
+0011 import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0012 
+0013 outputDirectory = varargin{1};
+0014 <span class="keyword">if</span> numel(varargin) &lt; 2
+0015     iJob = 1;
+0016     nJobs = 1;
+0017 <span class="keyword">else</span>
+0018     iJob = varargin{2};
+0019     nJobs = varargin{3};    
+0020     <span class="keyword">if</span> ischar(iJob)
+0021         iJob = str2double(iJob);
+0022         nJobs = str2double(nJobs);
+0023     <span class="keyword">end</span>
+0024 <span class="keyword">end</span>
+0025 
+0026 simNum = 1;
+0027 simDir = [outputDirectory filesep num2str(simNum)];
+0028 [~, ~, sim] = SimulationDiskUtil.getSimulation(simDir);
+0029 
+0030 <span class="comment">%cleanup any xls files to avoid slyk warning messages on windows</span>
+0031 <span class="keyword">if</span> ispc
+0032     delete([outputDirectory filesep <span class="string">'*.xls'</span>]);
+0033 <span class="keyword">end</span>
+0034 
+0035 <span class="comment">%choose analyses to run</span>
+0036 [~, options] = SimulationDiskUtil.getSimulations(outputDirectory);
+0037 allSingleGeneDeletions = true;
+0038 <span class="keyword">for</span> i = 1:numel(options)
+0039     <span class="keyword">if</span> <span class="keyword">...</span>
+0040             isempty(isscalar(options(i).geneticKnockouts)) || <span class="keyword">...</span>
+0041             ~isscalar(options(i).geneticKnockouts) || <span class="keyword">...</span>
+0042             ~isempty(options(i).media) || <span class="keyword">...</span>
+0043             ~isempty(options(i).stimulus)
+0044         allSingleGeneDeletions = false;
+0045     <span class="keyword">end</span>
+0046 <span class="keyword">end</span>
+0047 
+0048 <span class="keyword">if</span> allSingleGeneDeletions
+0049     analysisFunc = {
+0050         <span class="comment">%single gene deletions</span>
+0051         <span class="string">'analysis'</span>  <span class="string">'SingleGeneDeletions'</span>           <span class="string">'run'</span>                   {outputDirectory, false, iJob, nJobs}
+0052         };
+0053 <span class="keyword">else</span>
+0054     analysisFunc = {
+0055         <span class="comment">%static</span>
+0056         <span class="string">'analysis'</span>  <span class="string">'BiomassCompositionProduction'</span>  <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'BiomassCompositionProduction'</span>]}
+0057         <span class="string">'analysis'</span>  <span class="string">'CellState'</span>                     <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'CellState'</span>]}
+0058         <span class="string">'analysis'</span>  <span class="string">'Constants'</span>                     <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'Constants'</span>]}
+0059         <span class="string">'analysis'</span>  <span class="string">'DNADamage'</span>                     <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'DNADamage'</span>]}
+0060         <span class="string">'analysis'</span>  <span class="string">'FBA'</span>                           <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'FBA'</span>]}
+0061         <span class="string">'analysis'</span>  <span class="string">'SimulationStructure'</span>           <span class="string">'run'</span>                   {sim, [outputDirectory filesep <span class="string">'SimulationStructure'</span>]}
+0062         
+0063         <span class="comment">%single cell</span>
+0064         <span class="string">'analysis'</span>  <span class="string">'TranslationAnalysis'</span>           <span class="string">'run'</span>                   {simDir, [outputDirectory filesep <span class="string">'TranslationAnalysis'</span>]}
+0065         <span class="string">'analysis'</span>  <span class="string">'ChromosomeSpaceTimePlot'</span>       <span class="string">'run'</span>                   {simDir, [], [outputDirectory filesep <span class="string">'ChromosomeSpaceTimePlot'</span>]}
+0066         <span class="string">'analysis'</span>  <span class="string">'ChromosomePositionHistogram'</span>   <span class="string">'run'</span>                   {simDir, [outputDirectory filesep <span class="string">'ChromosomePositionHistogram'</span>]}
+0067         
+0068         <span class="comment">%population</span>
+0069         <span class="string">'util'</span>      <span class="string">'SummaryLogger'</span>                 <span class="string">'summarizeSimulations'</span>  {outputDirectory}
+0070         <span class="string">'analysis'</span>  <span class="string">'CellOverview'</span>                  <span class="string">'run'</span>                   {outputDirectory, [outputDirectory filesep <span class="string">'summary'</span>]}
+0071         <span class="string">'analysis'</span>  <span class="string">'ProcessMetaboliteUsage'</span>        <span class="string">'run'</span>                   {outputDirectory, [], [outputDirectory filesep <span class="string">'processMetaboliteUsage'</span>]}
+0072         };
+0073     analysisFunc = analysisFunc(iJob:nJobs:<span class="keyword">end</span>, :);
+0074     
+0075     md1 = meta.class.fromName(<span class="string">'edu.stanford.covert.cell.sim.analysis.SingleCell'</span>);
+0076     md2 = meta.class.fromName(<span class="string">'edu.stanford.covert.cell.sim.analysis.Population'</span>);
+0077     mdNames1 = cellfun(@(md) md.Name, md1.Methods, <span class="string">'UniformOutput'</span>, false);
+0078     mdNames2 = cellfun(@(md) md.Name, md2.Methods, <span class="string">'UniformOutput'</span>, false);
+0079     analysisFunc = [
+0080         analysisFunc; {
+0081         <span class="string">'analysis'</span>  <span class="string">'SingleCell'</span>  <span class="string">'run'</span>  {outputDirectory, simNum, [outputDirectory filesep <span class="string">'singleCell'</span>], mdNames1(iJob:nJobs:end)}
+0082         <span class="string">'analysis'</span>  <span class="string">'Population'</span>  <span class="string">'run'</span>  {outputDirectory, [outputDirectory filesep <span class="string">'population'</span>], [], mdNames2(iJob:nJobs:end)}
+0083         }];
+0084 <span class="keyword">end</span>
+0085 
+0086 <span class="comment">%run analyses and log any errors</span>
+0087 errorLog = [];
+0088 <span class="keyword">for</span> i = 1:size(analysisFunc, 1)
+0089     <span class="keyword">try</span>
+0090         edu.stanford.covert.cell.sim.(analysisFunc{i, 1}).(analysisFunc{i, 2}).(analysisFunc{i, 3})(analysisFunc{i, 4}{:});
+0091     <span class="keyword">catch</span> exception
+0092         errorLog = [errorLog sprintf(<span class="string">'Error in %s.%s analysis\n%s'</span>, analysisFunc{i, 2}, analysisFunc{i, 3}, exception.getReport())]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0093     <span class="keyword">end</span>
+0094 <span class="keyword">end</span>
+0095 
+0096 <span class="comment">%print error log</span>
+0097 <span class="keyword">if</span> ~isempty(errorLog)
+0098     throw(MException(<span class="string">'runAnalysis:error'</span>, errorLog));
+0099 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of runChromosomeTests</title>
+  <meta name="keywords" content="runChromosomeTests">
+  <meta name="description" content="Run chromosome tests.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; runChromosomeTests.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>runChromosomeTests
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Run chromosome tests.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Run chromosome tests.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/13/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>	SETPREFERENCES Sets MATLAB preferences</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Run chromosome tests.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 8/13/2010</span>
+0006 
+0007 <span class="comment">%% initialize</span>
+0008 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>();
+0009 <a href="setPath.html" class="code" title="function setPath()">setPath</a>();
+0010 <a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>();
+0011 
+0012 <span class="comment">%% run tests</span>
+0013 runtests(<span class="string">'-verbose'</span>, {
+0014     <span class="string">'edu.stanford.covert.cell.sim.state.Chromosome_Test'</span>
+0015     <span class="string">'edu.stanford.covert.cell.sim.process.ChromosomeCondensation_Test'</span>
+0016     <span class="string">'edu.stanford.covert.cell.sim.process.ChromosomeSegregation_Test'</span>
+0017     <span class="string">'edu.stanford.covert.cell.sim.process.Cytokinesis_Test'</span>
+0018     <span class="string">'edu.stanford.covert.cell.sim.process.DNADamage_Test'</span>
+0019     <span class="string">'edu.stanford.covert.cell.sim.process.DNARepair_Test'</span>
+0020     <span class="string">'edu.stanford.covert.cell.sim.process.DNASupercoiling_Test'</span>
+0021     <span class="string">'edu.stanford.covert.cell.sim.process.Replication_Test'</span>
+0022     <span class="string">'edu.stanford.covert.cell.sim.process.ReplicationInitiation_Test'</span>
+0023     <span class="string">'edu.stanford.covert.cell.sim.process.Transcription_Test'</span>
+0024     <span class="string">'edu.stanford.covert.cell.sim.process.TranscriptionalRegulation_Test'</span>
+0025     <span class="string">'edu.stanford.covert.cell.sim.DNA_Test'</span>
+0026     <span class="string">'edu.stanford.covert.cell.sim.DNADamageRepair_Test'</span>
+0027     });</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SimulationDiskUtil</title>
+  <meta name="keywords" content="SimulationDiskUtil">
+  <meta name="description" content="SimulationDiskUtil">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; SimulationDiskUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SimulationDiskUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SimulationDiskUtil</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SimulationDiskUtil
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationDiskUtil.html" class="code" title="">SimulationDiskUtil</a>	SimulationDiskUtil</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationDiskUtil.html" class="code" title="">SimulationDiskUtil</a>	SimulationDiskUtil</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [simDir, revision, sim] = getSimulation(simDir)</a></li><li><a href="#_sub2" class="code">function [simGroupDir, revision, sim] = getLatestSimulationGroup()</a></li><li><a href="#_sub3" class="code">function [simDir, revision, sim] = getLatestSimulation()</a></li><li><a href="#_sub4" class="code">function simGroup = getLatestWildTypeSimulationGroup()</a></li><li><a href="#_sub5" class="code">function simGroup = getLatestSingleGeneDeletionSimulationGroup()</a></li><li><a href="#_sub6" class="code">function [metaData, options, parameters] = getSimulations(simBatchDir, selectedSimulations)</a></li><li><a href="#_sub7" class="code">function value = getBaseDir()</a></li><li><a href="#_sub8" class="code">function value = getSimulationIndex(simDirAbs)</a></li><li><a href="#_sub9" class="code">function value = getSimulationTimeStamp(simDirAbs)</a></li><li><a href="#_sub10" class="code">function value = getSimulationBatchDir(simDirAbs)</a></li><li><a href="#_sub11" class="code">function value = getNumSimulations(simBatchDir)</a></li><li><a href="#_sub12" class="code">function value = getCompleteSimulations(simBatchDir)</a></li><li><a href="#_sub13" class="code">function warnings = getSimulationWarnings(simBatchDir, simIdx)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%SimulationDiskUtil</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 7/6/2011</span>
+0007 classdef <a href="SimulationDiskUtil.html" class="code" title="">SimulationDiskUtil</a>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function [simDir, revision, sim] = getSimulation(simDir)</a>
+0010             import edu.stanford.covert.cell.sim.util.CachedSimulationObjectUtil;
+0011             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0012             
+0013             <span class="keyword">if</span> ~((isunix &amp;&amp; simDir(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; simDir(2) == <span class="string">':'</span>))
+0014                 simDir = [edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getBaseDir() filesep simDir];
+0015             <span class="keyword">end</span>
+0016             
+0017             <span class="keyword">if</span> nargout &gt;= 2
+0018                 metadata = DiskLogger.loadMetadata(simDir);
+0019                 revision = metadata.revision;
+0020             <span class="keyword">end</span>
+0021             
+0022             <span class="keyword">if</span> nargout &gt;= 3
+0023                 sim = CachedSimulationObjectUtil.load(revision);
+0024             <span class="keyword">end</span>
+0025         <span class="keyword">end</span>
+0026         
+0027         <a name="_sub1" href="#_subfunctions" class="code">function [simGroupDir, revision, sim] = getLatestSimulationGroup()</a>
+0028             import edu.stanford.covert.cell.sim.util.CachedSimulationObjectUtil;
+0029             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0030             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0031             
+0032             baseDir = edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getBaseDir(); <span class="comment">%#ok&lt;*PROP&gt;</span>
+0033             
+0034             files = dir([baseDir filesep <span class="string">'201*'</span>]);
+0035             files = files([files.isdir]);
+0036             fileIdx = [];
+0037             <span class="keyword">for</span> i = numel(files):-1:1
+0038                 <span class="keyword">if</span> ~SimulationDiskUtil.getNumSimulations(files(i).name)
+0039                     <span class="keyword">continue</span>;
+0040                 <span class="keyword">end</span>
+0041                 
+0042                 tmp = true;
+0043                 <span class="keyword">for</span> j = 1:SimulationDiskUtil.getNumSimulations(files(i).name)
+0044                     <span class="keyword">if</span> ~exist([baseDir filesep files(i).name filesep num2str(j) filesep <span class="string">'metadata.mat'</span>], <span class="string">'file'</span>)
+0045                         tmp = false;
+0046                         <span class="keyword">break</span>;
+0047                     <span class="keyword">end</span>
+0048                 <span class="keyword">end</span>
+0049                 
+0050                 <span class="keyword">if</span> ~tmp
+0051                     <span class="keyword">continue</span>;
+0052                 <span class="keyword">end</span>
+0053                 
+0054                 <span class="keyword">for</span> j = 1:SimulationDiskUtil.getNumSimulations(files(i).name)
+0055                     <span class="keyword">try</span>
+0056                         load([baseDir filesep files(i).name filesep num2str(j) filesep <span class="string">'metadata.mat'</span>])
+0057                     <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0058                         tmp = false;
+0059                         <span class="keyword">break</span>;
+0060                     <span class="keyword">end</span>
+0061                 <span class="keyword">end</span>
+0062                 
+0063                 <span class="keyword">if</span> ~tmp
+0064                     <span class="keyword">continue</span>;
+0065                 <span class="keyword">end</span>
+0066                 
+0067                 fileIdx = i;
+0068                 <span class="keyword">break</span>;
+0069             <span class="keyword">end</span>
+0070             <span class="keyword">if</span> isempty(fileIdx)
+0071                 simGroupDir = [];
+0072                 revision = [];
+0073                 sim = [];
+0074                 <span class="keyword">return</span>;
+0075             <span class="keyword">end</span>
+0076             simTimeStamp = files(fileIdx).name; <span class="comment">%simulation group</span>
+0077             simGroupDir = sprintf(<span class="string">'%s%s%s'</span>, baseDir, filesep, simTimeStamp);
+0078             
+0079             <span class="keyword">if</span> nargout &gt;= 2
+0080                 simIdx = 1; <span class="comment">%simulation within group</span>
+0081                 simDir = sprintf(<span class="string">'%s%s%d'</span>, simGroupDir, filesep, simIdx);
+0082                 metadata = DiskLogger.loadMetadata(simDir);
+0083                 revision = metadata.revision;
+0084             <span class="keyword">end</span>
+0085             
+0086             <span class="keyword">if</span> nargout &gt;= 3
+0087                 sim = CachedSimulationObjectUtil.load(revision);
+0088             <span class="keyword">end</span>
+0089         <span class="keyword">end</span>
+0090         
+0091         <a name="_sub2" href="#_subfunctions" class="code">function [simDir, revision, sim] = getLatestSimulation()</a>
+0092             import edu.stanford.covert.cell.sim.util.CachedSimulationObjectUtil;
+0093             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0094             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0095             
+0096             simGroupDir = SimulationDiskUtil.getLatestSimulationGroup();
+0097             
+0098             simIdx = 1; <span class="comment">%simulation within group</span>
+0099             simDir = sprintf(<span class="string">'%s%s%d'</span>, simGroupDir, filesep, simIdx);
+0100             
+0101             <span class="keyword">if</span> nargout &gt;= 2
+0102                 metadata = DiskLogger.loadMetadata(simDir);
+0103                 revision = metadata.revision;
+0104             <span class="keyword">end</span>
+0105             
+0106             <span class="keyword">if</span> nargout &gt;= 3
+0107                 sim = CachedSimulationObjectUtil.load(revision);
+0108             <span class="keyword">end</span>
+0109         <span class="keyword">end</span>
+0110         
+0111         <a name="_sub3" href="#_subfunctions" class="code">function simGroup = getLatestWildTypeSimulationGroup()</a>
+0112             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0113             
+0114             baseDir = SimulationDiskUtil.getBaseDir();
+0115             files = dir([baseDir filesep <span class="string">'201*'</span>]);
+0116             files = files([files.isdir]);
+0117             [~, order] = sort({files.name}); 
+0118             files = files(order(end:-1:1));
+0119             <span class="keyword">for</span> i = 1:numel(files)
+0120                 <span class="keyword">for</span> j = 1:SimulationDiskUtil.getNumSimulations(files(i).name)
+0121                     simDir = [baseDir filesep files(i).name filesep num2str(j)];
+0122                     simGroup = files(i).name;
+0123                     
+0124                     <span class="keyword">if</span> <span class="keyword">...</span>
+0125                             ~exist([simDir filesep <span class="string">'metadata.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0126                             ~exist([simDir filesep <span class="string">'options.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0127                             ~exist([simDir filesep <span class="string">'parameters.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0128                             exist([simDir filesep <span class="string">'skipAnalysis'</span>], <span class="string">'file'</span>)
+0129                         <span class="keyword">continue</span>;
+0130                     <span class="keyword">end</span>
+0131                     
+0132                     options = load([simDir filesep <span class="string">'options.mat'</span>]);
+0133                     <span class="keyword">if</span> isempty(options.geneticKnockouts)
+0134                         <span class="keyword">return</span>;
+0135                     <span class="keyword">end</span>
+0136                 <span class="keyword">end</span>
+0137             <span class="keyword">end</span>
+0138         <span class="keyword">end</span>
+0139         
+0140         <a name="_sub4" href="#_subfunctions" class="code">function simGroup = getLatestSingleGeneDeletionSimulationGroup()</a>
+0141             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0142             
+0143             baseDir = SimulationDiskUtil.getBaseDir();
+0144             files = dir([baseDir filesep <span class="string">'201*'</span>]);
+0145             files = files([files.isdir]);
+0146             [~, order] = sort({files.name}); 
+0147             files = files(order(end:-1:1));
+0148             <span class="keyword">for</span> i = 1:numel(files)
+0149                 <span class="keyword">for</span> j = 1:SimulationDiskUtil.getNumSimulations(files(i).name)
+0150                     simDir = [baseDir filesep files(i).name filesep num2str(j)];
+0151                     simGroup = files(i).name;
+0152                     
+0153                     <span class="keyword">if</span> <span class="keyword">...</span>
+0154                             ~exist([simDir filesep <span class="string">'metadata.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0155                             ~exist([simDir filesep <span class="string">'options.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0156                             ~exist([simDir filesep <span class="string">'parameters.mat'</span>], <span class="string">'file'</span>) || <span class="keyword">...</span>
+0157                             exist([simDir filesep <span class="string">'skipAnalysis'</span>], <span class="string">'file'</span>)
+0158                         <span class="keyword">continue</span>;
+0159                     <span class="keyword">end</span>
+0160                     
+0161                     options = load([simDir filesep <span class="string">'options.mat'</span>]);
+0162                     <span class="keyword">if</span> isscalar(options.geneticKnockouts)
+0163                         <span class="keyword">return</span>;
+0164                     <span class="keyword">end</span>
+0165                 <span class="keyword">end</span>
+0166             <span class="keyword">end</span>
+0167         <span class="keyword">end</span>
+0168         
+0169         <a name="_sub5" href="#_subfunctions" class="code">function [metaData, options, parameters] = getSimulations(simBatchDir, selectedSimulations)</a>
+0170             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0171             baseDir = SimulationDiskUtil.getBaseDir(); <span class="comment">%#ok&lt;*PROP&gt;</span>
+0172             
+0173             <span class="keyword">if</span> nargin &gt;= 1
+0174                 simDir = SimulationDiskUtil.getSimulation([simBatchDir filesep <span class="string">'1'</span>]);
+0175                 simBatchDir = simDir(1:find(simDir == filesep, 1, <span class="string">'last'</span>)-1);
+0176                 files = struct(<span class="string">'name'</span>, simBatchDir, <span class="string">'isdir'</span>, ~~exist(simBatchDir, <span class="string">'dir'</span>));
+0177             <span class="keyword">else</span>
+0178                 files = dir([baseDir filesep <span class="string">'201*'</span>]);
+0179             <span class="keyword">end</span>
+0180             files = files([files.isdir]);
+0181             metaData = repmat(struct(<span class="keyword">...</span>
+0182                 <span class="string">'firstName'</span>, [], <span class="keyword">...</span>
+0183                 <span class="string">'lastName'</span>, [], <span class="keyword">...</span>
+0184                 <span class="string">'email'</span>, [], <span class="keyword">...</span>
+0185                 <span class="string">'affiliation'</span>, [], <span class="keyword">...</span>
+0186                 <span class="string">'userName'</span>, [], <span class="keyword">...</span>
+0187                 <span class="string">'hostName'</span>, [], <span class="keyword">...</span>
+0188                 <span class="string">'ipAddress'</span>, [], <span class="keyword">...</span>
+0189                 <span class="string">'revision'</span>, [], <span class="keyword">...</span>
+0190                 <span class="string">'differencesFromRevision'</span>, [], <span class="keyword">...</span>
+0191                 <span class="string">'shortDescription'</span>, [], <span class="keyword">...</span>
+0192                 <span class="string">'longDescription'</span>, [], <span class="keyword">...</span>
+0193                 <span class="string">'knowledgeBaseWID'</span>, [], <span class="keyword">...</span>
+0194                 <span class="string">'startTime'</span>, [], <span class="keyword">...</span>
+0195                 <span class="string">'endTime'</span>, [], <span class="keyword">...</span>
+0196                 <span class="string">'lengthSec'</span>, [], <span class="keyword">...</span>
+0197                 <span class="string">'outputDirectory'</span>, [], <span class="keyword">...</span>
+0198                 <span class="string">'segmentSizeStep'</span>, [], <span class="keyword">...</span>
+0199                 <span class="string">'downsampleStepSec'</span>, [], <span class="keyword">...</span>
+0200                 <span class="string">'baseDirectory'</span>, [], <span class="keyword">...</span>
+0201                 <span class="string">'directory'</span>, [], <span class="keyword">...</span>
+0202                 <span class="string">'simGroup'</span>, [], <span class="keyword">...</span>
+0203                 <span class="string">'simIdx'</span>, [], <span class="keyword">...</span>
+0204                 <span class="string">'name'</span>, [], <span class="keyword">...</span>
+0205                 <span class="string">'stateNames'</span>, [], <span class="keyword">...</span>
+0206                 <span class="string">'dependentStateNames'</span> ,[]), 0, 1);
+0207             options = repmat(struct, 0, 1);
+0208             parameters = repmat(struct, 0, 1);
+0209             <span class="keyword">for</span> i = 1:numel(files)
+0210                 <span class="keyword">if</span> nargin &lt; 2
+0211                     selectedSimulations = 1:SimulationDiskUtil.getNumSimulations(files(i).name);
+0212                 <span class="keyword">end</span>
+0213                 <span class="keyword">for</span> j = 1:numel(selectedSimulations)
+0214                     <span class="keyword">if</span> (isunix &amp;&amp; files(i).name(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; length(files(i).name) &gt;= 2 &amp;&amp; files(i).name(2) == <span class="string">':'</span>)
+0215                         simDir = [files(i).name filesep num2str(selectedSimulations(j))];
+0216                         simDir = strrep(simDir, <span class="string">'/'</span>, filesep);
+0217                         simDir = strrep(simDir, <span class="string">'\'</span>, filesep);
+0218                         idxs = find(files(i).name == <span class="string">'/'</span> | files(i).name == <span class="string">'\'</span>);
+0219                         simGroup = files(i).name(idxs(end)+1:end);
+0220                     <span class="keyword">else</span>
+0221                         simDir = [baseDir filesep files(i).name filesep num2str(selectedSimulations(j))];
+0222                         simGroup = files(i).name;
+0223                     <span class="keyword">end</span>
+0224                     
+0225                     <span class="keyword">if</span> exist([simDir filesep <span class="string">'skipAnalysis'</span>], <span class="string">'file'</span>)
+0226                         <span class="keyword">continue</span>;
+0227                     <span class="keyword">end</span>
+0228                     
+0229                     <span class="keyword">if</span> nargout &gt;= 1 &amp;&amp; exist([simDir filesep <span class="string">'metadata.mat'</span>], <span class="string">'file'</span>)
+0230                         <span class="keyword">try</span>
+0231                             tmpMetadata = load([simDir filesep <span class="string">'metadata.mat'</span>]);
+0232                         <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0233                             <span class="keyword">continue</span>;
+0234                         <span class="keyword">end</span>
+0235                         tmpMetadata.baseDirectory = baseDir;
+0236                         tmpMetadata.directory = simDir;
+0237                         tmpMetadata.simGroup = simGroup;
+0238                         tmpMetadata.simIdx = selectedSimulations(j);
+0239                         tmpMetadata.name = [files(i).name <span class="string">' - '</span> num2str(selectedSimulations(j)) <span class="string">' - '</span> tmpMetadata.shortDescription];
+0240                         
+0241                         tmp = setdiff(fieldnames(metaData), fieldnames(tmpMetadata));
+0242                         <span class="keyword">for</span> k = 1:numel(tmp)
+0243                             tmpMetadata.(tmp{k}) = [];
+0244                         <span class="keyword">end</span>
+0245                         
+0246                         metaData = [metaData; tmpMetadata]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0247                     <span class="keyword">end</span>
+0248                     
+0249                     <span class="keyword">if</span> nargout &gt;= 2 &amp;&amp; exist([simDir filesep <span class="string">'options.mat'</span>], <span class="string">'file'</span>)
+0250                         tmpOptions = load([simDir filesep <span class="string">'options.mat'</span>]);
+0251                         
+0252                         <span class="keyword">if</span> isempty(options)
+0253                             options = tmpOptions;
+0254                         <span class="keyword">else</span>
+0255                             tmp = setdiff(fieldnames(options), fieldnames(tmpOptions));
+0256                             <span class="keyword">for</span> k = 1:numel(tmp)
+0257                                 tmpOptions.(tmp{k}) = [];
+0258                             <span class="keyword">end</span>
+0259                             
+0260                             tmp = setdiff(fieldnames(tmpOptions), fieldnames(options));
+0261                             <span class="keyword">for</span> k = 1:numel(tmp)
+0262                                 <span class="keyword">for</span> l = 1:numel(options)
+0263                                     options(l).(tmp{k}) = [];
+0264                                 <span class="keyword">end</span>
+0265                             <span class="keyword">end</span>
+0266                             
+0267                             options = [options; tmpOptions]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0268                         <span class="keyword">end</span>
+0269                     <span class="keyword">end</span>
+0270                     
+0271                     <span class="keyword">if</span> nargout &gt;= 3 &amp;&amp; exist([simDir filesep <span class="string">'parameters.mat'</span>], <span class="string">'file'</span>)
+0272                         tmpParameters = load([simDir filesep <span class="string">'parameters.mat'</span>]);
+0273                         
+0274                         <span class="keyword">if</span> isempty(parameters)
+0275                             parameters = tmpParameters;
+0276                         <span class="keyword">else</span>
+0277                             tmp = setdiff(fieldnames(parameters), fieldnames(tmpParameters));
+0278                             <span class="keyword">for</span> k = 1:numel(tmp)
+0279                                 tmpParameters.(tmp{k}) = [];
+0280                             <span class="keyword">end</span>
+0281                             
+0282                             tmp = setdiff(fieldnames(tmpParameters), fieldnames(parameters));
+0283                             <span class="keyword">for</span> k = 1:numel(tmp)
+0284                                 <span class="keyword">for</span> l = 1:numel(parameters)
+0285                                     parameters(l).(tmp{k}) = [];
+0286                                 <span class="keyword">end</span>
+0287                             <span class="keyword">end</span>
+0288                             
+0289                             parameters = [parameters; tmpParameters]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0290                         <span class="keyword">end</span>
+0291                     <span class="keyword">end</span>
+0292                 <span class="keyword">end</span>
+0293             <span class="keyword">end</span>
+0294         <span class="keyword">end</span>
+0295         
+0296         <a name="_sub6" href="#_subfunctions" class="code">function value = getBaseDir()</a>
+0297             [r, host] = system(<span class="string">'hostname'</span>);
+0298 
+0299             <span class="keyword">if</span> r ~= 0
+0300                 warning(<span class="string">'WholeCell:warning:network'</span>, <span class="string">'Could not determine host name'</span>);
+0301                 value = <span class="string">''</span>;
+0302                 <span class="keyword">return</span>;
+0303             <span class="keyword">end</span>
+0304             
+0305             host = deblank(host);
+0306             <span class="keyword">switch</span> host
+0307                 <span class="comment">% Edit as appropriate (add jayodita and markus)</span>
+0308                 <span class="keyword">case</span> <span class="string">'hydra'</span>
+0309                     value = <span class="string">'/covertlab/home/projects/WholeCell/simulation/output/runSimulation'</span>;
+0310                 <span class="keyword">case</span> <span class="string">'silico'</span>
+0311                     value = <span class="string">'/covertlab/home/projects/WholeCell/simulation/output/runSimulation'</span>;
+0312                 <span class="keyword">case</span> <span class="string">'covertlab-jkarr'</span>
+0313                     value = <span class="string">'z:\projects\WholeCell\simulation\output\runSimulation'</span>;
+0314                 <span class="keyword">otherwise</span>
+0315                     <span class="keyword">if</span> strcmp(computer, <span class="string">'GLNXA64'</span>)
+0316                         <span class="comment">% Probably the cluster</span>
+0317                         value = <span class="string">'/home/projects/WholeCell/simulation/output/runSimulation'</span>;
+0318                     <span class="keyword">else</span>
+0319                         <span class="comment">% Assume a PC with the correct Z drive mapping</span>
+0320                         value = <span class="string">'z:\projects\WholeCell\simulation\output\runSimulation'</span>;
+0321                         warning(<span class="string">'WholeCell:warning:network'</span>, <span class="string">'Assuming simulation output is in %s'</span>, value);
+0322                     <span class="keyword">end</span>
+0323             <span class="keyword">end</span>
+0324         <span class="keyword">end</span>
+0325         
+0326         <a name="_sub7" href="#_subfunctions" class="code">function value = getSimulationIndex(simDirAbs)</a>
+0327             <span class="comment">% Get rid of any trailing slashes</span>
+0328             <span class="keyword">while</span> simDirAbs(end) == <span class="string">'/'</span>
+0329                 simDirAbs(end)=[];
+0330             <span class="keyword">end</span>
+0331             
+0332             p = find(simDirAbs == filesep, 1, <span class="string">'last'</span>);
+0333             value = str2double(simDirAbs(p+1:end));
+0334         <span class="keyword">end</span>
+0335         
+0336         <a name="_sub8" href="#_subfunctions" class="code">function value = getSimulationTimeStamp(simDirAbs)</a>
+0337             <span class="comment">% Get rid of any trailing slashes</span>
+0338             <span class="keyword">while</span> simDirAbs(end) == filesep
+0339                 simDirAbs(end) = [];
+0340             <span class="keyword">end</span>
+0341                 
+0342             p = find(simDirAbs == filesep, 2, <span class="string">'last'</span>);
+0343             value = simDirAbs(p(1) + 1:p(2) - 1);
+0344             
+0345             value = strrep(value, <span class="string">'_'</span>, <span class="string">':'</span>);
+0346             value(11) = <span class="string">' '</span>;
+0347         <span class="keyword">end</span>
+0348         
+0349         <a name="_sub9" href="#_subfunctions" class="code">function value = getSimulationBatchDir(simDirAbs)</a>
+0350             <span class="comment">% Get rid of any trailing slashes</span>
+0351             <span class="keyword">while</span> simDirAbs(end) == <span class="string">'/'</span>
+0352                 simDirAbs(end) = [];
+0353             <span class="keyword">end</span>
+0354             
+0355             p = find(simDirAbs == filesep, 2, <span class="string">'last'</span>);
+0356             value = simDirAbs(1:p(2) - 1);
+0357             <span class="keyword">while</span> value(end) == filesep
+0358                 value(end) = [];
+0359             <span class="keyword">end</span>
+0360         <span class="keyword">end</span>
+0361         
+0362         <a name="_sub10" href="#_subfunctions" class="code">function value = getNumSimulations(simBatchDir)</a>
+0363             <span class="keyword">if</span> (isunix &amp;&amp; simBatchDir(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; simBatchDir(2) == <span class="string">':'</span>)
+0364                 baseDir = simBatchDir;
+0365             <span class="keyword">else</span>
+0366                 baseDir = [edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getBaseDir filesep simBatchDir];
+0367             <span class="keyword">end</span>
+0368             files = dir(baseDir);
+0369             files = files([files.isdir] &amp; ~isnan(str2double({files.name})));
+0370             value = numel(files);
+0371         <span class="keyword">end</span>
+0372         
+0373         <a name="_sub11" href="#_subfunctions" class="code">function value = getCompleteSimulations(simBatchDir)</a>
+0374             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0375             
+0376             <span class="keyword">if</span> (isunix &amp;&amp; simBatchDir(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; simBatchDir(2) == <span class="string">':'</span>)
+0377                 baseDir = simBatchDir;
+0378             <span class="keyword">else</span>
+0379                 baseDir = [edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getBaseDir filesep simBatchDir];
+0380             <span class="keyword">end</span>
+0381             
+0382             nSims = SimulationDiskUtil.getNumSimulations(simBatchDir);
+0383             tfs = false(nSims, 1);
+0384             <span class="keyword">for</span> i = 1:nSims
+0385                 tfs(i) = exist([baseDir filesep num2str(i) filesep <span class="string">'summary.mat'</span>], <span class="string">'file'</span>);
+0386             <span class="keyword">end</span>
+0387             value = find(tfs);
+0388         <span class="keyword">end</span>
+0389 
+0390         <a name="_sub12" href="#_subfunctions" class="code">function warnings = getSimulationWarnings(simBatchDir, simIdx)</a>
+0391             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0392             
+0393             fid = fopen([SimulationDiskUtil.getSimulation([simBatchDir filesep num2str(simIdx)]) filesep <span class="string">'out.log'</span>], <span class="string">'r'</span>);
+0394             <span class="keyword">if</span> fid == -1
+0395                 throw(MException(<span class="string">'SimulationDiskUtil:error'</span>, <span class="string">'Unable to open file'</span>))
+0396             <span class="keyword">end</span>
+0397             
+0398             warningTemplate = struct();
+0399             warningTemplate.message = [];
+0400             warningTemplate.files = {};
+0401             warningTemplate.lineNumbers = [];
+0402             warningTemplate.times = [];
+0403             warnings = repmat(warningTemplate, 0, 1);
+0404             isWarn = false;
+0405             isWarnTrace = false;
+0406             time = 0;
+0407             <span class="keyword">while</span> ~feof(fid)
+0408                 line = fgetl(fid);
+0409                 
+0410                 <span class="keyword">if</span> isWarnTrace &amp;&amp; (length(line) &lt; 5 || ~isequal(line(1:5), <span class="string">'  In '</span>))
+0411                     isWarn = false;
+0412                     isWarnTrace = false;
+0413                     
+0414                     tmpWarning.message = tmpWarning.message(12:end-4);
+0415                     
+0416                     repeatedWarning = 0;
+0417                     <span class="keyword">for</span> j = 1:numel(warnings)
+0418                         <span class="keyword">if</span> isequal(warnings(j).message, tmpWarning.message) &amp;&amp; <span class="keyword">...</span>
+0419                                 isequal(warnings(j).files, tmpWarning.files) &amp;&amp; <span class="keyword">...</span>
+0420                                 isequal(warnings(j).lineNumbers, tmpWarning.lineNumbers)
+0421                             repeatedWarning = j;
+0422                             <span class="keyword">break</span>;
+0423                         <span class="keyword">end</span>
+0424                     <span class="keyword">end</span>
+0425                     
+0426                     <span class="keyword">if</span> repeatedWarning
+0427                         warnings(repeatedWarning).times = <span class="keyword">...</span>
+0428                             [warnings(repeatedWarning).times; tmpWarning.times];
+0429                     <span class="keyword">else</span>
+0430                         warnings = [warnings; tmpWarning]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0431                     <span class="keyword">end</span>
+0432                 <span class="keyword">end</span>
+0433                 <span class="keyword">if</span> numel(line) &gt;= 11 &amp;&amp; isequal(line(3:11), <span class="string">'Warning: '</span>)
+0434                     isWarn = true;
+0435                     isWarnTrace = false;
+0436                     tmpWarning = warningTemplate;
+0437                 <span class="keyword">end</span>
+0438                 <span class="keyword">if</span> isWarn &amp;&amp; line(1) == <span class="string">'&gt;'</span>
+0439                     isWarnTrace = true;
+0440                 <span class="keyword">end</span>
+0441                 
+0442                 <span class="keyword">if</span> ~isWarn &amp;&amp; length(line) &gt;= 1 &amp;&amp; ~all(line == <span class="string">' '</span>) &amp;&amp; any(line == <span class="string">' '</span>)
+0443                     idx1 = find(line ~= <span class="string">' '</span>, 1, <span class="string">'first'</span>);
+0444                     idx2 = find(line(idx1:end) == <span class="string">' '</span>, 1, <span class="string">'first'</span>) - idx1;
+0445                     <span class="keyword">if</span> ~isempty(idx1) &amp;&amp; ~isempty(idx2) &amp;&amp; idx2 &gt;= idx1
+0446                         time = max(time, str2double(line(idx1:idx2)));
+0447                     <span class="keyword">end</span>
+0448                 <span class="keyword">elseif</span> isWarn &amp;&amp; ~isWarnTrace
+0449                     tmpWarning.times = time;
+0450                     tmpWarning.message = [tmpWarning.message line <span class="string">' '</span>];
+0451                 <span class="keyword">elseif</span> isWarnTrace
+0452                     tmp = line(6:end);
+0453                     tmpWarning.files{end+1, 1} = tmp(1:strfind(tmp, <span class="string">' at '</span>)-1);
+0454                     tmpWarning.lineNumbers(end+1, 1) = str2double(tmp(strfind(tmp, <span class="string">' at '</span>)+4:end));
+0455                 <span class="keyword">end</span>
+0456             <span class="keyword">end</span>
+0457             
+0458             assert(~isWarn);
+0459             assert(~isWarnTrace);
+0460             
+0461             fclose(fid);
+0462         <span class="keyword">end</span>
+0463     <span class="keyword">end</span>
+0464 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

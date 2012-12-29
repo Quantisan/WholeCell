@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Transcript</title>
+  <meta name="keywords" content="Transcript">
+  <meta name="description" content="Transcripts">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Transcript.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Transcript
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Transcripts</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Transcripts
+
+ @wholeCellModelID State_Transcript
+ @name             Transcripts
+ @description
+
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 12/16/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcript.html" class="code" title="">Transcript</a>	Transcripts</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcript.html" class="code" title="">Transcript</a>	Transcripts</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Transcript(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub5" class="code">function initialize(this)</a></li><li><a href="#_sub6" class="code">function value = get.dryWeight(this)</a></li><li><a href="#_sub7" class="code">function value = get.abortedSequences(this)</a></li><li><a href="#_sub8" class="code">function value = get.totalBaseCounts(this)</a></li><li><a href="#_sub9" class="code">function value = get.rnaMaxRNAPolymeraseState(this)</a></li><li><a href="#_sub10" class="code">function value = get.rnaBoundRNAPolymerases(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Transcripts</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_Transcript</span>
+0004 <span class="comment">% @name             Transcripts</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0009 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0010 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0011 <span class="comment">% Last updated: 12/16/2010</span>
+0012 classdef <a href="Transcript.html" class="code" title="">Transcript</a> &lt; edu.stanford.covert.cell.sim.CellState
+0013     <span class="comment">%property annotations</span>
+0014     properties (Constant)
+0015         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0016             <span class="string">'verbosity'</span>
+0017             <span class="string">'seed'</span>
+0018             };
+0019         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0020             <span class="string">'genomeLength'</span>
+0021             <span class="string">'transcriptionUnitFivePrimeCoordinates'</span>
+0022             <span class="string">'transcriptionUnitDirections'</span>
+0023             <span class="string">'transcriptionUnitSequences'</span>
+0024             <span class="string">'transcriptionUnitLengths'</span>
+0025             };
+0026         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0027         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0028             <span class="string">'boundTranscriptionUnits'</span>
+0029             <span class="string">'boundTranscriptProgress'</span>
+0030             <span class="string">'boundTranscriptChromosome'</span>
+0031             <span class="string">'abortedTranscripts'</span>
+0032             };
+0033         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0034             <span class="comment">%totalBaseCounts</span>
+0035             <span class="comment">%'abortedSequences'</span>
+0036             <span class="comment">%'rnaMaxRNAPolymeraseState'</span>
+0037             <span class="string">'rnaBoundRNAPolymerases'</span>
+0038             };
+0039     <span class="keyword">end</span>
+0040        
+0041     <span class="comment">%constants</span>
+0042     properties (Constant)
+0043         nullTranscriptValue = 0; <span class="comment">%value for transcripts that do not exist; needed to sync with rnaPolymerases</span>
+0044         newTranscriptValue  = 1; <span class="comment">%value for transcripts that do not exist; needed to sync with rnaPolymerases</span>
+0045     <span class="keyword">end</span>
+0046 
+0047     <span class="comment">%constants</span>
+0048     properties
+0049         genomeLength                                  <span class="comment">%length of genome</span>
+0050         
+0051         transcriptionUnitWholeCellModelIDs            <span class="comment">%whole cell model ids of transcription units</span>
+0052         transcriptionUnitFivePrimeCoordinates         <span class="comment">%transcription unit 5' coordinates</span>
+0053         transcriptionUnitDirections                   <span class="comment">%transcription unit directions</span>
+0054         transcriptionUnitSequences                    <span class="comment">%transcription unit sequences</span>
+0055         transcriptionUnitLengths                      <span class="comment">%transcription unit sequence lengths</span>
+0056         
+0057         nmpMolecularWeights                           <span class="comment">%molecular weights of NMPs</span>
+0058     <span class="keyword">end</span>
+0059     
+0060     <span class="comment">%state</span>
+0061     properties
+0062         <span class="comment">%these first three properties describing transcripts currently</span>
+0063         <span class="comment">%being made need to be kept in sync with each other.</span>
+0064         boundTranscriptionUnits     <span class="comment">%transcription unit of all transcripts currently being made</span>
+0065         boundTranscriptProgress     <span class="comment">%progress on transcription unit of all transcripts currently being made</span>
+0066         boundTranscriptChromosome   <span class="comment">%chromosome of all transcripts currently being made</span>
+0067         
+0068         abortedTranscripts          <span class="comment">%identity of aborted transcripts (transcripts X [transcription Unit, length])</span>
+0069         totalBaseCounts             <span class="comment">%total base counts of aborted transcripts</span>
+0070     <span class="keyword">end</span>   
+0071     
+0072     <span class="comment">%dependent state</span>
+0073     properties (Dependent = true)
+0074         abortedSequences            <span class="comment">%sequences of aborted transcripts</span>
+0075         rnaMaxRNAPolymeraseState    <span class="comment">%Maximum nascent transcript length of each transcription unit</span>
+0076         rnaBoundRNAPolymerases      <span class="comment">%Number of RNA polymerases actively transcribing each gene</span>
+0077     <span class="keyword">end</span>
+0078 
+0079     properties (Dependent = true)
+0080         dryWeight                   <span class="comment">%dry weight of this class' state properties</span>
+0081     <span class="keyword">end</span>
+0082     
+0083     <span class="comment">%references to other parts of cell state</span>
+0084     properties   
+0085         chromosome        
+0086     <span class="keyword">end</span>
+0087 
+0088     <span class="comment">%constructor</span>
+0089     methods
+0090         <a name="_sub0" href="#_subfunctions" class="code">function this = Transcript(wholeCellModelID, name)</a>
+0091             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);            
+0092         <span class="keyword">end</span>
+0093     <span class="keyword">end</span>
+0094     
+0095     methods
+0096         <span class="comment">%build object graph</span>
+0097         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0098             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0099         <span class="keyword">end</span>
+0100         
+0101         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0102             this.initializeConstants@edu.stanford.covert.cell.sim.CellState(knowledgeBase, simulation);
+0103             
+0104             this.genomeLength                           = knowledgeBase.genome.sequenceLength;
+0105             
+0106             this.transcriptionUnitWholeCellModelIDs     = {knowledgeBase.transcriptionUnits.wholeCellModelID}';
+0107             this.transcriptionUnitFivePrimeCoordinates  = [knowledgeBase.transcriptionUnits.fivePrimeCoordinate]';
+0108             this.transcriptionUnitDirections            = [knowledgeBase.transcriptionUnits.direction]';
+0109             this.transcriptionUnitSequences             = {knowledgeBase.transcriptionUnits.sequence}';
+0110             this.transcriptionUnitLengths               = [knowledgeBase.transcriptionUnits.sequenceLength]';
+0111             
+0112             this.nmpMolecularWeights = simulation.state(<span class="string">'Metabolite'</span>).molecularWeights(simulation.state(<span class="string">'Metabolite'</span>).nmpIndexs);
+0113         <span class="keyword">end</span>
+0114     <span class="keyword">end</span>
+0115     
+0116     <span class="comment">%allocate memory for state</span>
+0117     methods
+0118         <a name="_sub3" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)   </a>
+0119             this.boundTranscriptionUnits   = zeros(0, 1, numTimePoints);
+0120             this.boundTranscriptProgress   = zeros(0, 1, numTimePoints);
+0121             this.boundTranscriptChromosome = zeros(0, 1, numTimePoints);
+0122             
+0123             this.abortedTranscripts = zeros(0, 2, numTimePoints);
+0124         <span class="keyword">end</span>
+0125     <span class="keyword">end</span>
+0126     
+0127     methods
+0128         <a name="_sub4" href="#_subfunctions" class="code">function initialize(this)</a>
+0129             this.abortedTranscripts = zeros(0, 2);
+0130         <span class="keyword">end</span>
+0131     <span class="keyword">end</span>
+0132     
+0133     <span class="comment">%getters</span>
+0134     methods
+0135         <a name="_sub5" href="#_subfunctions" class="code">function value = get.dryWeight(this)</a>
+0136             import edu.stanford.covert.util.ConstantUtil;
+0137             
+0138             nSeq = 0;
+0139             seq = [];
+0140             
+0141             <span class="comment">%actively transcribing transcripts</span>
+0142             <span class="keyword">for</span> i = 1:size(this.boundTranscriptionUnits, 1)
+0143                 <span class="keyword">if</span> this.boundTranscriptProgress(i) &gt; this.nullTranscriptValue
+0144                     nSeq = nSeq + 1;
+0145                     seq = [seq this.transcriptionUnitSequences{this.boundTranscriptionUnits(i)}(1:(this.boundTranscriptProgress(i) - 1))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0146                 <span class="keyword">end</span>
+0147             <span class="keyword">end</span>
+0148             
+0149             <span class="comment">%aborted</span>
+0150             <span class="keyword">for</span> i = 1:size(this.abortedTranscripts, 1)
+0151                 <span class="keyword">if</span> this.abortedTranscripts(i, 1) ~= 0
+0152                     nSeq = nSeq + 1;
+0153                     seq = [seq this.transcriptionUnitSequences{this.abortedTranscripts(i, 1)}(1:this.abortedTranscripts(i, 2))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0154                 <span class="keyword">end</span>
+0155             <span class="keyword">end</span>
+0156             
+0157             <span class="comment">%mass</span>
+0158             value = (<span class="keyword">...</span>
+0159                 + [sum(seq == <span class="string">'A'</span>) sum(seq == <span class="string">'C'</span>) sum(seq == <span class="string">'G'</span>) sum(seq == <span class="string">'U'</span>)] * this.nmpMolecularWeights <span class="keyword">...</span>
+0160                 - (numel(seq) - nSeq) * (ConstantUtil.elements.H + ConstantUtil.elements.O) <span class="keyword">...</span>
+0161                 ) / ConstantUtil.nAvogadro;
+0162         <span class="keyword">end</span>
+0163         
+0164         <a name="_sub6" href="#_subfunctions" class="code">function value = get.abortedSequences(this)</a>
+0165             value = cell(size(this.abortedTranscripts, 1), 1);
+0166             <span class="keyword">for</span> i = 1:size(this.abortedTranscripts, 1)
+0167                 <span class="keyword">if</span> this.abortedTranscripts(i, 1) == 0
+0168                     <span class="keyword">continue</span>;
+0169                 <span class="keyword">end</span>
+0170                 value{i} = this.transcriptionUnitSequences{this.abortedTranscripts(i, 1)}(1:this.abortedTranscripts(i, 2));
+0171             <span class="keyword">end</span>
+0172         <span class="keyword">end</span>
+0173         
+0174         <a name="_sub7" href="#_subfunctions" class="code">function value = get.totalBaseCounts(this)</a>
+0175             import edu.stanford.covert.cell.kb.ssRNA;
+0176             
+0177             value = zeros(1, 4);
+0178             
+0179             <span class="keyword">for</span> i = 1:size(this.boundTranscriptionUnits, 1)
+0180                 <span class="keyword">if</span> this.boundTranscriptProgress(i) &gt; this.nullTranscriptValue
+0181                     seq = this.transcriptionUnitSequences{this.boundTranscriptionUnits(i)}(1:(this.boundTranscriptProgress(i) - 1));
+0182                     value = value + ssRNA.computeBaseCount(seq, 4, 1:4);
+0183                 <span class="keyword">end</span>
+0184             <span class="keyword">end</span>
+0185             
+0186             abortedSeqs = this.abortedSequences;
+0187             <span class="keyword">for</span> i = 1:numel(abortedSeqs)
+0188                 value = value + ssRNA.computeBaseCount(abortedSeqs{i}, 4, 1:4);
+0189             <span class="keyword">end</span>
+0190         <span class="keyword">end</span>
+0191         
+0192         <span class="comment">%Maximum nascent transcript length of each transcription unit</span>
+0193         <a name="_sub8" href="#_subfunctions" class="code">function value = get.rnaMaxRNAPolymeraseState(this)</a>
+0194             value = zeros(length(this.transcriptionUnitLengths), 1, size(this.boundTranscriptionUnits, 3));
+0195             <span class="keyword">for</span> i = 1:size(this.boundTranscriptionUnits, 1)
+0196                 <span class="keyword">for</span> k = 1:size(this.boundTranscriptionUnits, 3)
+0197                     boundTranscriptionUnit = this.boundTranscriptionUnits(i, 1, k);
+0198                     <span class="keyword">if</span> boundTranscriptionUnit == 0
+0199                         <span class="keyword">continue</span>;
+0200                     <span class="keyword">end</span>
+0201                     value(boundTranscriptionUnit, 1, k) = max(<span class="keyword">...</span>
+0202                         value(boundTranscriptionUnit, 1, k),<span class="keyword">...</span>
+0203                         this.transcriptionUnitLengths(i, 1, k));
+0204                 <span class="keyword">end</span>
+0205             <span class="keyword">end</span>
+0206         <span class="keyword">end</span>
+0207 
+0208         <span class="comment">%Number of RNA polymerases actively transcribing each gene</span>
+0209         <a name="_sub9" href="#_subfunctions" class="code">function value = get.rnaBoundRNAPolymerases(this)</a>
+0210             nTUs = numel(this.transcriptionUnitLengths);
+0211             nTimePoints = size(this.boundTranscriptionUnits, 3);
+0212             value = zeros(nTUs, 1, nTimePoints);
+0213             <span class="keyword">for</span> k = 1:nTimePoints
+0214                 value(:, 1, k) = histc(this.boundTranscriptionUnits(:, 1, k), 1:nTUs);
+0215             <span class="keyword">end</span>
+0216         <span class="keyword">end</span>
+0217     <span class="keyword">end</span>
+0218 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

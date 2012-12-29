@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Cytokinesis</title>
+  <meta name="keywords" content="Cytokinesis">
+  <meta name="description" content="Cytokinesis">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; Cytokinesis.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Cytokinesis
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Cytokinesis</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Cytokinesis
+
+ @wholeCellModelID Process_Cytokinesis
+ @name             Cytokinesis
+ @description
+
+   Cytokinesis is the division of the cytoplasm, achieved by the pinching of
+   the cell membrane. At a high level, it occurs by the formation of a
+   contractile Z ring along the interior surface of the cell membrane. The ring
+   is comprised of GTP-activated ftsZ polymer filaments that bend when their
+   GTP is hydrolized. Cytokinesis is thus a cycle of filament binding, bending,
+   and dissociation.
+
+   This process is based on the model described in Li et al. 2007.
+     1. Filaments bind the membrane end-to-end to form a regular polygon
+        (inscribed in the pinched cell circumference). Two filaments bind at
+        each polygon edge.
+     2. If there was a previous cycle, then when at least one filament has
+        bound each polygon edge, the last remaining ring of bent filaments from
+        the previous cycle can begin to dissociate.
+     3. When all polygon edges have two filaments bound and all residual bent
+        filaments have dissociated, the bending of the edges of the newly
+        completed polygon may begin. For simplicity, all of the GTP in the pair
+        of filaments at a particular edge hydrolyze at the same time.
+     4. When all the filaments have been bent, the bent filaments can begin
+        dissociating -- but only one from each polygon edge. The other ring
+        must remain to maintain the new smaller pinched circumference.
+     5. When only one ring of bent filaments remains, the cycle repeats.
+     6. Cytokinesis concludes when the pinched diameter is smaller than the
+        length of one filament.
+
+   How bending works:
+    - Filaments are bound in the straight configuration, forming a polygon
+      inscribed in the cell circumference.
+    - When the filaments bend, their length does not change. They bend just
+      enough so that when they've all bent, a new circle is formed. Its
+      circumference equals the old polygon's perimeter. Each fragment is now
+      an arc.
+
+   In this version of the model, all filaments are of a fixed length. When they
+   are joined end-to-end to form a regular polygon, the polygon does not quite
+   fully inscribe the entire circumference. This remaining portion of the
+   circumference does not bent when the polygon does. It is preserved and
+   accounted for in the next iteration. For more details, see Li et al. 2007.
+
+   Note: Lluch-Senar et al have shown that M. genitalium cell division can occur 
+   in the absence of FtsZ. Lluch-Senar showed that division occurs in ftsZ knockouts
+   through motility.      
+
+   References
+   ==========
+   1. Lluch-Senar M, Querol E, Pinol J (2010). Cell division in a minimal bacterium 
+      in the absence of ftsZ. Mol Microbiol. 78(2): 278-89. [PUB_0796]
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 9/7/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Cytokinesis.html" class="code" title="">Cytokinesis</a>	Cytokinesis</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Cytokinesis.html" class="code" title="">Cytokinesis</a>	Cytokinesis</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Cytokinesis(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub5" class="code">function initializeState(~)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li><li><a href="#_sub8" class="code">function result = calcNextPinchedDiameter(pinchedDiameter, filamentLengthInNm)</a></li><li><a href="#_sub9" class="code">function [nCycles, nGTP] = calcRequiredPinchingCycles(diameter, numFtsZSubunitsPerFilament, filamentLengthInNm)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Cytokinesis</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_Cytokinesis</span>
+0004 <span class="comment">% @name             Cytokinesis</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   Cytokinesis is the division of the cytoplasm, achieved by the pinching of</span>
+0008 <span class="comment">%   the cell membrane. At a high level, it occurs by the formation of a</span>
+0009 <span class="comment">%   contractile Z ring along the interior surface of the cell membrane. The ring</span>
+0010 <span class="comment">%   is comprised of GTP-activated ftsZ polymer filaments that bend when their</span>
+0011 <span class="comment">%   GTP is hydrolized. Cytokinesis is thus a cycle of filament binding, bending,</span>
+0012 <span class="comment">%   and dissociation.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%   This process is based on the model described in Li et al. 2007.</span>
+0015 <span class="comment">%     1. Filaments bind the membrane end-to-end to form a regular polygon</span>
+0016 <span class="comment">%        (inscribed in the pinched cell circumference). Two filaments bind at</span>
+0017 <span class="comment">%        each polygon edge.</span>
+0018 <span class="comment">%     2. If there was a previous cycle, then when at least one filament has</span>
+0019 <span class="comment">%        bound each polygon edge, the last remaining ring of bent filaments from</span>
+0020 <span class="comment">%        the previous cycle can begin to dissociate.</span>
+0021 <span class="comment">%     3. When all polygon edges have two filaments bound and all residual bent</span>
+0022 <span class="comment">%        filaments have dissociated, the bending of the edges of the newly</span>
+0023 <span class="comment">%        completed polygon may begin. For simplicity, all of the GTP in the pair</span>
+0024 <span class="comment">%        of filaments at a particular edge hydrolyze at the same time.</span>
+0025 <span class="comment">%     4. When all the filaments have been bent, the bent filaments can begin</span>
+0026 <span class="comment">%        dissociating -- but only one from each polygon edge. The other ring</span>
+0027 <span class="comment">%        must remain to maintain the new smaller pinched circumference.</span>
+0028 <span class="comment">%     5. When only one ring of bent filaments remains, the cycle repeats.</span>
+0029 <span class="comment">%     6. Cytokinesis concludes when the pinched diameter is smaller than the</span>
+0030 <span class="comment">%        length of one filament.</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   How bending works:</span>
+0033 <span class="comment">%    - Filaments are bound in the straight configuration, forming a polygon</span>
+0034 <span class="comment">%      inscribed in the cell circumference.</span>
+0035 <span class="comment">%    - When the filaments bend, their length does not change. They bend just</span>
+0036 <span class="comment">%      enough so that when they've all bent, a new circle is formed. Its</span>
+0037 <span class="comment">%      circumference equals the old polygon's perimeter. Each fragment is now</span>
+0038 <span class="comment">%      an arc.</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   In this version of the model, all filaments are of a fixed length. When they</span>
+0041 <span class="comment">%   are joined end-to-end to form a regular polygon, the polygon does not quite</span>
+0042 <span class="comment">%   fully inscribe the entire circumference. This remaining portion of the</span>
+0043 <span class="comment">%   circumference does not bent when the polygon does. It is preserved and</span>
+0044 <span class="comment">%   accounted for in the next iteration. For more details, see Li et al. 2007.</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   Note: Lluch-Senar et al have shown that M. genitalium cell division can occur</span>
+0047 <span class="comment">%   in the absence of FtsZ. Lluch-Senar showed that division occurs in ftsZ knockouts</span>
+0048 <span class="comment">%   through motility.</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   References</span>
+0051 <span class="comment">%   ==========</span>
+0052 <span class="comment">%   1. Lluch-Senar M, Querol E, Pinol J (2010). Cell division in a minimal bacterium</span>
+0053 <span class="comment">%      in the absence of ftsZ. Mol Microbiol. 78(2): 278-89. [PUB_0796]</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0056 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0057 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0058 <span class="comment">% Last updated: 9/7/2010</span>
+0059 
+0060 classdef <a href="Cytokinesis.html" class="code" title="">Cytokinesis</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0061     <span class="comment">%property annotations</span>
+0062     properties (Constant)
+0063         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0064         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0065             <span class="string">'rateFtsZGtpHydrolysis'</span>;    
+0066             <span class="string">'rateFilamentBindingMembrane'</span>;
+0067             <span class="string">'rateFilamentDissociation'</span>;
+0068             };
+0069         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0070         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0071     <span class="keyword">end</span>
+0072     
+0073     <span class="comment">%IDs, names, and local indices</span>
+0074     properties
+0075         stimuliWholeCellModelIDs = {};           <span class="comment">%whole cell model IDs of stimuli</span>
+0076 
+0077         substrateWholeCellModelIDs = {           <span class="comment">%whole cell model IDs of substrates</span>
+0078             <span class="string">'PI'</span>;<span class="string">'H2O'</span>;<span class="string">'H'</span>};
+0079         substrateIndexs_phosphate   = 1;
+0080         substrateIndexs_water       = 2;
+0081         substrateIndexs_hydrogen    = 3;
+0082 
+0083         enzymeWholeCellModelIDs = {              <span class="comment">%whole cell model IDs of enzymes</span>
+0084             <span class="string">'MG_224_9MER_GTP'</span>;      <span class="comment">%cell division protein ftsZ polymer activated</span>
+0085             <span class="string">'MG_224_9MER_GDP'</span>;      <span class="comment">%cell division protein ftsZ polymer deactivated and bound to cell membrane</span>
+0086             <span class="string">'MG_224_MONOMER_GDP'</span>;   <span class="comment">%cell division protein ftsZ deactivated (monomer)</span>
+0087             <span class="string">'MG_224_MONOMER_GTP'</span>};  <span class="comment">%cell division protein ftsZ activated (monomer)</span>
+0088         enzymeIndexs_ftsZ_GTP_polymer = 1;
+0089         enzymeIndexs_ftsZ_GDP_polymer = 2;
+0090         enzymeIndexs_ftsZ_GDP         = 3;
+0091         enzymeIndexs_ftsZ_GTP         = 4;
+0092     <span class="keyword">end</span>
+0093 
+0094     <span class="comment">%fixed biological constants</span>
+0095     properties        
+0096         rateFtsZGtpHydrolysis           <span class="comment">%FtsZ-GTP filament hydrolysis rate (1/s) [0.15 1/s; Huecas 2007]</span>
+0097         rateFilamentBindingMembrane     <span class="comment">%FtsZ-GTP filament binding rate (1/s) [0.7; not measured, fit by sensitivity analysis]</span>
+0098         rateFilamentDissociation        <span class="comment">%FtsZ-GDP filament dissociation rate (1/s) [0.7; not measured, fit by sensitivity analysis]</span>
+0099     <span class="keyword">end</span>
+0100 
+0101     <span class="comment">%global state (referenced locally for convenience)</span>
+0102     properties
+0103         ftsZRing
+0104     <span class="keyword">end</span>
+0105 
+0106     <span class="comment">%constructor</span>
+0107     methods
+0108         <a name="_sub0" href="#_subfunctions" class="code">function this = Cytokinesis(wholeCellModelID, name)</a>
+0109             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0110         <span class="keyword">end</span>
+0111     <span class="keyword">end</span>
+0112     
+0113     methods
+0114         <span class="comment">%retrieve references to state objects from simulation</span>
+0115         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0116             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0117             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0118             
+0119             this.ftsZRing = simulation.state(<span class="string">'FtsZRing'</span>);
+0120             this.states = [this.states; {this.ftsZRing}];
+0121         <span class="keyword">end</span>
+0122     <span class="keyword">end</span>
+0123 
+0124     <span class="comment">%communication between process/simulation</span>
+0125     methods
+0126         <span class="comment">%initialize constants</span>
+0127         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, varargin)</a>
+0128             this.initializeConstants@edu.stanford.covert.cell.sim.Process(varargin{:});
+0129             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(varargin{:});
+0130         <span class="keyword">end</span>
+0131     <span class="keyword">end</span>
+0132 
+0133     <span class="comment">%model</span>
+0134     methods
+0135         <span class="comment">%Calculate</span>
+0136         <span class="comment">%- contribution to FBA objective</span>
+0137         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0138         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0139             <span class="comment">%initialize</span>
+0140             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0141             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0142             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0143             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0144             
+0145             <span class="comment">%substrate and byproducts: FtsZ polymerization uses GTP to make</span>
+0146             <span class="comment">%FtsZ-GTP filaments for cytokinesis. Hydrolysis of the bound GTP is</span>
+0147             <span class="comment">%coupled to contraction in cytokinesis. Here we account for the free</span>
+0148             <span class="comment">%metabolites involved in the hydrolysis of bound GTP to GDP. GTP and</span>
+0149             <span class="comment">%GDP are accounted for in FtsZPolymerization.</span>
+0150             [~, gtpCost] = this.calcRequiredPinchingCycles(this.geometry.width, this.ftsZRing.numFtsZSubunitsPerFilament, this.ftsZRing.filamentLengthInNm);
+0151             
+0152             bmProd(this.substrateIndexs_water)     = gtpCost;
+0153             byProd(this.substrateIndexs_phosphate) = gtpCost;
+0154             byProd(this.substrateIndexs_hydrogen)  = gtpCost;
+0155             
+0156             <span class="comment">%enzymes: three Z-ring filament equivalents are needed</span>
+0157             minEnzExp(this.enzymeIndexs_ftsZ_GTP_polymer) = <span class="keyword">...</span>
+0158                 4 * this.ftsZRing.calcNumEdges(this.geometry.width, this.ftsZRing.filamentLengthInNm);
+0159         <span class="keyword">end</span>
+0160 
+0161         <span class="comment">%initialization</span>
+0162         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(~)</a>
+0163         <span class="keyword">end</span>
+0164 
+0165         <span class="comment">%resource requirements</span>
+0166         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0167             result = zeros(size(this.substrates));
+0168             result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0169                 this.ftsZRing.numFtsZSubunitsPerFilament * this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer);
+0170         <span class="keyword">end</span>
+0171 
+0172         <span class="comment">%simulation</span>
+0173         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0174             <span class="keyword">if</span> ~this.chromosome.segregated
+0175                 <span class="keyword">return</span>
+0176             <span class="keyword">end</span>
+0177             
+0178             ring = this.ftsZRing;
+0179 
+0180             <span class="comment">%% Bind two straight filaments at each polygon edge.</span>
+0181             <span class="keyword">if</span> ring.numEdgesTwoBent == 0 &amp;&amp; ~this.geometry.pinched
+0182                 <span class="keyword">for</span> j = 1:2  <span class="comment">%either filament can bind an edge first</span>
+0183                     <span class="keyword">for</span> i = 1:(ring.numEdges-ring.numEdgesOneStraight-ring.numEdgesTwoStraight)
+0184                         <span class="keyword">if</span> this.randStream.rand() &lt;= this.rateFilamentBindingMembrane &amp;&amp; <span class="keyword">...</span>
+0185                            this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer) &gt;= 1
+0186                             this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer)      = this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer)      - 1;
+0187                             this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) = this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) + 1;
+0188                             ring.numEdgesOneStraight = ring.numEdgesOneStraight + 1;
+0189                         <span class="keyword">end</span>
+0190                     <span class="keyword">end</span>
+0191                 <span class="keyword">end</span>
+0192                 <span class="keyword">for</span> i = 1:ring.numEdgesOneStraight
+0193                     <span class="keyword">if</span> this.randStream.rand() &lt;= this.rateFilamentBindingMembrane &amp;&amp; <span class="keyword">...</span>
+0194                        this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer) &gt;= 1
+0195                         this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer)      = this.enzymes(this.enzymeIndexs_ftsZ_GTP_polymer)      - 1;
+0196                         this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) = this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) + 1;
+0197                         ring.numEdgesOneStraight = ring.numEdgesOneStraight - 1;
+0198                         ring.numEdgesTwoStraight = ring.numEdgesTwoStraight + 1;
+0199                     <span class="keyword">end</span>
+0200                 <span class="keyword">end</span>
+0201             <span class="keyword">end</span>
+0202 
+0203             <span class="comment">%% Unbind any residual bent ftsZ filaments when new ring has formed.</span>
+0204             <span class="keyword">if</span> ring.numEdgesOneStraight + ring.numEdgesTwoStraight == ring.numEdges || this.geometry.pinched
+0205                 <span class="keyword">for</span> i = 1:ring.numResidualBent
+0206                     <span class="keyword">if</span> this.randStream.rand() &lt;= this.rateFilamentDissociation
+0207                         ring.numResidualBent = ring.numResidualBent - 1;
+0208                         
+0209                         <span class="comment">%the filaments fall off as monomers</span>
+0210                         this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) = <span class="keyword">...</span>
+0211                             this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) - 1;
+0212                         this.enzymes(this.enzymeIndexs_ftsZ_GDP) = <span class="keyword">...</span>
+0213                             this.enzymes(this.enzymeIndexs_ftsZ_GDP) + <span class="keyword">...</span>
+0214                             ring.numFtsZSubunitsPerFilament;
+0215                     <span class="keyword">end</span>
+0216                 <span class="keyword">end</span>
+0217             <span class="keyword">end</span>
+0218 
+0219             <span class="comment">%% Hydrolize GTP to bend filaments. Update diameter when done.</span>
+0220             <span class="keyword">if</span> ring.numEdgesTwoBent + ring.numEdgesTwoStraight == ring.numEdges &amp;&amp; <span class="keyword">...</span>
+0221                ring.numEdgesTwoStraight &gt; 0 &amp;&amp; ring.numResidualBent == 0
+0222                 <span class="keyword">for</span> i = 1:ring.numEdgesTwoStraight
+0223                     n = 2 * ring.numFtsZSubunitsPerFilament;
+0224                     <span class="keyword">if</span> this.randStream.rand() &lt;= this.rateFtsZGtpHydrolysis &amp;&amp; this.substrates(this.substrateIndexs_water) &gt;= n
+0225                         ring.numEdgesTwoStraight = ring.numEdgesTwoStraight - 1;
+0226                         ring.numEdgesTwoBent = ring.numEdgesTwoBent + 1;
+0227                         
+0228                         <span class="comment">%account for hydrolysis: H2O, PI, H</span>
+0229                         this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - n;
+0230                         this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + n;
+0231                         this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + n;
+0232                         
+0233                         <span class="comment">%bound polymers are now ftsZ-GDP</span>
+0234                         this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) = this.boundEnzymes(this.enzymeIndexs_ftsZ_GTP_polymer) - 2;
+0235                         this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) = this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) + 2;
+0236                     <span class="keyword">end</span>
+0237                 <span class="keyword">end</span>
+0238                 <span class="keyword">if</span> ring.numEdgesTwoStraight == 0 &amp;&amp; ~this.geometry.pinched
+0239                     this.geometry.pinchedDiameter = this.calcNextPinchedDiameter(this.geometry.pinchedDiameter, this.ftsZRing.filamentLengthInNm);
+0240                 <span class="keyword">end</span>
+0241             <span class="keyword">end</span>
+0242 
+0243             <span class="comment">%% The first of the two bent ftsZ rings falls off.</span>
+0244             <span class="keyword">if</span> ring.numEdgesTwoStraight == 0
+0245                 <span class="keyword">for</span> i = 1:ring.numEdgesTwoBent
+0246                     <span class="keyword">if</span> this.randStream.rand() &lt;= this.rateFilamentDissociation
+0247                         ring.numEdgesTwoBent = ring.numEdgesTwoBent - 1;
+0248                         ring.numResidualBent = ring.numResidualBent + 1;
+0249                         
+0250                         <span class="comment">%filaments fall off depolymerized</span>
+0251                         this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) = <span class="keyword">...</span>
+0252                             this.boundEnzymes(this.enzymeIndexs_ftsZ_GDP_polymer) - 1;
+0253                         this.enzymes(this.enzymeIndexs_ftsZ_GDP) = <span class="keyword">...</span>
+0254                             this.enzymes(this.enzymeIndexs_ftsZ_GDP) + <span class="keyword">...</span>
+0255                             ring.numFtsZSubunitsPerFilament;
+0256                     <span class="keyword">end</span>
+0257                 <span class="keyword">end</span>
+0258             <span class="keyword">end</span>
+0259         <span class="keyword">end</span>
+0260     <span class="keyword">end</span>
+0261 
+0262     <span class="comment">%model helpers</span>
+0263     methods (Static)
+0264         <a name="_sub7" href="#_subfunctions" class="code">function result = calcNextPinchedDiameter(pinchedDiameter, filamentLengthInNm)</a>
+0265             import edu.stanford.covert.cell.sim.state.FtsZRing;
+0266             
+0267             numEdges = FtsZRing.calcNumEdges(pinchedDiameter, filamentLengthInNm);
+0268             
+0269             <span class="comment">%the diameter of the circle that circumscribes the regular polygon</span>
+0270             <span class="comment">%having numEdges sides</span>
+0271             flooredDiameter = filamentLengthInNm * 1e-9 / sin(pi/numEdges);
+0272             
+0273             <span class="comment">%the diameter of the circle whose circumference consists of the</span>
+0274             <span class="comment">%bound, bent filaments</span>
+0275             newDiameter = filamentLengthInNm * 1e-9 * numEdges / pi;
+0276             
+0277             <span class="comment">%the parenthesized expression makes up for floor error in numEdges</span>
+0278             result = newDiameter + (pinchedDiameter - flooredDiameter);
+0279             
+0280             <span class="comment">%if no additional pinching necessary set pinched diameter to zero</span>
+0281             <span class="keyword">if</span> result &lt;= filamentLengthInNm * 1e-9
+0282                 result = 0;
+0283             <span class="keyword">end</span>
+0284         <span class="keyword">end</span>
+0285         
+0286         <span class="comment">%calculate GTP used by FtsZ polymerization to make FtsZ-GTP</span>
+0287         <span class="comment">%filaments for cytokinesis and account for hydrolysis of FtsZ-GTP</span>
+0288         <span class="comment">%filaments during contraction in cytokinesis</span>
+0289         <a name="_sub8" href="#_subfunctions" class="code">function [nCycles, nGTP] = calcRequiredPinchingCycles(diameter, numFtsZSubunitsPerFilament, filamentLengthInNm)</a>
+0290             import edu.stanford.covert.cell.sim.process.Cytokinesis;
+0291             import edu.stanford.covert.cell.sim.state.FtsZRing;
+0292             
+0293             nCycles  = 0;
+0294             nGTP     = 0;
+0295             <span class="keyword">while</span> diameter &gt; 0
+0296                 nCycles  = nCycles + 1;
+0297                 nGTP     = nGTP + 2 * numFtsZSubunitsPerFilament * FtsZRing.calcNumEdges(diameter, filamentLengthInNm);
+0298                 diameter = Cytokinesis.calcNextPinchedDiameter(diameter, filamentLengthInNm);
+0299             <span class="keyword">end</span>
+0300         <span class="keyword">end</span>
+0301     <span class="keyword">end</span>
+0302 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

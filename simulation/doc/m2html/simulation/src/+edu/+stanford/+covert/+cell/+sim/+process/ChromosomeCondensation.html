@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeCondensation</title>
+  <meta name="keywords" content="ChromosomeCondensation">
+  <meta name="description" content="ChromosomeCondensation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ChromosomeCondensation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeCondensation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomeCondensation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ChromosomeCondensation
+
+ @wholeCellModelID Process_ChromosomeCondensation
+ @name             Chromosome Condensation
+ @description
+   Biology
+   =====================================================================
+   Chromosome segregation requires that the DNA be highly compacted.
+   Structural maintenance of chromosome (SMC) complexes are &quot;V&quot; shaped
+   proteins (with an head and two legs) that induce positive supercoils in
+   double stranded DNA (Porter et al., 2004). The complexes are believed to
+   work with a lock and key mechanism in which first DNA is looped around
+   the legs of the SMC complex, and then an ATP is bound between the two
+   tails to lock the SMC complex in place. The complexes bind and clamp the
+   DNA causing many loops in the DNA and compacting it. The loops around
+   each leg occupy 90bp. A loop of about 450bp forms between the two SMC
+   complex legs (Jensen and Shapiro, 2003, Strick and Kawaguchi, 2004).
+   Further, it has been inferred that there is about 1 SMC complex per every
+   7000bp (Jensen and Shapiro, 2003).
+
+   The initial chromosome is bound by SMC complexes averaging 7000bp spacing.
+   As the replication loop proceeds, the SMC complexes that it encounters
+   are displaced.  Once the DNA has been replicated, SMC complexes are
+   randomly bound to the DNA such that their spacing averages 7000bp. Each
+   SMC complex occupies 630bp, and no two SMC complexes can occupy the same
+   space. Both the decision of whether an SMC complex will bind at a given
+   time point and the binding location are random. SMC complexes do not fall
+   off the chromosomes unless due to the force of the replication loop. The
+   two chromosomes are tracked separately.
+
+   Knowledge Base
+   =====================================================================
+   The knowledge base contains the values of the parameters: smcSepNt and
+   smcSepProbCenter. The knowledge base also contains the measured DNA
+   footprint of each SMC complex. These footprints are loaded by the
+   Chromosome class from the knowledge base. This class retrieves the
+   footprint from the Chromosome class.
+
+   Representation
+   =====================================================================
+   substrates, enzymes, and boundEnzymes represent the counts of free
+   metabolites, free SMC complexes, and chromosome-bound SMC complexes. The
+   chromosomes property represents the specific base positions where the
+   chromosome-bound SMC complexes are located.
+
+   enzymeDNAFootprints represents the experimentally measured DNA footprint of each
+   SMC complex. smcSepNt represents the experimentally observed average SMC
+   complex spacing  [PUB_0517]. smcSepProbCenter is a parameter which controls
+   the SMC binding probability transfer function. smcSepProbCenter is not an
+   experimentally measured quantity. Rather, its value is pinned by several
+   constraints: implemented in the ChromosomeCondensation_Test class
+   testCalculateBindingPositionWithinRegion and testInitializeStateConverged
+   methods. These constraints are:
+   - Consistent with an SMC density of approximately 1/smSepNt
+   - Consistent with fast binding of multiple SMCs to large unbound regions
+   - Consistent with slow binding of SMCs to small unbound regions
+
+   Algorithm
+   =====================================================================
+   1. Calculate expected number of SMC complexes that should bind chromosomes
+      a. Calculate regions where SMCs can bind (regions either between SMC
+         complexes or between SMC complexes and replication bubble)
+      b. Compute the expected number of binding complexes as the ratio of the
+         sum of the lengths of the regions to the average SMC spacing
+   2. For 1 to minimum of free SMC complexs, ATP, and expected number of SMCs
+      that that should bind chromosome
+      A. Calculate regions where SMCs can bind (regions either between SMC
+         complexes or between SMC complexes and replication bubble)
+         a. Starting coordinate
+         b. Chromosomes
+         c. Lengths
+         d. Probability of SMC binding each region
+      B. Pick a region for SMC complex to bind
+      C. Pick a position within region for SMC complex to bind
+      D. Form SMC-ADP complex:
+         a. Decrement SMC. Increment SMC-ADP
+         b. Decrement ATP, H2O. Increment PI, H.
+      E. Bind SMC-ADP complex to chromosome
+         a. Decrement free SMC-ADP complex
+         b. Increment bound SMC-ADP complex
+
+   The probability that an SMC complex binds a region of length L is given by
+   the step function
+     p(L) = 1/smcSepNt * max(0, L/2-smcSepProbCenter)
+
+   The conditional probability that an SMC complex binds a position within
+   region assuming that the SMC complex is binding the region is given by
+    p(x) = 1/(L-2*smcSepProbCenter)  if x&gt;smcSepProbCenter and x&lt;L-smcSepProbCenter,
+           0                         otherwise
+
+   References
+   =====================================================================
+   1. Ullsperger, C., Cozzarelli, N.R. (1996). Contrasting enzymatic activities
+      of topoisomerase IV and DnA gyrase from Escherichia coli. Journal of Bio
+      Chem 271: 31549-31555.
+   2. Dekker, N.H., Viard, T., Bouthier de la Tour, C., Duguet, M., Bensimon,
+      D., Croquette, V. (2003). Thermophilic Topoisomerase I on a single DNA
+      molecule. Journal of molecular biology 329: 271-282.
+   3. Gore, J., Bryant, Z., Stone, M.D., Nollmann, M., Cozzarelli, N.R.,
+      Bustamante, C. (2006). Mechanochemical analysis of DNA gyrase using rotor
+      bead tracking. Nature 439: 100-104.
+   4. Bates, A. (2006). DNA Topoisomerases: Single Gyrase Caught in the Act.
+      Current Biology 16: 204-206.
+   5. Jensen, R.B, Shapiro, L. (2003). Cell-Cycle-Regulated Expression and
+      Subcellular Localization of the Caulobacter crescentus SMC Chromosome
+      Structural Protein. Journal of Bacteriology 185: 3068-3075. [PUB_0517]
+   6. Strick, T.R., Kawaguchi, T. (2004). Real-time detection of single-molecule
+      DNA compaction by condensing I. Current biology 14: 874-880.
+   7. Tadesse, S., Mascarenhas, J., Kosters, B., Hasilik, A., Graumann, P.L.
+      (2005). Genetic interaction of the SMC complex with topoisomerase IV in
+      Bacillus subtilis. Microbiology 151: 3729-3737.
+   8. Bloom, K., Joglekar, A. (2010). Towards building a chromosome segregation
+      machine. Nature 463: 446-456.
+   9. Porter, I.M., Khoudoli, G.A., Swedlow, J.R. (2004). Chromosome
+      condensation: DNA compaction in real time. Current Biology 14: 554-556.
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 6/9/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeCondensation.html" class="code" title="">ChromosomeCondensation</a>	ChromosomeCondensation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeCondensation.html" class="code" title="">ChromosomeCondensation</a>	ChromosomeCondensation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ChromosomeCondensation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a></li><li><a href="#_sub5" class="code">function initializeState(this)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li><li><a href="#_sub8" class="code">function [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegions(this, rgnPosStrnds, rgnLens, ~, rgnIdx, offset)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ChromosomeCondensation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ChromosomeCondensation</span>
+0004 <span class="comment">% @name             Chromosome Condensation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   =====================================================================</span>
+0008 <span class="comment">%   Chromosome segregation requires that the DNA be highly compacted.</span>
+0009 <span class="comment">%   Structural maintenance of chromosome (SMC) complexes are &quot;V&quot; shaped</span>
+0010 <span class="comment">%   proteins (with an head and two legs) that induce positive supercoils in</span>
+0011 <span class="comment">%   double stranded DNA (Porter et al., 2004). The complexes are believed to</span>
+0012 <span class="comment">%   work with a lock and key mechanism in which first DNA is looped around</span>
+0013 <span class="comment">%   the legs of the SMC complex, and then an ATP is bound between the two</span>
+0014 <span class="comment">%   tails to lock the SMC complex in place. The complexes bind and clamp the</span>
+0015 <span class="comment">%   DNA causing many loops in the DNA and compacting it. The loops around</span>
+0016 <span class="comment">%   each leg occupy 90bp. A loop of about 450bp forms between the two SMC</span>
+0017 <span class="comment">%   complex legs (Jensen and Shapiro, 2003, Strick and Kawaguchi, 2004).</span>
+0018 <span class="comment">%   Further, it has been inferred that there is about 1 SMC complex per every</span>
+0019 <span class="comment">%   7000bp (Jensen and Shapiro, 2003).</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   The initial chromosome is bound by SMC complexes averaging 7000bp spacing.</span>
+0022 <span class="comment">%   As the replication loop proceeds, the SMC complexes that it encounters</span>
+0023 <span class="comment">%   are displaced.  Once the DNA has been replicated, SMC complexes are</span>
+0024 <span class="comment">%   randomly bound to the DNA such that their spacing averages 7000bp. Each</span>
+0025 <span class="comment">%   SMC complex occupies 630bp, and no two SMC complexes can occupy the same</span>
+0026 <span class="comment">%   space. Both the decision of whether an SMC complex will bind at a given</span>
+0027 <span class="comment">%   time point and the binding location are random. SMC complexes do not fall</span>
+0028 <span class="comment">%   off the chromosomes unless due to the force of the replication loop. The</span>
+0029 <span class="comment">%   two chromosomes are tracked separately.</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   Knowledge Base</span>
+0032 <span class="comment">%   =====================================================================</span>
+0033 <span class="comment">%   The knowledge base contains the values of the parameters: smcSepNt and</span>
+0034 <span class="comment">%   smcSepProbCenter. The knowledge base also contains the measured DNA</span>
+0035 <span class="comment">%   footprint of each SMC complex. These footprints are loaded by the</span>
+0036 <span class="comment">%   Chromosome class from the knowledge base. This class retrieves the</span>
+0037 <span class="comment">%   footprint from the Chromosome class.</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   Representation</span>
+0040 <span class="comment">%   =====================================================================</span>
+0041 <span class="comment">%   substrates, enzymes, and boundEnzymes represent the counts of free</span>
+0042 <span class="comment">%   metabolites, free SMC complexes, and chromosome-bound SMC complexes. The</span>
+0043 <span class="comment">%   chromosomes property represents the specific base positions where the</span>
+0044 <span class="comment">%   chromosome-bound SMC complexes are located.</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   enzymeDNAFootprints represents the experimentally measured DNA footprint of each</span>
+0047 <span class="comment">%   SMC complex. smcSepNt represents the experimentally observed average SMC</span>
+0048 <span class="comment">%   complex spacing  [PUB_0517]. smcSepProbCenter is a parameter which controls</span>
+0049 <span class="comment">%   the SMC binding probability transfer function. smcSepProbCenter is not an</span>
+0050 <span class="comment">%   experimentally measured quantity. Rather, its value is pinned by several</span>
+0051 <span class="comment">%   constraints: implemented in the ChromosomeCondensation_Test class</span>
+0052 <span class="comment">%   testCalculateBindingPositionWithinRegion and testInitializeStateConverged</span>
+0053 <span class="comment">%   methods. These constraints are:</span>
+0054 <span class="comment">%   - Consistent with an SMC density of approximately 1/smSepNt</span>
+0055 <span class="comment">%   - Consistent with fast binding of multiple SMCs to large unbound regions</span>
+0056 <span class="comment">%   - Consistent with slow binding of SMCs to small unbound regions</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   Algorithm</span>
+0059 <span class="comment">%   =====================================================================</span>
+0060 <span class="comment">%   1. Calculate expected number of SMC complexes that should bind chromosomes</span>
+0061 <span class="comment">%      a. Calculate regions where SMCs can bind (regions either between SMC</span>
+0062 <span class="comment">%         complexes or between SMC complexes and replication bubble)</span>
+0063 <span class="comment">%      b. Compute the expected number of binding complexes as the ratio of the</span>
+0064 <span class="comment">%         sum of the lengths of the regions to the average SMC spacing</span>
+0065 <span class="comment">%   2. For 1 to minimum of free SMC complexs, ATP, and expected number of SMCs</span>
+0066 <span class="comment">%      that that should bind chromosome</span>
+0067 <span class="comment">%      A. Calculate regions where SMCs can bind (regions either between SMC</span>
+0068 <span class="comment">%         complexes or between SMC complexes and replication bubble)</span>
+0069 <span class="comment">%         a. Starting coordinate</span>
+0070 <span class="comment">%         b. Chromosomes</span>
+0071 <span class="comment">%         c. Lengths</span>
+0072 <span class="comment">%         d. Probability of SMC binding each region</span>
+0073 <span class="comment">%      B. Pick a region for SMC complex to bind</span>
+0074 <span class="comment">%      C. Pick a position within region for SMC complex to bind</span>
+0075 <span class="comment">%      D. Form SMC-ADP complex:</span>
+0076 <span class="comment">%         a. Decrement SMC. Increment SMC-ADP</span>
+0077 <span class="comment">%         b. Decrement ATP, H2O. Increment PI, H.</span>
+0078 <span class="comment">%      E. Bind SMC-ADP complex to chromosome</span>
+0079 <span class="comment">%         a. Decrement free SMC-ADP complex</span>
+0080 <span class="comment">%         b. Increment bound SMC-ADP complex</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">%   The probability that an SMC complex binds a region of length L is given by</span>
+0083 <span class="comment">%   the step function</span>
+0084 <span class="comment">%     p(L) = 1/smcSepNt * max(0, L/2-smcSepProbCenter)</span>
+0085 <span class="comment">%</span>
+0086 <span class="comment">%   The conditional probability that an SMC complex binds a position within</span>
+0087 <span class="comment">%   region assuming that the SMC complex is binding the region is given by</span>
+0088 <span class="comment">%    p(x) = 1/(L-2*smcSepProbCenter)  if x&gt;smcSepProbCenter and x&lt;L-smcSepProbCenter,</span>
+0089 <span class="comment">%           0                         otherwise</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   References</span>
+0092 <span class="comment">%   =====================================================================</span>
+0093 <span class="comment">%   1. Ullsperger, C., Cozzarelli, N.R. (1996). Contrasting enzymatic activities</span>
+0094 <span class="comment">%      of topoisomerase IV and DnA gyrase from Escherichia coli. Journal of Bio</span>
+0095 <span class="comment">%      Chem 271: 31549-31555.</span>
+0096 <span class="comment">%   2. Dekker, N.H., Viard, T., Bouthier de la Tour, C., Duguet, M., Bensimon,</span>
+0097 <span class="comment">%      D., Croquette, V. (2003). Thermophilic Topoisomerase I on a single DNA</span>
+0098 <span class="comment">%      molecule. Journal of molecular biology 329: 271-282.</span>
+0099 <span class="comment">%   3. Gore, J., Bryant, Z., Stone, M.D., Nollmann, M., Cozzarelli, N.R.,</span>
+0100 <span class="comment">%      Bustamante, C. (2006). Mechanochemical analysis of DNA gyrase using rotor</span>
+0101 <span class="comment">%      bead tracking. Nature 439: 100-104.</span>
+0102 <span class="comment">%   4. Bates, A. (2006). DNA Topoisomerases: Single Gyrase Caught in the Act.</span>
+0103 <span class="comment">%      Current Biology 16: 204-206.</span>
+0104 <span class="comment">%   5. Jensen, R.B, Shapiro, L. (2003). Cell-Cycle-Regulated Expression and</span>
+0105 <span class="comment">%      Subcellular Localization of the Caulobacter crescentus SMC Chromosome</span>
+0106 <span class="comment">%      Structural Protein. Journal of Bacteriology 185: 3068-3075. [PUB_0517]</span>
+0107 <span class="comment">%   6. Strick, T.R., Kawaguchi, T. (2004). Real-time detection of single-molecule</span>
+0108 <span class="comment">%      DNA compaction by condensing I. Current biology 14: 874-880.</span>
+0109 <span class="comment">%   7. Tadesse, S., Mascarenhas, J., Kosters, B., Hasilik, A., Graumann, P.L.</span>
+0110 <span class="comment">%      (2005). Genetic interaction of the SMC complex with topoisomerase IV in</span>
+0111 <span class="comment">%      Bacillus subtilis. Microbiology 151: 3729-3737.</span>
+0112 <span class="comment">%   8. Bloom, K., Joglekar, A. (2010). Towards building a chromosome segregation</span>
+0113 <span class="comment">%      machine. Nature 463: 446-456.</span>
+0114 <span class="comment">%   9. Porter, I.M., Khoudoli, G.A., Swedlow, J.R. (2004). Chromosome</span>
+0115 <span class="comment">%      condensation: DNA compaction in real time. Current Biology 14: 554-556.</span>
+0116 <span class="comment">%</span>
+0117 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0118 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0119 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0120 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0121 <span class="comment">% Last updated: 6/9/2010</span>
+0122 classdef <a href="ChromosomeCondensation.html" class="code" title="">ChromosomeCondensation</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0123     
+0124     <span class="comment">%indices</span>
+0125     properties (Constant)
+0126         optionNames__              = {}; <span class="comment">%names of properties that are options</span>
+0127         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0128             <span class="string">'smcSepNt'</span>;
+0129             <span class="string">'smcSepProbCenter'</span>;
+0130             };
+0131         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0132         localStateNames__          = {}; <span class="comment">%names of properties that are simulation state owned by the simulation or other processes</span>
+0133     <span class="keyword">end</span>
+0134     
+0135     <span class="comment">%IDs, names, and local indices</span>
+0136     properties
+0137         stimuliWholeCellModelIDs = {};
+0138         
+0139         substrateWholeCellModelIDs = {
+0140             <span class="string">'ATP'</span>; <span class="string">'ADP'</span>; <span class="string">'PI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0141         substrateIndexs_atp       = 1;
+0142         substrateIndexs_adp       = 2;
+0143         substrateIndexs_phosphate = 3;
+0144         substrateIndexs_water     = 4;
+0145         substrateIndexs_hydrogen  = 5;
+0146         
+0147         enzymeWholeCellModelIDs = {
+0148             <span class="string">'MG_213_214_298_6MER'</span>;      <span class="comment">%Chromosome Segregation Protein SMC with SCP Proteins</span>
+0149             <span class="string">'MG_213_214_298_6MER_ADP'</span>;  <span class="comment">%Chromosome Segregation Protein SMC with SCP Proteins-ADP</span>
+0150             };
+0151         enzymeIndexs_SMC     = 1;
+0152         enzymeIndexs_SMC_ADP = 2;
+0153     <span class="keyword">end</span>
+0154    
+0155     <span class="comment">%fixed biological constants</span>
+0156     properties
+0157         smcSepNt           <span class="comment">%1 SMC complex per 7130 nt [PUB_0517]</span>
+0158         smcSepProbCenter   <span class="comment">%where SMC binding probability transitions from 0 to 1, on the order of smcSepNt</span>
+0159     <span class="keyword">end</span>
+0160     
+0161     methods
+0162         <span class="comment">%constructor</span>
+0163         <a name="_sub0" href="#_subfunctions" class="code">function this = ChromosomeCondensation(wholeCellModelID, name)</a>
+0164             this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0165         <span class="keyword">end</span>
+0166     <span class="keyword">end</span>
+0167     
+0168     <span class="comment">%communication between process/simulation</span>
+0169     methods
+0170         <span class="comment">%set references to state objects</span>
+0171         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0172             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0173             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0174         <span class="keyword">end</span>
+0175         
+0176         <span class="comment">%initialize constants</span>
+0177         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0178             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0179                 knowledgeBase, simulation, varargin{:});
+0180             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(<span class="keyword">...</span>
+0181                 knowledgeBase, simulation, varargin{:});
+0182         <span class="keyword">end</span>       
+0183         
+0184         <span class="comment">%Calculate</span>
+0185         <span class="comment">%- contribution to FBA objective</span>
+0186         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0187         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, states)</a>
+0188             <span class="comment">%% initialize</span>
+0189             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0190             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0191             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0192             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0193             
+0194             <span class="comment">%% substrate and byproducts</span>
+0195             <span class="comment">%ATP required for SMCs to bind chromosome</span>
+0196             <span class="comment">%- 1 ATP for each new SMCs for new chromosome</span>
+0197             <span class="comment">%- 1 ATP to rebind SMCs following displacement by DNA polymerase</span>
+0198             <span class="comment">%  during replication</span>
+0199             <span class="comment">%- 1 ATP to rebind SMCs following displacement by RNA polymerase</span>
+0200             <span class="comment">%  during transcription throughout cell cycle</span>
+0201             <span class="comment">%  Estimated by multiplying fraction of chromosome covered by</span>
+0202             <span class="comment">%  SMCs by number of RNA polymerases and integrating over time.</span>
+0203             <span class="comment">%  Factor of 0.2 added based on observing simulations</span>
+0204             nSMCs = sum(states.complexProductions(this.enzymeGlobalIndexs(this.enzymeIndexs_SMC_ADP)));
+0205             nATP = 0.2 * nSMCs * this.enzymeDNAFootprints(this.enzymeIndexs_SMC_ADP) / this.chromosome.sequenceLen * <span class="keyword">...</span>
+0206                 sum(states.complexs0(this.complex.rnaPolymeraseIndexs)) * constants.states.Time.cellCycleLength / log(2);
+0207             
+0208             <span class="comment">%ATP and hydrolysis byproducts (ATP + H2O ==&gt; ADP + PI + H)</span>
+0209             bmProd(this.substrateIndexs_atp)       = nATP;
+0210             bmProd(this.substrateIndexs_water)     = nATP;
+0211             byProd(this.substrateIndexs_adp)       = nATP - nSMCs;
+0212             byProd(this.substrateIndexs_phosphate) = nATP;
+0213             byProd(this.substrateIndexs_hydrogen)  = nATP;
+0214             
+0215             <span class="comment">%% enzymes: sufficient SMC proteins to predict spacing consistent with experimental observations</span>
+0216             minEnzExp(this.enzymeIndexs_SMC) = <span class="keyword">...</span>
+0217                 ceil(this.chromosome.sequenceLen / this.smcSepNt);
+0218         <span class="keyword">end</span>       
+0219         
+0220         <span class="comment">%Initialize to steady SMC-bound state. A test class verifies convergence</span>
+0221         <span class="comment">%to a steady-state.</span>
+0222         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(this)</a>
+0223             substrates = this.substrates;
+0224             this.substrates(this.substrateIndexs_atp) = Inf;
+0225             this.substrates(this.substrateIndexs_water) = Inf;
+0226             <span class="keyword">for</span> i = 1:20
+0227                 this.evolveState();
+0228             <span class="keyword">end</span>
+0229             this.substrates = substrates;
+0230         <span class="keyword">end</span>
+0231         
+0232         <span class="comment">%resource requirements</span>
+0233         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0234             result = zeros(size(this.substrates));
+0235             result(this.substrateIndexs_atp)   = this.enzymes(this.enzymeIndexs_SMC);
+0236             result(this.substrateIndexs_water) = this.enzymes(this.enzymeIndexs_SMC);
+0237         <span class="keyword">end</span>
+0238         
+0239         <span class="comment">%simulation</span>
+0240         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0241             <span class="comment">%% dissociate free SMC-ADP complexes</span>
+0242             this.enzymes(this.enzymeIndexs_SMC)       = this.enzymes(this.enzymeIndexs_SMC)       + this.enzymes(this.enzymeIndexs_SMC_ADP);
+0243             this.substrates(this.substrateIndexs_adp) = this.substrates(this.substrateIndexs_adp) + this.enzymes(this.enzymeIndexs_SMC_ADP);
+0244             this.enzymes(this.enzymeIndexs_SMC_ADP)   = 0;
+0245             
+0246             <span class="comment">%% bind SMCs to DNA up to limit of available SMCs and energy</span>
+0247             nBindingMax = min([<span class="keyword">...</span>
+0248                 this.substrates(this.substrateIndexs_atp) <span class="keyword">...</span>
+0249                 this.substrates(this.substrateIndexs_water) <span class="keyword">...</span>
+0250                 this.enzymes(this.enzymeIndexs_SMC)]);
+0251             <span class="keyword">if</span> nBindingMax == 0
+0252                 <span class="keyword">return</span>;
+0253             <span class="keyword">end</span>
+0254             
+0255             c = this.chromosome;
+0256             [posStrnds, lens] = find(c.polymerizedRegions);
+0257             smcPosStrands = find(c.complexBoundSites == this.enzymeGlobalIndexs(this.enzymeIndexs_SMC_ADP));
+0258             smcPosStrands = [
+0259                 mod(smcPosStrands(:,1)-this.smcSepNt/2-this.smcSepProbCenter/2+this.enzymeDNAFootprints(this.enzymeIndexs_SMC_ADP)/2 -1, c.sequenceLen)+1  2*ceil(smcPosStrands(:,2)/2)-1;
+0260                 mod(smcPosStrands(:,1)-this.smcSepNt/2-this.smcSepProbCenter/2+this.enzymeDNAFootprints(this.enzymeIndexs_SMC_ADP)/2 -1, c.sequenceLen)+1  2*ceil(smcPosStrands(:,2)/2)];
+0261             [posStrnds, lens] = c.excludeRegions(posStrnds, lens, smcPosStrands, this.smcSepNt(ones(size(smcPosStrands, 1), 1), 1) + this.smcSepProbCenter);
+0262             <span class="keyword">if</span> isempty(posStrnds)
+0263                 <span class="keyword">return</span>;
+0264             <span class="keyword">end</span>
+0265             
+0266             nBound = this.bindProteinToChromosomeStochastically(<span class="keyword">...</span>
+0267                 this.enzymeIndexs_SMC_ADP,<span class="keyword">...</span>
+0268                 nBindingMax, posStrnds, lens, [], [], @this.calcNewRegions);
+0269             <span class="keyword">if</span> nBound == 0
+0270                 <span class="keyword">return</span>;
+0271             <span class="keyword">end</span>
+0272             
+0273             <span class="comment">%% update molecule counts</span>
+0274             <span class="comment">%- covalently bind ATP to SMC</span>
+0275             <span class="comment">%- hydrolyze ATP, leaving ADP bound to SMC and releasing PI</span>
+0276             <span class="comment">%- bind SMC-ADP to chromosome (already handled by bindProtein method)</span>
+0277             this.enzymes(this.enzymeIndexs_SMC)             = this.enzymes(this.enzymeIndexs_SMC)             - nBound;
+0278             this.enzymes(this.enzymeIndexs_SMC_ADP)         = this.enzymes(this.enzymeIndexs_SMC_ADP)         + nBound;
+0279             
+0280             this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - nBound;
+0281             this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - nBound;
+0282             this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + nBound;
+0283             this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + nBound;
+0284         <span class="keyword">end</span>
+0285         
+0286         <a name="_sub7" href="#_subfunctions" class="code">function [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegions(this, rgnPosStrnds, rgnLens, ~, rgnIdx, offset)</a>
+0287             c = this.chromosome;
+0288             [rgnPosStrnds, rgnLens] = c.excludeRegions(rgnPosStrnds, rgnLens, <span class="keyword">...</span>
+0289                 [mod(rgnPosStrnds(rgnIdx,1)+offset -this.smcSepNt/2-this.smcSepProbCenter/2+this.enzymeDNAFootprints(this.enzymeIndexs_SMC_ADP)/2 -1, c.sequenceLen)+1 <span class="keyword">...</span>
+0290                 rgnPosStrnds(rgnIdx,2)], this.smcSepNt + this.smcSepProbCenter);
+0291             rgnProbs = max(0, rgnLens - this.enzymeDNAFootprints(this.enzymeIndexs_SMC_ADP) + 1);
+0292         <span class="keyword">end</span>
+0293     <span class="keyword">end</span>
+0294 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

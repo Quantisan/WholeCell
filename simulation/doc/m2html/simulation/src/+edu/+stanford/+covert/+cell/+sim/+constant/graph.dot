@@ -1,0 +1,12 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  ChromosomeSequence -> ChromosomeSequence;
+  Compartment -> Compartment;
+  Condition -> Condition;
+  Gene -> Gene;
+
+  ChromosomeSequence [URL="ChromosomeSequence.html"];
+  Compartment [URL="Compartment.html"];
+  Condition [URL="Condition.html"];
+  Gene [URL="Gene.html"];
+}

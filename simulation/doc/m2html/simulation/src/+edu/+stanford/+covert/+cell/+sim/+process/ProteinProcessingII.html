@@ -1,0 +1,619 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinProcessingII</title>
+  <meta name="keywords" content="ProteinProcessingII">
+  <meta name="description" content="Protein Processing II">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinProcessingII.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinProcessingII
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Processing II</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Processing II
+
+ @wholeCellModelID Process_ProteinProcessingII
+ @name             Protein Processing II
+ @description
+   Biology
+   ===============
+   Proteins are produced in the cytoplasm, and integral membrane proteins,
+   lipoproteins, and extracellular proteins must be translocated into and
+   through the cell membrane to reach their intended destination. To be
+   recognized by the translocation machinery lipoprotein and secreted proteins
+   contain type II N-terminal signal sequences, which are typically 10-15 amino
+   acids long and positively charged. Following translocation lipoproteins must
+   be anchored to the outter leaflet of the cell membrane by the addition of
+   diacylglyceryl by diacylglyceryl transferase (Lgt, MG_086) to what will
+   become the C-terminal cysteine, and their signal sequence must be cleaved by
+   signal peptidase II (LspA, MG_210) at lipoboxes (L[ASI][GA]C). M. genitalium
+   does not contain an apolipoprotein transacylase [PUB_0655, PUB_0656,
+   PUB_0657]. The signal peptides of secreted proteins is similarly cleaved.
+
+   This process simulates lipoprotein and secreted protein maturation:
+   - diacylglyceryl transfer – Lgt (MG_086) catalyzes transfer of
+     diacylglycerol group to sulfhydryl group of lipobox cysteine
+     [PUB_0654].
+   - signal peptide cleavage – LspA (MG_210) cleaves lipoprotein at
+     lipobox cysteine [PUB_0654].
+
+   Knowledge Base
+   ===============
+   The localization of each protein, and the signal peptide type and length of
+   lipoproteins and secreted proteins was compiled from several sources (see
+   protein translocation process). The information was organized in the
+   knowledge base, and is the type of each signal peptide is encoded in the
+   this process's lipoproteinMonomerIndexs, secretedMonomerIndexs, and
+   unprocessedMonomerIndexs properties by initializeConstants.
+
+   Representation
+   ===============
+   The substrates and enzymes represents the counts of available metabolites
+   and diacylglyceryl transferase and signal peptidase enzymes.
+   unprocessedMonomers, processedMonomers, and signalSequenceMonomers represent
+   the counts of unanchored, uncleaved protein monomers; anchored, cleaved
+   protein monomers; and the separted, free signal sequences. This process does
+   not represent any intermediate states in the anchoring and cleavage of lipo-
+   and secreted proteins. This process consideres anchoring and cleavage to be
+   an all-or-nothing event.
+
+   The lipoproteinMonomerIndexs and secretedMonomerIndexs properties represent
+   the indices of lipo-and secreted proteins and their released signal
+   sequences within unprocessedMonomers, processedMonomers, and
+   signalSequenceMonomers. unprocessedMonomerIndexs indicating the indices of
+   non-lipo-, non-secreted proteins and their released signal sequences (not
+   used in simulation; only allocated for convenience and parallelism) within
+   unprocessedMonomers, processedMonomers, and signalSequenceMonomers.
+
+   Initialization
+   ===============
+   All protein monomers are initialized to the mature state. This is
+   accomplished by the simulation class initializeState method.
+
+   Simulation
+   ===============
+   1. Compute the maximum number of peptides that can be processed based on the
+      availability of metabolites, and of the two enzymes.
+   2. Randomly select peptides to be processed, weighted by the counts of each
+      protein species.
+   3. Update the counts of unprocessed and processed proteins monomers.
+      Decrement the counts of available metabolites and enzyme activity.
+   4. Compute the maximum number of peptides which don't require anchoring that
+      can be processed based on the availability of signal peptidase II
+      activity.
+   5. Randomly select peptides to be cleaved, weighted by the counts of
+      each protein species.
+   6. Update the counts of unprocessed and processed proteins monomers.
+      Decrement the counts of available signal peptidase II activity.
+   7. Transition proteins which don't requiring anchoring or cleavage (eg.
+      cytosolic and integral membrane proteins). That is set processedMonomers
+      equal to its sum with unprocessedMonomers for these monomers, and set
+      unprocessedMonomers to zero for these monomers.
+
+   References
+   ===============
+   1. Chambaud I, Wróblewski H, Blanchard A (1999). Interactions between
+      mycoplasma lipoproteins and the host immune system. Trends
+      Microbiol. 7(12): 493-9. [PUB_0654].
+   2. Chambaud I, Heilig R, Ferris S, Barbe V, Samson D, Galisson F,
+      Moszer I, Dybvig K, Wroblewski H, Viari A, Rocha EP, Blanchard A
+      (2001). The complete genome sequence of the murine respiratory
+      pathogen. Mycoplasma pulmonis. Nucleic Acids Res. 29(10):2145-53.
+      [PUB_0655]
+   3. Muhlradt PF, Kiess M, Meyer H, Süssmuth R, Jung G (1997). Isolation,
+      structure elucidation, and synthesis of a macrophage stimulatory
+      lipopeptide from Mycoplasma fermentans acting at picomolar
+      concentration. J Exp Med. 185(11):1951-8. [PUB_0656].
+   4. Piec G, Mirkovitch J, Palacio S, Muhlradt PF, Felix R (1999). Effect
+      of MALP-2, a lipopeptide from Mycoplasma fermentans, on bone
+      resorption in vitro. Infect Immun. 67(12):6281-5. [PUB_0657].
+   5. Sankaran K, Wu HC (1994). Lipid modification of bacterial
+      prolipoprotein. Transfer of diacylglyceryl moiety from
+      phosphatidylglycerol. J Biol Chem. 269(31):19701-6. [PUB_0266]
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/9/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinProcessingII.html" class="code" title="">ProteinProcessingII</a>	Protein Processing II</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinProcessingII.html" class="code" title="">ProteinProcessingII</a>	Protein Processing II</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinProcessingII(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function copyFromState(this)</a></li><li><a href="#_sub4" class="code">function copyToState(this)</a></li><li><a href="#_sub5" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(~)</a></li><li><a href="#_sub8" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub9" class="code">function evolveState(this)</a></li><li><a href="#_sub10" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Protein Processing II</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinProcessingII</span>
+0004 <span class="comment">% @name             Protein Processing II</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   Proteins are produced in the cytoplasm, and integral membrane proteins,</span>
+0009 <span class="comment">%   lipoproteins, and extracellular proteins must be translocated into and</span>
+0010 <span class="comment">%   through the cell membrane to reach their intended destination. To be</span>
+0011 <span class="comment">%   recognized by the translocation machinery lipoprotein and secreted proteins</span>
+0012 <span class="comment">%   contain type II N-terminal signal sequences, which are typically 10-15 amino</span>
+0013 <span class="comment">%   acids long and positively charged. Following translocation lipoproteins must</span>
+0014 <span class="comment">%   be anchored to the outter leaflet of the cell membrane by the addition of</span>
+0015 <span class="comment">%   diacylglyceryl by diacylglyceryl transferase (Lgt, MG_086) to what will</span>
+0016 <span class="comment">%   become the C-terminal cysteine, and their signal sequence must be cleaved by</span>
+0017 <span class="comment">%   signal peptidase II (LspA, MG_210) at lipoboxes (L[ASI][GA]C). M. genitalium</span>
+0018 <span class="comment">%   does not contain an apolipoprotein transacylase [PUB_0655, PUB_0656,</span>
+0019 <span class="comment">%   PUB_0657]. The signal peptides of secreted proteins is similarly cleaved.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   This process simulates lipoprotein and secreted protein maturation:</span>
+0022 <span class="comment">%   - diacylglyceryl transfer – Lgt (MG_086) catalyzes transfer of</span>
+0023 <span class="comment">%     diacylglycerol group to sulfhydryl group of lipobox cysteine</span>
+0024 <span class="comment">%     [PUB_0654].</span>
+0025 <span class="comment">%   - signal peptide cleavage – LspA (MG_210) cleaves lipoprotein at</span>
+0026 <span class="comment">%     lipobox cysteine [PUB_0654].</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   Knowledge Base</span>
+0029 <span class="comment">%   ===============</span>
+0030 <span class="comment">%   The localization of each protein, and the signal peptide type and length of</span>
+0031 <span class="comment">%   lipoproteins and secreted proteins was compiled from several sources (see</span>
+0032 <span class="comment">%   protein translocation process). The information was organized in the</span>
+0033 <span class="comment">%   knowledge base, and is the type of each signal peptide is encoded in the</span>
+0034 <span class="comment">%   this process's lipoproteinMonomerIndexs, secretedMonomerIndexs, and</span>
+0035 <span class="comment">%   unprocessedMonomerIndexs properties by initializeConstants.</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   Representation</span>
+0038 <span class="comment">%   ===============</span>
+0039 <span class="comment">%   The substrates and enzymes represents the counts of available metabolites</span>
+0040 <span class="comment">%   and diacylglyceryl transferase and signal peptidase enzymes.</span>
+0041 <span class="comment">%   unprocessedMonomers, processedMonomers, and signalSequenceMonomers represent</span>
+0042 <span class="comment">%   the counts of unanchored, uncleaved protein monomers; anchored, cleaved</span>
+0043 <span class="comment">%   protein monomers; and the separted, free signal sequences. This process does</span>
+0044 <span class="comment">%   not represent any intermediate states in the anchoring and cleavage of lipo-</span>
+0045 <span class="comment">%   and secreted proteins. This process consideres anchoring and cleavage to be</span>
+0046 <span class="comment">%   an all-or-nothing event.</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   The lipoproteinMonomerIndexs and secretedMonomerIndexs properties represent</span>
+0049 <span class="comment">%   the indices of lipo-and secreted proteins and their released signal</span>
+0050 <span class="comment">%   sequences within unprocessedMonomers, processedMonomers, and</span>
+0051 <span class="comment">%   signalSequenceMonomers. unprocessedMonomerIndexs indicating the indices of</span>
+0052 <span class="comment">%   non-lipo-, non-secreted proteins and their released signal sequences (not</span>
+0053 <span class="comment">%   used in simulation; only allocated for convenience and parallelism) within</span>
+0054 <span class="comment">%   unprocessedMonomers, processedMonomers, and signalSequenceMonomers.</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   Initialization</span>
+0057 <span class="comment">%   ===============</span>
+0058 <span class="comment">%   All protein monomers are initialized to the mature state. This is</span>
+0059 <span class="comment">%   accomplished by the simulation class initializeState method.</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   Simulation</span>
+0062 <span class="comment">%   ===============</span>
+0063 <span class="comment">%   1. Compute the maximum number of peptides that can be processed based on the</span>
+0064 <span class="comment">%      availability of metabolites, and of the two enzymes.</span>
+0065 <span class="comment">%   2. Randomly select peptides to be processed, weighted by the counts of each</span>
+0066 <span class="comment">%      protein species.</span>
+0067 <span class="comment">%   3. Update the counts of unprocessed and processed proteins monomers.</span>
+0068 <span class="comment">%      Decrement the counts of available metabolites and enzyme activity.</span>
+0069 <span class="comment">%   4. Compute the maximum number of peptides which don't require anchoring that</span>
+0070 <span class="comment">%      can be processed based on the availability of signal peptidase II</span>
+0071 <span class="comment">%      activity.</span>
+0072 <span class="comment">%   5. Randomly select peptides to be cleaved, weighted by the counts of</span>
+0073 <span class="comment">%      each protein species.</span>
+0074 <span class="comment">%   6. Update the counts of unprocessed and processed proteins monomers.</span>
+0075 <span class="comment">%      Decrement the counts of available signal peptidase II activity.</span>
+0076 <span class="comment">%   7. Transition proteins which don't requiring anchoring or cleavage (eg.</span>
+0077 <span class="comment">%      cytosolic and integral membrane proteins). That is set processedMonomers</span>
+0078 <span class="comment">%      equal to its sum with unprocessedMonomers for these monomers, and set</span>
+0079 <span class="comment">%      unprocessedMonomers to zero for these monomers.</span>
+0080 <span class="comment">%</span>
+0081 <span class="comment">%   References</span>
+0082 <span class="comment">%   ===============</span>
+0083 <span class="comment">%   1. Chambaud I, Wróblewski H, Blanchard A (1999). Interactions between</span>
+0084 <span class="comment">%      mycoplasma lipoproteins and the host immune system. Trends</span>
+0085 <span class="comment">%      Microbiol. 7(12): 493-9. [PUB_0654].</span>
+0086 <span class="comment">%   2. Chambaud I, Heilig R, Ferris S, Barbe V, Samson D, Galisson F,</span>
+0087 <span class="comment">%      Moszer I, Dybvig K, Wroblewski H, Viari A, Rocha EP, Blanchard A</span>
+0088 <span class="comment">%      (2001). The complete genome sequence of the murine respiratory</span>
+0089 <span class="comment">%      pathogen. Mycoplasma pulmonis. Nucleic Acids Res. 29(10):2145-53.</span>
+0090 <span class="comment">%      [PUB_0655]</span>
+0091 <span class="comment">%   3. Muhlradt PF, Kiess M, Meyer H, Süssmuth R, Jung G (1997). Isolation,</span>
+0092 <span class="comment">%      structure elucidation, and synthesis of a macrophage stimulatory</span>
+0093 <span class="comment">%      lipopeptide from Mycoplasma fermentans acting at picomolar</span>
+0094 <span class="comment">%      concentration. J Exp Med. 185(11):1951-8. [PUB_0656].</span>
+0095 <span class="comment">%   4. Piec G, Mirkovitch J, Palacio S, Muhlradt PF, Felix R (1999). Effect</span>
+0096 <span class="comment">%      of MALP-2, a lipopeptide from Mycoplasma fermentans, on bone</span>
+0097 <span class="comment">%      resorption in vitro. Infect Immun. 67(12):6281-5. [PUB_0657].</span>
+0098 <span class="comment">%   5. Sankaran K, Wu HC (1994). Lipid modification of bacterial</span>
+0099 <span class="comment">%      prolipoprotein. Transfer of diacylglyceryl moiety from</span>
+0100 <span class="comment">%      phosphatidylglycerol. J Biol Chem. 269(31):19701-6. [PUB_0266]</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0103 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0104 <span class="comment">% Last updated: 8/9/2010</span>
+0105 classdef  <a href="ProteinProcessingII.html" class="code" title="">ProteinProcessingII</a> &lt; edu.stanford.covert.cell.sim.Process
+0106     <span class="comment">%property annotations</span>
+0107     properties (Constant)
+0108         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0109         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0110             <span class="string">'lipoproteinSignalPeptidaseSpecificRate'</span>;
+0111             <span class="string">'lipoproteinDiacylglycerylTransferaseSpecificRate'</span>;
+0112             };        
+0113         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0114         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0115             <span class="string">'unprocessedMonomers'</span>;
+0116             <span class="string">'processedMonomers'</span>;
+0117             <span class="string">'signalSequenceMonomers'</span>};
+0118     <span class="keyword">end</span>
+0119 
+0120     <span class="comment">%IDs, names, and local indices</span>
+0121     properties
+0122         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0123 
+0124         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0125             <span class="string">'H2O'</span>;
+0126             <span class="string">'diacylglycerolCys'</span>;
+0127             <span class="string">'PG160'</span>;
+0128             <span class="string">'SNGLYP'</span>;
+0129             <span class="string">'H'</span>};
+0130         substrateIndexs_water             = 1; <span class="comment">%index within substrates of water</span>
+0131         substrateIndexs_diacylglycerolCys = 2; <span class="comment">%index within substrates of diacylglycerol cysteine</span>
+0132         substrateIndexs_PG160             = 3; <span class="comment">%index within substrates of PG160</span>
+0133         substrateIndexs_SNGLYP            = 4; <span class="comment">%index within substrates of sn-glycerol-1-phosphate</span>
+0134         substrateIndexs_hydrogen          = 5; <span class="comment">%index within substrates of hydrogen</span>
+0135 
+0136         enzymeWholeCellModelIDs = { <span class="comment">%enzyme whole cell model ids</span>
+0137             <span class="string">'MG_210_MONOMER'</span>        <span class="comment">%prolipoprotein signal peptidase, signal peptidase II</span>
+0138             <span class="string">'MG_086_MONOMER'</span>        <span class="comment">%prolipoprotein diacylglyceryl transferase</span>
+0139             };
+0140         enzymeIndexs_signalPeptidase           = 1; <span class="comment">%index within enzymes of prolipoprotein signal peptidase, signal peptidase II</span>
+0141         enzymeIndexs_diacylglycerylTransferase = 2; <span class="comment">%index within enzymes of prolipoprotein diacylglyceryl transferase</span>
+0142 
+0143         monomerCompartments                    <span class="comment">%compartment indices (within compartment.wholeCellModelIDs) of monomers</span>
+0144 
+0145         lipoproteinMonomerIndexs               <span class="comment">%indices within unprocessedMonomers of lipoproteins</span>
+0146         secretedMonomerIndexs                  <span class="comment">%indices within unprocessedMonomers of secreted proteins</span>
+0147         unprocessedMonomerIndexs               <span class="comment">%indices within unprocessedMonomers of non-lipoproteins, non-secreted proteins</span>
+0148 
+0149         unprocessedMonomerWholeCellModelIDs    <span class="comment">%whole cell model IDs of unprocessed monomers</span>
+0150         processedMonomerWholeCellModelIDs      <span class="comment">%whole cell model IDs of processed monomers</span>
+0151         signalSequenceMonomerWholeCellModelIDs <span class="comment">%whole cell model IDs of signal sequences</span>
+0152     <span class="keyword">end</span>
+0153     
+0154     <span class="comment">%fixed biological constants</span>
+0155     properties
+0156         lipoproteinSignalPeptidaseSpecificRate             <span class="comment">%number of reactions per second (11) [PUB_0008]</span>
+0157         lipoproteinDiacylglycerylTransferaseSpecificRate   <span class="comment">%number of reactions per second (0.0165) [PUB_0157, PUB_0158]</span>
+0158     <span class="keyword">end</span>
+0159 
+0160     <span class="comment">%global state (stored locally for convenience)</span>
+0161     properties
+0162         unprocessedMonomers     <span class="comment">%counts of unprocessed protein monomers [unprocessed X 1]</span>
+0163         processedMonomers       <span class="comment">%counts of processed protein monomers [processed X 1]</span>
+0164         signalSequenceMonomers  <span class="comment">%counts of cleaved signal sequences [signal sequence X 1]</span>
+0165     <span class="keyword">end</span>
+0166 
+0167     <span class="comment">%constructor</span>
+0168     methods
+0169         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinProcessingII(wholeCellModelID, name)</a>
+0170             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0171         <span class="keyword">end</span>
+0172     <span class="keyword">end</span>
+0173 
+0174     <span class="comment">%communication between process/simulation</span>
+0175     methods
+0176         <span class="comment">%initialize constants</span>
+0177         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0178             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0179                 knowledgeBase, simulation, varargin{:});
+0180 
+0181             this.unprocessedMonomerWholeCellModelIDs    = this.monomer.wholeCellModelIDs(this.monomer.processedIIndexs);
+0182             this.processedMonomerWholeCellModelIDs      = this.monomer.wholeCellModelIDs(this.monomer.processedIIIndexs);
+0183             this.signalSequenceMonomerWholeCellModelIDs = this.monomer.wholeCellModelIDs(this.monomer.signalSequenceIndexs);
+0184 
+0185             this.monomerCompartments = double(knowledgeBase.proteinMonomerCompartments);
+0186             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0187             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0188 
+0189             this.lipoproteinMonomerIndexs = find(strcmp(<span class="keyword">...</span>
+0190                 {knowledgeBase.proteinMonomers.signalSequenceType},<span class="string">'lipoprotein'</span>))';
+0191             this.secretedMonomerIndexs = find(strcmp(<span class="keyword">...</span>
+0192                 {knowledgeBase.proteinMonomers.signalSequenceType},<span class="string">'secretory'</span>))';
+0193             this.unprocessedMonomerIndexs = setdiff(<span class="keyword">...</span>
+0194                 (1:knowledgeBase.numProteinMonomers)',<span class="keyword">...</span>
+0195                 [this.lipoproteinMonomerIndexs;this.secretedMonomerIndexs]);
+0196         <span class="keyword">end</span>
+0197 
+0198         <span class="comment">%retrieve state from simulation</span>
+0199         <a name="_sub2" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0200             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0201 
+0202             numTimePoints = size(this.unprocessedMonomers, 3);
+0203             
+0204             <span class="keyword">if</span> numTimePoints == 1
+0205                 this.unprocessedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0206                     size(this.monomer.counts), <span class="keyword">...</span>
+0207                     this.monomer.processedIIndexs, <span class="keyword">...</span>
+0208                     this.monomerCompartments));
+0209                 this.processedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0210                     size(this.monomer.counts), <span class="keyword">...</span>
+0211                     this.monomer.processedIIIndexs, <span class="keyword">...</span>
+0212                     this.monomerCompartments));
+0213                 this.signalSequenceMonomers = this.monomer.counts(<span class="keyword">...</span>
+0214                     this.monomer.signalSequenceIndexs, <span class="keyword">...</span>
+0215                     this.compartment.cytosolIndexs);
+0216             <span class="keyword">else</span>
+0217                 this.unprocessedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0218                     size(this.monomer.counts), <span class="keyword">...</span>
+0219                     repmat(this.monomer.processedIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0220                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0221                     permute(repmat((1:numTimePoints)',[1 size(this.processedMonomers,1) 1]),[2 3 1])));
+0222                 this.processedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0223                     size(this.monomer.counts), <span class="keyword">...</span>
+0224                     repmat(this.monomer.processedIIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0225                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0226                     permute(repmat((1:numTimePoints)',[1 size(this.processedMonomers,1) 1]),[2 3 1])));
+0227                 this.signalSequenceMonomers = this.monomer.counts(<span class="keyword">...</span>
+0228                     this.monomer.signalSequenceIndexs, <span class="keyword">...</span>
+0229                     this.compartment.cytosolIndexs, :);
+0230             <span class="keyword">end</span>
+0231         <span class="keyword">end</span>
+0232 
+0233         <span class="comment">%send state to simulation</span>
+0234         <a name="_sub3" href="#_subfunctions" class="code">function copyToState(this)</a>
+0235             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0236 
+0237             numTimePoints = size(this.unprocessedMonomers, 3);
+0238 
+0239             <span class="keyword">if</span> numTimePoints == 1
+0240                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0241                     size(this.monomer.counts), <span class="keyword">...</span>
+0242                     this.monomer.processedIIndexs, <span class="keyword">...</span>
+0243                     this.monomerCompartments)) = <span class="keyword">...</span>
+0244                     this.unprocessedMonomers;
+0245                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0246                     size(this.monomer.counts), <span class="keyword">...</span>
+0247                     this.monomer.processedIIIndexs, <span class="keyword">...</span>
+0248                     this.monomerCompartments)) = <span class="keyword">...</span>
+0249                     this.processedMonomers;
+0250                 this.monomer.counts(this.monomer.signalSequenceIndexs, <span class="keyword">...</span>
+0251                     this.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0252                     this.signalSequenceMonomers;
+0253             <span class="keyword">else</span>
+0254                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0255                     size(this.monomer.counts), <span class="keyword">...</span>
+0256                     repmat(this.monomer.processedIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0257                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0258                     permute(repmat((1:numTimePoints)',[1 size(this.unprocessedMonomers,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0259                     this.unprocessedMonomers;
+0260                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0261                     size(this.monomer.counts), <span class="keyword">...</span>
+0262                     repmat(this.monomer.processedIIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0263                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0264                     permute(repmat((1:numTimePoints)',[1 size(this.processedMonomers,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0265                     this.processedMonomers;
+0266                 this.monomer.counts(this.monomer.signalSequenceIndexs, <span class="keyword">...</span>
+0267                     this.compartment.cytosolIndexs, :) = <span class="keyword">...</span>
+0268                     this.signalSequenceMonomers;
+0269             <span class="keyword">end</span>
+0270         <span class="keyword">end</span>
+0271     <span class="keyword">end</span>
+0272 
+0273     <span class="comment">%allocate memory for state</span>
+0274     methods
+0275         <a name="_sub4" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0276             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0277 
+0278             numCompartments = this.compartment.count;
+0279             this.unprocessedMonomers    = zeros(length(this.unprocessedMonomerWholeCellModelIDs),    numCompartments, numTimePoints);
+0280             this.processedMonomers      = zeros(length(this.processedMonomerWholeCellModelIDs),      numCompartments, numTimePoints);
+0281             this.signalSequenceMonomers = zeros(length(this.signalSequenceMonomerWholeCellModelIDs), 1, numTimePoints);
+0282         <span class="keyword">end</span>
+0283     <span class="keyword">end</span>
+0284 
+0285     <span class="comment">%model</span>
+0286     methods
+0287         <span class="comment">%Calculate</span>
+0288         <span class="comment">%- contribution to FBA objective</span>
+0289         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0290         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0291             <span class="comment">%% initialize</span>
+0292             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0293             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0294             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0295             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0296             
+0297             <span class="comment">%% substrate and byproducts</span>
+0298             cleavages = sum(states.monomerProductions([this.lipoproteinMonomerIndexs; this.secretedMonomerIndexs]));
+0299             transfers = sum(states.monomerProductions(this.lipoproteinMonomerIndexs));
+0300 
+0301             <span class="comment">%signal peptide cleavage</span>
+0302             bmProd(this.substrateIndexs_water) = bmProd(this.substrateIndexs_water) + cleavages;
+0303 
+0304             <span class="comment">%diacylglyceryl transfer</span>
+0305             <span class="comment">%CYS[c] + PG160[m] ==&gt; diacylglycerolCys[c] + SNGLYP[c] + H[c]</span>
+0306             bmProd(this.substrateIndexs_PG160)    = bmProd(this.substrateIndexs_PG160)    + transfers;
+0307             byProd(this.substrateIndexs_SNGLYP)   = byProd(this.substrateIndexs_SNGLYP)   + transfers;
+0308             byProd(this.substrateIndexs_hydrogen) = byProd(this.substrateIndexs_hydrogen) + transfers;
+0309             
+0310             <span class="comment">%% enzymes</span>
+0311             minEnzExp(this.enzymeIndexs_signalPeptidase) = <span class="keyword">...</span>
+0312                 2 * sum(states.monomerProductions0([this.lipoproteinMonomerIndexs; this.secretedMonomerIndexs])) / <span class="keyword">...</span>
+0313                 this.lipoproteinSignalPeptidaseSpecificRate;
+0314             minEnzExp(this.enzymeIndexs_diacylglycerylTransferase) = <span class="keyword">...</span>
+0315                 2 * sum(states.monomerProductions0(this.lipoproteinMonomerIndexs)) / <span class="keyword">...</span>
+0316                 this.lipoproteinDiacylglycerylTransferaseSpecificRate;
+0317         <span class="keyword">end</span>
+0318         
+0319         <span class="comment">%initialization: monomers initialized to mature/bound/inactivated state</span>
+0320         <span class="comment">%by simulation initializeState method</span>
+0321         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(~)</a>
+0322         <span class="keyword">end</span>
+0323 
+0324         <span class="comment">%resource requirements</span>
+0325         <a name="_sub7" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0326             <span class="comment">%Enzyme availability</span>
+0327             peptidaseLimit = ceil(this.enzymes(this.enzymeIndexs_signalPeptidase) * <span class="keyword">...</span>
+0328                 this.lipoproteinSignalPeptidaseSpecificRate * <span class="keyword">...</span>
+0329                 this.stepSizeSec);
+0330             transferaseLimit = ceil(this.enzymes(this.enzymeIndexs_diacylglycerylTransferase) * <span class="keyword">...</span>
+0331                 this.lipoproteinDiacylglycerylTransferaseSpecificRate * <span class="keyword">...</span>
+0332                 this.stepSizeSec);
+0333             
+0334             <span class="comment">%initialize</span>
+0335             result = zeros(size(this.substrates));
+0336             
+0337             <span class="comment">%signal peptide cleavage</span>
+0338             result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0339                 min(peptidaseLimit, sum(this.unprocessedMonomers([this.lipoproteinMonomerIndexs; this.secretedMonomerIndexs])));
+0340             
+0341             <span class="comment">%diacylglyceryl transfer</span>
+0342             <span class="comment">%CYS[c] + PG160[m] ==&gt; diacylglycerolCys[c] + SNGLYP[c] + H[c]</span>
+0343             result(this.substrateIndexs_PG160) = <span class="keyword">...</span>
+0344                 min(transferaseLimit, sum(this.unprocessedMonomers(this.lipoproteinMonomerIndexs)));
+0345         <span class="keyword">end</span>
+0346 
+0347         <span class="comment">%simulation</span>
+0348         <a name="_sub8" href="#_subfunctions" class="code">function evolveState(this)            </a>
+0349             <span class="comment">%pass along monomers that don't need to be processed</span>
+0350             this.processedMonomers(this.unprocessedMonomerIndexs) = <span class="keyword">...</span>
+0351                 this.processedMonomers(this.unprocessedMonomerIndexs) + <span class="keyword">...</span>
+0352                 this.unprocessedMonomers(this.unprocessedMonomerIndexs);
+0353             this.unprocessedMonomers(this.unprocessedMonomerIndexs) = 0;
+0354             
+0355             <span class="comment">%stop early if no proteins need to be processed</span>
+0356             <span class="keyword">if</span> ~any(this.unprocessedMonomers([this.lipoproteinMonomerIndexs; this.secretedMonomerIndexs]))
+0357                 <span class="keyword">return</span>;
+0358             <span class="keyword">end</span>
+0359             
+0360             <span class="comment">%Indices of transformed monomers</span>
+0361             peptidaseIndexs = [this.lipoproteinMonomerIndexs; this.secretedMonomerIndexs];
+0362             transferaseIndexs = this.lipoproteinMonomerIndexs;
+0363             
+0364             <span class="comment">%Enzyme availability</span>
+0365             peptidaseLimit = this.enzymes(this.enzymeIndexs_signalPeptidase) * <span class="keyword">...</span>
+0366                 this.lipoproteinSignalPeptidaseSpecificRate * <span class="keyword">...</span>
+0367                 this.stepSizeSec;
+0368             
+0369             <span class="comment">%% Simulate signal peptide cleavage and diacylglyceryl transfer</span>
+0370             <span class="comment">% - lipoproteins or secreted</span>
+0371             <span class="keyword">if</span> any(this.unprocessedMonomers(transferaseIndexs))
+0372                 <span class="comment">%Enzyme availability</span>
+0373                 transferaseLimit = this.enzymes(this.enzymeIndexs_diacylglycerylTransferase) * <span class="keyword">...</span>
+0374                     this.lipoproteinDiacylglycerylTransferaseSpecificRate * <span class="keyword">...</span>
+0375                     this.stepSizeSec;
+0376                 
+0377                 <span class="comment">%compute maximum of transformations that can occur, limited by</span>
+0378                 <span class="comment">%- unprocessed protein monomers</span>
+0379                 <span class="comment">%- enzymes (kinetics, availability)</span>
+0380                 <span class="comment">%- metabolites (PG160, water)</span>
+0381                 transformations = this.unprocessedMonomers;
+0382                 transformations(peptidaseIndexs) = transformations(peptidaseIndexs) * <span class="keyword">...</span>
+0383                     min([1, peptidaseLimit / sum(transformations(peptidaseIndexs))]);
+0384                 transformations(transferaseIndexs) = transformations(transferaseIndexs) * <span class="keyword">...</span>
+0385                     min([1, transferaseLimit / sum(transformations(transferaseIndexs))]);
+0386                 transformations = this.randStream.stochasticRound(transformations);
+0387                 <span class="keyword">if</span> sum(transformations(peptidaseIndexs)) &gt; this.substrates(this.substrateIndexs_water)
+0388                    transformations(peptidaseIndexs) = min(transformations(peptidaseIndexs), <span class="keyword">...</span>
+0389                        this.randStream.mnrnd(this.substrates(this.substrateIndexs_water), <span class="keyword">...</span>
+0390                        transformations(peptidaseIndexs) / sum(transformations(peptidaseIndexs)))');
+0391                 <span class="keyword">end</span>
+0392                 <span class="keyword">if</span> sum(transformations(transferaseIndexs)) &gt; this.substrates(this.substrateIndexs_PG160)
+0393                     transformations(transferaseIndexs) = min(transformations(transferaseIndexs), <span class="keyword">...</span>
+0394                         this.randStream.mnrnd(this.substrates(this.substrateIndexs_PG160), <span class="keyword">...</span>
+0395                         transformations(transferaseIndexs) / sum(transformations(transferaseIndexs)))');
+0396                 <span class="keyword">end</span>
+0397                 
+0398                 <span class="comment">%update numbers of monomers</span>
+0399                 this.signalSequenceMonomers(peptidaseIndexs) = <span class="keyword">...</span>
+0400                     this.signalSequenceMonomers(peptidaseIndexs) + <span class="keyword">...</span>
+0401                     transformations(peptidaseIndexs);
+0402                 this.processedMonomers   = this.processedMonomers   + transformations;
+0403                 this.unprocessedMonomers = this.unprocessedMonomers - transformations;
+0404                 
+0405                 <span class="comment">%update enzyme availability</span>
+0406                 peptidaseLimit = peptidaseLimit - sum(transformations(peptidaseIndexs));
+0407                 
+0408                 <span class="comment">%update metabolites</span>
+0409                 this.substrates(this.substrateIndexs_water) = <span class="keyword">...</span>
+0410                     this.substrates(this.substrateIndexs_water) - <span class="keyword">...</span>
+0411                     sum(transformations(peptidaseIndexs));
+0412                 this.substrates([this.substrateIndexs_PG160; this.substrateIndexs_SNGLYP; this.substrateIndexs_hydrogen]) = <span class="keyword">...</span>
+0413                     this.substrates([this.substrateIndexs_PG160; this.substrateIndexs_SNGLYP; this.substrateIndexs_hydrogen]) + <span class="keyword">...</span>
+0414                     [-1;1;1] * sum(transformations(transferaseIndexs));
+0415             <span class="keyword">end</span>
+0416             
+0417             <span class="comment">%% Continue to simulate signal peptide cleavage - extracellular proteins only</span>
+0418             transformations = this.unprocessedMonomers;
+0419             transformations(peptidaseIndexs) = transformations(peptidaseIndexs) * <span class="keyword">...</span>
+0420                 min([1, peptidaseLimit / sum(transformations(peptidaseIndexs))]);
+0421             transformations(transferaseIndexs) = 0;
+0422             <span class="keyword">if</span> any(transformations)
+0423                 <span class="comment">%compute maximum of transformations that can occur, limited by</span>
+0424                 <span class="comment">%- unprocessed protein monomers</span>
+0425                 <span class="comment">%- enzymes (kinetics, availability)</span>
+0426                 <span class="comment">%- metabolites (PG160)</span>
+0427                 transformations = this.randStream.stochasticRound(transformations);
+0428                 <span class="keyword">if</span> sum(transformations(peptidaseIndexs)) &gt; this.substrates(this.substrateIndexs_water)
+0429                    transformations(peptidaseIndexs) = min(transformations(peptidaseIndexs), <span class="keyword">...</span>
+0430                        this.randStream.mnrnd(this.substrates(this.substrateIndexs_water), <span class="keyword">...</span>
+0431                        transformations(peptidaseIndexs) / sum(transformations(peptidaseIndexs)))');
+0432                 <span class="keyword">end</span>
+0433                 
+0434                 <span class="comment">%update numbers of monomers</span>
+0435                 this.signalSequenceMonomers(peptidaseIndexs) = <span class="keyword">...</span>
+0436                     this.signalSequenceMonomers(peptidaseIndexs) + <span class="keyword">...</span>
+0437                     transformations(peptidaseIndexs);
+0438                 this.processedMonomers   = this.processedMonomers   + transformations;
+0439                 this.unprocessedMonomers = this.unprocessedMonomers - transformations;
+0440                 
+0441                 <span class="comment">%update metabolites</span>
+0442                 this.substrates(this.substrateIndexs_water) = <span class="keyword">...</span>
+0443                     this.substrates(this.substrateIndexs_water) - <span class="keyword">...</span>
+0444                     sum(transformations(peptidaseIndexs));
+0445             <span class="keyword">end</span>
+0446         <span class="keyword">end</span>
+0447     <span class="keyword">end</span>
+0448 
+0449     <span class="comment">%get methods of dependent local state</span>
+0450     methods
+0451         <a name="_sub9" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0452             <span class="keyword">if</span> size(this.unprocessedMonomers, 3) == 1
+0453                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0454                     this.monomer.molecularWeights(this.monomer.processedIIndexs)'     * this.unprocessedMonomers + <span class="keyword">...</span>
+0455                     this.monomer.molecularWeights(this.monomer.processedIIIndexs)'    * this.processedMonomers   + <span class="keyword">...</span>
+0456                     this.monomer.molecularWeights(this.monomer.signalSequenceIndexs)' * this.signalSequenceMonomers) <span class="keyword">...</span>
+0457                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0458             <span class="keyword">else</span>
+0459                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0460                     permute(this.monomer.molecularWeights(this.monomer.processedIIndexs)'     * permute(this.unprocessedMonomers,   [1 3 2]), [1 3 2]) + <span class="keyword">...</span>
+0461                     permute(this.monomer.molecularWeights(this.monomer.processedIIIndexs)'    * permute(this.processedMonomers,     [1 3 2]), [1 3 2]) + <span class="keyword">...</span>
+0462                     permute(this.monomer.molecularWeights(this.monomer.signalSequenceIndexs)' * permute(this.signalSequenceMonomers,[1 3 2]), [1 3 2])) <span class="keyword">...</span>
+0463                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0464             <span class="keyword">end</span>
+0465         <span class="keyword">end</span>
+0466     <span class="keyword">end</span>
+0467 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of FtsZRing</title>
+  <meta name="keywords" content="FtsZRing">
+  <meta name="description" content="FtsZRing">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; FtsZRing.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>FtsZRing
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>FtsZRing</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FtsZRing
+
+ @wholeCellModelID State_FtsZRing
+ @name             FtsZ ring
+ @description
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 11/30/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FtsZRing.html" class="code" title="">FtsZRing</a>	FtsZRing</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FtsZRing.html" class="code" title="">FtsZRing</a>	FtsZRing</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = FtsZRing(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub5" class="code">function initialize(this)</a></li><li><a href="#_sub6" class="code">function notUpdatingFtsZ = releaseFtsZ(~, nFtsZ)</a></li><li><a href="#_sub7" class="code">function result = get.numEdges(this)</a></li><li><a href="#_sub8" class="code">function result = calcNumEdges(pinchedDiameter, filamentLengthInNm)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%FtsZRing</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_FtsZRing</span>
+0004 <span class="comment">% @name             FtsZ ring</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0008 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0009 <span class="comment">% Last updated: 11/30/2010</span>
+0010 classdef <a href="FtsZRing.html" class="code" title="">FtsZRing</a> &lt; edu.stanford.covert.cell.sim.CellState
+0011     <span class="comment">%property annotations</span>
+0012     properties (Constant)
+0013         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0014             <span class="string">'verbosity'</span>;
+0015             <span class="string">'seed'</span>;
+0016             };
+0017         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0018             <span class="string">'numFtsZSubunitsPerNm'</span>;
+0019             <span class="string">'numFtsZSubunitsPerFilament'</span>;
+0020             <span class="string">'filamentLengthInNm'</span>;
+0021             };
+0022         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0023         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0024             <span class="string">'numEdgesOneStraight'</span>;
+0025             <span class="string">'numEdgesTwoStraight'</span>;
+0026             <span class="string">'numEdgesTwoBent'</span>;
+0027             <span class="string">'numResidualBent'</span>
+0028             };
+0029         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0030             <span class="string">'numEdges'</span>
+0031             };
+0032     <span class="keyword">end</span>
+0033     
+0034     properties (Constant)
+0035         dryWeight = 0; <span class="comment">%dry weight of this class' state properties</span>
+0036     <span class="keyword">end</span>
+0037     
+0038     <span class="comment">%fixed biological constants</span>
+0039     properties
+0040         numFtsZSubunitsPerNm            <span class="comment">%Linear density of FtsZ monomers in filaments (1/nm) [0.23 1/nm; Anderson 2004]</span>
+0041         numFtsZSubunitsPerFilament      <span class="comment">%FtsZ filament length (no. monomer subunits) [9; Anderson 2004]</span>
+0042         filamentLengthInNm              <span class="comment">%FtsZ filament length (nm) [40 nm; Anderson 2004]</span>
+0043     <span class="keyword">end</span>
+0044     
+0045     <span class="comment">%state</span>
+0046     properties
+0047         numEdgesOneStraight      <span class="comment">%number of edges currently bound by one straight ftsZ polymer</span>
+0048         numEdgesTwoStraight      <span class="comment">%number of edges currently bound by two straight ftsZ polymers</span>
+0049         numEdgesTwoBent          <span class="comment">%number of edges currently bound by two bent ftsZ polymers</span>
+0050         numResidualBent          <span class="comment">%number of residual (singly) bound ftsZ polymers from previous cycle</span>
+0051     <span class="keyword">end</span>
+0052     
+0053     properties (Dependent = true, SetAccess = protected)
+0054         numEdges
+0055     <span class="keyword">end</span>
+0056     
+0057     <span class="comment">%references to other parts of cell state</span>
+0058     properties
+0059         geometry
+0060     <span class="keyword">end</span>
+0061     
+0062     <span class="comment">%constructor</span>
+0063     methods
+0064         <a name="_sub0" href="#_subfunctions" class="code">function this = FtsZRing(wholeCellModelID, name)</a>
+0065             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068     
+0069     methods
+0070         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0071             this.geometry = simulation.state(<span class="string">'Geometry'</span>);
+0072         <span class="keyword">end</span>
+0073     <span class="keyword">end</span>
+0074     
+0075     <span class="comment">%communication between process/simulation</span>
+0076     methods
+0077         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0078             this.initializeConstants@edu.stanford.covert.cell.sim.CellState(knowledgeBase, simulation);
+0079             this.filamentLengthInNm = this.numFtsZSubunitsPerFilament / this.numFtsZSubunitsPerNm;
+0080         <span class="keyword">end</span>
+0081     <span class="keyword">end</span>
+0082     
+0083     <span class="comment">%allocate memory for state</span>
+0084     methods
+0085         <a name="_sub3" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0086             this.numEdgesOneStraight = zeros(1, 1, numTimePoints);
+0087             this.numEdgesTwoStraight = zeros(1, 1, numTimePoints);
+0088             this.numEdgesTwoBent     = zeros(1, 1, numTimePoints);
+0089             this.numResidualBent     = zeros(1, 1, numTimePoints);
+0090         <span class="keyword">end</span>
+0091     <span class="keyword">end</span>
+0092     
+0093     <span class="comment">%initialization</span>
+0094     methods
+0095         <span class="comment">%initialize to no bound FtsZ rings</span>
+0096         <a name="_sub4" href="#_subfunctions" class="code">function initialize(this)</a>
+0097             this.allocateMemory(1);
+0098         <span class="keyword">end</span>
+0099     <span class="keyword">end</span>
+0100     
+0101     methods
+0102         <span class="comment">%nFtsZ = [nFtsZGTP; nFtsZGDP]</span>
+0103         <a name="_sub5" href="#_subfunctions" class="code">function notUpdatingFtsZ = releaseFtsZ(~, nFtsZ)</a>
+0104             notUpdatingFtsZ = nFtsZ;
+0105             <span class="keyword">if</span> any(nFtsZ)
+0106                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'FtsZ not decayed'</span>);
+0107             <span class="keyword">end</span>
+0108         <span class="keyword">end</span>
+0109     <span class="keyword">end</span>
+0110     
+0111     <span class="comment">%getters</span>
+0112     methods
+0113         <a name="_sub6" href="#_subfunctions" class="code">function result = get.numEdges(this)</a>
+0114             g = this.geometry;
+0115             <span class="keyword">if</span> g.pinchedDiameter == 0
+0116                 result = 0;
+0117                 <span class="keyword">return</span>;
+0118             <span class="keyword">end</span>
+0119             
+0120             result = this.calcNumEdges(g.pinchedDiameter, this.filamentLengthInNm);
+0121         <span class="keyword">end</span>
+0122     <span class="keyword">end</span>
+0123     
+0124     methods (Static)
+0125         <a name="_sub7" href="#_subfunctions" class="code">function result = calcNumEdges(pinchedDiameter, filamentLengthInNm)</a>
+0126             result = floor(pi / asin(filamentLengthInNm * 1e-9 / pinchedDiameter));
+0127         <span class="keyword">end</span>
+0128     <span class="keyword">end</span>
+0129 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Parameter</title>
+  <meta name="keywords" content="Parameter">
+  <meta name="description" content="Defines a parameter">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; Parameter.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Parameter
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a parameter</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a parameter
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 11/17/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Parameter.html" class="code" title="">Parameter</a>	Defines a parameter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Parameter.html" class="code" title="">Parameter</a>	Defines a parameter</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Parameter(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function parsedValue = parseDefaultValue(rawValue)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a parameter</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 11/17/2009</span>
+0006 classdef <a href="Parameter.html" class="code" title="">Parameter</a> &lt; edu.stanford.covert.cell.kb.KnowledgeBaseObject
+0007     properties
+0008         process          = edu.stanford.covert.cell.kb.Process.empty(0,0);
+0009         state           = edu.stanford.covert.cell.kb.State.empty(0,0);
+0010         reactions       = edu.stanford.covert.cell.kb.Reaction.empty(0,0);
+0011         proteinMonomers = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0012         proteinComplexs = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0013     <span class="keyword">end</span>
+0014 
+0015     properties (SetAccess = protected)
+0016         index
+0017         defaultValue
+0018         units
+0019         experimentallyConstrained
+0020     <span class="keyword">end</span>
+0021 
+0022     methods
+0023         <a name="_sub0" href="#_subfunctions" class="code">function this = Parameter(knowledgeBase, wid, wholeCellModelID, name, </a><span class="keyword">...</span>
+0024                 index, defaultValue, units, experimentallyConstrained, <span class="keyword">...</span>
+0025                 comments, crossReferences)
+0026 
+0027             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0028 
+0029             this = edu.stanford.covert.cell.kb.Parameter.empty(size(wid,1),0);
+0030             this(size(wid,1),1) = edu.stanford.covert.cell.kb.Parameter;
+0031             <span class="keyword">for</span> i = 1:size(wid,1)
+0032                 this(i,1).idx = i;
+0033                 this(i,1).knowledgeBase = knowledgeBase;
+0034                 this(i,1).wid = wid(i);
+0035                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0036                 this(i,1).name = name{i};
+0037                 this(i,1).index = index{i};
+0038                 this(i,1).defaultValue = this.parseDefaultValue(defaultValue{i});
+0039                 this(i,1).units = units{i};
+0040                 this(i,1).experimentallyConstrained = experimentallyConstrained(i);
+0041                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0042                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0043                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0044                         this(i,1).crossReferences = crossReferences(i);
+0045                     <span class="keyword">else</span>
+0046                         this(i,1).crossReferences = struct;
+0047                         fields = fieldnames(crossReferences);
+0048                         <span class="keyword">for</span> j = 1:size(fields,1)
+0049                             values = crossReferences.(fields{j});
+0050                             this(i,1).crossReferences.(fields{j}) = values(i);
+0051                         <span class="keyword">end</span>
+0052                     <span class="keyword">end</span>
+0053                 <span class="keyword">end</span>
+0054             <span class="keyword">end</span>
+0055         <span class="keyword">end</span>
+0056 
+0057         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0058             <span class="keyword">for</span> i = 1:numel(this)
+0059                 this(i).process          = [];
+0060                 this(i).state           = [];
+0061                 this(i).reactions       = [];
+0062                 this(i).proteinMonomers = [];
+0063                 this(i).proteinComplexs = [];
+0064                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.KnowledgeBaseObject(this(i))
+0065             <span class="keyword">end</span>
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068 
+0069     methods (Static = true)
+0070         <a name="_sub2" href="#_subfunctions" class="code">function parsedValue = parseDefaultValue(rawValue)</a>
+0071             <span class="keyword">if</span> isempty(rawValue)
+0072                 parsedValue = {};
+0073                 <span class="keyword">return</span>;
+0074             <span class="keyword">end</span>
+0075 
+0076             <span class="keyword">if</span> iscell(rawValue) &amp;&amp; numel(rawValue) == 1
+0077                 rawValue = rawValue{1};
+0078             <span class="keyword">end</span>
+0079 
+0080             rawValue = strsplit(<span class="string">';'</span>,rawValue)';
+0081             parsedValue = zeros(size(rawValue));
+0082             <span class="keyword">for</span> i = 1:length(rawValue)
+0083                 parsedValue(i) = str2double(rawValue{i});
+0084             <span class="keyword">end</span>
+0085             <span class="keyword">if</span> any(isnan(parsedValue))
+0086                 parsedValue = rawValue;
+0087             <span class="keyword">end</span>
+0088         <span class="keyword">end</span>
+0089     <span class="keyword">end</span>
+0090 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

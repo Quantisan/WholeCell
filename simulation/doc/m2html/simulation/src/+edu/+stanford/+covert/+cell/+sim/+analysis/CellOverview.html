@@ -1,0 +1,560 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellOverview</title>
+  <meta name="keywords" content="CellOverview">
+  <meta name="description" content="CellOverview (Executive summary of a single cell)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; CellOverview.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellOverview
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellOverview (Executive summary of a single cell)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> CellOverview (Executive summary of a single cell)
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellOverview.html" class="code" title="">CellOverview</a>	CellOverview (Executive summary of a single cell)</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellOverview.html" class="code" title="">CellOverview</a>	CellOverview (Executive summary of a single cell)</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(simBatchDir, fileName, simIdxs)</a></li><li><a href="#_sub2" class="code">function axesHandles = plotMultipleSimulations(simEnsemble, figHandle, doPlot, statesToPlot, options)</a></li><li><a href="#_sub3" class="code">function plotMultipleSimulations_Callback(hObject, ~)</a></li><li><a href="#_sub4" class="code">function unselectSimulations(figHandle)</a></li><li><a href="#_sub5" class="code">function selectSimulation(simulationIdx, propertyIdx, figHandle)</a></li><li><a href="#_sub6" class="code">function restoreSimulations()</a></li><li><a href="#_sub7" class="code">function markEarliestSimulationTermination(simEnsemble, axesHandle)</a></li><li><a href="#_sub8" class="code">function plotInitialGrowthVsEndTime(simEnsemble, figHandle)</a></li><li><a href="#_sub9" class="code">function plotFinalGrowthVsEndTime(simEnsemble, figHandle)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% CellOverview (Executive summary of a single cell)</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 7/6/2011</span>
+0006 classdef <a href="CellOverview.html" class="code" title="">CellOverview</a>
+0007     methods (Static = true);
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(simBatchDir, fileName, simIdxs)</a>
+0009             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0010             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0011             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0012             import edu.stanford.covert.cell.sim.analysis.CellOverview;
+0013             
+0014             <span class="comment">%% options</span>
+0015             <span class="keyword">if</span> nargin &lt; 1 || isempty(simBatchDir)
+0016                 simBatchDir = SimulationDiskUtil.getLatestSimulationGroup();
+0017             <span class="keyword">end</span>
+0018             
+0019             <span class="keyword">if</span> nargin &lt; 3
+0020                 simIdxs = SimulationDiskUtil.getCompleteSimulations(simBatchDir);
+0021             <span class="keyword">end</span>
+0022             
+0023             <span class="comment">%% get data</span>
+0024             states = {
+0025                 <span class="string">'runTime'</span>           <span class="string">'Run Time'</span>
+0026                 <span class="string">'mass'</span>              <span class="string">'Mass'</span>
+0027                 <span class="string">'growth_rate'</span>       {<span class="string">'Growth'</span> <span class="string">'Rate'</span>}
+0028                 <span class="string">'ploidy'</span>            <span class="string">'Ploidy'</span>
+0029                 <span class="string">'superhelicity'</span>     <span class="string">'Superhelicity'</span>
+0030                 <span class="string">'polysaccharides'</span>   <span class="string">'Polysaccharides'</span>
+0031                 <span class="string">'immatureMonomers'</span>  {<span class="string">'Immature'</span> <span class="string">'Monomers'</span>}
+0032                 <span class="string">'matureMonomers'</span>    {<span class="string">'Mature'</span> <span class="string">'Monomers'</span>}
+0033                 <span class="string">'immatureComplexs'</span>  {<span class="string">'Immature'</span> <span class="string">'Complexes'</span>}
+0034                 <span class="string">'matureComplexs'</span>    {<span class="string">'Mature'</span> <span class="string">'Complexes'</span>}
+0035                 <span class="string">'proteins'</span>          <span class="string">'Proteins'</span>
+0036                 <span class="string">'rnas'</span>              <span class="string">'RNA'</span>
+0037                 <span class="string">'dnaA_boxes'</span>        {<span class="string">'Bound'</span> <span class="string">'DnaA'</span>}
+0038                 <span class="string">'dnaA_box1'</span>         {<span class="string">'DnaA'</span> <span class="string">'Box 1'</span>}
+0039                 <span class="string">'dnaA_box2'</span>         {<span class="string">'DnaA'</span> <span class="string">'Box 2'</span>}
+0040                 <span class="string">'dnaA_box3'</span>         {<span class="string">'DnaA'</span> <span class="string">'Box 3'</span>}
+0041                 <span class="string">'dnaA_box4'</span>         {<span class="string">'DnaA'</span> <span class="string">'Box 4'</span>}
+0042                 <span class="string">'dnaA_box5'</span>         {<span class="string">'DnaA'</span> <span class="string">'Box 5'</span>}
+0043                 <span class="string">'helicase1'</span>         <span class="string">'Helicase 1'</span>
+0044                 <span class="string">'helicase2'</span>         <span class="string">'Helicase 2'</span>
+0045                 <span class="string">'atp'</span>               <span class="string">'ATP'</span>
+0046                 <span class="string">'adp'</span>               <span class="string">'ADP'</span>
+0047                 <span class="string">'amp'</span>               <span class="string">'AMP'</span>
+0048                 <span class="string">'ntps'</span>              <span class="string">'NTPs'</span>
+0049                 <span class="string">'amino_acids'</span>       {<span class="string">'Amino'</span> <span class="string">'Acids'</span>}
+0050                 <span class="string">'rnaPolymerases'</span>    {<span class="string">'RNA'</span> <span class="string">'Pols'</span>}
+0051                 <span class="string">'ribosomes'</span>         <span class="string">'Ribosomes'</span>
+0052                 <span class="string">'mrnas'</span>             <span class="string">'mRNA'</span>
+0053                 <span class="string">'rrnas'</span>             <span class="string">'rRNA'</span>
+0054                 <span class="string">'srnas'</span>             <span class="string">'sRNA'</span>
+0055                 <span class="string">'trnas'</span>             <span class="string">'tRNA'</span>
+0056                 <span class="string">'immatureRnas'</span>      {<span class="string">'Immature'</span> <span class="string">'RNA'</span>}
+0057                 <span class="string">'ftsZ'</span>              <span class="string">'FtsZ'</span>
+0058                 <span class="string">'ftsZRing1st'</span>       <span class="string">'1-Strt'</span>
+0059                 <span class="string">'ftsZRing2st'</span>       <span class="string">'2-Strt'</span>
+0060                 <span class="string">'ftsZRing2bt'</span>       <span class="string">'2-Bent'</span>
+0061                 <span class="string">'ftsZRingRbt'</span>       <span class="string">'R-Bent'</span>
+0062                 <span class="string">'pinchedDiameter'</span>   {<span class="string">'Pinched'</span> <span class="string">'Diameter'</span>}
+0063                 };
+0064             s = SimulationEnsemble(simBatchDir, states, [], simIdxs);
+0065             
+0066             [~, simOrder] = sort(s.stateData.values(s.getPropertyIndices(<span class="string">'growth_rate'</span>), 1, <span class="keyword">...</span><span class="comment">.</span>
+0067                 floor(min(s.stateData.simulationEndTimes) / s.stateData.downsampleStepSec), :));
+0068             
+0069             <span class="comment">%% plot, and save</span>
+0070             figHandles = [];
+0071             
+0072             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0073             figHandles = [figHandles; figHandle];
+0074             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'mass'</span>; <span class="string">'growth_rate'</span>; <span class="string">'ploidy'</span>; <span class="string">'polysaccharides'</span>; <span class="string">'proteins'</span>; <span class="string">'rnas'</span>}, <span class="keyword">...</span>
+0075                 struct(<span class="string">'simOrder'</span>, simOrder));
+0076             <span class="keyword">if</span> nargin &gt;= 2
+0077                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines1.pdf'</span>]);
+0078                 close(figHandle);
+0079             <span class="keyword">end</span>
+0080             
+0081             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0082             figHandles = [figHandles; figHandle];
+0083             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'growth_rate'</span>; <span class="string">'dnaA_boxes'</span>; <span class="string">'dnaA_box1'</span>; <span class="string">'dnaA_box2'</span>; <span class="string">'dnaA_box3'</span>; <span class="string">'dnaA_box4'</span>; <span class="string">'dnaA_box5'</span>}, <span class="keyword">...</span>
+0084                 struct(<span class="string">'simOrder'</span>, simOrder));
+0085             <span class="keyword">if</span> nargin &gt;= 2
+0086                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines2.pdf'</span>]);
+0087                 close(figHandle);
+0088             <span class="keyword">end</span>
+0089             
+0090             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0091             figHandles = [figHandles; figHandle];
+0092             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'growth_rate'</span>; <span class="string">'helicase1'</span>; <span class="string">'helicase2'</span>}, <span class="keyword">...</span>
+0093                 struct(<span class="string">'simOrder'</span>, simOrder));
+0094             <span class="keyword">if</span> nargin &gt;= 2
+0095                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines3.pdf'</span>]);
+0096                 close(figHandle);
+0097             <span class="keyword">end</span>
+0098             
+0099             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0100             figHandles = [figHandles; figHandle];
+0101             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'atp'</span>; <span class="string">'adp'</span>; <span class="string">'amp'</span>; <span class="string">'ntps'</span>; <span class="string">'amino_acids'</span>; <span class="string">'rnaPolymerases'</span>; <span class="string">'ribosomes'</span>}, <span class="keyword">...</span>
+0102                 struct(<span class="string">'simOrder'</span>, simOrder));
+0103             <span class="keyword">if</span> nargin &gt;= 2
+0104                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines4.pdf'</span>]);
+0105                 close(figHandle);
+0106             <span class="keyword">end</span>
+0107             
+0108             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0109             figHandles = [figHandles; figHandle];
+0110             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'rnas'</span>; <span class="string">'mrnas'</span>; <span class="string">'rrnas'</span>; <span class="string">'srnas'</span>; <span class="string">'trnas'</span>; <span class="string">'immatureRnas'</span>}, <span class="keyword">...</span>
+0111                 struct(<span class="string">'simOrder'</span>, simOrder));
+0112             <span class="keyword">if</span> nargin &gt;= 2
+0113                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines5.pdf'</span>]);
+0114                 close(figHandle);
+0115             <span class="keyword">end</span>
+0116             
+0117             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0118             figHandles = [figHandles; figHandle];
+0119             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'immatureMonomers'</span>; <span class="string">'matureMonomers'</span>; <span class="string">'immatureComplexs'</span>; <span class="string">'matureComplexs'</span>}, <span class="keyword">...</span>
+0120                 struct(<span class="string">'simOrder'</span>, simOrder));
+0121             <span class="keyword">if</span> nargin &gt;= 2
+0122                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines6.pdf'</span>]);
+0123                 close(figHandle);
+0124             <span class="keyword">end</span>
+0125             
+0126             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0127             figHandles = [figHandles; figHandle];
+0128             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'ftsZ'</span>; <span class="string">'ftsZRing1st'</span>; <span class="string">'ftsZRing2st'</span>; <span class="string">'ftsZRing2bt'</span>; <span class="string">'ftsZRingRbt'</span>; <span class="string">'pinchedDiameter'</span>}, <span class="keyword">...</span>
+0129                 struct(<span class="string">'simOrder'</span>, simOrder));
+0130             <span class="keyword">if</span> nargin &gt;= 2
+0131                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines7.pdf'</span>]);
+0132                 close(figHandle);
+0133             <span class="keyword">end</span>
+0134             
+0135             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0136             figHandles = [figHandles; figHandle];
+0137             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'ploidy'</span>; <span class="string">'superhelicity'</span>}, <span class="keyword">...</span>
+0138                 struct(<span class="string">'simOrder'</span>, simOrder));
+0139             <span class="keyword">if</span> nargin &gt;= 2
+0140                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines8.pdf'</span>]);
+0141                 close(figHandle);
+0142             <span class="keyword">end</span>
+0143             
+0144             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0145             figHandles = [figHandles; figHandle];
+0146             CellOverview.plotMultipleSimulations(s, figHandle, @PlotUtil.plotLine, {<span class="string">'runTime'</span>}, <span class="keyword">...</span>
+0147                 struct(<span class="string">'simOrder'</span>, simOrder));
+0148             <span class="keyword">if</span> nargin &gt;= 2
+0149                 saveas(figHandle, [fileName <span class="string">'-CellOverview-Lines9.pdf'</span>]);
+0150                 close(figHandle);
+0151             <span class="keyword">end</span>
+0152             
+0153             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0154             figHandles = [figHandles; figHandle];
+0155             CellOverview.plotInitialGrowthVsEndTime(s, figHandle);
+0156             <span class="keyword">if</span> nargin &gt;= 2
+0157                 saveas(figHandle, [fileName <span class="string">'-CellOverview-InitialGrowthRateVsEndTimes.pdf'</span>]);
+0158                 close(figHandle);
+0159             <span class="keyword">end</span>
+0160             
+0161             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0162             figHandles = [figHandles; figHandle];
+0163             CellOverview.plotFinalGrowthVsEndTime(s, figHandle);
+0164             <span class="keyword">if</span> nargin &gt;= 2
+0165                 saveas(figHandle, [fileName <span class="string">'-CellOverview-FinalGrowthRateVsEndTimes.pdf'</span>]);
+0166                 close(figHandle);
+0167             <span class="keyword">end</span>
+0168             
+0169             <span class="keyword">if</span> nargin &lt; 2
+0170                 figHandles = figHandles(1:min(<span class="keyword">end</span>, 9));
+0171                 <span class="keyword">for</span> i = 1:numel(figHandles)
+0172                     setappdata(figHandles(i), <span class="string">'figHandles'</span>, figHandles);
+0173                 <span class="keyword">end</span>
+0174                 <span class="keyword">if</span> numel(figHandles) == 9
+0175                     spanFigures(fliplr(reshape(figHandles, [3 3]))');
+0176                 <span class="keyword">end</span>
+0177             <span class="keyword">end</span>
+0178         <span class="keyword">end</span>
+0179     <span class="keyword">end</span>
+0180     
+0181     <span class="comment">%multiple simulations</span>
+0182     methods (Static = true)
+0183         <a name="_sub1" href="#_subfunctions" class="code">function axesHandles = plotMultipleSimulations(simEnsemble, figHandle, doPlot, statesToPlot, options)</a>
+0184             import edu.stanford.covert.cell.sim.analysis.CellOverview;
+0185             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0186             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0187             
+0188             <span class="comment">%% options</span>
+0189             <span class="keyword">if</span> nargin &lt; 3 || isempty(doPlot)
+0190                 doPlot = @PlotUtil.plotLine;
+0191             <span class="keyword">end</span>
+0192             
+0193             <span class="keyword">if</span> nargin &lt; 4
+0194                 statesToPlot = simEnsemble.stateData.properties;
+0195             <span class="keyword">end</span>
+0196             
+0197             <span class="keyword">if</span> nargin &lt; 5
+0198                 options = struct();
+0199             <span class="keyword">end</span>
+0200             <span class="keyword">if</span> ~isfield(options, <span class="string">'kaplanMeier'</span>)
+0201                 options.kaplanMeier = true;
+0202             <span class="keyword">end</span>
+0203             <span class="keyword">if</span> ~isfield(options, <span class="string">'simulationTicks'</span>)
+0204                 options.simulationTicks = true;
+0205             <span class="keyword">end</span>
+0206             <span class="keyword">if</span> ~isfield(options, <span class="string">'markEarliestSimulationTermination'</span>)
+0207                 options.markEarliestSimulationTermination = true;
+0208             <span class="keyword">end</span>
+0209             <span class="keyword">if</span> ~isfield(options, <span class="string">'simOrder'</span>)
+0210                 [~, options.simOrder] = sort(simEnsemble.stateData.values(simEnsemble.getPropertyIndices(statesToPlot(1)), 1, min(simEnsemble.stateData.simulationEndTimes), :));
+0211             <span class="keyword">end</span>
+0212             
+0213             <span class="comment">%% get data</span>
+0214             time = simEnsemble.stateData.time / 3600;
+0215             inds = simEnsemble.getPropertyIndices(statesToPlot);
+0216             values = simEnsemble.stateData.values(inds, :, :, :);
+0217             
+0218             <span class="comment">%% layout plots</span>
+0219             nSims = size(values, 4);
+0220             nValuePlots = length(inds);
+0221             nTotalPlots = nValuePlots + 2;
+0222             axesSizes = 4 * ones(nValuePlots, 1);
+0223             dataHandles = zeros(nSims, nTotalPlots);
+0224             
+0225             <span class="keyword">if</span> options.kaplanMeier
+0226                 kaplanMeier = SimulationEnsemble.remainingSimulations(simEnsemble.stateData.time, simEnsemble.stateData.simulationEndTimes);
+0227                 axesSizes = [axesSizes; 2];
+0228             <span class="keyword">end</span>
+0229             
+0230             <span class="keyword">if</span> options.simulationTicks
+0231                 axesSizes = [axesSizes; 0.5];
+0232             <span class="keyword">end</span>
+0233             
+0234             clf(figHandle);            
+0235             options.titleStr = sprintf(<span class="string">'Overview: %s'</span>, simEnsemble.getTimeStamp());
+0236             options.colorOrder = PlotUtil.getRedGreenColorOrder(options.simOrder);
+0237             axesHandles = PlotUtil.multiElementPlot(figHandle, axesSizes, time([1 end])', <span class="keyword">...</span>
+0238                 options);
+0239             
+0240             <span class="comment">%% value plots</span>
+0241             <span class="keyword">for</span> j = 1:nValuePlots
+0242                 <span class="comment">% subplot</span>
+0243                 axesHandle = axesHandles(j);
+0244                 
+0245                 <span class="comment">% plot data</span>
+0246                 tmp = doPlot(axesHandle, time, permute(values(j, :, :, :), [4 3 1 2]));
+0247                 <span class="keyword">if</span> numel(tmp) == nSims
+0248                     dataHandles(:, j) = tmp;
+0249                 <span class="keyword">end</span>
+0250                 
+0251                 <span class="comment">% Y-Axis</span>
+0252                 ylabel(axesHandle, simEnsemble.stateData.descriptions{inds(j)});
+0253                 
+0254                 <span class="comment">% Indicate where first simulation terminated</span>
+0255                 <span class="keyword">if</span> options.markEarliestSimulationTermination
+0256                     CellOverview.markEarliestSimulationTermination(simEnsemble, axesHandle);
+0257                 <span class="keyword">end</span>
+0258             <span class="keyword">end</span>
+0259             
+0260             <span class="comment">%% Kaplan-Meier Curve</span>
+0261             <span class="keyword">if</span> options.kaplanMeier
+0262                 axesHandle = axesHandles(nValuePlots + 1);
+0263                 
+0264                 h = PlotUtil.plotLine(axesHandle, time, 100 * kaplanMeier);
+0265                 set(h, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+0266                 text(0.1, 0.1, <span class="string">'Remaining Simulations'</span>, <span class="keyword">...</span>
+0267                     <span class="string">'HorizontalAlignment'</span>, <span class="string">'Left'</span>, <span class="keyword">...</span>
+0268                     <span class="string">'VerticalAlignment'</span>, <span class="string">'Bottom'</span>, <span class="keyword">...</span>
+0269                     <span class="string">'Parent'</span>, axesHandle, <span class="string">'Units'</span>, <span class="string">'data'</span>, <span class="keyword">...</span>
+0270                     <span class="string">'FontSize'</span>, 8);
+0271                 set(axesHandle, <span class="string">'YTick'</span>, [0 100], <span class="string">'YtickLabel'</span>, {<span class="string">'0%'</span>, <span class="string">'100%'</span>});
+0272                 
+0273                 simIdxs = find(~isnan(simEnsemble.stateData.simulationEndTimes));
+0274                 dataHandles(:, end-1) = scatter(axesHandle, <span class="keyword">...</span>
+0275                     simEnsemble.stateData.simulationEndTimes(simIdxs) / 3600, <span class="keyword">...</span>
+0276                     100 * kaplanMeier(floor(simEnsemble.stateData.simulationEndTimes(simIdxs) / simEnsemble.stateData.downsampleStepSec)), <span class="keyword">...</span>
+0277                     <span class="string">'LineWidth'</span>, 2, <span class="string">'MarkerEdgeColor'</span>, [0 0 0], <span class="string">'MarkerFaceColor'</span>, [0 0 0], <span class="string">'Visible'</span>, <span class="string">'off'</span>);
+0278                 
+0279                 <span class="comment">% Indicate where first simulation terminated</span>
+0280                 <span class="keyword">if</span> options.markEarliestSimulationTermination
+0281                     CellOverview.markEarliestSimulationTermination(simEnsemble, axesHandle);
+0282                 <span class="keyword">end</span>
+0283             <span class="keyword">end</span>
+0284             
+0285             <span class="comment">%% Simulation completion tick marks</span>
+0286             <span class="keyword">if</span> options.simulationTicks
+0287                 axesHandle = axesHandles(nValuePlots + 2);
+0288                 
+0289                 dataHandles(:, end) = PlotUtil.plotColoredTicks(axesHandle, <span class="keyword">...</span>
+0290                     simEnsemble.stateData.simulationEndTimes / 3600, options.colorOrder);
+0291                 
+0292                 set(axesHandle, <span class="string">'YColor'</span>, get(figHandle, <span class="string">'Color'</span>));
+0293                 text(0.1, 0.1, <span class="string">'Simulation Completions'</span>, <span class="keyword">...</span>
+0294                     <span class="string">'HorizontalAlignment'</span>, <span class="string">'Left'</span>, <span class="keyword">...</span>
+0295                     <span class="string">'VerticalAlignment'</span>, <span class="string">'Bottom'</span>, <span class="keyword">...</span>
+0296                     <span class="string">'Parent'</span>, axesHandle, <span class="string">'Units'</span>, <span class="string">'data'</span>, <span class="keyword">...</span>
+0297                     <span class="string">'FontSize'</span>, 8);
+0298                 
+0299                 <span class="comment">% Indicate where first simulation terminated</span>
+0300                 <span class="keyword">if</span> options.markEarliestSimulationTermination
+0301                     CellOverview.markEarliestSimulationTermination(simEnsemble, axesHandle);
+0302                 <span class="keyword">end</span>
+0303             <span class="keyword">end</span>
+0304             
+0305             <span class="comment">%% Format Y-axis</span>
+0306             <span class="comment">%-Align Y-axis labels</span>
+0307             <span class="comment">%-offset</span>
+0308             PlotUtil.alignYAxesLabels(axesHandles);
+0309             axesHandles2 = PlotUtil.offsetYAxes(axesHandles, 0.015);
+0310             
+0311             <span class="comment">%% callbacks</span>
+0312             setappdata(figHandle, <span class="string">'nSimulations'</span>, nSims);
+0313             setappdata(figHandle, <span class="string">'nTotalPlots'</span>, nTotalPlots);
+0314             setappdata(figHandle, <span class="string">'axesHandles'</span>, axesHandles);
+0315             setappdata(figHandle, <span class="string">'axesHandles2'</span>, axesHandles2);
+0316             setappdata(figHandle, <span class="string">'dataHandles'</span>, dataHandles);
+0317             setappdata(figHandle, <span class="string">'colorOrder'</span>, options.colorOrder);
+0318             <span class="keyword">for</span> i = 1:nSims
+0319                 <span class="keyword">for</span> j = 1:nTotalPlots
+0320                     <span class="keyword">if</span> dataHandles(i, j) ~= 0
+0321                         setappdata(dataHandles(i, j), <span class="string">'simulationIdx'</span>, i);
+0322                         setappdata(dataHandles(i, j)', <span class="string">'propertyIdx'</span>, j);
+0323                         set(dataHandles(i, j), <span class="string">'ButtonDownFcn'</span>, @CellOverview.plotMultipleSimulations_Callback);
+0324                     <span class="keyword">end</span>
+0325                 <span class="keyword">end</span>
+0326             <span class="keyword">end</span>
+0327         <span class="keyword">end</span>
+0328         
+0329         <a name="_sub2" href="#_subfunctions" class="code">function plotMultipleSimulations_Callback(hObject, ~)</a>
+0330             import edu.stanford.covert.cell.sim.analysis.CellOverview;
+0331             
+0332             <span class="comment">%get selected figure, simulation, property</span>
+0333             figHandle = get(get(hObject, <span class="string">'parent'</span>), <span class="string">'parent'</span>);
+0334             simulationIdx = getappdata(hObject, <span class="string">'simulationIdx'</span>);
+0335             propertyIdx = getappdata(hObject, <span class="string">'propertyIdx'</span>);
+0336             
+0337             <span class="comment">%print selected simulation</span>
+0338             fprintf(<span class="string">'Simulation #%d selected\n'</span>, simulationIdx);
+0339             
+0340             <span class="comment">%highlight selected simulation</span>
+0341             CellOverview.unselectSimulations(figHandle);
+0342             CellOverview.selectSimulation(simulationIdx, propertyIdx, figHandle)
+0343         <span class="keyword">end</span>
+0344         
+0345         <a name="_sub3" href="#_subfunctions" class="code">function unselectSimulations(figHandle)</a>
+0346             <span class="comment">%get property of simulations</span>
+0347             nSims = getappdata(figHandle, <span class="string">'nSimulations'</span>);
+0348             colorOrder = getappdata(figHandle, <span class="string">'colorOrder'</span>) * 0.20 + 0.80 * 1;
+0349             lineWidth = ones(nSims, 1);
+0350             
+0351             <span class="comment">%get handles of related figures</span>
+0352             figHandles = getappdata(figHandle, <span class="string">'figHandles'</span>);
+0353             <span class="keyword">if</span> isempty(figHandles)
+0354                 figHandles = figHandle;
+0355             <span class="keyword">end</span>
+0356             
+0357             <span class="comment">%highlight selected simulation, dull others</span>
+0358             <span class="keyword">for</span> k = 1:numel(figHandles)
+0359                 <span class="keyword">try</span>
+0360                     dataHandles = getappdata(figHandles(k), <span class="string">'dataHandles'</span>);
+0361                 <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0362                     <span class="keyword">continue</span>;
+0363                 <span class="keyword">end</span>
+0364                 dataHandles = dataHandles(:, any(dataHandles, 1));
+0365                 nTotalPlots = size(dataHandles, 2);
+0366                 
+0367                 set(dataHandles, <span class="string">'Selected'</span>, <span class="string">'off'</span>);
+0368                 set(dataHandles(:, end-1), <span class="string">'visible'</span>, <span class="string">'off'</span>);
+0369                 
+0370                 <span class="keyword">for</span> j = [1:nTotalPlots-2 nTotalPlots]
+0371                     <span class="keyword">for</span> i = 1:nSims
+0372                         set(dataHandles(i, j), <span class="string">'Color'</span>, colorOrder(i, :), <span class="string">'LineWidth'</span>, lineWidth(i));
+0373                     <span class="keyword">end</span>
+0374                 <span class="keyword">end</span>
+0375             <span class="keyword">end</span>
+0376         <span class="keyword">end</span>
+0377         
+0378         <a name="_sub4" href="#_subfunctions" class="code">function selectSimulation(simulationIdx, propertyIdx, figHandle)</a>
+0379             <span class="comment">%get property of simulations</span>
+0380             colorOrder = getappdata(figHandle, <span class="string">'colorOrder'</span>);
+0381             
+0382             <span class="comment">%get handles of related figures</span>
+0383             figHandles = getappdata(figHandle, <span class="string">'figHandles'</span>);
+0384             <span class="keyword">if</span> isempty(figHandles)
+0385                 figHandles = figHandle;
+0386             <span class="keyword">end</span>
+0387             
+0388             <span class="comment">%highlight selected simulation, dull others</span>
+0389             <span class="keyword">for</span> k = 1:numel(figHandles)
+0390                 <span class="keyword">try</span>
+0391                     dataHandles = getappdata(figHandles(k), <span class="string">'dataHandles'</span>);
+0392                 <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0393                     <span class="keyword">continue</span>;
+0394                 <span class="keyword">end</span>
+0395                 dataHandles = dataHandles(:, any(dataHandles, 1));
+0396                 nTotalPlots = size(dataHandles, 2);
+0397                 
+0398                 set(dataHandles(simulationIdx, end-1), <span class="string">'visible'</span>, <span class="string">'on'</span>);
+0399                 
+0400                 <span class="keyword">for</span> j = [1:nTotalPlots-2 nTotalPlots]
+0401                     set(dataHandles(simulationIdx, j), <span class="string">'Color'</span>, colorOrder(simulationIdx, :), <span class="string">'LineWidth'</span>, 2);
+0402                     uistack(dataHandles(simulationIdx, j), <span class="string">'top'</span>);
+0403                 <span class="keyword">end</span>
+0404             <span class="keyword">end</span>
+0405             
+0406             <span class="comment">%briefly set selected plot selected='on'</span>
+0407             dataHandles = getappdata(figHandle, <span class="string">'dataHandles'</span>);
+0408             set(dataHandles(simulationIdx, propertyIdx), <span class="string">'Selected'</span>, <span class="string">'on'</span>);
+0409             drawnow;
+0410             pause(0.1);
+0411             set(dataHandles(simulationIdx, propertyIdx), <span class="string">'Selected'</span>, <span class="string">'off'</span>);
+0412             drawnow;
+0413         <span class="keyword">end</span>
+0414         
+0415         <a name="_sub5" href="#_subfunctions" class="code">function restoreSimulations()</a>
+0416             <span class="comment">%get property of simulations</span>
+0417             nSims = getappdata(figHandle, <span class="string">'nSimulations'</span>);
+0418             colorOrder = getappdata(figHandle, <span class="string">'colorOrder'</span>);
+0419             lineWidth = ones(nSims, 1);
+0420             
+0421             <span class="comment">%get handles of related figures</span>
+0422             figHandles = getappdata(figHandle, <span class="string">'figHandles'</span>);
+0423             <span class="keyword">if</span> isempty(figHandles)
+0424                 figHandles = figHandle;
+0425             <span class="keyword">end</span>
+0426             
+0427             <span class="comment">%highlight selected simulation, dull others</span>
+0428             <span class="keyword">for</span> k = 1:numel(figHandles)
+0429                 <span class="keyword">try</span>
+0430                     dataHandles = getappdata(figHandles(k), <span class="string">'dataHandles'</span>);
+0431                 <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0432                     <span class="keyword">continue</span>;
+0433                 <span class="keyword">end</span>
+0434                 dataHandles = dataHandles(:, any(dataHandles, 1));
+0435                 nTotalPlots = size(dataHandles, 2);
+0436                 
+0437                 set(dataHandles, <span class="string">'Selected'</span>, <span class="string">'off'</span>);
+0438                 set(dataHandles(:, end-1), <span class="string">'visible'</span>, <span class="string">'off'</span>);
+0439                 
+0440                 <span class="keyword">for</span> j = [1:nTotalPlots-2 nTotalPlots]
+0441                     <span class="keyword">for</span> i = 1:nSims
+0442                         set(dataHandles(i, j), <span class="string">'Color'</span>, colorOrder(i, :), <span class="string">'LineWidth'</span>, lineWidth(i));
+0443                     <span class="keyword">end</span>
+0444                 <span class="keyword">end</span>
+0445             <span class="keyword">end</span>
+0446         <span class="keyword">end</span>
+0447         
+0448         <span class="comment">% Indicate where first simulation terminated</span>
+0449         <a name="_sub6" href="#_subfunctions" class="code">function markEarliestSimulationTermination(simEnsemble, axesHandle)            </a>
+0450             valid = simEnsemble.getEarliestTermination() / 3600;
+0451             yr = ylim(axesHandle);
+0452             line([valid valid], yr, <span class="keyword">...</span>
+0453                 <span class="string">'Parent'</span>, axesHandle, <span class="keyword">...</span>
+0454                 <span class="string">'LineStyle'</span>, <span class="string">'--'</span>,<span class="keyword">...</span>
+0455                 <span class="string">'Color'</span>, <span class="string">'c'</span>, <span class="keyword">...</span>
+0456                 <span class="string">'LineWidth'</span>, 1);
+0457         <span class="keyword">end</span>
+0458         
+0459         <a name="_sub7" href="#_subfunctions" class="code">function plotInitialGrowthVsEndTime(simEnsemble, figHandle)</a>
+0460             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0461             
+0462             ind = simEnsemble.getPropertyIndices(<span class="string">'growth_rate'</span>);
+0463             <span class="keyword">if</span> isnan(ind)
+0464                 <span class="keyword">return</span>
+0465             <span class="keyword">end</span>
+0466             clf(figHandle)
+0467             
+0468             axesHandle = subplot(1, 1, 1);
+0469             
+0470             growth_rates = permute(simEnsemble.stateData.values(ind, :, :, :), [4 3 1 2]);
+0471             initial_growth_rates = growth_rates(:, 1);
+0472             PlotUtil.plotScatter(axesHandle, initial_growth_rates * 3600, simEnsemble.stateData.simulationEndTimes, 100, 1:length(initial_growth_rates), <span class="string">'x'</span>);
+0473             xlabel(axesHandle, <span class="string">'Initial Growth Rate (cell/h)'</span>, <span class="string">'FontSize'</span>, 14)
+0474             ylabel(axesHandle, <span class="string">'Simulation End Time (s)'</span>, <span class="string">'FontSize'</span>, 14)
+0475             title(axesHandle, sprintf(<span class="string">'Overview: %s'</span>,<span class="keyword">...</span>
+0476                 simEnsemble.getTimeStamp()), <span class="keyword">...</span>
+0477                 <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'FontSize'</span>, 14);
+0478         <span class="keyword">end</span>
+0479         
+0480         <a name="_sub8" href="#_subfunctions" class="code">function plotFinalGrowthVsEndTime(simEnsemble, figHandle)</a>
+0481             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0482             
+0483             ind = simEnsemble.getPropertyIndices(<span class="string">'growth_rate'</span>);
+0484             <span class="keyword">if</span> isnan(ind)
+0485                 <span class="keyword">return</span>
+0486             <span class="keyword">end</span>
+0487             clf(figHandle)
+0488             
+0489             axesHandle = subplot(1, 1, 1);
+0490             
+0491             growth_rates = permute(simEnsemble.stateData.values(ind, :, :, :), [4 3 1 2]);
+0492             final_growth_rates = zeros(size(simEnsemble.stateData.simulationEndTimes));
+0493             <span class="keyword">for</span> i = 1:length(final_growth_rates)
+0494                 endLoc = find(simEnsemble.stateData.time == simEnsemble.stateData.simulationEndTimes(i), 1);
+0495                 <span class="keyword">if</span> ~isempty(endLoc)
+0496                     final_growth_rates(i) = growth_rates(i, endLoc);
+0497                 <span class="keyword">end</span>
+0498             <span class="keyword">end</span>
+0499             PlotUtil.plotScatter(axesHandle, final_growth_rates * 3600, simEnsemble.stateData.simulationEndTimes, 100, 1:length(final_growth_rates), <span class="string">'x'</span>);
+0500             xlabel(axesHandle, <span class="string">'Final Growth Rate (cell/h)'</span>, <span class="string">'FontSize'</span>, 14)
+0501             ylabel(axesHandle, <span class="string">'Simulation End Time (s)'</span>, <span class="string">'FontSize'</span>, 14)
+0502             title(axesHandle, sprintf(<span class="string">'Overview: %s'</span>,<span class="keyword">...</span>
+0503                 simEnsemble.getTimeStamp()), <span class="keyword">...</span>
+0504                 <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'FontSize'</span>, 14);
+0505         <span class="keyword">end</span>
+0506     <span class="keyword">end</span>
+0507 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

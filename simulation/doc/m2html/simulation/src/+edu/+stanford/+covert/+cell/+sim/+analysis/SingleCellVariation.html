@@ -1,0 +1,461 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SingleCellVariation</title>
+  <meta name="keywords" content="SingleCellVariation">
+  <meta name="description" content="SingleCellVariation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; SingleCellVariation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SingleCellVariation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SingleCellVariation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SingleCellVariation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 3/23/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SingleCellVariation.html" class="code" title="">SingleCellVariation</a>	SingleCellVariation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SingleCellVariation.html" class="code" title="">SingleCellVariation</a>	SingleCellVariation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function growthRates = sampleSingleCellVariationDistribution(sim, nTrials)</a></li><li><a href="#_sub3" class="code">function [content, colLabels, indentation] = printSingleCellVariationDistribution(sim, growthRates)</a></li><li><a href="#_sub4" class="code">function plotSingleCellVariationGrowthRateDistribution(sim, growthRates, axesHandle)</a></li><li><a href="#_sub5" class="code">function plotSingleCellVariationDoublingTimeDistribution(sim, growthRates, axesHandle)</a></li><li><a href="#_sub6" class="code">function plotExpected_Vs_Simulated_RNA_Weight_Fractions(sim, axesHandle)</a></li><li><a href="#_sub7" class="code">function plotExpected_Vs_Simulated_RNA_Expression(sim, axesHandle)</a></li><li><a href="#_sub8" class="code">function plotExpected_Vs_Simulated_rRNAExpression(sim, axesHandle)</a></li><li><a href="#_sub9" class="code">function plotExpected_Vs_Simulated_sRNA_Expression(sim, axesHandle)</a></li><li><a href="#_sub10" class="code">function plotExpected_Vs_Simulated_tRNA_Expression(sim, axesHandle)</a></li><li><a href="#_sub11" class="code">function plotExpected_Vs_Simulated_Monomer_Expression(sim, axesHandle)</a></li><li><a href="#_sub12" class="code">function plotExpected_Vs_Simulated_NTP_Incorporation(sim, axesHandle)</a></li><li><a href="#_sub13" class="code">function plotExpected_Vs_Simulated_AA_Incorporation(sim, axesHandle)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%SingleCellVariation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 3/23/2011</span>
+0006 classdef <a href="SingleCellVariation.html" class="code" title="">SingleCellVariation</a>
+0007     methods (Static)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0009             import edu.stanford.covert.cell.sim.analysis.SingleCellVariation;
+0010             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0011             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0012             
+0013             <span class="comment">%sample growth rate distribution</span>
+0014             initialGrowthFilterWidth = sim.state(<span class="string">'MetabolicReaction'</span>).initialGrowthFilterWidth;
+0015             sim.state(<span class="string">'MetabolicReaction'</span>).initialGrowthFilterWidth = Inf;
+0016             growthRates = SingleCellVariation.sampleSingleCellVariationDistribution(sim, 100);
+0017             sim.state(<span class="string">'MetabolicReaction'</span>).initialGrowthFilterWidth = initialGrowthFilterWidth;
+0018             assertElementsAlmostEqual(sim.state(<span class="string">'MetabolicReaction'</span>).meanInitialGrowthRate, mean(growthRates), <span class="string">'relative'</span>, 0.50, 0);
+0019             
+0020             <span class="comment">%% excel file</span>
+0021             [content, colLabels, indentation] = SingleCellVariation.printSingleCellVariationDistribution(sim, growthRates);
+0022             <span class="keyword">if</span> nargin == 1
+0023                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0024             <span class="keyword">else</span>
+0025                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'GrowthRate'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0026             <span class="keyword">end</span>
+0027             
+0028             <span class="comment">%% plots</span>
+0029             <span class="keyword">if</span> nargin == 1
+0030                 SingleCellVariation.plotSingleCellVariationGrowthRateDistribution(sim, growthRates, PlotUtil.newAxesHandle());
+0031                 SingleCellVariation.plotSingleCellVariationDoublingTimeDistribution(sim, growthRates, PlotUtil.newAxesHandle());
+0032                 SingleCellVariation.plotExpected_Vs_Simulated_RNA_Weight_Fractions(sim, PlotUtil.newAxesHandle());
+0033                 SingleCellVariation.plotExpected_Vs_Simulated_RNA_Expression(sim, PlotUtil.newAxesHandle());
+0034                 SingleCellVariation.plotExpected_Vs_Simulated_rRNAExpression(sim, PlotUtil.newAxesHandle());
+0035                 SingleCellVariation.plotExpected_Vs_Simulated_sRNA_Expression(sim, PlotUtil.newAxesHandle());
+0036                 SingleCellVariation.plotExpected_Vs_Simulated_tRNA_Expression(sim, PlotUtil.newAxesHandle());
+0037                 SingleCellVariation.plotExpected_Vs_Simulated_Monomer_Expression(sim, PlotUtil.newAxesHandle());
+0038                 SingleCellVariation.plotExpected_Vs_Simulated_NTP_Incorporation(sim, PlotUtil.newAxesHandle());
+0039                 SingleCellVariation.plotExpected_Vs_Simulated_AA_Incorporation(sim, PlotUtil.newAxesHandle());
+0040             <span class="keyword">else</span>
+0041                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0042                 
+0043                 cla(axesHandle);
+0044                 SingleCellVariation.plotSingleCellVariationGrowthRateDistribution(sim, growthRates, axesHandle);
+0045                 saveas(figHandle, [fileName <span class="string">'-GrowthRate.pdf'</span>]);
+0046                 
+0047                 cla(axesHandle);
+0048                 SingleCellVariation.plotSingleCellVariationDoublingTimeDistribution(sim, growthRates, axesHandle);
+0049                 saveas(figHandle, [fileName <span class="string">'-DoublingTime.pdf'</span>]);
+0050                 
+0051                 cla(axesHandle);
+0052                 SingleCellVariation.plotExpected_Vs_Simulated_RNA_Weight_Fractions(sim, axesHandle);
+0053                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_RNA_Weight_Fractions.pdf'</span>]);
+0054                 
+0055                 cla(axesHandle);
+0056                 SingleCellVariation.plotExpected_Vs_Simulated_RNA_Expression(sim, axesHandle);
+0057                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_RNA_Expression.pdf'</span>]);
+0058                 
+0059                 cla(axesHandle);
+0060                 SingleCellVariation.plotExpected_Vs_Simulated_rRNAExpression(sim, axesHandle);
+0061                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_rRNA_Expression.pdf'</span>]);
+0062                 
+0063                 cla(axesHandle);
+0064                 SingleCellVariation.plotExpected_Vs_Simulated_sRNA_Expression(sim, axesHandle);
+0065                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_sRNA_Expression.pdf'</span>]);
+0066                 
+0067                 cla(axesHandle);
+0068                 SingleCellVariation.plotExpected_Vs_Simulated_tRNA_Expression(sim, axesHandle);
+0069                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_tRNA_Expression.pdf'</span>]);
+0070                 
+0071                 cla(axesHandle);
+0072                 SingleCellVariation.plotExpected_Vs_Simulated_Monomer_Expression(sim, axesHandle);
+0073                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_Monomer_Expression.pdf'</span>]);
+0074                 
+0075                 cla(axesHandle);
+0076                 SingleCellVariation.plotExpected_Vs_Simulated_NTP_Incorporation(sim, axesHandle);
+0077                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_NTP_Incorporation.pdf'</span>]);
+0078                 
+0079                 cla(axesHandle);
+0080                 SingleCellVariation.plotExpected_Vs_Simulated_AA_Incorporation(sim, axesHandle);
+0081                 saveas(figHandle, [fileName <span class="string">'-Expected_Vs_Simulated_AA_Incorporation.pdf'</span>]);
+0082                 
+0083                 close(figHandle);
+0084             <span class="keyword">end</span>
+0085         <span class="keyword">end</span>
+0086     <span class="keyword">end</span>
+0087     
+0088     methods (Static = true)
+0089         <a name="_sub1" href="#_subfunctions" class="code">function growthRates = sampleSingleCellVariationDistribution(sim, nTrials)</a>
+0090             warnStatus = warning(<span class="string">'query'</span>, <span class="string">'WholeCell:warning'</span>);
+0091             warning(<span class="string">'off'</span>, <span class="string">'WholeCell:warning'</span>);
+0092             
+0093             growthRates = zeros(nTrials, 1);
+0094             r = sim.state(<span class="string">'MetabolicReaction'</span>);
+0095             <span class="keyword">for</span> i = 1:nTrials
+0096                 <span class="comment">%seed rand stream</span>
+0097                 sim.applyOptions(struct(<span class="string">'seed'</span>, i));
+0098                 <span class="keyword">for</span> j = 1:numel(sim.states)
+0099                     o = sim.states{j};
+0100                     o.seed = i;
+0101                 <span class="keyword">end</span>
+0102                 <span class="keyword">for</span> j = 1:numel(sim.processes)
+0103                     o = sim.processes{j};
+0104                     o.seed = i;
+0105                 <span class="keyword">end</span>
+0106                 
+0107                 <span class="comment">%calculate growth rate</span>
+0108                 sim.initializeState();
+0109                 growthRates(i) = r.growth;
+0110             <span class="keyword">end</span>
+0111             
+0112             warning(warnStatus.state, <span class="string">'WholeCell:warning'</span>);
+0113         <span class="keyword">end</span>
+0114     <span class="keyword">end</span>
+0115     
+0116     <span class="comment">%printing</span>
+0117     methods (Static = true)
+0118         <a name="_sub2" href="#_subfunctions" class="code">function [content, colLabels, indentation] = printSingleCellVariationDistribution(sim, growthRates)</a>
+0119             <span class="comment">%import classes</span>
+0120             import edu.stanford.covert.util.ConstantUtil;
+0121             import edu.stanford.covert.cell.sim.Simulation;
+0122             
+0123             content = cell(0, 4);
+0124             colLabels = {<span class="string">'Trial'</span>, <span class="string">'Growth Rate (cell/s)'</span>, <span class="string">'Doubling Time (hr)'</span>};
+0125             
+0126             <span class="comment">%time</span>
+0127             content = [content;
+0128                 num2cell(zeros(size(growthRates)))  cellfun(@(x) num2str(x), num2cell((1:numel(growthRates))'), <span class="string">'UniformOutput'</span>, false)  num2cell(growthRates)  num2cell(1./(growthRates*3600)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight)
+0129                 ];
+0130             
+0131             content = [content;{
+0132                 0 <span class="string">'Mean'</span>          mean(growthRates)  1/(mean(growthRates)*3600)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight
+0133                 0 <span class="string">'Min'</span>           min(growthRates)   1/(max(growthRates)*3600)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight
+0134                 0 <span class="string">'Max'</span>           max(growthRates)   1/(min(growthRates)*3600)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight
+0135                 0 <span class="string">'Experimental'</span>  1/(sim.state(<span class="string">'Time'</span>).cellCycleLength)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight sim.state(<span class="string">'Time'</span>).cellCycleLength/3600
+0136                 }];
+0137             
+0138             <span class="comment">%format output</span>
+0139             indentation = cell2mat(content(:, 1));
+0140             content = content(:, 2:end);
+0141         <span class="keyword">end</span>
+0142     <span class="keyword">end</span>
+0143     
+0144     <span class="comment">%plotting</span>
+0145     methods (Static = true)
+0146         <a name="_sub3" href="#_subfunctions" class="code">function plotSingleCellVariationGrowthRateDistribution(sim, growthRates, axesHandle)</a>
+0147             hist(axesHandle, growthRates, 10);
+0148             xlims = xlim(axesHandle);
+0149             ylims = ylim(axesHandle);
+0150             xlabel(<span class="string">'Growth (cell/s)'</span>, <span class="string">'FontSize'</span>, 12);
+0151             ylabel(<span class="string">'Frequency'</span>, <span class="string">'FontSize'</span>, 12);
+0152             
+0153             h2 = line(mean(growthRates) * [1 1], ylims);
+0154             set(h2, <span class="string">'Color'</span>, <span class="string">'g'</span>);
+0155             
+0156             h3 = line(median(growthRates) * [1 1], ylims);
+0157             set(h3, <span class="string">'Color'</span>, <span class="string">'c'</span>);
+0158             
+0159             mu = mean(growthRates);
+0160             sigma = std(growthRates);
+0161             h4 = line([mu-sigma; mu-sigma], ylims);
+0162             h5 = line([mu+sigma; mu+sigma], ylims);
+0163             set(h4, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0164             set(h5, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0165             
+0166             mr = sim.state(<span class="string">'MetabolicReaction'</span>);
+0167             mu = mr.meanInitialGrowthRate;
+0168             wd = mr.initialGrowthFilterWidth;
+0169             h6 = line(mu*(1-wd)*[1 1], ylims);
+0170             h7 = line(mu*(1+wd)*[1 1], ylims);
+0171             set(h6, <span class="string">'Color'</span>, <span class="string">'y'</span>);
+0172             set(h7, <span class="string">'Color'</span>, <span class="string">'y'</span>);
+0173             
+0174             h = legend([h2 h3 h4 h6], <span class="string">'Mean'</span>, <span class="string">'Median'</span>, <span class="string">'Mean \pm 1 Std'</span>, <span class="string">'Filter'</span>);
+0175             set(h, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0176             
+0177             xlim(axesHandle, xlims);
+0178             ylim(axesHandle, ylims);
+0179         <span class="keyword">end</span>
+0180         
+0181         <a name="_sub4" href="#_subfunctions" class="code">function plotSingleCellVariationDoublingTimeDistribution(sim, growthRates, axesHandle)</a>
+0182             thresh = sim.state(<span class="string">'Time'</span>).cellCycleLength/3600 * 2;
+0183             
+0184             doublingTimes = 1./(growthRates * 3600)/sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight;
+0185             hist(axesHandle, doublingTimes(doublingTimes &lt;= thresh), 10);
+0186             h1 = findobj(gca, <span class="string">'Type'</span>, <span class="string">'patch'</span>);
+0187             xlabel(<span class="string">'Doubling Time (h)'</span>, <span class="string">'FontSize'</span>, 12);
+0188             ylabel(<span class="string">'Frequency'</span>, <span class="string">'FontSize'</span>, 12);
+0189             xlim([floor(min(doublingTimes(doublingTimes &lt;= thresh))) ceil(max(doublingTimes(doublingTimes &lt;= thresh)))]);
+0190             
+0191             h2 = line(1/(mean(growthRates) * 3600) / sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight * [1 1], [0 max(ylim)]);
+0192             set(h2, <span class="string">'Color'</span>, <span class="string">'g'</span>);
+0193             
+0194             h3 = line(1/(median(growthRates) * 3600) / sim.state(<span class="string">'Mass'</span>).timeAveragedCellWeight * [1 1], [0 max(ylim)]);
+0195             set(h3, <span class="string">'Color'</span>, <span class="string">'c'</span>);
+0196             
+0197             h4 = line(sim.state(<span class="string">'Time'</span>).cellCycleLength * [1 1] / 3600, [0 max(ylim)]);
+0198             set(h4, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0199             
+0200             h = legend([h1(1) h2 h3 h4], sprintf(<span class="string">'Simulation, growth (%.1f%%)'</span>, 100 * sum(doublingTimes &lt;= thresh) / numel(doublingTimes)), <span class="string">'Sim-Mean'</span>, <span class="string">'Sim-Median'</span>, <span class="string">'Exp-Mean'</span>);
+0201             set(h, <span class="string">'Location'</span>, <span class="string">'NorthEast'</span>);
+0202         <span class="keyword">end</span>
+0203         
+0204         <a name="_sub5" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_RNA_Weight_Fractions(sim, axesHandle)</a>
+0205             import edu.stanford.covert.cell.sim.analysis.Constants;
+0206             import edu.stanford.covert.util.ConstantUtil;
+0207             
+0208             r = sim.state(<span class="string">'Rna'</span>);
+0209             
+0210             weightFractions = [<span class="keyword">...</span>
+0211                 r.molecularWeights(r.matureIndexs(r.matureMRNAIndexs))' * <span class="keyword">...</span>
+0212                 sum(sum(r.counts(r.matureIndexs(r.matureMRNAIndexs), :, :), 3), 2);<span class="keyword">...</span>
+0213                 r.molecularWeights(r.matureIndexs(r.matureRibosomalRRNAIndexs)) .* <span class="keyword">...</span>
+0214                 sum(sum(r.counts(r.matureIndexs(r.matureRibosomalRRNAIndexs), :, :), 3), 2);<span class="keyword">...</span>
+0215                 r.molecularWeights(r.matureIndexs(r.matureSRNAIndexs))' * <span class="keyword">...</span>
+0216                 sum(sum(r.counts(r.matureIndexs(r.matureSRNAIndexs), :, :), 3), 2)
+0217                 r.molecularWeights(r.matureIndexs(r.matureTRNAIndexs))' * <span class="keyword">...</span>
+0218                 sum(sum(r.counts(r.matureIndexs(r.matureTRNAIndexs), :, :), 3), 2)] / <span class="keyword">...</span>
+0219                 ConstantUtil.nAvogadro;
+0220             
+0221             plot(axesHandle, r.expectedWeightFractions, weightFractions, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0222             line([0 1], [0 sum(weightFractions)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0223             xlim([min(r.expectedGeneDecayRates) max(r.weightFractions)]);
+0224             ylim([min(weightFractions) max(weightFractions)]);
+0225             xlabel(axesHandle, <span class="string">'Expected Weight Fraction'</span>, <span class="string">'fontSize'</span>, 16);
+0226             ylabel(axesHandle, <span class="string">'Simulated Weight (g)'</span>, <span class="string">'fontSize'</span>, 16);
+0227         <span class="keyword">end</span>
+0228         
+0229         <a name="_sub6" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_RNA_Expression(sim, axesHandle)</a>
+0230             import edu.stanford.covert.cell.sim.analysis.Constants;
+0231             
+0232             r = sim.state(<span class="string">'Rna'</span>);
+0233             
+0234             expression = r.expression(r.matureIndexs);
+0235             
+0236             RNAs = sum(sum(<span class="keyword">...</span>
+0237                 r.counts(r.processedIndexs,     :, :) + <span class="keyword">...</span>
+0238                 r.counts(r.matureIndexs,        :, :) + <span class="keyword">...</span>
+0239                 r.counts(r.boundIndexs,         :, :) + <span class="keyword">...</span>
+0240                 r.counts(r.misfoldedIndexs,     :, :) + <span class="keyword">...</span>
+0241                 r.counts(r.damagedIndexs,       :, :) + <span class="keyword">...</span>
+0242                 r.counts(r.aminoacylatedIndexs, :, :), <span class="keyword">...</span>
+0243                 3), 2);
+0244             
+0245             plot(axesHandle, expression, RNAs, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0246             line([0 1], [0 sum(RNAs)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0247             xlim([min(expression) max(expression)]);
+0248             ylim([min(RNAs) max(RNAs)]);
+0249             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'fontSize'</span>, 16);
+0250             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0251         <span class="keyword">end</span>
+0252         
+0253         <a name="_sub7" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_rRNAExpression(sim, axesHandle)</a>
+0254             import edu.stanford.covert.cell.sim.analysis.Constants;
+0255             
+0256             r = sim.state(<span class="string">'Rna'</span>);
+0257             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0258             
+0259             expression = r.geneExpression(sim.gene.rRNAIndexs);
+0260             expression = expression / sum(expression);
+0261             
+0262             RNAs = sum(sum(<span class="keyword">...</span>
+0263                 r.counts(r.processedIndexs(    r.matureRRNAIndexs), :, :) + <span class="keyword">...</span>
+0264                 r.counts(r.matureIndexs(       r.matureRRNAIndexs), :, :) + <span class="keyword">...</span>
+0265                 r.counts(r.boundIndexs(        r.matureRRNAIndexs), :, :) + <span class="keyword">...</span>
+0266                 r.counts(r.misfoldedIndexs(    r.matureRRNAIndexs), :, :) + <span class="keyword">...</span>
+0267                 r.counts(r.damagedIndexs(      r.matureRRNAIndexs), :, :) + <span class="keyword">...</span>
+0268                 r.counts(r.aminoacylatedIndexs(r.matureRRNAIndexs), :, :), <span class="keyword">...</span>
+0269                 3), 2) + <span class="keyword">...</span>
+0270                 sum(c.proteinComplexComposition(sim.gene.rRNAIndexs, :, :), 3) * <span class="keyword">...</span>
+0271                 sum(sum(<span class="keyword">...</span>
+0272                 c.counts(c.matureIndexs,      :, :) + <span class="keyword">...</span>
+0273                 c.counts(c.inactivatedIndexs, :, :) + <span class="keyword">...</span>
+0274                 c.counts(c.boundIndexs,       :, :) + <span class="keyword">...</span>
+0275                 c.counts(c.misfoldedIndexs,   :, :) + <span class="keyword">...</span>
+0276                 c.counts(c.damagedIndexs,     :, :), 3), 2);
+0277             
+0278             plot(axesHandle, expression, RNAs, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0279             line([0 1], [0 sum(RNAs)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0280             xlim([min(0.3, min(expression)) max(0.4, max(expression))]);
+0281             ylim([min(RNAs)-1 max(RNAs)+1]);
+0282             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'fontSize'</span>, 16);
+0283             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0284         <span class="keyword">end</span>
+0285         
+0286         <a name="_sub8" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_sRNA_Expression(sim, axesHandle)</a>
+0287             import edu.stanford.covert.cell.sim.analysis.Constants;
+0288             
+0289             r = sim.state(<span class="string">'Rna'</span>);
+0290             
+0291             expression = r.geneExpression(sim.gene.sRNAIndexs);
+0292             expression = expression / sum(expression);
+0293             
+0294             RNAs = sum(sum(<span class="keyword">...</span>
+0295                 r.counts(r.processedIndexs(    r.matureSRNAIndexs), :, :) + <span class="keyword">...</span>
+0296                 r.counts(r.matureIndexs(       r.matureSRNAIndexs), :, :) + <span class="keyword">...</span>
+0297                 r.counts(r.boundIndexs(        r.matureSRNAIndexs), :, :) + <span class="keyword">...</span>
+0298                 r.counts(r.misfoldedIndexs(    r.matureSRNAIndexs), :, :) + <span class="keyword">...</span>
+0299                 r.counts(r.damagedIndexs(      r.matureSRNAIndexs), :, :) + <span class="keyword">...</span>
+0300                 r.counts(r.aminoacylatedIndexs(r.matureSRNAIndexs), :, :), <span class="keyword">...</span>
+0301                 3), 2);
+0302             
+0303             plot(axesHandle, expression, RNAs, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0304             line([0 1], [0 sum(RNAs)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0305             xlim([min(expression) max(expression)]);
+0306             ylim([min(RNAs) max(RNAs)]);
+0307             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'fontSize'</span>, 16);
+0308             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0309         <span class="keyword">end</span>
+0310         
+0311         <a name="_sub9" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_tRNA_Expression(sim, axesHandle)</a>
+0312             import edu.stanford.covert.cell.sim.analysis.Constants;
+0313             
+0314             r = sim.state(<span class="string">'Rna'</span>);
+0315             
+0316             expression = r.geneExpression(sim.gene.tRNAIndexs);
+0317             expression = expression / sum(expression);
+0318             
+0319             RNAs = sum(sum(<span class="keyword">...</span>
+0320                 r.counts(r.processedIndexs(    r.matureTRNAIndexs), :, :) + <span class="keyword">...</span>
+0321                 r.counts(r.matureIndexs(       r.matureTRNAIndexs), :, :) + <span class="keyword">...</span>
+0322                 r.counts(r.boundIndexs(        r.matureTRNAIndexs), :, :) + <span class="keyword">...</span>
+0323                 r.counts(r.misfoldedIndexs(    r.matureTRNAIndexs), :, :) + <span class="keyword">...</span>
+0324                 r.counts(r.damagedIndexs(      r.matureTRNAIndexs), :, :) + <span class="keyword">...</span>
+0325                 r.counts(r.aminoacylatedIndexs(r.matureTRNAIndexs), :, :), <span class="keyword">...</span>
+0326                 3), 2);
+0327             
+0328             plot(axesHandle, expression, RNAs, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0329             line([0 1], [0 sum(RNAs)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0330             xlim([min(expression) max(expression)]);
+0331             ylim([min(RNAs) max(RNAs)]);
+0332             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'fontSize'</span>, 16);
+0333             ylabel(axesHandle, <span class="string">'Copy Number'</span>, <span class="string">'fontSize'</span>, 16);
+0334         <span class="keyword">end</span>
+0335                 
+0336         <a name="_sub10" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_Monomer_Expression(sim, axesHandle)</a>
+0337             import edu.stanford.covert.cell.sim.analysis.Constants;
+0338             
+0339             r = sim.state(<span class="string">'Rna'</span>);
+0340             m = sim.state(<span class="string">'ProteinMonomer'</span>);
+0341             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0342             
+0343             expression = r.geneExpression(sim.gene.mRNAIndexs) ./ m.halfLives(m.matureIndexs);
+0344             expression = expression / sum(expression);
+0345             
+0346             monomers = <span class="keyword">...</span>
+0347                 sum(sum(<span class="keyword">...</span>
+0348                 m.counts(m.matureIndexs,      :, :) + <span class="keyword">...</span>
+0349                 m.counts(m.inactivatedIndexs, :, :) + <span class="keyword">...</span>
+0350                 m.counts(m.boundIndexs,       :, :) + <span class="keyword">...</span>
+0351                 m.counts(m.misfoldedIndexs,   :, :) + <span class="keyword">...</span>
+0352                 m.counts(m.damagedIndexs,     :, :), 3), 2) + <span class="keyword">...</span>
+0353                 sum(c.proteinComplexComposition(sim.gene.mRNAIndexs, :, :), 3) * <span class="keyword">...</span>
+0354                 sum(sum(<span class="keyword">...</span>
+0355                 c.counts(c.matureIndexs,      :, :) + <span class="keyword">...</span>
+0356                 c.counts(c.inactivatedIndexs, :, :) + <span class="keyword">...</span>
+0357                 c.counts(c.boundIndexs,       :, :) + <span class="keyword">...</span>
+0358                 c.counts(c.misfoldedIndexs,   :, :) + <span class="keyword">...</span>
+0359                 c.counts(c.damagedIndexs,     :, :), 3), 2);
+0360             
+0361             plot(axesHandle, expression, monomers, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 10);
+0362             line([0 1], [0 sum(monomers)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0363             xlim([min(expression) max(expression)]);
+0364             ylim([min(monomers) max(monomers)]);
+0365             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'fontSize'</span>, 16);
+0366             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0367         <span class="keyword">end</span>
+0368         
+0369         <a name="_sub11" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_NTP_Incorporation(sim, axesHandle)</a>
+0370             import edu.stanford.covert.cell.sim.analysis.Constants;
+0371             
+0372             r = sim.state(<span class="string">'Rna'</span>);
+0373             m = sim.state(<span class="string">'Metabolite'</span>);
+0374             
+0375             nmpComposition = sum(m.nmpComposition, 2);
+0376             
+0377             ntps = sum(sum(multiprod(r.baseCounts(:, sim.state(<span class="string">'Metabolite'</span>).nmpIndexs)', r.counts, [1 2], [1 2]), 3), 2);
+0378             
+0379             plot(axesHandle, nmpComposition, ntps, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0380             line([0 1], [0 sum(ntps)], <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0381             xlim([min(nmpComposition) max(nmpComposition)]);
+0382             ylim([min(ntps) max(ntps)]);
+0383             xlabel(axesHandle, <span class="string">'Expected Incorporation'</span>, <span class="string">'fontSize'</span>, 16);
+0384             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0385         <span class="keyword">end</span>
+0386         
+0387         <a name="_sub12" href="#_subfunctions" class="code">function plotExpected_Vs_Simulated_AA_Incorporation(sim, axesHandle)</a>
+0388             import edu.stanford.covert.cell.sim.analysis.Constants;
+0389             
+0390             met = sim.state(<span class="string">'Metabolite'</span>);
+0391             m = sim.state(<span class="string">'ProteinMonomer'</span>);
+0392             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0393             
+0394             aaComposition = sum(met.aaComposition, 2);
+0395             
+0396             aas = multiprod(m.baseCounts(:, sim.state(<span class="string">'Metabolite'</span>).aminoAcidIndexs)', m.counts, [1 2], [1 2]) + <span class="keyword">...</span>
+0397                 multiprod(c.baseCounts(:, sim.state(<span class="string">'Metabolite'</span>).aminoAcidIndexs)', c.counts, [1 2], [1 2]);
+0398             aas = sum(sum(aas, 3), 2);
+0399             
+0400             plot(axesHandle, aaComposition, aas, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>, 20);
+0401             line([0 1], [0 sum(aas)],<span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'r'</span>);
+0402             xlim([min(aaComposition) max(aaComposition)]);
+0403             ylim([min(aas) max(aas)]);
+0404             xlabel(axesHandle, <span class="string">'Expected Incorporation'</span>, <span class="string">'fontSize'</span>, 16);
+0405             ylabel(axesHandle, <span class="string">'Simulated Counts'</span>, <span class="string">'fontSize'</span>, 16);
+0406         <span class="keyword">end</span>
+0407     <span class="keyword">end</span>
+0408 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

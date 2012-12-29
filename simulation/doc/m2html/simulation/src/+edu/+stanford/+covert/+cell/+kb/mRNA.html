@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of mRNA</title>
+  <meta name="keywords" content="mRNA">
+  <meta name="description" content="Defines a mRNA polymer">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; mRNA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>mRNA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a mRNA polymer</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a mRNA polymer
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="mRNA.html" class="code" title="">mRNA</a>	Defines a mRNA polymer</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="mRNA.html" class="code" title="">mRNA</a>	Defines a mRNA polymer</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = mRNA(knowledgeBase, wid,wholeCellModelID, name,</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a mRNA polymer</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="mRNA.html" class="code" title="">mRNA</a> &lt; edu.stanford.covert.cell.kb.ssRNA
+0007     methods
+0008         <a name="_sub0" href="#_subfunctions" class="code">function this = mRNA(knowledgeBase, wid,wholeCellModelID, name, </a><span class="keyword">...</span>
+0009                 sequence, <span class="keyword">...</span>
+0010                 comments, crossReferences)
+0011 
+0012             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0013 
+0014             this = edu.stanford.covert.cell.kb.mRNA.empty(size(wid,1),0);
+0015             this(size(wid,1),1) = edu.stanford.covert.cell.kb.ssRNA;
+0016             <span class="keyword">for</span> i = 1:size(wid,1)
+0017                 this(i,1).idx = i;
+0018                 this(i,1).knowledgeBase = knowledgeBase;
+0019                 this(i,1).wid = wid(i);
+0020                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0021                 this(i,1).name = name{i};
+0022                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0023                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0024                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0025                         this(i,1).crossReferences = crossReferences(i);
+0026                     <span class="keyword">else</span>
+0027                         this(i,1).crossReferences = struct;
+0028                         fields = fieldnames(crossReferences);
+0029                         <span class="keyword">for</span> j = 1:size(fields,1)
+0030                             values = crossReferences.(fields{j});
+0031                             this(i,1).crossReferences.(fields{j}) = values(i);
+0032                         <span class="keyword">end</span>
+0033                     <span class="keyword">end</span>
+0034                 <span class="keyword">end</span>
+0035 
+0036                 this(i,1).sequence = sequence(i);
+0037             <span class="keyword">end</span>
+0038         <span class="keyword">end</span>
+0039     <span class="keyword">end</span>
+0040 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

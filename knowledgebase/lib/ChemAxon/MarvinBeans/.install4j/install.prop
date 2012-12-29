@@ -1,0 +1,9 @@
+#
+#Tue Jun 29 12:43:31 PDT 2010
+launcher4=/usr/share/ChemAxon/MarvinBeans/Readme
+launcher3=/usr/share/ChemAxon/MarvinBeans/LicenseManager
+launcher2=/usr/share/ChemAxon/MarvinBeans/MarvinSpace
+launcher1=/usr/share/ChemAxon/MarvinBeans/MarvinView
+launcher0=/usr/share/ChemAxon/MarvinBeans/MarvinSketch
+languageId=en
+programGroup=ChemAxon\\Marvin Beans

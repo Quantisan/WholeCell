@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Polypeptide</title>
+  <meta name="keywords" content="Polypeptide">
+  <meta name="description" content="Polypeptide">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Polypeptide.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Polypeptide
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Polypeptide</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Polypeptide
+
+ @wholeCellModelID State_Polypeptide
+ @name             Polypeptide
+ @description
+
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 12/16/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Polypeptide.html" class="code" title="">Polypeptide</a>	Polypeptide</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Polypeptide.html" class="code" title="">Polypeptide</a>	Polypeptide</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Polypeptide(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(~, ~)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub5" class="code">function initialize(this)</a></li><li><a href="#_sub6" class="code">function value = get.totalBaseCounts(this)</a></li><li><a href="#_sub7" class="code">function value = get.mRNAMaxNascentMonomerLength(this)</a></li><li><a href="#_sub8" class="code">function value = get.abortedSequences(this)</a></li><li><a href="#_sub9" class="code">function value = get.abortedSequenceLengths(this)</a></li><li><a href="#_sub10" class="code">function value = get.dryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Polypeptide</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_Polypeptide</span>
+0004 <span class="comment">% @name             Polypeptide</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0009 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0010 <span class="comment">% Last updated: 12/16/2010</span>
+0011 classdef <a href="Polypeptide.html" class="code" title="">Polypeptide</a> &lt; edu.stanford.covert.cell.sim.CellState
+0012     <span class="comment">%property annotations</span>
+0013     properties (Constant)
+0014         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0015             <span class="string">'verbosity'</span>;
+0016             <span class="string">'seed'</span>;
+0017             };
+0018         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0019             <span class="string">'monomerLengths'</span>;
+0020             <span class="string">'monomerTRNASequences'</span>;
+0021             <span class="string">'monomerAASequences'</span>;
+0022             <span class="string">'proteolysisTagLength'</span>;
+0023             <span class="string">'proteolysisTagMolecularWeight'</span>;
+0024             <span class="string">'proteolysisTagTRNASequence'</span>;
+0025             <span class="string">'proteolysisTagAASequence'</span>;
+0026             };
+0027         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0028         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0029             <span class="string">'boundMRNAs'</span>;
+0030             <span class="string">'nascentMonomerLengths'</span>;
+0031             <span class="string">'proteolysisTagLengths'</span>;
+0032             <span class="string">'abortedPolypeptides'</span>
+0033             };
+0034         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0035             <span class="comment">%'totalBaseCounts'</span>
+0036             <span class="comment">%'mRNAMaxNascentMonomerLength'</span>
+0037             <span class="comment">%'abortedSequences'</span>
+0038             <span class="comment">%'abortedSequenceLengths'</span>
+0039             };
+0040     <span class="keyword">end</span>
+0041     
+0042     <span class="comment">%fixed biological constants</span>
+0043     properties
+0044         aminoAcidMolecularWeights          <span class="comment">%amino acid molecular weights</span>
+0045         
+0046         monomerWholeCellModelIDs           <span class="comment">%protein monomer molecular weights</span>
+0047         monomerLengths                     <span class="comment">%protein monomer lengths</span>
+0048         monomerTRNASequences               <span class="comment">%tRNA sequences of mRNAs</span>
+0049         monomerAASequences                 <span class="comment">%amino acid sequences of mRNAs</span>
+0050 
+0051         proteolysisTagLength               <span class="comment">%amino acid length of proteolysis tag</span>
+0052         proteolysisTagMolecularWeight      <span class="comment">%amino acid weight of proteolysis tag</span>
+0053         proteolysisTagTRNASequence         <span class="comment">%tRNA sequence of proteolysis tag</span>
+0054         proteolysisTagAASequence           <span class="comment">%amino acid sequence of proteolysis tag</span>
+0055     <span class="keyword">end</span>
+0056     
+0057     <span class="comment">%state</span>
+0058     properties
+0059         boundMRNAs                        <span class="comment">%index of gene each ribosome is bound to</span>
+0060         nascentMonomerLengths             <span class="comment">%length of nascent monomer</span>
+0061         proteolysisTagLengths             <span class="comment">%length of nascent proteolysis tag</span>
+0062         abortedPolypeptides               <span class="comment">%identify of aborted polypeptides aborted polypeptide X [monomer, mRNA length, tmRNA length]</span>
+0063     <span class="keyword">end</span>
+0064     
+0065     <span class="comment">%dependent local state (implemented as dependent property for convenience)</span>
+0066     properties (Dependent = true)
+0067         totalBaseCounts                   <span class="comment">%counts of amino acids in nascent polypeptides</span>
+0068         mRNAMaxNascentMonomerLength       <span class="comment">%Maximum translation progress of each mRNA</span>
+0069         abortedSequences                  <span class="comment">%sequences of proteolysis tagged polypeptides</span>
+0070         abortedSequenceLengths            <span class="comment">%lengths of proteolysis tagged polypeptides</span>
+0071         dryWeight                         <span class="comment">%dry weight of this class' state properties</span>
+0072     <span class="keyword">end</span>   
+0073     
+0074     <span class="comment">%constructor</span>
+0075     methods
+0076         <a name="_sub0" href="#_subfunctions" class="code">function this = Polypeptide(wholeCellModelID, name)</a>
+0077             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0078         <span class="keyword">end</span>
+0079     <span class="keyword">end</span>
+0080     
+0081     methods
+0082         <span class="comment">%build object graph</span>
+0083         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(~, ~)</a>
+0084         <span class="keyword">end</span>
+0085         
+0086         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0087             import edu.stanford.covert.cell.kb.ProteinMonomer;
+0088 
+0089             this.initializeConstants@edu.stanford.covert.cell.sim.CellState(knowledgeBase, simulation);
+0090             
+0091             this.aminoAcidMolecularWeights = [knowledgeBase.metabolites(knowledgeBase.aminoAcidIndexs).molecularWeight]';
+0092             
+0093             <span class="comment">%protein monomers</span>
+0094             this.monomerWholeCellModelIDs = {knowledgeBase.proteinMonomers.wholeCellModelID}';
+0095             this.monomerLengths           = [knowledgeBase.proteinMonomers.sequenceLength]';
+0096             this.monomerTRNASequences     = knowledgeBase.proteinMonomerTRNASequences;
+0097             this.monomerAASequences       = {knowledgeBase.proteinMonomers.sequence}';
+0098 
+0099             <span class="comment">%tmRNA proteolysis tag</span>
+0100             tmRNAGene = findobj(knowledgeBase.genes,<span class="string">'wholeCellModelID'</span>, <span class="string">'MG_0004'</span>);
+0101             tmRNAProteolysisTag = findobj(tmRNAGene.features,<span class="string">'type'</span>,<span class="string">'tmRNA proteolysis tag'</span>);
+0102             tmRNAProteolysisTagDNASequence = {seqrcomplement(tmRNAProteolysisTag.sequence)};
+0103             tmRNAProteolysisTagTRNASequence = knowledgeBase.computeTRNASequences(tmRNAProteolysisTagDNASequence, false);
+0104             this.proteolysisTagTRNASequence = [0;tmRNAProteolysisTagTRNASequence{1}];
+0105             this.proteolysisTagLength = length(this.proteolysisTagTRNASequence);
+0106             this.proteolysisTagAASequence = [<span class="keyword">...</span>
+0107                 ProteinMonomer.bases(knowledgeBase.aminoAcidIndexs == tmRNAGene.aminoAcid.idx)<span class="keyword">...</span>
+0108                 nt2aa(seqrcomplement(tmRNAProteolysisTag.sequence), <span class="string">'GeneticCode'</span>, knowledgeBase.translationTable)];
+0109             baseCount = ProteinMonomer.computeBaseCount(this.proteolysisTagAASequence, 21, 1:21, false);
+0110             this.proteolysisTagMolecularWeight  = ProteinMonomer.computeMolecularWeight(baseCount, this.proteolysisTagLength, this.aminoAcidMolecularWeights);
+0111         <span class="keyword">end</span>
+0112     <span class="keyword">end</span>
+0113     
+0114     <span class="comment">%allocate memory for state</span>
+0115     methods
+0116         <a name="_sub3" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0117             this.boundMRNAs            = zeros(0, 1, numTimePoints);
+0118             this.nascentMonomerLengths = zeros(0, 1, numTimePoints);
+0119             this.proteolysisTagLengths = zeros(0, 1, numTimePoints);
+0120             this.abortedPolypeptides   = zeros(0, 3, numTimePoints);
+0121         <span class="keyword">end</span>
+0122     <span class="keyword">end</span>
+0123     
+0124     methods
+0125         <a name="_sub4" href="#_subfunctions" class="code">function initialize(this)</a>
+0126             this.abortedPolypeptides = zeros(0, 3);
+0127         <span class="keyword">end</span>
+0128     <span class="keyword">end</span>
+0129     
+0130     <span class="comment">%getters</span>
+0131     methods
+0132         <a name="_sub5" href="#_subfunctions" class="code">function value = get.totalBaseCounts(this)</a>
+0133             import edu.stanford.covert.cell.kb.ProteinMonomer;
+0134             
+0135             value = zeros(1, 21);
+0136             
+0137             <span class="keyword">for</span> i = 1:size(this.boundMRNAs, 1)
+0138                 sequence = [];
+0139                 <span class="keyword">if</span> this.nascentMonomerLengths(i) &gt; 0
+0140                     sequence = [sequence this.monomerAASequences{this.boundMRNAs(i)}(1:this.nascentMonomerLengths(i))]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0141                 <span class="keyword">end</span>
+0142                 <span class="keyword">if</span> this.proteolysisTagLengths(i) &gt; 0
+0143                     sequence = [sequence this.proteolysisTagAASequence(1:this.proteolysisTagLengths(i))]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0144                 <span class="keyword">end</span>
+0145                 <span class="keyword">if</span> ~isempty(sequence)
+0146                     value = value + ProteinMonomer.computeBaseCount(sequence, 21, 1:21, true);
+0147                 <span class="keyword">end</span>
+0148             <span class="keyword">end</span>
+0149             
+0150             abortedSeqs = this.abortedSequences;
+0151             <span class="keyword">for</span> i = 1:numel(abortedSeqs)
+0152                 value = value + ProteinMonomer.computeBaseCount(abortedSeqs{i}, 21, 1:21, true);
+0153             <span class="keyword">end</span>
+0154         <span class="keyword">end</span>
+0155         
+0156         <span class="comment">%Maximum translation progress of each mRNA</span>
+0157         <a name="_sub6" href="#_subfunctions" class="code">function value = get.mRNAMaxNascentMonomerLength(this)</a>
+0158             value = zeros(length(this.monomerLengths), 1, size(this.boundMRNAs, 3));
+0159             <span class="keyword">for</span> i = 1:size(this.boundMRNAs, 1)
+0160                 <span class="keyword">for</span> k = 1:size(this.boundMRNAs, 3)
+0161                     boundMRNA = this.boundMRNAs(i,1,k);
+0162                     <span class="keyword">if</span> boundMRNA &lt; 1
+0163                         <span class="keyword">continue</span>; 
+0164                     <span class="keyword">end</span>
+0165                     value(boundMRNA, 1, k) = max(<span class="keyword">...</span>
+0166                         value(boundMRNA, 1, k), <span class="keyword">...</span>
+0167                         this.nascentMonomerLengths(i, 1, k));
+0168                 <span class="keyword">end</span>
+0169             <span class="keyword">end</span>
+0170         <span class="keyword">end</span>
+0171         
+0172         <a name="_sub7" href="#_subfunctions" class="code">function value = get.abortedSequences(this)</a>
+0173             value = cell(size(this.abortedPolypeptides, 1), 1);
+0174             <span class="keyword">for</span> i = 1:size(this.abortedPolypeptides, 1)
+0175                 <span class="keyword">if</span> this.abortedPolypeptides(i, 1) == 0
+0176                     <span class="keyword">continue</span>;
+0177                 <span class="keyword">end</span>
+0178                 value{i} = [
+0179                     this.monomerAASequences{this.abortedPolypeptides(i, 1)}(1:this.abortedPolypeptides(i, 2)) <span class="keyword">...</span>
+0180                     this.proteolysisTagAASequence(1:this.abortedPolypeptides(i, 3))
+0181                     ];
+0182             <span class="keyword">end</span>
+0183         <span class="keyword">end</span>
+0184         
+0185         <a name="_sub8" href="#_subfunctions" class="code">function value = get.abortedSequenceLengths(this)</a>
+0186             value = sum(this.abortedPolypeptides(:, 2:3), 2);
+0187         <span class="keyword">end</span>
+0188         
+0189         <a name="_sub9" href="#_subfunctions" class="code">function value = get.dryWeight(this)</a>
+0190             <span class="comment">% import classes</span>
+0191             import edu.stanford.covert.util.ConstantUtil;
+0192             
+0193             seq = [];
+0194             nSeq = 0;
+0195             
+0196             <span class="comment">%weight of nascent polypeptides</span>
+0197             <span class="keyword">for</span> i = 1:size(this.boundMRNAs, 1)
+0198                 tmpSeq = [];
+0199                 <span class="keyword">if</span> this.nascentMonomerLengths(i) &gt; 0
+0200                     tmpSeq = [tmpSeq <span class="keyword">...</span>
+0201                         this.monomerAASequences{this.boundMRNAs(i)}(1:this.nascentMonomerLengths(i))]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0202                 <span class="keyword">end</span>
+0203                 <span class="keyword">if</span> this.proteolysisTagLengths(i) &gt; 0
+0204                     tmpSeq = [tmpSeq <span class="keyword">...</span>
+0205                         this.proteolysisTagAASequence(1:this.proteolysisTagLengths(i))]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0206                 <span class="keyword">end</span>
+0207                 <span class="keyword">if</span> ~isempty(tmpSeq)
+0208                     seq = [seq tmpSeq];
+0209                     nSeq = nSeq + 1;
+0210                 <span class="keyword">end</span>
+0211             <span class="keyword">end</span>
+0212             
+0213             <span class="comment">% weight of proteolysis tagged monomers</span>
+0214             <span class="keyword">for</span> i = 1:size(this.abortedPolypeptides, 1)
+0215                 <span class="keyword">if</span> this.abortedPolypeptides(i, 1) ~= 0
+0216                     nSeq = nSeq + 1;
+0217                     seq = [seq <span class="keyword">...</span>
+0218                         this.monomerAASequences{this.abortedPolypeptides(i, 1)}(1:this.abortedPolypeptides(i, 2)) <span class="keyword">...</span>
+0219                         this.proteolysisTagAASequence(1:this.abortedPolypeptides(i, 3))
+0220                         ];
+0221                 <span class="keyword">end</span>
+0222             <span class="keyword">end</span>
+0223             
+0224             value = (<span class="keyword">...</span>
+0225                 + [
+0226                 sum(seq == <span class="string">'A'</span>)
+0227                 sum(seq == <span class="string">'R'</span>)
+0228                 sum(seq == <span class="string">'N'</span>)
+0229                 sum(seq == <span class="string">'D'</span>)
+0230                 sum(seq == <span class="string">'C'</span>)
+0231                 sum(seq == <span class="string">'Q'</span>)
+0232                 sum(seq == <span class="string">'E'</span>)
+0233                 sum(seq == <span class="string">'G'</span>)
+0234                 sum(seq == <span class="string">'H'</span>)
+0235                 sum(seq == <span class="string">'I'</span>)
+0236                 sum(seq == <span class="string">'L'</span>)
+0237                 sum(seq == <span class="string">'K'</span>)
+0238                 sum(seq == <span class="string">'M'</span>)
+0239                 sum(seq == <span class="string">'F'</span>)
+0240                 sum(seq == <span class="string">'P'</span>)
+0241                 sum(seq == <span class="string">'S'</span>)
+0242                 sum(seq == <span class="string">'T'</span>)
+0243                 sum(seq == <span class="string">'W'</span>)
+0244                 sum(seq == <span class="string">'Y'</span>)
+0245                 sum(seq == <span class="string">'V'</span>)
+0246                 ]' * this.aminoAcidMolecularWeights(1:20) <span class="keyword">...</span>
+0247                 - (numel(seq) - nSeq) * (ConstantUtil.elements.H + 2 * ConstantUtil.elements.O) <span class="keyword">...</span>
+0248                 ) / ConstantUtil.nAvogadro;
+0249         <span class="keyword">end</span>
+0250     <span class="keyword">end</span>
+0251 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,5 @@
+#install4j response file for Marvin Beans 5.3.5
+#Tue Jun 29 12:43:31 PDT 2010
+createDesktopLinkAction$Boolean=false
+sys.languageId=en
+sys.installationDir=/usr/share/ChemAxon/MarvinBeans

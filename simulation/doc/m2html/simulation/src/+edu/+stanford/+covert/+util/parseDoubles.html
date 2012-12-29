@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of parseDoubles</title>
+  <meta name="keywords" content="parseDoubles">
+  <meta name="description" content="PARSEDOUBLES Splits a list of doubles at each occurrence of a delimiter.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; parseDoubles.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>parseDoubles
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>PARSEDOUBLES Splits a list of doubles at each occurrence of a delimiter.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function values = parseDoubles(delimiter, s) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PARSEDOUBLES Splits a list of doubles at each occurrence of a delimiter.
+   Returns a row vector of double. Ignores a trailing delimiter, if present.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function values = parseDoubles(delimiter, s)</a>
+0002 <span class="comment">%PARSEDOUBLES Splits a list of doubles at each occurrence of a delimiter.</span>
+0003 <span class="comment">%   Returns a row vector of double. Ignores a trailing delimiter, if present.</span>
+0004 
+0005     <span class="keyword">if</span> isempty(s)
+0006         values = [];
+0007     <span class="keyword">else</span>
+0008         slen = length(s);
+0009         dlen = length(delimiter);
+0010         k = [1-dlen strfind(s, delimiter)];
+0011         <span class="keyword">if</span> k(end) + dlen &lt; slen
+0012             k = [k slen+1];
+0013         <span class="keyword">end</span>
+0014         n = length(k) - 1;
+0015         values = zeros([1 n]);        
+0016         <span class="keyword">for</span> i = 1:n    
+0017             values(i) = str2double(s(k(i)+dlen:k(i+1)-1));
+0018         <span class="keyword">end</span>
+0019     <span class="keyword">end</span>
+0020 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,325 @@
+/* CSS Document */
+
+
+
+
+/* Layout */
+
+
+
+html, body {
+	margin: 0;
+	padding: 0;
+	}
+
+#home {
+	margin:0;
+	padding: 0;
+	width: 960px;
+	background: #D7D9E0;
+	}
+
+#subpage {
+	margin: 0;
+	padding: 0;
+	width: 960px;
+	background: #fff url(../images/icons/covert/line.jpg) repeat-x top;
+	}
+
+#container {
+	margin: 0;
+	padding: 0;
+	width: 960px;
+	height: 750px;
+	}
+
+#subcontainer {
+	margin: 0;
+	padding: 0;
+	width: 1260px;
+	}
+
+#left {
+	margin: 0;
+	padding: 0;
+	height: 550px;
+	width: 184px;
+	float: left;
+	background-image: url(../images/icons/covert/shadow-bottom.jpg);
+	background-position: bottom;
+	}
+
+#subleft {
+	margin: 0;
+	padding: 0 0 300px 0;
+	width: 229px;
+	float: left;
+	}
+
+#subleft#research, #subleft#insidethelab, #subleft#news, #subleft#publications {
+	height: 28px;
+	width: 184px;
+	}
+
+#subleft#contact {
+	height: 32px;
+	width: 184px;
+	}
+
+#main {
+	margin: 0;
+	padding: 0;
+	float: right;
+	width: 776px;
+	height: 550px;
+	background-image: url(../images/icons/covert/shadow-right.jpg);
+	background-position: top right;
+	background-repeat: no-repeat;
+	}
+
+#submain {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 731px;
+	}
+	
+#subright{
+	margin: 0;
+	margin-top:135px;
+	padding: 0;
+	float: right;
+	width: 300px;
+}
+	
+#bottom {
+	margin: 0;
+	padding: 0;
+	height: 200px;
+	width: 960px;
+	background-image: url(../images/icons/covert/bottom.jpg);
+	clear: both;
+	}
+	
+
+#top {
+	height: 74px;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/icons/covert/line.jpg);
+	background-repeat: repeat-x;
+	}
+
+#content {
+	margin: 0;
+	width: 620px;
+	padding: 60px 0 0 3px;
+}
+
+
+#research {
+	position: absolute;
+	left: 184px;
+	top: 0;
+	width: 617px;
+	height: 550px;
+	z-index: 1;
+	visibility: hidden;
+	}
+
+#insidethelab {
+	position: absolute;
+	left: 184px;
+	top: 0;
+	width: 572px;
+	height: 550px;
+	z-index: 1;
+	visibility: hidden;
+	}
+
+#news {
+	position: absolute;
+	left: 184px;
+	top: 0;
+	width: 572px;
+	height: 550px;
+	z-index: 1;
+	visibility: hidden;
+	}
+
+#publications {
+	position:absolute;
+	left: 184px;
+	top: 0;
+	width: 572px;
+	height: 550px;
+	z-index: 1;
+	visibility: hidden;
+	}
+
+#contact {
+	position: absolute;
+	left: 184px;
+	top: 0;
+	width: 572px;
+	height: 550px;
+	z-index: 1;
+	visibility: hidden;
+	}
+
+.portrait {
+	border: black solid 1px;
+	margin: 0px;
+	padding:0px;
+	float: left;
+	}
+	
+.labphoto{
+	border: black solid 1px;
+	margin: 0px;
+	padding:0px;
+}
+
+img.imgtext{
+	position:relative;
+	}
+
+
+
+
+/* Typography */
+
+
+body,td,th {
+	font: 15px/23px Georgia, "Times New Roman", Times, serif;
+	color: rgb(48,48,48);
+	}
+
+td.labmembers{
+	font: 15px/15px Georgia, "Times New Roman", Times, serif;
+	color: rgb(48,48,48);
+	}
+
+h1 {
+	font-weight: normal;
+	color: #2F2ABA;
+	font-size: 20px;
+	line-height: 28px;
+	border-bottom: 1px solid #2F2ABA;
+	}
+	
+h1 a,h1 a:link, h1 a:active, h1 a:hover, h1 a:visited{
+	color: #2F2ABA;
+}
+
+h2 {
+	font-weight: normal;
+	font-style: italic;
+	color: #999;
+	font-size: 17px;
+	line-height: 25px;
+	}
+
+h3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #2F2ABA;
+	font-weight: normal;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	margin-bottom: 3px;
+	}
+h4{
+  font: 15px/23px Georgia, "Times New Roman", Times, serif;
+  font-weight:bold;
+  margin-bottom:0px;
+  margin-top:10px;}
+
+.copyright {
+	color: #666;
+	font: 10px Arial, Helvetica, sans-serif;
+	margin: 40px 0 0 0;
+	padding: 8px 0 40px 0;
+	border-top: 1px solid #2F2ABA;
+	}
+	
+.copyright-home {
+	color: #666;
+	font: 10px Arial, Helvetica, sans-serif;
+	margin: 30px 0 0 298px;
+	}
+
+ul {
+	list-style: url(../images/icons/covert/bullet.gif);
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: 0em;
+        margin-top:0px;
+	}
+	
+ul ul li {
+	list-style: url(../images/icons/covert/bullet2.gif);
+	margin-left: 0.3em;
+	}
+	
+ol {
+	margin-top:0px;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: 0em;
+	}
+
+
+
+
+/* Links */
+
+a:link {
+	color: #333;
+	text-decoration: none;
+	}
+a:visited {
+	text-decoration: none;
+	color: #333;
+	}
+a:hover {
+	text-decoration: none;
+	color: #639502;
+	}
+a:active {
+	text-decoration: none;
+	color: #959ADC;
+	}
+
+/*
+a:link {
+	color: #2F2ABA;
+	text-decoration: underline;
+	}
+a:visited {
+	text-decoration: underline;
+	color: #2F2ABA;
+	}
+*/
+
+a.copylink:link {
+	color: #666;
+	text-decoration: none;
+	}
+a.copylink:visited {
+	text-decoration: none;
+	color: #666;
+	}
+a.copylink:hover {
+	text-decoration: underline;
+	color: #639502;
+	}
+
+.imglink,.imglink:active,.imglink:hover,.imglink:visited{
+  border:0px;}
+
+
+
+
+
+/* © 2008 Designed by Threestory Studio */

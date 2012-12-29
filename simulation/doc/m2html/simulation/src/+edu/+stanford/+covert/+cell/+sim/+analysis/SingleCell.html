@@ -1,0 +1,607 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SingleCell</title>
+  <meta name="keywords" content="SingleCell">
+  <meta name="description" content="SingleCell">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; SingleCell.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SingleCell
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SingleCell</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SingleCell
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SingleCell.html" class="code" title="">SingleCell</a>	SingleCell</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SingleCell.html" class="code" title="">SingleCell</a>	SingleCell</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(simBatchDir, simNum, fileName, methodsToRun)</a></li><li><a href="#_sub2" class="code">function figData = growth(sim, simBatchDir, simNum, figHandle)</a></li><li><a href="#_sub3" class="code">function [time, mass, rnas, proteins,</a></li><li><a href="#_sub4" class="code">function figData = mass(sim, simBatchDir, simNum, figHandle, normalized)</a></li><li><a href="#_sub5" class="code">function figData = massNormalized(sim, simBatchDir, simNum, figHandle)</a></li><li><a href="#_sub6" class="code">function figData = metabolites(sim, simBatchDir, simNum, figHandle, normalized)</a></li><li><a href="#_sub7" class="code">function figData = metabolitesNormalized(sim, simBatchDir, simNum, figHandle)</a></li><li><a href="#_sub8" class="code">function figData = ribosomes(sim, simBatchDir, simNum, figHandle, useGenomicCoordinates)</a></li><li><a href="#_sub9" class="code">function figData = ribosomesGenomicCoordinates(sim, simBatchDir, simNum, figHandle)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%SingleCell</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 7/6/2011</span>
+0007 classdef <a href="SingleCell.html" class="code" title="">SingleCell</a>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function run(simBatchDir, simNum, fileName, methodsToRun)</a>
+0010             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0011             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0012             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0013             
+0014             <span class="comment">%options</span>
+0015             <span class="keyword">if</span> nargin &lt; 1 || isempty(simBatchDir)
+0016                 simBatchDir = SimulationDiskUtil.getLatestSimulationGroup();
+0017             <span class="keyword">end</span>
+0018             
+0019             <span class="keyword">if</span> nargin &lt; 2 || isempty(simNum)
+0020                 simNum = 1;
+0021             <span class="keyword">end</span>
+0022             
+0023             <span class="comment">%simulation</span>
+0024             [~, ~, sim] = SimulationDiskUtil.getSimulation([simBatchDir filesep num2str(simNum)]);
+0025             
+0026             <span class="comment">%evaluate each method and optionally save at the result as</span>
+0027             <span class="comment">%pdf files</span>
+0028             metaData = meta.class.fromName(<span class="string">'edu.stanford.covert.cell.sim.analysis.SingleCell'</span>);
+0029             <span class="keyword">for</span> i = 1:numel(metaData.Methods)
+0030                 <span class="comment">%only plot methods matching the signature</span>
+0031                 <span class="comment">%  plotFcn(sim, simBatchDir, simNum, figHandle)</span>
+0032                 <span class="keyword">if</span> <span class="keyword">...</span>
+0033                         numel(metaData.Methods{i}.InputNames) &lt; 4 || ~isequal(metaData.Methods{i}.InputNames(1:4), {<span class="string">'sim'</span>; <span class="string">'simBatchDir'</span>; <span class="string">'simNum'</span>; <span class="string">'figHandle'</span>}) || <span class="keyword">...</span>
+0034                         numel(metaData.Methods{i}.OutputNames) &lt; 1 || ~isequal(metaData.Methods{i}.OutputNames(1), {<span class="string">'figData'</span>})
+0035                     <span class="keyword">continue</span>;
+0036                 <span class="keyword">end</span>
+0037                 
+0038                 <span class="comment">%get method name</span>
+0039                 methodName = metaData.Methods{i}.Name;
+0040                 MethodName = [upper(methodName(1)) methodName(2:end)];
+0041                 <span class="keyword">if</span> nargin &gt;= 4 &amp;&amp; ~ismember(metaData.Methods{i}.Name, methodsToRun)
+0042                     <span class="keyword">continue</span>;
+0043                 <span class="keyword">end</span>
+0044                 
+0045                 <span class="comment">%run plot method</span>
+0046                 [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0047                 <span class="keyword">try</span>
+0048                     argout = cell(size(metaData.Methods{i}.OutputNames));
+0049                     [argout{:}] = SingleCell.(methodName)(sim, simBatchDir, simNum, figHandle);
+0050                     
+0051                     <span class="comment">% save plot</span>
+0052                     <span class="keyword">if</span> nargin &gt;= 3
+0053                         figData = argout{1}; <span class="comment">%#ok&lt;NASGU&gt;</span>
+0054                         save([fileName <span class="string">'-'</span> MethodName <span class="string">'.mat'</span>], <span class="string">'-struct'</span>, <span class="string">'figData'</span>);
+0055                         
+0056                         orient(figHandle, <span class="string">'portrait'</span>);
+0057                         saveas(figHandle, [fileName <span class="string">'-'</span> MethodName <span class="string">'.pdf'</span>]);
+0058                     <span class="keyword">end</span>
+0059                     
+0060                     <span class="comment">% save table</span>
+0061                     <span class="keyword">if</span> numel(argout) &gt; 1
+0062                         <span class="keyword">if</span> nargin &gt;= 3
+0063                             PrintUtil.printToFile(argout{2}, argout{3}, [fileName <span class="string">'-'</span> MethodName <span class="string">'.xls'</span>], MethodName);
+0064                         <span class="keyword">else</span>
+0065                             PrintUtil.printToStdIO(argout{2}, argout{3});
+0066                         <span class="keyword">end</span>
+0067                     <span class="keyword">end</span>
+0068                 <span class="keyword">catch</span> exception
+0069                     warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Unable to make %s plot:\n%s'</span>, methodName, exception.getReport());
+0070                 <span class="keyword">end</span>
+0071                 
+0072                 <span class="keyword">if</span> nargin &gt;= 2
+0073                     close(figHandle);
+0074                     clear figHandle;
+0075                 <span class="keyword">end</span>
+0076                 clear argout figData;
+0077             <span class="keyword">end</span>
+0078         <span class="keyword">end</span>
+0079         
+0080         <a name="_sub1" href="#_subfunctions" class="code">function figData = growth(sim, simBatchDir, simNum, figHandle)</a>
+0081             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0082             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0083             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0084             
+0085             <span class="comment">%% get data</span>
+0086             [time, <a href="#_sub4" class="code" title="subfunction figData = mass(sim, simBatchDir, simNum, figHandle, normalized)">mass</a>, rnas, proteins, <span class="keyword">...</span>
+0087                 dntps, ntps, aminoAcids, <span class="keyword">...</span>
+0088                 <a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a>, reactionFlux, <span class="keyword">...</span>
+0089                 enzymeComplex, enzymeMonomer, enzymeRNA, enzymeGene, <span class="keyword">...</span>
+0090                 ploidy, superhelicalDensity] = <span class="keyword">...</span>
+0091                 SingleCell.calcGrowthData(sim, simBatchDir, simNum);
+0092             
+0093             <span class="comment">%% layout figure, plot data</span>
+0094             clf(figHandle);
+0095             
+0096             options = struct();
+0097             options.titleStr = {<span class="string">'Composition'</span>; <span class="string">'Growth'</span>; <span class="string">'Organization'</span>};
+0098             options.position = [0.12 0.52 0.87 0.4];
+0099             options.xdata = time;
+0100             options.ydata = {{
+0101                 permute(<a href="#_sub4" class="code" title="subfunction figData = mass(sim, simBatchDir, simNum, figHandle, normalized)">mass</a>, [1 3 2 4])
+0102                 permute(rnas, [1 3 2 4])
+0103                 permute(proteins, [1 3 2 4])
+0104                 permute(dntps, [1 3 2 4])
+0105                 permute(ntps, [1 3 2 4])
+0106                 permute(aminoAcids, [1 3 2 4])
+0107                 }
+0108                 {
+0109                 permute(<a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a>, [1 3 2 4])
+0110                 permute(reactionFlux, [1 3 2 4])
+0111                 permute(enzymeComplex, [1 3 2 4])
+0112                 permute(enzymeMonomer, [1 3 2 4])
+0113                 permute(enzymeRNA, [1 3 2 4])
+0114                 permute(enzymeGene, [1 3 2 4])
+0115                 }
+0116                 {
+0117                 permute(ploidy, [1 3 2 4])
+0118                 permute(superhelicalDensity, [1 3 2 4])
+0119                 []
+0120                 }};
+0121             options.ylabelStr = {{
+0122                 <span class="string">'Mass (fg)'</span>
+0123                 <span class="string">'RNAs'</span>
+0124                 <span class="string">'Proteins'</span>
+0125                 <span class="string">'dNTPs'</span>
+0126                 <span class="string">'NTPs'</span>
+0127                 {<span class="string">'Amino'</span> <span class="string">'acids'</span>}
+0128                 }
+0129                 {
+0130                 {<span class="string">'Growth'</span> <span class="string">'(fg h^{-1})'</span>}
+0131                 {sprintf(<span class="string">'%s'</span>, rxnId) <span class="string">'flux'</span> <span class="string">'(MHz)'</span>}
+0132                 {sprintf(<span class="string">'%s'</span>, rxnId) <span class="string">'complex'</span>}
+0133                 {sprintf(<span class="string">'%s'</span>, rxnId) <span class="string">'monomer'</span>}
+0134                 {sprintf(<span class="string">'%s'</span>, rxnId) <span class="string">'mRNA'</span>}
+0135                 sprintf(<span class="string">'{\\it %s}'</span>, rxnId)
+0136                 }
+0137                 {
+0138                 {<span class="string">'Copy'</span>, <span class="string">'number'</span>}
+0139                 {<span class="string">'Super-'</span> <span class="string">'helicity'</span>}
+0140                 {<span class="string">'Polymerase'</span> <span class="string">'position'</span>}
+0141                 }
+0142                 };
+0143             axesHandles = PlotUtil.multiElementPlot(figHandle, {3 * ones(6, 1); 3 * ones(6, 1); [3 3 4*3+(4-1)*1]}, time([1 end])', <span class="keyword">...</span>
+0144                 options);
+0145             ChromosomeSpaceTimePlot.plotSpaceTime(axesHandles{3}(3), simBatchDir, simNum, [], false);
+0146             
+0147             clear options;
+0148             
+0149             <span class="comment">%% Format Y-axis</span>
+0150             PlotUtil.labelSubplots([axesHandles{1}(1); axesHandles{2}(1); axesHandles{3}(1)]);
+0151             
+0152             <span class="comment">%% collect data</span>
+0153             figData = struct;
+0154             figData.time = time;
+0155             figData.mass = <a href="#_sub4" class="code" title="subfunction figData = mass(sim, simBatchDir, simNum, figHandle, normalized)">mass</a>;
+0156             figData.rnas = rnas;
+0157             figData.proteins = proteins;
+0158             figData.dntps = dntps;
+0159             figData.ntps = ntps;
+0160             figData.aminoAcids = aminoAcids;
+0161             figData.growth = <a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a>;
+0162             figData.reactionFlux = reactionFlux;
+0163             figData.enzymeComplex = enzymeComplex;
+0164             figData.enzymeMonomer = enzymeMonomer;
+0165             figData.enzymeRNA = enzymeRNA;
+0166             figData.enzymeGene = enzymeGene;
+0167             figData.ploidy = ploidy;
+0168             figData.superhelicalDensity = superhelicalDensity;
+0169         <span class="keyword">end</span>
+0170         
+0171         <a name="_sub2" href="#_subfunctions" class="code">function [time, mass, rnas, proteins, </a><span class="keyword">...</span>
+0172                 dntps, ntps, aminoAcids, <span class="keyword">...</span>
+0173                 <a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a>, reactionFlux, <span class="keyword">...</span>
+0174                 enzymeComplex, enzymeMonomer, enzymeRNA, enzymeGene, <span class="keyword">...</span>
+0175                 ploidy, superhelicalDensity] = <span class="keyword">...</span>
+0176                 calcGrowthData(sim, simBatchDir, simNum, rxnId)
+0177             
+0178             import edu.stanford.covert.cell.sim.util.MacromoleculeUtil;
+0179             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0180             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0181             import edu.stanford.covert.cell.sim.analysis.CellOverview;
+0182             import edu.stanford.covert.util.ConstantUtil;
+0183             
+0184             comp = sim.compartment;
+0185             g = sim.gene;
+0186             
+0187             c = sim.state(<span class="string">'Chromosome'</span>);
+0188             m = sim.state(<span class="string">'Metabolite'</span>);
+0189             rna = sim.state(<span class="string">'Rna'</span>);
+0190             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0191             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0192             
+0193             sc = sim.process(<span class="string">'DNASupercoiling'</span>);
+0194             met = sim.process(<span class="string">'Metabolism'</span>);
+0195             
+0196             <span class="comment">%% get data</span>
+0197             stateNames = {
+0198                 <span class="string">'mass'</span>              <span class="string">'Mass'</span>
+0199                 <span class="string">'ploidy'</span>            {<span class="string">'Chromosome'</span> <span class="string">'Copy Number'</span>}
+0200                 <span class="string">'rnas'</span>              <span class="string">'RNA'</span>
+0201                 <span class="string">'proteins'</span>          <span class="string">'Proteins'</span>
+0202                 <span class="string">'lipids'</span>            <span class="string">'Lipids'</span>
+0203                 <span class="string">'growth_rate'</span>       <span class="string">'Growth'</span>
+0204                 <span class="string">'amino_acids'</span>       {<span class="string">'Amino'</span> <span class="string">'Acids'</span>}
+0205                 <span class="string">'ntps'</span>              <span class="string">'NTPs'</span>
+0206                 };
+0207             ensemble = SimulationEnsemble(simBatchDir, stateNames, [], simNum);
+0208             
+0209             time = ensemble.stateData.time / 3600;
+0210             <a href="#_sub4" class="code" title="subfunction figData = mass(sim, simBatchDir, simNum, figHandle, normalized)">mass</a> = ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'mass'</span>), :, :, :) * sim.state(<span class="string">'Mass'</span>).cellInitialDryWeight / (1-sim.state(<span class="string">'Mass'</span>).fractionWetWeight) * 1e15;
+0211             ploidy = ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ploidy'</span>), :, :, :);
+0212             rnas = ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'rnas'</span>), :, :, :);
+0213             proteins = ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'proteins'</span>), :, :, :);
+0214             <span class="comment">%lipids = ensemble.stateData.values(ensemble.getPropertyIndices('lipids'), :, :, :);</span>
+0215             <a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a> = ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'growth_rate'</span>), :, :, :) * 3600 * sim.state(<span class="string">'Mass'</span>).cellInitialDryWeight / (1-sim.state(<span class="string">'Mass'</span>).fractionWetWeight)  * 1e15;
+0216             
+0217             clear ensemble;
+0218             
+0219             <span class="keyword">if</span> nargin &lt; 4
+0220                 rxnId = <span class="string">'AckA'</span>;
+0221             <span class="keyword">end</span>
+0222             rxnIdx = met.reactionIndexs(rxnId);
+0223             enzId = met.enzymeWholeCellModelIDs{met.reactionCatalysisMatrix(rxnIdx, :) ~= 0};
+0224             [~, ~, ~, ~, ~, <span class="keyword">...</span>
+0225                 geneIdxs, ~, ~, ~, <span class="keyword">...</span>
+0226                 ~, ~, ~, ~, <span class="keyword">...</span>
+0227                 matureRnaIdxs, ~, ~, ~, <span class="keyword">...</span>
+0228                 monomerIdxs, ~, ~, ~, <span class="keyword">...</span>
+0229                 complexIdxs, ~, ~, ~] = <span class="keyword">...</span>
+0230                 MacromoleculeUtil.getMacromoleculeIndexsIDsNames(enzId, sim);
+0231             stateNames = {
+0232                 <span class="string">'Metabolite'</span>        <span class="string">'counts'</span>              <span class="string">':'</span>  <span class="string">':'</span>
+0233                 <span class="string">'MetabolicReaction'</span> <span class="string">'fluxs'</span>               rxnIdx <span class="string">':'</span>
+0234                 <span class="string">'Chromosome'</span>        <span class="string">'polymerizedRegions'</span>  <span class="string">':'</span>  <span class="string">':'</span>
+0235                 <span class="string">'Chromosome'</span>        <span class="string">'linkingNumbers'</span>       <span class="string">':'</span>  <span class="string">':'</span>
+0236                 <span class="string">'Rna'</span>               <span class="string">'counts'</span> rna.matureIndexs(matureRnaIdxs)         comp.cytosolIndexs
+0237                 <span class="string">'ProteinMonomer'</span>    <span class="string">'counts'</span> [pm.matureIndexs([monomerIdxs; sc.enzymeGlobalIndexs(sc.enzymeIndexs_topoI)]); pm.boundIndexs([monomerIdxs; sc.enzymeGlobalIndexs(sc.enzymeIndexs_topoI)])] comp.cytosolIndexs
+0238                 <span class="string">'ProteinComplex'</span>    <span class="string">'counts'</span> [pc.matureIndexs([complexIdxs; sc.enzymeGlobalIndexs([sc.enzymeIndexs_gyrase; sc.enzymeIndexs_topoIV])]); pc.boundIndexs([complexIdxs; sc.enzymeGlobalIndexs([sc.enzymeIndexs_gyrase; sc.enzymeIndexs_topoIV])])] comp.cytosolIndexs
+0239                 };
+0240             states = SimulationEnsemble.load(simBatchDir, stateNames, [], [], 1, <span class="string">'extract'</span>, simNum);
+0241             tmp = full(states.Metabolite.counts);
+0242             <span class="comment">%smallMolecules = sum(sum(tmp(setdiff(1:end, m.lipidIndexs), [comp.cytosolIndexs; comp.membraneIndexs], :), 2), 1);</span>
+0243             dntps = cat(3, NaN(4, 1), tmp(m.dntpIndexs, 1, :));
+0244             ntps = cat(3, NaN(4, 1), tmp(m.ntpIndexs, 1, :));
+0245             <span class="comment">%nmps = tmp(m.nmpIndexs(1:20), comp.cytosolIndexs, :);</span>
+0246             aminoAcids = cat(3, NaN(20, 1), tmp(m.aminoAcidIndexs(1:20), 1, :));
+0247                         
+0248             enzymeGene = cat(3, NaN(size(geneIdxs)), max(1, permute(MacromoleculeUtil.extractCopyNumberTimeCourse(c, states.Chromosome.polymerizedRegions, <span class="keyword">...</span>
+0249                 g.startCoordinates(geneIdxs), g.strands(geneIdxs), g.lengths(geneIdxs)), [1 3 2 4])));
+0250             enzymeRNA = cat(3, NaN(size(matureRnaIdxs)), states.Rna.counts);
+0251             enzymeMonomer = cat(3, NaN(size(monomerIdxs)), states.ProteinMonomer.counts(1:numel(monomerIdxs), 1, :, :));
+0252             enzymeComplex = cat(3, NaN(size(complexIdxs)), states.ProteinComplex.counts(1:numel(complexIdxs), 1, :, :));
+0253             reactionFlux = cat(3, NaN, states.MetabolicReaction.fluxs * 3600 * 1e-6);
+0254             
+0255             lk0 = full(sum(sum(states.Chromosome.polymerizedRegions, 2), 1)) / c.relaxedBasesPerTurn;
+0256             superhelicalDensity = cat(3, NaN, (full(sum(sum(states.Chromosome.linkingNumbers, 2), 1)) - lk0) ./ lk0);
+0257             <span class="comment">%gyrase = ...</span>
+0258             <span class="comment">%    + states.ProteinComplex.counts(end/2-1, 1, :, :) ...</span>
+0259             <span class="comment">%    + states.ProteinComplex.counts(end-1, 1, :, :);</span>
+0260             <span class="comment">%topoI = ...</span>
+0261             <span class="comment">%    + states.ProteinMonomer.counts(end/2, 1, :, :) ...</span>
+0262             <span class="comment">%    + states.ProteinMonomer.counts(end, 1, :, :);</span>
+0263             <span class="comment">%topoIV = ...</span>
+0264             <span class="comment">%    + states.ProteinComplex.counts(end/2, 1, :, :) ...</span>
+0265             <span class="comment">%    + states.ProteinComplex.counts(end, 1, :, :);</span>
+0266             
+0267             clear tmp states lk0;
+0268             
+0269             <span class="comment">%% collect data</span>
+0270             figData = struct;
+0271             figData.time = time;
+0272             figData.mass = <a href="#_sub4" class="code" title="subfunction figData = mass(sim, simBatchDir, simNum, figHandle, normalized)">mass</a>;
+0273             figData.rnas = rnas;
+0274             figData.proteins = proteins;
+0275             figData.dntps = dntps;
+0276             figData.ntps = ntps;
+0277             figData.aminoAcids = aminoAcids;
+0278             figData.growth = <a href="#_sub2" class="code" title="subfunction figData = growth(sim, simBatchDir, simNum, figHandle)">growth</a>;
+0279             figData.reactionFlux = reactionFlux;
+0280             figData.enzymeComplex = enzymeComplex;
+0281             figData.enzymeMonomer = enzymeMonomer;
+0282             figData.enzymeRNA = enzymeRNA;
+0283             figData.enzymeGene = enzymeGene;
+0284             figData.ploidy = ploidy;
+0285             figData.superhelicalDensity = superhelicalDensity;
+0286         <span class="keyword">end</span>
+0287         
+0288         <a name="_sub3" href="#_subfunctions" class="code">function figData = mass(sim, simBatchDir, simNum, figHandle, normalized)</a>
+0289             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0290             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0291             
+0292             comp = sim.compartment;
+0293             
+0294             <span class="comment">%% get data</span>
+0295             stateNames = {
+0296                 <span class="string">'Time'</span> <span class="string">'values'</span>       <span class="string">':'</span> <span class="string">':'</span>
+0297                 <span class="string">'Mass'</span> <span class="string">'waterWt'</span>      <span class="string">':'</span> comp.cellularIndexs(:)'
+0298                 <span class="string">'Mass'</span> <span class="string">'dnaWt'</span>        <span class="string">':'</span> <span class="string">'-sum'</span>
+0299                 <span class="string">'Mass'</span> <span class="string">'rnaWt'</span>        <span class="string">':'</span> <span class="string">'-sum'</span>
+0300                 <span class="string">'Mass'</span> <span class="string">'proteinWt'</span>    <span class="string">':'</span> <span class="string">'-sum'</span>
+0301                 <span class="string">'Mass'</span> <span class="string">'metaboliteWt'</span> <span class="string">':'</span> [comp.cytosolIndexs; comp.membraneIndexs]
+0302                 };
+0303             states = SimulationEnsemble.load(simBatchDir, stateNames, [], [], 1, <span class="string">'extract'</span>, simNum);
+0304             
+0305             <span class="comment">%% layout figure, plot data</span>
+0306             clf(figHandle);
+0307             
+0308             options = struct();
+0309             options.titleStr = <span class="string">'Cell Mass'</span>;
+0310                 
+0311             options.plotFunc = @PlotUtil.plotStackedArea;
+0312             axesHandle = PlotUtil.multiElementPlot(figHandle, 50, states.Time.values([1 end]), options);
+0313             
+0314             ydata = [
+0315                 permute(states.Mass.waterWt, [1 3 2])
+0316                 permute(states.Mass.proteinWt, [1 3 2])
+0317                 permute(states.Mass.dnaWt, [1 3 2])
+0318                 permute(states.Mass.metaboliteWt(:, 2, :), [1 3 2])
+0319                 permute(states.Mass.metaboliteWt(:, 1, :), [1 3 2])
+0320                 permute(states.Mass.rnaWt, [1 3 2])
+0321                 ] * 1e15;
+0322             <span class="keyword">if</span> nargin &lt; 5 || ~normalized
+0323                 h = PlotUtil.plotStackedArea(axesHandle, permute(states.Time.values, [1 3 2]), ydata);
+0324                 ylabel(axesHandle, <span class="string">'Mass (fg)'</span>);
+0325                 ylim(axesHandle, [0 max(sum(ydata, 1))]);
+0326             <span class="keyword">else</span>
+0327                 h = PlotUtil.plotNormalizedStackedArea(axesHandle, permute(states.Time.values, [1 3 2]), ydata);
+0328                 ylabel(axesHandle, <span class="string">'Percent Mass'</span>);
+0329                 ylim(axesHandle, [0 100]);
+0330             <span class="keyword">end</span>
+0331             legend(h, {<span class="string">'Water'</span>, <span class="string">'Protein'</span>, <span class="string">'DNA'</span>, <span class="string">'Membrane'</span>, <span class="string">'Metabolite'</span>, <span class="string">'RNA'</span>}, <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0332             
+0333             PlotUtil.offsetYAxes(axesHandle, 0.02);
+0334             
+0335             clear ydata;
+0336             
+0337             <span class="comment">%% collect data</span>
+0338             figData = struct;
+0339             figData.time = states.Time.values;
+0340             figData.waterWt = states.Mass.waterWt;
+0341             figData.proteinWt = states.Mass.proteinWt;
+0342             figData.dnaWt = states.Mass.dnaWt;
+0343             figData.metaboliteWt = states.Mass.metaboliteWt;
+0344             figData.rnaWt = states.Mass.rnaWt;
+0345         <span class="keyword">end</span>
+0346         
+0347         <a name="_sub4" href="#_subfunctions" class="code">function figData = massNormalized(sim, simBatchDir, simNum, figHandle)</a>
+0348             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0349             
+0350             figData = SingleCell.mass(sim, simBatchDir, simNum, figHandle, true);
+0351         <span class="keyword">end</span>
+0352         
+0353         <a name="_sub5" href="#_subfunctions" class="code">function figData = metabolites(sim, simBatchDir, simNum, figHandle, normalized)</a>
+0354             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0355             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0356             import edu.stanford.covert.util.ConstantUtil;
+0357             
+0358             comp = sim.compartment;
+0359             m = sim.state(<span class="string">'Metabolite'</span>);
+0360             metIdxs = [
+0361                 m.ntpIndexs
+0362                 m.ndpIndexs
+0363                 m.nmpIndexs
+0364                 m.dntpIndexs
+0365                 m.aminoAcidIndexs
+0366                 m.phosphateIndexs
+0367                 m.diphosphateIndexs
+0368                 m.hydrogenIndexs
+0369                 ];
+0370             
+0371             <span class="comment">%% get data</span>
+0372             stateNames = {
+0373                 <span class="string">'Time'</span>       <span class="string">'values'</span>  <span class="string">':'</span>      <span class="string">':'</span>
+0374                 <span class="string">'Geometry'</span>   <span class="string">'volume'</span>  <span class="string">':'</span>      <span class="string">':'</span>
+0375                 <span class="string">'Metabolite'</span> <span class="string">'counts'</span>  metIdxs  comp.cytosolIndexs
+0376                 };
+0377             states = SimulationEnsemble.load(simBatchDir, stateNames, [], [], 1, <span class="string">'extract'</span>, simNum);
+0378             time = permute(states.Time.values, [1 3 2]) / 3600;
+0379             
+0380             states.Metabolite.counts = <span class="keyword">...</span>
+0381                 states.Metabolite.counts ./ <span class="keyword">...</span>
+0382                 states.Geometry.volume(ones(size(metIdxs)), :, :) / <span class="keyword">...</span>
+0383                 ConstantUtil.nAvogadro * 1000;
+0384             
+0385             ntps = permute(states.Metabolite.counts(1:4, :, :), [1 3 2]);
+0386             ndps = permute(states.Metabolite.counts(5:8, :, :), [1 3 2]);
+0387             nmps = permute(states.Metabolite.counts(9:12, :, :), [1 3 2]);
+0388             dntps = permute(states.Metabolite.counts(13:16, :, :), [1 3 2]);
+0389             aas = permute(states.Metabolite.counts(17:37, :, :), [1 3 2]);
+0390             others = permute(states.Metabolite.counts(38:40, :, :), [1 3 2]);
+0391            
+0392             <span class="comment">%% layout figure</span>
+0393             clf(figHandle);
+0394             
+0395             axesHandles = PlotUtil.multiElementPlot(figHandle, {10 * ones(3, 1) 10 * ones(3, 1)}, time([1 end]));
+0396             
+0397             <span class="comment">%% plot data</span>
+0398             <span class="keyword">if</span> nargin &gt;= 5 &amp;&amp; normalized
+0399                 plotFcn = @PlotUtil.plotNormalizedStackedArea;
+0400             <span class="keyword">else</span>
+0401                 plotFcn = @PlotUtil.plotStackedArea;
+0402             <span class="keyword">end</span>
+0403             
+0404             <span class="comment">%ntp</span>
+0405             axesHandle = axesHandles{1}(1);
+0406             h = plotFcn(axesHandle, time, ntps);
+0407             legend(h, m.wholeCellModelIDs(m.ntpIndexs), <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0408             
+0409             <span class="comment">%ndp</span>
+0410             axesHandle = axesHandles{1}(2);
+0411             h = plotFcn(axesHandle, time, ndps);
+0412             legend(h, m.wholeCellModelIDs(m.ndpIndexs), <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0413             
+0414             <span class="comment">%nmp</span>
+0415             axesHandle = axesHandles{1}(3);
+0416             h = plotFcn(axesHandle, time, nmps);
+0417             legend(h, m.wholeCellModelIDs(m.nmpIndexs), <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0418             
+0419             <span class="comment">%dNTP</span>
+0420             axesHandle = axesHandles{2}(1);
+0421             h = plotFcn(axesHandle, time, dntps);
+0422             legend(h, m.wholeCellModelIDs(m.dntpIndexs), <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0423             
+0424             <span class="comment">%AA</span>
+0425             axesHandle = axesHandles{2}(2);
+0426             plotFcn(axesHandle, time, aas);
+0427             
+0428             <span class="comment">%other</span>
+0429             axesHandle = axesHandles{2}(3);
+0430             h = plotFcn(axesHandle, time, others);
+0431             legend(h, m.wholeCellModelIDs([m.phosphateIndexs; m.diphosphateIndexs; m.hydrogenIndexs]), <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
+0432             
+0433             <span class="comment">%labels</span>
+0434             <span class="keyword">for</span> i = 1:numel(axesHandles)
+0435                 <span class="keyword">for</span> j = 1:numel(axesHandles{i})
+0436                     <span class="keyword">if</span> nargin &gt;= 5 &amp;&amp; normalized
+0437                         ylabel(axesHandles{i}(j), {<span class="string">'Relative'</span> <span class="string">'Copy Number'</span>});
+0438                         ylim(axesHandles{i}(j), [0 100]);
+0439                     <span class="keyword">else</span>
+0440                         ylabel(axesHandles{i}(j), <span class="string">'Concentration (mM)'</span>);
+0441                     <span class="keyword">end</span>
+0442                 <span class="keyword">end</span>
+0443             <span class="keyword">end</span>
+0444             
+0445             <span class="comment">%% ylabels</span>
+0446             PlotUtil.alignYAxesLabels(axesHandles);
+0447             PlotUtil.offsetYAxes(axesHandles, 0.02);
+0448             
+0449             <span class="comment">%% collect data</span>
+0450             figData = struct;
+0451             figData.time = time;
+0452             figData.ntps = ntps;
+0453             figData.ndps = ndps;
+0454             figData.nmps = nmps;
+0455             figData.dntps = dntps;
+0456             figData.aas = aas;
+0457             figData.others = others;
+0458         <span class="keyword">end</span>
+0459         
+0460         <a name="_sub6" href="#_subfunctions" class="code">function figData = metabolitesNormalized(sim, simBatchDir, simNum, figHandle)</a>
+0461             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0462             
+0463             figData = SingleCell.metabolites(sim, simBatchDir, simNum, figHandle, true);
+0464         <span class="keyword">end</span>
+0465         
+0466         <a name="_sub7" href="#_subfunctions" class="code">function figData = ribosomes(sim, simBatchDir, simNum, figHandle, useGenomicCoordinates)</a>
+0467             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0468             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0469             
+0470             <span class="comment">%get constants</span>
+0471             g = sim.gene;
+0472             c = sim.state(<span class="string">'Chromosome'</span>);
+0473             rib = sim.state(<span class="string">'Ribosome'</span>);
+0474             
+0475             <span class="keyword">if</span> nargin &gt;= 5 &amp;&amp; useGenomicCoordinates
+0476                 startCoordinates = g.startCoordinates(g.mRNAIndexs);
+0477                 lengths = g.lengths(g.mRNAIndexs);
+0478                 strands = g.strands(g.mRNAIndexs);
+0479             <span class="keyword">else</span>
+0480                 startCoordinates = cumsum(g.lengths(g.mRNAIndexs)+50);
+0481                 lengths = g.lengths(g.mRNAIndexs);
+0482                 strands = ones(size(g.mRNAIndexs));
+0483             <span class="keyword">end</span>
+0484             
+0485             <span class="comment">%get data</span>
+0486             stateNames = {
+0487                 <span class="string">'Time'</span>      <span class="string">'values'</span>
+0488                 <span class="string">'Ribosome'</span>  <span class="string">'states'</span> 
+0489                 <span class="string">'Ribosome'</span>  <span class="string">'boundMRNAs'</span>
+0490                 <span class="string">'Ribosome'</span>  <span class="string">'mRNAPositions'</span>
+0491                 };
+0492             states = SimulationEnsemble.load(simBatchDir, stateNames, [], [], 1, <span class="string">'extract'</span>, simNum);
+0493             time = permute(states.Time.values, [1 3 2]) / 3600;
+0494             ribStates = permute(states.Ribosome.states, [1 3 2]);
+0495             boundMRNAs = permute(states.Ribosome.boundMRNAs, [1 3 2]);
+0496             mRNAPos = permute(states.Ribosome.mRNAPositions, [1 3 2]);
+0497             
+0498             <span class="comment">%layout figure</span>
+0499             clf(figHandle);
+0500             options = struct;
+0501             axesHandle = PlotUtil.multiElementPlot(figHandle, 30, time([1 end]), options);
+0502             
+0503             <span class="comment">%plot data</span>
+0504             colorOrder = PlotUtil.getRedGreenColorOrder(randperm(size(ribStates, 1)));
+0505             <span class="keyword">for</span> i = 1:size(ribStates, 1)
+0506                 pos = NaN(size(time));
+0507                 tfs = ribStates(i, :) == rib.activeValue &amp; mRNAPos(i, :) &gt; 0;
+0508                 pos(tfs) = <span class="keyword">...</span>
+0509                     + startCoordinates(boundMRNAs(i, tfs)) <span class="keyword">...</span>
+0510                     + (strands(boundMRNAs(i, tfs)) == 2) .* (lengths(boundMRNAs(i, tfs)) - 1) <span class="keyword">...</span>
+0511                     + (2 * (2 - strands(boundMRNAs(i, tfs))) - 1) .* (3 * mRNAPos(i, tfs)' - 1);
+0512                 h = plot(axesHandle, time, pos);
+0513                 set(h, <span class="string">'Color'</span>, colorOrder(i, :));
+0514             <span class="keyword">end</span>
+0515             
+0516             <span class="keyword">if</span> nargin &gt;= 5 &amp;&amp; useGenomicCoordinates
+0517                 ylabel(axesHandle, <span class="string">'Ribosome Position'</span>);
+0518                 ylim(axesHandle, [1 c.sequenceLen]);
+0519                 set(axesHandle, <span class="keyword">...</span>
+0520                     <span class="string">'YTick'</span>, [1 c.terCPosition c.sequenceLen], <span class="keyword">...</span>
+0521                     <span class="string">'YTickLabel'</span>, {<span class="string">'OriC'</span> <span class="string">'TerC'</span> <span class="string">'Oric'</span>});
+0522                 PlotUtil.offsetYAxes(axesHandle, 0.02);
+0523             <span class="keyword">else</span>
+0524                 tmp = xlim(axesHandle);
+0525                 x = tmp(1) - 0.02 * range(tmp);
+0526                 xlim(axesHandle, [x tmp(2)]);
+0527                 ylim(axesHandle, [min(startCoordinates) max(startCoordinates + lengths - 1)]);
+0528                 line(x * ones(3 * numel(startCoordinates), 1), <span class="keyword">...</span>
+0529                     reshape([startCoordinates  startCoordinates + lengths - 1  NaN(size(startCoordinates))]', [], 1), <span class="keyword">...</span>
+0530                     <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, <span class="string">'k'</span>)
+0531                 set(axesHandle, <span class="string">'YTick'</span>, [], <span class="string">'visible'</span>, <span class="string">'off'</span>);
+0532                 text(tmp(1) - 0.03 * range(tmp), mean(ylim(axesHandle)), <span class="string">'Ribosome Position'</span>, <span class="keyword">...</span>
+0533                     <span class="string">'Parent'</span>, axesHandle, <span class="keyword">...</span>
+0534                     <span class="string">'rotation'</span>, 90, <span class="keyword">...</span>
+0535                     <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="keyword">...</span>
+0536                     <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>);
+0537             <span class="keyword">end</span>
+0538             
+0539             <span class="comment">%% collect data</span>
+0540             figData = struct;
+0541             figData.time = time;
+0542             figData.ribStates = ribStates;
+0543             figData.boundMRNAs = boundMRNAs;
+0544             figData.mRNAPos = mRNAPos;
+0545         <span class="keyword">end</span>
+0546         
+0547         <a name="_sub8" href="#_subfunctions" class="code">function figData = ribosomesGenomicCoordinates(sim, simBatchDir, simNum, figHandle)</a>
+0548             import edu.stanford.covert.cell.sim.analysis.SingleCell;
+0549             
+0550             figData = SingleCell.ribosomes(sim, simBatchDir, simNum, figHandle, true);
+0551         <span class="keyword">end</span>
+0552     <span class="keyword">end</span>
+0553 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

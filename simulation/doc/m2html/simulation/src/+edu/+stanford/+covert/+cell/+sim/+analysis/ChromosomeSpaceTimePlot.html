@@ -1,0 +1,1006 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeSpaceTimePlot</title>
+  <meta name="keywords" content="ChromosomeSpaceTimePlot">
+  <meta name="description" content="ChromosomeSpaceTimePlot">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; ChromosomeSpaceTimePlot.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeSpaceTimePlot
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomeSpaceTimePlot</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> ChromosomeSpaceTimePlot
+ Plot space-time densities
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 8/14/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSpaceTimePlot.html" class="code" title="">ChromosomeSpaceTimePlot</a>	ChromosomeSpaceTimePlot</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSpaceTimePlot.html" class="code" title="">ChromosomeSpaceTimePlot</a>	ChromosomeSpaceTimePlot</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(relSimPath, selectedTime, fileName)</a></li><li><a href="#_sub2" class="code">function [densityMatrix, pxWidth, pxHeight] = calcRnaPDensityMatrix(activePos, width, height, maxTime, maxSpace)</a></li><li><a href="#_sub3" class="code">function [densityMatrix, pxWidth, pxHeight] = calcChromBoundDensityMatrix(subs, width, height, maxTime, maxSpace)</a></li><li><a href="#_sub4" class="code">function plotSpaceTimeOverlay(ax, sim, states, RNAPSparseMat, chProteins, whatToShow, figTitle)</a></li><li><a href="#_sub5" class="code">function makeRingPlot(ax, sim, states, RNAPSparseMat, chProteins, whatToMake, time, maxSpace)</a></li><li><a href="#_sub6" class="code">function plotSpaceTimeDensity(axesHandle, densityMatrix, maxTime, pxWidth, figTitle)</a></li><li><a href="#_sub7" class="code">function [lineHandles, circleHandles] = plotRing(axesHandle, pos, maxPos, radii, color)</a></li><li><a href="#_sub8" class="code">function plotCircularDensity(axesHandle, densityBEMatrix, maxTime, simulation, indepRingNormalize, figTitle)</a></li><li><a href="#_sub9" class="code">function pos = getRnaPPos(activePos, time)</a></li><li><a href="#_sub10" class="code">function pos = getPos(subs, time)</a></li><li><a href="#_sub11" class="code">function getClickPos(maxVal)</a></li><li><a href="#_sub12" class="code">function RNAPSparseMat = makeRNAPSparseMat(states, sim)</a></li><li><a href="#_sub13" class="code">function [ensemble, states, dnaABoxBound, legendHandle] = plotSpaceTime(</a></li><li><a href="#_sub14" class="code">function formatSpaceTimeLegend(axesHandle)</a></li><li><a href="#_sub15" class="code">function [densityBEMatrix, maxTime, maxSpace] = getProteinBindingDensityMatrix(</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% ChromosomeSpaceTimePlot</span>
+0002 <span class="comment">% Plot space-time densities</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 8/14/2011</span>
+0007 classdef <a href="ChromosomeSpaceTimePlot.html" class="code" title="">ChromosomeSpaceTimePlot</a>
+0008     properties(Constant = true)
+0009         cmap = [<span class="keyword">...</span>
+0010             1.0000    1.0000    1.0000
+0011             0.3059    0.3961    0.5804
+0012             0.2994    0.4013    0.5688
+0013             0.2928    0.4066    0.5572
+0014             0.2863    0.4118    0.5457
+0015             0.2797    0.4170    0.5341
+0016             0.2732    0.4222    0.5225
+0017             0.2667    0.4275    0.5109
+0018             0.2601    0.4327    0.4994
+0019             0.2536    0.4379    0.4878
+0020             0.2471    0.4432    0.4762
+0021             0.2405    0.4484    0.4646
+0022             0.2340    0.4536    0.4531
+0023             0.2274    0.4588    0.4415
+0024             0.2209    0.4641    0.4299
+0025             0.2144    0.4693    0.4183
+0026             0.2078    0.4745    0.4068
+0027             0.2013    0.4798    0.3952
+0028             0.1948    0.4850    0.3836
+0029             0.1882    0.4902    0.3720
+0030             0.1817    0.4954    0.3605
+0031             0.1751    0.5007    0.3489
+0032             0.1686    0.5059    0.3373
+0033             0.2043    0.4877    0.3195
+0034             0.2400    0.4696    0.3018
+0035             0.2757    0.4514    0.2840
+0036             0.3114    0.4332    0.2663
+0037             0.3472    0.4151    0.2485
+0038             0.3829    0.3969    0.2308
+0039             0.4186    0.3788    0.2130
+0040             0.4543    0.3606    0.1953
+0041             0.4900    0.3424    0.1775
+0042             0.5257    0.3243    0.1598
+0043             0.5614    0.3061    0.1420
+0044             0.5971    0.2879    0.1243
+0045             0.6328    0.2698    0.1065
+0046             0.6685    0.2516    0.0888
+0047             0.7043    0.2335    0.0710
+0048             0.7400    0.2153    0.0533
+0049             0.7757    0.1971    0.0355
+0050             0.8114    0.1790    0.0178
+0051             0.8471    0.1608         0
+0052             0.8486    0.1814         0
+0053             0.8500    0.2020         0
+0054             0.8515    0.2226         0
+0055             0.8530    0.2431         0
+0056             0.8544    0.2637         0
+0057             0.8559    0.2843         0
+0058             0.8574    0.3049         0
+0059             0.8589    0.3255         0
+0060             0.8603    0.3461         0
+0061             0.8618    0.3667         0
+0062             0.8633    0.3873         0
+0063             0.8647    0.4078         0
+0064             0.8662    0.4284         0
+0065             0.8677    0.4490         0
+0066             0.8691    0.4696         0
+0067             0.8706    0.4902         0
+0068             0.7255    0.4085         0
+0069             0.5804    0.3268         0
+0070             0.4353    0.2451         0
+0071             0.2902    0.1634         0
+0072             0.1451    0.0817         0
+0073             0         0         0
+0074             ];
+0075         
+0076         rings = struct(<span class="keyword">...</span>
+0077             <span class="string">'RNAPolymerase'</span>, 7, <span class="keyword">...</span>
+0078             <span class="string">'SMC'</span>, 2, <span class="keyword">...</span>
+0079             <span class="string">'Helicase'</span>, 1, <span class="keyword">...</span>
+0080             <span class="string">'DnaA'</span>, 4, <span class="keyword">...</span>
+0081             <span class="string">'Gyrase'</span>, 5, <span class="keyword">...</span>
+0082             <span class="string">'TopoisomeraseIV'</span>, 6, <span class="keyword">...</span>
+0083             <span class="string">'Regulation'</span>, 3);
+0084         
+0085         chromProteins = {<span class="keyword">...</span>
+0086             <span class="comment">% chromosome property    whole cell ids               strands    color (rgb)               name</span>
+0087             <span class="string">'complexBoundSites'</span>,    {<span class="string">'MG_213_214_298_6MER_ADP'</span>},   1:2,     [0 1 0],                <span class="string">'SMC'</span>;
+0088             <span class="string">'complexBoundSites'</span>,    {<span class="string">'MG_094_HEXAMER'</span>},            1:4,     [0.6980 0.1333 0.1333], <span class="string">'Helicase'</span>;
+0089             <span class="string">'complexBoundSites'</span>,    {<span class="string">'MG_469_1MER_ADP'</span>, <span class="keyword">...</span>
+0090                                      <span class="string">'MG_469_1MER_ATP'</span>, <span class="keyword">...</span>
+0091                                      <span class="string">'MG_469_2MER_ATP'</span>, <span class="keyword">...</span>
+0092                                      <span class="string">'MG_469_3MER_ATP'</span>, <span class="keyword">...</span>
+0093                                      <span class="string">'MG_469_4MER_ATP'</span>, <span class="keyword">...</span>
+0094                                      <span class="string">'MG_469_5MER_ATP'</span>, <span class="keyword">...</span>
+0095                                      <span class="string">'MG_469_6MER_ATP'</span>, <span class="keyword">...</span>
+0096                                      <span class="string">'MG_469_7MER_ATP'</span>},           1:2,     [1.0000 0.6471 0],      <span class="string">'DnaA'</span>;
+0097             <span class="string">'complexBoundSites'</span>,     {<span class="string">'MG_469_2MER_ATP'</span>, <span class="keyword">...</span>
+0098                                      <span class="string">'MG_469_3MER_ATP'</span>, <span class="keyword">...</span>
+0099                                      <span class="string">'MG_469_4MER_ATP'</span>, <span class="keyword">...</span>
+0100                                      <span class="string">'MG_469_5MER_ATP'</span>, <span class="keyword">...</span>
+0101                                      <span class="string">'MG_469_6MER_ATP'</span>, <span class="keyword">...</span>
+0102                                      <span class="string">'MG_469_7MER_ATP'</span>},           1:2,     [1.0000 0.6471 0],      <span class="string">'DnaA Complex'</span>;
+0103             <span class="string">'complexBoundSites'</span>,    {<span class="string">'DNA_GYRASE'</span>},                1:2,     [0.9 0.9 0.9],          <span class="string">'Gyrase'</span>;
+0104             <span class="string">'complexBoundSites'</span>,    {<span class="string">'MG_203_204_TETRAMER'</span>},       1:2,     [0.6902 0.8784 0.9020], <span class="string">'Topoisomerase IV'</span>;
+0105             <span class="string">'complexBoundSites'</span>,    {<span class="string">'MG_428_DIMER'</span>},              1:2,     [1 1 0],                <span class="string">'LuxR'</span>;
+0106             <span class="string">'monomerBoundSites'</span>,    {<span class="string">'MG_101_MONOMER'</span>},            1:2,     [1 0.5 0],              <span class="string">'HTH Regulator'</span>;
+0107             <span class="string">'monomerBoundSites'</span>,    {<span class="string">'MG_236_MONOMER'</span>},            1:2,     [0.2 1 0.8],            <span class="string">'Ferric uptake repressor'</span>;
+0108             };
+0109         
+0110         regulationWIDs = {<span class="string">'MG_428_DIMER'</span> <span class="string">'MG_101_MONOMER'</span> <span class="string">'MG_236_MONOMER'</span>};        
+0111     <span class="keyword">end</span>
+0112     
+0113     methods (Static = true);
+0114         <a name="_sub0" href="#_subfunctions" class="code">function run(relSimPath, selectedTime, fileName)</a>
+0115             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0116             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0117             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0118             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0119             
+0120             <span class="keyword">if</span> ~exist(<span class="string">'relSimPath'</span>, <span class="string">'var'</span>) || isempty(relSimPath)
+0121                 relSimPath = [SimulationDiskUtil.getLatestSimulationGroup() filesep <span class="string">'1'</span>];
+0122             <span class="keyword">end</span>
+0123             <span class="keyword">if</span> ~exist(<span class="string">'selectedTime'</span>, <span class="string">'var'</span>) || isempty(selectedTime)
+0124                 selectedTime = 4 * 3600;
+0125             <span class="keyword">end</span>
+0126             
+0127             [simDir, ~, sim] = SimulationDiskUtil.getSimulation(relSimPath);
+0128             
+0129             simIdx = num2str(SimulationDiskUtil.getSimulationIndex(simDir));
+0130             simTimeStamp = SimulationDiskUtil.getSimulationTimeStamp(simDir);
+0131             stateNames = {<span class="string">'ProteinComplex'</span> <span class="string">'counts'</span>
+0132                 <span class="string">'Chromosome'</span> <span class="string">'complexBoundSites'</span>
+0133                 <span class="string">'Chromosome'</span> <span class="string">'monomerBoundSites'</span>
+0134                 <span class="string">'Chromosome'</span> <span class="string">'polymerizedRegions'</span>
+0135                 <span class="string">'RNAPolymerase'</span> <span class="string">'positionStrands'</span>
+0136                 <span class="string">'RNAPolymerase'</span> <span class="string">'states'</span>
+0137                 <span class="string">'RNAPolymerase'</span> <span class="string">'transcriptionFactorBindingProbFoldChange'</span>
+0138                 <span class="string">'Time'</span> <span class="string">'values'</span>};
+0139             states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0140             
+0141             <span class="comment">%% space-time density plots</span>
+0142             
+0143             <span class="comment">% Active RNA Polymerase</span>
+0144             RNAPSparseMat = ChromosomeSpaceTimePlot.makeRNAPSparseMat(states, sim);
+0145             
+0146             <span class="comment">% Space-Time Overlay Plot</span>
+0147             [ax1, figHandle1] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0148             whatToShow = {<span class="string">'Gyrase'</span>, <span class="string">'Topoisomerase IV'</span>, <span class="string">'DnaA Complex'</span>, <span class="string">'LuxR'</span>, <span class="string">'HTH Regulator'</span>, <span class="string">'Ferric uptake repressor'</span>, <span class="string">'Helicase'</span>};
+0149             ChromosomeSpaceTimePlot.plotSpaceTimeOverlay(<span class="keyword">...</span>
+0150                 ax1, sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0151                 ChromosomeSpaceTimePlot.chromProteins, whatToShow, <span class="keyword">...</span>
+0152                 sprintf(<span class="string">'Chromosome 1\nSimulation: %s #%s'</span>, simTimeStamp, simIdx));
+0153             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>)
+0154                 saveas(figHandle1, [fileName <span class="string">'-SpaceTimeOverlay.pdf'</span>]);
+0155                 close(figHandle1);
+0156             <span class="keyword">end</span>
+0157             
+0158             <span class="comment">% Circular Density Plot</span>
+0159             [ax3, figHandle3] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0160             set(figHandle3, <span class="string">'Color'</span>, [1 1 1]);
+0161             [densityBEMatrix, maxTime, maxSpace] = ChromosomeSpaceTimePlot.getProteinBindingDensityMatrix(<span class="keyword">...</span>
+0162                 sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0163                 ChromosomeSpaceTimePlot.chromProteins, [], 1000, 1000);
+0164             ChromosomeSpaceTimePlot.plotCircularDensity(<span class="keyword">...</span>
+0165                 ax3, densityBEMatrix, maxTime, sim, false, <span class="keyword">...</span>
+0166                 sprintf(<span class="string">'Circular Chromosome Density Plot\nSimulation: %s #%s'</span>, simTimeStamp, simIdx));
+0167             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>)
+0168                 saveas(figHandle3, [fileName <span class="string">'-CircularDensity.pdf'</span>]);
+0169                 close(figHandle3);
+0170             <span class="keyword">end</span>
+0171             
+0172             <span class="comment">% Ring Plot with all proteins</span>
+0173             [ax4, figHandle4] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0174             ChromosomeSpaceTimePlot.makeRingPlot(<span class="keyword">...</span>
+0175                 ax4, sim, states, RNAPSparseMat, <span class="keyword">...</span>
+0176                 ChromosomeSpaceTimePlot.chromProteins, [], selectedTime, <span class="keyword">...</span>
+0177                 maxSpace);
+0178             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>)
+0179                 saveas(figHandle4, [fileName <span class="string">'-Ring.pdf'</span>]);
+0180                 close(figHandle4);
+0181             <span class="keyword">end</span>
+0182         <span class="keyword">end</span>
+0183         
+0184         <a name="_sub1" href="#_subfunctions" class="code">function [densityMatrix, pxWidth, pxHeight] = calcRnaPDensityMatrix(activePos, width, height, maxTime, maxSpace)</a>
+0185             pxWidth = maxTime / width;
+0186             pxHeight = maxSpace / height;
+0187             densityMatrix = zeros(height, width);
+0188             <span class="keyword">for</span> i = 1:height
+0189                 <span class="keyword">for</span> j = 1:width
+0190                     densityMatrix(i, j) = size(<span class="keyword">...</span>
+0191                         activePos(<span class="keyword">...</span>
+0192                         activePos(:, round(pxWidth * (j-1) + 1) : round(pxWidth * j)) &gt; round(pxHeight * (i-1)) &amp; <span class="keyword">...</span>
+0193                         activePos(:, round(pxWidth * (j-1) + 1) : round(pxWidth * j)) &lt;= round(pxHeight * i)), <span class="keyword">...</span>
+0194                         1) / (pxWidth * pxHeight) * 3600;
+0195                 <span class="keyword">end</span>
+0196             <span class="keyword">end</span>
+0197         <span class="keyword">end</span>
+0198         
+0199         <a name="_sub2" href="#_subfunctions" class="code">function [densityMatrix, pxWidth, pxHeight] = calcChromBoundDensityMatrix(subs, width, height, maxTime, maxSpace)</a>
+0200             pxWidth = maxTime / width;
+0201             pxHeight = maxSpace / height;
+0202             
+0203             w = round(pxWidth * (1:width));
+0204             h = round(pxHeight * (1:height));
+0205             
+0206             densityMatrix =  hist3(subs(:, [1 3]), <span class="string">'Edges'</span>, {h w}) / (pxWidth * pxHeight) * 3600;
+0207         <span class="keyword">end</span>
+0208         
+0209         <a name="_sub3" href="#_subfunctions" class="code">function plotSpaceTimeOverlay(ax, sim, states, RNAPSparseMat, chProteins, whatToShow, figTitle)</a>
+0210             <span class="comment">%% Initialization %%</span>
+0211             <span class="keyword">if</span> exist(<span class="string">'whatToShow'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(whatToShow)
+0212                 [~, inds] = ismember(whatToShow, chProteins(:, 5));
+0213                 chProteins = chProteins(inds(inds ~= 0), :);
+0214             <span class="keyword">end</span>
+0215             
+0216             c = sim.state(<span class="string">'Chromosome'</span>);
+0217             hold(ax, <span class="string">'on'</span>);
+0218             
+0219             <span class="comment">% Handle presence/absence of RNAPSparseMat (plot it or don't)</span>
+0220             <span class="keyword">if</span> exist(<span class="string">'RNAPSparseMat'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(RNAPSparseMat)
+0221                 pol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0222                 subs = find(RNAPSparseMat &gt;= pol.activelyTranscribingValue);
+0223                 subs(subs(:, 2) &gt;= 3, :) = [];
+0224                 
+0225                 <span class="comment">% Flip positions above/below the terC</span>
+0226                 subs_old = subs;
+0227                 subs(subs_old(:, 1) &gt; c.terCPosition, 1) = subs_old(subs_old(:, 1) &gt; c.terCPosition, 1) - c.terCPosition;
+0228                 subs(subs_old(:, 1) &lt;= c.terCPosition, 1) = subs_old(subs_old(:, 1) &lt;= c.terCPosition, 1) + c.terCPosition;
+0229                 clear subs_old;
+0230                
+0231                 handles = zeros(size(chProteins, 1) + 1, 1);
+0232                 names = [<span class="string">'RNA Polymerase'</span>; chProteins(:, 5)];
+0233                 handles(1) = patch([<span class="keyword">...</span>
+0234                     1 / 3600 * subs(:, 3)'
+0235                     1 / 3600 * (subs(:, 3) + 1)'
+0236                     1 / 3600 * (subs(:, 3) + 1)'
+0237                     1 / 3600 * subs(:, 3)'
+0238                     ], [
+0239                     subs(:, 1)'
+0240                     subs(:, 1)'
+0241                     subs(:, 1)' + 1
+0242                     subs(:, 1)' + 1
+0243                     ], ones(1, size(subs, 1)), <span class="string">'Parent'</span>, ax, <span class="string">'EdgeColor'</span>, <span class="string">'b'</span>, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>);
+0244                 handle_offset = 1;
+0245             <span class="keyword">else</span>
+0246                 handles = zeros(size(chProteins, 1), 1);
+0247                 names = chProteins(:, 5);
+0248                 handle_offset = 0;
+0249             <span class="keyword">end</span>
+0250             
+0251             <span class="comment">%% Loop over chromosomal proteins %%</span>
+0252             <span class="keyword">for</span> i = 1:size(chProteins, 1)
+0253                 chromProp = chProteins{i, 1};
+0254                 wIDs = chProteins{i, 2};
+0255                 strands = chProteins{i, 3};
+0256                 color = chProteins{i, 4};
+0257                 
+0258                 <span class="comment">% Determine if it's a complex or monomer</span>
+0259                 <span class="keyword">if</span> strcmp(chromProp, <span class="string">'complexBoundSites'</span>)
+0260                     mod = sim.state(<span class="string">'ProteinComplex'</span>);
+0261                 <span class="keyword">elseif</span> strcmp(chromProp, <span class="string">'monomerBoundSites'</span>)
+0262                     mod = sim.state(<span class="string">'ProteinMonomer'</span>);
+0263                 <span class="keyword">end</span>
+0264                 
+0265                 idxs = find(ismember(mod.wholeCellModelIDs(mod.matureIndexs), wIDs));
+0266                 subs = [];
+0267                 
+0268                 <span class="comment">% If we lump multiple proteins together to consider them as</span>
+0269                 <span class="comment">% one class of proteins (e.g., DnaA), then get all subs</span>
+0270                 <span class="keyword">for</span> j = 1:numel(wIDs)
+0271                     subs = [subs; find(states.Chromosome.(chromProp) == idxs(j))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0272                 <span class="keyword">end</span>
+0273                 
+0274                 <span class="comment">% Get rid of subs that aren't on the proper strand</span>
+0275                 subs = subs(ismember(subs(:, 2), strands), :);
+0276                 
+0277                 <span class="comment">% Flip positions above/below the terC</span>
+0278                 subs_old = subs;
+0279                 subs(subs_old(:, 1) &gt; c.terCPosition, 1) = subs_old(subs_old(:, 1) &gt; c.terCPosition, 1) - c.terCPosition;
+0280                 subs(subs_old(:, 1) &lt;= c.terCPosition, 1) = subs_old(subs_old(:, 1) &lt;= c.terCPosition, 1) + c.terCPosition;
+0281                 clear subs_old;
+0282                 
+0283                 <span class="comment">% Plot</span>
+0284                 <span class="keyword">if</span> isempty(subs)
+0285                     <span class="keyword">continue</span>;
+0286                 <span class="keyword">end</span>
+0287                 handles(i + handle_offset) = patch([<span class="keyword">...</span>
+0288                     1 / 3600 * subs(:, 3)'
+0289                     1 / 3600 * (subs(:, 3) + 1)'
+0290                     1 / 3600 * (subs(:, 3) + 1)'
+0291                     1 / 3600 * subs(:, 3)'
+0292                     ], [
+0293                     subs(:, 1)'
+0294                     subs(:, 1)'
+0295                     subs(:, 1)' + 1
+0296                     subs(:, 1)' + 1
+0297                     ], ones(1, size(subs, 1)), <span class="string">'Parent'</span>, ax, <span class="string">'EdgeColor'</span>, color, <span class="string">'FaceColor'</span>, color);                
+0298             <span class="keyword">end</span>
+0299             hold(ax, <span class="string">'off'</span>);
+0300             
+0301             <span class="comment">% Legend formatting</span>
+0302             lh = legend(handles(handles ~= 0), names(handles ~= 0), <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>, <span class="string">'FontSize'</span>, 8);
+0303             c_lh = get(lh, <span class="string">'Children'</span>);
+0304             <span class="keyword">for</span> i = 1:numel(c_lh)
+0305                 set(c_lh(i), <span class="string">'LineStyle'</span>, <span class="string">'-'</span>);
+0306             <span class="keyword">end</span>
+0307             
+0308             <span class="comment">% Labeling</span>
+0309             xlabel(ax, <span class="string">'Time (hr)'</span>, <span class="string">'FontSize'</span>, 16);
+0310             set(ax, <span class="string">'YTick'</span>, [1 c.sequenceLen/2 c.sequenceLen]);
+0311             set(ax, <span class="string">'YTickLabel'</span>, {<span class="string">'TerC'</span>, <span class="string">'OriC'</span>, <span class="string">'TerC'</span>});
+0312             ylim(ax, [0.5 c.sequenceLen + 0.5]);
+0313             ylabel(ax, <span class="string">'Position'</span>, <span class="string">'FontSize'</span>, 16)
+0314             set(ax, <span class="string">'FontSize'</span>, 8);
+0315             xlim(ax, states.Time.values([1 end]) / 3600);
+0316         <span class="keyword">end</span>
+0317         
+0318         <a name="_sub4" href="#_subfunctions" class="code">function makeRingPlot(ax, sim, states, RNAPSparseMat, chProteins, whatToMake, time, maxSpace)</a>
+0319             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0320             
+0321             <span class="keyword">if</span> exist(<span class="string">'whatToMake'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(whatToMake)
+0322                 [~, inds] = ismember(whatToMake, chProteins(:, 5));
+0323                 chProteins = chProteins(inds(inds ~= 0), :);
+0324             <span class="keyword">end</span>
+0325             
+0326             <span class="keyword">if</span> exist(<span class="string">'RNAPSparseMat'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(RNAPSparseMat)
+0327                 pol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0328                 subs = find(RNAPSparseMat &gt;= pol.activelyTranscribingValue);
+0329                 subs(subs(:, 2) &gt;= 3, :) = [];
+0330                 pos = ChromosomeSpaceTimePlot.getPos(subs, time);
+0331                 lineHandles = zeros(size(chProteins, 1) + 1, 1);
+0332                 names = [<span class="string">'RNA Polymerase'</span>; chProteins(:, 5)];
+0333                 h = ChromosomeSpaceTimePlot.plotRing(ax, pos, maxSpace, [1 2], [0 0 1]);
+0334                 <span class="keyword">if</span> ~isempty(h)
+0335                     lineHandles(1) = h(1);
+0336                 <span class="keyword">end</span>
+0337                 lineHandle_offset = 1;
+0338             <span class="keyword">else</span>
+0339                 lineHandles = zeros(size(chProteins, 1), 1);
+0340                 names = chProteins(:, 5);
+0341                 lineHandle_offset = 0;
+0342             <span class="keyword">end</span>
+0343             
+0344             <span class="keyword">for</span> i = 1:size(chProteins, 1)
+0345                 chromProp = chProteins{i, 1};
+0346                 wIDs = chProteins{i, 2};
+0347                 strands = chProteins{i, 3};
+0348                 color = chProteins{i, 4};
+0349                 <span class="keyword">if</span> strcmp(chromProp, <span class="string">'complexBoundSites'</span>)
+0350                     mod = sim.state(<span class="string">'ProteinComplex'</span>);
+0351                 <span class="keyword">elseif</span> strcmp(chromProp, <span class="string">'monomerBoundSites'</span>)
+0352                     mod = sim.state(<span class="string">'ProteinMonomer'</span>);
+0353                 <span class="keyword">end</span>
+0354                 idxs = find(ismember(mod.wholeCellModelIDs(mod.matureIndexs), wIDs));
+0355                 subs = [];
+0356                 <span class="keyword">for</span> j = 1:numel(wIDs)
+0357                     subs = [subs; find(states.Chromosome.(chromProp) == idxs(j))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0358                 <span class="keyword">end</span>
+0359                 subs = subs(ismember(subs(:, 2), strands), :);
+0360                 
+0361                 pos = ChromosomeSpaceTimePlot.getPos(subs, time);
+0362                 h = ChromosomeSpaceTimePlot.plotRing(ax, pos, maxSpace, [1 2], color);
+0363                 <span class="keyword">if</span> ~isempty(h)
+0364                     lineHandles(i + lineHandle_offset) = h(1);
+0365                 <span class="keyword">end</span>
+0366             <span class="keyword">end</span>
+0367             
+0368             <span class="keyword">if</span> any(lineHandles)
+0369                 legend(lineHandles, names, <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>);
+0370             <span class="keyword">end</span>
+0371             
+0372             axis(ax, <span class="string">'square'</span>);
+0373         <span class="keyword">end</span>
+0374         
+0375         <a name="_sub5" href="#_subfunctions" class="code">function plotSpaceTimeDensity(axesHandle, densityMatrix, maxTime, pxWidth, figTitle)</a>
+0376             imagesc(densityMatrix, <span class="string">'Parent'</span>, axesHandle);
+0377             hrPos = (0:ceil(maxTime / 3600)) * (3600 / pxWidth);
+0378             set(axesHandle, <span class="string">'XTick'</span>, hrPos);
+0379             set(axesHandle, <span class="string">'XTickLabel'</span>, hrPos * pxWidth/3600);
+0380             set(axesHandle, <span class="string">'YTick'</span>, [0 size(densityMatrix, 1) / 2 size(densityMatrix, 1)]);
+0381             set(axesHandle, <span class="string">'YTickLabel'</span>, {<span class="string">'OriC'</span>, <span class="string">'TerC'</span>, <span class="string">'OriC'</span>});
+0382             set(axesHandle, <span class="string">'YDir'</span>, <span class="string">'normal'</span>);
+0383             axis(axesHandle, [0 size(densityMatrix, 2) 0 size(densityMatrix, 1)]);
+0384             xlabel(axesHandle, <span class="string">'Time (hr)'</span>);
+0385             ylabel(axesHandle, <span class="string">'Position on Chromosome 1'</span>);
+0386             colormap(axesHandle, edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot.cmap);
+0387             c_handle = colorbar(<span class="string">'Peer'</span>, axesHandle);
+0388             ylbl = get(c_handle, <span class="string">'YLabel'</span>);
+0389             set(ylbl, <span class="string">'String'</span>, <span class="string">'Density (Proteins/bp/hr)'</span>);
+0390             title(figTitle, <span class="string">'Parent'</span>, axesHandle);
+0391             xlim(axesHandle, [0 maxTime] / 3600);
+0392             box(<span class="string">'off'</span>);
+0393         <span class="keyword">end</span>
+0394         
+0395         <a name="_sub6" href="#_subfunctions" class="code">function [lineHandles, circleHandles] = plotRing(axesHandle, pos, maxPos, radii, color)</a>
+0396             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0397             
+0398             lineHandles = zeros(size(pos));
+0399             circleHandles = zeros(2, 1);
+0400             
+0401             theta = ((pos / maxPos) * (2 * pi)) + (pi / 2);
+0402             
+0403             <span class="keyword">for</span> i = 1:size(pos, 1)
+0404                 lineXData = radii .* cos(theta(i));
+0405                 lineYData = radii .* sin(theta(i));
+0406                 lineHandles(i) = line(lineXData, lineYData, <span class="string">'Color'</span>, color, <span class="string">'Parent'</span>, axesHandle);
+0407             <span class="keyword">end</span>
+0408             
+0409             circleHandles(1) = PlotUtil.drawCircle(0, 0, radii(1), axesHandle);
+0410             circleHandles(2) = PlotUtil.drawCircle(0, 0, radii(2), axesHandle);
+0411             set(axesHandle, <span class="string">'Visible'</span>, <span class="string">'off'</span>);
+0412         <span class="keyword">end</span>
+0413         
+0414         <span class="comment">% Plot circular density</span>
+0415         <span class="comment">% TODO: Use loops rather than spaghetti code!</span>
+0416         <a name="_sub7" href="#_subfunctions" class="code">function plotCircularDensity(axesHandle, densityBEMatrix, maxTime, simulation, indepRingNormalize, figTitle)</a>
+0417             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0418             
+0419             ids = simulation.gene.wholeCellModelIDs;
+0420             colormap(flipud(colormap(<span class="string">'bone'</span>)));
+0421             <span class="keyword">if</span> indepRingNormalize
+0422                 h = bullseye(log10((densityBEMatrix - repmat(min(densityBEMatrix, [], 1), [size(densityBEMatrix, 1) 1])) ./ repmat(range(densityBEMatrix, 1), [size(densityBEMatrix, 1) 1])), <span class="string">'N'</span>, 10, <span class="string">'tht0'</span>, 180, <span class="string">'axesHandle'</span>, axesHandle);
+0423                 colorbar_label = <span class="string">'Relative Protein Count On Each Ring'</span>;
+0424                 c_handle = colorbar();
+0425             <span class="keyword">else</span>
+0426                 scaleFactor = 1000;
+0427                 h = bullseye(log10(scaleFactor * densityBEMatrix * (maxTime/3600) + 1), <span class="string">'N'</span>, 10, <span class="string">'tht0'</span>, 180, <span class="string">'axesHandle'</span>, axesHandle);
+0428                 colorbar_label = <span class="string">'Protein / nt / cell cycle'</span>;
+0429                 c_handle = colorbar();
+0430                 yticks = get(c_handle, <span class="string">'YTick'</span>);
+0431                 yticklabels = ((10 .^ yticks) - 1) / (scaleFactor);
+0432                 yticklabels_str = cell(size(yticklabels));
+0433                 <span class="keyword">for</span> i = 1:numel(yticklabels_str)
+0434                     yticklabels_str{i} = sprintf(<span class="string">'%0.02g'</span>, yticklabels(i));
+0435                 <span class="keyword">end</span>
+0436                 set(c_handle, <span class="string">'YTickLabel'</span>, yticklabels_str);
+0437             <span class="keyword">end</span>
+0438             set(h, <span class="string">'ButtonDownFcn'</span>, <span class="string">'edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot.getClickPos(maxSpace)'</span>);
+0439             ylbl = get(c_handle, <span class="string">'YLabel'</span>);
+0440             set(ylbl, <span class="string">'String'</span>, colorbar_label);
+0441             line([0 0], [5 5.1], <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0442             text(0, 5.15, <span class="string">'OriC'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Rotation'</span>, 270, <span class="string">'Parent'</span>, axesHandle);
+0443             line([0 0], [-5 -5.1], <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0444             text(0, -5.15, <span class="string">'TerC'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'left'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Rotation'</span>, 270, <span class="string">'Parent'</span>, axesHandle);
+0445             
+0446             thisIdx = 297;
+0447             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx) / 580076 * 2 * pi;
+0448             [x, y] = pol2cart(theta, [5 5.1]);
+0449             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0450             [x, y] = pol2cart(theta, 5.15);
+0451             halign = <span class="string">'left'</span>;
+0452             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0453                 theta = theta + pi;
+0454                 halign = <span class="string">'right'</span>;
+0455             <span class="keyword">end</span>
+0456             text(x, y, ids{thisIdx}, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0457             
+0458             thisIdx = 302;
+0459             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx) / 580076 * 2 * pi;
+0460             [x, y] = pol2cart(theta, [5 5.1]);
+0461             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0462             [x, y] = pol2cart(theta, 5.15);
+0463             halign = <span class="string">'left'</span>;
+0464             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0465                 theta = theta + pi;
+0466                 halign = <span class="string">'right'</span>;
+0467             <span class="keyword">end</span>
+0468             text(x, y, ids{thisIdx}, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0469             
+0470             thisIdx = [229 236];
+0471             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx(1)) / 580076 * 2 * pi;
+0472             [x, y] = pol2cart(theta, [5 5.1]);
+0473             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0474             [x, y] = pol2cart(theta, 5.15);
+0475             halign = <span class="string">'left'</span>;
+0476             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0477                 theta = theta + pi;
+0478                 halign = <span class="string">'right'</span>;
+0479             <span class="keyword">end</span>
+0480             text(x, y, [ids{thisIdx(1)} <span class="string">'-'</span> ids{thisIdx(2)}], <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0481             
+0482             thisIdx = [144 148];
+0483             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx(1)) / 580076 * 2 * pi;
+0484             [x, y] = pol2cart(theta, [5 5.1]);
+0485             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0486             [x, y] = pol2cart(theta, 5.15);
+0487             halign = <span class="string">'left'</span>;
+0488             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0489                 theta = theta + pi;
+0490                 halign = <span class="string">'right'</span>;
+0491             <span class="keyword">end</span>
+0492             text(x, y, [ids{thisIdx(1)} <span class="string">'-'</span> ids{thisIdx(2)}], <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0493             
+0494             thisIdx = 400;
+0495             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx) / 580076 * 2 * pi;
+0496             [x, y] = pol2cart(theta, [5 5.1]);
+0497             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0498             [x, y] = pol2cart(theta, 5.15);
+0499             halign = <span class="string">'left'</span>;
+0500             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0501                 theta = theta + pi;
+0502                 halign = <span class="string">'right'</span>;
+0503             <span class="keyword">end</span>
+0504             text(x, y, ids{thisIdx}, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0505             
+0506             thisIdx = 501;
+0507             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx) / 580076 * 2 * pi;
+0508             [x, y] = pol2cart(theta, [5 5.1]);
+0509             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0510             [x, y] = pol2cart(theta, 5.15);
+0511             halign = <span class="string">'left'</span>;
+0512             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0513                 theta = theta + pi;
+0514                 halign = <span class="string">'right'</span>;
+0515             <span class="keyword">end</span>
+0516             text(x, y, ids{thisIdx}, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0517             
+0518             thisIdx = [16 17];
+0519             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx(1)) / 580076 * 2 * pi;
+0520             [x, y] = pol2cart(theta, [5 5.1]);
+0521             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0522             [x, y] = pol2cart(theta, 5.15);
+0523             halign = <span class="string">'left'</span>;
+0524             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0525                 theta = theta + pi;
+0526                 halign = <span class="string">'right'</span>;
+0527             <span class="keyword">end</span>
+0528             text(x, y, [ids{thisIdx(1)} <span class="string">'-'</span> ids{thisIdx(2)}], <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0529             
+0530             thisIdx = [104 106];
+0531             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx(1)) / 580076 * 2 * pi;
+0532             [x, y] = pol2cart(theta, [5 5.1]);
+0533             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0534             [x, y] = pol2cart(theta, 5.15);
+0535             halign = <span class="string">'left'</span>;
+0536             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0537                 theta = theta + pi;
+0538                 halign = <span class="string">'right'</span>;
+0539             <span class="keyword">end</span>
+0540             text(x, y, [ids{thisIdx(1)} <span class="string">'-'</span> ids{thisIdx(2)}], <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0541             
+0542             thisIdx = 139;
+0543             theta = (pi / 2) + simulation.gene.startCoordinates(thisIdx) / 580076 * 2 * pi;
+0544             [x, y] = pol2cart(theta, [5 5.1]);
+0545             line(x, y, <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>, axesHandle);
+0546             [x, y] = pol2cart(theta, 5.15);
+0547             halign = <span class="string">'left'</span>;
+0548             <span class="keyword">if</span> theta &gt;= (pi / 2) &amp;&amp; theta &lt; 3 * (pi / 2)
+0549                 theta = theta + pi;
+0550                 halign = <span class="string">'right'</span>;
+0551             <span class="keyword">end</span>
+0552             text(x, y, ids{thisIdx}, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, halign, <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="string">'Interpreter'</span>, <span class="string">'None'</span>, <span class="string">'Rotation'</span>, theta * 180 / pi, <span class="string">'Parent'</span>, axesHandle);
+0553             
+0554             r = ChromosomeSpaceTimePlot.rings;
+0555             text(0, 1 + (r.RNAPolymerase - 1) * (4 / 7), <span class="string">'RNA Polymerase'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'White'</span>, <span class="string">'Parent'</span>, axesHandle);
+0556             text(0, 1 + (r.SMC - 1) * (4 / 7), <span class="string">'SMC'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'White'</span>, <span class="string">'Parent'</span>, axesHandle);
+0557             text(0, 1 + (r.Helicase - 1) * (4 / 7), <span class="string">'Helicase'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'Black'</span>, <span class="string">'Parent'</span>, axesHandle);
+0558             text(0, 1 + (r.DnaA - 1) * (4 / 7), <span class="string">'DnaA'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'White'</span>, <span class="string">'Parent'</span>, axesHandle);
+0559             text(0, 1 + (r.Gyrase - 1) * (4 / 7), <span class="string">'Gyrase'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'White'</span>, <span class="string">'Parent'</span>, axesHandle);
+0560             text(0, 1 + (r.TopoisomeraseIV - 1) * (4 / 7), <span class="string">'Topoisomerase IV'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'Black'</span>, <span class="string">'Parent'</span>, axesHandle);
+0561             text(0, 1 + (r.Regulation - 1) * (4 / 7), <span class="string">'Regulation'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="string">'FontSize'</span>, 8, <span class="string">'Color'</span>, <span class="string">'Black'</span>, <span class="string">'Parent'</span>, axesHandle);
+0562             
+0563             title(axesHandle, figTitle);
+0564         <span class="keyword">end</span>
+0565         
+0566         <a name="_sub8" href="#_subfunctions" class="code">function pos = getRnaPPos(activePos, time)</a>
+0567             pos = activePos(:, time);
+0568             pos(isnan(pos)) = [];
+0569         <span class="keyword">end</span>
+0570         
+0571         <a name="_sub9" href="#_subfunctions" class="code">function pos = getPos(subs, time)</a>
+0572             pos = subs(subs(:, 3) == time, 1);
+0573         <span class="keyword">end</span>
+0574         
+0575         <a name="_sub10" href="#_subfunctions" class="code">function getClickPos(maxVal)</a>
+0576             pt = get(gca, <span class="string">'CurrentPoint'</span>);
+0577             theta = cart2pol(pt(1, 1), pt(1, 2));
+0578             theta = theta - (pi / 2);
+0579             <span class="keyword">if</span> theta &lt; 0
+0580                 theta = theta + (2 * pi);
+0581             <span class="keyword">elseif</span> theta &gt; (2 * pi)
+0582                 theta = theta - (2 * pi);
+0583             <span class="keyword">end</span>
+0584             fprintf(<span class="string">'Clicked on nucleotide: %05g\n'</span>, (theta * maxVal / (2 * pi)));
+0585         <span class="keyword">end</span>
+0586         
+0587         <a name="_sub11" href="#_subfunctions" class="code">function RNAPSparseMat = makeRNAPSparseMat(states, sim)</a>
+0588             c = sim.state(<span class="string">'Chromosome'</span>);
+0589             
+0590             nTimePoints = size(states.RNAPolymerase.positionStrands, 3);
+0591             nRnaPol = size(states.RNAPolymerase.positionStrands, 1);
+0592             polStates = reshape(states.RNAPolymerase.states, [nRnaPol * nTimePoints 1]);
+0593             posStrndTimes = reshape(permute([states.RNAPolymerase.positionStrands repmat(permute(1:nTimePoints, [1 3 2]), [nRnaPol 1])], [1 3 2]), [nRnaPol * nTimePoints 3]);
+0594             
+0595             polStates = polStates(posStrndTimes(:, 1) ~= 0, :);
+0596             posStrndTimes = posStrndTimes(posStrndTimes(:, 1) ~= 0, :);
+0597             
+0598             RNAPSparseMat = edu.stanford.covert.util.CircularSparseMat(posStrndTimes, polStates, [c.sequenceLen 4 nTimePoints], 1);
+0599         <span class="keyword">end</span>
+0600         
+0601         <a name="_sub12" href="#_subfunctions" class="code">function [ensemble, states, dnaABoxBound, legendHandle] = plotSpaceTime(</a><span class="keyword">...</span>
+0602                 axesHandle, simBatchDir, simNum, nRNAPols, <span class="keyword">...</span>
+0603                 nonSpecBoundPols, posSpan, showSingleDnaALine, showLegend, <span class="keyword">...</span>
+0604                 ensemble, states, dnaABoxBound, <span class="keyword">...</span>
+0605                 dnaPolLineWidth, rnaPolLineWidth, showRNAPolDetails)
+0606             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0607             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0608             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0609             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0610             
+0611             [simDir, ~, sim] = SimulationDiskUtil.getSimulation([simBatchDir filesep num2str(simNum)]);
+0612             c = sim.state(<span class="string">'Chromosome'</span>);
+0613             rnaPol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0614             repInit = sim.process(<span class="string">'ReplicationInitiation'</span>);
+0615             
+0616             <span class="keyword">if</span> nargin &lt; 11
+0617                 stateNames = {
+0618                     <span class="string">'helicase1'</span>         <span class="string">'Helicase 1'</span>
+0619                     <span class="string">'helicase2'</span>         <span class="string">'Helicase 2'</span>
+0620                     <span class="string">'leadingPol1'</span>       <span class="string">'Leading Polymerase 1'</span>
+0621                     <span class="string">'leadingPol2'</span>       <span class="string">'Leading Polymerase 2'</span>
+0622                     <span class="string">'laggingPol1'</span>       <span class="string">'Lagging Polymerase 1'</span>
+0623                     <span class="string">'laggingPol2'</span>       <span class="string">'Lagging Polymerase 2'</span>
+0624                     <span class="string">'dnaA_box1'</span>         <span class="string">'DnaA Box R1'</span>
+0625                     <span class="string">'dnaA_box2'</span>         <span class="string">'DnaA Box R2'</span>
+0626                     <span class="string">'dnaA_box3'</span>         <span class="string">'DnaA Box R3'</span>
+0627                     <span class="string">'dnaA_box4'</span>         <span class="string">'DnaA Box R4'</span>
+0628                     <span class="string">'dnaA_box5'</span>         <span class="string">'DnaA Box R5'</span>
+0629                     };
+0630                 ensemble = SimulationEnsemble(simBatchDir, stateNames, [], simNum);
+0631                 
+0632                 stateNames = {
+0633                     <span class="string">'RNAPolymerase'</span>      <span class="string">'states'</span>
+0634                     <span class="string">'RNAPolymerase'</span>      <span class="string">'positionStrands'</span>
+0635                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptionUnits'</span>
+0636                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptProgress'</span>
+0637                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptChromosome'</span>
+0638                     };
+0639                 states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0640                 
+0641                 stateNames = {
+0642                     <span class="string">'Chromosome'</span>         <span class="string">'complexBoundSites'</span>
+0643                     };
+0644                 tmp = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0645                 [subs, vals] = find(tmp.Chromosome.complexBoundSites(repInit.dnaABoxStartPositions, :, :));
+0646                 tfs = subs(:, 2) &lt;= 2 &amp; ismember(vals, repInit.enzymeComplexGlobalIndexs);
+0647                 isDnaABoxBound = zeros(size(repInit.dnaABoxStartPositions, 1), size(tmp.Chromosome.complexBoundSites, 3));
+0648                 isDnaABoxBound(sub2ind(size(isDnaABoxBound), <span class="keyword">...</span>
+0649                     subs(tfs, 1), <span class="keyword">...</span>
+0650                     subs(tfs, 3))) = 1;
+0651                 startIdxs = find([isDnaABoxBound(:, 1)  diff(isDnaABoxBound, [], 2) &gt; 0]);
+0652                 endIdxs = find([diff(isDnaABoxBound, [], 2) &lt; 0  isDnaABoxBound(:, end)]);
+0653                 [tmpx1, tmpy1] = ind2sub(size(isDnaABoxBound), startIdxs);
+0654                 [tmpx2, tmpy2] = ind2sub(size(isDnaABoxBound), endIdxs);
+0655                 tmp1 = sortrows([tmpx1, tmpy1], [1 2]);
+0656                 tmp2 = sortrows([tmpx2, tmpy2], [1 2]);
+0657                 dnaABoxBound = [tmp1(:, 1) tmp1(:, 2) tmp2(:, 2)];
+0658                 
+0659                 clear tmp subs tfs vals tmpx1 tmpx2 tmpy1 tmpy2 tmp1 tmp2;
+0660             <span class="keyword">end</span>
+0661             
+0662             time = ensemble.stateData.time / 3600;
+0663             replisome = [
+0664                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'helicase1'</span>), :, :, :)
+0665                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'helicase2'</span>), :, :, :)
+0666                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'leadingPol1'</span>), :, :, :)
+0667                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'leadingPol2'</span>), :, :, :)
+0668                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'laggingPol1'</span>), :, :, :)
+0669                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'laggingPol2'</span>), :, :, :)
+0670                 ];
+0671             
+0672             <span class="keyword">if</span> nargin &lt; 6 || isempty(posSpan)
+0673                 posSpan = [1 c.sequenceLen];
+0674                 set(axesHandle, <span class="string">'YTick'</span>, [1 c.terCPosition c.sequenceLen]);
+0675                 set(axesHandle, <span class="string">'YTickLabel'</span>, {<span class="string">'terC'</span>, <span class="string">'oriC'</span>, <span class="string">'terC'</span>});
+0676             <span class="keyword">else</span>
+0677                 yTick = [1; c.terCPosition; c.sequenceLen];
+0678                 yTickLabel = {<span class="string">'oriC'</span>; <span class="string">'terC'</span>; <span class="string">'oriC'</span>};
+0679                 <span class="keyword">if</span> posSpan(1) &gt; c.terCPosition
+0680                     yTick = [yTick; posSpan(1)];
+0681                     yTickLabel = [yTickLabel; sprintf(<span class="string">'terC+%d'</span>, posSpan(1)-c.terCPosition)];
+0682                 <span class="keyword">elseif</span> posSpan(1) &lt; c.terCPosition
+0683                     yTick = [yTick; posSpan(1)];
+0684                     yTickLabel = [yTickLabel; sprintf(<span class="string">'terC-%d'</span>, c.terCPosition-posSpan(1))];
+0685                 <span class="keyword">end</span>
+0686                 <span class="keyword">if</span> posSpan(2) &gt; c.terCPosition
+0687                     yTick = [yTick; posSpan(2)];
+0688                     yTickLabel = [yTickLabel; sprintf(<span class="string">'terC+%d'</span>, posSpan(2)-c.terCPosition)];
+0689                 <span class="keyword">elseif</span> posSpan(2) &lt; c.terCPosition
+0690                     yTick = [yTick; posSpan(2)];
+0691                     yTickLabel = [yTickLabel; sprintf(<span class="string">'terC-%d'</span>, c.terCPosition-posSpan(2))];
+0692                 <span class="keyword">end</span>
+0693                 
+0694                 [~, order] = unique(yTick);
+0695                 set(axesHandle, <span class="string">'YTick'</span>, yTick(order));
+0696                 set(axesHandle, <span class="string">'YTickLabel'</span>, yTickLabel(order));
+0697             <span class="keyword">end</span>
+0698             
+0699             xlim(axesHandle, time([1 end]));
+0700             ylim(axesHandle, posSpan);
+0701             ylabel(axesHandle, <span class="string">'Position'</span>);
+0702             
+0703             <span class="comment">%rna polymeraase</span>
+0704             <span class="keyword">if</span> nargin &lt; 4 || isempty(nRNAPols)
+0705                 nRNAPols = size(states.RNAPolymerase.states, 1);
+0706             <span class="keyword">end</span>
+0707             <span class="keyword">if</span> nargin &lt; 13
+0708                 rnaPolLineWidth = 0.25;
+0709             <span class="keyword">end</span>
+0710             <span class="keyword">for</span> i = 1:nRNAPols
+0711                 <span class="comment">%actively transcribing / specifically bound</span>
+0712                 startIdxs = find(cat(3, <span class="keyword">...</span>
+0713                     (states.RNAPolymerase.states(i, :, 1) &gt;= rnaPol.activelyTranscribingValue | <span class="keyword">...</span>
+0714                     states.RNAPolymerase.states(i, :, 1) == rnaPol.specificallyBoundValue) &amp; <span class="keyword">...</span>
+0715                     states.Transcript.boundTranscriptChromosome(i, :, 1) == 1, <span class="keyword">...</span>
+0716                     diff((states.RNAPolymerase.states(i, :, :) &gt;= rnaPol.activelyTranscribingValue | <span class="keyword">...</span>
+0717                     states.RNAPolymerase.states(i, :, :) == rnaPol.specificallyBoundValue) &amp; <span class="keyword">...</span>
+0718                     states.Transcript.boundTranscriptChromosome(i, :, :) == 1, 1, 3) &gt; 0));
+0719                 endIdxs = find(cat(3, <span class="keyword">...</span>
+0720                     diff((states.RNAPolymerase.states(i, :, :) &gt;= rnaPol.activelyTranscribingValue | <span class="keyword">...</span>
+0721                     states.RNAPolymerase.states(i, :, :) == rnaPol.specificallyBoundValue) &amp; <span class="keyword">...</span>
+0722                     states.Transcript.boundTranscriptChromosome(i, :, :) == 1, 1, 3) &lt; 0, <span class="keyword">...</span>
+0723                     (states.RNAPolymerase.states(i, :, end) &gt;= rnaPol.activelyTranscribingValue | <span class="keyword">...</span>
+0724                     states.RNAPolymerase.states(i, :, end) == rnaPol.specificallyBoundValue) &amp; <span class="keyword">...</span>
+0725                     states.Transcript.boundTranscriptChromosome(i, :, end) == 1));
+0726                 tfs = <span class="keyword">...</span>
+0727                     (states.RNAPolymerase.positionStrands(i, 1, startIdxs) &gt;= posSpan(1) &amp; <span class="keyword">...</span>
+0728                     states.RNAPolymerase.positionStrands(i, 1, startIdxs) &lt;= posSpan(2)) |  <span class="keyword">...</span>
+0729                     (states.RNAPolymerase.positionStrands(i, 1, endIdxs) &gt;= posSpan(1) &amp;  <span class="keyword">...</span>
+0730                     states.RNAPolymerase.positionStrands(i, 1, endIdxs) &lt;= posSpan(2)) | <span class="keyword">...</span>
+0731                     (states.RNAPolymerase.positionStrands(i, 1, startIdxs) &lt;= posSpan(1) &amp;  <span class="keyword">...</span>
+0732                     states.RNAPolymerase.positionStrands(i, 1, endIdxs) &gt;= posSpan(2)) | <span class="keyword">...</span>
+0733                     (states.RNAPolymerase.positionStrands(i, 1, endIdxs) &lt;= posSpan(1) &amp;  <span class="keyword">...</span>
+0734                     states.RNAPolymerase.positionStrands(i, 1, startIdxs) &gt;= posSpan(2));
+0735                 <span class="keyword">if</span> any(tfs)
+0736                     <span class="keyword">if</span> nargin &gt;= 14 &amp;&amp; showRNAPolDetails
+0737                         tmpIdxs = find(tfs);
+0738                         <span class="keyword">for</span> j = 1:numel(tmpIdxs)
+0739                             rnaATPolHandle = line((startIdxs(tmpIdxs(j)):endIdxs(tmpIdxs(j))) / 3600, mod(<span class="keyword">...</span>
+0740                                 permute(states.RNAPolymerase.positionStrands(i, 1, startIdxs(tmpIdxs(j)):endIdxs(tmpIdxs(j))), [1 3 2]) <span class="keyword">...</span>
+0741                                 - c.sequenceLen/2 - 1, c.sequenceLen) + 1, <span class="keyword">...</span>
+0742                                 <span class="string">'Color'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineWidth'</span>, rnaPolLineWidth);
+0743                         <span class="keyword">end</span>
+0744                     <span class="keyword">else</span>
+0745                         rnaATPolHandle = line([startIdxs(tfs) endIdxs(tfs)]' / 3600, mod([<span class="keyword">...</span>
+0746                             permute(states.RNAPolymerase.positionStrands(i, 1, startIdxs(tfs)), [1 3 2])
+0747                             permute(states.RNAPolymerase.positionStrands(i, 1, endIdxs(tfs)), [1 3 2])
+0748                             ] - c.sequenceLen/2 - 1, c.sequenceLen) + 1, <span class="keyword">...</span>
+0749                             <span class="string">'Color'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineWidth'</span>, rnaPolLineWidth);
+0750                     <span class="keyword">end</span>
+0751                 <span class="keyword">end</span>
+0752                     
+0753                 <span class="comment">%non-specifically bound</span>
+0754                 <span class="keyword">if</span> nargin &lt; 5 || nonSpecBoundPols
+0755                     startIdxs = find(states.RNAPolymerase.states(i, :, :) == rnaPol.nonSpecificallyBoundValue &amp; <span class="keyword">...</span>
+0756                         states.RNAPolymerase.positionStrands(i, 2, :) &lt;= 2 &amp; <span class="keyword">...</span>
+0757                         cat(3, true, diff(states.RNAPolymerase.positionStrands(i, 1, :), 1, 3)));
+0758                     endIdxs = find(states.RNAPolymerase.states(i, :, :) == rnaPol.nonSpecificallyBoundValue &amp; <span class="keyword">...</span>
+0759                         states.RNAPolymerase.positionStrands(i, 2, :) &lt;= 2 &amp; <span class="keyword">...</span>
+0760                         cat(3, diff(states.RNAPolymerase.positionStrands(i, 1, :), 1, 3), true));
+0761                     tfs = <span class="keyword">...</span>
+0762                         (states.RNAPolymerase.positionStrands(i, 1, startIdxs) &gt;= posSpan(1) &amp; <span class="keyword">...</span>
+0763                         states.RNAPolymerase.positionStrands(i, 1, startIdxs) &lt;= posSpan(2)) |  <span class="keyword">...</span>
+0764                         (states.RNAPolymerase.positionStrands(i, 1, endIdxs) &gt;= posSpan(1) &amp;  <span class="keyword">...</span>
+0765                         states.RNAPolymerase.positionStrands(i, 1, endIdxs) &lt;= posSpan(2));
+0766                     <span class="keyword">if</span> any(tfs)
+0767                         <span class="keyword">if</span> nargin &gt;= 14 &amp;&amp; showRNAPolDetails
+0768                             tmpIdxs = find(tfs);
+0769                             <span class="keyword">for</span> j = 1:numel(tmpIdxs)
+0770                                 rnaNSBPolHandle = line((startIdxs(tmpIdxs(j)):endIdxs(tmpIdxs(j))) / 3600, mod(<span class="keyword">...</span>
+0771                                     permute(states.RNAPolymerase.positionStrands(i, 1, startIdxs(tmpIdxs(j)):endIdxs(tmpIdxs(j))), [1 3 2]) <span class="keyword">...</span>
+0772                                     - c.sequenceLen/2 - 1, c.sequenceLen) + 1, <span class="keyword">...</span>
+0773                                     <span class="string">'Color'</span>, <span class="string">'c'</span>, <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineWidth'</span>, rnaPolLineWidth);
+0774                             <span class="keyword">end</span>
+0775                         <span class="keyword">else</span>
+0776                             rnaNSBPolHandle = line([startIdxs(tfs) endIdxs(tfs)]' / 3600, mod([<span class="keyword">...</span>
+0777                                 permute(states.RNAPolymerase.positionStrands(i, 1, startIdxs(tfs)), [1 3 2])
+0778                                 permute(states.RNAPolymerase.positionStrands(i, 1, endIdxs(tfs)), [1 3 2])
+0779                                 ] - c.sequenceLen/2 - 1, c.sequenceLen) + 1, <span class="keyword">...</span>
+0780                                 <span class="string">'Color'</span>, <span class="string">'c'</span>, <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineWidth'</span>, rnaPolLineWidth);
+0781                         <span class="keyword">end</span>
+0782                     <span class="keyword">end</span>
+0783                 <span class="keyword">end</span>
+0784             <span class="keyword">end</span>
+0785             
+0786             <span class="comment">%DnaA</span>
+0787             dnaABoxPos = mod(repInit.dnaABoxStartPositions(repInit.dnaABoxIndexs_R12345) - c.sequenceLen/2 - 1, c.sequenceLen) + 1;
+0788             dnaABoxMaxOccupancy = [7; 7; 7; 7; 1];
+0789             dnaA = [
+0790                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'dnaA_box1'</span>), :, :, :)
+0791                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'dnaA_box2'</span>), :, :, :)
+0792                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'dnaA_box3'</span>), :, :, :)
+0793                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'dnaA_box4'</span>), :, :, :)
+0794                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'dnaA_box5'</span>), :, :, :)
+0795                 ];
+0796             
+0797             <span class="keyword">if</span> nargin &gt;= 7 &amp;&amp; showSingleDnaALine
+0798                 dnaABoxPos = mean(dnaABoxPos);
+0799                 dnaABoxMaxOccupancy = sum(dnaABoxMaxOccupancy);
+0800                 dnaA = sum(dnaA, 1);
+0801             <span class="keyword">end</span>
+0802             
+0803             <span class="comment">% TODO: Add an argument to the function definition to enable</span>
+0804             <span class="comment">% specifying whether or not you want to see ONLY the oriC DnaA</span>
+0805             <span class="comment">% complex or all binding events</span>
+0806             <span class="keyword">for</span> i = 1:numel(dnaABoxPos)
+0807                 tmp = find(diff(dnaA(i, :, :)));
+0808                 <span class="keyword">for</span> j = 1:numel(tmp)-1
+0809                     x = [tmp(j)+1; tmp(j+1)+1] / 3600;
+0810                     y = dnaABoxPos(i);
+0811                     dnaAHandle = patch([x(1) x(2) x(2) x(1)]', [y+eps y+eps y-eps y-eps]', 1, <span class="keyword">...</span>
+0812                         <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineWidth'</span>, 2, <span class="string">'FaceColor'</span>, <span class="string">'none'</span>, <span class="string">'EdgeColor'</span>, [
+0813                         1
+0814                         1 - log(1 + dnaA(i, :, tmp(j)+1) + eps) / log(1+7)
+0815                         1 - log(1 + dnaA(i, :, tmp(j)+1) + eps) / log(1+7)]);
+0816                 <span class="keyword">end</span>
+0817             <span class="keyword">end</span>
+0818             
+0819 <span class="comment">%             dnaABoxBound = dnaABoxBound(~ismember(dnaABoxBound(:, 1), repInit.dnaABoxIndexs_R12345), :);</span>
+0820 <span class="comment">%             dnaAHandle = line(reshape([dnaABoxBound(:, 2:3)/3600 nan(size(dnaABoxBound, 1), 1)]', [], 1), ...</span>
+0821 <span class="comment">%                 reshape([repInit.dnaABoxStartPositions(dnaABoxBound(:, [1 1]))  nan(size(dnaABoxBound, 1), 1)]', [], 1), ...</span>
+0822 <span class="comment">%                 'Parent', axesHandle, 'LineWidth', rnaPolLineWidth, 'Color', [1 log(1+1)/log(1+7) log(1+1)/log(1+7)]);</span>
+0823             
+0824             <span class="comment">%DNA polymerase</span>
+0825             replisome(1:2:<span class="keyword">end</span>, :) = replisome(1:2:<span class="keyword">end</span>, :) - c.sequenceLen/2;
+0826             replisome(2:2:<span class="keyword">end</span>, :) = replisome(2:2:<span class="keyword">end</span>, :) + c.sequenceLen/2;
+0827             
+0828             idxs = [
+0829                 find(any(~isnan(replisome), 1), 1, <span class="string">'first'</span>)
+0830                 find(any(~isnan(replisome), 1), 1, <span class="string">'last'</span>)
+0831                 ];
+0832             green = [0 1 0];
+0833             <span class="keyword">if</span> nargin &lt; 12
+0834                 dnaPolLineWidth = 0.5;
+0835             <span class="keyword">end</span>
+0836             <span class="keyword">if</span> ~isempty(idxs)
+0837                 line(time(:, idxs(1):idxs(2)), <span class="keyword">...</span>
+0838                     permute(replisome(3:4, :, idxs(1):idxs(2), :), [1 3 2 4]), <span class="keyword">...</span>
+0839                     <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, green, <span class="string">'LineWidth'</span>, dnaPolLineWidth);
+0840                 
+0841                 tmpTime = time(:, idxs(1):idxs(2));
+0842                 tmp = permute(replisome(5, :, idxs(1):idxs(2), :), [1 3 2 4]);
+0843                 idxs = find(diff(tmp) &lt; 0);
+0844                 <span class="keyword">for</span> i = numel(idxs):-1:1
+0845                     tmp = [tmp(1:idxs(i)) NaN tmp(idxs(i)+1:end)];
+0846                     tmpTime = [tmpTime(1:idxs(i)) NaN tmpTime(idxs(i)+1:end)];
+0847                 <span class="keyword">end</span>
+0848                 line(tmpTime, tmp, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, green, <span class="string">'LineWidth'</span>, dnaPolLineWidth);
+0849                 
+0850                 tmpTime = time(:, idxs(1):idxs(2));
+0851                 tmp = permute(replisome(6, :, idxs(1):idxs(2), :), [1 3 2 4]);
+0852                 idxs = find(diff(tmp) &gt; 0);
+0853                 <span class="keyword">for</span> i = numel(idxs):-1:1
+0854                     tmp = [tmp(1:idxs(i)) NaN tmp(idxs(i)+1:end)];
+0855                     tmpTime = [tmpTime(1:idxs(i)) NaN tmpTime(idxs(i)+1:end)];
+0856                 <span class="keyword">end</span>
+0857                 dnaPolHandle = line(tmpTime, tmp, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, green, <span class="string">'LineWidth'</span>, dnaPolLineWidth);
+0858             <span class="keyword">end</span>
+0859             
+0860             <span class="comment">%legend</span>
+0861             <span class="keyword">if</span> nargin &gt;= 8 &amp;&amp; showLegend
+0862                 <span class="keyword">if</span> exist(<span class="string">'rnaNSBPolHandle'</span>, <span class="string">'var'</span>)
+0863                     handles = [dnaAHandle(1) dnaPolHandle(1) rnaATPolHandle(1) rnaNSBPolHandle(1)];
+0864                     labels = {<span class="string">'DnaA'</span>, <span class="string">'DNA pol'</span>, <span class="string">'RNA pol - SB/AT'</span>, <span class="string">'RNA pol - NSB'</span>};
+0865                 <span class="keyword">else</span>
+0866                     handles = [dnaAHandle(1) dnaPolHandle(1) rnaATPolHandle(1)];
+0867                     labels = {<span class="string">'DnaA Complex'</span>, <span class="string">'DNA pol'</span>, <span class="string">'RNA pol'</span>};
+0868                 <span class="keyword">end</span>
+0869                 
+0870                 legendHandle = legend(handles, labels, <span class="string">'FontSize'</span>, 7, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0871 <span class="comment">%                 ChromosomeSpaceTimePlot.formatSpaceTimeLegend(axesHandle);</span>
+0872             <span class="keyword">else</span>
+0873                 legendHandle = 0;
+0874             <span class="keyword">end</span>
+0875         <span class="keyword">end</span>
+0876         
+0877         <a name="_sub13" href="#_subfunctions" class="code">function formatSpaceTimeLegend(axesHandle)</a>
+0878             figChildren = get(get(axesHandle, <span class="string">'parent'</span>), <span class="string">'children'</span>);
+0879             legendHandle = figChildren(1);
+0880             set(legendHandle, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0881             legendChildren = get(legendHandle, <span class="string">'children'</span>);
+0882             set(legendChildren(1:3:end), <span class="string">'visible'</span>, <span class="string">'off'</span>)
+0883             set(legendChildren(2:3:end), <span class="string">'visible'</span>, <span class="string">'on'</span>, <span class="string">'LineWidth'</span>, 4)
+0884             set(legendChildren(2:3:end), <span class="string">'XData'</span>, [0.085 0.2])
+0885             <span class="keyword">for</span> i = 3:3:numel(legendChildren)
+0886                 pos = get(legendChildren(i), <span class="string">'Position'</span>);
+0887                 set(legendChildren(i), <span class="string">'Position'</span>, [0.25 pos(2) 0])
+0888             <span class="keyword">end</span>
+0889             set(legendHandle, <span class="string">'units'</span>, <span class="string">'pixels'</span>);
+0890             legendPos = get(legendHandle, <span class="string">'position'</span>);
+0891             set(legendHandle, <span class="string">'position'</span>, [[1.4 1.42] .* legendPos(1:2) 0.57*legendPos(3) legendPos(4)]);
+0892         <span class="keyword">end</span>
+0893         
+0894         <a name="_sub14" href="#_subfunctions" class="code">function [densityBEMatrix, maxTime, maxSpace] = getProteinBindingDensityMatrix(</a><span class="keyword">...</span>
+0895                 sim, states, RNAPSparseMat, chProteins, whatToMake, width, height)
+0896             import edu.stanford.covert.cell.sim.analysis.ChromosomeSpaceTimePlot;
+0897             
+0898             <span class="keyword">if</span> exist(<span class="string">'whatToMake'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(whatToMake)
+0899                 [~, inds] = ismember(whatToMake, chProteins(:, 5));
+0900                 chProteins = chProteins(inds(inds ~= 0), :);
+0901             <span class="keyword">end</span>
+0902             
+0903             densityBEMatrix = zeros(height, 7);
+0904             
+0905             <span class="keyword">if</span> exist(<span class="string">'RNAPSparseMat'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(RNAPSparseMat)
+0906                 pol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0907                 subs = find(RNAPSparseMat &gt;= pol.activelyTranscribingValue);
+0908                 subs(subs(:, 2) &gt;= 3, :) = [];
+0909                 
+0910                 maxTime = size(RNAPSparseMat, 3);
+0911                 maxSpace = size(RNAPSparseMat, 1);
+0912                 ringName = <span class="string">'RNAPolymerase'</span>;
+0913                 densityMatrix = ChromosomeSpaceTimePlot.calcChromBoundDensityMatrix(subs, width, height, maxTime, maxSpace);
+0914                 densityBEMatrix(:, ChromosomeSpaceTimePlot.rings.(ringName)) = <span class="keyword">...</span>
+0915                     densityBEMatrix(:, ChromosomeSpaceTimePlot.rings.(ringName)) + (sum(densityMatrix, 2) / size(densityMatrix, 2));
+0916             <span class="keyword">end</span>
+0917             
+0918             <span class="keyword">for</span> i = 1:size(chProteins, 1)
+0919                 chromProp = chProteins{i, 1};
+0920                 wIDs = chProteins{i, 2};
+0921                 strands = chProteins{i, 3};
+0922                 name = chProteins{i, 5};
+0923                 
+0924                 <span class="keyword">if</span> strcmp(chromProp, <span class="string">'complexBoundSites'</span>)
+0925                     mod = sim.state(<span class="string">'ProteinComplex'</span>);
+0926                 <span class="keyword">elseif</span> strcmp(chromProp, <span class="string">'monomerBoundSites'</span>)
+0927                     mod = sim.state(<span class="string">'ProteinMonomer'</span>);
+0928                 <span class="keyword">end</span>
+0929                 [~, idxs] = ismember(wIDs, mod.wholeCellModelIDs(mod.matureIndexs));
+0930                 
+0931                 [subs, vals] = find(states.Chromosome.(chromProp));
+0932                 subs = subs(ismember(vals, idxs), :);
+0933                 subs = subs(ismember(subs(:, 2), strands), :);
+0934                 
+0935                 maxTime = size(states.Chromosome.complexBoundSites, 3);
+0936                 maxSpace = size(states.Chromosome.complexBoundSites, 1);
+0937                 densityMatrix = ChromosomeSpaceTimePlot.calcChromBoundDensityMatrix(subs, width, height, maxTime, maxSpace);
+0938                 
+0939                 <span class="keyword">if</span> ismember(wIDs{1}, ChromosomeSpaceTimePlot.regulationWIDs)
+0940                     ringName = <span class="string">'Regulation'</span>;
+0941                 <span class="keyword">else</span>
+0942                     ringName = strrep(name, <span class="string">' '</span>, <span class="string">''</span>);
+0943                 <span class="keyword">end</span>
+0944                 
+0945                 <span class="keyword">if</span> isfield(ChromosomeSpaceTimePlot.rings, ringName)
+0946                     densityBEMatrix(:, ChromosomeSpaceTimePlot.rings.(ringName)) = <span class="keyword">...</span>
+0947                         densityBEMatrix(:, ChromosomeSpaceTimePlot.rings.(ringName)) + (sum(densityMatrix, 2) / size(densityMatrix, 2));
+0948                 <span class="keyword">end</span>
+0949             <span class="keyword">end</span>
+0950         <span class="keyword">end</span>
+0951     <span class="keyword">end</span>
+0952 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

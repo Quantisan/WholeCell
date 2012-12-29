@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TranslationAnalysis</title>
+  <meta name="keywords" content="TranslationAnalysis">
+  <meta name="description" content="TranslationAnalysis">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; TranslationAnalysis.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TranslationAnalysis
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>TranslationAnalysis</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> TranslationAnalysis
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Created: 8/31/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TranslationAnalysis.html" class="code" title="">TranslationAnalysis</a>	TranslationAnalysis</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TranslationAnalysis.html" class="code" title="">TranslationAnalysis</a>	TranslationAnalysis</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(simDir, fileName)</a></li><li><a href="#_sub2" class="code">function [starts, ends, pauses] = getStartsEndsPauses(sim, pos, stallPos, ribStates)</a></li><li><a href="#_sub3" class="code">function [startRibs, endRibs, startTimes, endTimes] = verifyStartsEnds(starts, ends)</a></li><li><a href="#_sub4" class="code">function plotMonomerSynthesis(axesHandle, states, sim, starts, ~)</a></li><li><a href="#_sub5" class="code">function pausesInfo = getPausesInfo(states, pauses, verbose)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% TranslationAnalysis</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Created: 8/31/2011</span>
+0007 classdef <a href="TranslationAnalysis.html" class="code" title="">TranslationAnalysis</a>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function run(simDir, fileName)</a>
+0010             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0011             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0012             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0013             import edu.stanford.covert.cell.sim.analysis.ChromosomePositionHistogram;
+0014             import edu.stanford.covert.cell.sim.analysis.TranslationAnalysis;
+0015             
+0016             <span class="comment">%% options</span>
+0017             <span class="keyword">if</span> nargin &lt; 1 || isempty(simDir)
+0018                 simDir = [SimulationDiskUtil.getLatestSimulationGroup() filesep <span class="string">'1'</span>];
+0019             <span class="keyword">end</span>
+0020             
+0021             <span class="comment">%% constants</span>
+0022             [simDir, ~, sim] = SimulationDiskUtil.getSimulation(simDir);
+0023             simBatchDir = SimulationDiskUtil.getSimulationBatchDir(simDir);
+0024             simIdx = num2str(SimulationDiskUtil.getSimulationIndex(simDir));
+0025             simTimeStamp = SimulationDiskUtil.getSimulationTimeStamp(simDir);
+0026             
+0027             g = sim.gene;
+0028             met = sim.state(<span class="string">'Metabolite'</span>);
+0029             rna = sim.state(<span class="string">'Rna'</span>);
+0030             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0031             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0032             pp = sim.state(<span class="string">'Polypeptide'</span>);
+0033             
+0034             atpIdx = met.getIndexs(<span class="string">'ATP'</span>);
+0035             gtpIdx = met.getIndexs(<span class="string">'GTP'</span>);
+0036             
+0037             efGIdx = pc.boundIndexs(pc.getIndexs(<span class="string">'MG_089_DIMER'</span>));
+0038             efTsIdx = pc.boundIndexs(pc.getIndexs(<span class="string">'MG_433_DIMER'</span>));
+0039             efTuIdx = pc.boundIndexs(pc.getIndexs(<span class="string">'MG_451_DIMER'</span>));
+0040             
+0041             efPIdx = pm.boundIndexs(pm.getIndexs(<span class="string">'MG_026_MONOMER'</span>));
+0042             
+0043             <span class="comment">%% get data</span>
+0044             stateNames = {<span class="keyword">...</span>
+0045                 <span class="string">'Metabolite'</span>        <span class="string">'counts'</span>         [atpIdx; gtpIdx; met.aminoAcidIndexs] 1
+0046                 <span class="string">'ProteinComplex'</span>    <span class="string">'counts'</span>         [efGIdx; efTsIdx; efTuIdx] 1
+0047                 <span class="string">'ProteinMonomer'</span>    <span class="string">'counts'</span>         efPIdx 1
+0048                 <span class="string">'Ribosome'</span>          <span class="string">'boundMRNAs'</span>     <span class="string">':'</span> <span class="string">':'</span>
+0049                 <span class="string">'Ribosome'</span>          <span class="string">'mRNAPositions'</span>  <span class="string">':'</span> <span class="string">':'</span>
+0050                 <span class="string">'Ribosome'</span>          <span class="string">'tmRNAPositions'</span> <span class="string">':'</span> <span class="string">':'</span>
+0051                 <span class="string">'Ribosome'</span>          <span class="string">'states'</span>         <span class="string">':'</span> <span class="string">':'</span>
+0052                 <span class="string">'Rna'</span>               <span class="string">'counts'</span>         [rna.matureIndexs(rna.matureTRNAIndexs); rna.aminoacylatedIndexs(rna.matureTRNAIndexs)] 1
+0053                 <span class="string">'Polypeptide'</span>       <span class="string">'boundMRNAs'</span>     <span class="string">':'</span> <span class="string">':'</span>
+0054                 <span class="string">'Time'</span>              <span class="string">'values'</span>         <span class="string">':'</span> <span class="string">':'</span>
+0055                 };
+0056             
+0057             states = SimulationEnsemble.load(simBatchDir, stateNames, [], [], [], <span class="string">'extract'</span>, str2double(simIdx));
+0058             
+0059             time = squeeze(states.Time.values) / 3600;
+0060             
+0061             aminoacylatedtRNACounts = permute(states.Rna.counts(1+numel(rna.matureIndexs(rna.matureTRNAIndexs)):<span class="keyword">end</span>, 1, :), [1 3 2]);
+0062             atpCounts = permute(states.Metabolite.counts(1, 1, :), [1 3 2]);
+0063             gtpCounts = permute(states.Metabolite.counts(2, 1, :), [1 3 2]);
+0064             aminoAcidCounts = permute(states.Metabolite.counts(3:<span class="keyword">end</span>, 1, :), [1 3 2]);
+0065             efGCounts = permute(states.ProteinComplex.counts(1, 1, :), [1 3 2]);
+0066             
+0067             ribStates = permute(states.Ribosome.states, [1 3 2]);
+0068             pos = permute(states.Ribosome.mRNAPositions, [1 3 2]);
+0069             stallPos = permute(states.Ribosome.tmRNAPositions, [1 3 2]);
+0070             
+0071             [starts, ends, pauses] = TranslationAnalysis.getStartsEndsPauses(sim, pos, stallPos, ribStates);            
+0072             [startRibs, endRibs, startTimes, endTimes] = TranslationAnalysis.verifyStartsEnds(starts, ends);
+0073            
+0074             <span class="comment">%% synthesis</span>
+0075             [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0076             TranslationAnalysis.plotMonomerSynthesis(axesHandle, states, sim, starts, ends);
+0077             
+0078             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>)
+0079                 saveas(figHandle, [fileName <span class="string">'-MonomerSynthesis.pdf'</span>])
+0080                 close(figHandle);
+0081             <span class="keyword">end</span>
+0082             
+0083             <span class="comment">%% pauses</span>
+0084             pausesInfo = TranslationAnalysis.getPausesInfo(states, pauses, false);
+0085             [~, tmp] = max(pausesInfo(:, 5));
+0086             maxPausedRibosomeIdx = pausesInfo(tmp, 1);
+0087             
+0088             ribLP = pausesInfo(1, 1);
+0089             bmRNALP = pausesInfo(1, 2);
+0090             positionLP = pausesInfo(1, 3);
+0091             startLP = pausesInfo(1, 4);
+0092             timeLP = pausesInfo(1, 5);
+0093             endLP = startLP + timeLP - 1;
+0094             
+0095             startInfo = [startRibs, startTimes];
+0096             endInfo = [endRibs, endTimes];
+0097             translateStartTime = startInfo(startInfo(:, 1) == ribLP &amp; startInfo(:, 2) &lt;= startLP, :);
+0098             translateEndTime = endInfo(startInfo(:, 1) == maxPausedRibosomeIdx &amp; endInfo(:, 2) &gt;= endLP, :);
+0099             translateStartTime = translateStartTime(<span class="keyword">end</span>, 2);
+0100             translateEndTime = translateEndTime(1, 2);
+0101             
+0102             [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0103             clf(figHandle);
+0104             
+0105             nRows = 7;
+0106             
+0107             posL = 0.10;
+0108             posB = 0.10;
+0109             posW = 0.80;
+0110             posH = 0.75;
+0111             
+0112             timeSliceIdxs = translateStartTime:translateEndTime;
+0113             figTitle = sprintf(<span class="string">'Longest Ribosome Stall\nSimulation: %s #%s'</span>, simTimeStamp, simIdx);
+0114             annotation(figHandle, <span class="string">'TextBox'</span>, [0.25 0.925 0.5 0.025], <span class="keyword">...</span>
+0115                 <span class="string">'String'</span>, figTitle, <span class="string">'HorizontalAlignment'</span>, <span class="string">'Center'</span>, <span class="keyword">...</span>
+0116                 <span class="string">'VerticalAlignment'</span>, <span class="string">'Middle'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'None'</span>, <span class="keyword">...</span>
+0117                 <span class="string">'FontSize'</span>, 14, <span class="string">'FontWeight'</span>, <span class="string">'Normal'</span>);
+0118             axesHandles = PlotUtil.multiElementPlot(<span class="keyword">...</span>
+0119                 figHandle, 3.5 * ones(nRows, 1), time([translateStartTime translateEndTime]), struct(<span class="keyword">...</span>
+0120                 <span class="string">'position'</span>, [posL posB posW posH] <span class="keyword">...</span>
+0121                 ));
+0122                     
+0123             geneWID = g.wholeCellModelIDs(g.mRNAIndexs(bmRNALP));
+0124             PlotUtil.plotLine(axesHandles(1), time(timeSliceIdxs), pos(ribLP, timeSliceIdxs), true, true, false);
+0125             title(axesHandles(1), sprintf(<span class="string">'Ribosomal Progress on %s'</span>, geneWID{1}), <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0126             ylabel(axesHandles(1), <span class="string">'AAs Inc.'</span>);
+0127             
+0128             pausedTRNAIdx = pp.monomerTRNASequences{bmRNALP}(positionLP + 1);
+0129             tRNAWIDs = rna.wholeCellModelIDs(rna.matureIndexs(rna.matureTRNAIndexs));
+0130             PlotUtil.plotLine(axesHandles(2), time(timeSliceIdxs), aminoacylatedtRNACounts(pausedTRNAIdx, timeSliceIdxs), true, true, false);
+0131             title(axesHandles(2), sprintf(<span class="string">'Aminoacylated tRNA %s'</span>, tRNAWIDs{pausedTRNAIdx}), <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0132             ylabel(axesHandles(2), <span class="string">'Counts'</span>);
+0133             
+0134             aminoAcidAbbr = pp.monomerAASequences{bmRNALP}(positionLP + 1);
+0135             [~, aminoAcidRelIdx] = ismember(aminoAcidAbbr, edu.stanford.covert.cell.kb.ProteinMonomer.bases);
+0136             aminoAcidWID = met.wholeCellModelIDs(met.aminoAcidIndexs(aminoAcidRelIdx));
+0137             PlotUtil.plotLine(axesHandles(3), time(timeSliceIdxs), aminoAcidCounts(aminoAcidRelIdx, timeSliceIdxs), true, true, false);
+0138             title(axesHandles(3), sprintf(<span class="string">'Amino Acid %s'</span>, aminoAcidWID{1}), <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0139             ylabel(axesHandles(3), <span class="string">'Counts'</span>);
+0140             
+0141             PlotUtil.plotLine(axesHandles(4), time(timeSliceIdxs), atpCounts(timeSliceIdxs), true, true, false);
+0142             title(axesHandles(4), <span class="string">'ATP'</span>, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0143             ylabel(axesHandles(4), <span class="string">'Counts'</span>);
+0144             
+0145             PlotUtil.plotLine(axesHandles(5), time(timeSliceIdxs), gtpCounts(timeSliceIdxs), true, true, false);
+0146             title(axesHandles(5), <span class="string">'GTP'</span>, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0147             ylabel(axesHandles(5), <span class="string">'Counts'</span>);
+0148             
+0149             PlotUtil.plotLine(axesHandles(6), time(timeSliceIdxs), efGCounts(timeSliceIdxs), true, true, false);
+0150             title(axesHandles(6), <span class="string">'Bound Elongation Factors'</span>, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0151             ylabel(axesHandles(6), <span class="string">'Counts'</span>);
+0152             
+0153             PlotUtil.plotLine(axesHandles(7), time(timeSliceIdxs), sum(ribStates(:, timeSliceIdxs), 1), true, true, false);
+0154             title(axesHandles(7), <span class="string">'Number of Active Ribosomes'</span>, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0155             ylabel(axesHandles(7), <span class="string">'Counts'</span>);
+0156             
+0157             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(fileName)
+0158                 saveas(figHandle, [fileName <span class="string">'-Pauses.pdf'</span>]);
+0159                 close(figHandle);
+0160             <span class="keyword">end</span>
+0161             
+0162             <span class="comment">%% histogram of pause lengths</span>
+0163             [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0164             
+0165             hist(axesHandle, pausesInfo(:, 5));
+0166             title(axesHandle, <span class="string">'Duration Ribosome Pauses'</span>, <span class="string">'FontSize'</span>, 12)
+0167             xlabel(axesHandle, <span class="string">'Pause Duration (s)'</span>, <span class="string">'FontSize'</span>, 10);
+0168             ylabel(axesHandle, <span class="string">'Frequency'</span>, <span class="string">'FontSize'</span>, 10);
+0169             
+0170             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(fileName)
+0171                 saveas(figHandle, [fileName <span class="string">'-PauseDistribution.pdf'</span>]);
+0172                 close(figHandle);
+0173             <span class="keyword">end</span>
+0174         <span class="keyword">end</span>
+0175     <span class="keyword">end</span>
+0176     
+0177     methods (Static = true)
+0178         <a name="_sub1" href="#_subfunctions" class="code">function [starts, ends, pauses] = getStartsEndsPauses(sim, pos, stallPos, ribStates)</a>
+0179             rib = sim.state(<span class="string">'Ribosome'</span>);
+0180                 
+0181             dpos = diff(pos, 1, 2);
+0182             dStallPos = diff(stallPos, 1, 2);
+0183             
+0184             ends = false(size(pos));
+0185             ends(:, 1:end-1) = <span class="keyword">...</span>
+0186                 ((dpos &lt; 0 | dStallPos &lt; 0) &amp; ribStates(:, 1:end-1) ~= rib.notExistValue) | <span class="keyword">...</span>
+0187                 (ribStates(:, 1:end-1) ~= rib.notExistValue &amp; ribStates(:, 2:end) == rib.notExistValue);
+0188             ends(:, end) = ribStates(:, end) ~= rib.notExistValue;
+0189             
+0190             starts = false(size(pos));
+0191             starts(:, 2:end) = <span class="keyword">...</span>
+0192                 ((dpos &lt; 0 | dStallPos &lt; 0) &amp; ribStates(:, 2:end) ~= rib.notExistValue) | <span class="keyword">...</span>
+0193                 (ribStates(:, 1:end-1) == rib.notExistValue &amp; ribStates(:, 2:end) ~= rib.notExistValue);
+0194             starts(:, 1) = ribStates(:, 1) ~= rib.notExistValue;
+0195             
+0196             pauses = false(size(pos));
+0197             pauses(dpos == 0 &amp; ribStates(:, 1:(end - 1)) == rib.activeValue) = true;
+0198         <span class="keyword">end</span>
+0199         
+0200         <a name="_sub2" href="#_subfunctions" class="code">function [startRibs, endRibs, startTimes, endTimes] = verifyStartsEnds(starts, ends)</a>
+0201             [startTimes, startRibs] = find(starts');
+0202             [endTimes, endRibs] = find(ends');
+0203 
+0204             assert(isequal(startRibs, endRibs));
+0205             assert(~any(endTimes &lt; startTimes));
+0206         <span class="keyword">end</span>
+0207         
+0208         <a name="_sub3" href="#_subfunctions" class="code">function plotMonomerSynthesis(axesHandle, states, sim, starts, ~)</a>
+0209             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0210 
+0211             g = sim.gene;
+0212             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0213             rna = sim.state(<span class="string">'Rna'</span>);
+0214             
+0215             monSynthesis = histc(states.Ribosome.boundMRNAs(starts), (1:numel(pm.matureIndexs)));
+0216             monSynthesisExpected = rna.matureRNAGeneComposition(g.mRNAIndexs, :) * rna.expression(rna.matureIndexs);
+0217 
+0218             plot(axesHandle, monSynthesisExpected, monSynthesis, <span class="string">'.'</span>)
+0219             xlabel(axesHandle, <span class="string">'Expected'</span>);
+0220             ylabel(axesHandle, <span class="string">'Simulated'</span>);            
+0221         <span class="keyword">end</span>
+0222         
+0223         <a name="_sub4" href="#_subfunctions" class="code">function pausesInfo = getPausesInfo(states, pauses, verbose)</a>
+0224             bmRNA = states.Ribosome.boundMRNAs;
+0225             pos = states.Ribosome.mRNAPositions;
+0226             pausesTFs = false(size(pos, 1), 1);
+0227             time = squeeze(states.Time.values);
+0228             
+0229             <span class="keyword">for</span> i = 1:size(pos, 1)
+0230                 <span class="keyword">if</span> ~isempty(pos(pauses(i, :, :)))
+0231                     pausesTFs(i) = true;
+0232                     <span class="keyword">if</span> verbose
+0233                         fprintf(<span class="string">'%d\n'</span>, i);
+0234                     <span class="keyword">end</span>
+0235                 <span class="keyword">end</span>
+0236             <span class="keyword">end</span>
+0237             
+0238             pausesInds = 1:size(pos, 1);
+0239             pausesInds = pausesInds(pausesTFs);
+0240             
+0241             pausesInfo = zeros(sum(pauses(:)), 5);
+0242             
+0243             j = 1;
+0244             <span class="keyword">for</span> i = 1:numel(pausesInds)
+0245                 elemThisIter = sum(squeeze(pauses(pausesInds(i), :, :)));
+0246                 pausesInfo(j:(j + elemThisIter - 1), 1:4) = [<span class="keyword">...</span>
+0247                     pausesInds(i) * ones(elemThisIter, 1), <span class="keyword">...</span>
+0248                     squeeze(bmRNA(pausesInds(i), :, pauses(pausesInds(i), :, :))), <span class="keyword">...</span>
+0249                     squeeze(pos(pausesInds(i), :, pauses(pausesInds(i), :, :))), <span class="keyword">...</span>
+0250                     time(squeeze(pauses(pausesInds(i), :, :)))<span class="keyword">...</span>
+0251                     ];
+0252                 j = j + elemThisIter;
+0253             <span class="keyword">end</span>
+0254             
+0255             i = 1;
+0256             <span class="keyword">while</span> i &lt; size(pausesInfo, 1)
+0257                 j = 1;
+0258                 <span class="keyword">while</span> ((i + j) &lt; size(pausesInfo, 1)) &amp;&amp; isequal(pausesInfo(i+j, 1:3), pausesInfo(i, 1:3))
+0259                     j = j + 1;
+0260                 <span class="keyword">end</span>
+0261                 pausesInfo(i, 5) = j;
+0262                 i = i + j + 1;
+0263             <span class="keyword">end</span>
+0264             pausesInfo(<span class="keyword">end</span>, 5) = 1;
+0265             
+0266             pausesInfo(pausesInfo(:, 5) == 0, :) = [];
+0267             
+0268             pausesInfo = flipud(sortrows(pausesInfo, 5));
+0269         <span class="keyword">end</span>
+0270     <span class="keyword">end</span>
+0271 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

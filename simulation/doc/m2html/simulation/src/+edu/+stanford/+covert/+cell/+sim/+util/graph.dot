@@ -1,0 +1,39 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  CachedSimulationObjectUtil -> CachedSimulationObjectUtil;
+  ConditionSet -> ConditionSet;
+  DashboardUtil -> DashboardUtil;
+  DatabaseLogger -> DatabaseLogger;
+  DiskLogger -> DiskLogger;
+  Documentation -> Documentation;
+  FbaLPWriter -> FbaLPWriter;
+  FitConstants -> FitConstants;
+  Logger -> Logger;
+  MacromoleculeUtil -> MacromoleculeUtil;
+  MetaboliteUtil -> MetaboliteUtil;
+  PlotUtil -> PlotUtil;
+  PrintUtil -> PrintUtil;
+  SimulationDatabaseUtil -> SimulationDatabaseUtil;
+  SimulationDiskUtil -> SimulationDiskUtil;
+  SimulationEnsemble -> SimulationEnsemble;
+  SummaryLogger -> SummaryLogger;
+
+  CachedSimulationObjectUtil [URL="CachedSimulationObjectUtil.html"];
+  ConditionSet [URL="ConditionSet.html"];
+  DashboardUtil [URL="DashboardUtil.html"];
+  DatabaseLogger [URL="DatabaseLogger.html"];
+  DiskLogger [URL="DiskLogger.html"];
+  Documentation [URL="Documentation.html"];
+  FbaLPWriter [URL="FbaLPWriter.html"];
+  FitConstants [URL="FitConstants.html"];
+  Logger [URL="Logger.html"];
+  MacromoleculeUtil [URL="MacromoleculeUtil.html"];
+  MetaboliteUtil [URL="MetaboliteUtil.html"];
+  PlotUtil [URL="PlotUtil.html"];
+  PrintUtil [URL="PrintUtil.html"];
+  SimulationDatabaseUtil [URL="SimulationDatabaseUtil.html"];
+  SimulationDiskUtil [URL="SimulationDiskUtil.html"];
+  SimulationEnsemble [URL="SimulationEnsemble.html"];
+  SummaryLogger [URL="SummaryLogger.html"];
+  polymerize [URL="polymerize.html"];
+}

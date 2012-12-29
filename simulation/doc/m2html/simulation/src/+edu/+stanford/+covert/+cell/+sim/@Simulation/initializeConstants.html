@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of initializeConstants</title>
+  <meta name="keywords" content="initializeConstants">
+  <meta name="description" content="Cache various properties of knowledgeBase">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">@Simulation</a> &gt; initializeConstants.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/@Simulation&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>initializeConstants
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Cache various properties of knowledgeBase</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function this = initializeConstants(this, knowledgeBase) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Cache various properties of knowledgeBase
+ - mRNA, rRNA, tRNA gene indices within genes
+ - ribosome 30S, 50S; RNA, DNA polymerase
+   within protein complexs
+ - transcription unit properties
+   - binding probability
+   - sequence
+   - length
+   - gene composition
+ - indices of transcription factors within protein monomers
+   - sigma factor
+   - elongation factor
+   - termination factor
+ - indices of translation factors within protein monomers
+   - initiation factor
+   - elongation factors
+   - termination factors
+ - gene properties
+   - RNA weight
+   - RNA base counts
+   - RNA half life
+ - genetic code
+   - tRNA sequence
+   - tRNA aminoacylation
+ - tRNA synthetases
+   - indices within protein monomers and protein complexs
+   - rates
+ - composition of protein complexs
+ - weights
+   - RNA
+   - protein monomers
+   - protein complexs
+ - metabolism
+   - stoichiometry of reactions
+   - upper and lower transport bounds
+   - upper and lower enzyme bounds
+   - FBA right-hand side
+   - biomass composition
+   - FBA objective
+   - reaction catalysis matrix
+   - indices of dNTPs, NTPs, energy within metabolites
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/7/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Simulation.html" class="code" title="">Simulation</a>	Whole cell simulation class.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function this = initializeConstants(this, knowledgeBase)</a>
+0002 <span class="comment">% Cache various properties of knowledgeBase</span>
+0003 <span class="comment">% - mRNA, rRNA, tRNA gene indices within genes</span>
+0004 <span class="comment">% - ribosome 30S, 50S; RNA, DNA polymerase</span>
+0005 <span class="comment">%   within protein complexs</span>
+0006 <span class="comment">% - transcription unit properties</span>
+0007 <span class="comment">%   - binding probability</span>
+0008 <span class="comment">%   - sequence</span>
+0009 <span class="comment">%   - length</span>
+0010 <span class="comment">%   - gene composition</span>
+0011 <span class="comment">% - indices of transcription factors within protein monomers</span>
+0012 <span class="comment">%   - sigma factor</span>
+0013 <span class="comment">%   - elongation factor</span>
+0014 <span class="comment">%   - termination factor</span>
+0015 <span class="comment">% - indices of translation factors within protein monomers</span>
+0016 <span class="comment">%   - initiation factor</span>
+0017 <span class="comment">%   - elongation factors</span>
+0018 <span class="comment">%   - termination factors</span>
+0019 <span class="comment">% - gene properties</span>
+0020 <span class="comment">%   - RNA weight</span>
+0021 <span class="comment">%   - RNA base counts</span>
+0022 <span class="comment">%   - RNA half life</span>
+0023 <span class="comment">% - genetic code</span>
+0024 <span class="comment">%   - tRNA sequence</span>
+0025 <span class="comment">%   - tRNA aminoacylation</span>
+0026 <span class="comment">% - tRNA synthetases</span>
+0027 <span class="comment">%   - indices within protein monomers and protein complexs</span>
+0028 <span class="comment">%   - rates</span>
+0029 <span class="comment">% - composition of protein complexs</span>
+0030 <span class="comment">% - weights</span>
+0031 <span class="comment">%   - RNA</span>
+0032 <span class="comment">%   - protein monomers</span>
+0033 <span class="comment">%   - protein complexs</span>
+0034 <span class="comment">% - metabolism</span>
+0035 <span class="comment">%   - stoichiometry of reactions</span>
+0036 <span class="comment">%   - upper and lower transport bounds</span>
+0037 <span class="comment">%   - upper and lower enzyme bounds</span>
+0038 <span class="comment">%   - FBA right-hand side</span>
+0039 <span class="comment">%   - biomass composition</span>
+0040 <span class="comment">%   - FBA objective</span>
+0041 <span class="comment">%   - reaction catalysis matrix</span>
+0042 <span class="comment">%   - indices of dNTPs, NTPs, energy within metabolites</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0045 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0046 <span class="comment">% Last updated: 1/7/2011</span>
+0047 
+0048 <span class="comment">%% constants</span>
+0049 this.compartment.initializeConstants(knowledgeBase, this);
+0050 this.gene.initializeConstants(knowledgeBase, this);
+0051 
+0052 <span class="comment">%% states</span>
+0053 this.state(<span class="string">'Mass'</span>).initializeConstants(knowledgeBase, this);
+0054 this.state(<span class="string">'Geometry'</span>).initializeConstants(knowledgeBase, this);
+0055 this.state(<span class="string">'Stimulus'</span>).initializeConstants(knowledgeBase, this);
+0056 this.state(<span class="string">'Metabolite'</span>).initializeConstants(knowledgeBase, this);
+0057 this.state(<span class="string">'Rna'</span>).initializeConstants(knowledgeBase, this);
+0058 this.state(<span class="string">'ProteinMonomer'</span>).initializeConstants(knowledgeBase, this);
+0059 this.state(<span class="string">'ProteinComplex'</span>).initializeConstants(knowledgeBase, this);
+0060 
+0061 states = this.states;
+0062 <span class="keyword">for</span> i = 1:numel(states)
+0063     states{i}.initializeConstants(knowledgeBase, this);
+0064 <span class="keyword">end</span>
+0065 
+0066 <span class="comment">%% Processes</span>
+0067 processes = this.processes;
+0068 <span class="keyword">for</span> i = 1:length(processes)
+0069     processes{i}.initializeConstants(knowledgeBase, this);
+0070 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

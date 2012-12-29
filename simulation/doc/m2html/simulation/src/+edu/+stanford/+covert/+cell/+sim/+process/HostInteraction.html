@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of HostInteraction</title>
+  <meta name="keywords" content="HostInteraction">
+  <meta name="description" content="Host Interaction">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; HostInteraction.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>HostInteraction
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Host Interaction</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Host Interaction
+
+ @wholeCellModelID Process_HostInteraction
+ @name             Host Interaction
+ @description
+   Introduction
+   ======================
+   Medical relevance
+   ++++++++++++++++++++++
+   14 Mycoplasmas and 2 ureaplasmas have been detected in humans
+   [PUB_0840]. 6 of these species, including M. genitalium have been found
+   in the urogenital tract. M. genitalium is a common urogenital pathogen,
+   and one of the most common causes of non-gnoccocal urethritis. M.
+   genitalium is estimated to colonize the urogenital tract of 3% of all
+   women [PUB_0840], and up to 9-10% in some populations [PUB_0841]. Most
+   M. genitalium infections are asymptomatic, and many researchers have
+   written that M. genitalium is close to &quot;ideal parasite&quot; [PUB_0313],
+   typically living in  harmony with its host. A small fraction of M.
+   genitalium infections manifest as urethritis, cervicitis, and pelvic
+   inflammatory disease.
+
+   Pathophysiology
+   ++++++++++++++++++++++
+   Little is known about the pathophysiology of M. genitalium. The
+   literature on M. genitalium pathophysiology has focused on a few
+   topics:
+   1. Adhesion
+      Several studies have suggested that the terminal organelle
+      lipoproteins MG_191, MG_192, MG_217, MG_318, and MG_386 are involved
+      in adhesion [PUB_0088, PUB_0313]
+   2. Host immune response activation
+      Several studies have suggested that the gene products of MG_149,
+      MG_309, and MG_412 activate the host NF-kB response through
+      interaction with host TLR receptors 1, 2, and 6 [PUB_0194, PUB_0842,
+      PUB_0844].
+   3. Antigenicity and antigenic variation
+      Several studies have focused on antigenticity and antigenic
+      variation. Razin reported that MgPa (MG_191) is one of the main
+      antigenic components, and that antibodies against it may be found in
+      infected patients [PUB_0088]. Shimizu et al have observed two
+      differentially expressed forms of MG_149 -- P18 and P20 [PUB_0844].
+   4. Toxic byproducts
+      M. genitalium byproducts including hydrogen peroxide and superoxide
+      radicals have been suggested to cause oxidative damage to host
+      membranes [PUB_0313].
+
+   The following table summarizes genes that have been implicated
+   interactions with mammalian hosts.
+
+     Gene    Symbols                  Localization         Function
+     ======  =======================  ============         ===========
+     MG_075                           lipoprotein          antigen
+     MG_149  N-ALP2, P18, P20         lipoprotein          activates NF-kB as TLR 1/2 ligand
+     MG_191  MgPa, P140               Trm Org lipoprotein  adhesion
+     MG_192  P110, P40, P90, pre-B/C  Trm Org lipoprotein  adhesion
+     MG_200                           cytosol              motility
+     MG_217  P65                      Trm Org lipoprotein  adhesion
+     MG_218  HMW2                     Trm Org core         motility, attachment
+     MG_288                           cytosol              homologous to protein L, but annotation as protein L is inconsistent with cytosolic localization; not currently modeled as participating in interaction with host  
+     MG_309                           lipoprotein          activates NF-kB as TLR 2/6 ligand
+     MG_312  HMW1, P65                Trm Org core         motility, attachment
+     MG_317  HMW3, P200, P69          Trm Org core         motility, attachment
+     MG_318  P30, P32                 Trm Org lipoprotein  adhesion
+     MG_386  P200                     Trm Org lipoprotein  adhesion
+     MG_412  N-ALP1                   lipoprotein          activates NF-kB as TLR 1/2 ligand
+
+   Diagnosis
+   ++++++++++++++++++++++
+   M. genitalium is typically not directly diagnosed, but rather is
+   diagnosed by negative results for other urogenital pathogen. Nucleic
+   acid amplification testing (NAAT) is commonly used to rule out
+   chlamydia infection, and suggest M. genitalium infection. Less commonly
+   NAAT is used directly to diagnose M. genitalium infection.
+
+   Treatment
+   ++++++++++++++++++++++
+   M. genitalium is most commonly treated using macrolides such as
+   azithromycin and tetracycline [PUB_0840]. Azithromycin-resistant M.
+   genitalium may be treated with fluoroquinolones [PUB_0840].
+   Taylor-Robinson and Bebear have catalogued the susceptibility of M.
+   genitalium to 18 antibiotics [PUB_0846].
+
+   Tetracycline and aminoglycoside antibiotics inhibit the 30S ribosomal
+   particle. Macrolides and lincosamide antibiotics inhibit the 50S
+   ribosomal particle. Fluoroquinolone antibiotics inhibit topoisomerase
+   II/DNA gyrase and topoisomerase IV.
+
+   Knowledge Base
+   ======================
+   The antibiotic susceptibilities of M. genitalium proteins are encoded
+   as protein activation rules in the knowledge base, and are simulated by
+   the ProteinActivation class. 32 antibiotics are represented as
+   metabolites in the knowledge base.
+
+   Representation
+   ======================
+   The state of the M. genitalium proteins involved in interaction with
+   the mammalian urogenital epithelium is represented by the enzymes
+   property. This property contains the current copy number of each
+   protein.
+
+   The state of the host mammalian urogenital epithelium is represented by
+   4 boolean properties in the host class:
+   - isBacteriumAdherent: indicates whether or not cell is adherent to the epithelial surface
+   - isTLRActivated: indicates the state of host TLRs 1, 2, and 6
+   - isNFkBActivated: indicates the state of host NF-kB
+   - isInflammatoryResponseActivated: indicates the state of the host inflammatory response
+
+   Initialization
+   ======================
+   The state of the M. genitalium host interaction proteins is initialized
+   by the initializeState method of the Simulation class. All proteins are
+   initialized to the mature state and localization.
+
+   The state of the host urogenital epithelium is initialized using the
+   same Boolean rules as in the evolveState method. That is we assume that
+   the urogenital epithelium is in a steady-state with respect to its
+   interaction with M. genitalium.
+
+   Simulation
+   ======================
+   Very little quantitative is available for the interaction between M.
+   genitalium and its mammalian host. The little data available is
+   patchwork and qualitative. Thus the model here for the interaction of
+   M. genitalium with its host is necessarily qualitative.
+
+   The model consists of several Boolean rules which calculate the value
+   of the 4 properties of the Host class:
+   1. M. genitalium is adherent if the terminal organelle is properly
+      formed and all the adhesion proteins are expressed.
+   2. TLRs 1, 2, and 6 are activated if M. genitalium is adherent (see
+      rule 1) and the M. genitalium lipoprotein ligands are expressed.
+   3. NF-kB is activated if TLRs 1 and 2 or TLRs 2 and 6 are activated.
+   4. The host inflammatory response is activated if NF-kB is activated or
+      if MG_075 is present.
+
+   The model assumes that the mammalian urogenital epithelium reaches a
+   steady-state quickly with respect to its interaction with M.
+   genitalium.
+
+   References
+   ======================
+   1. Taylor-Robinson D, Lamont RF (2011). Mycoplasmas in pregnancy. BJOG.
+      118(2):164-74. [PUB_0840]
+   2. Larsen B, Hwang J (2010). Mycoplasma, Ureaplasma, and adverse
+      pregnancy outcomes: a fresh look. Infect Dis Obstet Gynecol. 521921.
+      [PUB_0841]
+   3. Razin S, Yogev D, Naot Y (1998). Molecular biology and pathogenicity
+      of mycoplasmas. Microbiol Mol Biol Rev. 62(4):1094-156. [PUB_0313]
+   4. Razin S, Jacobs E (1992). Mycoplasma adhesion. J Gen Microbiol.
+      138(3): 407-22. [PUB_0088]
+   5. McGowin CL, Ma L, Martin DH, Pyles RB (2009). Mycoplasma
+      genitalium-encoded MG309 activates NF-kappaB via Toll-like receptors
+      2 and 6 to elicit proinflammatory cytokine secretion from human
+      genital epithelial cells. Infect Immun. 77(3): 1175-81. [PUB_0194]
+   6. Shimizu T, Kida Y, Kuwano K (2008). A triacylated lipoprotein from
+      Mycoplasma genitalium activates NF-kappaB through Toll-like receptor
+      1 (TLR1) and TLR2. Infect Immun. 76(8): 3672-8. [PUB_0842]
+   7. Shimizu T, Kida Y, Kuwano K (2007). Triacylated lipoproteins derived
+      from Mycoplasma pneumoniae activate nuclear factor-kappaB through
+      toll-like receptors 1 and 2. Immology. 121(4): 473-83. [PUB_0844]
+   8. Duffy MF, Walker ID, Browning GF (1997). The immunoreactive 116 kDa
+      surface protein of Mycoplasma pneumoniae is encoded in an operon.
+      Microbiology. 143: 3391-402. [PUB_0176]
+   9. Pich OQ, Burgos R, Ferrer-Navarro M, Querol E, Pinol J (2006).
+      Mycoplasma genitalium mg200 and mg386 genes are involved in gliding
+      motility but not in cytadherence. Mol Microbiol. 60(6):1509-19.
+      [PUB_0813]
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/27/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="HostInteraction.html" class="code" title="">HostInteraction</a>	Host Interaction</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="HostInteraction.html" class="code" title="">HostInteraction</a>	Host Interaction</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = HostInteraction(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub5" class="code">function initializeState(this)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Host Interaction</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_HostInteraction</span>
+0004 <span class="comment">% @name             Host Interaction</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Introduction</span>
+0007 <span class="comment">%   ======================</span>
+0008 <span class="comment">%   Medical relevance</span>
+0009 <span class="comment">%   ++++++++++++++++++++++</span>
+0010 <span class="comment">%   14 Mycoplasmas and 2 ureaplasmas have been detected in humans</span>
+0011 <span class="comment">%   [PUB_0840]. 6 of these species, including M. genitalium have been found</span>
+0012 <span class="comment">%   in the urogenital tract. M. genitalium is a common urogenital pathogen,</span>
+0013 <span class="comment">%   and one of the most common causes of non-gnoccocal urethritis. M.</span>
+0014 <span class="comment">%   genitalium is estimated to colonize the urogenital tract of 3% of all</span>
+0015 <span class="comment">%   women [PUB_0840], and up to 9-10% in some populations [PUB_0841]. Most</span>
+0016 <span class="comment">%   M. genitalium infections are asymptomatic, and many researchers have</span>
+0017 <span class="comment">%   written that M. genitalium is close to &quot;ideal parasite&quot; [PUB_0313],</span>
+0018 <span class="comment">%   typically living in  harmony with its host. A small fraction of M.</span>
+0019 <span class="comment">%   genitalium infections manifest as urethritis, cervicitis, and pelvic</span>
+0020 <span class="comment">%   inflammatory disease.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   Pathophysiology</span>
+0023 <span class="comment">%   ++++++++++++++++++++++</span>
+0024 <span class="comment">%   Little is known about the pathophysiology of M. genitalium. The</span>
+0025 <span class="comment">%   literature on M. genitalium pathophysiology has focused on a few</span>
+0026 <span class="comment">%   topics:</span>
+0027 <span class="comment">%   1. Adhesion</span>
+0028 <span class="comment">%      Several studies have suggested that the terminal organelle</span>
+0029 <span class="comment">%      lipoproteins MG_191, MG_192, MG_217, MG_318, and MG_386 are involved</span>
+0030 <span class="comment">%      in adhesion [PUB_0088, PUB_0313]</span>
+0031 <span class="comment">%   2. Host immune response activation</span>
+0032 <span class="comment">%      Several studies have suggested that the gene products of MG_149,</span>
+0033 <span class="comment">%      MG_309, and MG_412 activate the host NF-kB response through</span>
+0034 <span class="comment">%      interaction with host TLR receptors 1, 2, and 6 [PUB_0194, PUB_0842,</span>
+0035 <span class="comment">%      PUB_0844].</span>
+0036 <span class="comment">%   3. Antigenicity and antigenic variation</span>
+0037 <span class="comment">%      Several studies have focused on antigenticity and antigenic</span>
+0038 <span class="comment">%      variation. Razin reported that MgPa (MG_191) is one of the main</span>
+0039 <span class="comment">%      antigenic components, and that antibodies against it may be found in</span>
+0040 <span class="comment">%      infected patients [PUB_0088]. Shimizu et al have observed two</span>
+0041 <span class="comment">%      differentially expressed forms of MG_149 -- P18 and P20 [PUB_0844].</span>
+0042 <span class="comment">%   4. Toxic byproducts</span>
+0043 <span class="comment">%      M. genitalium byproducts including hydrogen peroxide and superoxide</span>
+0044 <span class="comment">%      radicals have been suggested to cause oxidative damage to host</span>
+0045 <span class="comment">%      membranes [PUB_0313].</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   The following table summarizes genes that have been implicated</span>
+0048 <span class="comment">%   interactions with mammalian hosts.</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%     Gene    Symbols                  Localization         Function</span>
+0051 <span class="comment">%     ======  =======================  ============         ===========</span>
+0052 <span class="comment">%     MG_075                           lipoprotein          antigen</span>
+0053 <span class="comment">%     MG_149  N-ALP2, P18, P20         lipoprotein          activates NF-kB as TLR 1/2 ligand</span>
+0054 <span class="comment">%     MG_191  MgPa, P140               Trm Org lipoprotein  adhesion</span>
+0055 <span class="comment">%     MG_192  P110, P40, P90, pre-B/C  Trm Org lipoprotein  adhesion</span>
+0056 <span class="comment">%     MG_200                           cytosol              motility</span>
+0057 <span class="comment">%     MG_217  P65                      Trm Org lipoprotein  adhesion</span>
+0058 <span class="comment">%     MG_218  HMW2                     Trm Org core         motility, attachment</span>
+0059 <span class="comment">%     MG_288                           cytosol              homologous to protein L, but annotation as protein L is inconsistent with cytosolic localization; not currently modeled as participating in interaction with host</span>
+0060 <span class="comment">%     MG_309                           lipoprotein          activates NF-kB as TLR 2/6 ligand</span>
+0061 <span class="comment">%     MG_312  HMW1, P65                Trm Org core         motility, attachment</span>
+0062 <span class="comment">%     MG_317  HMW3, P200, P69          Trm Org core         motility, attachment</span>
+0063 <span class="comment">%     MG_318  P30, P32                 Trm Org lipoprotein  adhesion</span>
+0064 <span class="comment">%     MG_386  P200                     Trm Org lipoprotein  adhesion</span>
+0065 <span class="comment">%     MG_412  N-ALP1                   lipoprotein          activates NF-kB as TLR 1/2 ligand</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   Diagnosis</span>
+0068 <span class="comment">%   ++++++++++++++++++++++</span>
+0069 <span class="comment">%   M. genitalium is typically not directly diagnosed, but rather is</span>
+0070 <span class="comment">%   diagnosed by negative results for other urogenital pathogen. Nucleic</span>
+0071 <span class="comment">%   acid amplification testing (NAAT) is commonly used to rule out</span>
+0072 <span class="comment">%   chlamydia infection, and suggest M. genitalium infection. Less commonly</span>
+0073 <span class="comment">%   NAAT is used directly to diagnose M. genitalium infection.</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   Treatment</span>
+0076 <span class="comment">%   ++++++++++++++++++++++</span>
+0077 <span class="comment">%   M. genitalium is most commonly treated using macrolides such as</span>
+0078 <span class="comment">%   azithromycin and tetracycline [PUB_0840]. Azithromycin-resistant M.</span>
+0079 <span class="comment">%   genitalium may be treated with fluoroquinolones [PUB_0840].</span>
+0080 <span class="comment">%   Taylor-Robinson and Bebear have catalogued the susceptibility of M.</span>
+0081 <span class="comment">%   genitalium to 18 antibiotics [PUB_0846].</span>
+0082 <span class="comment">%</span>
+0083 <span class="comment">%   Tetracycline and aminoglycoside antibiotics inhibit the 30S ribosomal</span>
+0084 <span class="comment">%   particle. Macrolides and lincosamide antibiotics inhibit the 50S</span>
+0085 <span class="comment">%   ribosomal particle. Fluoroquinolone antibiotics inhibit topoisomerase</span>
+0086 <span class="comment">%   II/DNA gyrase and topoisomerase IV.</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   Knowledge Base</span>
+0089 <span class="comment">%   ======================</span>
+0090 <span class="comment">%   The antibiotic susceptibilities of M. genitalium proteins are encoded</span>
+0091 <span class="comment">%   as protein activation rules in the knowledge base, and are simulated by</span>
+0092 <span class="comment">%   the ProteinActivation class. 32 antibiotics are represented as</span>
+0093 <span class="comment">%   metabolites in the knowledge base.</span>
+0094 <span class="comment">%</span>
+0095 <span class="comment">%   Representation</span>
+0096 <span class="comment">%   ======================</span>
+0097 <span class="comment">%   The state of the M. genitalium proteins involved in interaction with</span>
+0098 <span class="comment">%   the mammalian urogenital epithelium is represented by the enzymes</span>
+0099 <span class="comment">%   property. This property contains the current copy number of each</span>
+0100 <span class="comment">%   protein.</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">%   The state of the host mammalian urogenital epithelium is represented by</span>
+0103 <span class="comment">%   4 boolean properties in the host class:</span>
+0104 <span class="comment">%   - isBacteriumAdherent: indicates whether or not cell is adherent to the epithelial surface</span>
+0105 <span class="comment">%   - isTLRActivated: indicates the state of host TLRs 1, 2, and 6</span>
+0106 <span class="comment">%   - isNFkBActivated: indicates the state of host NF-kB</span>
+0107 <span class="comment">%   - isInflammatoryResponseActivated: indicates the state of the host inflammatory response</span>
+0108 <span class="comment">%</span>
+0109 <span class="comment">%   Initialization</span>
+0110 <span class="comment">%   ======================</span>
+0111 <span class="comment">%   The state of the M. genitalium host interaction proteins is initialized</span>
+0112 <span class="comment">%   by the initializeState method of the Simulation class. All proteins are</span>
+0113 <span class="comment">%   initialized to the mature state and localization.</span>
+0114 <span class="comment">%</span>
+0115 <span class="comment">%   The state of the host urogenital epithelium is initialized using the</span>
+0116 <span class="comment">%   same Boolean rules as in the evolveState method. That is we assume that</span>
+0117 <span class="comment">%   the urogenital epithelium is in a steady-state with respect to its</span>
+0118 <span class="comment">%   interaction with M. genitalium.</span>
+0119 <span class="comment">%</span>
+0120 <span class="comment">%   Simulation</span>
+0121 <span class="comment">%   ======================</span>
+0122 <span class="comment">%   Very little quantitative is available for the interaction between M.</span>
+0123 <span class="comment">%   genitalium and its mammalian host. The little data available is</span>
+0124 <span class="comment">%   patchwork and qualitative. Thus the model here for the interaction of</span>
+0125 <span class="comment">%   M. genitalium with its host is necessarily qualitative.</span>
+0126 <span class="comment">%</span>
+0127 <span class="comment">%   The model consists of several Boolean rules which calculate the value</span>
+0128 <span class="comment">%   of the 4 properties of the Host class:</span>
+0129 <span class="comment">%   1. M. genitalium is adherent if the terminal organelle is properly</span>
+0130 <span class="comment">%      formed and all the adhesion proteins are expressed.</span>
+0131 <span class="comment">%   2. TLRs 1, 2, and 6 are activated if M. genitalium is adherent (see</span>
+0132 <span class="comment">%      rule 1) and the M. genitalium lipoprotein ligands are expressed.</span>
+0133 <span class="comment">%   3. NF-kB is activated if TLRs 1 and 2 or TLRs 2 and 6 are activated.</span>
+0134 <span class="comment">%   4. The host inflammatory response is activated if NF-kB is activated or</span>
+0135 <span class="comment">%      if MG_075 is present.</span>
+0136 <span class="comment">%</span>
+0137 <span class="comment">%   The model assumes that the mammalian urogenital epithelium reaches a</span>
+0138 <span class="comment">%   steady-state quickly with respect to its interaction with M.</span>
+0139 <span class="comment">%   genitalium.</span>
+0140 <span class="comment">%</span>
+0141 <span class="comment">%   References</span>
+0142 <span class="comment">%   ======================</span>
+0143 <span class="comment">%   1. Taylor-Robinson D, Lamont RF (2011). Mycoplasmas in pregnancy. BJOG.</span>
+0144 <span class="comment">%      118(2):164-74. [PUB_0840]</span>
+0145 <span class="comment">%   2. Larsen B, Hwang J (2010). Mycoplasma, Ureaplasma, and adverse</span>
+0146 <span class="comment">%      pregnancy outcomes: a fresh look. Infect Dis Obstet Gynecol. 521921.</span>
+0147 <span class="comment">%      [PUB_0841]</span>
+0148 <span class="comment">%   3. Razin S, Yogev D, Naot Y (1998). Molecular biology and pathogenicity</span>
+0149 <span class="comment">%      of mycoplasmas. Microbiol Mol Biol Rev. 62(4):1094-156. [PUB_0313]</span>
+0150 <span class="comment">%   4. Razin S, Jacobs E (1992). Mycoplasma adhesion. J Gen Microbiol.</span>
+0151 <span class="comment">%      138(3): 407-22. [PUB_0088]</span>
+0152 <span class="comment">%   5. McGowin CL, Ma L, Martin DH, Pyles RB (2009). Mycoplasma</span>
+0153 <span class="comment">%      genitalium-encoded MG309 activates NF-kappaB via Toll-like receptors</span>
+0154 <span class="comment">%      2 and 6 to elicit proinflammatory cytokine secretion from human</span>
+0155 <span class="comment">%      genital epithelial cells. Infect Immun. 77(3): 1175-81. [PUB_0194]</span>
+0156 <span class="comment">%   6. Shimizu T, Kida Y, Kuwano K (2008). A triacylated lipoprotein from</span>
+0157 <span class="comment">%      Mycoplasma genitalium activates NF-kappaB through Toll-like receptor</span>
+0158 <span class="comment">%      1 (TLR1) and TLR2. Infect Immun. 76(8): 3672-8. [PUB_0842]</span>
+0159 <span class="comment">%   7. Shimizu T, Kida Y, Kuwano K (2007). Triacylated lipoproteins derived</span>
+0160 <span class="comment">%      from Mycoplasma pneumoniae activate nuclear factor-kappaB through</span>
+0161 <span class="comment">%      toll-like receptors 1 and 2. Immology. 121(4): 473-83. [PUB_0844]</span>
+0162 <span class="comment">%   8. Duffy MF, Walker ID, Browning GF (1997). The immunoreactive 116 kDa</span>
+0163 <span class="comment">%      surface protein of Mycoplasma pneumoniae is encoded in an operon.</span>
+0164 <span class="comment">%      Microbiology. 143: 3391-402. [PUB_0176]</span>
+0165 <span class="comment">%   9. Pich OQ, Burgos R, Ferrer-Navarro M, Querol E, Pinol J (2006).</span>
+0166 <span class="comment">%      Mycoplasma genitalium mg200 and mg386 genes are involved in gliding</span>
+0167 <span class="comment">%      motility but not in cytadherence. Mol Microbiol. 60(6):1509-19.</span>
+0168 <span class="comment">%      [PUB_0813]</span>
+0169 <span class="comment">%</span>
+0170 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0171 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0172 <span class="comment">% Last updated: 5/27/2011</span>
+0173 classdef  <a href="HostInteraction.html" class="code" title="">HostInteraction</a> &lt; edu.stanford.covert.cell.sim.Process
+0174     <span class="comment">%property annotations</span>
+0175     properties (Constant)
+0176         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0177         fixedConstantNames__       = {}; <span class="comment">%names of fixed constant properties</span>
+0178         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0179         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0180     <span class="keyword">end</span>
+0181     
+0182     <span class="comment">%IDs, names, and local indices</span>
+0183     properties
+0184         stimuliWholeCellModelIDs   = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0185         substrateWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of substrates</span>
+0186         
+0187         enzymeWholeCellModelIDs = {      <span class="comment">%whole cell model IDs of enzymes</span>
+0188             <span class="string">'MG_075_MONOMER'</span>
+0189             <span class="string">'MG_149_MONOMER'</span> <span class="comment">%N-ALP2, P18, P20</span>
+0190             <span class="string">'MG_191_MONOMER'</span> <span class="comment">%MgPa, P140</span>
+0191             <span class="string">'MG_192_MONOMER'</span> <span class="comment">%P110, P40, P90, pre-B/C</span>
+0192             <span class="string">'MG_200_MONOMER'</span>
+0193             <span class="string">'MG_217_MONOMER'</span> <span class="comment">%P65</span>
+0194             <span class="string">'MG_218_MONOMER'</span> <span class="comment">%HMW2</span>
+0195             <span class="string">'MG_288_MONOMER'</span>
+0196             <span class="string">'MG_309_MONOMER'</span>
+0197             <span class="string">'MG_312_MONOMER'</span> <span class="comment">%HMW1, P65</span>
+0198             <span class="string">'MG_317_MONOMER'</span> <span class="comment">%HMW3, P200, P69</span>
+0199             <span class="string">'MG_318_MONOMER'</span> <span class="comment">%P30, P32</span>
+0200             <span class="string">'MG_386_MONOMER'</span> <span class="comment">%P200</span>
+0201             <span class="string">'MG_412_MONOMER'</span> <span class="comment">%N-ALP1</span>
+0202             <span class="string">'MG_410_411_412_PENTAMER'</span> <span class="comment">%phosphonate ABC transporter</span>
+0203             };
+0204         enzymeIndexs_terminalOrganelle = [3; 4; 6; 7; 10; 11; 12; 13];
+0205         enzymeIndexs_terminalOrganelleCore = [7; 10; 11];
+0206         enzymeIndexs_terminalOrganelleLiprotein = [3; 4; 5; 12; 13];
+0207         enzymeIndexs_liprotein = [1; 2; 3; 4; 5; 9; 12; 13; 14; 15];
+0208         enzymeIndexs_adhesin = [3; 4; 6; 12];
+0209         enzymeIndexs_antigen = [1; 2; 9; 14; 15];
+0210         enzymeIndexs_tlrLigand = [2; 9; 14; 15];
+0211         enzymeIndexs_tlr12Ligand = [2; 14; 15];
+0212         enzymeIndexs_tlr26Ligand = 9;
+0213     <span class="keyword">end</span>
+0214     
+0215     <span class="comment">%state references</span>
+0216     properties
+0217         host
+0218     <span class="keyword">end</span>
+0219     
+0220     <span class="comment">%constructor</span>
+0221     methods
+0222         <a name="_sub0" href="#_subfunctions" class="code">function this = HostInteraction(wholeCellModelID, name)</a>
+0223             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0224         <span class="keyword">end</span>
+0225     <span class="keyword">end</span>
+0226     
+0227     <span class="comment">%communication between process/simulation</span>
+0228     methods
+0229         <span class="comment">%set references to state objects</span>
+0230         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0231             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0232             
+0233             this.host = simulation.state(<span class="string">'Host'</span>);
+0234             
+0235             this.states = [
+0236                 this.states;
+0237                 {this.host}];
+0238         <span class="keyword">end</span>
+0239         
+0240         <span class="comment">%initialize constants</span>
+0241         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0242             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0243                 knowledgeBase, simulation, varargin{:});
+0244         <span class="keyword">end</span>
+0245     <span class="keyword">end</span>
+0246     
+0247     <span class="comment">%model</span>
+0248     methods
+0249         <span class="comment">%Calculate</span>
+0250         <span class="comment">%- contribution to FBA objective</span>
+0251         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0252         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0253             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0254             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0255             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0256             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0257         <span class="keyword">end</span>
+0258         
+0259         <span class="comment">%initialization: chromosome state initializes chromosome to state with 1</span>
+0260         <span class="comment">%chromosome (which trivially is not segregated)</span>
+0261         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(this)</a>
+0262             this.evolveState();
+0263         <span class="keyword">end</span>
+0264         
+0265         <span class="comment">%resource requirements</span>
+0266         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0267             result = zeros(size(this.substrates));
+0268         <span class="keyword">end</span>
+0269         
+0270         <span class="comment">%simulation</span>
+0271         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0272             h = this.host;
+0273             
+0274             <span class="comment">%adherence requires</span>
+0275             <span class="comment">%- properly assembled terminal organelle</span>
+0276             <span class="comment">%- all adhesins</span>
+0277             h.isBacteriumAdherent = <span class="keyword">...</span>
+0278                 all(this.enzymes(this.enzymeIndexs_terminalOrganelle)) &amp;&amp; <span class="keyword">...</span>
+0279                 all(this.enzymes(this.enzymeIndexs_adhesin));
+0280             
+0281             <span class="comment">%TLR activation requires ligands</span>
+0282             h.isTLRActivated(h.tlrIndexs_1) = <span class="keyword">...</span>
+0283                 h.isBacteriumAdherent &amp;&amp; <span class="keyword">...</span>
+0284                 any(this.enzymes(this.enzymeIndexs_tlr12Ligand));
+0285             h.isTLRActivated(h.tlrIndexs_2) = <span class="keyword">...</span>
+0286                 h.isBacteriumAdherent &amp;&amp; (<span class="keyword">...</span>
+0287                 any(this.enzymes(this.enzymeIndexs_tlr12Ligand)) || <span class="keyword">...</span>
+0288                 any(this.enzymes(this.enzymeIndexs_tlr26Ligand)));
+0289             h.isTLRActivated(h.tlrIndexs_6) = <span class="keyword">...</span>
+0290                 h.isBacteriumAdherent &amp;&amp; <span class="keyword">...</span>
+0291                 any(this.enzymes(this.enzymeIndexs_tlr26Ligand));
+0292             
+0293             <span class="comment">%NFkB activation requires TLRs to be activated by ligands</span>
+0294             h.isNFkBActivated = <span class="keyword">...</span>
+0295                 (h.isTLRActivated(h.tlrIndexs_2) &amp;&amp; h.isTLRActivated(h.tlrIndexs_1)) || <span class="keyword">...</span>
+0296                 (h.isTLRActivated(h.tlrIndexs_2) &amp;&amp; h.isTLRActivated(h.tlrIndexs_6));
+0297             
+0298             <span class="comment">%inflammatory response requires NF-kB activation or antigen</span>
+0299             <span class="comment">%with unknock mechanism of action</span>
+0300             h.isInflammatoryResponseActivated = <span class="keyword">...</span>
+0301                 h.isNFkBActivated || <span class="keyword">...</span>
+0302                 (h.isBacteriumAdherent &amp;&amp; any(this.enzymes(this.enzymeIndexs_antigen)));
+0303         <span class="keyword">end</span>
+0304     <span class="keyword">end</span>
+0305 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

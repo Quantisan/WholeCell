@@ -1,0 +1,778 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of FbaLPWriter</title>
+  <meta name="keywords" content="FbaLPWriter">
+  <meta name="description" content="FbaLPWriter">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; FbaLPWriter.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>FbaLPWriter
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>FbaLPWriter</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FbaLPWriter
+ Formats metabolic model in stm format.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updaetd 2/3/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FbaLPWriter.html" class="code" title="">FbaLPWriter</a>	FbaLPWriter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FbaLPWriter.html" class="code" title="">FbaLPWriter</a>	FbaLPWriter</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function write(sim, dirName)</a></li><li><a href="#_sub2" class="code">function write_lindo(sim, fileName, units)</a></li><li><a href="#_sub3" class="code">function write_fba3_stoichiometry(sim, fileName, units)</a></li><li><a href="#_sub4" class="code">function write_fba3_deletion(sim, fileName)</a></li><li><a href="#_sub5" class="code">function [sMat, bounds, obj] = scaleNetwork(sim, units, maxFlux)</a></li><li><a href="#_sub6" class="code">function [compartmentIDs, compartmentNames,</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%FbaLPWriter</span>
+0002 <span class="comment">% Formats metabolic model in stm format.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updaetd 2/3/2011</span>
+0007 classdef <a href="FbaLPWriter.html" class="code" title="">FbaLPWriter</a>
+0008     methods (Static)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function write(sim, dirName)</a>
+0010             import edu.stanford.covert.cell.sim.util.FbaLPWriter;
+0011             
+0012             p = sim.process(<span class="string">'Metabolism'</span>);
+0013             
+0014             <span class="comment">%lindo</span>
+0015             p.formulateFBA([], [], true);
+0016             FbaLPWriter.write_lindo(sim, [dirName filesep <span class="string">'metabolism.reduced.molecules-cell-s.ltx'</span>], <span class="string">'molecules/cell/s'</span>);
+0017             FbaLPWriter.write_lindo(sim, [dirName filesep <span class="string">'metabolism.reduced.mmol-gDCW-h.ltx'</span>], <span class="string">'mmol/gDCW/h'</span>);
+0018             
+0019             <span class="comment">%fba3</span>
+0020             p.formulateFBA([], [], false);
+0021             FbaLPWriter.write_fba3_stoichiometry(sim, [dirName filesep <span class="string">'metabolism.full.stm'</span>], <span class="string">'mmol/gDCW/h'</span>);
+0022             
+0023             p.formulateFBA([], [], true);
+0024             FbaLPWriter.write_fba3_stoichiometry(sim, [dirName filesep <span class="string">'metabolism.reduced.stm'</span>], <span class="string">'mmol/gDCW/h'</span>);
+0025             
+0026             FbaLPWriter.write_fba3_deletion(sim, [dirName filesep <span class="string">'metabolismDeletions.txt'</span>]);
+0027         <span class="keyword">end</span>
+0028         
+0029         <a name="_sub1" href="#_subfunctions" class="code">function write_lindo(sim, fileName, units)</a>
+0030             import edu.stanford.covert.cell.sim.util.FbaLPWriter;
+0031             import edu.stanford.covert.util.ConstantUtil;
+0032             
+0033             <span class="comment">%parse unit option</span>
+0034             <span class="comment">%growth (molecules/cell/s) = growth (mmol/gDCW/h) * biomass scale / flux scale</span>
+0035             <span class="keyword">if</span> nargin &lt; 3
+0036                 units = <span class="string">'molecules/cell/s'</span>;
+0037             <span class="keyword">elseif</span> ~ismember(units, {<span class="string">'mmol/gDCW/h'</span>, <span class="string">'molecules/cell/s'</span>})
+0038                 throw(MException(<span class="string">'FbaLPWriter:error'</span>, <span class="string">'Invalid units'</span>))
+0039             <span class="keyword">end</span>
+0040             
+0041             <span class="comment">%references</span>
+0042             p = sim.process(<span class="string">'Metabolism'</span>);
+0043             
+0044             <span class="comment">%numbers</span>
+0045             nSubstrates = size(p.fbaReactionStoichiometryMatrix, 1);
+0046             nReactions = size(p.fbaReactionStoichiometryMatrix, 2);
+0047             
+0048             <span class="comment">%IDs, names</span>
+0049             [compartmentIDs, compartmentNames, substrateIDs, ~, substrateNames, reactionIDs, ~, reactionNames] = <span class="keyword">...</span>
+0050                 edu.stanford.covert.cell.sim.util.FbaLPWriter.calcIDs(sim);
+0051             
+0052             <span class="comment">%scale units</span>
+0053             [fbaReactionStoichiometryMatrix, fluxBounds, fbaObjective] = FbaLPWriter.scaleNetwork(sim, units, ConstantUtil.realmax);
+0054             
+0055             <span class="comment">%initialize</span>
+0056             str = [];
+0057             
+0058             <span class="comment">%header</span>
+0059             str = [str sprintf(<span class="string">'! Autogenerated %s by edu.stanford.covert.cell.sim.util.FbaLPWriter\n'</span>, datestr(now, 31))];
+0060             str = [str sprintf(<span class="string">'TITLE %s\n\n'</span>, <span class="string">'Metabolism'</span>)];
+0061             
+0062             <span class="keyword">if</span> strcmp(units, <span class="string">'mmol/gDCW/h'</span>)
+0063                 str = [str sprintf(<span class="string">'! Objective function (mmol/gDCW)\n'</span>)];
+0064             <span class="keyword">else</span>
+0065                 str = [str sprintf(<span class="string">'! Objective function (molecules/cell)\n'</span>)];
+0066             <span class="keyword">end</span>
+0067             str = [str sprintf(<span class="string">'MAXIMIZE\n'</span>)];
+0068             idxs = find(fbaObjective);
+0069             <span class="keyword">for</span> i = 1:numel(idxs)
+0070                 str = [str sprintf(<span class="string">'\t%e %s\n'</span>, fbaObjective(idxs(i)), reactionIDs{idxs(i)})];
+0071             <span class="keyword">end</span>
+0072             str = [str sprintf(<span class="string">'\n'</span>)];
+0073             
+0074             str = [str sprintf(<span class="string">'! Reactions\nSUBJECT TO\n'</span>)];
+0075             
+0076             <span class="keyword">for</span> i = 1:nSubstrates
+0077                 rxnIdxs = find(p.fbaReactionStoichiometryMatrix(i, :));
+0078                 <span class="keyword">if</span> isempty(rxnIdxs)
+0079                     <span class="keyword">continue</span>;
+0080                 <span class="keyword">end</span>
+0081 
+0082                 constraint = [];
+0083                 <span class="keyword">for</span> j = 1:numel(rxnIdxs)
+0084                     coeff = fbaReactionStoichiometryMatrix(i, rxnIdxs(j));
+0085                     <span class="keyword">if</span> coeff == floor(coeff)
+0086                         constraint = [constraint sprintf(<span class="string">'%d %s '</span>, coeff, reactionIDs{rxnIdxs(j)})];
+0087                     <span class="keyword">else</span>
+0088                         constraint = [constraint sprintf(<span class="string">'%e %s '</span>, coeff, reactionIDs{rxnIdxs(j)})];
+0089                     <span class="keyword">end</span>
+0090                 <span class="keyword">end</span>
+0091                 str = [str sprintf(<span class="string">' %s) %s= 0 ! %s\n'</span>, substrateIDs{i}, constraint, substrateNames{i})];
+0092             <span class="keyword">end</span>
+0093             
+0094             str = [str sprintf(<span class="string">'\nEND\n\n'</span>)];
+0095             
+0096             <span class="keyword">if</span> strcmp(units, <span class="string">'mmol/gDCW/h'</span>)
+0097                 str = [str sprintf(<span class="string">'! Reaction Bounds (mmol/gDCW/h)\n'</span>)];
+0098             <span class="keyword">else</span>
+0099                 str = [str sprintf(<span class="string">'! Reaction Bounds (1/cell/s)\n'</span>)];
+0100             <span class="keyword">end</span>
+0101             
+0102             <span class="keyword">for</span> i = 1:nReactions
+0103                 enzIdx = find(p.fbaReactionCatalysisMatrix(i, :));
+0104                 
+0105                 <span class="keyword">if</span> fluxBounds(i, 1) == floor(fluxBounds(i, 1))
+0106                     lb = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 1));
+0107                 <span class="keyword">else</span>
+0108                     lb = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 1));
+0109                 <span class="keyword">end</span>
+0110                 <span class="keyword">if</span> fluxBounds(i, 2) == floor(fluxBounds(i, 2))
+0111                     ub = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 2));
+0112                 <span class="keyword">else</span>
+0113                     ub = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 2));
+0114                 <span class="keyword">end</span>
+0115                 
+0116                 <span class="keyword">if</span> ~isempty(enzIdx)
+0117                     str = [str sprintf(<span class="string">'SLB %s %s ! %s (%s)\n'</span>, reactionIDs{i}, lb, reactionNames{i}, p.enzymeWholeCellModelIDs{enzIdx})];
+0118                     str = [str sprintf(<span class="string">'SUB %s %s ! %s (%s)\n'</span>, reactionIDs{i}, ub, reactionNames{i}, p.enzymeWholeCellModelIDs{enzIdx})];
+0119                 <span class="keyword">else</span>
+0120                     str = [str sprintf(<span class="string">'SLB %s %s ! %s\n'</span>, reactionIDs{i}, lb, reactionNames{i})];
+0121                     str = [str sprintf(<span class="string">'SUB %s %s ! %s\n'</span>, reactionIDs{i}, ub, reactionNames{i})];
+0122                 <span class="keyword">end</span>
+0123             <span class="keyword">end</span>
+0124             
+0125             str = [str sprintf(<span class="string">'\n'</span>)];
+0126             str = [str sprintf(<span class="string">'! Compartments\n'</span>)];
+0127             <span class="keyword">for</span> i = 1:numel(compartmentIDs);
+0128                 str = [str sprintf(<span class="string">'! %s\t%s\n'</span>, compartmentIDs{i}, compartmentNames{i})];
+0129             <span class="keyword">end</span>
+0130             
+0131             fid = fopen(fileName, <span class="string">'w'</span>);
+0132             fwrite(fid, str);
+0133             fclose(fid);
+0134         <span class="keyword">end</span>
+0135         
+0136         <a name="_sub2" href="#_subfunctions" class="code">function write_fba3_stoichiometry(sim, fileName, units)</a>
+0137             import edu.stanford.covert.cell.sim.util.FbaLPWriter;
+0138             import edu.stanford.covert.util.ConstantUtil;
+0139             
+0140             <span class="comment">%references</span>
+0141             p = sim.process(<span class="string">'Metabolism'</span>);
+0142             
+0143             <span class="comment">%numbers</span>
+0144             nSubstrates = size(p.reactionStoichiometryMatrix, 1);
+0145             nCompartments = size(p.reactionStoichiometryMatrix, 3);
+0146             
+0147             <span class="comment">%ids</span>
+0148             [compartmentIDs, compartmentNames, ~, substrateIDs, substrateNames, ~, reactionIDs, reactionNames, reversible] = <span class="keyword">...</span>
+0149                 edu.stanford.covert.cell.sim.util.FbaLPWriter.calcIDs(sim);
+0150             
+0151             <span class="comment">%scale units</span>
+0152             [fbaSMat, fluxBounds, fbaObj] = FbaLPWriter.scaleNetwork(sim, units, 1000);
+0153             fbaObj = fbaObj * 10^max(0, -floor(log10(min(abs(fbaObj(fbaObj ~= 0))))));
+0154             
+0155             <span class="comment">%initialize</span>
+0156             str = [];
+0157             
+0158             <span class="comment">%header</span>
+0159             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0160             str = [str sprintf(<span class="string">'// Metabolic network //\n'</span>)];
+0161             str = [str sprintf(<span class="string">'// Autogenerated %s by edu.stanford.covert.cell.sim.util.FbaLPWriter //\n'</span>, datestr(now, 31))];
+0162             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0163             str = [str sprintf(<span class="string">'\n'</span>)];
+0164             str = [str sprintf(<span class="string">'\n'</span>)];
+0165             
+0166             <span class="comment">%compartments</span>
+0167             idWidth = max(cellfun(@length, compartmentIDs));
+0168             nameWidth = max(cellfun(@length, compartmentNames));
+0169             
+0170             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0171             str = [str sprintf(<span class="string">'// Compartments %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 3 - numel(<span class="string">'Compartments'</span>)))];
+0172             <span class="keyword">for</span> i = 1:nCompartments
+0173                 str = [str sprintf(<span class="string">'// %s\t%s //\n'</span>, <span class="keyword">...</span>
+0174                     [compartmentIDs{i} repmat(<span class="string">' '</span>, 1, idWidth - numel(compartmentIDs{i}))], <span class="keyword">...</span>
+0175                     [compartmentNames{i} repmat(<span class="string">' '</span>, 1, nameWidth - numel(compartmentNames{i}))])];
+0176             <span class="keyword">end</span>
+0177             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0178             str = [str sprintf(<span class="string">'\n'</span>)];
+0179             str = [str sprintf(<span class="string">'\n'</span>)];
+0180             
+0181             <span class="comment">%substrates</span>
+0182             idWidth = max(cellfun(@length, substrateIDs));
+0183             nameWidth = max(cellfun(@length, substrateNames));
+0184             
+0185             [subIdxs, ~] = ind2sub([nSubstrates, nCompartments], p.substrateIndexs_fba);
+0186             
+0187             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0188             str = [str sprintf(<span class="string">'// Substrates %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +5 - length(<span class="string">'Substrates'</span>)))];
+0189             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 6))];
+0190             
+0191             str = [str sprintf(<span class="string">'// \tMetabolites %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +4 - length(<span class="string">'Metabolites'</span>)))];
+0192             <span class="keyword">for</span> i = 1:size(p.substrateMetaboliteLocalIndexs, 1)
+0193                 idx = p.fbaSubstrateIndexs_substrates(p.substrateMetaboliteLocalIndexs(i) == subIdxs);
+0194                 <span class="keyword">if</span> isempty(idx)
+0195                     <span class="keyword">continue</span>; 
+0196                 <span class="keyword">elseif</span> numel(idx)==1
+0197                     id = substrateIDs{idx};
+0198                 <span class="keyword">else</span>
+0199                     idx = idx(1);
+0200                     id = substrateIDs{idx}(1:end-1);
+0201                 <span class="keyword">end</span>
+0202                 name = substrateNames{idx};
+0203                 str = [str sprintf(<span class="string">'// \t\t%s\t%s //\n'</span>, <span class="keyword">...</span>
+0204                     [id repmat(<span class="string">' '</span>, 1, idWidth - numel(id))], <span class="keyword">...</span>
+0205                     [name repmat(<span class="string">' '</span>, 1, nameWidth - numel(name))])]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0206             <span class="keyword">end</span>
+0207             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 6))];
+0208             
+0209             str = [str sprintf(<span class="string">'// \tProtein Monomers %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +4 - length(<span class="string">'Protein Monomers'</span>)))];
+0210             <span class="keyword">for</span> i = 1:size(p.substrateMonomerLocalIndexs, 1)
+0211                 idx = p.fbaSubstrateIndexs_substrates(p.substrateMonomerLocalIndexs(i) == subIdxs);
+0212                 <span class="keyword">if</span> isempty(idx)
+0213                     <span class="keyword">continue</span>; 
+0214                 <span class="keyword">elseif</span> numel(idx)==1
+0215                     id = substrateIDs{idx};
+0216                 <span class="keyword">else</span>
+0217                     idx = idx(1);
+0218                     id = substrateIDs{idx}(1:end-1);
+0219                 <span class="keyword">end</span>
+0220                 name = substrateNames{idx};
+0221                 str = [str sprintf(<span class="string">'// \t\t%s\t%s //\n'</span>, <span class="keyword">...</span>
+0222                     [id repmat(<span class="string">' '</span>, 1, idWidth - numel(id))], <span class="keyword">...</span>
+0223                     [name repmat(<span class="string">' '</span>, 1, nameWidth - numel(name))])]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0224             <span class="keyword">end</span>
+0225             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 6))];
+0226             
+0227             str = [str sprintf(<span class="string">'// \tProtein Complexs %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +4 - length(<span class="string">'Protein Complexs'</span>)))];
+0228             <span class="keyword">for</span> i = 1:size(p.substrateComplexLocalIndexs, 1)                
+0229                 idx = p.fbaSubstrateIndexs_substrates(p.substrateComplexLocalIndexs(i) == subIdxs);
+0230                 <span class="keyword">if</span> isempty(idx)
+0231                     <span class="keyword">continue</span>; 
+0232                 <span class="keyword">elseif</span> numel(idx)==1
+0233                     id = substrateIDs{idx};
+0234                 <span class="keyword">else</span>
+0235                     idx = idx(1);
+0236                     id = substrateIDs{idx}(1:end-1);
+0237                 <span class="keyword">end</span>
+0238                 name = substrateNames{idx};
+0239                 str = [str sprintf(<span class="string">'// \t\t%s\t%s //\n'</span>, <span class="keyword">...</span>
+0240                     [id repmat(<span class="string">' '</span>, 1, idWidth - numel(id))], <span class="keyword">...</span>
+0241                     [name repmat(<span class="string">' '</span>, 1, nameWidth - numel(name))])]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0242             <span class="keyword">end</span>
+0243             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 6))];
+0244             
+0245             str = [str sprintf(<span class="string">'// \tInternal exchange constraints %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +4 - length(<span class="string">'Internal exchange constraints'</span>)))];
+0246             <span class="keyword">for</span> i = 1:size(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints, 1)                
+0247                 idx = p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints(i);
+0248                 <span class="keyword">if</span> isempty(idx)
+0249                     <span class="keyword">continue</span>; 
+0250                 <span class="keyword">elseif</span> numel(idx)==1
+0251                     id = substrateIDs{idx};
+0252                 <span class="keyword">else</span>
+0253                     idx = idx(1);
+0254                     id = substrateIDs{idx}(1:end-1);
+0255                 <span class="keyword">end</span>
+0256                 name = substrateNames{idx};
+0257                 str = [str sprintf(<span class="string">'// \t\t%s\t%s //\n'</span>, <span class="keyword">...</span>
+0258                     [id repmat(<span class="string">' '</span>, 1, idWidth - numel(id))], <span class="keyword">...</span>
+0259                     [name repmat(<span class="string">' '</span>, 1, nameWidth - numel(name))])]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0260             <span class="keyword">end</span>
+0261             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth + 6))];            
+0262             
+0263             str = [str sprintf(<span class="string">'// \tPseudospecies %s //\n'</span>, repmat(<span class="string">' '</span>, 1, idWidth + nameWidth +4 - length(<span class="string">'Pseudospecies'</span>)))];
+0264             str = [str sprintf(<span class="string">'// \t\t%s\t%s //\n'</span>, <span class="keyword">...</span>
+0265                 [<span class="string">'Biomass'</span> repmat(<span class="string">' '</span>, 1, idWidth - numel(<span class="string">'Biomass'</span>))], <span class="keyword">...</span>
+0266                 [<span class="string">'Biomass'</span> repmat(<span class="string">' '</span>, 1, nameWidth - numel(<span class="string">'Biomass'</span>))])]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0267             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0268             str = [str sprintf(<span class="string">'\n'</span>)];
+0269             str = [str sprintf(<span class="string">'\n'</span>)];
+0270             
+0271             <span class="comment">%reactions</span>
+0272             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0273             str = [str sprintf(<span class="string">'// Reactions //\n'</span>)];
+0274             str = [str sprintf(<span class="string">'\n'</span>)];
+0275             
+0276             <span class="comment">%biomass production in mmol/gDCW</span>
+0277             str = [str sprintf(<span class="string">'// \tBiomass production //\n'</span>)];
+0278          
+0279             biomassScaleFactor = 100;
+0280             idx = p.fbaReactionIndexs_biomassProduction;
+0281             stoichiometry = [];
+0282             stoichiometry2 = [];
+0283 
+0284             scIdxs = p.fbaSubstrateIndexs_substrates(fbaSMat(p.fbaSubstrateIndexs_substrates, idx) &lt; 0);
+0285             <span class="keyword">for</span> j = 1:numel(scIdxs)
+0286                 val = fbaSMat(scIdxs(j), idx);
+0287 
+0288                 stoichiometry = [stoichiometry sprintf(<span class="string">'%s%f %s '</span>, repmat(<span class="string">'+'</span>, 1, val &gt;= 0), val * biomassScaleFactor, substrateIDs{scIdxs(j)})];
+0289                 stoichiometry2 = [stoichiometry2 sprintf(<span class="string">'// %17.6f %s%s //\n'</span>, <span class="keyword">...</span>
+0290                     val, <span class="keyword">...</span>
+0291                     substrateIDs{scIdxs(j)}, <span class="keyword">...</span>
+0292                     repmat(<span class="string">' '</span>, 1, idWidth-numel(substrateIDs{scIdxs(j)})))];
+0293             <span class="keyword">end</span>
+0294 
+0295             scIdxs = p.fbaSubstrateIndexs_substrates(fbaSMat(p.fbaSubstrateIndexs_substrates, idx) &gt; 0);
+0296             <span class="keyword">for</span> j = 1:numel(scIdxs)
+0297                 val = fbaSMat(scIdxs(j), idx);
+0298 
+0299                 stoichiometry = [stoichiometry sprintf(<span class="string">'%s%f %s '</span>, repmat(<span class="string">'+'</span>, 1, val &gt;= 0), val * biomassScaleFactor, substrateIDs{scIdxs(j)})];
+0300                 stoichiometry2 = [stoichiometry2 sprintf(<span class="string">'// %17.6f %s%s //\n'</span>, <span class="keyword">...</span>
+0301                     val, <span class="keyword">...</span>
+0302                     substrateIDs{scIdxs(j)}, <span class="keyword">...</span>
+0303                     repmat(<span class="string">' '</span>, 1, idWidth-numel(substrateIDs{scIdxs(j)})))];
+0304             <span class="keyword">end</span>
+0305             stoichiometry = stoichiometry(1:end-1);
+0306 
+0307             str = [str stoichiometry2];
+0308             str = [str sprintf(<span class="string">'\n'</span>)];
+0309 
+0310             str = [str sprintf(<span class="string">'// Biomass production in mmol/gDCW //\n'</span>)];
+0311             spaces = find(stoichiometry == <span class="string">' '</span>);
+0312             spaces = [spaces(2:2:end) length(stoichiometry)+1];
+0313             nSplits = ceil((length(spaces)-1)/10);
+0314             splits = [0 spaces(ceil((1:nSplits)/nSplits * length(spaces)))];
+0315             assertEqual(splits, unique(splits));
+0316             growthStoichiometry = [];
+0317             <span class="keyword">for</span> j = 1:nSplits
+0318                 str = [str sprintf(<span class="string">'%s +%d SbBmss%02d 0 SbGrth%02d // Sub growth - %d //\n'</span>, stoichiometry(splits(j)+1:splits(j+1)-1), biomassScaleFactor, j, j, j)];
+0319                 growthStoichiometry = [growthStoichiometry sprintf(<span class="string">'-1 SbBmss%02d '</span>, j)];
+0320             <span class="keyword">end</span>
+0321 
+0322             str = [str sprintf(<span class="string">'%s +1 Biomass 0 %s // %s //\n'</span>, growthStoichiometry(1:end-1), reactionIDs{idx}, reactionNames{idx})];
+0323             str = [str sprintf(<span class="string">'\n'</span>)];
+0324             
+0325             str = [str sprintf(<span class="string">'// \tMetabolic Reactions //\n'</span>)];
+0326             <span class="keyword">for</span> i = 1:numel(p.reactionIndexs_chemical)
+0327                 idx = p.fbaReactionIndexs_metabolicConversion(p.reactionIndexs_chemical(i) == p.reactionIndexs_fba);
+0328                 <span class="keyword">if</span> isempty(idx)
+0329                     <span class="keyword">continue</span>;
+0330                 <span class="keyword">end</span>
+0331                 stoichiometry = [];
+0332                 
+0333                 scIdxs = find(fbaSMat(:, idx) &lt; 0);
+0334                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0335                     val = fbaSMat(scIdxs(j), idx);
+0336                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0337                 <span class="keyword">end</span>
+0338                 
+0339                 scIdxs = find(fbaSMat(:, idx) &gt; 0);
+0340                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0341                     val = fbaSMat(scIdxs(j), idx);
+0342                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0343                 <span class="keyword">end</span>
+0344                 
+0345                 eIdx = find(p.fbaReactionCatalysisMatrix(idx, :));
+0346                 
+0347                 <span class="keyword">if</span> ~isempty(eIdx)
+0348                     enzymeID = p.enzymeWholeCellModelIDs{eIdx};
+0349                     enzymeName = p.enzymeNames{eIdx};
+0350                     str = [str sprintf(<span class="string">'%s0 %s // %s (%s, %s) //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx}, enzymeID, enzymeName)];
+0351                 <span class="keyword">else</span>
+0352                     str = [str sprintf(<span class="string">'%s0 %s // %s //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx})];
+0353                 <span class="keyword">end</span>
+0354             <span class="keyword">end</span>
+0355             str = [str sprintf(<span class="string">'\n'</span>)];
+0356             
+0357             str = [str sprintf(<span class="string">'// \tTransport Reactions //\n'</span>)];
+0358             <span class="keyword">for</span> i = 1:numel(p.reactionIndexs_transport)
+0359                 idx = p.fbaReactionIndexs_metabolicConversion(p.reactionIndexs_transport(i) == p.reactionIndexs_fba);
+0360                 <span class="keyword">if</span> isempty(idx)
+0361                     <span class="keyword">continue</span>;
+0362                 <span class="keyword">end</span>
+0363                 stoichiometry = [];
+0364                 
+0365                 scIdxs = find(fbaSMat(:, idx) &lt; 0);
+0366                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0367                     val = fbaSMat(scIdxs(j), idx);
+0368                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0369                 <span class="keyword">end</span>
+0370                 
+0371                 scIdxs = find(fbaSMat(:, idx) &gt; 0);
+0372                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0373                     val = fbaSMat(scIdxs(j), idx);
+0374                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0375                 <span class="keyword">end</span>
+0376                 
+0377                 eIdx = find(p.fbaReactionCatalysisMatrix(idx, :));
+0378                 <span class="keyword">if</span> ~isempty(eIdx)
+0379                     enzymeID = p.enzymeWholeCellModelIDs{eIdx};
+0380                     enzymeName = p.enzymeNames{eIdx};
+0381                     str = [str sprintf(<span class="string">'%s0 %s // %s (%s, %s) //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx}, enzymeID, enzymeName)];
+0382                 <span class="keyword">else</span>
+0383                     str = [str sprintf(<span class="string">'%s0 %s // %s //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx})];
+0384                 <span class="keyword">end</span>
+0385             <span class="keyword">end</span>
+0386             str = [str sprintf(<span class="string">'\n'</span>)];
+0387             
+0388             str = [str sprintf(<span class="string">'// \tMetabolite External Exchange Reactions //\n'</span>)];
+0389             <span class="keyword">for</span> i = 1:numel(p.fbaReactionIndexs_metaboliteExternalExchange)
+0390                 idx = p.fbaReactionIndexs_metaboliteExternalExchange(i);
+0391                 scIdxs = find(fbaSMat(:, idx));
+0392                                 
+0393                 stoichiometry = [];
+0394                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0395                     val = fbaSMat(scIdxs(j), idx);
+0396                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0397                 <span class="keyword">end</span>
+0398                 str = [str sprintf(<span class="string">'%s0 %s // %s //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx})];
+0399             <span class="keyword">end</span>
+0400             str = [str sprintf(<span class="string">'\n'</span>)];
+0401             
+0402             str = [str sprintf(<span class="string">'// \tMetabolite Internal Exchange Reactions //\n'</span>)];
+0403             <span class="keyword">for</span> i = 1:numel(p.fbaReactionIndexs_metaboliteInternalExchange)
+0404                 idx = p.fbaReactionIndexs_metaboliteInternalExchange(i);
+0405                 <span class="keyword">if</span> isempty(idx)
+0406                     <span class="keyword">continue</span>;
+0407                 <span class="keyword">end</span>
+0408                 stoichiometry = [];
+0409                 
+0410                 scIdxs = find(fbaSMat(:, idx) &lt; 0);
+0411                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0412                     val = fbaSMat(scIdxs(j), idx);
+0413                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0414                 <span class="keyword">end</span>
+0415                 
+0416                 scIdxs = find(fbaSMat(:, idx) &gt; 0);
+0417                 <span class="keyword">for</span> j = 1:numel(scIdxs)
+0418                     val = fbaSMat(scIdxs(j), idx);
+0419                     stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0420                 <span class="keyword">end</span>
+0421                 
+0422                 eIdx = find(p.fbaReactionCatalysisMatrix(idx, :));
+0423                 <span class="keyword">if</span> ~isempty(eIdx)
+0424                     enzymeID = p.enzymeWholeCellModelIDs{eIdx};
+0425                     enzymeName = p.enzymeNames{eIdx};
+0426                     str = [str sprintf(<span class="string">'%s0 %s // %s (%s, %s) //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx}, enzymeID, enzymeName)];
+0427                 <span class="keyword">else</span>
+0428                     str = [str sprintf(<span class="string">'%s0 %s // %s //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx})];
+0429                 <span class="keyword">end</span>
+0430             <span class="keyword">end</span>
+0431             str = [str sprintf(<span class="string">'\n'</span>)];
+0432             
+0433             str = [str sprintf(<span class="string">'// \tBiomass Exchange Reactions //\n'</span>)];
+0434             idx = p.fbaReactionIndexs_biomassExchange;
+0435             scIdxs = find(fbaSMat(:, idx));
+0436             stoichiometry = [];
+0437             <span class="keyword">for</span> j = 1:numel(scIdxs)
+0438                 val = fbaSMat(scIdxs(j), idx);
+0439                 stoichiometry = [stoichiometry sprintf(<span class="string">'%s%d %s '</span>, repmat(<span class="string">'+'</span>, 1, val&gt;=0), val, substrateIDs{scIdxs(j)})];
+0440             <span class="keyword">end</span>
+0441             str = [str sprintf(<span class="string">'%s0 %s // %s //\n'</span>, stoichiometry, reactionIDs{idx}, reactionNames{idx})];
+0442             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0443             str = [str sprintf(<span class="string">'\n'</span>)];
+0444             str = [str sprintf(<span class="string">'\n'</span>)];
+0445             
+0446             <span class="comment">%objective</span>
+0447             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0448             str = [str sprintf(<span class="string">'// Objective //\n'</span>)];
+0449             str = [str sprintf(<span class="string">'0.0 end\n'</span>)];
+0450             str = [str sprintf(<span class="string">'\n'</span>)];
+0451             str = [str sprintf(<span class="string">'end E 0\n'</span>)];
+0452             str = [str sprintf(<span class="string">'max\n'</span>)];
+0453             idxs = find(fbaObj);
+0454             <span class="keyword">for</span> i = 1:numel(idxs)
+0455                 str = [str sprintf(<span class="string">'%.6f %s\n'</span>, fbaObj(idxs(i)), reactionIDs{idxs(i)})];
+0456             <span class="keyword">end</span>
+0457             str = [str sprintf(<span class="string">'0 end\n'</span>)];
+0458             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0459             str = [str sprintf(<span class="string">'\n'</span>)];
+0460             str = [str sprintf(<span class="string">'\n'</span>)];
+0461             
+0462             <span class="comment">%reaction bounds</span>
+0463             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0464             str = [str sprintf(<span class="string">'// Reaction Bounds (mmol/gDCW/h) //\n'</span>)];
+0465             <span class="keyword">for</span> i = 1:size(fluxBounds, 1)
+0466                 <span class="keyword">if</span> ceil(fluxBounds(i, 1)) == fluxBounds(i, 1)
+0467                     loStr = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 1));
+0468                 <span class="keyword">else</span>
+0469                     loStr = sprintf(<span class="string">'%.6f'</span>, fluxBounds(i, 1));
+0470                 <span class="keyword">end</span>
+0471                 <span class="keyword">if</span> ceil(fluxBounds(i, 2)) == fluxBounds(i, 2)
+0472                     hiStr = sprintf(<span class="string">'%d'</span>, fluxBounds(i, 2));
+0473                 <span class="keyword">else</span>
+0474                     hiStr = sprintf(<span class="string">'%.6f'</span>, fluxBounds(i, 2));
+0475                 <span class="keyword">end</span>
+0476                 str = [str sprintf(<span class="string">'%s %s %s\n'</span>, loStr, reactionIDs{i}, hiStr)];
+0477                 <span class="comment">% if reversible(i) &amp;&amp; (fbaReactionBounds(i, 1) ~= -1000 || fbaReactionBounds(i, 2) ~= 1000)</span>
+0478                 <span class="comment">%    str = [str sprintf('%.6f %s %.6f\n', fbaReactionBounds(i, 1), reactionIDs{i}, fbaReactionBounds(i, 2))];</span>
+0479                 <span class="comment">% elseif ~reversible(i) &amp;&amp; (fbaReactionBounds(i, 1) ~= 0 || fbaReactionBounds(i, 2) ~= 1000)</span>
+0480                 <span class="comment">%    str = [str sprintf('%.6f %s %.6f\n', fbaReactionBounds(i, 1), reactionIDs{i}, fbaReactionBounds(i, 2))];</span>
+0481                 <span class="comment">% end</span>
+0482             <span class="keyword">end</span>
+0483             str = [str sprintf(<span class="string">'\n'</span>)];
+0484             
+0485             str = [str sprintf(<span class="string">'// End of reaction Bounds //\n'</span>)];
+0486             str = [str sprintf(<span class="string">'0 end 0\n'</span>)];
+0487             str = [str sprintf(<span class="string">'// %s //\n'</span>, repmat(<span class="string">'*'</span>, 1, 120))];
+0488             
+0489             fid = fopen(fileName, <span class="string">'w'</span>);
+0490             fwrite(fid, str);
+0491             fclose(fid);
+0492         <span class="keyword">end</span>
+0493         
+0494         <a name="_sub3" href="#_subfunctions" class="code">function write_fba3_deletion(sim, fileName)</a>
+0495             [~, ~, ~, ~, ~, ~, reactionIDs] = edu.stanford.covert.cell.sim.util.FbaLPWriter.calcIDs(sim);
+0496             <span class="keyword">for</span> i = 1:numel(reactionIDs)
+0497                 reactionIDs{i} = regexprep(reactionIDs{i}, <span class="string">'R$'</span>, <span class="string">''</span>);
+0498                 reactionIDs{i} = regexprep(reactionIDs{i}, <span class="string">'\d+$'</span>, <span class="string">''</span>);
+0499             <span class="keyword">end</span>
+0500             
+0501             <span class="comment">%initialize file</span>
+0502             str = [];
+0503             
+0504             <span class="comment">%genes - reactions</span>
+0505             m = sim.process(<span class="string">'Metabolism'</span>);
+0506             geneEnzComp = m.enzymeGeneComposition ~= 0;
+0507             geneSubComp = m.substrateGeneComposition ~= 0;
+0508             
+0509             [sIdxs, ~] = ind2sub([size(m.reactionStoichiometryMatrix, 1) size(m.reactionStoichiometryMatrix, 3)], m.substrateIndexs_fba);
+0510             <span class="keyword">for</span> i = 1:numel(sim.gene.wholeCellModelIDs)
+0511                 enzIdxs = find(geneEnzComp(i, :));                
+0512                 subIdxs = find(geneSubComp(i, :));
+0513                 
+0514                 <span class="keyword">if</span> isempty(enzIdxs) &amp;&amp; isempty(subIdxs)
+0515                     <span class="keyword">continue</span>;
+0516                 <span class="keyword">end</span>
+0517                 
+0518                 fbaSubIdxs = m.fbaSubstrateIndexs_substrates(ismember(sIdxs, subIdxs));                                
+0519                 rxnIdxs = any(m.fbaReactionCatalysisMatrix(:, enzIdxs), 2) | any(m.fbaReactionStoichiometryMatrix(fbaSubIdxs, :), 1)';
+0520                 rxnIDs = unique(reactionIDs(rxnIdxs));
+0521                 <span class="keyword">for</span> j = 1:7:numel(rxnIDs)
+0522                     tmpRxnIDs = rxnIDs(j:min(j+6, end));
+0523                     str = [str sprintf(<span class="string">'%d\t%sg\t%s\n'</span>, numel(tmpRxnIDs)+1, strrep(sim.gene.wholeCellModelIDs{i},<span class="string">'_'</span>,<span class="string">''</span>), strjoin(<span class="string">' '</span>, tmpRxnIDs{:}))];
+0524                 <span class="keyword">end</span>
+0525             <span class="keyword">end</span>
+0526             
+0527             <span class="comment">%terminator</span>
+0528             str = [str sprintf(<span class="string">'\n999 end\n'</span>)];
+0529             
+0530             <span class="comment">%write file</span>
+0531             fid = fopen(fileName, <span class="string">'w'</span>);
+0532             fwrite(fid, str);
+0533             fclose(fid);
+0534         <span class="keyword">end</span>
+0535         
+0536         <a name="_sub4" href="#_subfunctions" class="code">function [sMat, bounds, obj] = scaleNetwork(sim, units, maxFlux)</a>
+0537             import edu.stanford.covert.util.ConstantUtil;
+0538             
+0539             p = sim.process(<span class="string">'Metabolism'</span>);
+0540             mass = sim.state(<span class="string">'Mass'</span>);
+0541             
+0542             sMat = p.fbaReactionStoichiometryMatrix;
+0543             bounds = p.calcFluxBounds(p.substrates, p.enzymes, p.fbaReactionBounds, p.fbaEnzymeBounds);
+0544             obj = p.fbaObjective;
+0545             <span class="keyword">if</span> strcmp(units, <span class="string">'mmol/gDCW/h'</span>)
+0546                 <span class="comment">%biomass composition</span>
+0547                 biomassScaleFactor = 1 / (1e-3 * ConstantUtil.nAvogadro) / mass.cellInitialDryWeight;
+0548                 sMat(:, p.fbaReactionIndexs_biomassProduction) = <span class="keyword">...</span>
+0549                     sMat(:, p.fbaReactionIndexs_biomassProduction) * biomassScaleFactor;
+0550                 sMat(p.fbaSubstrateIndexs_biomass, p.fbaReactionIndexs_biomassProduction) = 1;
+0551                 
+0552                 <span class="comment">%fluxes</span>
+0553                 fluxScaleFactor = 1 / (ConstantUtil.nAvogadro/1000) * ConstantUtil.secondsPerHour / <span class="keyword">...</span>
+0554                     sum(mass.cellDry);
+0555                 bounds = bounds * fluxScaleFactor;
+0556                 
+0557                 <span class="comment">%objective</span>
+0558                 obj = p.fbaObjective / fluxScaleFactor;
+0559                 obj(p.fbaReactionIndexs_biomassProduction) = <span class="keyword">...</span>
+0560                     p.fbaObjective(p.fbaReactionIndexs_biomassProduction) / ConstantUtil.secondsPerHour;
+0561             <span class="keyword">end</span>
+0562             
+0563             bounds(:, 1) = max(-maxFlux, bounds(:, 1));
+0564             bounds(:, 2) = min( maxFlux, bounds(:, 2));
+0565         <span class="keyword">end</span>
+0566         
+0567         <a name="_sub5" href="#_subfunctions" class="code">function [compartmentIDs, compartmentNames, </a><span class="keyword">...</span>
+0568                 substrateLongIDs, substrateIDs, substrateNames, <span class="keyword">...</span>
+0569                 reactionLongIDs, reactionIDs, reactionNames, reversible] = <span class="keyword">...</span>
+0570                 calcIDs(sim)
+0571             p = sim.process(<span class="string">'Metabolism'</span>);
+0572             
+0573             <span class="comment">%% compartments</span>
+0574             compartmentIDs = p.compartment.wholeCellModelIDs(p.substrateMetaboliteCompartmentIndexs(1, :));
+0575             compartmentNames = p.compartment.names(p.substrateMetaboliteCompartmentIndexs(1, :));            
+0576             
+0577             <span class="comment">%% substrates</span>
+0578             tmp_substrateShortLongIDs = struct;
+0579             tmp_substrateLongIDs = p.substrateWholeCellModelIDs;
+0580             tmp_substrateIDs = cellfun(@(x) strrep(x, <span class="string">'_'</span>, <span class="string">''</span>), p.substrateWholeCellModelIDs, <span class="string">'UniformOutput'</span>, false);
+0581             tmp_substrateNames = p.substrateNames;
+0582             <span class="keyword">for</span> i = 1:numel(tmp_substrateIDs)
+0583                 <span class="keyword">if</span> numel(tmp_substrateIDs{i}) &gt; 6
+0584                     <span class="keyword">if</span> ~isfield(tmp_substrateShortLongIDs, upper(tmp_substrateIDs{i}(1:4)))
+0585                         tmp_substrateShortLongIDs.(upper(tmp_substrateIDs{i}(1:4))) = 0;
+0586                     <span class="keyword">end</span>
+0587                     tmp_substrateShortLongIDs.(upper(tmp_substrateIDs{i}(1:4))) = <span class="keyword">...</span>
+0588                         tmp_substrateShortLongIDs.(upper(tmp_substrateIDs{i}(1:4))) + 1;
+0589                     tmp_substrateIDs{i} = sprintf(<span class="string">'%s%02d'</span>, tmp_substrateIDs{i}(1:4), tmp_substrateShortLongIDs.(upper(tmp_substrateIDs{i}(1:4))));
+0590                 <span class="keyword">end</span>
+0591             <span class="keyword">end</span>
+0592             assertEqual(numel(tmp_substrateIDs), numel(unique(tmp_substrateIDs)));
+0593             assertIn(max(cellfun(@length, tmp_substrateIDs)), [0 6]);
+0594             
+0595             substrateLongIDs = cell(size(p.fbaReactionStoichiometryMatrix, 1), 1);
+0596             substrateIDs = cell(size(p.fbaReactionStoichiometryMatrix, 1), 1);
+0597             substrateNames = cell(size(p.fbaReactionStoichiometryMatrix, 1), 1);
+0598             substrateCompartmentIDs = cell(size(p.fbaReactionStoichiometryMatrix, 1), 1);
+0599             
+0600             [subIdxs, cmpIdxs] = ind2sub([numel(tmp_substrateIDs) numel(compartmentIDs)], p.substrateIndexs_fba);
+0601             substrateLongIDs(p.fbaSubstrateIndexs_substrates) = tmp_substrateLongIDs(subIdxs);
+0602             substrateIDs(p.fbaSubstrateIndexs_substrates) = tmp_substrateIDs(subIdxs);
+0603             substrateNames(p.fbaSubstrateIndexs_substrates) = tmp_substrateNames(subIdxs);
+0604             cnts = histc(subIdxs, 1:numel(tmp_substrateIDs));
+0605             substrateCompartmentIDs(p.fbaSubstrateIndexs_substrates(cnts(subIdxs) &gt; 1)) = compartmentIDs(cmpIdxs(cnts(subIdxs) &gt; 1));
+0606             
+0607             substrateLongIDs(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints) = <span class="keyword">...</span>
+0608                 cellfun(@(idx) sprintf(<span class="string">'Internal_Exchange_Constraint_%02d'</span>, idx), <span class="keyword">...</span>
+0609                 num2cell(1:numel(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints))', <span class="string">'UniformOutput'</span>, false);
+0610             substrateIDs(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints) = <span class="keyword">...</span>
+0611                 cellfun(@(idx) sprintf(<span class="string">'ExCt%02d'</span>, idx), <span class="keyword">...</span>
+0612                 num2cell(1:numel(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints))', <span class="string">'UniformOutput'</span>, false);
+0613             substrateNames(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints) = <span class="keyword">...</span>
+0614                 cellfun(@(idx) [<span class="string">'Internal Exchange Constraint - #'</span> num2str(idx)], <span class="keyword">...</span>
+0615                 num2cell(1:numel(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints))', <span class="string">'UniformOutput'</span>, false);
+0616             substrateCompartmentIDs(p.fbaSubstrateIndexs_metaboliteInternalExchangeConstraints) = {<span class="string">''</span>};
+0617             
+0618             substrateLongIDs{p.fbaSubstrateIndexs_biomass} = <span class="string">'Biomass'</span>;
+0619             substrateIDs{p.fbaSubstrateIndexs_biomass} = <span class="string">'Biomass'</span>;
+0620             substrateNames{p.fbaSubstrateIndexs_biomass} = <span class="string">'Biomass'</span>;
+0621             substrateCompartmentIDs{p.fbaSubstrateIndexs_biomass} = <span class="string">''</span>;
+0622             
+0623             assertIn(max(cellfun(@length, substrateIDs)), [0 8]);
+0624             
+0625             <span class="comment">%% reactions</span>
+0626             tmp_reversible = false(size(p.reactionStoichiometryMatrix, 2), 1);
+0627             <span class="keyword">for</span> i = 1:size(p.reactionStoichiometryMatrix, 2)
+0628                 <span class="keyword">if</span> all(p.reactionBounds(i, :))
+0629                     tmp_reversible(i) = true;
+0630                 <span class="keyword">end</span>
+0631             <span class="keyword">end</span>
+0632             
+0633             tmp_reactionShortLongIDs = struct;
+0634             tmp_reactionLongIDs = p.reactionWholeCellModelIDs;
+0635             tmp_reactionIDs = cellfun(@(x) strrep(x, <span class="string">'_'</span>, <span class="string">''</span>), tmp_reactionLongIDs, <span class="string">'UniformOutput'</span>, false);
+0636             tmp_reactionNames = p.reactionNames;
+0637             <span class="keyword">for</span> i = 1:numel(tmp_reactionIDs)
+0638                 <span class="keyword">if</span> ~tmp_reversible(i) &amp;&amp; numel(tmp_reactionIDs{i}) &gt; 8
+0639                     <span class="keyword">if</span> ~isfield(tmp_reactionShortLongIDs, upper(tmp_reactionIDs{i}(1:6)))
+0640                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:6))) = 0;
+0641                     <span class="keyword">end</span>
+0642                     tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:6))) = <span class="keyword">...</span>
+0643                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:6))) + 1;
+0644                     tmp_reactionIDs{i} = sprintf(<span class="string">'%s%02d'</span>, tmp_reactionIDs{i}(1:6), tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:6))));
+0645                 <span class="keyword">elseif</span> tmp_reversible(i) &amp;&amp; numel(tmp_reactionIDs{i}) &gt; 7
+0646                     <span class="keyword">if</span> ~isfield(tmp_reactionShortLongIDs, upper(tmp_reactionIDs{i}(1:5)))
+0647                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:5))) = 0;
+0648                     <span class="keyword">end</span>
+0649                     tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:5))) = <span class="keyword">...</span>
+0650                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:5))) + 1;
+0651                     tmp_reactionIDs{i} = sprintf(<span class="string">'%s%02dR'</span>, tmp_reactionIDs{i}(1:5), tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:5))));
+0652                 <span class="keyword">elseif</span> tmp_reversible(i)
+0653                     tmp_reactionIDs{i} = sprintf(<span class="string">'%sR'</span>, tmp_reactionIDs{i});
+0654                 <span class="keyword">elseif</span> ~tmp_reversible(i) &amp;&amp; upper(tmp_reactionIDs{i}(end)) == <span class="string">'R'</span>
+0655                     <span class="keyword">if</span> ~isfield(tmp_reactionShortLongIDs, upper(tmp_reactionIDs{i}(1:min(7,end))))
+0656                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:min(7,end)))) = 0;
+0657                     <span class="keyword">end</span>
+0658                     tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:min(7,end)))) = <span class="keyword">...</span>
+0659                         tmp_reactionShortLongIDs.(upper(tmp_reactionIDs{i}(1:min(7,end)))) + 1;
+0660                     tmp_reactionIDs{i} = sprintf(<span class="string">'%sF'</span>, tmp_reactionIDs{i}(1:min(7,end)));
+0661                 <span class="keyword">end</span>
+0662             <span class="keyword">end</span>
+0663             
+0664             externalExchangeReactionLongIDs = {};
+0665             externalExchangeReactionIDs = {};
+0666             externalExchangeReactionNames = {};
+0667             <span class="keyword">for</span> i = 1:numel(p.fbaReactionIndexs_metaboliteExternalExchange)
+0668                 sIdx = find(p.fbaReactionStoichiometryMatrix(:, p.fbaReactionIndexs_metaboliteExternalExchange(i)) ~= 0);                
+0669                 longid = substrateLongIDs{sIdx};
+0670                 id = substrateIDs{sIdx};
+0671                 name = substrateNames{sIdx};
+0672                 externalExchangeReactionLongIDs = [externalExchangeReactionLongIDs; {[longid <span class="string">'ex'</span>]}];
+0673                 externalExchangeReactionIDs = [externalExchangeReactionIDs; {[id <span class="string">'ex'</span>]}];
+0674                 externalExchangeReactionNames = [externalExchangeReactionNames; {[name <span class="string">' external exchange'</span>]}];
+0675             <span class="keyword">end</span>
+0676             
+0677             internalExchangeReactionLongIDs = {};
+0678             internalExchangeReactionIDs = {};
+0679             internalExchangeReactionNames = {};
+0680             <span class="keyword">for</span> i = 1:numel(p.fbaReactionIndexs_metaboliteInternalExchange)
+0681                 sIdx = find(p.fbaReactionStoichiometryMatrix(:, p.fbaReactionIndexs_metaboliteInternalExchange(i)) == -1);
+0682                 longid = substrateLongIDs{sIdx};
+0683                 id = substrateIDs{sIdx};
+0684                 name = substrateNames{sIdx};
+0685                 internalExchangeReactionLongIDs = [internalExchangeReactionLongIDs; {[longid <span class="string">'ix'</span>]}];
+0686                 internalExchangeReactionIDs = [internalExchangeReactionIDs; {[id <span class="string">'ix'</span>]}];
+0687                 internalExchangeReactionNames = [internalExchangeReactionNames; {[name <span class="string">' internal exchange'</span>]}];
+0688             <span class="keyword">end</span>
+0689             
+0690             reactionLongIDs = cell(size(p.fbaReactionStoichiometryMatrix, 2), 1);
+0691             reactionIDs = cell(size(p.fbaReactionStoichiometryMatrix, 2), 1);
+0692             reactionNames = cell(size(p.fbaReactionStoichiometryMatrix, 2), 1);
+0693             reversible = false(size(p.fbaReactionStoichiometryMatrix, 2), 1);
+0694             reactionLongIDs(p.fbaReactionIndexs_metabolicConversion) = tmp_reactionLongIDs(p.reactionIndexs_fba);
+0695             reactionIDs(p.fbaReactionIndexs_metabolicConversion) = tmp_reactionIDs(p.reactionIndexs_fba);
+0696             reactionNames(p.fbaReactionIndexs_metabolicConversion) = tmp_reactionNames(p.reactionIndexs_fba);
+0697             reversible(p.fbaReactionIndexs_metabolicConversion) = tmp_reversible(p.reactionIndexs_fba);
+0698             reactionLongIDs(p.fbaReactionIndexs_metaboliteExternalExchange) = externalExchangeReactionLongIDs;
+0699             reactionIDs(p.fbaReactionIndexs_metaboliteExternalExchange) = externalExchangeReactionIDs;
+0700             reactionNames(p.fbaReactionIndexs_metaboliteExternalExchange) = externalExchangeReactionNames;
+0701             reactionLongIDs(p.fbaReactionIndexs_metaboliteInternalExchange) = internalExchangeReactionLongIDs;
+0702             reactionIDs(p.fbaReactionIndexs_metaboliteInternalExchange) = internalExchangeReactionIDs;
+0703             reactionNames(p.fbaReactionIndexs_metaboliteInternalExchange) = internalExchangeReactionNames;
+0704             reactionLongIDs{p.fbaReactionIndexs_biomassProduction} = <span class="string">'Growth'</span>;
+0705             reactionIDs{p.fbaReactionIndexs_biomassProduction} = <span class="string">'Growth'</span>;
+0706             reactionNames{p.fbaReactionIndexs_biomassProduction} = <span class="string">'Growth'</span>;
+0707             reactionLongIDs{p.fbaReactionIndexs_biomassExchange} = <span class="string">'Bmssex'</span>;
+0708             reactionIDs{p.fbaReactionIndexs_biomassExchange} = <span class="string">'Bmssex'</span>;
+0709             reactionNames{p.fbaReactionIndexs_biomassExchange} = <span class="string">'Biomass exchange'</span>;
+0710             
+0711             assertEqual(reversible, upper(cellfun(@(id) id(end), reactionIDs)) == <span class="string">'R'</span>);
+0712             assertEqual(numel(reactionIDs), numel(unique(reactionIDs)));
+0713             assertIn(max(cellfun(@length, reactionIDs)), [0 8]);
+0714             
+0715             <span class="comment">%% substrates</span>
+0716             substrateLongIDs(~cellfun(@isempty, substrateCompartmentIDs)) = <span class="keyword">...</span>
+0717                 cellfun(@(x,y) [x <span class="string">'_'</span> y], <span class="keyword">...</span>
+0718                 substrateLongIDs(~cellfun(@isempty, substrateCompartmentIDs)), <span class="keyword">...</span>
+0719                 substrateCompartmentIDs(~cellfun(@isempty, substrateCompartmentIDs)), <span class="keyword">...</span>
+0720                 <span class="string">'UniformOutput'</span>, false);
+0721             substrateIDs = cellfun(@(x,y) [x y], substrateIDs, substrateCompartmentIDs, <span class="string">'UniformOutput'</span>, false);
+0722         <span class="keyword">end</span>
+0723     <span class="keyword">end</span>
+0724 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

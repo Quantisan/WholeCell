@@ -1,0 +1,8 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  Database -> Database;
+  MySQLDatabase -> MySQLDatabase;
+
+  Database [URL="Database.html"];
+  MySQLDatabase [URL="MySQLDatabase.html"];
+}

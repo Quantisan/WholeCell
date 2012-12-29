@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of evolveState</title>
+  <meta name="keywords" content="evolveState">
+  <meta name="description" content="Evolves state of organism:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">@Simulation</a> &gt; evolveState.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/@Simulation&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>evolveState
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Evolves state of organism:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [this, requirements, allocations, usages] = evolveState(this) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Evolves state of organism:
+ 1. Increments time
+ 2. Evaluates stimuli
+ 3. Evaluates processes
+ 4. Applies media conditions
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanfod.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 9/15/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Simulation.html" class="code" title="">Simulation</a>	Whole cell simulation class.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [this, requirements, allocations, usages] = evolveState(this)</a>
+0002 <span class="comment">% Evolves state of organism:</span>
+0003 <span class="comment">% 1. Increments time</span>
+0004 <span class="comment">% 2. Evaluates stimuli</span>
+0005 <span class="comment">% 3. Evaluates processes</span>
+0006 <span class="comment">% 4. Applies media conditions</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0009 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanfod.edu</span>
+0010 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0011 <span class="comment">% Last updated: 9/15/2010</span>
+0012 
+0013 import edu.stanford.covert.cell.sim.constant.Condition;
+0014 
+0015 time = this.state_time;
+0016 mets = this.state_metabolite;
+0017 stim = this.state_stimulus;
+0018 
+0019 time.values = time.values + this.stepSizeSec;
+0020 
+0021 <span class="comment">%% evaluate/apply stimuli</span>
+0022 stim.values = Condition.applyConditions(stim.values, stim.setValues, time.values);
+0023 
+0024 <span class="comment">%% estimate metabolic requirements of processes</span>
+0025 processes = this.processes;
+0026 nProcesses = length(processes);
+0027 requirements = zeros([numel(mets.counts) nProcesses]);
+0028 <span class="keyword">for</span> i = 1:nProcesses
+0029     mod = processes{i};
+0030     mod.copyFromState();
+0031     r = mod.calcResourceRequirements_Current();
+0032     requirements(mod.substrateMetaboliteGlobalCompartmentIndexs, i) = <span class="keyword">...</span>
+0033         reshape(r(mod.substrateMetaboliteLocalIndexs, :), [], 1);
+0034 <span class="keyword">end</span>
+0035 requirements = max(0, requirements);
+0036 tmp = mets.counts(:) ./ max(1, sum(requirements, 2));
+0037 allocations = max(0, fix(requirements .* tmp(:, ones(nProcesses, 1))));
+0038 <span class="keyword">if</span> nargout &gt;= 4
+0039     usages = zeros(size(allocations));
+0040 <span class="keyword">end</span>
+0041 
+0042 <span class="comment">%% run cell processes (a.k.a. processes):</span>
+0043 <span class="comment">% - update them with latest state</span>
+0044 <span class="comment">% - allocate metabolites fairly</span>
+0045 <span class="comment">% - run the cell processes</span>
+0046 <span class="comment">% - update simulation with latest state</span>
+0047 
+0048 <span class="comment">%determine order of evaluation with constraint that tRNA aminoacylation</span>
+0049 <span class="comment">%always occurs in same order with respect to translation</span>
+0050 <span class="keyword">while</span> true
+0051     processEvalOrderIndexs = this.randStream.randperm(nProcesses);
+0052     idx1 = find(processEvalOrderIndexs == this.processIndex_tRNAAminoacylation, 1);
+0053     idx2 = find(processEvalOrderIndexs == this.processIndex_translation, 1);
+0054     <span class="keyword">if</span> isempty(idx1) || isempty(idx2) || idx1 &lt; idx2
+0055         <span class="keyword">break</span>;
+0056     <span class="keyword">end</span>
+0057 <span class="keyword">end</span>
+0058 
+0059 <span class="comment">%simulate processes</span>
+0060 <span class="keyword">for</span> i = 1:nProcesses
+0061     mod = processes{processEvalOrderIndexs(i)};
+0062     
+0063     allocation = reshape(allocations(mod.substrateMetaboliteGlobalCompartmentIndexs, processEvalOrderIndexs(i)), <span class="keyword">...</span>
+0064         size(mod.substrateMetaboliteGlobalCompartmentIndexs));
+0065     counts = mets.counts(mod.substrateMetaboliteGlobalCompartmentIndexs);
+0066     
+0067     mod.simulationStateSideEffects = [];
+0068     mod.copyFromState();
+0069     mod.substrates(mod.substrateMetaboliteLocalIndexs, :) = allocation;
+0070     mod.evolveState();
+0071     mod.copyToState();
+0072     mets.counts(mod.substrateMetaboliteGlobalCompartmentIndexs) = counts + <span class="keyword">...</span>
+0073         mod.substrates(mod.substrateMetaboliteLocalIndexs, :) - allocation;
+0074     <span class="keyword">if</span> nargout &gt;= 4
+0075         usages(mod.substrateMetaboliteGlobalCompartmentIndexs, processEvalOrderIndexs(i)) = <span class="keyword">...</span>
+0076             reshape(allocation - mod.substrates(mod.substrateMetaboliteLocalIndexs, :), [], 1);
+0077     <span class="keyword">end</span>
+0078     <span class="keyword">if</span> ~isempty(mod.simulationStateSideEffects)
+0079         mod.simulationStateSideEffects.updateSimulationState(this);
+0080     <span class="keyword">end</span>
+0081 <span class="keyword">end</span>
+0082 
+0083 <span class="comment">%% apply media conditions</span>
+0084 mets.counts = Condition.applyConditions(mets.counts, mets.setCounts, time.values);</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

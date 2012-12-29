@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Chromosome</title>
+  <meta name="keywords" content="Chromosome">
+  <meta name="description" content="Chromosome">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Chromosome.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Chromosome
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Chromosome</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Chromosome
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Chromosome.html" class="code" title="">Chromosome</a>	Chromosome</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Chromosome.html" class="code" title="">Chromosome</a>	Chromosome</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function plotCircular_Chromosome(sim, axesHandle, ~, ~)</a></li><li><a href="#_sub2" class="code">function plotPlanar_Chromosome(sim, axesHandle, ~, ~)</a></li><li><a href="#_sub3" class="code">function plotDisA_DNA_Integrity_Scanning_Status(sim, axesHandle, time, ~)</a></li><li><a href="#_sub4" class="code">function plotRestriction_Modification_Status(sim, axesHandle, ~, ~)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Chromosome</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 8/6/2011</span>
+0006 classdef <a href="Chromosome.html" class="code" title="">Chromosome</a>
+0007     <span class="comment">%Chromosome</span>
+0008     methods (Static = true)
+0009         <span class="comment">%Plots locations of DNA damages on circular chromosome.</span>
+0010         <span class="comment">%(+) strand damages extend outward</span>
+0011         <span class="comment">%(-) strand damages extend inward</span>
+0012         <span class="comment">%</span>
+0013         <span class="comment">%Feature                     Color</span>
+0014         <span class="comment">%==========                  =========</span>
+0015         <span class="comment">%chromosome                  grey</span>
+0016         <span class="comment">%gap sites                   red</span>
+0017         <span class="comment">%abasic sites                green</span>
+0018         <span class="comment">%damaged sugar-phosphates    blue</span>
+0019         <span class="comment">%damaged bases               cyan</span>
+0020         <span class="comment">%intrastrand cross links     magenta</span>
+0021         <span class="comment">%strand breaks               orange</span>
+0022         <span class="comment">%holliday junctions          yellow</span>
+0023         <a name="_sub0" href="#_subfunctions" class="code">function plotCircular_Chromosome(sim, axesHandle, ~, ~)</a>
+0024             c = sim.state(<span class="string">'Chromosome'</span>);
+0025             
+0026             <span class="comment">%parameters</span>
+0027             damageLength = 0.1;
+0028             strandSeparation = 0.02;
+0029             
+0030             <span class="comment">%genome</span>
+0031             genomeLength = size(c.gapSites,1);
+0032             [x,y]=pol2cart((0:0.01:1)*2*pi, repmat(1+strandSeparation,1,101));
+0033             h = line(x, y, <span class="string">'Parent'</span>, axesHandle); <span class="comment">%(+) strand</span>
+0034             set(h,<span class="string">'Color'</span>,[0.6 0.6 0.6],<span class="string">'LineWidth'</span>,2);
+0035             
+0036             [x,y]=pol2cart((0:0.01:1)*2*pi, repmat(1-strandSeparation,1,101));
+0037             h = line(x, y, <span class="string">'Parent'</span>, axesHandle); <span class="comment">%(-) strand</span>
+0038             set(h,<span class="string">'Color'</span>,[0.6 0.6 0.6],<span class="string">'LineWidth'</span>,2);
+0039             
+0040             <span class="comment">%damage</span>
+0041             damageTypes={<span class="string">'gapSites'</span>,<span class="string">'abasicSites'</span>,<span class="string">'damagedSugarPhosphates'</span>,<span class="string">'damagedBases'</span>,<span class="string">'intrastrandCrossLinks'</span>,<span class="string">'strandBreaks'</span>,<span class="string">'hollidayJunctions'</span>};
+0042             damageNames={<span class="string">'Gap Sites'</span>,<span class="string">'Abasic Sites'</span>,<span class="string">'Damaged Sugar Phosphates'</span>,<span class="string">'Damaged Bases'</span>,<span class="string">'Intrastrand Cross Links'</span>,<span class="string">'Strand Breaks'</span>,<span class="string">'Holliday Junctions'</span>};
+0043             colors = [
+0044                 255 0 0;
+0045                 0 255 0;
+0046                 0 0 255;
+0047                 0, 183, 235;
+0048                 255, 0, 255;
+0049                 255, 127, 0;
+0050                 255, 205, 0]/255;
+0051             lineHandles = zeros(0, 1);
+0052             lineHandleIndexs = zeros(size(damageTypes));
+0053             damageLabels = cell(size(damageTypes));
+0054             <span class="keyword">for</span> i=1:length(damageTypes)
+0055                 damagesTensor = sum(c.(damageTypes{i}), 3);
+0056                 <span class="keyword">if</span> size(damagesTensor,3)&gt;1
+0057                     damagesTensor = sum(damagesTensor,3);
+0058                 <span class="keyword">end</span>
+0059                 damages = find(damagesTensor);
+0060                 <span class="keyword">if</span> size(damagesTensor,2)==1
+0061                     damages = [damages; damages + repmat([0 1], size(damages,1), 1)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0062                 <span class="keyword">end</span>
+0063                 
+0064                 [x,y]=pol2cart((repmat(damages(:,1),1,2)*2*pi/genomeLength)', <span class="keyword">...</span>
+0065                     (1 + repmat(2*(damages(:,2)-1)-1,1,2).*repmat([strandSeparation damageLength],size(damages,1),1))');
+0066                 
+0067                 tmpHandles = line(x,y,<span class="string">'Parent'</span>,axesHandle, <span class="string">'Color'</span>, colors(i,:), <span class="string">'LineWidth'</span>,0.1);
+0068                 <span class="keyword">if</span> ~isempty(tmpHandles)
+0069                     lineHandleIndexs(i) = size(lineHandles,1)+1;
+0070                 <span class="keyword">end</span>
+0071                 lineHandles = [lineHandles; tmpHandles]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0072                 
+0073                 damageLabels{i}=sprintf(<span class="string">'%s (%d)'</span>,damageNames{i}, nnz(c.(damageTypes{i})));
+0074             <span class="keyword">end</span>
+0075             
+0076             xlim((1+2*damageLength)*[-1 1])
+0077             ylim((1+2*damageLength)*[-1 1])
+0078             set(axesHandle,<span class="string">'Box'</span>,<span class="string">'off'</span>,<span class="string">'Color'</span>,<span class="string">'none'</span>,<span class="string">'Visible'</span>,<span class="string">'off'</span>,<span class="string">'DataAspectRatio'</span>,[1 1 1],<span class="string">'XTick'</span>,[],<span class="string">'YTick'</span>,[],<span class="string">'XMinorTick'</span>,<span class="string">'off'</span>,<span class="string">'YMinorTick'</span>,<span class="string">'off'</span>,<span class="string">'GridLineStyle'</span>,<span class="string">'none'</span>)
+0079             legend(lineHandles(lineHandleIndexs(lineHandleIndexs ~= 0)), damageLabels{lineHandleIndexs ~= 0}, <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>);
+0080             legend(axesHandle,<span class="string">'show'</span>);
+0081         <span class="keyword">end</span>
+0082         
+0083         <span class="comment">%Plots locations of DNA damages on chromosome displayed as array of</span>
+0084         <span class="comment">%lines</span>
+0085         <span class="comment">%(+) strand damages extend upward</span>
+0086         <span class="comment">%(-) strand damages extend downward</span>
+0087         <span class="comment">%</span>
+0088         <span class="comment">%Feature                     Color</span>
+0089         <span class="comment">%==========                  =========</span>
+0090         <span class="comment">%chromosome                  grey</span>
+0091         <span class="comment">%gap sites                   red</span>
+0092         <span class="comment">%abasic sites                green</span>
+0093         <span class="comment">%damaged sugar-phosphates    blue</span>
+0094         <span class="comment">%damaged bases               cyan</span>
+0095         <span class="comment">%intrastrand cross links     magenta</span>
+0096         <span class="comment">%strand breaks               orange</span>
+0097         <span class="comment">%holliday junctions          yellow</span>
+0098         <a name="_sub1" href="#_subfunctions" class="code">function plotPlanar_Chromosome(sim, axesHandle, ~, ~)</a>
+0099             c = sim.state(<span class="string">'Chromosome'</span>);
+0100             
+0101             <span class="comment">%parameters</span>
+0102             damageLength = 0.3;
+0103             strandSeparation = 0.05;
+0104             rows = 10;
+0105             
+0106             <span class="comment">%genome</span>
+0107             genomeLength = size(c.gapSites,1);
+0108             line(repmat([0 1],rows,1)', repmat((1:rows)'-0.5+strandSeparation,1,2)',<span class="string">'Parent'</span>,axesHandle,<span class="string">'Color'</span>,[0.6 0.6 0.6],<span class="string">'LineWidth'</span>,2); <span class="comment">%(+) strand</span>
+0109             line(repmat([0 1],rows,1)', repmat((1:rows)'-0.5-strandSeparation,1,2)',<span class="string">'Parent'</span>,axesHandle,<span class="string">'Color'</span>,[0.6 0.6 0.6],<span class="string">'LineWidth'</span>,2); <span class="comment">%(-) strand</span>
+0110             
+0111             <span class="comment">%damage</span>
+0112             damageTypes={<span class="string">'gapSites'</span>,<span class="string">'abasicSites'</span>,<span class="string">'damagedSugarPhosphates'</span>,<span class="string">'damagedBases'</span>,<span class="string">'intrastrandCrossLinks'</span>,<span class="string">'strandBreaks'</span>,<span class="string">'hollidayJunctions'</span>};
+0113             damageNames={<span class="string">'Gap Sites'</span>,<span class="string">'Abasic Sites'</span>,<span class="string">'Damaged Sugar Phosphates'</span>,<span class="string">'Damaged Bases'</span>,<span class="string">'Intrastrand Cross Links'</span>,<span class="string">'Strand Breaks'</span>,<span class="string">'Holliday Junctions'</span>};
+0114             colors = [
+0115                 255 0 0;
+0116                 0 255 0;
+0117                 0 0 255;
+0118                 0, 183, 235;
+0119                 255, 0, 255;
+0120                 255, 127, 0;
+0121                 255, 205, 0]/255;
+0122             lineHandles = zeros(0, 1);
+0123             lineHandleIndexs = zeros(size(damageTypes));
+0124             damageLabels = cell(size(damageTypes));
+0125             <span class="keyword">for</span> i=1:length(damageTypes)
+0126                 damagesTensor = sum(c.(damageTypes{i}), 3);
+0127                 <span class="keyword">if</span> size(damagesTensor,3)&gt;1
+0128                     damagesTensor = sum(damagesTensor,3);
+0129                 <span class="keyword">end</span>
+0130                 damages = find(damagesTensor);
+0131                 <span class="keyword">if</span> size(damagesTensor,2)==1
+0132                     damages = [damages; damages + repmat([0 1], size(damages,1), 1)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0133                 <span class="keyword">end</span>
+0134                 
+0135                 tmpHandles = line(<span class="keyword">...</span>
+0136                     repmat(mod(damages(:,1)/genomeLength*rows,1),1,2)', <span class="keyword">...</span>
+0137                     (repmat(rows-0.5-floor(damages(:,1)/genomeLength*rows) + <span class="keyword">...</span>
+0138                     strandSeparation * 2*(damages(:,2)-1)-1,1,2) + <span class="keyword">...</span>
+0139                     [zeros(size(damages,1),1) damageLength*2*(damages(:,2)-1)-1])',<span class="keyword">...</span>
+0140                     <span class="string">'Parent'</span>,axesHandle,<span class="string">'Color'</span>, colors(i,:), <span class="string">'LineWidth'</span>,1);
+0141                 <span class="keyword">if</span> ~isempty(tmpHandles)
+0142                     lineHandleIndexs(i) = size(lineHandles,1)+1;
+0143                 <span class="keyword">end</span>
+0144                 lineHandles = [lineHandles; tmpHandles]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0145                 
+0146                 damageLabels{i}=sprintf(<span class="string">'%s (%d)'</span>,damageNames{i}, nnz(c.(damageTypes{i})));
+0147             <span class="keyword">end</span>
+0148             xlim(axesHandle,[0 1]);
+0149             ylim(axesHandle,[0 rows]);
+0150             set(axesHandle,<span class="string">'Box'</span>,<span class="string">'on'</span>,<span class="string">'XTick'</span>,[],<span class="string">'YTick'</span>,[],<span class="string">'XMinorTick'</span>,<span class="string">'off'</span>,<span class="string">'YMinorTick'</span>,<span class="string">'off'</span>)
+0151             legend(lineHandles(lineHandleIndexs(lineHandleIndexs ~= 0)), damageLabels{lineHandleIndexs ~= 0}, <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>);
+0152             legend(axesHandle,<span class="string">'show'</span>);
+0153         <span class="keyword">end</span>
+0154         
+0155         <span class="comment">%Plots state of DisA DNA integrity scanning system.</span>
+0156         <a name="_sub2" href="#_subfunctions" class="code">function plotDisA_DNA_Integrity_Scanning_Status(sim, axesHandle, time, ~)</a>
+0157             p = sim.process(<span class="string">'DNARepair'</span>);
+0158             
+0159             free  = sum(sum(p.enzymes(p.enzymeIndexs_DisA, :, :), 3), 2);
+0160             bound = sum(sum(p.boundEnzymes(p.enzymeIndexs_DisA,  :, :), 3), 2);
+0161             
+0162             fracBound = bound ./ (bound + free);
+0163             
+0164             plot(axesHandle, time/3600, permute(fracBound, [3 1 2]));
+0165             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>,8);
+0166             ylabel(axesHandle, <span class="string">'Fraction Bound'</span>, <span class="string">'fontSize'</span>,8);
+0167             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0168             minVal = min(fracBound);
+0169             maxVal = max(fracBound);
+0170             <span class="keyword">if</span> minVal == maxVal
+0171                 maxVal = min(1, minVal + 0.05);
+0172                 minVal = max(0, minVal - 0.05);
+0173             <span class="keyword">end</span>
+0174             <span class="keyword">if</span> isfinite(minVal) &amp;&amp; isfinite(maxVal)
+0175                 ylim([minVal - (maxVal - minVal) * 0.1   maxVal + (maxVal - minVal) * 0.1])
+0176             <span class="keyword">end</span>
+0177         <span class="keyword">end</span>
+0178         
+0179         <span class="comment">%Plots state of restriction/modification system on circular chromosome.</span>
+0180         <span class="comment">%(+) strand damages extend outward</span>
+0181         <span class="comment">%(-) strand damages extend inward</span>
+0182         <span class="comment">%</span>
+0183         <span class="comment">%Feature                     Color</span>
+0184         <span class="comment">%==========                  =========</span>
+0185         <span class="comment">%chromosome                  grey</span>
+0186         <span class="comment">%MunI region                 black</span>
+0187         <span class="comment">%damaged region              red</span>
+0188         <span class="comment">%unmethylated                magenta</span>
+0189         <span class="comment">%hemimethylated              blue</span>
+0190         <span class="comment">%methylayed                  green</span>
+0191         <span class="comment">%cleaved                     cyan</span>
+0192         <a name="_sub3" href="#_subfunctions" class="code">function plotRestriction_Modification_Status(sim, axesHandle, ~, ~)</a>
+0193             p = sim.process(<span class="string">'DNARepair'</span>);
+0194             
+0195             <span class="comment">%parameters</span>
+0196             damageLength = 0.1;
+0197             strandSeparation = 0.02;
+0198             
+0199             <span class="comment">%genome</span>
+0200             genomeLength = size(p.chromosome.gapSites,1);
+0201             [x, y] = pol2cart((0:0.01:1) * 2 * pi, repmat(1+strandSeparation, 1, 101));
+0202             h = line(x, y, <span class="string">'Parent'</span>, axesHandle); <span class="comment">%(+) strand</span>
+0203             set(h, <span class="string">'Color'</span>, [0.6 0.6 0.6], <span class="string">'LineWidth'</span>, 2);
+0204             
+0205             [x, y] = pol2cart((0:0.01:1) * 2 * pi, repmat(1-strandSeparation, 1, 101));
+0206             h = line(x, y, <span class="string">'Parent'</span>, axesHandle); <span class="comment">%(-) strand</span>
+0207             set(h, <span class="string">'Color'</span>, [0.6 0.6 0.6], <span class="string">'LineWidth'</span>, 2);
+0208             
+0209             <span class="comment">%get status of MunI sites</span>
+0210             [unmethylatedSites, hemimethylatedSites, methylatedSites, cleavedSites, inaccessibleRegions] = <span class="keyword">...</span>
+0211                 p.chromosome.rmStatus(p.RM_MunI_RecognitionSites, p.RM_MunI_MethylatedPositions, p.RM_MunI_RestrictionPositions, <span class="keyword">...</span>
+0212                 [], p.enzymeGlobalIndexs(p.enzymeIndexs_RM_typeII));
+0213             sites = p.RM_MunI_RecognitionSites;
+0214             unmethylatedSites   = find(collapse(unmethylatedSites, -1));
+0215             hemimethylatedSites = find(collapse(hemimethylatedSites, -1));
+0216             methylatedSites     = find(collapse(methylatedSites, -1));
+0217             cleavedSites        = find(collapse(cleavedSites, -1));
+0218             inaccessibleRegions = find(collapse(inaccessibleRegions, -1));
+0219             
+0220             <span class="comment">%MunI sites</span>
+0221             [x, y] = pol2cart(sites(:, [1 end])' / genomeLength * 2 * pi, repmat(1 + strandSeparation, 2, size(sites, 1)));
+0222             line(x, y, <span class="string">'Parent'</span>,axesHandle, <span class="string">'Color'</span>,[0.6 0.6 0.6], <span class="string">'LineWidth'</span>,0.1); <span class="comment">%(+) strand</span>
+0223             
+0224             [x, y] = pol2cart(sites(:, [1 end])' / genomeLength * 2 * pi, repmat(1 - strandSeparation, 2, size(sites, 1)));
+0225             tmpHandle = line(x, y, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0.6 0.6 0.6], <span class="string">'LineWidth'</span>, 0.1); <span class="comment">%(-) strand</span>
+0226             
+0227             h = tmpHandle(1);
+0228             legendLabels = {sprintf(<span class="string">'MunI Sites (%d)'</span>, size(sites, 1))};
+0229             
+0230             <span class="comment">%unmethylated sites</span>
+0231             <span class="keyword">if</span> ~isempty(unmethylatedSites)
+0232                 [x, y] = pol2cart(sites(unmethylatedSites, [1 end])' / genomeLength * 2 * pi, repmat(1 + strandSeparation, 2, size(unmethylatedSites, 1)));
+0233                 line(x, y, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [1 0 1], <span class="string">'LineWidth'</span>, 0.1); <span class="comment">%(+) strand</span>
+0234                 
+0235                 [x, y] = pol2cart(sites(unmethylatedSites, [1 end])' / genomeLength * 2 * pi, repmat(1 - strandSeparation, 2, size(unmethylatedSites, 1)));
+0236                 tmpHandle = line(x, y, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [1 0 1], <span class="string">'LineWidth'</span>, 0.1); <span class="comment">%(-) strand</span>
+0237                 
+0238                 h(end + 1) = tmpHandle(1);
+0239                 legendLabels{end + 1} = sprintf(<span class="string">'Unmethylated (%d)'</span>, numel(unmethylatedSites));
+0240             <span class="keyword">end</span>
+0241             
+0242             <span class="comment">%inaccessible sites</span>
+0243             <span class="keyword">if</span> ~isempty(inaccessibleRegions)
+0244                 [x, y] = pol2cart(sites(inaccessibleRegions, [1 end])' / genomeLength * 2 * pi, repmat(1 + strandSeparation, 2, size(inaccessibleRegions, 1)));
+0245                 line(x, y, <span class="string">'Parent'</span>,axesHandle, <span class="string">'Color'</span>,[1 0 0], <span class="string">'LineWidth'</span>,0.1); <span class="comment">%(+) strand</span>
+0246                 
+0247                 [x, y] = pol2cart(sites(inaccessibleRegions, [1 end])' / genomeLength * 2 * pi, repmat(1 - strandSeparation, 2, size(inaccessibleRegions, 1)));
+0248                 tmpHandle = line(x, y, <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [1 0 0], <span class="string">'LineWidth'</span>, 0.1); <span class="comment">%(-) strand</span>
+0249                 
+0250                 h(end + 1) = tmpHandle(1);
+0251                 legendLabels{end + 1} = sprintf(<span class="string">'Inaccessible (%d)'</span>, numel(inaccessibleRegions));
+0252             <span class="keyword">end</span>
+0253             
+0254             <span class="comment">%hemimethylated sites</span>
+0255             <span class="keyword">if</span> ~isempty(hemimethylatedSites)
+0256                 strand1 = find(collapse(p.chromosome.damagedBases(sites(hemimethylatedSites, methylatedPositions(1)), 1, :) == p.substrateGlobalIndexs(p.substrateIndexs_m6AD), -1));
+0257                 strand2 = find(collapse(p.chromosome.damagedBases(sites(hemimethylatedSites, methylatedPositions(2)), 2, :) == p.substrateGlobalIndexs(p.substrateIndexs_m6AD), -1));
+0258                 
+0259                 <span class="keyword">if</span> ~isempty(strand1)
+0260                     [x, y] = pol2cart(repmat(sites(hemimethylatedSites(strand1), methylatedPositions(1)) / genomeLength * 2 * pi, 1, 2),<span class="keyword">...</span>
+0261                         repmat(1 + strandSeparation + [0 damageLength], length(strand1), 1));
+0262                     tmpHandle = line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0 0 1], <span class="string">'LineWidth'</span>, 0.1);
+0263                     
+0264                     h(end + 1) = tmpHandle(1);
+0265                     legendLabels{end + 1} = sprintf(<span class="string">'Hemimethylated (%d)'</span>, numel(strand1) + numel(strand2));
+0266                 <span class="keyword">end</span>
+0267                 
+0268                 <span class="keyword">if</span> ~isempty(strand2)
+0269                     [x, y] = pol2cart(repmat(sites(hemimethylatedSites(strand2), methylatedPositions(2)) / genomeLength * 2 * pi, 1, 2),<span class="keyword">...</span>
+0270                         repmat(1 - (strandSeparation + [0 damageLength]), length(strand2), 1));
+0271                     tmpHandle = line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0 0 1], <span class="string">'LineWidth'</span>, 0.1);
+0272                     
+0273                     <span class="keyword">if</span> isempty(strand1)
+0274                         h(end + 1) = tmpHandle(1);
+0275                         legendLabels{end + 1} = sprintf(<span class="string">'Hemimethylated (%d)'</span>, numel(strand2));
+0276                     <span class="keyword">end</span>
+0277                 <span class="keyword">end</span>
+0278             <span class="keyword">end</span>
+0279             
+0280             <span class="comment">%methylated sites</span>
+0281             <span class="keyword">if</span> ~isempty(methylatedSites)
+0282                 [x, y] = pol2cart(repmat(sites(methylatedSites, methylatedSites(1))/genomeLength*2*pi, 1, 2),<span class="keyword">...</span>
+0283                     repmat(1+strandSeparation + [0 damageLength], length(methylatedSites), 1));
+0284                 line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0 1 0], <span class="string">'LineWidth'</span>, 0.1);
+0285                 
+0286                 [x, y] = pol2cart(repmat(sites(methylatedSites, methylatedSites(2))/genomeLength*2*pi, 1, 2),<span class="keyword">...</span>
+0287                     repmat(1-(strandSeparation + [0 damageLength]), length(methylatedSites), 1));
+0288                 tmpHandle = line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0 1 0], <span class="string">'LineWidth'</span>, 0.1);
+0289                 
+0290                 h(end + 1) = tmpHandle(1);
+0291                 legendLabels{end + 1} = sprintf(<span class="string">'Methylated (%d)'</span>, numel(methylatedSites));
+0292             <span class="keyword">end</span>
+0293             
+0294             <span class="comment">%cleaved sites</span>
+0295             <span class="keyword">if</span> ~isempty(cleavedSites)
+0296                 [x, y] = pol2cart(repmat(sites(cleavedSites, methylatedPositions(1)) / genomeLength * 2 * pi, 1, 2),<span class="keyword">...</span>
+0297                     repmat(1 + strandSeparation + [0 damageLength], length(cleavedSites), 1));
+0298                 line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0, 183, 235] / 255, <span class="string">'LineWidth'</span>, 0.1);
+0299                 
+0300                 [x, y] = pol2cart(repmat(sites(cleavedSites,methylatedPositions(2)) / genomeLength * 2 * pi, 1, 2),<span class="keyword">...</span>
+0301                     repmat(1 - (strandSeparation + [0 damageLength]), length(cleavedSites), 1));
+0302                 tmpHandle = line(x', y', <span class="string">'Parent'</span>, axesHandle, <span class="string">'Color'</span>, [0, 183, 235] / 255, <span class="string">'LineWidth'</span>, 0.1);
+0303                 
+0304                 h(end + 1) = tmpHandle(1);
+0305                 legendLabels{end+1} = sprintf(<span class="string">'Cleaved (%d)'</span>, numel(cleavedSites));
+0306             <span class="keyword">end</span>
+0307             
+0308             <span class="comment">%axes properties</span>
+0309             xlim((1 + 2 * damageLength) * [-1 1]);
+0310             ylim((1 + 2 * damageLength) * [-1 1]);
+0311             set(axesHandle, <span class="keyword">...</span>
+0312                 <span class="string">'Box'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0313                 <span class="string">'Color'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0314                 <span class="string">'Visible'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0315                 <span class="string">'DataAspectRatio'</span>, [1 1 1], <span class="keyword">...</span>
+0316                 <span class="string">'XTick'</span>, [], <span class="keyword">...</span>
+0317                 <span class="string">'YTick'</span>, [], <span class="keyword">...</span>
+0318                 <span class="string">'XMinorTick'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0319                 <span class="string">'YMinorTick'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0320                 <span class="string">'GridLineStyle'</span>, <span class="string">'none'</span>)
+0321             
+0322             <span class="comment">%legend</span>
+0323             lgd = legend(h, legendLabels{:});
+0324             position = get(lgd, <span class="string">'Position'</span>);
+0325             set(lgd, <span class="string">'Position'</span>, [(1 - position(3:4)) / 2 position(3:4)]);
+0326             legend(axesHandle, <span class="string">'show'</span>);
+0327         <span class="keyword">end</span>
+0328     <span class="keyword">end</span>
+0329 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

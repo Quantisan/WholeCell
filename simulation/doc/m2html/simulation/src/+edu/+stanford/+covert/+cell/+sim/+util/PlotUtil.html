@@ -1,0 +1,734 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of PlotUtil</title>
+  <meta name="keywords" content="PlotUtil">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; PlotUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>PlotUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PlotUtil.html" class="code" title="">PlotUtil</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PlotUtil.html" class="code" title="">PlotUtil</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function compartmentData = selectCompartmentsForPlot(sim, compartments, data, sortOrder)</a></li><li><a href="#_sub2" class="code">function labelCompartmentPlot(sim, plotHandles, compartments, varargin)</a></li><li><a href="#_sub3" class="code">function compartmentLabels = compartmentPlotLabels(sim, compartments, labels)</a></li><li><a href="#_sub4" class="code">function [axesHandle, figHandle] = newAxesHandle(paperSize)</a></li><li><a href="#_sub5" class="code">function [axesHandles, xAxesHandles, titleHandles, offSetAxesHandles] = multiElementPlot(figHandle, axesSizes, xSpan, options)</a></li><li><a href="#_sub6" class="code">function [axesHandles, xAxesHandle, titleHandle, offSetAxesHandles] = multiElementPlotHelper(figHandle, axesSizes, xSpan, options)</a></li><li><a href="#_sub7" class="code">function handle = plotLine(axesHandle, x, y, setXLim, setYLim, buttonDownCallback)</a></li><li><a href="#_sub8" class="code">function handle = plotScatter(axesHandle, x, y, msize, color, mstyle)</a></li><li><a href="#_sub9" class="code">function handle = plotBoundedLineFromRawData(axesHandle, x, y)</a></li><li><a href="#_sub10" class="code">function handles = plotColoredTicks(axesHandle, ticLocs, colorOrder)</a></li><li><a href="#_sub11" class="code">function handle = plotStackedArea(axesHandle, xdata, ydata, setXLim, setYLim, buttonDownCallback)</a></li><li><a href="#_sub12" class="code">function handle = plotNormalizedStackedArea(axesHandle, xdata, ydata, varargin)</a></li><li><a href="#_sub13" class="code">function handle = plotBubbles(axesHandle, xdata, ydata, varargin)</a></li><li><a href="#_sub14" class="code">function handle = plotXAxis(axesHandle, x, xLabel)</a></li><li><a href="#_sub15" class="code">function labelSubplots(axesHandles, labels, x, y)</a></li><li><a href="#_sub16" class="code">function formatYAxes(axesHandle, minY, maxY, fontSize)</a></li><li><a href="#_sub17" class="code">function axesHandles2 = offsetYAxes(axesHandles, offset, varargin)</a></li><li><a href="#_sub18" class="code">function axesHandles2 = offsetYAxesHelper(axesHandles, offset, xAxesHandle)</a></li><li><a href="#_sub19" class="code">function alignYAxesLabels(axesHandles, varargin)</a></li><li><a href="#_sub20" class="code">function alignYAxesLabelsHelper(axesHandles, xpos)</a></li><li><a href="#_sub21" class="code">function colorOrder = getRedGreenColorOrder(lineOrder)</a></li><li><a href="#_sub22" class="code">function handle = drawCircle(centerX, centerY, radius, axesHandle)</a></li><li><a href="#_sub23" class="code">function h = labelSubFigure(string, position, figHandle, fontSize, units)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="PlotUtil.html" class="code" title="">PlotUtil</a>
+0002     methods (Static = true)
+0003         <a name="_sub0" href="#_subfunctions" class="code">function compartmentData = selectCompartmentsForPlot(sim, compartments, data, sortOrder)</a>
+0004             sz = size(data);
+0005             sz(2) = length(compartments);
+0006             sz(end+1) = 1;
+0007             compartmentData = zeros(sz);
+0008             
+0009             <span class="keyword">for</span> j=1:length(compartments)
+0010                 <span class="keyword">switch</span> compartments(j)
+0011                     <span class="keyword">case</span> -3,   compartmentData(:,j,:) = sum(data, 2);
+0012                     <span class="keyword">case</span> -2,   compartmentData(:,j,:) = mean(data, 2);
+0013                     <span class="keyword">case</span> -1,   compartmentData(:,j,:) = median(data, 2);
+0014                     <span class="keyword">case</span> 0,    compartmentData(:,j,:) = std(data, 2);
+0015                     <span class="keyword">otherwise</span>, compartmentData(:,j,:) = data(:,compartments(j),:);
+0016                 <span class="keyword">end</span>
+0017             <span class="keyword">end</span>
+0018             
+0019             <span class="keyword">if</span>(~exist(<span class="string">'sortOrder'</span>,<span class="string">'var'</span>)); sortOrder=<span class="string">'Compartment, Property'</span>; <span class="keyword">end</span>;
+0020             <span class="keyword">switch</span> sortOrder
+0021                 <span class="keyword">case</span> <span class="string">'None'</span>,
+0022                 <span class="keyword">case</span> <span class="string">'Property, Compartment'</span>, compartmentData = reshape(permute(compartmentData, [2 1 3:length(sz)]), [sz(1)*sz(2) sz(3:end)]);
+0023                 <span class="keyword">case</span> <span class="string">'Compartment, Property'</span>, compartmentData = reshape(compartmentData, [sz(1)*sz(2) sz(3:end)])';
+0024             <span class="keyword">end</span>
+0025         <span class="keyword">end</span>
+0026         
+0027         <a name="_sub1" href="#_subfunctions" class="code">function labelCompartmentPlot(sim, plotHandles, compartments, varargin)</a>
+0028             <span class="keyword">if</span> length(plotHandles) == 1 || (length(plotHandles) &gt; length(compartments) &amp;&amp; nargin == 3); <span class="keyword">return</span>, <span class="keyword">end</span>;
+0029             <span class="keyword">if</span> nargin == 4 &amp;&amp; length(plotHandles) == length(varargin{1})
+0030                 compartmentLabels=varargin{1};
+0031             <span class="keyword">else</span>
+0032                 compartmentLabels = edu.stanford.covert.cell.sim.util.PlotUtil.compartmentPlotLabels(sim, compartments, varargin{:});
+0033                 compartmentLabels = reshape(compartmentLabels, 1, []);
+0034             <span class="keyword">end</span>
+0035             legend(plotHandles, compartmentLabels);
+0036         <span class="keyword">end</span>
+0037         
+0038         <a name="_sub2" href="#_subfunctions" class="code">function compartmentLabels = compartmentPlotLabels(sim, compartments, labels)</a>
+0039             <span class="keyword">if</span> exist(<span class="string">'labels'</span>, <span class="string">'var'</span>)
+0040                 numProperties = length(labels);
+0041             <span class="keyword">else</span>
+0042                 numProperties = 1;
+0043             <span class="keyword">end</span>
+0044             compartmentLabels = cell(numProperties, length(compartments));
+0045             
+0046             <span class="keyword">for</span> j = 1:length(compartments)
+0047                 <span class="keyword">switch</span> compartments(j)
+0048                     <span class="keyword">case</span> -3,   compartmentLabel = <span class="string">'Sum'</span>;
+0049                     <span class="keyword">case</span> -2,   compartmentLabel = <span class="string">'Mean'</span>;
+0050                     <span class="keyword">case</span> -1,   compartmentLabel = <span class="string">'Median'</span>;
+0051                     <span class="keyword">case</span> 0,    compartmentLabel = <span class="string">'Std Dev'</span>;
+0052                     <span class="keyword">otherwise</span>, compartmentLabel = sim.compartment.names{compartments(j)};
+0053                 <span class="keyword">end</span>
+0054                 
+0055                 <span class="keyword">for</span> i = 1:numProperties
+0056                     <span class="keyword">if</span> exist(<span class="string">'labels'</span>, <span class="string">'var'</span>)
+0057                         compartmentLabels{i,j} = [compartmentLabel <span class="string">', '</span> labels{i}];
+0058                     <span class="keyword">else</span>
+0059                         compartmentLabels{i,j} = compartmentLabel;
+0060                     <span class="keyword">end</span>
+0061                 <span class="keyword">end</span>
+0062             <span class="keyword">end</span>
+0063         <span class="keyword">end</span>
+0064         
+0065         <a name="_sub3" href="#_subfunctions" class="code">function [axesHandle, figHandle] = newAxesHandle(paperSize)</a>
+0066             figHandle = figure();
+0067 
+0068             <span class="keyword">if</span> nargin &gt;= 1
+0069                 set(figHandle, <span class="string">'PaperUnits'</span>, <span class="string">'centimeters'</span>);
+0070                 set(figHandle, <span class="string">'PaperSize'</span>, paperSize);
+0071                 set(figHandle, <span class="string">'PaperPositionMode'</span>, <span class="string">'manual'</span>);
+0072                 set(figHandle, <span class="string">'PaperPosition'</span>, [0 0 paperSize]);
+0073                 set(figHandle, <span class="string">'Units'</span>, <span class="string">'normalized'</span>);
+0074             <span class="keyword">end</span>
+0075             
+0076             axesHandle = subplot(1, 1, 1, <span class="string">'Parent'</span>, figHandle);
+0077         <span class="keyword">end</span>
+0078         
+0079         <a name="_sub4" href="#_subfunctions" class="code">function [axesHandles, xAxesHandles, titleHandles, offSetAxesHandles] = multiElementPlot(figHandle, axesSizes, xSpan, options)            </a>
+0080             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0081             
+0082             <span class="keyword">if</span> nargin &lt; 4
+0083                 options = struct;
+0084             <span class="keyword">end</span>
+0085             
+0086             <span class="keyword">if</span> ~iscell(axesSizes)
+0087                 [axesHandles, xAxesHandles, titleHandles, offSetAxesHandles] = PlotUtil.multiElementPlotHelper(figHandle, axesSizes, xSpan, options);
+0088             <span class="keyword">else</span>
+0089                 axesHandles = cell(size(axesSizes));
+0090                 xAxesHandles = cell(size(axesSizes));
+0091                 titleHandles = cell(size(axesSizes));
+0092                 offSetAxesHandles = cell(size(axesSizes));
+0093                 <span class="keyword">if</span> ~iscell(xSpan)
+0094                     xSpan = repmat({xSpan}, size(axesSizes));
+0095                 <span class="keyword">end</span>
+0096             
+0097                 <span class="keyword">if</span> ~isfield(options, <span class="string">'position'</span>);
+0098                     options.position = [0.02 0.12 0.95 0.8];
+0099                 <span class="keyword">end</span>
+0100                 
+0101                 H = 0;
+0102                 <span class="keyword">for</span> i = 1:numel(axesSizes)
+0103                     H = max(H, sum(axesSizes{i}) + numel(axesSizes{i}) - 1);
+0104                 <span class="keyword">end</span>
+0105                 
+0106                 <span class="keyword">if</span> isfield(options, <span class="string">'colWidths'</span>)
+0107                     colWidths = options.colWidths;
+0108                 <span class="keyword">else</span>
+0109                     colWidths = ones(size(axesSizes));
+0110                 <span class="keyword">end</span>
+0111                 <span class="keyword">if</span> isfield(options, <span class="string">'yAxesLabelWidths'</span>)
+0112                     yAxesLabelWidths = options.yAxesLabelWidths;
+0113                 <span class="keyword">else</span>
+0114                     yAxesLabelWidths = 0.075 * ones(size(axesSizes));
+0115                 <span class="keyword">end</span>
+0116                 
+0117                 <span class="keyword">for</span> i = 1:numel(axesSizes)
+0118                     axesSizes{i} = axesSizes{i} * (H - numel(axesSizes{i}) + 1) / sum(axesSizes{i});
+0119                     
+0120                     tmpOptions = struct;
+0121                     
+0122                     <span class="keyword">if</span> isfield(options, <span class="string">'titleStr'</span>)
+0123                         <span class="keyword">if</span> iscell(options.titleStr)
+0124                             tmpOptions.titleStr = options.titleStr{i};
+0125                         <span class="keyword">elseif</span> i == 1;
+0126                             tmpOptions.titleStr = options.titleStr;
+0127                         <span class="keyword">end</span>
+0128                     <span class="keyword">end</span>
+0129                     
+0130                     <span class="keyword">if</span> isfield(options, <span class="string">'position'</span>) &amp;&amp; iscell(options.position)
+0131                         tmpOptions.position = options.position{i};
+0132                     <span class="keyword">else</span>
+0133                         x0 = options.position(1) + sum(colWidths(1:i-1)) * options.position(3) / sum(colWidths) + yAxesLabelWidths(i);
+0134                         w = colWidths(i) * options.position(3) / sum(colWidths) - yAxesLabelWidths(i);
+0135                         y0 = options.position(2);
+0136                         h = options.position(4);
+0137                         tmpOptions.position = [x0 y0 w h];
+0138                     <span class="keyword">end</span>
+0139                     
+0140                     <span class="keyword">if</span> isfield(options, <span class="string">'colorOrder'</span>)
+0141                         <span class="keyword">if</span> iscell(options.colorOrder)
+0142                             tmpOptions.colorOrder = options.colorOrder{i};
+0143                         <span class="keyword">else</span>
+0144                             tmpOptions.colorOrder = options.colorOrder;
+0145                         <span class="keyword">end</span>
+0146                     <span class="keyword">end</span>
+0147                     
+0148                     <span class="keyword">if</span> isfield(options, <span class="string">'xlabelStr'</span>)
+0149                         <span class="keyword">if</span> iscell(options.xlabelStr)
+0150                             tmpOptions.xlabelStr = options.xlabelStr{i};
+0151                         <span class="keyword">else</span>
+0152                             tmpOptions.xlabelStr = options.xlabelStr;
+0153                         <span class="keyword">end</span>
+0154                     <span class="keyword">end</span>
+0155                     
+0156                     <span class="keyword">if</span> isfield(options, <span class="string">'xdata'</span>)
+0157                         <span class="keyword">if</span> iscell(options.xdata)
+0158                             tmpOptions.xdata = options.xdata{i};
+0159                         <span class="keyword">else</span>
+0160                             tmpOptions.xdata = options.xdata;
+0161                         <span class="keyword">end</span>
+0162                     <span class="keyword">end</span>
+0163                     
+0164                     <span class="keyword">if</span> isfield(options, <span class="string">'ydata'</span>)
+0165                         tmpOptions.ydata = options.ydata{i};
+0166                     <span class="keyword">end</span>
+0167                     
+0168                     <span class="keyword">if</span> isfield(options, <span class="string">'ylabelStr'</span>)
+0169                         <span class="keyword">if</span> iscell(options.ylabelStr)
+0170                             tmpOptions.ylabelStr = options.ylabelStr{i};
+0171                         <span class="keyword">else</span>
+0172                             tmpOptions.ylabelStr = options.ylabelStr;
+0173                         <span class="keyword">end</span>
+0174                     <span class="keyword">end</span>
+0175                     
+0176                     <span class="keyword">if</span> isfield(options, <span class="string">'plotFunc'</span>)
+0177                         <span class="keyword">if</span> iscell(options.plotFunc)
+0178                             tmpOptions.plotFunc = options.plotFunc{i};
+0179                         <span class="keyword">else</span>
+0180                             tmpOptions.plotFunc = options.plotFunc;
+0181                         <span class="keyword">end</span>
+0182                     <span class="keyword">end</span>
+0183                     
+0184                     [axesHandles{i}, xAxesHandles{i}, titleHandles{i}, offSetAxesHandles{i}] = PlotUtil.multiElementPlotHelper(figHandle, axesSizes{i}, xSpan{i}, tmpOptions);
+0185                 <span class="keyword">end</span>
+0186             <span class="keyword">end</span>
+0187         <span class="keyword">end</span>
+0188         
+0189         <a name="_sub5" href="#_subfunctions" class="code">function [axesHandles, xAxesHandle, titleHandle, offSetAxesHandles] = multiElementPlotHelper(figHandle, axesSizes, xSpan, options)            </a>
+0190             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0191             
+0192             <span class="keyword">if</span> exist(<span class="string">'options'</span>, <span class="string">'var'</span>)
+0193                 <span class="keyword">if</span> isfield(options, <span class="string">'titleStr'</span>)
+0194                     titleStr = options.titleStr;
+0195                 <span class="keyword">end</span>
+0196                 <span class="keyword">if</span> isfield(options, <span class="string">'position'</span>)
+0197                     position = options.position;
+0198                 <span class="keyword">end</span>
+0199                 <span class="keyword">if</span> isfield(options, <span class="string">'colorOrder'</span>)
+0200                     colorOrder = options.colorOrder;
+0201                 <span class="keyword">end</span>
+0202                 <span class="keyword">if</span> isfield(options, <span class="string">'xlabelStr'</span>)
+0203                     xlabelStr = options.xlabelStr;
+0204                 <span class="keyword">end</span>
+0205             <span class="keyword">end</span>
+0206             
+0207             <span class="keyword">if</span> ~exist(<span class="string">'position'</span>, <span class="string">'var'</span>)
+0208                 position = [0.13 0.12 0.8 0.8];
+0209             <span class="keyword">end</span>
+0210             <span class="keyword">if</span> ~exist(<span class="string">'xlabelStr'</span>, <span class="string">'var'</span>)
+0211                 xlabelStr = <span class="string">'Time (h)'</span>;
+0212             <span class="keyword">end</span>
+0213             
+0214             <span class="comment">%value plots</span>
+0215             nPlots = numel(axesSizes);
+0216             axesHandles = zeros(nPlots, 1);
+0217             axesX = position(1);
+0218             axesW = position(3);
+0219             axesY0 = position(2);
+0220             axesTotH = position(4);
+0221             a = 0.2;
+0222             b = 0.2;
+0223             c = 0.2;
+0224             <span class="keyword">for</span> i = 1:nPlots
+0225                 axesHandle = axes(<span class="string">'Parent'</span>, figHandle);
+0226                 axesHandles(i) = axesHandle;
+0227                 
+0228                 <span class="keyword">if</span> i == 1 &amp;&amp; exist(<span class="string">'titleStr'</span>, <span class="string">'var'</span>)
+0229                     titleHandle = title(axesHandle, titleStr, <span class="string">'FontSize'</span>, 10);
+0230                 <span class="keyword">else</span>
+0231                     titleHandle = NaN;
+0232                 <span class="keyword">end</span>
+0233                 
+0234                 set(axesHandle, <span class="keyword">...</span>
+0235                     <span class="string">'FontSize'</span>, 7, <span class="keyword">...</span>
+0236                     <span class="string">'TickDir'</span>, <span class="string">'out'</span>, <span class="keyword">...</span>
+0237                     <span class="string">'YMinorTick'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0238                     <span class="string">'XTick'</span>, [], <span class="keyword">...</span>
+0239                     <span class="string">'XColor'</span>, get(figHandle, <span class="string">'Color'</span>));
+0240                 box(axesHandle, <span class="string">'off'</span>);
+0241                 ylabel(axesHandle, <span class="string">''</span>, <span class="keyword">...</span>
+0242                     <span class="string">'FontSize'</span>, 8, <span class="keyword">...</span>
+0243                     <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="keyword">...</span>
+0244                     <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>);
+0245                 xlim(axesHandle, xSpan);
+0246                 hold(axesHandle, <span class="string">'on'</span>);
+0247                 
+0248                 <span class="keyword">if</span> exist(<span class="string">'colorOrder'</span>, <span class="string">'var'</span>)
+0249                     set(axesHandle, <span class="string">'ColorOrder'</span>, colorOrder);
+0250                 <span class="keyword">end</span>
+0251                 
+0252                 <span class="comment">%layout</span>
+0253                 axesH = axesTotH * a * axesSizes(i) / (a * sum(axesSizes) + b * (nPlots - 1) + c);
+0254                 axesY = axesY0 + axesTotH - axesTotH * (a * sum(axesSizes(1:i)) + b * (i - 1)) / <span class="keyword">...</span>
+0255                     (a * sum(axesSizes) + b * (nPlots - 1) + c);
+0256                 set(axesHandle, <span class="string">'Position'</span>, [axesX axesY axesW axesH]);
+0257             <span class="keyword">end</span>
+0258             
+0259             <span class="comment">%x axis</span>
+0260             xAxesHandle = axes(<span class="string">'Parent'</span>, figHandle);
+0261             plot(xAxesHandle, xSpan(:)', [0 0], <span class="string">'LineStyle'</span>, <span class="string">'none'</span>, <span class="string">'Marker'</span>, <span class="string">'none'</span>);
+0262             <span class="keyword">if</span> range(xSpan) &gt;= 10
+0263                 n = 10^floor(log10(range(xSpan)));
+0264                 set(xAxesHandle, <span class="string">'XTick'</span>, unique(n * (ceil(xSpan(1) / n):floor(xSpan(2) / n))));
+0265             <span class="keyword">elseif</span> range(xSpan) &gt;= 5
+0266                 n = 5;
+0267                 set(xAxesHandle, <span class="string">'XTick'</span>, unique(n * (ceil(xSpan(1) / n):floor(xSpan(2) / n))));
+0268             <span class="keyword">end</span>
+0269             
+0270             set(xAxesHandle, <span class="keyword">...</span>
+0271                 <span class="string">'FontSize'</span>, 7, <span class="keyword">...</span>
+0272                 <span class="string">'TickDir'</span>, <span class="string">'out'</span>, <span class="keyword">...</span>
+0273                 <span class="string">'YTick'</span>, [], <span class="keyword">...</span>
+0274                 <span class="string">'XMinorTick'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0275                 <span class="string">'YColor'</span>, get(figHandle, <span class="string">'Color'</span>));
+0276             box(xAxesHandle, <span class="string">'off'</span>);
+0277             xlabel(xAxesHandle, xlabelStr, <span class="keyword">...</span>
+0278                 <span class="string">'FontSize'</span>, 8, <span class="keyword">...</span>
+0279                 <span class="string">'VerticalAlignment'</span>, <span class="string">'top'</span>, <span class="keyword">...</span>
+0280                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>);
+0281             xlim(xAxesHandle, xSpan);
+0282             axesH = 1e-6;
+0283             axesY = axesY0;
+0284             set(xAxesHandle, <span class="string">'Position'</span>, [axesX axesY axesW axesH]);
+0285             
+0286             <span class="comment">%y axis labels</span>
+0287             <span class="keyword">if</span> isfield(options, <span class="string">'ylabelStr'</span>)
+0288                 <span class="keyword">if</span> ~iscell(options.ylabelStr)
+0289                     options.ylabelStr = {options.ylabelStr};
+0290                 <span class="keyword">end</span>
+0291                 <span class="keyword">for</span> i = 1:numel(options.ylabelStr)
+0292                     ylabel(axesHandles(i), options.ylabelStr{i});
+0293                 <span class="keyword">end</span>
+0294             <span class="keyword">end</span>
+0295             
+0296             <span class="comment">%plot data</span>
+0297             <span class="keyword">if</span> isfield(options, <span class="string">'ydata'</span>)
+0298                 <span class="keyword">if</span> ~iscell(options.ydata)
+0299                     options.ydata = {options.ydata};
+0300                 <span class="keyword">end</span>
+0301                 <span class="keyword">if</span> ~isfield(options, <span class="string">'plotFunc'</span>)
+0302                     options.plotFunc = repmat({@PlotUtil.plotLine}, size(options.ydata));
+0303                 <span class="keyword">elseif</span> ~iscell(options.plotFunc)
+0304                     options.plotFunc = repmat({options.plotFunc}, size(options.ydata));
+0305                 <span class="keyword">end</span>
+0306                 
+0307                 <span class="keyword">for</span> i = 1:numel(options.ydata)
+0308                     <span class="keyword">if</span> ~isempty(options.ydata{i})
+0309                         options.plotFunc{i}(axesHandles(i), options.xdata, options.ydata{i}, false, true, false);
+0310                     <span class="keyword">end</span>
+0311                 <span class="keyword">end</span>
+0312                 
+0313                 PlotUtil.alignYAxesLabels(axesHandles);
+0314                 <span class="keyword">if</span> ~isfield(options, <span class="string">'offsetYAxes'</span>)
+0315                     options.offsetYAxes = 0.03;
+0316                 <span class="keyword">end</span>
+0317                 <span class="keyword">if</span> options.offsetYAxes
+0318                     offSetAxesHandles = PlotUtil.offsetYAxes(axesHandles, options.offsetYAxes, xAxesHandle);
+0319                 <span class="keyword">else</span>
+0320                     offSetAxesHandles = zeros(size(axesHandles));
+0321                 <span class="keyword">end</span>
+0322             <span class="keyword">else</span>
+0323                 offSetAxesHandles = zeros(size(axesHandles));
+0324             <span class="keyword">end</span>
+0325         <span class="keyword">end</span>
+0326         
+0327         <a name="_sub6" href="#_subfunctions" class="code">function handle = plotLine(axesHandle, x, y, setXLim, setYLim, buttonDownCallback)</a>
+0328             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0329             
+0330             handle = plot(axesHandle, x, y);
+0331             
+0332             <span class="keyword">if</span> nargin &lt; 6 || buttonDownCallback
+0333                 <span class="keyword">for</span> i = 1:length(handle)
+0334                     s = sprintf(<span class="string">'fprintf(''%d\\n'')'</span>, i);
+0335                     set(handle(i), <span class="string">'ButtonDownFcn'</span>, s);
+0336                 <span class="keyword">end</span>
+0337             <span class="keyword">end</span>
+0338             
+0339             <span class="keyword">if</span> nargin &lt; 4 || setXLim
+0340                 xlim([min(x) max(x)]);
+0341             <span class="keyword">end</span>
+0342             
+0343             <span class="keyword">if</span> nargin &lt; 5 || setYLim
+0344                 minY = min(y(:));
+0345                 maxY = max(y(:));
+0346                 PlotUtil.formatYAxes(axesHandle, minY, maxY);
+0347             <span class="keyword">end</span>
+0348         <span class="keyword">end</span>
+0349         
+0350         <a name="_sub7" href="#_subfunctions" class="code">function handle = plotScatter(axesHandle, x, y, msize, color, mstyle)</a>
+0351             handle = scatter(axesHandle, x, y, msize, color, mstyle);
+0352 <span class="comment">%             handle = get(handle, 'Children');</span>
+0353 <span class="comment">%             for i = 1:length(handle)</span>
+0354 <span class="comment">%                 s = sprintf('fprintf(''%d\\n'')', i);</span>
+0355 <span class="comment">%                 set(handle(i), 'ButtonDownFcn', s);</span>
+0356 <span class="comment">%             end</span>
+0357   
+0358             <span class="keyword">if</span> range(x)
+0359                 xlim([min(x) max(x)]);
+0360             <span class="keyword">end</span>
+0361             
+0362             minY = min(y(:));
+0363             maxY = max(y(:));
+0364             
+0365             <span class="keyword">if</span> maxY - minY &gt; eps
+0366                 ylim(axesHandle, [minY maxY]);
+0367                 set(axesHandle, <span class="string">'YTick'</span>, [minY mean([minY maxY]) maxY]);
+0368             <span class="keyword">else</span>
+0369                 set(axesHandle, <span class="string">'YTick'</span>, y(1));
+0370             <span class="keyword">end</span>
+0371         <span class="keyword">end</span>
+0372         
+0373         <a name="_sub8" href="#_subfunctions" class="code">function handle = plotBoundedLineFromRawData(axesHandle, x, y)</a>
+0374             quantiles = zeros(2, length(x));
+0375             <span class="keyword">for</span> i = 1:length(x)
+0376                 tfs = ~isnan(y(:, i));
+0377                 quantiles(:, i) = prctile(y(tfs, i), [25 75], 1);
+0378             <span class="keyword">end</span>
+0379             
+0380             qmean = mean(quantiles,1);
+0381             b = abs(quantiles-repmat(qmean, 2, 1))';
+0382             handle = boundedline(x, qmean, <span class="keyword">...</span>
+0383                 b, <span class="string">'cmap'</span>, winter(4), <span class="string">'transparency'</span>, 0.5);
+0384             set(handle(1),<span class="string">'Visible'</span>,<span class="string">'Off'</span>);
+0385             hold on;
+0386             handle = plot(x,[nanmean(y, 1);quantiles]);
+0387             set(handle(1),<span class="string">'Color'</span>,[0 0 0],<span class="string">'LineWidth'</span>,2);
+0388             <span class="keyword">for</span> i = 2:3
+0389                 set(handle(i), <span class="string">'Color'</span>, [0.0 0.0 0.0], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>);
+0390             <span class="keyword">end</span>
+0391             hold off;
+0392 
+0393             xlim([min(x) max(x)]);
+0394 
+0395             minY = min(quantiles(1,:));
+0396             maxY = max(quantiles(2,:));
+0397 
+0398             <span class="keyword">if</span>(maxY-minY&gt;eps)
+0399                 ylim(axesHandle, [minY maxY]);
+0400                 set(axesHandle, <span class="string">'YTick'</span>, [minY mean([minY maxY]) maxY]);
+0401             <span class="keyword">else</span>
+0402                 set(axesHandle, <span class="string">'YTick'</span>, y(1));
+0403             <span class="keyword">end</span>
+0404         <span class="keyword">end</span>
+0405         
+0406         <a name="_sub9" href="#_subfunctions" class="code">function handles = plotColoredTicks(axesHandle, ticLocs, colorOrder)</a>
+0407             <span class="comment">% Loop backwards so that if two simulations end at nearly the</span>
+0408             <span class="comment">% same time, you'll see the color of the first one</span>
+0409             hold(axesHandle, <span class="string">'on'</span>);
+0410             handles = zeros(length(ticLocs), 1);
+0411             <span class="keyword">for</span> i = length(ticLocs):-1:1
+0412                 <span class="comment">% Only plot if not a NaN</span>
+0413                 <span class="keyword">if</span> ~isnan(ticLocs(i))
+0414                     handles(i) = line([ticLocs(i) ticLocs(i)], [0 1], <span class="keyword">...</span>
+0415                         <span class="string">'Parent'</span>, axesHandle, <span class="keyword">...</span>
+0416                         <span class="string">'Color'</span>, colorOrder(i, :));
+0417                 <span class="keyword">end</span>
+0418             <span class="keyword">end</span>
+0419         <span class="keyword">end</span>
+0420         
+0421         <a name="_sub10" href="#_subfunctions" class="code">function handle = plotStackedArea(axesHandle, xdata, ydata, setXLim, setYLim, buttonDownCallback)</a>
+0422             <span class="keyword">if</span> size(xdata, 2) == size(ydata, 2)
+0423                 xdata = xdata';
+0424                 ydata = ydata';
+0425             <span class="keyword">end</span>
+0426             handle = area(axesHandle, xdata, ydata, <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>);
+0427         <span class="keyword">end</span>
+0428         
+0429         <a name="_sub11" href="#_subfunctions" class="code">function handle = plotNormalizedStackedArea(axesHandle, xdata, ydata, varargin)</a>
+0430             <span class="keyword">if</span> size(xdata, 2) == size(ydata, 2)
+0431                 xdata = xdata';
+0432                 ydata = ydata';
+0433             <span class="keyword">end</span>
+0434             ydata = ydata ./ repmat(sum(ydata, 2) / 100, 1, size(ydata, 2));
+0435             ydata(isnan(ydata)) = 0;
+0436             handle = edu.stanford.covert.cell.sim.util.PlotUtil.plotStackedArea(axesHandle, xdata, ydata, varargin{:});
+0437         <span class="keyword">end</span>
+0438         
+0439         <a name="_sub12" href="#_subfunctions" class="code">function handle = plotBubbles(axesHandle, xdata, ydata, varargin)</a>
+0440             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0441             
+0442             <span class="keyword">if</span> size(xdata, 2) == 1
+0443                 xdata = [xdata ones(size(xdata))];
+0444                 ydata = [ydata ones(size(ydata))];
+0445             <span class="keyword">end</span>
+0446             
+0447             n = 360;
+0448             theta = (1:n)/n * 2 * pi;
+0449             x = xdata(:, 1 * ones(n, 1)) + xdata(:, 2 * ones(n, 1)) .* cos(theta(ones(size(xdata, 1), 1), :));
+0450             y = ydata(:, 1 * ones(n, 1)) + ydata(:, 2 * ones(n, 1)) .* sin(theta(ones(size(xdata, 1), 1), :));
+0451             colors = (1:size(xdata, 1))';
+0452             handle = fill(x', y', colors', <span class="keyword">...</span>
+0453                 <span class="string">'EdgeColor'</span>, <span class="string">'k'</span>, <span class="keyword">...</span>
+0454                 <span class="string">'Parent'</span>, axesHandle);           
+0455             
+0456             colormap(PlotUtil.getRedGreenColorOrder(colors));
+0457         <span class="keyword">end</span>
+0458         
+0459         <a name="_sub13" href="#_subfunctions" class="code">function handle = plotXAxis(axesHandle, x, xLabel)</a>
+0460             handle = edu.stanford.covert.cell.sim.util.PlotUtil.plotLine(axesHandle, x, ones(1,length(x)));
+0461             
+0462             set(handle, <span class="string">'Color'</span>, <span class="string">'w'</span>);
+0463             ycolor = get(axesHandle, <span class="string">'YColor'</span>);
+0464             set(axesHandle, <span class="string">'XColor'</span>, ycolor);
+0465             set(axesHandle, <span class="string">'YColor'</span>, get(get(axesHandle,<span class="string">'Parent'</span>), <span class="string">'Color'</span>));
+0466             set(axesHandle, <span class="string">'YTick'</span>, []);
+0467             box(axesHandle, <span class="string">'off'</span>);
+0468             set(axesHandle, <span class="string">'TickDir'</span>, <span class="string">'out'</span>);
+0469             xlabel(axesHandle, xLabel, <span class="string">'fontSize'</span>, 12);
+0470         <span class="keyword">end</span>
+0471         
+0472         <a name="_sub14" href="#_subfunctions" class="code">function labelSubplots(axesHandles, labels, x, y)</a>
+0473             <span class="keyword">if</span> nargin &gt;= 2 &amp;&amp; ~iscell(labels)
+0474                 <span class="keyword">if</span> numel(axesHandles) &gt; 1
+0475                     labels = num2cell(labels);
+0476                 <span class="keyword">else</span>
+0477                     labels = {labels};
+0478                 <span class="keyword">end</span>
+0479             <span class="keyword">elseif</span> nargin &lt; 2
+0480                 labels = num2cell(char(65 + (1:numel(axesHandles)) - 1));
+0481             <span class="keyword">end</span>
+0482             <span class="keyword">if</span> nargin &lt; 3
+0483                 x = -0.025;
+0484             <span class="keyword">end</span>
+0485             <span class="keyword">if</span> nargin &lt; 4
+0486                 y = 1.10;
+0487             <span class="keyword">end</span>
+0488             
+0489             <span class="keyword">for</span> i = 1:numel(axesHandles)
+0490                 text(x, y, labels{i}, <span class="keyword">...</span>
+0491                     <span class="string">'FontSize'</span>, 10, <span class="keyword">...</span>
+0492                     <span class="string">'Parent'</span>, axesHandles(i), <span class="keyword">...</span>
+0493                     <span class="string">'Units'</span>, <span class="string">'normalized'</span>, <span class="keyword">...</span>
+0494                     <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="keyword">...</span>
+0495                     <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>);
+0496             <span class="keyword">end</span>
+0497         <span class="keyword">end</span>
+0498         
+0499         <a name="_sub15" href="#_subfunctions" class="code">function formatYAxes(axesHandle, minY, maxY, fontSize)</a>
+0500             <span class="keyword">if</span> nargin &lt; 4
+0501                 fontSize = 7;
+0502             <span class="keyword">end</span>
+0503             
+0504             <span class="keyword">if</span> maxY - minY &gt; eps
+0505                 ylim(axesHandle, [minY maxY]);
+0506                 ytick = [minY maxY];
+0507             <span class="keyword">else</span>
+0508                 ytick = minY;
+0509             <span class="keyword">end</span>
+0510             set(axesHandle, <span class="string">'YTick'</span>, ytick);
+0511             <span class="keyword">if</span> all(ceil(ytick) == ytick) &amp;&amp; all(ytick &lt; 1e7)
+0512                 set(axesHandle, <span class="string">'YTickLabel'</span>, cellfun(@num2str, num2cell(ytick), <span class="string">'UniformOutput'</span>, false));
+0513             <span class="keyword">else</span>
+0514                 tick2text(axesHandle, <span class="string">'axis'</span>, <span class="string">'y'</span>, <span class="string">'ytickoffset'</span>, 0.06)
+0515                 h = getappdata(axesHandle, <span class="string">'YTickText'</span>);
+0516                 set(h, <span class="string">'Interpreter'</span>, <span class="string">'tex'</span>, <span class="string">'FontSize'</span>, fontSize, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>)
+0517                 <span class="keyword">for</span> i = 1:numel(ytick)
+0518                     <span class="keyword">if</span> ytick(i) == 0 || all(ytick == ceil(ytick) &amp; ytick &lt;= 1e3)
+0519                         str = sprintf(<span class="string">'%d'</span>, ytick(i));
+0520                     <span class="keyword">elseif</span> abs(ytick(i)) &lt; 1e-2 || abs(ytick(i)) &gt; 1e3
+0521                         tmp = sprintf(<span class="string">'%.0e'</span>, ytick(i));
+0522                         str = sprintf(<span class="string">'%s{\\times}10^{%d}'</span>, tmp(1:find(tmp == <span class="string">'e'</span>)-1), str2double(tmp(find(tmp==<span class="string">'e'</span>)+1:end)));
+0523                     <span class="keyword">elseif</span> abs(ytick(i)) &lt; 1e3 &amp;&amp; abs(ytick(i)) &gt;= 1e-2
+0524                         str = sprintf([<span class="string">'%1.'</span> num2str(ceil(-log10(diff(ytick)))+1) <span class="string">'f'</span>], ytick(i));
+0525                     <span class="keyword">else</span>
+0526                         tmp = sprintf(<span class="string">'%.1e'</span>, ytick(i));
+0527                         str = sprintf(<span class="string">'%s{\\times}10^{%d}'</span>, tmp(1:find(tmp == <span class="string">'e'</span>)-1), str2double(tmp(find(tmp==<span class="string">'e'</span>)+1:end)));
+0528                     <span class="keyword">end</span>
+0529                     set(h(i), <span class="string">'String'</span>, str);
+0530                 <span class="keyword">end</span>
+0531             <span class="keyword">end</span>
+0532         <span class="keyword">end</span>
+0533         
+0534         <a name="_sub16" href="#_subfunctions" class="code">function axesHandles2 = offsetYAxes(axesHandles, offset, varargin)</a>
+0535             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0536             
+0537             <span class="keyword">if</span> ~iscell(axesHandles)
+0538                 axesHandles2 = PlotUtil.offsetYAxesHelper(axesHandles, offset, varargin{:});
+0539             <span class="keyword">else</span>
+0540                 axesHandles2 = cell(size(axesHandles));
+0541                 <span class="keyword">for</span> i = 1:numel(axesHandles)
+0542                     axesHandles2{i} = PlotUtil.offsetYAxesHelper(axesHandles{i}, offset, varargin{:});
+0543                 <span class="keyword">end</span>
+0544             <span class="keyword">end</span>
+0545         <span class="keyword">end</span>
+0546         
+0547         <a name="_sub17" href="#_subfunctions" class="code">function axesHandles2 = offsetYAxesHelper(axesHandles, offset, xAxesHandle)</a>
+0548             axesHandles2 = zeros(size(axesHandles));
+0549             <span class="keyword">for</span> i = 1:numel(axesHandles)
+0550                 axesHandle = axesHandles(i);
+0551                 axesHandle2 = axes;
+0552                 axesHandles2(i) = axesHandle2;
+0553                 props = get(axesHandle);
+0554                 fields = fieldnames(props);
+0555                 <span class="keyword">for</span> j = 1:numel(fields)
+0556                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0557                         set(axesHandle2, fields{j}, props.(fields{j}));
+0558                     <span class="keyword">end</span>
+0559                 <span class="keyword">end</span>
+0560                 set(axesHandle2, <span class="string">'XLim'</span>, get(axesHandle, <span class="string">'XLim'</span>))
+0561                 set(axesHandle2, <span class="string">'YLim'</span>, get(axesHandle, <span class="string">'YLim'</span>))
+0562                      
+0563                 <span class="comment">%copy properties</span>
+0564                 pos = get(axesHandle, <span class="string">'Position'</span>);
+0565                 tmp = offset * pos(3);
+0566                 <span class="keyword">if</span> offset &gt; 0
+0567                     pos(1) = pos(1) - tmp;
+0568                 <span class="keyword">else</span>
+0569                     set(axesHandle, <span class="string">'Position'</span>, [pos(1)-tmp pos(2) pos(3)+tmp pos(4)]);                    
+0570                 <span class="keyword">end</span>
+0571                 set(axesHandle2, <span class="string">'Position'</span>, pos)
+0572                 uistack(axesHandle2, <span class="string">'bottom'</span>);
+0573                 
+0574                 <span class="comment">%copy title properties</span>
+0575                 props = get(get(axesHandle, <span class="string">'Title'</span>));
+0576                 fields = fieldnames(props);
+0577                 <span class="keyword">for</span> j = 1:numel(fields)
+0578                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0579                         set(get(axesHandle2, <span class="string">'Title'</span>), fields{j}, props.(fields{j}));
+0580                     <span class="keyword">end</span>
+0581                 <span class="keyword">end</span>
+0582                 pos = get(get(axesHandle, <span class="string">'Title'</span>), <span class="string">'Position'</span>);
+0583                 pos(1) = pos(1) + tmp;
+0584                 set(get(axesHandle2, <span class="string">'Title'</span>), <span class="string">'Position'</span>, pos)
+0585                 
+0586                 <span class="comment">%copy xlabel properties</span>
+0587                 props = get(get(axesHandle, <span class="string">'XLabel'</span>));
+0588                 fields = fieldnames(props);
+0589                 <span class="keyword">for</span> j = 1:numel(fields)
+0590                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0591                         set(get(axesHandle2, <span class="string">'XLabel'</span>), fields{j}, props.(fields{j}));
+0592                     <span class="keyword">end</span>
+0593                 <span class="keyword">end</span>
+0594                 pos = get(get(axesHandle, <span class="string">'XLabel'</span>), <span class="string">'Position'</span>);
+0595                 pos(1) = pos(1) + tmp;
+0596                 set(get(axesHandle2, <span class="string">'XLabel'</span>), <span class="string">'Position'</span>, pos)
+0597                 
+0598                 <span class="comment">%copy ylabel properties</span>
+0599                 props = get(get(axesHandle, <span class="string">'YLabel'</span>));
+0600                 fields = fieldnames(props);
+0601                 <span class="keyword">for</span> j = 1:numel(fields)
+0602                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0603                         set(get(axesHandle2, <span class="string">'YLabel'</span>), fields{j}, props.(fields{j}));
+0604                     <span class="keyword">end</span>
+0605                 <span class="keyword">end</span>
+0606                 
+0607                 set(axesHandle, <span class="string">'Visible'</span>, <span class="string">'off'</span>);
+0608             <span class="keyword">end</span>
+0609             
+0610             <span class="keyword">if</span> exist(<span class="string">'xAxesHandle'</span>, <span class="string">'var'</span>)                
+0611                 xpos = get(xAxesHandle, <span class="string">'Position'</span>);
+0612                 tmp = offset * xpos(3);
+0613                 set(xAxesHandle, <span class="string">'Position'</span>, [xpos(1)-tmp xpos(2) xpos(3)+tmp xpos(4)]);
+0614             <span class="keyword">end</span>
+0615         <span class="keyword">end</span>
+0616         
+0617         <a name="_sub18" href="#_subfunctions" class="code">function alignYAxesLabels(axesHandles, varargin)</a>
+0618             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0619             
+0620             <span class="keyword">if</span> ~iscell(axesHandles)
+0621                 PlotUtil.alignYAxesLabelsHelper(axesHandles, varargin{:});
+0622             <span class="keyword">else</span>
+0623                 <span class="keyword">for</span> i = 1:numel(axesHandles)
+0624                     PlotUtil.alignYAxesLabelsHelper(axesHandles{i}, varargin{:});
+0625                 <span class="keyword">end</span>
+0626             <span class="keyword">end</span>
+0627         <span class="keyword">end</span>
+0628         
+0629         <a name="_sub19" href="#_subfunctions" class="code">function alignYAxesLabelsHelper(axesHandles, xpos)</a>
+0630             <span class="keyword">if</span> nargin &lt; 2
+0631                 xpos = Inf;
+0632                 <span class="keyword">for</span> i = 1:numel(axesHandles)
+0633                     pos = get(get(axesHandles(i), <span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0634                     xpos = min(xpos, pos(1));
+0635                 <span class="keyword">end</span>
+0636             <span class="keyword">end</span>
+0637             
+0638             <span class="keyword">for</span> i = 1:numel(axesHandles)
+0639                 pos = get(get(axesHandles(i), <span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0640                 set(get(axesHandles(i), <span class="string">'YLabel'</span>), <span class="string">'Position'</span>, [xpos pos(2:end)]);
+0641             <span class="keyword">end</span>
+0642         <span class="keyword">end</span>
+0643         
+0644         <a name="_sub20" href="#_subfunctions" class="code">function colorOrder = getRedGreenColorOrder(lineOrder)</a>
+0645             nLines = numel(lineOrder);
+0646             nLines1 = floor(nLines/2);
+0647             nLines2 = ceil(nLines/2);
+0648             
+0649             colorOrder = [[(nLines1:-1:1)'/nLines1; zeros(nLines2, 1)] [zeros(nLines1, 1); (1:nLines2)'/nLines2] zeros(nLines, 1)];
+0650             colorOrder(lineOrder, :) = colorOrder;
+0651         <span class="keyword">end</span>
+0652         
+0653         <a name="_sub21" href="#_subfunctions" class="code">function handle = drawCircle(centerX, centerY, radius, axesHandle)</a>
+0654             <span class="keyword">if</span> nargin &lt; 3
+0655                 throw(MException(<span class="string">'PlotUtil:drawCircle:error'</span>, <span class="string">'Insufficient arguments'</span>));
+0656             <span class="keyword">end</span>
+0657             
+0658             handle = rectangle(<span class="string">'Position'</span>, [centerX-radius centerY-radius 2*radius 2*radius], <span class="string">'Curvature'</span>, [1 1]);
+0659             
+0660             <span class="keyword">if</span> nargin == 4 &amp;&amp; ~isempty(axesHandle)
+0661                 set(handle, <span class="string">'Parent'</span>, axesHandle)
+0662             <span class="keyword">end</span>
+0663         <span class="keyword">end</span>
+0664         
+0665         <a name="_sub22" href="#_subfunctions" class="code">function h = labelSubFigure(string, position, figHandle, fontSize, units)</a>
+0666             <span class="keyword">if</span> nargin &lt; 4
+0667                 fontSize = 8;
+0668             <span class="keyword">end</span>
+0669             <span class="keyword">if</span> nargin &lt; 5
+0670                 units = <span class="string">'normalized'</span>;
+0671             <span class="keyword">end</span>
+0672             
+0673             h = annotation(figHandle, <span class="string">'textbox'</span>, [0 0 0 0], <span class="keyword">...</span>
+0674                 <span class="string">'String'</span>, string, <span class="keyword">...</span>
+0675                 <span class="string">'FontWeight'</span>, <span class="string">'bold'</span>, <span class="keyword">...</span>
+0676                 <span class="string">'FontSize'</span>, fontSize, <span class="keyword">...</span>
+0677                 <span class="string">'HorizontalAlignment'</span>, <span class="string">'Left'</span>, <span class="keyword">...</span>
+0678                 <span class="string">'VerticalAlignment'</span>, <span class="string">'middle'</span>, <span class="keyword">...</span>
+0679                 <span class="string">'EdgeColor'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0680                 <span class="string">'FitBoxToText'</span>, <span class="string">'on'</span>, <span class="keyword">...</span>
+0681                 <span class="string">'Margin'</span>, -25);
+0682             set(h, <span class="string">'Position'</span>, position, <span class="string">'units'</span>, units);
+0683         <span class="keyword">end</span>
+0684     <span class="keyword">end</span>
+0685 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

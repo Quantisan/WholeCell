@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNA</title>
+  <meta name="keywords" content="RNA">
+  <meta name="description" content="RNA">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; RNA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNA</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNA
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 4/22/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNA.html" class="code" title="">RNA</a>	RNA</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNA.html" class="code" title="">RNA</a>	RNA</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, nSample, nIter, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels, indentation] = tabulateRNASynthesisExpression(sim, expRnaSyn, expRnaExp, simRnaSyn, simRnaExp)</a></li><li><a href="#_sub3" class="code">function plotRnaSynthesis(axesHandle, sim, expRnaSyn, simRnaSyn)</a></li><li><a href="#_sub4" class="code">function plotRnaExpression(axesHandle, sim, expRnaExp, simRnaExp)</a></li><li><a href="#_sub5" class="code">function [rnaSyn, rnaExp] = calcExpectedSynthesisExpression(sim)</a></li><li><a href="#_sub6" class="code">function [rnaSyn, rnaExp] = sampleRNASynthesis(sim, nSample, nIter)</a></li><li><a href="#_sub7" class="code">function [rnaSyn, rnaExp] = simulateRNASynthesis(nIter, seed)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNA</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 4/22/2011</span>
+0006 classdef <a href="RNA.html" class="code" title="">RNA</a>
+0007     methods (Static = true)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, nSample, nIter, fileName)</a>
+0009             import edu.stanford.covert.cell.sim.analysis.RNA;
+0010             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0011             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0012             
+0013             <span class="comment">%simulate</span>
+0014             [expRnaSyn, expRnaExp] = RNA.calcExpectedSynthesisExpression(sim);
+0015             [simRnaSyn, simRnaExp] = RNA.sampleRNASynthesis(sim, nSample, nIter);
+0016             
+0017             <span class="comment">%print</span>
+0018             [content, colLabels, indentation] = RNA.tabulateRNASynthesisExpression(sim, expRnaSyn, expRnaExp, simRnaSyn, simRnaExp);
+0019             <span class="keyword">if</span> nargin == 3
+0020                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0021             <span class="keyword">else</span>
+0022                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Synthesis-Expression'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0023             <span class="keyword">end</span>
+0024             
+0025             <span class="comment">%plot</span>
+0026             <span class="keyword">if</span> nargin == 3
+0027                 RNA.plotRnaSynthesis(PlotUtil.newAxesHandle(), sim, expRnaSyn, simRnaSyn);
+0028                 RNA.plotRnaExpression(PlotUtil.newAxesHandle(), sim, expRnaExp, simRnaExp);
+0029             <span class="keyword">else</span>
+0030                 [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0031                 
+0032                 RNA.plotRnaSynthesis(axesHandle, sim, expRnaSyn, simRnaSyn);
+0033                 saveas(figHandle, [fileName <span class="string">'-Synthesis.pdf'</span>]);
+0034                 
+0035                 RNA.plotRnaExpression(axesHandle, sim, expRnaExp, simRnaExp);
+0036                 saveas(figHandle, [fileName <span class="string">'-Expression.pdf'</span>]);
+0037                 
+0038                 close(figHandle);
+0039             <span class="keyword">end</span>
+0040         <span class="keyword">end</span>
+0041     <span class="keyword">end</span>
+0042     
+0043     methods (Static = true)
+0044         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels, indentation] = tabulateRNASynthesisExpression(sim, expRnaSyn, expRnaExp, simRnaSyn, simRnaExp)</a>
+0045             rna = sim.state(<span class="string">'Rna'</span>);
+0046             matIdxs = rna.matureIndexs;
+0047             
+0048             colLabels = [
+0049                 <span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="string">'Transcription Unit'</span>, <span class="keyword">...</span>
+0050                 <span class="string">'Expected Synthesis (molecules / cell cycle)'</span>, <span class="string">'Mean Simulated Synthesis (molecules / cell cycle)'</span>, <span class="string">'Std Simulated Synthesis (molecules / cell cycle)'</span>, <span class="keyword">...</span>
+0051                 cellfun(@(x) [<span class="string">'Synthesis - Simulation #'</span> num2str(x)], num2cell(1:size(simRnaSyn, 2)), <span class="string">'UniformOutput'</span>, false), <span class="keyword">...</span>
+0052                 <span class="string">'Expected Expression (molecules * s / cell cycle)'</span>, <span class="string">'Mean Simulated Expression (molecules * s / cell cycle)'</span>, <span class="string">'Std Simulated Expression (molecules * s / cell cycle)'</span>, <span class="keyword">...</span>
+0053                 cellfun(@(x) [<span class="string">'Expression - Simulation #'</span> num2str(x)], num2cell(1:size(simRnaExp, 2)), <span class="string">'UniformOutput'</span>, false), <span class="keyword">...</span>
+0054                 ];
+0055             
+0056             [~, tuIdxs] = find(rna.nascentRNAMatureRNAComposition);
+0057             
+0058             content = [
+0059                 rna.wholeCellModelIDs(matIdxs) rna.names(matIdxs) rna.wholeCellModelIDs(tuIdxs) <span class="keyword">...</span>
+0060                 num2cell([
+0061                 expRnaSyn mean(simRnaSyn, 2) std(simRnaSyn, 0, 2) simRnaSyn <span class="keyword">...</span>
+0062                 expRnaExp mean(simRnaExp, 2) std(simRnaExp, 0, 2) simRnaExp <span class="keyword">...</span>
+0063                 ])];
+0064             
+0065             indentation = zeros(size(content, 1), 1);
+0066         <span class="keyword">end</span>
+0067         
+0068         <a name="_sub2" href="#_subfunctions" class="code">function plotRnaSynthesis(axesHandle, sim, expRnaSyn, simRnaSyn)</a>
+0069             rna = sim.state(<span class="string">'Rna'</span>);
+0070             
+0071             hold(axesHandle, <span class="string">'on'</span>);
+0072             
+0073             h = [
+0074                 plot(axesHandle, expRnaSyn(rna.matureMRNAIndexs), mean(simRnaSyn(rna.matureMRNAIndexs, :), 2), <span class="string">'r.'</span>)
+0075                 plot(axesHandle, expRnaSyn(rna.matureRRNAIndexs), mean(simRnaSyn(rna.matureRRNAIndexs, :), 2), <span class="string">'g.'</span>)
+0076                 plot(axesHandle, expRnaSyn(rna.matureSRNAIndexs), mean(simRnaSyn(rna.matureSRNAIndexs, :), 2), <span class="string">'b.'</span>)
+0077                 plot(axesHandle, expRnaSyn(rna.matureTRNAIndexs), mean(simRnaSyn(rna.matureTRNAIndexs, :), 2), <span class="string">'c.'</span>)
+0078                 ];
+0079             line([0 max(max(expRnaSyn), max(mean(simRnaSyn, 2)))], [0 max(max(expRnaSyn), max(mean(simRnaSyn, 2)))], <span class="string">'Parent'</span>, axesHandle);
+0080             xlim(axesHandle, [0 max(max(expRnaSyn), max(mean(simRnaSyn, 2)))]);
+0081             ylim(axesHandle, [0 max(max(expRnaSyn), max(mean(simRnaSyn, 2)))]);
+0082             axis(axesHandle, <span class="string">'square'</span>);
+0083             box(axesHandle, <span class="string">'on'</span>);
+0084             xlabel(axesHandle, <span class="string">'Expected Synthesis'</span>, <span class="string">'FontSize'</span>, 12);
+0085             ylabel(axesHandle, <span class="string">'Mean Simulated Synthesis'</span>, <span class="string">'FontSize'</span>, 12);
+0086             legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>}, <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>);
+0087         <span class="keyword">end</span>
+0088         
+0089         <a name="_sub3" href="#_subfunctions" class="code">function plotRnaExpression(axesHandle, sim, expRnaExp, simRnaExp)</a>
+0090             rna = sim.state(<span class="string">'Rna'</span>);
+0091             
+0092             hold(axesHandle, <span class="string">'on'</span>);
+0093             
+0094             h = [
+0095                 plot(axesHandle, expRnaExp(rna.matureMRNAIndexs), mean(simRnaExp(rna.matureMRNAIndexs, :), 2), <span class="string">'r.'</span>)
+0096                 plot(axesHandle, expRnaExp(rna.matureRRNAIndexs), mean(simRnaExp(rna.matureRRNAIndexs, :), 2), <span class="string">'g.'</span>)
+0097                 plot(axesHandle, expRnaExp(rna.matureSRNAIndexs), mean(simRnaExp(rna.matureSRNAIndexs, :), 2), <span class="string">'b.'</span>)
+0098                 plot(axesHandle, expRnaExp(rna.matureTRNAIndexs), mean(simRnaExp(rna.matureTRNAIndexs, :), 2), <span class="string">'c.'</span>)
+0099                 ];
+0100             line([0 max(max(expRnaExp), max(mean(simRnaExp, 2)))], [0 max(max(expRnaExp), max(mean(simRnaExp, 2)))], <span class="string">'Parent'</span>, axesHandle);
+0101             xlim(axesHandle, [0 max(max(expRnaExp), max(mean(simRnaExp, 2)))]);
+0102             ylim(axesHandle, [0 max(max(expRnaExp), max(mean(simRnaExp, 2)))]);
+0103             axis(axesHandle, <span class="string">'square'</span>);
+0104             box(axesHandle, <span class="string">'on'</span>);
+0105             xlabel(axesHandle, <span class="string">'Expected Expression'</span>, <span class="string">'FontSize'</span>, 12);
+0106             ylabel(axesHandle, <span class="string">'Mean Simulated Expression'</span>, <span class="string">'FontSize'</span>, 12);
+0107             legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>}, <span class="string">'Location'</span>, <span class="string">'NorthEastOutside'</span>);
+0108         <span class="keyword">end</span>
+0109         
+0110         <a name="_sub4" href="#_subfunctions" class="code">function [rnaSyn, rnaExp] = calcExpectedSynthesisExpression(sim)</a>
+0111             import edu.stanford.covert.util.ConstantUtil;
+0112             
+0113             time = sim.state(<span class="string">'Time'</span>);
+0114             mass = sim.state(<span class="string">'Mass'</span>);
+0115             rna = sim.state(<span class="string">'Rna'</span>);
+0116             
+0117             exp = rna.expression(rna.matureIndexs);
+0118             mws = rna.molecularWeights(rna.matureIndexs) / ConstantUtil.nAvogadro;
+0119             drs = rna.decayRates(rna.matureIndexs);
+0120             
+0121             initCnts = exp * mass.cellInitialDryWeight * mass.dryWeightFractionRNA / (exp' * mws);
+0122             
+0123             rnaExp = initCnts * time.cellCycleLength / log(2);
+0124             rnaSyn = initCnts + initCnts .* drs * time.cellCycleLength / log(2);
+0125         <span class="keyword">end</span>
+0126         
+0127         <a name="_sub5" href="#_subfunctions" class="code">function [rnaSyn, rnaExp] = sampleRNASynthesis(sim, nSample, nIter)</a>
+0128             import edu.stanford.covert.cell.sim.analysis.RNA;
+0129             
+0130             rna = sim.state(<span class="string">'Rna'</span>);
+0131             nRna = size(rna.matureIndexs, 1);
+0132             
+0133             rnaSyn = zeros(nRna, nSample);
+0134             rnaExp = zeros(nRna, nSample);
+0135             
+0136             <span class="keyword">for</span> i = 1:nSample
+0137                 [rnaSyn(:, i), rnaExp(:, i)] = RNA.simulateRNASynthesis(nIter, i);
+0138             <span class="keyword">end</span>
+0139         <span class="keyword">end</span>
+0140         
+0141         <a name="_sub6" href="#_subfunctions" class="code">function [rnaSyn, rnaExp] = simulateRNASynthesis(nIter, seed)</a>
+0142             <span class="comment">%% references</span>
+0143             sim = edu.stanford.covert.cell.sim.SimulationFixture.load([], {
+0144                 <span class="string">'Metabolism'</span>
+0145                 <span class="string">'Transcription'</span>
+0146                 <span class="string">'RNAProcessing'</span>
+0147                 <span class="string">'RNAModification'</span>
+0148                 <span class="string">'tRNAAminoacylation'</span>
+0149                 <span class="string">'RNADecay'</span>});
+0150             
+0151             g = sim.gene;
+0152             rna = sim.state(<span class="string">'Rna'</span>);
+0153             time = sim.state(<span class="string">'Time'</span>);
+0154             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0155             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0156             
+0157             <span class="comment">%% seed</span>
+0158             sim.applyOptions(<span class="string">'seed'</span>, seed);
+0159             sim.seedRandStream();
+0160             
+0161             <span class="keyword">for</span> i = 1:numel(sim.states)
+0162                 o = sim.states{i};
+0163                 o.seed = seed;
+0164                 o.seedRandStream();
+0165             <span class="keyword">end</span>
+0166             
+0167             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0168                 o = sim.processes{i};
+0169                 o.seed = seed;
+0170                 o.seedRandStream();
+0171             <span class="keyword">end</span>
+0172             
+0173             <span class="comment">%% turn off decay</span>
+0174             rna.decayRates(setdiff(1:<span class="keyword">end</span>, rna.intergenicIndexs)) = 0;
+0175             
+0176             <span class="comment">%% keep track of initial state</span>
+0177             initRNAs = rna.counts;
+0178             initMonomers = pm.counts;
+0179             initComplexs = pc.counts;
+0180             
+0181             <span class="comment">%% simulate</span>
+0182             allRnaSyn = zeros(size(rna.counts));
+0183             allRnaExp = zeros(size(rna.counts));
+0184             <span class="keyword">for</span> i = 1:nIter
+0185                 <span class="comment">%mock protein synthesis</span>
+0186                 pm.counts = ceil(initMonomers * exp(i * log(2) / time.cellCycleLength));
+0187                 pc.counts = ceil(initComplexs * exp(i * log(2) / time.cellCycleLength));
+0188                 
+0189                 <span class="comment">%remember old RNA counts</span>
+0190                 oldRnaCounts = rna.counts;
+0191                 
+0192                 <span class="comment">%simulate</span>
+0193                 sim.evolveState();
+0194                 
+0195                 <span class="comment">%accounting of new RNAs</span>
+0196                 allRnaSyn = allRnaSyn + max(0, rna.counts - oldRnaCounts);
+0197                 
+0198                 <span class="comment">%accounting of expressed RNAs</span>
+0199                 allRnaExp = allRnaExp + rna.counts;
+0200                 allRnaExp(rna.matureIndexs(setdiff(1:<span class="keyword">end</span>, rna.matureMRNAIndexs)), sim.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0201                     allRnaExp(rna.matureIndexs(setdiff(1:<span class="keyword">end</span>, rna.matureMRNAIndexs)), sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0202                     sum(pc.proteinComplexComposition(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :, :), 3) * sum(initComplexs(pc.matureIndexs, :) + initComplexs(pc.boundIndexs, :), 2);
+0203             <span class="keyword">end</span>
+0204             
+0205             rnaSyn = allRnaSyn(rna.matureIndexs, sim.compartment.cytosolIndexs);
+0206             aminoacylatedTfs = allRnaSyn(rna.aminoacylatedIndexs, sim.compartment.cytosolIndexs) ~= 0;
+0207             rnaSyn(aminoacylatedTfs) = allRnaSyn(rna.aminoacylatedIndexs(aminoacylatedTfs), sim.compartment.cytosolIndexs) - <span class="keyword">...</span>
+0208                 initRNAs(rna.matureIndexs(aminoacylatedTfs), sim.compartment.cytosolIndexs);
+0209             
+0210             rnaExp = <span class="keyword">...</span>
+0211                 allRnaExp(rna.processedIndexs, sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0212                 allRnaExp(rna.matureIndexs, sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0213                 allRnaExp(rna.aminoacylatedIndexs, sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0214                 allRnaExp(rna.boundIndexs, sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0215                 allRnaExp(rna.misfoldedIndexs, sim.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0216                 allRnaExp(rna.damagedIndexs, sim.compartment.cytosolIndexs);
+0217             
+0218             <span class="comment">%% scale to cell cycle</span>
+0219             rnaSyn = rnaSyn * 1 / (exp(nIter * log(2) / time.cellCycleLength) - 1);
+0220             rnaExp = rnaExp * 1 / (exp(nIter * log(2) / time.cellCycleLength) - 1);
+0221         <span class="keyword">end</span>
+0222     <span class="keyword">end</span>
+0223 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

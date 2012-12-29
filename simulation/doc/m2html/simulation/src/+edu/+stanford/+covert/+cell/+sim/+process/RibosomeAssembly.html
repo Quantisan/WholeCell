@@ -1,0 +1,490 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RibosomeAssembly</title>
+  <meta name="keywords" content="RibosomeAssembly">
+  <meta name="description" content="Assemble Ribosomes">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; RibosomeAssembly.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RibosomeAssembly
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Assemble Ribosomes</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Assemble Ribosomes
+
+ @wholeCellModelID Process_RibosomeAssembly
+ @name             Ribosomal Assembly
+ @description
+   Biology
+   ===============
+   Assembly of the 30S and 50S ribosomal particles is a special case of
+   macromolecular complexation in which subunits are incorporated in a
+   stereotyped pattern [PUB_0660, PUB_0661], and which requires six
+   energy-dependent GTPases – EngA, EngB, Era, Obg, RbfA, and RbgA. The
+   exact energy requirement of each GTPase is unknown. Here we assume that
+   each GTPase that has been reported to be required to form each
+   ribosomal particle requires 1 GTP per particle. 
+
+   Knowledge Base
+   ===============
+   The 30S and 50S ribosomal particles are represented as complexes in the
+   knowledge base. Their RNA and protein subunit composition was curated from
+   the literature, and is stored in association with the complexes in the
+   knowledge base. This composition is loaded by initializeConstants into this
+   process's proteinComplexRNAComposition and proteinComplexMonomerComposition
+   properties.
+
+   Representation
+   ===============
+   substrates, enzymes, RNAs, monomers, and complexs represent the counts of
+   free metabolites (eg. ATP, ADP, Pi, H2O, H+), the ribosomal assembly
+   GTPases, the amounts of RNA and protein monomer ribosomal subunits, and the
+   30S and 50S ribosomal particles. The process doesn't represent any
+   intermediate state of ribosomal particle assembly; ribosomal particle
+   assembly is assumed to be an all-or-nothing process on the time scale of
+   this process. That is, we make the simplifying assumption that either a
+   ribosomal particle completely forms within a single time step, or no
+   progress in assembly of that particle is made during that time step.
+
+   proteinComplexRNAComposition and proteinComplexMonomerComposition represent
+   the RNA and protein monomer composition of the 30S and 50S ribosomal
+   subunits. complexationCatalysisMatrix represents the GTPases required to
+   form each ribosomal particle.
+
+   Initialization
+   ===============
+   The process is initialized to a state with the maximal number of formed
+   ribosomal particles given the amounts of initialized RNA and protein
+   monomers. That is, the process is initialized to a state where insufficient
+   RNA and protein monomers are available to form additional ribosomal subunits.
+
+   Simulation
+   ===============
+   In a randomized order over particles, for each ribosomal particle:
+   1. Calculate the maximum number of particles that can form based on
+      available RNA and protein monomer subunits, GTPases, and GTP.
+   2. Increment the number of ribosomal particles. Decrement the numbers of RNA
+      and protein monomer subunits, and GTP and water. Increment the counts of
+      the byproducts of GTP hydrolysis (GDP, Pi, H).
+
+   This makes the simplying assumption that ribosomal assembly is fast compared
+   to the 1s time scale of this process, and is energetically favorable such
+   that in the presence of saturating enzymes and energy, ribosomal assembly is
+   limited by the subunit availability.
+
+   References
+   ===============
+   1. Nierhaus KH (1991). The assembly of prokaryotic ribosomes.
+      Biochimie. 76(3):739-55.[PUB_0660]
+   2. Culver GM (2003). Assembly of the 30S ribosomal subunit.
+      Biopolymers. 68(2):234-49. [PUB_0661]
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RibosomeAssembly.html" class="code" title="">RibosomeAssembly</a>	Assemble Ribosomes</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RibosomeAssembly.html" class="code" title="">RibosomeAssembly</a>	Assemble Ribosomes</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RibosomeAssembly(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function copyFromState(this)</a></li><li><a href="#_sub4" class="code">function copyToState(this)</a></li><li><a href="#_sub5" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(this)</a></li><li><a href="#_sub8" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub9" class="code">function evolveState(this)</a></li><li><a href="#_sub10" class="code">function result = getDryWeight(this)</a></li><li><a href="#_sub11" class="code">function result = getGtpPerComplex(this, i)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Assemble Ribosomes</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_RibosomeAssembly</span>
+0004 <span class="comment">% @name             Ribosomal Assembly</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   Assembly of the 30S and 50S ribosomal particles is a special case of</span>
+0009 <span class="comment">%   macromolecular complexation in which subunits are incorporated in a</span>
+0010 <span class="comment">%   stereotyped pattern [PUB_0660, PUB_0661], and which requires six</span>
+0011 <span class="comment">%   energy-dependent GTPases – EngA, EngB, Era, Obg, RbfA, and RbgA. The</span>
+0012 <span class="comment">%   exact energy requirement of each GTPase is unknown. Here we assume that</span>
+0013 <span class="comment">%   each GTPase that has been reported to be required to form each</span>
+0014 <span class="comment">%   ribosomal particle requires 1 GTP per particle.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   Knowledge Base</span>
+0017 <span class="comment">%   ===============</span>
+0018 <span class="comment">%   The 30S and 50S ribosomal particles are represented as complexes in the</span>
+0019 <span class="comment">%   knowledge base. Their RNA and protein subunit composition was curated from</span>
+0020 <span class="comment">%   the literature, and is stored in association with the complexes in the</span>
+0021 <span class="comment">%   knowledge base. This composition is loaded by initializeConstants into this</span>
+0022 <span class="comment">%   process's proteinComplexRNAComposition and proteinComplexMonomerComposition</span>
+0023 <span class="comment">%   properties.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   Representation</span>
+0026 <span class="comment">%   ===============</span>
+0027 <span class="comment">%   substrates, enzymes, RNAs, monomers, and complexs represent the counts of</span>
+0028 <span class="comment">%   free metabolites (eg. ATP, ADP, Pi, H2O, H+), the ribosomal assembly</span>
+0029 <span class="comment">%   GTPases, the amounts of RNA and protein monomer ribosomal subunits, and the</span>
+0030 <span class="comment">%   30S and 50S ribosomal particles. The process doesn't represent any</span>
+0031 <span class="comment">%   intermediate state of ribosomal particle assembly; ribosomal particle</span>
+0032 <span class="comment">%   assembly is assumed to be an all-or-nothing process on the time scale of</span>
+0033 <span class="comment">%   this process. That is, we make the simplifying assumption that either a</span>
+0034 <span class="comment">%   ribosomal particle completely forms within a single time step, or no</span>
+0035 <span class="comment">%   progress in assembly of that particle is made during that time step.</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   proteinComplexRNAComposition and proteinComplexMonomerComposition represent</span>
+0038 <span class="comment">%   the RNA and protein monomer composition of the 30S and 50S ribosomal</span>
+0039 <span class="comment">%   subunits. complexationCatalysisMatrix represents the GTPases required to</span>
+0040 <span class="comment">%   form each ribosomal particle.</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   Initialization</span>
+0043 <span class="comment">%   ===============</span>
+0044 <span class="comment">%   The process is initialized to a state with the maximal number of formed</span>
+0045 <span class="comment">%   ribosomal particles given the amounts of initialized RNA and protein</span>
+0046 <span class="comment">%   monomers. That is, the process is initialized to a state where insufficient</span>
+0047 <span class="comment">%   RNA and protein monomers are available to form additional ribosomal subunits.</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   Simulation</span>
+0050 <span class="comment">%   ===============</span>
+0051 <span class="comment">%   In a randomized order over particles, for each ribosomal particle:</span>
+0052 <span class="comment">%   1. Calculate the maximum number of particles that can form based on</span>
+0053 <span class="comment">%      available RNA and protein monomer subunits, GTPases, and GTP.</span>
+0054 <span class="comment">%   2. Increment the number of ribosomal particles. Decrement the numbers of RNA</span>
+0055 <span class="comment">%      and protein monomer subunits, and GTP and water. Increment the counts of</span>
+0056 <span class="comment">%      the byproducts of GTP hydrolysis (GDP, Pi, H).</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   This makes the simplying assumption that ribosomal assembly is fast compared</span>
+0059 <span class="comment">%   to the 1s time scale of this process, and is energetically favorable such</span>
+0060 <span class="comment">%   that in the presence of saturating enzymes and energy, ribosomal assembly is</span>
+0061 <span class="comment">%   limited by the subunit availability.</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   References</span>
+0064 <span class="comment">%   ===============</span>
+0065 <span class="comment">%   1. Nierhaus KH (1991). The assembly of prokaryotic ribosomes.</span>
+0066 <span class="comment">%      Biochimie. 76(3):739-55.[PUB_0660]</span>
+0067 <span class="comment">%   2. Culver GM (2003). Assembly of the 30S ribosomal subunit.</span>
+0068 <span class="comment">%      Biopolymers. 68(2):234-49. [PUB_0661]</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0071 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0072 <span class="comment">% Last updated: 1/4/2010</span>
+0073 classdef <a href="RibosomeAssembly.html" class="code" title="">RibosomeAssembly</a> &lt; edu.stanford.covert.cell.sim.Process
+0074     <span class="comment">%property annotations</span>
+0075     properties (Constant)
+0076         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0077         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0078             <span class="string">'complexationCatalysisMatrix'</span>
+0079             <span class="string">'proteinComplexRNAComposition'</span>
+0080             <span class="string">'proteinComplexMonomerComposition'</span>
+0081             };
+0082         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0083         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0084             <span class="string">'RNAs'</span>
+0085             <span class="string">'monomers'</span>
+0086             <span class="string">'complexs'</span>
+0087             };
+0088     <span class="keyword">end</span>
+0089     
+0090     <span class="comment">%IDs, names, and local indices</span>
+0091     properties
+0092         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0093 
+0094         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0095             <span class="string">'GTP'</span>;<span class="string">'GDP'</span>;<span class="string">'PI'</span>;<span class="string">'H2O'</span>;<span class="string">'H'</span>};
+0096         substrateIndexs_gtp       = 1; <span class="comment">%index within substrates of GTP</span>
+0097         substrateIndexs_gdp       = 2; <span class="comment">%index within substrates of GDP</span>
+0098         substrateIndexs_phosphate = 3; <span class="comment">%index within substrates of inorganic phosphate</span>
+0099         substrateIndexs_water     = 4; <span class="comment">%index within substrates of water</span>
+0100         substrateIndexs_hydrogen  = 5; <span class="comment">%index within substrates of hydrogen</span>
+0101 
+0102         enzymeWholeCellModelIDs = {    <span class="comment">%whole cell model IDs of enzymes</span>
+0103             <span class="string">'MG_329_MONOMER'</span>;          <span class="comment">%GTP-binding protein engA</span>
+0104             <span class="string">'MG_335_MONOMER'</span>;          <span class="comment">%GTP-binding protein engB, putative</span>
+0105             <span class="string">'MG_387_MONOMER'</span>;          <span class="comment">%GTP-binding protein Era</span>
+0106             <span class="string">'MG_384_MONOMER'</span>;          <span class="comment">%GTPase1 Obg</span>
+0107             <span class="string">'MG_143_MONOMER'</span>;          <span class="comment">%ribosome-binding factor A</span>
+0108             <span class="string">'MG_442_MONOMER'</span>};         <span class="comment">%ribosomal biogenesis GTPase</span>
+0109         enzymeIndexs_engA = 1;         <span class="comment">%index within enzymes of EngA</span>
+0110         enzymeIndexs_engB = 2;         <span class="comment">%index within enzymes of EngB</span>
+0111         enzymeIndexs_era  = 3;         <span class="comment">%index within enzymes of Era</span>
+0112         enzymeIndexs_obg  = 4;         <span class="comment">%index within enzymes of Obg</span>
+0113         enzymeIndexs_rbfA = 5;         <span class="comment">%index within enzymes of RbfA</span>
+0114         enzymeIndexs_rbgA = 6;         <span class="comment">%index within enzymes of RbgA</span>
+0115         enzymeIndexs_30S_assembly_gtpase = [3;5];     <span class="comment">%index within enzymes of 30 S ribosome assembly GTPases</span>
+0116         enzymeIndexs_50S_assembly_gtpase = [1;2;4;6]; <span class="comment">%index within enzymes of 50 S ribosome assembly GTPases</span>
+0117 
+0118         rnaWholeCellModelIDs           <span class="comment">%whole cell model IDs of ribosome RNA subunits</span>
+0119         monomerWholeCellModelIDs       <span class="comment">%whole cell model IDs of ribosome protein monomer subunits</span>
+0120         complexWholeCellModelIDs = {   <span class="comment">%whole cell model IDs of ribosomal particles</span>
+0121             <span class="string">'RIBOSOME_30S'</span>;            <span class="comment">%30S ribosomal particle</span>
+0122             <span class="string">'RIBOSOME_50S'</span>};           <span class="comment">%50S ribosomal particle</span>
+0123         complexIndexs_30S_ribosome = 1;<span class="comment">%index within complexs of 30S ribosomal particle</span>
+0124         complexIndexs_50S_ribosome = 2;<span class="comment">%index within complexs of 50S ribosomal particle</span>
+0125 
+0126         rnaGlobalIndexs                <span class="comment">%indices within simulation.matureRNAIndexs of RNAs</span>
+0127         monomerGlobalIndexs            <span class="comment">%indices within simulation.matureMonomerIndexs of protein monomers</span>
+0128         complexGlobalIndexs            <span class="comment">%indices within simulation.matureComplexIndexs of ribosomal particles</span>
+0129     <span class="keyword">end</span>
+0130 
+0131     <span class="comment">%fixed biological constants</span>
+0132     properties
+0133         complexationCatalysisMatrix      <span class="comment">%assembly GTPases required to assemble each ribosomal particle [GTPases X ribosomal particles]</span>
+0134         proteinComplexRNAComposition     <span class="comment">%RNA subunit composition of ribosomal particles [RNAs X ribosomal particles]</span>
+0135         proteinComplexMonomerComposition <span class="comment">%protein monomer subunit composition of ribosomal particles [protein monomers X ribosomal particles]</span>
+0136     <span class="keyword">end</span>
+0137 
+0138     <span class="comment">%global state (stored locally for convenience)</span>
+0139     properties
+0140         RNAs     <span class="comment">%counts of ribosome RNA subunits</span>
+0141         monomers <span class="comment">%counts of ribosome protein monomer subunits</span>
+0142         complexs <span class="comment">%counts of ribosomal particles</span>
+0143     <span class="keyword">end</span>
+0144 
+0145     <span class="comment">%constructor</span>
+0146     methods
+0147         <a name="_sub0" href="#_subfunctions" class="code">function this = RibosomeAssembly(wholeCellModelID, name)</a>
+0148             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0149         <span class="keyword">end</span>
+0150     <span class="keyword">end</span>
+0151 
+0152     <span class="comment">%communication between process/simulation</span>
+0153     methods
+0154         <span class="comment">%initialize constants</span>
+0155         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0156             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0157 
+0158             <span class="comment">%complexes</span>
+0159             [~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, this.complexGlobalIndexs] = <span class="keyword">...</span>
+0160                 this.initializeConstantsHelper(this.complexWholeCellModelIDs);
+0161 
+0162             <span class="comment">%RNAs</span>
+0163             rnaComposition = knowledgeBase.proteinComplexRNAComposition(:, :, this.compartment.cytosolIndexs);
+0164 
+0165             this.rnaGlobalIndexs = <span class="keyword">...</span>
+0166                 find(any(rnaComposition(this.gene.rRNAIndexs, this.complexGlobalIndexs),2));
+0167 
+0168             this.rnaWholeCellModelIDs = this.rna.wholeCellModelIDs(<span class="keyword">...</span>
+0169                 this.rna.matureIndexs(this.rna.matureRRNAIndexs(this.rnaGlobalIndexs)));
+0170 
+0171             this.proteinComplexRNAComposition = rnaComposition(<span class="keyword">...</span>
+0172                 this.gene.rRNAIndexs(this.rnaGlobalIndexs), this.complexGlobalIndexs);
+0173             assertEqual([0; 1], unique(this.proteinComplexRNAComposition), <span class="string">'Stoichiometry of subunits in complexes must be 1'</span>);
+0174             this.proteinComplexRNAComposition = this.proteinComplexRNAComposition == 1;
+0175 
+0176             <span class="comment">%monomers</span>
+0177             monomerComposition = knowledgeBase.proteinComplexMonomerComposition(:, :, this.compartment.cytosolIndexs);
+0178 
+0179             this.monomerGlobalIndexs = <span class="keyword">...</span>
+0180                 find(any(monomerComposition(this.gene.mRNAIndexs, this.complexGlobalIndexs),2));
+0181 
+0182             this.monomerWholeCellModelIDs = this.monomer.wholeCellModelIDs(<span class="keyword">...</span>
+0183                 this.monomer.matureIndexs(this.monomerGlobalIndexs));
+0184 
+0185             this.proteinComplexMonomerComposition = monomerComposition(<span class="keyword">...</span>
+0186                 this.gene.mRNAIndexs(this.monomerGlobalIndexs), this.complexGlobalIndexs);
+0187             assertEqual([0; 1], unique(this.proteinComplexMonomerComposition), <span class="string">'Stoichiometry of subunits in complexes must be 1'</span>);
+0188             this.proteinComplexMonomerComposition = this.proteinComplexMonomerComposition == 1;                      
+0189 
+0190             <span class="comment">%GTPases</span>
+0191             this.complexationCatalysisMatrix = false(length(this.enzymeWholeCellModelIDs), length(this.complexWholeCellModelIDs));
+0192             this.complexationCatalysisMatrix(this.enzymeIndexs_30S_assembly_gtpase, this.complexIndexs_30S_ribosome) = true;
+0193             this.complexationCatalysisMatrix(this.enzymeIndexs_50S_assembly_gtpase, this.complexIndexs_50S_ribosome) = true;
+0194         <span class="keyword">end</span>
+0195 
+0196         <span class="comment">%retrieve state from simulation</span>
+0197         <a name="_sub2" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0198             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0199 
+0200             this.RNAs = this.rna.counts(this.rna.matureIndexs(this.rna.matureRRNAIndexs(this.rnaGlobalIndexs)), this.compartment.cytosolIndexs, :);
+0201             this.monomers = this.monomer.counts(this.monomer.matureIndexs(this.monomerGlobalIndexs),  this.compartment.cytosolIndexs, :);
+0202             this.complexs = this.complex.counts(this.complex.nascentIndexs(this.complexGlobalIndexs), this.compartment.cytosolIndexs, :);
+0203         <span class="keyword">end</span>
+0204 
+0205         <span class="comment">%send state to simulation</span>
+0206         <a name="_sub3" href="#_subfunctions" class="code">function copyToState(this)</a>
+0207             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0208 
+0209             this.rna.counts(this.rna.matureIndexs(this.rna.matureRRNAIndexs(this.rnaGlobalIndexs)), this.compartment.cytosolIndexs, :) = this.RNAs;
+0210             this.monomer.counts(this.monomer.matureIndexs(this.monomerGlobalIndexs),  this.compartment.cytosolIndexs, :) = this.monomers;
+0211             this.complex.counts(this.complex.nascentIndexs(this.complexGlobalIndexs), this.compartment.cytosolIndexs, :) = this.complexs;
+0212         <span class="keyword">end</span>
+0213     <span class="keyword">end</span>
+0214 
+0215     <span class="comment">%allocate memory for state</span>
+0216     methods
+0217         <a name="_sub4" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0218             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0219 
+0220             this.RNAs     = zeros(length(this.rnaGlobalIndexs),     1, numTimePoints);
+0221             this.monomers = zeros(length(this.monomerGlobalIndexs), 1, numTimePoints);
+0222             this.complexs = zeros(length(this.complexGlobalIndexs), 1, numTimePoints);
+0223         <span class="keyword">end</span>
+0224     <span class="keyword">end</span>
+0225 
+0226     <span class="comment">%model</span>
+0227     methods
+0228         <span class="comment">%Calculate</span>
+0229         <span class="comment">%- contribution to FBA objective</span>
+0230         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0231         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0232             <span class="comment">%% initialize</span>
+0233             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0234             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0235             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0236             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0237             
+0238             <span class="comment">%% substrate and byproducts: GTP hydrolysis by ribosome assembly GTPases</span>
+0239             gtpCost = 0;
+0240             <span class="keyword">for</span> i = 1:numel(this.complexWholeCellModelIDs)
+0241                 gtpCost = gtpCost + this.getGtpPerComplex(i) * min([
+0242                     states.rnaProductions(this.rna.matureRRNAIndexs(this.rnaGlobalIndexs)) ./ this.proteinComplexRNAComposition(:, i);
+0243                     states.monomerProductions(this.monomerGlobalIndexs)                    ./ this.proteinComplexMonomerComposition(:, i)]);
+0244             <span class="keyword">end</span>
+0245             
+0246             bmProd(this.substrateIndexs_gtp)       = gtpCost;
+0247             bmProd(this.substrateIndexs_water)     = gtpCost;
+0248             byProd(this.substrateIndexs_gdp)       = gtpCost;
+0249             byProd(this.substrateIndexs_phosphate) = gtpCost;
+0250             byProd(this.substrateIndexs_hydrogen)  = gtpCost;      
+0251             
+0252             <span class="comment">%% enzymes</span>
+0253             minEnzExp([
+0254                 this.enzymeIndexs_30S_assembly_gtpase;
+0255                 this.enzymeIndexs_50S_assembly_gtpase]) = 2;
+0256         <span class="keyword">end</span>
+0257         
+0258         <span class="comment">%initialization: complexs initialized by</span>
+0259         <span class="comment">%1. Macromolecular complexation</span>
+0260         <span class="comment">%2. Ribosome assembly</span>
+0261         <span class="comment">%3. Protein folding</span>
+0262         <span class="comment">%4. Protein activation</span>
+0263         <span class="comment">%Here we push monomers to the ribosome-complexed state</span>
+0264         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(this)</a>
+0265             nCplxs = zeros(size(this.complexWholeCellModelIDs));
+0266             <span class="keyword">for</span> i = 1:numel(this.complexWholeCellModelIDs)
+0267                 nCplxs(i) = floor(min([
+0268                     this.RNAs     ./ this.proteinComplexRNAComposition(:, i);
+0269                     this.monomers ./ this.proteinComplexMonomerComposition(:, i)]));
+0270             <span class="keyword">end</span>
+0271             this.RNAs     = this.RNAs     - this.proteinComplexRNAComposition     * nCplxs;
+0272             this.monomers = this.monomers - this.proteinComplexMonomerComposition * nCplxs;
+0273             this.complexs = this.complexs + nCplxs;
+0274         <span class="keyword">end</span>
+0275 
+0276         <span class="comment">%resource requirements</span>
+0277         <a name="_sub7" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0278             result = zeros(size(this.substrates));
+0279             
+0280             <span class="comment">%assumes:</span>
+0281             <span class="comment">%- protein produced slowly</span>
+0282             <span class="comment">%- each RNA/protein used in only 1 complex</span>
+0283             <span class="comment">%- stoichiometry of each RNA/protein in each complex is 1</span>
+0284             <span class="comment">%- 1 GTP used per assembly GTPase per complex</span>
+0285             <span class="comment">%</span>
+0286             <span class="comment">%these assumptions are verified in the unit test and</span>
+0287             <span class="comment">%initializeConstants</span>
+0288             result(this.substrateIndexs_gtp) = <span class="keyword">...</span>
+0289                 + this.getGtpPerComplex(2) * all(this.enzymes(this.complexationCatalysisMatrix(:, 1))) * (1 + min([
+0290                     this.RNAs(this.proteinComplexRNAComposition(:, 1))
+0291                     this.monomers(this.proteinComplexMonomerComposition(:, 1))
+0292                     ])) <span class="keyword">...</span>
+0293                 + this.getGtpPerComplex(2) * all(this.enzymes(this.complexationCatalysisMatrix(:, 2))) * (1 + min([
+0294                     this.RNAs(this.proteinComplexRNAComposition(:, 2))
+0295                     this.monomers(this.proteinComplexMonomerComposition(:, 2))
+0296                     ]));
+0297             result(this.substrateIndexs_water) = result(this.substrateIndexs_gtp);
+0298         <span class="keyword">end</span>
+0299         
+0300         <span class="comment">%simulation</span>
+0301         <a name="_sub8" href="#_subfunctions" class="code">function evolveState(this)</a>
+0302             <span class="comment">%stop if no GTP</span>
+0303             <span class="keyword">if</span> ~this.substrates(this.substrateIndexs_gtp)
+0304                 <span class="keyword">return</span>;
+0305             <span class="keyword">end</span>
+0306             
+0307             <span class="comment">%randomize order in which to try forming complexes</span>
+0308             randOrder = this.randStream.randperm(numel(this.complexWholeCellModelIDs));
+0309             <span class="keyword">for</span> j = 1:numel(this.complexWholeCellModelIDs)
+0310                 i = randOrder(j);
+0311                 
+0312                 <span class="comment">%number of GTPs needed for GTPases to form complex</span>
+0313                 gtpPerComplex = this.getGtpPerComplex(i);
+0314                 
+0315                 <span class="comment">%number of complexes that can form, limited by:</span>
+0316                 <span class="comment">%- enzymes</span>
+0317                 <span class="comment">%- GTP</span>
+0318                 <span class="comment">%- RNA subunits</span>
+0319                 <span class="comment">%- protein monomer subunits</span>
+0320                 <span class="comment">%</span>
+0321                 <span class="comment">%assumes stoichiometry of each subunit is 1; this is verified in</span>
+0322                 <span class="comment">%initializeConstants</span>
+0323                 newComplexs = floor(min([
+0324                     this.substrates(this.substrateIndexs_gtp) / gtpPerComplex;
+0325                     this.substrates(this.substrateIndexs_water) / gtpPerComplex;
+0326                     this.RNAs(this.proteinComplexRNAComposition(:,i));
+0327                     this.monomers(this.proteinComplexMonomerComposition(:,i))]));
+0328                 <span class="keyword">if</span> newComplexs == 0 || ~all(this.enzymes(this.complexationCatalysisMatrix(:,i)))
+0329                     <span class="keyword">continue</span>;
+0330                 <span class="keyword">end</span>
+0331                 
+0332                 <span class="comment">%update counts of complexes, RNAs, protein monomers, metabolites</span>
+0333                 this.complexs(i) = this.complexs(i) + newComplexs;
+0334                 
+0335                 this.RNAs     = this.RNAs     - this.proteinComplexRNAComposition(:,i)     * newComplexs;
+0336                 this.monomers = this.monomers - this.proteinComplexMonomerComposition(:,i) * newComplexs;
+0337                 
+0338                 this.substrates = this.substrates + [-1; 1; 1; -1; 1] * newComplexs * gtpPerComplex; <span class="comment">%substrate order is [GTP, GDP, Pi, H2O, H]</span>
+0339             <span class="keyword">end</span>
+0340         <span class="keyword">end</span>
+0341     <span class="keyword">end</span>
+0342 
+0343     <span class="comment">%get methods of dependent local state</span>
+0344     methods
+0345         <a name="_sub9" href="#_subfunctions" class="code">function result = getDryWeight(this)</a>
+0346             rnaMolecularWeights = this.rna.molecularWeights(<span class="keyword">...</span>
+0347                 this.rna.matureIndexs(this.rna.matureRRNAIndexs(this.rnaGlobalIndexs))) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0348             monomerMolecularWeights = this.monomer.molecularWeights(<span class="keyword">...</span>
+0349                 this.monomer.matureIndexs(this.monomerGlobalIndexs)) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0350             complexMolecularWeights = this.complex.molecularWeights(<span class="keyword">...</span>
+0351                 this.complex.nascentIndexs(this.complexGlobalIndexs)) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0352             
+0353             <span class="keyword">if</span> size(this.RNAs, 3) == 1
+0354                 result = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0355                     rnaMolecularWeights'     * this.RNAs     + <span class="keyword">...</span>
+0356                     monomerMolecularWeights' * this.monomers + <span class="keyword">...</span>
+0357                     complexMolecularWeights' * this.complexs;
+0358             <span class="keyword">else</span>
+0359                 result = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0360                     permute(rnaMolecularWeights'     * permute(this.RNAs,    [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0361                     permute(monomerMolecularWeights' * permute(this.monomers,[1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0362                     permute(complexMolecularWeights' * permute(this.complexs,[1 3 2]),[1 3 2]);
+0363             <span class="keyword">end</span>
+0364         <span class="keyword">end</span>
+0365 
+0366         <a name="_sub10" href="#_subfunctions" class="code">function result = getGtpPerComplex(this, i)</a>
+0367             result = sum(this.complexationCatalysisMatrix(:,i));
+0368         <span class="keyword">end</span>
+0369     <span class="keyword">end</span>
+0370 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

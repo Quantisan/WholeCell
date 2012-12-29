@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of jsonParse</title>
+  <meta name="keywords" content="jsonParse">
+  <meta name="description" content="jsonParse Deserializes a value from JSON format.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+io</a> &gt; jsonParse.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+io&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>jsonParse
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>jsonParse Deserializes a value from JSON format.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function result = jsonParse(jsonString) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">jsonParse Deserializes a value from JSON format.
+
+   See edu.stanford.covert.io.jsonFormat</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function result = toMatlabValue(value)</a></li><li><a href="#_sub2" class="code">function result = parseDoubleArray(jsonArray)</a></li><li><a href="#_sub3" class="code">function result = parseNumberMatrix(iter, sz, type, methodName)</a></li><li><a href="#_sub4" class="code">function result = parseCellArrayIterator(iter, sz)</a></li><li><a href="#_sub5" class="code">function result = parseStringArray(array)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function result = jsonParse(jsonString)</a>
+0002 <span class="comment">%jsonParse Deserializes a value from JSON format.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   See edu.stanford.covert.io.jsonFormat</span>
+0005 
+0006     <span class="keyword">try</span>
+0007         result = <a href="#_sub1" class="code" title="subfunction result = toMatlabValue(value)">toMatlabValue</a>(com.twolattes.json.Json.fromString(jsonString));
+0008     <span class="keyword">catch</span> ex
+0009         <span class="keyword">if</span> strcmp(ex.identifier, <span class="string">'MATLAB:Java:GenericException'</span>)
+0010             throw(MException(<span class="string">'jsonParse:InvalidJSON'</span>, ex.message));
+0011         <span class="keyword">else</span>
+0012             throw(ex);
+0013         <span class="keyword">end</span>
+0014     <span class="keyword">end</span>
+0015 <span class="keyword">end</span>
+0016 
+0017 <a name="_sub1" href="#_subfunctions" class="code">function result = toMatlabValue(value)</a>
+0018     import com.twolattes.json.Json;
+0019 
+0020     <span class="keyword">switch</span> class(value)
+0021     <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$NumberImplBigDecimal'</span>
+0022         result = value.getNumber().doubleValue();
+0023     <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$StringImpl'</span>
+0024         result = char(value.getString());
+0025     <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$BooleanImpl'</span>
+0026         result = value.getBoolean();
+0027     <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$ArrayImpl'</span>
+0028         <span class="keyword">if</span> value.isEmpty()
+0029             result = [];
+0030             <span class="keyword">return</span>;
+0031         <span class="keyword">end</span>
+0032         iter = value.iterator();
+0033         v1 = iter.next();
+0034         <span class="keyword">switch</span> class(v1)
+0035         <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$BooleanImpl'</span>
+0036             sz = <a href="#_sub2" class="code" title="subfunction result = parseDoubleArray(jsonArray)">parseDoubleArray</a>(iter.next());
+0037             result = logical(<a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'int32'</span>, <span class="string">'intValue'</span>));
+0038         <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$NumberImplBigDecimal'</span>
+0039             v2 = iter.next();
+0040             <span class="keyword">if</span> strcmp(class(v2), <span class="string">'com.twolattes.json.Json$NumberImplBigDecimal'</span>)
+0041                 result = <a href="#_sub2" class="code" title="subfunction result = parseDoubleArray(jsonArray)">parseDoubleArray</a>(value);
+0042                 <span class="keyword">return</span>;
+0043             <span class="keyword">end</span>
+0044             sz = <a href="#_sub2" class="code" title="subfunction result = parseDoubleArray(jsonArray)">parseDoubleArray</a>(v2);
+0045             <span class="keyword">switch</span> v1.getNumber().intValue()
+0046             <span class="keyword">case</span> 1, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'single'</span>, <span class="string">'floatValue'</span>);
+0047             <span class="keyword">case</span> 7, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'int8'</span>, <span class="string">'shortValue'</span>);
+0048             <span class="keyword">case</span> 8, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'uint8'</span>, <span class="string">'shortValue'</span>);
+0049             <span class="keyword">case</span> 15, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'int16'</span>, <span class="string">'shortValue'</span>);
+0050             <span class="keyword">case</span> 16, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'uint16'</span>, <span class="string">'intValue'</span>);
+0051             <span class="keyword">case</span> 31, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'int32'</span>, <span class="string">'intValue'</span>);
+0052             <span class="keyword">case</span> 32, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'uint32'</span>, <span class="string">'longValue'</span>);
+0053             <span class="keyword">case</span> 63, result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'int64'</span>, <span class="string">'longValue'</span>);
+0054             <span class="keyword">case</span> 64
+0055                 result = zeros(sz, <span class="string">'uint64'</span>);
+0056                 <span class="keyword">for</span> i = 1:numel(result)
+0057                     result(i) = str2double(char(iter.next().getNumber().toString()));
+0058                 <span class="keyword">end</span>
+0059             <span class="keyword">end</span>
+0060         <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$ArrayImpl'</span>
+0061             <span class="keyword">if</span> v1.isEmpty()
+0062                 result = cell.empty;
+0063                 <span class="keyword">return</span>;
+0064             <span class="keyword">end</span>
+0065             sz = <a href="#_sub2" class="code" title="subfunction result = parseDoubleArray(jsonArray)">parseDoubleArray</a>(v1);
+0066             <span class="keyword">if</span> value.size() == 2
+0067                 v2 = iter.next();
+0068                 <span class="keyword">switch</span> class(v2)
+0069                 <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$StringImpl'</span>
+0070                     <span class="keyword">if</span> v2.isEmpty()
+0071                         result = reshape(<span class="string">''</span>, sz);
+0072                     <span class="keyword">else</span>
+0073                         result = reshape(char(v2.getString()), sz);
+0074                     <span class="keyword">end</span>
+0075                 <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$ArrayImpl'</span>
+0076                     result = <a href="#_sub4" class="code" title="subfunction result = parseCellArrayIterator(iter, sz)">parseCellArrayIterator</a>(v2.iterator(), sz);
+0077                 <span class="keyword">end</span>
+0078             <span class="keyword">else</span>
+0079                 result = <a href="#_sub3" class="code" title="subfunction result = parseNumberMatrix(iter, sz, type, methodName)">parseNumberMatrix</a>(iter, sz, <span class="string">'double'</span>, <span class="string">'doubleValue'</span>);
+0080             <span class="keyword">end</span>
+0081         <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$ObjectImpl'</span>
+0082             sz = <a href="#_sub2" class="code" title="subfunction result = parseDoubleArray(jsonArray)">parseDoubleArray</a>(iter.next());
+0083             names = <a href="#_sub5" class="code" title="subfunction result = parseStringArray(array)">parseStringArray</a>(iter.next());
+0084             values = <a href="#_sub4" class="code" title="subfunction result = parseCellArrayIterator(iter, sz)">parseCellArrayIterator</a>(iter, [length(names) prod(sz)]);
+0085             result = reshape(cell2struct(values, names, 1), sz);
+0086         <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$StringImpl'</span>
+0087             constructor = str2func(char(v1.getString()));
+0088             properties = struct;
+0089             entries = iter.next().entrySet().iterator();
+0090             <span class="keyword">while</span> entries.hasNext()
+0091                 e = entries.next();
+0092                 properties.(char(e.getKey().getString())) = <span class="keyword">...</span>
+0093                     <a href="#_sub1" class="code" title="subfunction result = toMatlabValue(value)">toMatlabValue</a>(e.getValue());
+0094             <span class="keyword">end</span>
+0095             result = constructor(properties);
+0096         <span class="keyword">end</span>
+0097     <span class="keyword">case</span> <span class="string">'com.twolattes.json.Json$ObjectImpl'</span>
+0098         result = struct;
+0099         entries = value.entrySet().iterator();
+0100         <span class="keyword">while</span> entries.hasNext()
+0101             e = entries.next();
+0102             result.(char(e.getKey().getString())) = <span class="keyword">...</span>
+0103                 <a href="#_sub1" class="code" title="subfunction result = toMatlabValue(value)">toMatlabValue</a>(e.getValue());
+0104         <span class="keyword">end</span>
+0105     <span class="keyword">end</span>
+0106 <span class="keyword">end</span>
+0107 
+0108 <a name="_sub2" href="#_subfunctions" class="code">function result = parseDoubleArray(jsonArray)</a>
+0109     iter = jsonArray.iterator();
+0110     result = zeros([1 jsonArray.size()]);
+0111     <span class="keyword">for</span> i = 1:numel(result)
+0112         result(i) = iter.next().getNumber().doubleValue();
+0113     <span class="keyword">end</span>
+0114 <span class="keyword">end</span>
+0115 
+0116 <a name="_sub3" href="#_subfunctions" class="code">function result = parseNumberMatrix(iter, sz, type, methodName)</a>
+0117     result = zeros(sz, type);
+0118     <span class="keyword">for</span> i = 1:numel(result)
+0119         result(i) = iter.next().getNumber().(methodName)();
+0120     <span class="keyword">end</span>
+0121 <span class="keyword">end</span>
+0122 
+0123 <a name="_sub4" href="#_subfunctions" class="code">function result = parseCellArrayIterator(iter, sz)</a>
+0124     result = cell(sz);
+0125     <span class="keyword">for</span> i = 1:numel(result)
+0126         result{i} = <a href="#_sub1" class="code" title="subfunction result = toMatlabValue(value)">toMatlabValue</a>(iter.next());
+0127     <span class="keyword">end</span>
+0128 <span class="keyword">end</span>
+0129 
+0130 <a name="_sub5" href="#_subfunctions" class="code">function result = parseStringArray(array)</a>
+0131     result = cell([array.size() 1]);
+0132     iter = array.iterator();
+0133     <span class="keyword">for</span> i = 1:numel(result)
+0134         result{i} = char(iter.next().getString());
+0135     <span class="keyword">end</span>
+0136 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

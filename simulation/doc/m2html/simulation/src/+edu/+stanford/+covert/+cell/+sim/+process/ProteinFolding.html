@@ -1,0 +1,814 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinFolding</title>
+  <meta name="keywords" content="ProteinFolding">
+  <meta name="description" content="Protein Folding">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinFolding.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinFolding
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Folding</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Folding
+
+ @wholeCellModelID Process_ProteinFolding
+ @name             Protein Folding
+ @description
+   Biology
+   ==============
+   Protein folding is the process whereby proteins which are produced as linear
+   amino acid polymers relax to their most energetically favorable, and often
+   more compact and catalytically active configuration. Some proteins relax
+   quickly and spontaneously to their free energy minimum, while other proteins
+   require chaperones to help them achieve their folded configuration more
+   quickly. Additionally, some proteins coordinate prosthetic groups such as
+   metal ions and other small molecules during this protein rearrangement
+   process. Prosthetic groups may help stabilize the protein's catalytically
+   active configuration, or may perform folding process.
+
+   In addition to protein chaperones, membrane protein folding may be assisted
+   by phosphatidyl ethanolamine (PE) and phosphatidyl glycerol (PG) [PUB_0646].
+   This effect is not currently modeled by this process.
+
+   This process simulates
+   1. Prosthetic group complexation
+      - Inorganic ions: Fe2, Fe3, K, Mg, Mn, Na, Zn
+   2. Protein folding, where required mediated by ATP-dependent chaperone(s)
+      [PUB_0014, PUB_0644]:
+      a. Trigger factor (Tig, MG_238_MONOMER) – Highly expressed protein which
+         possibly interacts with the L23 subunit of every ribosome,
+         co-translationally assisting in the early folding every protein
+         [PUB_0014, PUB_0644]. Binds vacant ribosomes with half-life of 11 s
+         [PUB_0005]; binds ribosome-peptide complexes with half-life of 15-50 s
+         [PUB_0005]; remains associated with the peptide for a up to more
+         seconds after peptide release from the ribosome [PUB_0005]. Trigger
+         factor-50S ribosome affinity: KD=1 ?M [PUB_0005]. We model trigger as
+         required for the proper folding of all proteins.
+      b. Chaperone (DnaK, MG_305_MONOMER) – Folds 5-18% of proteins [PUB_0014,
+         PUB_0644]. Typically folds proteins &gt; 30 kDa, typically in less than 2
+         min [PUB_0014, PUB_0644]. Binds backbone of short, linear, unfolded,
+         hydrophobic peptide segments [PUB_0014, PUB_0644]. ATP hydrolysis and
+         peptide release catalyzed by GrpE (MG_201_DIMER) [PUB_0014, PUB_0644].
+         Regulated by co-chaperone DnaJ (MG_019_DIMER) which interacts with the
+         peptide side chains [PUB_0014, PUB_0644].
+      c. Chaperonin (GroEL, GroES, MG_392_393_21MER) – Folds 10-15% proteins by
+         ATP-dependent mechanism [PUB_0014, PUB_0644]. Typically folds proteins
+         20-60 kDa in size [PUB_0014, PUB_0644] with half-life &gt; 10 min
+         [PUB_0014, PUB_0644], 30-60 s [PUB_0389].
+
+   Knowledge Base
+   ==============
+   The chaperones (except Tig, which all protein monomers require) and
+   prosthetic groups required to fold each protein were reconstructed from the
+   literature (see following sections), organized into the knowledge base, and
+   are retrieved from the knowledge base in initializeConstants. Where known
+   the stoichiometry of each prosthetic group was stored in the knowledge base;
+   prosthetic groups with unreported stoichiometry are indicated with
+   stoichiometry values of -1.
+
+   Chaperones
+   ++++++++++++++
+   The chaperone requirements for the folding of each protein were compiled
+   for other bacteria (see sources below), and mapped to M. genitalium by
+   homology.
+
+       Tig    may interact with all nascent peptides at the ribosome
+              polypeptide exit site [PUB_0005, PUB_0009, PUB_0388] and assist
+              in early folding. Binds vacant ribosomes with half-life of 11 s
+              [PUB_0005]; binds ribosome-peptide complexes with half-life of
+              15-50 s [PUB_0005]; remains associated with the peptide for a
+              up to more seconds after peptide release from the ribosome
+              [PUB_0005]. Trigger factor-50S ribosome affinity: KD=1 ?M
+              [PUB_0005]. We model trigger as required for the proper folding
+              of all proteins.
+       DnaK   Deuerling et al performed a proteome-scale search for DnaK
+              substrates in E. coli [PUB_0388]
+       GroEL  Kerner et al performed a proteome-scale search for GroEL
+              substrates in E. coli [PUB_0389] and Endo and Kurusu performed
+              a proteome-scale search for GroEL substrates in B. subtilis
+              [PUB_0391]
+       FtsH   may act as molecule chaperone for membrane proteins
+              [PUB_0014]. Several other functions have also been associated
+              with FtsH. To date no proteome-scale studies of FtsH activity
+              has been performed, and FtsH's chaperone substrates are not
+              well characterized. Conequently we chose not to model FtsH as
+              a molecular chaperone, but rather a protease.
+
+   Substrates of SecB, a molecular chaperone not present in M. genitalium, have
+   also been identified on proteome-scale in E. coli [PUB_0390].
+
+   The reconstruction found that complexes typically require no chaperones to
+   fold, with the notable exception of MG_392_393_21MER (which itself is a
+   chaperone), which requires four.
+
+   Prosthetic groups
+   ++++++++++++++
+   Reaction coenzymes and prosthetic groups were reconstructed from several
+   sources including the databases BioCyc [PUB_0006], BRENDA [PUB_0570],
+   GenoBase [PUB_0386], Kinetikon [PUB_0571], Metal-MaCiE [PUB_0387], and
+   UniProt [PUB_0096] and the primary literature [PUB_0131]. These sources
+   frequently report protein prosthetic groups as a list of chemical species
+   (eg. metal ions) which can each fill the same prosthetic group role. We
+   simplified these ambiguous lists of possible prosthetic groups to a single
+   chemical species by choosing the most common chemical species according to
+   cell composition (Na+, K+ &gt; Mg2+, Cl- &gt; Fe2+, Fe3+ &gt; Ca2+ &gt; Mn2+ &gt; Cu2+ &gt;
+   Mo6+, Zn2, Co2, Ni2 [PUB_0393, PUB_0394, PUB_0395]), or the species with the
+   highest protein affinity (Irving-Williams Series, Mn2+ &lt; Fe2+, Fe3+ &lt; Co2+ &lt;
+   Ni2+ &lt; Cu2+ &gt; Zn2+ [PUB_0404]).
+
+   Roughly 20% of the monomers and 1% of the complexes bind at least one
+   prosthetic group.
+
+   Representation
+   ==============
+   substrates, enzymes, unfoldedMonomers, unfoldedComplexs, foldedMonomers, and
+   foldedComplexs represent the counts of free metabolites, chaperones,
+   unfolded protein monomers, unfolded protein complexes, folded protein
+   monomers, and folded protein complexes. Each of these component types have
+   been mapped from the several compartments of the simulation class to one
+   pseudo compartment in this process. That is this process only &quot;sees&quot; the
+   counts of metabolites, chaperones, and protein monomers and complexes that
+   are relevant to protein folding. The process contains no intermediate
+   representation of protein folding, that is protein folding is simulated as a
+   all-or-nothing process that either does not occur or proceeds to completion
+   within a single time step.
+
+   The proteinChaperoneMatrix and proteinProstheticGroupMatrix are adjacency
+   matrices which represent the chaperone and prosthetic groups each protein
+   monomer and complex requires to achieve its catalytically active
+   configuration. Where the stoichiometry of a prosthetic group is unknown and
+   indicated in the knowledge base with the value -1, here we assume a
+   stoichiometry of 1 and set the element of proteinProstheticGroupMatrix
+   accordingly.
+
+   Initialization
+   ==============
+   All protein monomers and complexes are initialized to the mature state. This
+   is accomplished by the simulation class initializeState method.
+
+   Simulation
+   ==============
+   As with the other protein maturation processes, protein folding is modeled as
+   as all-or-nothing process at the single time-step level. A protein only
+   proceeds through this phase if its chaperones (if any) and any prosthetic
+   group ions are all present in the same time step. Chaperone kinetics are not
+   well characterized, and are not currrently modeled. Proteins that require
+   neither prosthetic groups nor chaperones are considered folded after one
+   time step.
+
+   Algorithm
+   ++++++++++++++
+   While(true)
+     1. Calculate numbers of proteins that can fold based on prosthetic group,
+        chaperone, and unfolded protein availability.
+     2. Randomly select proteins to fold weighted by limits calculated in step
+        (1).
+     3. Update counts of prosthetic groups, chaperones, and unfolded and folded
+        proteins.
+     4. Repeat until insufficient resources to further fold proteins
+   End
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinFolding.html" class="code" title="">ProteinFolding</a>	Protein Folding</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinFolding.html" class="code" title="">ProteinFolding</a>	Protein Folding</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinFolding(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function initializeSpeciesNetwork(this)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Protein Folding</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinFolding</span>
+0004 <span class="comment">% @name             Protein Folding</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ==============</span>
+0008 <span class="comment">%   Protein folding is the process whereby proteins which are produced as linear</span>
+0009 <span class="comment">%   amino acid polymers relax to their most energetically favorable, and often</span>
+0010 <span class="comment">%   more compact and catalytically active configuration. Some proteins relax</span>
+0011 <span class="comment">%   quickly and spontaneously to their free energy minimum, while other proteins</span>
+0012 <span class="comment">%   require chaperones to help them achieve their folded configuration more</span>
+0013 <span class="comment">%   quickly. Additionally, some proteins coordinate prosthetic groups such as</span>
+0014 <span class="comment">%   metal ions and other small molecules during this protein rearrangement</span>
+0015 <span class="comment">%   process. Prosthetic groups may help stabilize the protein's catalytically</span>
+0016 <span class="comment">%   active configuration, or may perform folding process.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   In addition to protein chaperones, membrane protein folding may be assisted</span>
+0019 <span class="comment">%   by phosphatidyl ethanolamine (PE) and phosphatidyl glycerol (PG) [PUB_0646].</span>
+0020 <span class="comment">%   This effect is not currently modeled by this process.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   This process simulates</span>
+0023 <span class="comment">%   1. Prosthetic group complexation</span>
+0024 <span class="comment">%      - Inorganic ions: Fe2, Fe3, K, Mg, Mn, Na, Zn</span>
+0025 <span class="comment">%   2. Protein folding, where required mediated by ATP-dependent chaperone(s)</span>
+0026 <span class="comment">%      [PUB_0014, PUB_0644]:</span>
+0027 <span class="comment">%      a. Trigger factor (Tig, MG_238_MONOMER) – Highly expressed protein which</span>
+0028 <span class="comment">%         possibly interacts with the L23 subunit of every ribosome,</span>
+0029 <span class="comment">%         co-translationally assisting in the early folding every protein</span>
+0030 <span class="comment">%         [PUB_0014, PUB_0644]. Binds vacant ribosomes with half-life of 11 s</span>
+0031 <span class="comment">%         [PUB_0005]; binds ribosome-peptide complexes with half-life of 15-50 s</span>
+0032 <span class="comment">%         [PUB_0005]; remains associated with the peptide for a up to more</span>
+0033 <span class="comment">%         seconds after peptide release from the ribosome [PUB_0005]. Trigger</span>
+0034 <span class="comment">%         factor-50S ribosome affinity: KD=1 ?M [PUB_0005]. We model trigger as</span>
+0035 <span class="comment">%         required for the proper folding of all proteins.</span>
+0036 <span class="comment">%      b. Chaperone (DnaK, MG_305_MONOMER) – Folds 5-18% of proteins [PUB_0014,</span>
+0037 <span class="comment">%         PUB_0644]. Typically folds proteins &gt; 30 kDa, typically in less than 2</span>
+0038 <span class="comment">%         min [PUB_0014, PUB_0644]. Binds backbone of short, linear, unfolded,</span>
+0039 <span class="comment">%         hydrophobic peptide segments [PUB_0014, PUB_0644]. ATP hydrolysis and</span>
+0040 <span class="comment">%         peptide release catalyzed by GrpE (MG_201_DIMER) [PUB_0014, PUB_0644].</span>
+0041 <span class="comment">%         Regulated by co-chaperone DnaJ (MG_019_DIMER) which interacts with the</span>
+0042 <span class="comment">%         peptide side chains [PUB_0014, PUB_0644].</span>
+0043 <span class="comment">%      c. Chaperonin (GroEL, GroES, MG_392_393_21MER) – Folds 10-15% proteins by</span>
+0044 <span class="comment">%         ATP-dependent mechanism [PUB_0014, PUB_0644]. Typically folds proteins</span>
+0045 <span class="comment">%         20-60 kDa in size [PUB_0014, PUB_0644] with half-life &gt; 10 min</span>
+0046 <span class="comment">%         [PUB_0014, PUB_0644], 30-60 s [PUB_0389].</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   Knowledge Base</span>
+0049 <span class="comment">%   ==============</span>
+0050 <span class="comment">%   The chaperones (except Tig, which all protein monomers require) and</span>
+0051 <span class="comment">%   prosthetic groups required to fold each protein were reconstructed from the</span>
+0052 <span class="comment">%   literature (see following sections), organized into the knowledge base, and</span>
+0053 <span class="comment">%   are retrieved from the knowledge base in initializeConstants. Where known</span>
+0054 <span class="comment">%   the stoichiometry of each prosthetic group was stored in the knowledge base;</span>
+0055 <span class="comment">%   prosthetic groups with unreported stoichiometry are indicated with</span>
+0056 <span class="comment">%   stoichiometry values of -1.</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   Chaperones</span>
+0059 <span class="comment">%   ++++++++++++++</span>
+0060 <span class="comment">%   The chaperone requirements for the folding of each protein were compiled</span>
+0061 <span class="comment">%   for other bacteria (see sources below), and mapped to M. genitalium by</span>
+0062 <span class="comment">%   homology.</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%       Tig    may interact with all nascent peptides at the ribosome</span>
+0065 <span class="comment">%              polypeptide exit site [PUB_0005, PUB_0009, PUB_0388] and assist</span>
+0066 <span class="comment">%              in early folding. Binds vacant ribosomes with half-life of 11 s</span>
+0067 <span class="comment">%              [PUB_0005]; binds ribosome-peptide complexes with half-life of</span>
+0068 <span class="comment">%              15-50 s [PUB_0005]; remains associated with the peptide for a</span>
+0069 <span class="comment">%              up to more seconds after peptide release from the ribosome</span>
+0070 <span class="comment">%              [PUB_0005]. Trigger factor-50S ribosome affinity: KD=1 ?M</span>
+0071 <span class="comment">%              [PUB_0005]. We model trigger as required for the proper folding</span>
+0072 <span class="comment">%              of all proteins.</span>
+0073 <span class="comment">%       DnaK   Deuerling et al performed a proteome-scale search for DnaK</span>
+0074 <span class="comment">%              substrates in E. coli [PUB_0388]</span>
+0075 <span class="comment">%       GroEL  Kerner et al performed a proteome-scale search for GroEL</span>
+0076 <span class="comment">%              substrates in E. coli [PUB_0389] and Endo and Kurusu performed</span>
+0077 <span class="comment">%              a proteome-scale search for GroEL substrates in B. subtilis</span>
+0078 <span class="comment">%              [PUB_0391]</span>
+0079 <span class="comment">%       FtsH   may act as molecule chaperone for membrane proteins</span>
+0080 <span class="comment">%              [PUB_0014]. Several other functions have also been associated</span>
+0081 <span class="comment">%              with FtsH. To date no proteome-scale studies of FtsH activity</span>
+0082 <span class="comment">%              has been performed, and FtsH's chaperone substrates are not</span>
+0083 <span class="comment">%              well characterized. Conequently we chose not to model FtsH as</span>
+0084 <span class="comment">%              a molecular chaperone, but rather a protease.</span>
+0085 <span class="comment">%</span>
+0086 <span class="comment">%   Substrates of SecB, a molecular chaperone not present in M. genitalium, have</span>
+0087 <span class="comment">%   also been identified on proteome-scale in E. coli [PUB_0390].</span>
+0088 <span class="comment">%</span>
+0089 <span class="comment">%   The reconstruction found that complexes typically require no chaperones to</span>
+0090 <span class="comment">%   fold, with the notable exception of MG_392_393_21MER (which itself is a</span>
+0091 <span class="comment">%   chaperone), which requires four.</span>
+0092 <span class="comment">%</span>
+0093 <span class="comment">%   Prosthetic groups</span>
+0094 <span class="comment">%   ++++++++++++++</span>
+0095 <span class="comment">%   Reaction coenzymes and prosthetic groups were reconstructed from several</span>
+0096 <span class="comment">%   sources including the databases BioCyc [PUB_0006], BRENDA [PUB_0570],</span>
+0097 <span class="comment">%   GenoBase [PUB_0386], Kinetikon [PUB_0571], Metal-MaCiE [PUB_0387], and</span>
+0098 <span class="comment">%   UniProt [PUB_0096] and the primary literature [PUB_0131]. These sources</span>
+0099 <span class="comment">%   frequently report protein prosthetic groups as a list of chemical species</span>
+0100 <span class="comment">%   (eg. metal ions) which can each fill the same prosthetic group role. We</span>
+0101 <span class="comment">%   simplified these ambiguous lists of possible prosthetic groups to a single</span>
+0102 <span class="comment">%   chemical species by choosing the most common chemical species according to</span>
+0103 <span class="comment">%   cell composition (Na+, K+ &gt; Mg2+, Cl- &gt; Fe2+, Fe3+ &gt; Ca2+ &gt; Mn2+ &gt; Cu2+ &gt;</span>
+0104 <span class="comment">%   Mo6+, Zn2, Co2, Ni2 [PUB_0393, PUB_0394, PUB_0395]), or the species with the</span>
+0105 <span class="comment">%   highest protein affinity (Irving-Williams Series, Mn2+ &lt; Fe2+, Fe3+ &lt; Co2+ &lt;</span>
+0106 <span class="comment">%   Ni2+ &lt; Cu2+ &gt; Zn2+ [PUB_0404]).</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">%   Roughly 20% of the monomers and 1% of the complexes bind at least one</span>
+0109 <span class="comment">%   prosthetic group.</span>
+0110 <span class="comment">%</span>
+0111 <span class="comment">%   Representation</span>
+0112 <span class="comment">%   ==============</span>
+0113 <span class="comment">%   substrates, enzymes, unfoldedMonomers, unfoldedComplexs, foldedMonomers, and</span>
+0114 <span class="comment">%   foldedComplexs represent the counts of free metabolites, chaperones,</span>
+0115 <span class="comment">%   unfolded protein monomers, unfolded protein complexes, folded protein</span>
+0116 <span class="comment">%   monomers, and folded protein complexes. Each of these component types have</span>
+0117 <span class="comment">%   been mapped from the several compartments of the simulation class to one</span>
+0118 <span class="comment">%   pseudo compartment in this process. That is this process only &quot;sees&quot; the</span>
+0119 <span class="comment">%   counts of metabolites, chaperones, and protein monomers and complexes that</span>
+0120 <span class="comment">%   are relevant to protein folding. The process contains no intermediate</span>
+0121 <span class="comment">%   representation of protein folding, that is protein folding is simulated as a</span>
+0122 <span class="comment">%   all-or-nothing process that either does not occur or proceeds to completion</span>
+0123 <span class="comment">%   within a single time step.</span>
+0124 <span class="comment">%</span>
+0125 <span class="comment">%   The proteinChaperoneMatrix and proteinProstheticGroupMatrix are adjacency</span>
+0126 <span class="comment">%   matrices which represent the chaperone and prosthetic groups each protein</span>
+0127 <span class="comment">%   monomer and complex requires to achieve its catalytically active</span>
+0128 <span class="comment">%   configuration. Where the stoichiometry of a prosthetic group is unknown and</span>
+0129 <span class="comment">%   indicated in the knowledge base with the value -1, here we assume a</span>
+0130 <span class="comment">%   stoichiometry of 1 and set the element of proteinProstheticGroupMatrix</span>
+0131 <span class="comment">%   accordingly.</span>
+0132 <span class="comment">%</span>
+0133 <span class="comment">%   Initialization</span>
+0134 <span class="comment">%   ==============</span>
+0135 <span class="comment">%   All protein monomers and complexes are initialized to the mature state. This</span>
+0136 <span class="comment">%   is accomplished by the simulation class initializeState method.</span>
+0137 <span class="comment">%</span>
+0138 <span class="comment">%   Simulation</span>
+0139 <span class="comment">%   ==============</span>
+0140 <span class="comment">%   As with the other protein maturation processes, protein folding is modeled as</span>
+0141 <span class="comment">%   as all-or-nothing process at the single time-step level. A protein only</span>
+0142 <span class="comment">%   proceeds through this phase if its chaperones (if any) and any prosthetic</span>
+0143 <span class="comment">%   group ions are all present in the same time step. Chaperone kinetics are not</span>
+0144 <span class="comment">%   well characterized, and are not currrently modeled. Proteins that require</span>
+0145 <span class="comment">%   neither prosthetic groups nor chaperones are considered folded after one</span>
+0146 <span class="comment">%   time step.</span>
+0147 <span class="comment">%</span>
+0148 <span class="comment">%   Algorithm</span>
+0149 <span class="comment">%   ++++++++++++++</span>
+0150 <span class="comment">%   While(true)</span>
+0151 <span class="comment">%     1. Calculate numbers of proteins that can fold based on prosthetic group,</span>
+0152 <span class="comment">%        chaperone, and unfolded protein availability.</span>
+0153 <span class="comment">%     2. Randomly select proteins to fold weighted by limits calculated in step</span>
+0154 <span class="comment">%        (1).</span>
+0155 <span class="comment">%     3. Update counts of prosthetic groups, chaperones, and unfolded and folded</span>
+0156 <span class="comment">%        proteins.</span>
+0157 <span class="comment">%     4. Repeat until insufficient resources to further fold proteins</span>
+0158 <span class="comment">%   End</span>
+0159 <span class="comment">%</span>
+0160 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0161 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0162 <span class="comment">% Last updated: 1/4/2010</span>
+0163 classdef <a href="ProteinFolding.html" class="code" title="">ProteinFolding</a> &lt; edu.stanford.covert.cell.sim.Process
+0164     <span class="comment">%property annotations</span>
+0165     properties (Constant)
+0166         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0167         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0168             <span class="string">'proteinProstheticGroupMatrix'</span>;
+0169             <span class="string">'proteinChaperoneMatrix'</span>;
+0170             <span class="string">'monomerCompartments'</span>;
+0171             <span class="string">'complexCompartments'</span>;
+0172             };
+0173         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0174         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0175             <span class="string">'unfoldedMonomers'</span>;
+0176             <span class="string">'unfoldedComplexs'</span>;
+0177             <span class="string">'foldedMonomers'</span>;
+0178             <span class="string">'foldedComplexs'</span>};
+0179     <span class="keyword">end</span>
+0180 
+0181     <span class="comment">%IDs, names, and local indices</span>
+0182     properties
+0183         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0184 
+0185         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0186             <span class="string">'ATP'</span>;<span class="string">'ADP'</span>;<span class="string">'PI'</span>;<span class="string">'H2O'</span>;<span class="string">'H'</span>};
+0187         substrateIndexs_adp       <span class="comment">%index within substrates of ADP</span>
+0188         substrateIndexs_atp       <span class="comment">%index within substrates of ATP</span>
+0189         substrateIndexs_fe2       <span class="comment">%index within substrates of Fe+2 ion</span>
+0190         substrateIndexs_hydrogen  <span class="comment">%index within substrates of hydrogen</span>
+0191         substrateIndexs_water     <span class="comment">%index within substrates of water</span>
+0192         substrateIndexs_k         <span class="comment">%index within substrates of K+ ion</span>
+0193         substrateIndexs_mg        <span class="comment">%index within substrates of Mg2+ ion</span>
+0194         substrateIndexs_mn        <span class="comment">%index within substrates of Mn2+ ion</span>
+0195         substrateIndexs_sodium    <span class="comment">%index within substrates of Na+ ion</span>
+0196         substrateIndexs_phosphate <span class="comment">%index within substrates of inorganic phosphate</span>
+0197         substrateIndexs_zinc      <span class="comment">%index within substrates of Zn2+ ion</span>
+0198 
+0199         enzymeWholeCellModelIDs = {     <span class="comment">%enzyme whole cell model ids</span>
+0200             <span class="string">'MG_238_MONOMER'</span>;           <span class="comment">%trigger factor</span>
+0201             <span class="string">'MG_305_MONOMER'</span>;           <span class="comment">%chaperone</span>
+0202             <span class="string">'MG_019_DIMER'</span>;             <span class="comment">%chaperone protein DnaJ</span>
+0203             <span class="string">'MG_201_DIMER'</span>;             <span class="comment">%co-chaperone GrpE</span>
+0204             <span class="string">'MG_392_393_21MER'</span>};        <span class="comment">%GroEL-GroES chaperonin complex</span>
+0205         enzymeIndexs_triggerFactor      <span class="comment">%index of trigger factor within enzymeWholeCellModelIDs</span>
+0206         enzymeIndexs_dnaK               <span class="comment">%index of DnaK within enzymeWholeCellModelIDs</span>
+0207         enzymeIndexs_dnaJ               <span class="comment">%index of DnaJ within enzymeWholeCellModelIDs</span>
+0208         enzymeIndexs_grpE               <span class="comment">%index of GrpE within enzymeWholeCellModelIDs</span>
+0209         enzymeIndexs_groELES            <span class="comment">%index of GroELES within enzymeWholeCellModelIDs</span>
+0210 
+0211         unfoldedMonomerWholeCellModelIDs <span class="comment">%whole cell model IDs of unfolded monomers</span>
+0212         unfoldedComplexWholeCellModelIDs <span class="comment">%whole cell model IDs of unfolded complexes</span>
+0213         foldedMonomerWholeCellModelIDs   <span class="comment">%whole cell model IDs of folded monomers</span>
+0214         foldedComplexWholeCellModelIDs   <span class="comment">%whole cell model IDs of folded complexes</span>
+0215         
+0216         unfoldedMonomerCompartmentIndexs <span class="comment">%indices of unfolded monomers within this.monomer.counts</span>
+0217         unfoldedComplexCompartmentIndexs <span class="comment">%indices of unfolded complexs within this.complex.counts</span>
+0218         foldedMonomerCompartmentIndexs   <span class="comment">%indices of folded monomers within this.monomer.counts</span>
+0219         foldedComplexCompartmentIndexs   <span class="comment">%indices of folded complexs within this.complex.counts</span>
+0220                 
+0221         monomerIndexs_folding            <span class="comment">%indices of monomers that actively fold within unfoldedMonomers</span>
+0222         complexIndexs_folding            <span class="comment">%indices of complexs that actively fold within unfoldedComplexs</span>
+0223         monomerIndexs_notFolding         <span class="comment">%indices of monomers that don't actively fold within unfoldedMonomers</span>
+0224         complexIndexs_notFolding         <span class="comment">%indices of complexs that don't actively fold within unfoldedComplexs</span>
+0225         
+0226         monomerComplexIndexs_folded      <span class="comment">%indices of monomers and complexs that actively fold within proteinProstheticGroupMatrix</span>
+0227         
+0228         speciesIndexs_monomers           <span class="comment">%indices of monomers that actively fold within speciesReactantByproductMatrix</span>
+0229         speciesIndexs_complexs           <span class="comment">%indices of complexs that actively fold within speciesReactantByproductMatrix</span>
+0230     <span class="keyword">end</span>
+0231     
+0232     <span class="comment">%fixed biological constants</span>
+0233     properties
+0234         proteinProstheticGroupMatrix     <span class="comment">%proteins X metabolites X compartments</span>
+0235         proteinChaperoneMatrix           <span class="comment">%proteins X proteins (chaperone) X compartments</span>
+0236 
+0237         monomerCompartments              <span class="comment">%compartment indices with simulation.compartmentWholeCellModelIDs of monomers</span>
+0238         complexCompartments              <span class="comment">%compartment indices with simulation.compartmentWholeCellModelIDs of complexes</span>
+0239                             
+0240         speciesReactantByproductMatrix   <span class="comment">%stoichiometry of susbtrates, enzymes, monomers and complexs in reactions necessary to fold each protein: [Protein foldings] X [subtrates; enzymes; unfolded monomers; unfolded complexs]</span>
+0241         speciesReactantMatrix            <span class="comment">%reactant stoichiometry of susbtrates, enzymes, monomers and complexs in reactions necessary to fold each protein: [Protein foldings] X [subtrates; enzymes; unfolded monomers; unfolded complexs]</span>
+0242     <span class="keyword">end</span>
+0243 
+0244     <span class="comment">%global state (stored locally for convenience)</span>
+0245     properties
+0246         unfoldedMonomers                 <span class="comment">%amount of unfolded monomers</span>
+0247         unfoldedComplexs                 <span class="comment">%amount of unfolded complexes</span>
+0248         foldedMonomers                   <span class="comment">%amount of folded monomers</span>
+0249         foldedComplexs                   <span class="comment">%amount of folded complexes</span>
+0250     <span class="keyword">end</span>
+0251 
+0252     <span class="comment">%constructor</span>
+0253     methods
+0254         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinFolding(wholeCellModelID, name)</a>
+0255             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0256         <span class="keyword">end</span>
+0257     <span class="keyword">end</span>
+0258 
+0259     <span class="comment">%communication between process/simulation</span>
+0260     methods
+0261         <span class="comment">%initialize constants</span>
+0262         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0263             <span class="comment">%prosthetic groups</span>
+0264             this.proteinProstheticGroupMatrix = knowledgeBase.proteinProstheticGroupMatrix(:, :, this.compartment.cytosolIndexs);
+0265             this.proteinProstheticGroupMatrix(this.proteinProstheticGroupMatrix==-1)=1;
+0266 
+0267             this.substrateWholeCellModelIDs = unique([<span class="keyword">...</span>
+0268                 this.substrateWholeCellModelIDs;
+0269                 this.metabolite.wholeCellModelIDs(sum(this.proteinProstheticGroupMatrix)&gt;0)]);
+0270 
+0271             this.substrateIndexs_adp       = this.substrateIndexs({<span class="string">'ADP'</span>});
+0272             this.substrateIndexs_atp       = this.substrateIndexs({<span class="string">'ATP'</span>});
+0273             this.substrateIndexs_fe2       = this.substrateIndexs({<span class="string">'FE2'</span>});
+0274             this.substrateIndexs_hydrogen  = this.substrateIndexs({<span class="string">'H'</span>});
+0275             this.substrateIndexs_water     = this.substrateIndexs({<span class="string">'H2O'</span>});
+0276             this.substrateIndexs_k         = this.substrateIndexs({<span class="string">'K'</span>});
+0277             this.substrateIndexs_mg        = this.substrateIndexs({<span class="string">'MG'</span>});
+0278             this.substrateIndexs_mn        = this.substrateIndexs({<span class="string">'MN'</span>});
+0279             this.substrateIndexs_sodium    = this.substrateIndexs({<span class="string">'NA'</span>});
+0280             this.substrateIndexs_phosphate = this.substrateIndexs({<span class="string">'PI'</span>});
+0281             this.substrateIndexs_zinc      = this.substrateIndexs({<span class="string">'ZN'</span>});
+0282 
+0283             <span class="comment">%chaperones</span>
+0284             numMonomers = length(this.monomer.matureIndexs);
+0285             proteinChaperone = knowledgeBase.proteinChaperoneMatrix;
+0286             proteinMonomerChaperoneIndexs = logical(sum(sum(proteinChaperone(1:numMonomers,:,:),3),2));
+0287             proteinComplexChaperoneIndexs = logical(sum(sum(proteinChaperone(numMonomers+1:<span class="keyword">end</span>,:,:),3),2));
+0288             this.enzymeWholeCellModelIDs = unique([
+0289                 this.enzymeWholeCellModelIDs
+0290                 this.monomer.wholeCellModelIDs{this.monomer.matureIndexs(proteinMonomerChaperoneIndexs)}
+0291                 this.complex.wholeCellModelIDs{this.complex.matureIndexs(proteinComplexChaperoneIndexs)}
+0292                 ]);
+0293 
+0294             this.enzymeIndexs_triggerFactor = this.enzymeIndexs({<span class="string">'MG_238_MONOMER'</span>});
+0295             this.enzymeIndexs_dnaK          = this.enzymeIndexs({<span class="string">'MG_305_MONOMER'</span>});
+0296             this.enzymeIndexs_dnaJ          = this.enzymeIndexs({<span class="string">'MG_019_DIMER'</span>});
+0297             this.enzymeIndexs_grpE          = this.enzymeIndexs({<span class="string">'MG_201_DIMER'</span>});
+0298             this.enzymeIndexs_groELES       = this.enzymeIndexs({<span class="string">'MG_392_393_21MER'</span>});
+0299 
+0300             <span class="comment">%call super class method to get metabolite, enzyme indexs</span>
+0301             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0302                 knowledgeBase, simulation, varargin{:});
+0303 
+0304             <span class="comment">%prosthetic groups</span>
+0305             this.proteinProstheticGroupMatrix = <span class="keyword">...</span>
+0306                 this.proteinProstheticGroupMatrix(:,this.substrateMetaboliteGlobalIndexs);
+0307 
+0308             <span class="comment">%chaperones</span>
+0309             numEnzymes    = length(this.enzymeWholeCellModelIDs);
+0310             numSubstrates = size(proteinChaperone,2);            
+0311 
+0312             enzymeCompartmentIndexs = zeros(size(this.enzymeWholeCellModelIDs));
+0313             enzymeCompartmentIndexs(this.enzymeMonomerLocalIndexs) = this.enzymeMonomerCompartmentIndexs;
+0314             enzymeCompartmentIndexs(this.enzymeComplexLocalIndexs) = this.enzymeComplexCompartmentIndexs;
+0315             
+0316             enzymeGlobalIndexs = this.enzymeGlobalIndexs;
+0317             enzymeGlobalIndexs(this.enzymeComplexLocalIndexs) = <span class="keyword">...</span>
+0318                 enzymeGlobalIndexs(this.enzymeComplexLocalIndexs) + <span class="keyword">...</span>
+0319                 numMonomers;
+0320             this.proteinChaperoneMatrix = proteinChaperone(sub2ind(<span class="keyword">...</span>
+0321                 size(proteinChaperone),<span class="keyword">...</span>
+0322                 repmat(enzymeGlobalIndexs',numSubstrates,1), <span class="keyword">...</span>
+0323                 repmat((1:numSubstrates)',[1 numEnzymes]),<span class="keyword">...</span>
+0324                 repmat(enzymeCompartmentIndexs',numSubstrates,1)));
+0325 
+0326             this.proteinChaperoneMatrix(1:numMonomers,this.enzymeIndexs_triggerFactor) = 1;
+0327             this.proteinChaperoneMatrix(:,this.enzymeIndexs_dnaJ) = this.proteinChaperoneMatrix(:,this.enzymeIndexs_dnaK);
+0328             this.proteinChaperoneMatrix(:,this.enzymeIndexs_grpE) = this.proteinChaperoneMatrix(:,this.enzymeIndexs_dnaK);
+0329 
+0330             <span class="comment">%monomers</span>
+0331             this.unfoldedMonomerWholeCellModelIDs = this.monomer.wholeCellModelIDs(this.monomer.processedIIIndexs);
+0332             this.foldedMonomerWholeCellModelIDs   = this.monomer.wholeCellModelIDs(this.monomer.foldedIndexs);
+0333             this.monomerCompartments = double(knowledgeBase.proteinMonomerCompartments);
+0334             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0335             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0336             this.unfoldedMonomerCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0337                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0338                 this.monomer.processedIIIndexs, <span class="keyword">...</span>
+0339                 this.monomerCompartments);
+0340             this.foldedMonomerCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0341                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0342                 this.monomer.foldedIndexs, <span class="keyword">...</span>
+0343                 this.monomerCompartments);
+0344 
+0345             <span class="comment">%complexs</span>
+0346             this.unfoldedComplexWholeCellModelIDs = this.complex.wholeCellModelIDs(this.complex.nascentIndexs);
+0347             this.foldedComplexWholeCellModelIDs   = this.complex.wholeCellModelIDs(this.complex.matureIndexs);
+0348             this.complexCompartments = double(knowledgeBase.proteinComplexCompartments);
+0349             this.unfoldedComplexCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0350                 [numel(this.complex.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0351                 this.complex.nascentIndexs, <span class="keyword">...</span>
+0352                 this.complexCompartments);
+0353             this.foldedComplexCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0354                 [numel(this.complex.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+0355                 this.complex.matureIndexs, <span class="keyword">...</span>
+0356                 this.complexCompartments);
+0357             
+0358             this.initializeSpeciesNetwork();
+0359         <span class="keyword">end</span>
+0360         
+0361         <a name="_sub2" href="#_subfunctions" class="code">function initializeSpeciesNetwork(this)</a>
+0362             this.monomerComplexIndexs_folded = find(sum(this.proteinProstheticGroupMatrix,2)&gt; 0 | sum(this.proteinChaperoneMatrix,2)&gt; 0);
+0363             
+0364             numMonomers   = length(this.unfoldedMonomerWholeCellModelIDs);
+0365             numComplexs   = length(this.unfoldedComplexWholeCellModelIDs);            
+0366             
+0367             [~, this.monomerIndexs_folding, this.speciesIndexs_monomers] = intersect(1:numMonomers, this.monomerComplexIndexs_folded); <span class="comment">%use of intersect is safe because the inputs are already sorted</span>
+0368             [~, this.complexIndexs_folding, this.speciesIndexs_complexs] = intersect((1:numComplexs) + numMonomers, this.monomerComplexIndexs_folded);
+0369             [~, this.monomerIndexs_notFolding] = setdiff(1:numMonomers,                 this.monomerComplexIndexs_folded);
+0370             [~, this.complexIndexs_notFolding] = setdiff((1:numComplexs) + numMonomers, this.monomerComplexIndexs_folded);
+0371             
+0372             this.speciesReactantByproductMatrix = [
+0373                 this.proteinProstheticGroupMatrix(this.monomerComplexIndexs_folded,:)<span class="keyword">...</span>
+0374                 this.proteinChaperoneMatrix(this.monomerComplexIndexs_folded,:)<span class="keyword">...</span>
+0375                 eye(length(this.monomerComplexIndexs_folded))];
+0376             this.speciesReactantMatrix = max(0, this.speciesReactantByproductMatrix);
+0377         <span class="keyword">end</span>
+0378 
+0379         <span class="comment">%retrieve state from simulation</span>
+0380         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0381             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0382 
+0383             numTimePoints = size(this.unfoldedMonomers, 3);
+0384             
+0385             <span class="keyword">if</span> numTimePoints == 1
+0386                 this.unfoldedMonomers = this.monomer.counts(this.unfoldedMonomerCompartmentIndexs);
+0387                 this.unfoldedComplexs = this.complex.counts(this.unfoldedComplexCompartmentIndexs);
+0388                 this.foldedMonomers = this.monomer.counts(this.foldedMonomerCompartmentIndexs);
+0389                 this.foldedComplexs = this.complex.counts(this.foldedComplexCompartmentIndexs);
+0390             <span class="keyword">else</span>
+0391                 this.unfoldedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0392                     size(this.monomer.counts), <span class="keyword">...</span>
+0393                     repmat(this.monomer.processedIIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0394                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0395                     permute(repmat((1:numTimePoints)',[1 size(this.foldedMonomers,1) 1]),[2 3 1])));
+0396                 this.unfoldedComplexs = this.complex.counts(sub2ind(<span class="keyword">...</span>
+0397                     size(this.complex.counts), <span class="keyword">...</span>
+0398                     repmat(this.complex.nascentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0399                     repmat(this.complexCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0400                     permute(repmat((1:numTimePoints)',[1 size(this.foldedComplexs,1) 1]),[2 3 1])));
+0401                 this.foldedMonomers = this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0402                     size(this.monomer.counts), <span class="keyword">...</span>
+0403                     repmat(this.monomer.foldedIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0404                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0405                     permute(repmat((1:numTimePoints)',[1 size(this.foldedMonomers,1) 1]),[2 3 1])));
+0406                 this.foldedComplexs = this.complex.counts(sub2ind(<span class="keyword">...</span>
+0407                     size(this.complex.counts), <span class="keyword">...</span>
+0408                     repmat(this.complex.matureIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0409                     repmat(this.complexCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0410                     permute(repmat((1:numTimePoints)',[1 size(this.foldedComplexs,1) 1]),[2 3 1])));
+0411             <span class="keyword">end</span>
+0412         <span class="keyword">end</span>
+0413 
+0414         <span class="comment">%send state to simulation</span>
+0415         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0416             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0417             
+0418             numTimePoints = size(this.unfoldedMonomers, 3);
+0419             
+0420             <span class="keyword">if</span> numTimePoints == 1
+0421                 this.monomer.counts(this.unfoldedMonomerCompartmentIndexs) = this.unfoldedMonomers;
+0422                 this.complex.counts(this.unfoldedComplexCompartmentIndexs) = this.unfoldedComplexs;
+0423                 this.monomer.counts(this.foldedMonomerCompartmentIndexs) = this.foldedMonomers;
+0424                 this.complex.counts(this.foldedComplexCompartmentIndexs) = this.foldedComplexs;
+0425             <span class="keyword">else</span>                
+0426                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0427                     size(this.monomer.counts), <span class="keyword">...</span>
+0428                     repmat(this.monomer.processedIIIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0429                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0430                     permute(repmat((1:numTimePoints)',[1 size(this.foldedMonomers,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0431                     this.unfoldedMonomers;
+0432                 this.complex.counts(sub2ind(<span class="keyword">...</span>
+0433                     size(this.complex.counts), <span class="keyword">...</span>
+0434                     repmat(this.complex.nascentIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0435                     repmat(this.complexCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0436                     permute(repmat((1:numTimePoints)',[1 size(this.foldedComplexs,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0437                     this.unfoldedComplexs;
+0438                 this.monomer.counts(sub2ind(<span class="keyword">...</span>
+0439                     size(this.monomer.counts), <span class="keyword">...</span>
+0440                     repmat(this.monomer.foldedIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0441                     repmat(this.monomerCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0442                     permute(repmat((1:numTimePoints)',[1 size(this.foldedMonomers,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0443                     this.foldedMonomers;
+0444                 this.complex.counts(sub2ind(<span class="keyword">...</span>
+0445                     size(this.complex.counts), <span class="keyword">...</span>
+0446                     repmat(this.complex.matureIndexs, [1 1 numTimePoints]), <span class="keyword">...</span>
+0447                     repmat(this.complexCompartments,[1 1 numTimePoints]),<span class="keyword">...</span>
+0448                     permute(repmat((1:numTimePoints)',[1 size(this.foldedComplexs,1) 1]),[2 3 1]))) = <span class="keyword">...</span>
+0449                     this.foldedComplexs;
+0450             <span class="keyword">end</span>
+0451         <span class="keyword">end</span>
+0452     <span class="keyword">end</span>
+0453 
+0454     <span class="comment">%allocate memory for state</span>
+0455     methods
+0456         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0457             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0458 
+0459             this.unfoldedMonomers = zeros(length(this.unfoldedMonomerWholeCellModelIDs), 1, numTimePoints);
+0460             this.unfoldedComplexs = zeros(length(this.unfoldedComplexWholeCellModelIDs), 1, numTimePoints);
+0461             this.foldedMonomers   = zeros(length(this.foldedMonomerWholeCellModelIDs),   1, numTimePoints);
+0462             this.foldedComplexs   = zeros(length(this.foldedComplexWholeCellModelIDs),   1, numTimePoints);
+0463         <span class="keyword">end</span>
+0464     <span class="keyword">end</span>
+0465 
+0466     <span class="comment">%model</span>
+0467     methods
+0468         <span class="comment">%Calculate</span>
+0469         <span class="comment">%- contribution to FBA objective</span>
+0470         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0471         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0472             <span class="comment">%% substrate and byproducts</span>
+0473             <span class="comment">%prosthetic groups that complex with proteins</span>
+0474             bmProd = <span class="keyword">...</span>
+0475                 this.proteinProstheticGroupMatrix' * <span class="keyword">...</span>
+0476                 [states.monomerProductions; states.complexProductions];
+0477             
+0478             <span class="comment">%no byproducts</span>
+0479             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0480             
+0481             <span class="comment">%% enzymes: at least one of each enzyme</span>
+0482             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0483             minEnzExp([
+0484                 this.enzymeIndexs_triggerFactor;
+0485                 this.enzymeIndexs_dnaK;
+0486                 this.enzymeIndexs_dnaJ;
+0487                 this.enzymeIndexs_grpE;
+0488                 this.enzymeIndexs_groELES]) = 2;
+0489             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0490         <span class="keyword">end</span>
+0491         
+0492         <span class="comment">%initialization</span>
+0493         <span class="comment">%- monomers initialized to mature/bound/inactivated state</span>
+0494         <span class="comment">%  by simulation initializeState method</span>
+0495         <span class="comment">%- complexs initialized by</span>
+0496         <span class="comment">%  1. Macromolecular complexation</span>
+0497         <span class="comment">%  2. Ribosome assembly</span>
+0498         <span class="comment">%  3. Protein folding</span>
+0499         <span class="comment">%  4. Protein activation</span>
+0500         <span class="comment">%  Here we push complexs to folded state</span>
+0501         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0502             this.foldedComplexs = this.foldedComplexs + this.unfoldedComplexs;
+0503             this.unfoldedComplexs(:) = 0;
+0504         <span class="keyword">end</span>
+0505 
+0506         <span class="comment">%resource requirements</span>
+0507         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0508             <span class="keyword">if</span> all(this.enzymes)
+0509                 result = this.proteinProstheticGroupMatrix' * <span class="keyword">...</span>
+0510                     [this.unfoldedMonomers; this.unfoldedComplexs];
+0511             <span class="keyword">else</span>
+0512                 result = this.proteinProstheticGroupMatrix' * <span class="keyword">...</span>
+0513                     ((min(this.enzymes(:, ones(size(this.proteinChaperoneMatrix, 1), 1))' ./ this.proteinChaperoneMatrix, [], 2) &gt; 0) .* <span class="keyword">...</span>
+0514                     [this.unfoldedMonomers; this.unfoldedComplexs]);
+0515             <span class="keyword">end</span>
+0516         <span class="keyword">end</span>
+0517 
+0518         <span class="comment">%simulation</span>
+0519         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0520             <span class="comment">%update monomers that don't require chaperones or prosthetic groups</span>
+0521             this.foldedComplexs(this.complexIndexs_notFolding) = <span class="keyword">...</span>
+0522                 this.foldedComplexs(this.complexIndexs_notFolding) + <span class="keyword">...</span>
+0523                 this.unfoldedComplexs(this.complexIndexs_notFolding);
+0524             this.unfoldedComplexs(this.complexIndexs_notFolding) = 0;
+0525             
+0526             <span class="comment">%stop early if no proteins to fold</span>
+0527             <span class="keyword">if</span> ~any(this.unfoldedMonomers) &amp;&amp; ~any(this.unfoldedComplexs)
+0528                 <span class="keyword">return</span>;
+0529             <span class="keyword">end</span>
+0530                         
+0531             numSubstrates = length(this.monomerComplexIndexs_folded);
+0532             
+0533             species = max(0, [
+0534                 this.substrates;
+0535                 this.enzymes * Inf;
+0536                 this.unfoldedMonomers;
+0537                 this.unfoldedComplexs(this.complexIndexs_folding)]');
+0538 
+0539             fluxes = zeros(size(this.speciesReactantByproductMatrix, 1),1);
+0540             anyFlux = false;
+0541 
+0542             <span class="comment">% simulate modification</span>
+0543             <span class="keyword">while</span> true
+0544                 <span class="comment">%compute maximum number of each species that can be modified</span>
+0545                 substrateLimits = species(ones(numSubstrates,1), :) ./ this.speciesReactantMatrix;
+0546                 substrateLimits(:, this.substrateIndexs_water) = NaN;
+0547                 substrateLimits(:, this.substrateIndexs_hydrogen) = NaN;
+0548                 substrateLimits = min(substrateLimits, [], 2)';
+0549                 substrateLimits(isinf(substrateLimits) | isnan(substrateLimits) | substrateLimits&lt;1)=0;
+0550 
+0551                 <span class="comment">%stop if no more substrates can be modified</span>
+0552                 <span class="keyword">if</span> ~any(substrateLimits); <span class="keyword">break</span>; <span class="keyword">end</span>;
+0553                 
+0554                 anyFlux = true;
+0555 
+0556                 <span class="comment">%pick substrate, reaction, enzymes</span>
+0557                 selectedSubstrate = this.randStream.randsample(numel(substrateLimits), 1, true, substrateLimits);
+0558                 fluxes(selectedSubstrate) = fluxes(selectedSubstrate) + 1;
+0559 
+0560                 <span class="comment">%decrement metabolites, enzymes, unmodified substrates; increment modified substrates</span>
+0561                 species = species - this.speciesReactantByproductMatrix(selectedSubstrate, :);
+0562             <span class="keyword">end</span>
+0563             
+0564             <span class="comment">%stop if no reactions can proceed</span>
+0565             <span class="keyword">if</span> ~anyFlux
+0566                 <span class="keyword">return</span>;
+0567             <span class="keyword">end</span>
+0568 
+0569             <span class="comment">% compute results</span>
+0570             this.substrates = this.substrates - this.proteinProstheticGroupMatrix(this.monomerComplexIndexs_folded, :)' * fluxes;
+0571 
+0572             this.unfoldedMonomers = this.unfoldedMonomers - fluxes(this.speciesIndexs_monomers);
+0573             this.foldedMonomers   = this.foldedMonomers   + fluxes(this.speciesIndexs_monomers);
+0574 
+0575             this.unfoldedComplexs(this.complexIndexs_folding) = <span class="keyword">...</span>
+0576                 this.unfoldedComplexs(this.complexIndexs_folding) - <span class="keyword">...</span>
+0577                 fluxes(this.speciesIndexs_complexs);
+0578             this.foldedComplexs(this.complexIndexs_folding) = <span class="keyword">...</span>
+0579                 this.foldedComplexs(this.complexIndexs_folding) + <span class="keyword">...</span>
+0580                 fluxes(this.speciesIndexs_complexs);
+0581         <span class="keyword">end</span>
+0582     <span class="keyword">end</span>
+0583 
+0584     <span class="comment">%get methods of dependent local state</span>
+0585     methods
+0586         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0587             <span class="keyword">if</span> size(this.unfoldedComplexs, 3) == 1
+0588                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0589                     this.monomer.molecularWeights(this.monomer.processedIIIndexs)' * this.unfoldedMonomers + <span class="keyword">...</span>
+0590                     this.monomer.molecularWeights(this.monomer.foldedIndexs)'      * this.foldedMonomers + <span class="keyword">...</span><span class="comment">                </span>
+0591                     this.complex.molecularWeights(this.complex.nascentIndexs)'     * this.unfoldedComplexs + <span class="keyword">...</span>
+0592                     this.complex.molecularWeights(this.complex.matureIndexs)'      * this.foldedComplexs) <span class="keyword">...</span>
+0593                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0594             <span class="keyword">else</span>
+0595                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0596                     permute(this.monomer.molecularWeights(this.monomer.processedIIIndexs)' * permute(this.unfoldedMonomers,[1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0597                     permute(this.monomer.molecularWeights(this.monomer.foldedIndexs)'      * permute(this.foldedMonomers,  [1 3 2]),[1 3 2]) + <span class="keyword">...</span><span class="comment">      </span>
+0598                     permute(this.complex.molecularWeights(this.complex.nascentIndexs)'     * permute(this.unfoldedComplexs,[1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0599                     permute(this.complex.molecularWeights(this.complex.matureIndexs)'      * permute(this.foldedComplexs  ,[1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0600                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0601             <span class="keyword">end</span>
+0602         <span class="keyword">end</span>
+0603     <span class="keyword">end</span>
+0604 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

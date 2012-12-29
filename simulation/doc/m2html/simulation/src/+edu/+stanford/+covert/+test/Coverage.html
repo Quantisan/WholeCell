@@ -1,0 +1,722 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Coverage</title>
+  <meta name="keywords" content="Coverage">
+  <meta name="description" content="Coverage">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+test</a> &gt; Coverage.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+test&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Coverage
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Coverage</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Coverage
+  Generates XML coverage reports of executed code in 1 format:
+  - Cobertura
+
+  Example usage:
+    report = edu.stanford.covert.test.Coverage(&lt;source dir&gt;, &lt;profile data (optional)&gt;);
+    report.exportCoberturaXML(&lt;fileName&gt;);
+
+  This class was inspired by the mlcovr package by David Hart at Sandia
+  National Labs
+  (http://www.mathworks.com/matlabcentral/fileexchange/24985-mlcovr-package).
+
+  Author: Jonathan Karr
+  Affiliation: Covert Lab, Bioengineering, Stanford University
+  Last Updated: 12/16/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="Coverage.html" class="code" title="">Coverage</a>	Coverage</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="Coverage.html" class="code" title="">Coverage</a>	Coverage</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Coverage(sources, basePath, profData)</a></li><li><a href="#_sub2" class="code">function this = buildReportFromDir(this, profData)</a></li><li><a href="#_sub3" class="code">function package = buildPackageReport(this, metaPackage, profData)</a></li><li><a href="#_sub4" class="code">function class = buildClassReport(this, metaClass, profData)</a></li><li><a href="#_sub5" class="code">function method = buildMethodReport(this, name, signature, shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData)</a></li><li><a href="#_sub6" class="code">function class = buildFunctionReport(this, packageName, metaFunction, profData)</a></li><li><a href="#_sub7" class="code">function method = buildSubFunctionReport(this, fileName, code, runnableLineIndex, callInfo, signature, profData)</a></li><li><a href="#_sub8" class="code">function [lines, linesCovered, linesValid, lineRate, branchesCovered, branchesValid, branchRate, complexity] =</a></li><li><a href="#_sub9" class="code">function packageNames = getPackageNamesFromDir(this, source)</a></li><li><a href="#_sub10" class="code">function packageNames = getSubPackageNamesFromPackage(this, metaPackage)</a></li><li><a href="#_sub11" class="code">function relativePath = relativeToBasePath(this, absolutePath)</a></li><li><a href="#_sub12" class="code">function xml = exportXML(this, fileName)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Coverage</span>
+0002 <span class="comment">%  Generates XML coverage reports of executed code in 1 format:</span>
+0003 <span class="comment">%  - Cobertura</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  Example usage:</span>
+0006 <span class="comment">%    report = edu.stanford.covert.test.Coverage(&lt;source dir&gt;, &lt;profile data (optional)&gt;);</span>
+0007 <span class="comment">%    report.exportCoberturaXML(&lt;fileName&gt;);</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%  This class was inspired by the mlcovr package by David Hart at Sandia</span>
+0010 <span class="comment">%  National Labs</span>
+0011 <span class="comment">%  (http://www.mathworks.com/matlabcentral/fileexchange/24985-mlcovr-package).</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%  Author: Jonathan Karr</span>
+0014 <span class="comment">%  Affiliation: Covert Lab, Bioengineering, Stanford University</span>
+0015 <span class="comment">%  Last Updated: 12/16/2010</span>
+0016 classdef <a href="Coverage.html" class="code" title="">Coverage</a>
+0017     properties
+0018         sources
+0019         basePath
+0020         timeStamp
+0021         stats
+0022         packages
+0023     <span class="keyword">end</span>
+0024     
+0025     methods
+0026         <span class="comment">%- sources is a string indicating a source file directory, or a cell</span>
+0027         <span class="comment">%  array containing multiple directories.</span>
+0028         <span class="comment">%- basepath is string indicaticating path relative to which fileNames</span>
+0029         <span class="comment">%  should be reported</span>
+0030         <span class="comment">%- Optionall profData is a struct containing profile data generated by</span>
+0031         <span class="comment">%  the MATLAB profiler and constructed by calling</span>
+0032         <span class="comment">%    profData = profile('info')</span>
+0033         <span class="comment">%  If profData is not provided the current profile data is used.</span>
+0034         <a name="_sub0" href="#_subfunctions" class="code">function this = Coverage(sources, basePath, profData)</a>
+0035             <span class="keyword">if</span> ~exist(<span class="string">'sources'</span>, <span class="string">'var'</span>)
+0036                 sources = {<span class="string">'.'</span> <span class="string">'r'</span>};
+0037             <span class="keyword">end</span>
+0038             <span class="keyword">if</span> ~exist(<span class="string">'basePath'</span>, <span class="string">'var'</span>)
+0039                 basePath = <span class="string">'.'</span>;
+0040             <span class="keyword">end</span>
+0041             basePath = absolutepath(basePath);
+0042             
+0043             <span class="keyword">if</span> ~iscell(sources)
+0044                 sources = {sources <span class="string">'r'</span>};
+0045             <span class="keyword">end</span>
+0046             <span class="keyword">for</span> i = 1:size(sources, 1)
+0047                 sources{i, 1} = absolutepath(sources{i,1});
+0048                 
+0049                 <span class="keyword">if</span> ~isdir(sources{i,1})                    
+0050                     throw(MException(<span class="string">'Coverage:invalidSource'</span>, <span class="string">'Sources must be directories'</span>));
+0051                 <span class="keyword">end</span>
+0052                 
+0053                 <span class="keyword">if</span> numel(basePath) &gt; numel(sources{i,1}) || ~strcmp(sources{i,1}(1:numel(basePath)), basePath)
+0054                     throw(MException(<span class="string">'Coverage:invalidPath'</span>, <span class="string">'source path must be contained within base path'</span>));
+0055                 <span class="keyword">end</span>
+0056             <span class="keyword">end</span>
+0057             
+0058             <span class="keyword">if</span> ~exist(<span class="string">'profData'</span>, <span class="string">'var'</span>)
+0059                 profData = profile(<span class="string">'info'</span>);
+0060             <span class="keyword">end</span>
+0061             
+0062             this.sources = sources;
+0063             this.basePath = basePath;
+0064             this.timeStamp = datestr(now, 31);
+0065             this = this.buildReportFromDir(profData);
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068     
+0069     methods (Access = protected)
+0070         <a name="_sub1" href="#_subfunctions" class="code">function this = buildReportFromDir(this, profData)</a>
+0071             <span class="comment">%% get package names</span>
+0072             packageNames = {};
+0073             <span class="keyword">for</span> i = 1:size(this.sources, 1)
+0074                 packageNames = [packageNames; this.getPackageNamesFromDir(this.sources{i,1})];
+0075             <span class="keyword">end</span>
+0076             packageNames = unique(packageNames);
+0077             
+0078             <span class="comment">%% build report</span>
+0079             <span class="comment">%packages</span>
+0080             packages = repmat(struct(<span class="string">'name'</span>, [], <span class="keyword">...</span>
+0081                 <span class="string">'linesCovered'</span>, [], <span class="string">'linesValid'</span>, [], <span class="string">'lineRate'</span>, [], <span class="keyword">...</span>
+0082                 <span class="string">'branchesCovered'</span>, [], <span class="string">'branchesValid'</span>,[], <span class="string">'branchRate'</span>, [], <span class="keyword">...</span>
+0083                 <span class="string">'complexity'</span>, [], <span class="keyword">...</span>
+0084                 <span class="string">'classes'</span>, []), [0 1]); <span class="comment">%#ok&lt;*PROP&gt;</span>
+0085 
+0086             this.stats = struct(<span class="string">'lineRate'</span>, [], <span class="string">'branchRate'</span>, []);
+0087             this.stats.linesCovered = 0;
+0088             this.stats.linesValid = 0;
+0089             this.stats.branchesCovered = 0;
+0090             this.stats.branchesValid = 0;
+0091             this.stats.complexity = 0;
+0092 
+0093             <span class="keyword">for</span> i = 1:numel(packageNames)
+0094                 package = this.buildPackageReport(meta.package.fromName(packageNames{i}), profData);
+0095                 
+0096                 <span class="keyword">if</span> isempty(package)
+0097                     <span class="keyword">continue</span>;
+0098                 <span class="keyword">end</span>
+0099                 
+0100                 packages = [packages;
+0101                     package];
+0102                 
+0103                 this.stats.linesCovered = this.stats.linesCovered + package.linesCovered;
+0104                 this.stats.linesValid = this.stats.linesValid + package.linesValid;
+0105                 this.stats.branchesCovered = this.stats.branchesCovered + package.branchesCovered;
+0106                 this.stats.branchesValid = this.stats.branchesValid + package.branchesValid;
+0107                 this.stats.complexity = this.stats.complexity + package.complexity;
+0108             <span class="keyword">end</span>
+0109             
+0110             <span class="comment">%overall stats</span>
+0111             this.packages = packages;            
+0112             this.stats.lineRate = this.stats.linesCovered / this.stats.linesValid;
+0113             this.stats.branchRate = this.stats.branchesCovered / this.stats.branchesValid;
+0114         <span class="keyword">end</span>
+0115         
+0116         <a name="_sub2" href="#_subfunctions" class="code">function package = buildPackageReport(this, metaPackage, profData)</a>
+0117             package = [];
+0118             
+0119             <span class="keyword">if</span> isempty(metaPackage.Classes) &amp;&amp; isempty(metaPackage.Functions)
+0120                 <span class="keyword">return</span>;
+0121             <span class="keyword">end</span>
+0122             
+0123             package.name = metaPackage.Name;
+0124             package.classes = [];
+0125             package.linesCovered = 0;
+0126             package.branchesCovered = 0;
+0127             package.linesValid = 0;
+0128             package.branchesValid = 0;
+0129             package.complexity = 0;
+0130             package.classes = [];
+0131             
+0132             <span class="comment">%classes</span>
+0133             <span class="keyword">for</span> i = 1:numel(metaPackage.Classes)
+0134                 class = this.buildClassReport(metaPackage.Classes{i}, profData);
+0135                 
+0136                 <span class="keyword">if</span> isempty(class); <span class="keyword">continue</span>; <span class="keyword">end</span>
+0137                 
+0138                 package.classes = [
+0139                     package.classes;
+0140                     class];
+0141                 
+0142                 package.linesCovered = package.linesCovered + class.linesCovered;
+0143                 package.branchesCovered = package.branchesCovered + class.branchesCovered;
+0144                 package.linesValid = package.linesValid + class.linesValid;
+0145                 package.branchesValid = package.branchesValid + class.branchesValid;
+0146                 package.complexity = package.complexity + class.complexity;
+0147             <span class="keyword">end</span>
+0148             
+0149             <span class="comment">%package functions</span>
+0150             <span class="keyword">for</span> i = 1:numel(metaPackage.Functions)
+0151                 class = this.buildFunctionReport(metaPackage.Name, metaPackage.Functions{i}, profData);
+0152                 
+0153                 <span class="keyword">if</span> isempty(class); <span class="keyword">continue</span>; <span class="keyword">end</span>
+0154                 
+0155                 package.classes = [
+0156                     package.classes;
+0157                     class];
+0158                 
+0159                 package.linesCovered = package.linesCovered + class.linesCovered;
+0160                 package.branchesCovered = package.branchesCovered + class.branchesCovered;
+0161                 package.linesValid = package.linesValid + class.linesValid;
+0162                 package.branchesValid = package.branchesValid + class.branchesValid;
+0163                 package.complexity = package.complexity + class.complexity;
+0164             <span class="keyword">end</span>
+0165                 
+0166             <span class="keyword">if</span> isempty(package.classes)
+0167                 package = [];
+0168                 <span class="keyword">return</span>;
+0169             <span class="keyword">end</span>
+0170             
+0171             <span class="comment">%package stats</span>
+0172             package.lineRate = package.linesCovered / package.linesValid;
+0173             package.branchRate = package.branchesCovered / package.branchesValid;
+0174         <span class="keyword">end</span>
+0175         
+0176         <a name="_sub3" href="#_subfunctions" class="code">function class = buildClassReport(this, metaClass, profData)</a>
+0177             class = [];
+0178             
+0179             <span class="comment">%check that metadata is valid</span>
+0180             <span class="keyword">try</span>
+0181                 meta.class.fromName(metaClass.Name);
+0182             <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0183                 warning(<span class="string">'Coverage:warning'</span>, <span class="string">'Invalid meta data for class %s'</span>, metaClass.Name);
+0184             <span class="keyword">end</span>
+0185             
+0186             fileName = which(metaClass.Name);
+0187             inSources = false;
+0188             <span class="keyword">for</span> i = 1:size(this.sources, 1)
+0189                 source = this.sources{i, 1};
+0190                 <span class="keyword">if</span> <span class="keyword">...</span>
+0191                         (isequal(this.sources{i, 2}, <span class="string">'r'</span>) &amp;&amp; numel(fileName) &gt;= numel(source) &amp;&amp; strcmp(fileName(1:numel(source)+1), [source filesep])) || <span class="keyword">...</span>
+0192                         (~isequal(this.sources{i, 2}, <span class="string">'r'</span>) &amp;&amp; numel(fileName) &gt;= numel(source) &amp;&amp; strcmp(fileName(1:numel(source)+1), [source filesep]) &amp;&amp; ~any(strcmp(fileName(numel(source)+2:end), filesep)))
+0193                     inSources = true;
+0194                     <span class="keyword">break</span>;
+0195                 <span class="keyword">end</span>
+0196             <span class="keyword">end</span>
+0197             
+0198             <span class="keyword">if</span> ~inSources
+0199                 <span class="keyword">return</span>; 
+0200             <span class="keyword">end</span>
+0201             
+0202             class.name = metaClass.Name;
+0203             class.fileName = fileName;            
+0204             class.linesCovered = 0;
+0205             class.branchesCovered = 0;
+0206             class.linesValid = 0;
+0207             class.branchesValid = 0;
+0208             class.complexity = 0;
+0209             class.methods = [];
+0210             class.lines = [];
+0211             
+0212             shortClassName = metaClass.Name(find(metaClass.Name == <span class="string">'.'</span>, 1, <span class="string">'last'</span>)+1:end);
+0213             methodsCallInfo = getcallinfo(fileName);
+0214             runnableLineIndex = unique(callstats(<span class="string">'file_lines'</span>, fileName));
+0215             code = {};
+0216             fid = fopen(fileName, <span class="string">'r'</span>);
+0217             <span class="keyword">while</span> ~feof(fid)
+0218                 code{end+1} = fgetl(fid);
+0219             <span class="keyword">end</span>
+0220             fclose(fid);
+0221             
+0222             <span class="comment">%methods</span>
+0223             metaClass; <span class="comment">%#ok&lt;VUNUS&gt; %This line needed, otherwise numel(metaClass.Methods) incorrectly returns 0</span>
+0224             <span class="keyword">for</span> i = 1:numel(metaClass.Methods)
+0225                 metaMethod = metaClass.Methods{i};
+0226                 
+0227                 <span class="keyword">if</span> ~isequal(metaMethod.DefiningClass, metaClass)
+0228                     <span class="keyword">continue</span>;
+0229                 <span class="keyword">end</span>
+0230                 
+0231                 signature = sprintf(<span class="string">'[%s] = %s(%s)'</span>, <span class="keyword">...</span>
+0232                     strjoin(<span class="string">', '</span>, metaMethod.OutputNames{:}),<span class="keyword">...</span>
+0233                     metaMethod.Name, <span class="keyword">...</span>
+0234                     strjoin(<span class="string">', '</span>, metaMethod.InputNames{:}));
+0235                 
+0236                 method = this.buildMethodReport(<span class="keyword">...</span>
+0237                     metaMethod.Name, signature, <span class="keyword">...</span>
+0238                     shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData);
+0239                 
+0240                 <span class="keyword">if</span> isempty(method); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0241                 
+0242                 class.methods = [
+0243                     class.methods;
+0244                     method];
+0245                 
+0246                 class.linesCovered = class.linesCovered + sum([method.linesCovered]);
+0247                 class.branchesCovered = class.branchesCovered + sum([method.branchesCovered]);
+0248                 class.linesValid = class.linesValid + sum([method.linesValid]);
+0249                 class.branchesValid = class.branchesValid + sum([method.branchesValid]);
+0250                 class.complexity = class.complexity + sum([method.complexity]);
+0251             <span class="keyword">end</span>
+0252             
+0253             <span class="comment">%getters</span>
+0254             <span class="keyword">for</span> i = 1:numel(metaClass.Properties)
+0255                 <span class="keyword">if</span> ~isequal(metaClass.Properties{i}.DefiningClass, metaClass)
+0256                     <span class="keyword">continue</span>;
+0257                 <span class="keyword">end</span>
+0258                 
+0259                 method = this.buildMethodReport(<span class="keyword">...</span>
+0260                     [<span class="string">'get.'</span> metaClass.Properties{i}.Name], [<span class="string">'value = get.'</span> metaClass.Properties{i}.Name <span class="string">'(this)'</span>], <span class="keyword">...</span>
+0261                     shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData);
+0262                 
+0263                 <span class="keyword">if</span> isempty(method); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0264                 
+0265                 class.methods = [
+0266                     class.methods;
+0267                     method];
+0268                 
+0269                 class.linesCovered = class.linesCovered + method.linesCovered;
+0270                 class.branchesCovered = class.branchesCovered + method.branchesCovered;
+0271                 class.linesValid = class.linesValid + method.linesValid;
+0272                 class.branchesValid = class.branchesValid + method.branchesValid;
+0273                 class.complexity = class.complexity + method.complexity;
+0274             <span class="keyword">end</span>
+0275             
+0276             <span class="comment">%setters</span>
+0277             <span class="keyword">for</span> i = 1:numel(metaClass.Properties)
+0278                 <span class="keyword">if</span> ~isequal(metaClass.Properties{i}.DefiningClass, metaClass)
+0279                     <span class="keyword">continue</span>;
+0280                 <span class="keyword">end</span>
+0281                 
+0282                 method = this.buildMethodReport(<span class="keyword">...</span>
+0283                     [<span class="string">'set.'</span> metaClass.Properties{i}.Name], [<span class="string">'set.'</span> metaClass.Properties{i}.Name <span class="string">'(this, value)'</span>], <span class="keyword">...</span>
+0284                     shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData);
+0285                 
+0286                 <span class="keyword">if</span> isempty(method); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0287                 
+0288                 class.methods = [
+0289                     class.methods;
+0290                     method];
+0291                 
+0292                 class.linesCovered = class.linesCovered + method.linesCovered;
+0293                 class.branchesCovered = class.branchesCovered + method.branchesCovered;
+0294                 class.linesValid = class.linesValid + method.linesValid;
+0295                 class.branchesValid = class.branchesValid + method.branchesValid;
+0296                 class.complexity = class.complexity + method.complexity;
+0297             <span class="keyword">end</span>
+0298             
+0299             <span class="comment">%nested functions and subfunctions</span>
+0300             <span class="keyword">for</span> i = 1:numel(methodsCallInfo)
+0301                 methodCallInfo = methodsCallInfo(i);
+0302                 <span class="keyword">if</span> ~ismember(methodCallInfo.type, {<span class="string">'nested-function'</span>, <span class="string">'subfunction'</span>})
+0303                     <span class="keyword">continue</span>;
+0304                 <span class="keyword">end</span>
+0305                                 
+0306                 method = this.buildMethodReport(<span class="keyword">...</span>
+0307                     methodCallInfo.fullname(find(methodCallInfo.fullname == <span class="string">'.'</span>,1,<span class="string">'first'</span>)+1:end), [], <span class="keyword">...</span>
+0308                     shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData);
+0309                 
+0310                 <span class="keyword">if</span> isempty(method); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0311                 
+0312                 class.methods = [
+0313                     class.methods;
+0314                     method];
+0315                 
+0316                 class.linesCovered = class.linesCovered + method.linesCovered;
+0317                 class.branchesCovered = class.branchesCovered + method.branchesCovered;
+0318                 class.linesValid = class.linesValid + method.linesValid;
+0319                 class.branchesValid = class.branchesValid + method.branchesValid;
+0320                 class.complexity = class.complexity + method.complexity;
+0321             <span class="keyword">end</span>
+0322             
+0323             <span class="comment">%lines</span>
+0324             <span class="keyword">for</span> i = 1:numel(class.methods)
+0325                 <span class="keyword">if</span> ~strcmp(class.methods(i).fileName, fileName); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0326                 
+0327                 class.lines = [
+0328                     class.lines;
+0329                     class.methods(i).lines];
+0330             <span class="keyword">end</span>
+0331             
+0332             <span class="comment">%class stats</span>
+0333             class.lineRate = class.linesCovered / class.linesValid;
+0334             class.branchRate = class.branchesCovered / class.branchesValid;
+0335         <span class="keyword">end</span>
+0336         
+0337         <a name="_sub4" href="#_subfunctions" class="code">function method = buildMethodReport(this, name, signature, shortClassName, fileName, methodsCallInfo, runnableLineIndex, code, profData)</a>
+0338             <span class="comment">%initialize output</span>
+0339             method = [];                      
+0340             
+0341             methodCallInfo = [
+0342                 methodsCallInfo(strcmp({methodsCallInfo.type}, <span class="string">'class method'</span>) &amp; strcmp({methodsCallInfo.name}, name));
+0343                 methodsCallInfo(strcmp({methodsCallInfo.type}, <span class="string">'nested-function'</span>) &amp; strcmp({methodsCallInfo.fullname}, [shortClassName <span class="string">'&gt;'</span> shortClassName <span class="string">'.'</span> name]));
+0344                 methodsCallInfo(strcmp({methodsCallInfo.type}, <span class="string">'subfunction'</span>) &amp; strcmp({methodsCallInfo.fullname}, [shortClassName <span class="string">'&gt;'</span> name]))];
+0345             
+0346             <span class="comment">%method not defined in main class file</span>
+0347             <span class="keyword">if</span> isempty(methodCallInfo)
+0348                 <span class="keyword">if</span> ~any(fileName == <span class="string">'@'</span>); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0349                 methodFileName = [fileName(1:find(fileName == filesep, 1, <span class="string">'last'</span>)) name <span class="string">'.m'</span>];
+0350                 <span class="keyword">if</span> ~exist(methodFileName, <span class="string">'file'</span>); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0351                 
+0352                 <span class="keyword">try</span>
+0353                     methodCallInfo = getcallinfo(methodFileName);
+0354                     runnableLineIndex = unique(callstats(<span class="string">'file_lines'</span>, methodFileName));
+0355                 <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0356                     <span class="keyword">return</span>;
+0357                 <span class="keyword">end</span>
+0358                 code = {};
+0359                 fid = fopen(methodFileName, <span class="string">'r'</span>);
+0360                 <span class="keyword">while</span> ~feof(fid)
+0361                     code{end+1} = fgetl(fid);
+0362                 <span class="keyword">end</span>
+0363                 fclose(fid);
+0364                 
+0365                 method = [];
+0366                 <span class="keyword">for</span> i = 1:numel(methodCallInfo)
+0367                     <span class="keyword">if</span> i == 1
+0368                         methodProfData = profData.FunctionTable(strcmp({profData.FunctionTable.CompleteName}, [methodFileName <span class="string">'&gt;'</span> name]));
+0369                     <span class="keyword">else</span>
+0370                         methodProfData = profData.FunctionTable(strcmp({profData.FunctionTable.CompleteName}, [methodFileName <span class="string">'&gt;'</span> name <span class="string">'.'</span> methodCallInfo(i).name]));
+0371                         signature = [];
+0372                     <span class="keyword">end</span>
+0373                     method = [method;
+0374                         this.buildSubFunctionReport(methodFileName, code, runnableLineIndex, methodCallInfo(i), signature, methodProfData)];
+0375                 <span class="keyword">end</span>
+0376                 <span class="keyword">return</span>;
+0377             <span class="keyword">end</span>
+0378             
+0379             <span class="comment">%method defined in main class file</span>
+0380             method.name = name;
+0381             method.fileName = fileName;
+0382             method.signature = signature;
+0383             
+0384             <span class="comment">%lines</span>
+0385             methodProfData = profData.FunctionTable(strcmp({profData.FunctionTable.CompleteName}, [fileName <span class="string">'&gt;'</span> shortClassName <span class="string">'.'</span> name]));
+0386             [method.lines, method.linesCovered, method.linesValid, method.lineRate, <span class="keyword">...</span>
+0387                 method.branchesCovered, method.branchesValid, method.branchRate, method.complexity] = <span class="keyword">...</span>
+0388                 this.buildLinesReport(code, runnableLineIndex, methodCallInfo, methodProfData);
+0389             
+0390             <span class="comment">%method stats</span>
+0391             <span class="keyword">if</span> ~isempty(methodProfData)
+0392                 method.calls = methodProfData.NumCalls;
+0393                 method.time = methodProfData.TotalTime;
+0394             <span class="keyword">else</span>
+0395                 method.calls = 0;
+0396                 method.time = 0;
+0397             <span class="keyword">end</span>
+0398         <span class="keyword">end</span>
+0399         
+0400         <a name="_sub5" href="#_subfunctions" class="code">function class = buildFunctionReport(this, packageName, metaFunction, profData)</a>
+0401             class = [];
+0402             
+0403             fileName = which([packageName <span class="string">'.'</span> metaFunction.Name]);
+0404             inSources = false;
+0405             <span class="keyword">for</span> i = 1:size(this.sources, 1)
+0406                 source = this.sources{i, 1};
+0407                 <span class="keyword">if</span> <span class="keyword">...</span>
+0408                         (isequal(this.sources{i, 2}, <span class="string">'r'</span>) &amp;&amp; numel(fileName) &gt;= numel(source) &amp;&amp; strcmp(fileName(1:numel(source)+1), [source filesep])) || <span class="keyword">...</span>
+0409                         (~isequal(this.sources{i, 2}, <span class="string">'r'</span>) &amp;&amp; numel(fileName) &gt;= numel(source) &amp;&amp; strcmp(fileName(1:numel(source)+1), [source filesep]) &amp;&amp; ~any(strcmp(fileName(numel(source)+2:end), filesep)))
+0410                     inSources = true;
+0411                     <span class="keyword">break</span>;
+0412                 <span class="keyword">end</span>
+0413             <span class="keyword">end</span>
+0414             
+0415             <span class="keyword">if</span> ~inSources
+0416                 <span class="keyword">return</span>;
+0417             <span class="keyword">end</span>
+0418             
+0419             class.name = [<span class="string">'_'</span> metaFunction.Name];
+0420             class.fileName = fileName;
+0421             class.methods = [];
+0422             class.lines = [];
+0423             class.linesCovered = 0;
+0424             class.branchesCovered = 0;
+0425             class.linesValid = 0;
+0426             class.branchesValid = 0;
+0427             class.complexity = 0;
+0428             
+0429             methodsCallInfo = getcallinfo(fileName);
+0430             runnableLineIndex = unique(callstats(<span class="string">'file_lines'</span>, fileName));
+0431             code = {};
+0432             fid = fopen(fileName, <span class="string">'r'</span>);
+0433             <span class="keyword">while</span> ~feof(fid)
+0434                 code{end+1} = fgetl(fid);
+0435             <span class="keyword">end</span>
+0436             fclose(fid);
+0437             
+0438             <span class="keyword">for</span> i = 1:numel(methodsCallInfo)
+0439                 methodCallInfo = methodsCallInfo(i);
+0440                 methodProfData = profData.FunctionTable(strcmp({profData.FunctionTable.CompleteName}, [fileName <span class="string">'&gt;'</span> methodCallInfo.name]));
+0441                 method = this.buildSubFunctionReport(fileName, code, runnableLineIndex, methodCallInfo, [], methodProfData);
+0442                 
+0443                 class.methods = [
+0444                     class.methods;
+0445                     method];
+0446                 
+0447                 class.linesCovered = class.linesCovered + method.linesCovered;
+0448                 class.branchesCovered = class.branchesCovered + method.branchesCovered;
+0449                 class.linesValid = class.linesValid + method.linesValid;
+0450                 class.branchesValid = class.branchesValid +method.branchesValid;
+0451                 class.complexity = class.complexity + method.complexity;
+0452             <span class="keyword">end</span>
+0453             
+0454             <span class="comment">%lines</span>
+0455             class.lines = [];
+0456             <span class="keyword">for</span> i = 1:numel(class.methods)
+0457                 class.lines = [
+0458                     class.lines;
+0459                     class.methods(i).lines];
+0460             <span class="keyword">end</span>
+0461             
+0462             <span class="comment">%stats</span>
+0463             class.lineRate = class.linesCovered / class.linesValid;
+0464             class.branchRate = class.branchesCovered / class.branchesValid;
+0465         <span class="keyword">end</span>
+0466         
+0467         <a name="_sub6" href="#_subfunctions" class="code">function method = buildSubFunctionReport(this, fileName, code, runnableLineIndex, callInfo, signature, profData)</a>
+0468             method.name = callInfo.name;
+0469             method.fileName = fileName;
+0470             method.signature = signature;
+0471             
+0472             <span class="comment">%lines</span>
+0473             [method.lines, method.linesCovered, method.linesValid, method.lineRate, <span class="keyword">...</span>
+0474                 method.branchesCovered, method.branchesValid, method.branchRate, method.complexity] = <span class="keyword">...</span>
+0475                 this.buildLinesReport(code, runnableLineIndex, callInfo, profData);
+0476             
+0477             <span class="comment">%method stats</span>
+0478             <span class="keyword">if</span> ~isempty(profData)
+0479                 method.calls = profData.NumCalls;
+0480                 method.time = profData.TotalTime;
+0481             <span class="keyword">else</span>
+0482                 method.calls = 0;
+0483                 method.time = 0;
+0484             <span class="keyword">end</span>
+0485         <span class="keyword">end</span>
+0486         
+0487         <a name="_sub7" href="#_subfunctions" class="code">function [lines, linesCovered, linesValid, lineRate, branchesCovered, branchesValid, branchRate, complexity] = </a><span class="keyword">...</span>
+0488                 buildLinesReport(~, code, runLineIndex, callInfo, profData)
+0489             lines = repmat(struct(<span class="string">'number'</span>, [], <span class="string">'hits'</span>, [], <span class="string">'branch'</span>, [], <span class="string">'time'</span>, [], <span class="string">'complex'</span>, []), <span class="keyword">...</span>
+0490                 sum(runLineIndex &gt;= callInfo.firstline &amp; runLineIndex &lt;= callInfo.lastline), 1);
+0491             
+0492             linesCovered = 0;
+0493             branchesCovered = 0;
+0494             linesValid = 0;
+0495             branchesValid = 0;
+0496             complexity = 0;
+0497                         
+0498             l2 = 0;
+0499             <span class="keyword">for</span> l1 = callInfo.firstline:callInfo.lastline
+0500                 <span class="keyword">if</span> ~any(runLineIndex == l1); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0501                 l2 = l2+1;
+0502                 
+0503                 hits = 0;
+0504                 time = 0;
+0505                 <span class="keyword">if</span> ~isempty(profData)
+0506                     idx = find(profData.ExecutedLines(:, 1) == l1);
+0507                     <span class="keyword">if</span> ~isempty(idx)
+0508                         hits = profData.ExecutedLines(idx, 2);
+0509                         time = profData.ExecutedLines(idx, 3);
+0510                     <span class="keyword">end</span>
+0511                 <span class="keyword">end</span>
+0512                 
+0513                 branch = ~isempty(regexp(code{l1}, <span class="string">'\&lt;(if|switch|try)\&gt;'</span>, <span class="string">'once'</span>, <span class="string">'tokens'</span>));
+0514                 complex = ~isempty(regexp(code{l1},<span class="string">'(\&lt;otherwise\&gt;)|(\&lt;catch\&gt;)|(\&lt;elseif\&gt;)|(\&lt;if\&gt;)|(\&lt;while\&gt;)|(\&lt;for\&gt;)|(\&lt;case\&gt;)|(\&lt;continue\&gt;)|(&amp;&amp;)|(||)'</span>,<span class="string">'once'</span>,<span class="string">'tokens'</span>));
+0515                 lines(l2, 1).number = l1;
+0516                 lines(l2, 1).hits = hits;
+0517                 lines(l2, 1).branch = branch;
+0518                 lines(l2, 1).time = time;
+0519                 lines(l2, 1).complex = complex;
+0520                 
+0521                 linesValid = linesValid + 1;
+0522                 <span class="keyword">if</span> branch; branchesValid = branchesValid + 1; <span class="keyword">end</span>;
+0523                 <span class="keyword">if</span> hits &gt; 0; linesCovered = linesCovered + 1; <span class="keyword">end</span>;
+0524                 <span class="keyword">if</span> hits &gt; 0 &amp;&amp; branch; branchesCovered = branchesCovered + 1; <span class="keyword">end</span>;
+0525                 <span class="keyword">if</span> complex; complexity = complexity + 1; <span class="keyword">end</span>;
+0526             <span class="keyword">end</span>
+0527             
+0528             lineRate = linesCovered / linesValid;
+0529             branchRate = branchesCovered / branchesCovered;
+0530         <span class="keyword">end</span>
+0531         
+0532         <a name="_sub8" href="#_subfunctions" class="code">function packageNames = getPackageNamesFromDir(this, source)</a>
+0533             <span class="keyword">if</span> source(end) ~= filesep
+0534                 source = [source filesep];
+0535             <span class="keyword">end</span>
+0536             packageNames = {};
+0537             
+0538             files = dir(source);
+0539             <span class="keyword">for</span> i = 1:numel(files)
+0540                 <span class="keyword">if</span> files(i).isdir &amp;&amp; files(i).name(1) ~= <span class="string">'.'</span>
+0541                     <span class="keyword">if</span> files(i).name(1) == <span class="string">'+'</span>
+0542                         metaPackage = meta.package.fromName(files(i).name(2:end));
+0543                         <span class="keyword">if</span> isempty(metaPackage); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0544                         packageNames = [packageNames;
+0545                             this.getSubPackageNamesFromPackage(metaPackage)];
+0546                     <span class="keyword">else</span>
+0547                         packageNames = [packageNames;
+0548                             this.getPackageNamesFromDir([source files(i).name])];
+0549                     <span class="keyword">end</span>
+0550                 <span class="keyword">end</span>
+0551             <span class="keyword">end</span>
+0552         <span class="keyword">end</span>
+0553         
+0554         <a name="_sub9" href="#_subfunctions" class="code">function packageNames = getSubPackageNamesFromPackage(this, metaPackage)</a>
+0555             packageNames = {metaPackage.Name};
+0556             
+0557             <span class="keyword">for</span> i = 1:numel(metaPackage.Packages)
+0558                 packageNames = [packageNames; this.getSubPackageNamesFromPackage(metaPackage.Packages{i})];
+0559             <span class="keyword">end</span>
+0560         <span class="keyword">end</span>
+0561         
+0562         <a name="_sub10" href="#_subfunctions" class="code">function relativePath = relativeToBasePath(this, absolutePath)</a>
+0563             <span class="keyword">if</span> numel(this.basePath) &gt; numel(absolutePath) || ~strcmp(absolutePath(1:numel(this.basePath)), this.basePath)
+0564                 throw(MException(<span class="string">'Coverage:invalidPath'</span>, <span class="string">'path must be contained within base path'</span>));
+0565             <span class="keyword">end</span>
+0566             relativePath = absolutePath(numel(this.basePath)+1:end);
+0567         <span class="keyword">end</span>
+0568     <span class="keyword">end</span>
+0569     
+0570     methods
+0571         <span class="comment">%See also http://cobertura.sourceforge.net/xml/coverage-04.dtd</span>
+0572         <a name="_sub11" href="#_subfunctions" class="code">function xml = exportXML(this, fileName)</a>
+0573             <span class="comment">%initialize</span>
+0574             xml = sprintf(<span class="string">'&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n'</span>);
+0575             xml = [xml sprintf(<span class="string">'&lt;!DOCTYPE coverage SYSTEM &quot;http://cobertura.sourceforge.net/xml/coverage-04.dtd&quot;&gt;\n'</span>)];
+0576             
+0577             <span class="comment">%top-level</span>
+0578             xml = [xml sprintf(<span class="string">'&lt;coverage\n'</span>)];
+0579             xml = [xml sprintf(<span class="string">'\tline-rate=&quot;%f&quot;\n'</span>, this.stats.lineRate)];
+0580             xml = [xml sprintf(<span class="string">'\tbranch-rate=&quot;%f&quot;\n'</span>, this.stats.branchRate)];
+0581             xml = [xml sprintf(<span class="string">'\tlines-covered=&quot;%d&quot;\n'</span>, this.stats.linesCovered)];
+0582             xml = [xml sprintf(<span class="string">'\tlines-valid=&quot;%d&quot;\n'</span>, this.stats.linesValid)];
+0583             xml = [xml sprintf(<span class="string">'\tbranches-covered=&quot;%d&quot;\n'</span>, this.stats.branchesCovered)];
+0584             xml = [xml sprintf(<span class="string">'\tbranches-valid=&quot;%d&quot;\n'</span>, this.stats.branchesValid)];
+0585             xml = [xml sprintf(<span class="string">'\tcomplexity=&quot;%f&quot;\n'</span>, this.stats.complexity)];
+0586             xml = [xml sprintf(<span class="string">'\tversion=&quot;%s&quot;\n'</span>, <span class="string">'0.1'</span>)];
+0587             xml = [xml sprintf(<span class="string">'\ttimestamp=&quot;%s&quot;&gt;\n'</span>, this.timeStamp)];
+0588             xml = [xml sprintf(<span class="string">'\t&lt;sources&gt;\n'</span>)];
+0589             <span class="keyword">for</span> i = 1:size(this.sources, 1)
+0590                 xml = [xml sprintf(<span class="string">'\t\t&lt;source&gt;&lt;![CDATA[%s]]&gt;&lt;/source&gt;\n'</span>, this.sources{i, 1})];
+0591             <span class="keyword">end</span>
+0592             xml = [xml sprintf(<span class="string">'\t&lt;/sources&gt;\n'</span>)];
+0593             xml = [xml sprintf(<span class="string">'\t&lt;packages&gt;\n'</span>)];            
+0594             
+0595             <span class="comment">%packages</span>
+0596             <span class="keyword">for</span> i = 1:numel(this.packages)
+0597                 package = this.packages(i);
+0598                 
+0599                 xml = [xml sprintf(<span class="string">'\t\t&lt;package name=&quot;%s&quot; lines-covered=&quot;%d&quot; lines-valid=&quot;%d&quot; line-rate=&quot;%f&quot; branches-covered=&quot;%d&quot; branches-valid=&quot;%d&quot; branch-rate=&quot;%f&quot; complexity=&quot;%f&quot;&gt;\n'</span>, <span class="keyword">...</span>
+0600                     package.name, <span class="keyword">...</span>
+0601                     package.linesCovered, package.linesValid, package.lineRate, <span class="keyword">...</span>
+0602                     package.branchesCovered, package.branchesValid, package.branchRate, <span class="keyword">...</span>
+0603                     package.complexity)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0604                 xml = [xml sprintf(<span class="string">'\t\t\t&lt;classes&gt;\n'</span>)];
+0605                 <span class="comment">%classes in package</span>
+0606                 <span class="keyword">for</span> j = 1:numel(package.classes)
+0607                     class = package.classes(j);
+0608                     
+0609                     xml = [xml sprintf(<span class="string">'\t\t\t\t&lt;class name=&quot;%s&quot; filename=&quot;%s&quot; lines-covered=&quot;%d&quot; lines-valid=&quot;%d&quot; line-rate=&quot;%f&quot; branches-covered=&quot;%d&quot; branches-valid=&quot;%d&quot; branch-rate=&quot;%f&quot; complexity=&quot;%f&quot;&gt;\n'</span>, <span class="keyword">...</span>
+0610                         class.name, this.relativeToBasePath(class.fileName), <span class="keyword">...</span>
+0611                         class.linesCovered, class.linesValid, class.lineRate, <span class="keyword">...</span>
+0612                         class.branchesCovered, class.branchesValid, class.branchRate, <span class="keyword">...</span>
+0613                         class.complexity)];
+0614                     xml = [xml sprintf(<span class="string">'\t\t\t\t\t&lt;methods&gt;\n'</span>)];
+0615                     <span class="comment">%methods in class</span>
+0616                     <span class="keyword">for</span> k = 1:numel(class.methods)
+0617                         method = class.methods(k);
+0618                         
+0619                         xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t&lt;method name=&quot;%s&quot; filename=&quot;%s&quot; signature=&quot;%s&quot; lines-covered=&quot;%d&quot; lines-valid=&quot;%d&quot; line-rate=&quot;%f&quot; branches-covered=&quot;%d&quot; branches-valid=&quot;%d&quot; branch-rate=&quot;%f&quot; complexity=&quot;%f&quot; calls=&quot;%d&quot; time=&quot;%f&quot;&gt;\n'</span>, <span class="keyword">...</span>
+0620                             method.name, this.relativeToBasePath(method.fileName), method.signature, <span class="keyword">...</span>
+0621                             method.linesCovered, method.linesValid, method.lineRate, <span class="keyword">...</span>
+0622                             method.branchesCovered, method.branchesValid, method.branchRate, <span class="keyword">...</span>
+0623                             method.complexity, <span class="keyword">...</span>
+0624                             method.calls, method.time)];
+0625                         xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t\t&lt;lines&gt;\n'</span>)];
+0626                         <span class="keyword">for</span> l = 1:numel(method.lines)
+0627                             line = method.lines(l);
+0628                             xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t\t\t&lt;line number=&quot;%d&quot; hits=&quot;%d&quot; branch=&quot;%d&quot; time=&quot;%f&quot; condition-coverage=&quot;0%% (0/0)&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0629                                 line.number, line.hits, line.branch, line.time)];
+0630                         <span class="keyword">end</span>
+0631                         xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t\t&lt;/lines&gt;\n'</span>)];
+0632                         xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t&lt;/method&gt;\n'</span>)];
+0633                     <span class="keyword">end</span>
+0634                     xml = [xml sprintf(<span class="string">'\t\t\t\t\t&lt;/methods&gt;\n'</span>)];
+0635                     
+0636                     <span class="comment">%lines in class</span>
+0637                     xml = [xml sprintf(<span class="string">'\t\t\t\t\t&lt;lines&gt;\n'</span>)];
+0638                     <span class="keyword">for</span> k = 1:numel(class.lines)
+0639                         line = class.lines(k);
+0640                         xml = [xml sprintf(<span class="string">'\t\t\t\t\t\t&lt;line number=&quot;%d&quot; hits=&quot;%d&quot; branch=&quot;%d&quot; time=&quot;%f&quot; condition-coverage=&quot;0%% (0/0)&quot;/&gt;\n'</span>,<span class="keyword">...</span>
+0641                             line.number, line.hits, line.branch, line.time)];
+0642                     <span class="keyword">end</span>
+0643                     xml = [xml sprintf(<span class="string">'\t\t\t\t\t&lt;/lines&gt;\n'</span>)];
+0644                     xml = [xml sprintf(<span class="string">'\t\t\t\t&lt;/class&gt;\n'</span>)];
+0645                 <span class="keyword">end</span>
+0646                 xml = [xml sprintf(<span class="string">'\t\t\t&lt;/classes&gt;\n'</span>)];
+0647                 xml = [xml sprintf(<span class="string">'\t\t&lt;/package&gt;\n'</span>)];
+0648             <span class="keyword">end</span>
+0649             xml = [xml sprintf(<span class="string">'\t&lt;/packages&gt;\n'</span>)];
+0650             xml = [xml sprintf(<span class="string">'&lt;/coverage&gt;\n'</span>)];
+0651             
+0652             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>)
+0653                 fid = fopen(fileName, <span class="string">'w'</span>);
+0654                 fwrite(fid, xml);
+0655                 fclose(fid);
+0656             <span class="keyword">end</span>
+0657         <span class="keyword">end</span>
+0658     <span class="keyword">end</span>
+0659 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['editmatfileheader',['editMatFileHeader',['../edit_mat_file_header_8m.html#a98038f4e2337ccc4debc6a159f4a3263',1,'editMatFileHeader.m']]],
+  ['empiricalformula',['empiricalFormula',['../classds_d_n_a.html#a5a472a5e445220beb172cb2989f335dd',1,'dsDNA::empiricalFormula()'],['../classds_r_n_a.html#aac23aaf5a24f3df45e9872279a1720db',1,'dsRNA::empiricalFormula()'],['../class_protein_complex.html#ab3a9fa4227bcc2c8feac387b3a410dce',1,'ProteinComplex::empiricalFormula()'],['../class_protein_monomer.html#a5ef8da4d044493cd71606bd73ba4e134',1,'ProteinMonomer::empiricalFormula()'],['../classss_d_n_a.html#a25558e206a99a2acb4307812d74ab6ca',1,'ssDNA::empiricalFormula()'],['../classss_r_n_a.html#acfaa6b5dc1ee24029362088a64a6306c',1,'ssRNA::empiricalFormula()']]],
+  ['end',['end',['../class_chromosome_sequence.html#acb34c40e1d798f19c4437a207f9f0f69',1,'ChromosomeSequence::end()'],['../class_circular_mat.html#a781ddcabbcc2c9388854d951d6169183',1,'CircularMat::end()'],['../class_sparse_mat.html#a887bfe21a619934d592cb44ceed1643b',1,'SparseMat::end()']]],
+  ['endcoordinate',['endCoordinate',['../class_transcription_unit.html#a0c5b55b0b4aa2cabdef97a127088f5c8',1,'TranscriptionUnit']]],
+  ['energyproduction',['energyProduction',['../class_population.html#ab09aa50af3c14d2950faea5d21e089eb',1,'Population']]],
+  ['enzyme',['Enzyme',['../class_enzyme.html#a9f93c1488a95f803ec5332ae91614656',1,'Enzyme']]],
+  ['enzymebound',['enzymeBound',['../class_knowledge_base.html#a75e0b3631b05be01ed47dfd6c59e2d0d',1,'KnowledgeBase']]],
+  ['enzymebounds',['enzymeBounds',['../class_knowledge_base.html#a8ddb9a7c02bb827cb1886d97038f9188',1,'KnowledgeBase']]],
+  ['enzymecompartments',['enzymeCompartments',['../class_process.html#adc1887d04de13bdc9f573191ce1e19ec',1,'Process']]],
+  ['enzymegenecomposition',['enzymeGeneComposition',['../class_process.html#acc0555f429876308017a96380266d571',1,'Process']]],
+  ['enzymeindexs',['enzymeIndexs',['../class_process.html#a46ac110e35e51e298a07ee806b4d0f66',1,'Process']]],
+  ['enzymemolecularweight',['enzymeMolecularWeight',['../class_reaction.html#a43445a47fd57b33b267cd08fcf1fe311',1,'Reaction']]],
+  ['enzymetocomplex',['enzymeToComplex',['../class_process.html#accefd67c4b5532ecd729c0b84b795509',1,'Process']]],
+  ['enzymetomonomer',['enzymeToMonomer',['../class_process.html#ac2036717b4eb4c82fa9daf99adaaa4d2',1,'Process']]],
+  ['eq',['eq',['../class_chromosome_sequence.html#a76b06b779793eabead0c9d58386c56a8',1,'ChromosomeSequence::eq()'],['../class_circular_mat.html#ab588b446ac1129e8007a70778dfde4df',1,'CircularMat::eq()'],['../class_rand_stream.html#a20986851f75c44ab312c32f7de160b8a',1,'RandStream::eq()'],['../class_sparse_mat.html#adc285c879cd50427d985f6ef448d5fc4',1,'SparseMat::eq()']]],
+  ['escapexml',['escapeXML',['../escape_x_m_l_8m.html#ab3ac0e867c665606c59fa845caf4a3c6',1,'escapeXML.m']]],
+  ['evolvestate',['evolveState',['../class_host_interaction.html#a2cd0b155d4828ac498eb7be53c1e9db0',1,'HostInteraction::evolveState()'],['../class_process.html#ab38537b840470df258d32a0261173cab',1,'Process::evolveState()']]],
+  ['exp',['exp',['../class_circular_mat.html#a7240fa734fb58640d933fb54b82b0e2c',1,'CircularMat::exp()'],['../class_sparse_mat.html#a8b89e8499530449bdfb7f4bb4a089748',1,'SparseMat::exp()']]],
+  ['expm1',['expm1',['../class_circular_mat.html#a2c5f542bf36cca611f61e522923aa5a3',1,'CircularMat::expm1()'],['../class_sparse_mat.html#a28daddcbcede767d7bee1705865a6e83',1,'SparseMat::expm1()']]],
+  ['exportxml',['exportXML',['../class_coverage.html#a123c6c6817254fa89a864b517a07bdf8',1,'Coverage']]],
+  ['expression',['expression',['../class_transcription_unit.html#ad1dfda22a7f4a0382a6d03b0396de54d',1,'TranscriptionUnit']]],
+  ['extinctioncoefficient',['extinctionCoefficient',['../class_compartment.html#aca4f99ff71e9ce30768a406635febec8',1,'Compartment::extinctionCoefficient()'],['../classds_d_n_a.html#a76478206c0ead77e307edd64a9602081',1,'dsDNA::extinctionCoefficient()'],['../classds_r_n_a.html#acb843d8df082821b513f0db8d4f4bec0',1,'dsRNA::extinctionCoefficient()'],['../class_metabolite.html#a595183b308171380cfe329774f15b64e',1,'Metabolite::extinctionCoefficient()'],['../class_protein_complex.html#ab65b4ab30488bec356d11fdd930a0018',1,'ProteinComplex::extinctionCoefficient()'],['../class_protein_monomer.html#a7299cfe4c65a158714d78822e3cc5683',1,'ProteinMonomer::extinctionCoefficient()'],['../classss_d_n_a.html#a2e09d1f356faee11e6c3deff99c452bf',1,'ssDNA::extinctionCoefficient()'],['../classss_r_n_a.html#a21ca417731afeca8aa6e6fb02fa5f884',1,'ssRNA::extinctionCoefficient()']]]
+];

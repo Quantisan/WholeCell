@@ -1,0 +1,11 @@
+Marvin Beans installer will install Marvin Beans applications and the
+corresponding API to your machine.
+The following components will be installed:
+- Applications: MarvinSketch, MarvinView, MarvinSpace
+- Scripts: msketch, mview, mspace, molconvert, cxcalc
+- Marvin Beans API
+- API documentation
+- Marvin OLE server
+
+Warning: The installation may take a few minutes.
+

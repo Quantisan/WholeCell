@@ -1,0 +1,570 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TranscriptionalRegulation</title>
+  <meta name="keywords" content="TranscriptionalRegulation">
+  <meta name="description" content="Transcriptional Regulation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; TranscriptionalRegulation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TranscriptionalRegulation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Transcriptional Regulation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Transcriptional Regulation
+
+ @wholeCellModelID Process_TranscriptionalRegulation
+ @name             Transcriptional Regulation
+ @description
+   Biology
+   ==============
+   The the rate of transcription of each transcription unit is known to be
+   regulated by proteins referred to as transcription factors which modulate
+   the affinity of the RNA polymerase for each promoter. Transcription factors
+   can both positively and negatively modulate RNA polymerase - promoter
+   affinity. Transcription factors can stabilize RNA polymerase - promoter
+   complexes by contributing additional negative free energy to the complex by
+   providing an additional surface for the RNA polymerase binding.
+   Transcription factors can destabilize RNA polymerase - promoter complexes
+   for example by sterically blocking promoters and preventing the RNA
+   polymerase from binding promoters.
+
+   This process simulates the binding of transcription factors to the promoters
+   of each transcription unit (affinity), as well as the affect of the
+   transcription factors on the recruiment of the RNA polymerase to each
+   promoter (activity). The process was built using experimentally observed fold
+   change expression effect of each transcription factor on each promoter.
+
+   Affinity
+   ++++++++++++++
+   Binds enzymes to promoters assuming:
+   1) Transcription factors have high affinity for promoters
+   2) Transcription factors bind promoters rapidly
+   3) Transcription factors bind promoters stably over time
+   4) Only 1 copy of a transcription factor can bind each promoter
+   5) Transcription factors only compete within their species for
+      promoters. That is for each transcription unit we assume each
+      transcription factor species binds a distinct promoters region.
+
+   Consequently, at each time step we simulate that each free
+   transcription factor binds randomly binds unoccupied promoters (no copy
+   of that transcription factor is already bound to the promoter). Random
+   transcription factor-promoter binding is weighted by the affinity of
+   each transcription factor for each promoter.
+
+   Because transcription factor-promoter affinities are generally not
+   experimentally observed, we base them on the transcription factor fold
+   change activities.
+
+   Activity
+   ++++++++++++++
+   The effect of bound transcription factors on the recruitment of RNA
+   polymerase and the expression of transcription units is simulated here
+   and incorporated into the calculation of the RNA polymerase
+   transcription unit promoter binding probabilities in the transcription
+   process. Specifically, the wild-type average RNA polymerase
+   transcription unit promoter binding probabilities are multiplied by the
+   binding probability fold change effects simulated in this process.
+
+   The RNA polymerase binding probability fold change is simulated for
+   each promoter as the product of the observed expression fold change
+   effects of each bound transcription factor. When a promoter is bound by
+   a single transcription factor, the net RNA polymerase binding
+   probability fold change is the observed expression fold change of that
+   transcription factor. When a promoter is bound by multiple
+   transcription units, the net RNA polymerase binding probability fold
+   change is given by the product of the individual fold change effects of
+   the bound transcription factors.
+
+   Knowledge Base
+   ==============
+   The list of transcriptional regulatory relationships is maintained in the
+   the knowledge base. As of 8/10/2010, it contained 31 such relationships
+   between 5 transcription factors and 29 transcription units containing 37
+   genes. The knowledge base was built from a variety of literature sources
+   and databases including:
+   - PUB_0096
+   - PUB_0110
+   - PUB_0112
+   - PUB_0196
+   - PUB_0418-20
+   - PUB_0433-8
+   - PUB_0505
+
+   Initialization
+   =================
+   Because we assume that transcription factors have high affinity for DNA and
+   bind DNA stably, we initialize as many transcription factors as possible to
+   the promoter-bound state. We randomly assign transcription factors to
+   promoters using their relative affinities.
+
+   Simulation
+   ==============
+   For each kind of transcription factor, bind any free transcription factors
+   to promoters that aren't already occupied by this kind of transcription
+   factor. Choose the binding sites randomly, weighted by the transcription
+   factor's affinity to them.
+
+   References
+   ==============
+   1) Lacramioara Bintu and Nicolas E Buchler and Hernan G Garcia and
+      Ulrich Gerland and Terence Hwa, Jane Kondev and Rob Phillips (2005).
+      Transcriptional regulation by the numbers: models. Curr Opin Genet
+      Dev. 15:116-24.
+   2) Lacramioara Bintu and Nicolas E Buchler and Hernan G Garcia and
+      Ulrich Gerland and Terence Hwa, Jane Kondev and Rob Phillips (2005).
+      Transcriptional regulation by the numbers: applications. Curr Opin
+      Genet Dev. 15:125-35.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 10/19/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TranscriptionalRegulation.html" class="code" title="">TranscriptionalRegulation</a>	Transcriptional Regulation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TranscriptionalRegulation.html" class="code" title="">TranscriptionalRegulation</a>	Transcriptional Regulation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = TranscriptionalRegulation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub5" class="code">function initializeState(this)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li><li><a href="#_sub8" class="code">function tfBoundPromoters = bindTranscriptionFactors(this)</a></li><li><a href="#_sub9" class="code">function foldChange = calcBindingProbabilityFoldChange(this, tfBoundPromoters)</a></li><li><a href="#_sub10" class="code">function result = get.tfBoundPromoters(this)</a></li><li><a href="#_sub11" class="code">function result = get.boundTFs(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Transcriptional Regulation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_TranscriptionalRegulation</span>
+0004 <span class="comment">% @name             Transcriptional Regulation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ==============</span>
+0008 <span class="comment">%   The the rate of transcription of each transcription unit is known to be</span>
+0009 <span class="comment">%   regulated by proteins referred to as transcription factors which modulate</span>
+0010 <span class="comment">%   the affinity of the RNA polymerase for each promoter. Transcription factors</span>
+0011 <span class="comment">%   can both positively and negatively modulate RNA polymerase - promoter</span>
+0012 <span class="comment">%   affinity. Transcription factors can stabilize RNA polymerase - promoter</span>
+0013 <span class="comment">%   complexes by contributing additional negative free energy to the complex by</span>
+0014 <span class="comment">%   providing an additional surface for the RNA polymerase binding.</span>
+0015 <span class="comment">%   Transcription factors can destabilize RNA polymerase - promoter complexes</span>
+0016 <span class="comment">%   for example by sterically blocking promoters and preventing the RNA</span>
+0017 <span class="comment">%   polymerase from binding promoters.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   This process simulates the binding of transcription factors to the promoters</span>
+0020 <span class="comment">%   of each transcription unit (affinity), as well as the affect of the</span>
+0021 <span class="comment">%   transcription factors on the recruiment of the RNA polymerase to each</span>
+0022 <span class="comment">%   promoter (activity). The process was built using experimentally observed fold</span>
+0023 <span class="comment">%   change expression effect of each transcription factor on each promoter.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   Affinity</span>
+0026 <span class="comment">%   ++++++++++++++</span>
+0027 <span class="comment">%   Binds enzymes to promoters assuming:</span>
+0028 <span class="comment">%   1) Transcription factors have high affinity for promoters</span>
+0029 <span class="comment">%   2) Transcription factors bind promoters rapidly</span>
+0030 <span class="comment">%   3) Transcription factors bind promoters stably over time</span>
+0031 <span class="comment">%   4) Only 1 copy of a transcription factor can bind each promoter</span>
+0032 <span class="comment">%   5) Transcription factors only compete within their species for</span>
+0033 <span class="comment">%      promoters. That is for each transcription unit we assume each</span>
+0034 <span class="comment">%      transcription factor species binds a distinct promoters region.</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   Consequently, at each time step we simulate that each free</span>
+0037 <span class="comment">%   transcription factor binds randomly binds unoccupied promoters (no copy</span>
+0038 <span class="comment">%   of that transcription factor is already bound to the promoter). Random</span>
+0039 <span class="comment">%   transcription factor-promoter binding is weighted by the affinity of</span>
+0040 <span class="comment">%   each transcription factor for each promoter.</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   Because transcription factor-promoter affinities are generally not</span>
+0043 <span class="comment">%   experimentally observed, we base them on the transcription factor fold</span>
+0044 <span class="comment">%   change activities.</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   Activity</span>
+0047 <span class="comment">%   ++++++++++++++</span>
+0048 <span class="comment">%   The effect of bound transcription factors on the recruitment of RNA</span>
+0049 <span class="comment">%   polymerase and the expression of transcription units is simulated here</span>
+0050 <span class="comment">%   and incorporated into the calculation of the RNA polymerase</span>
+0051 <span class="comment">%   transcription unit promoter binding probabilities in the transcription</span>
+0052 <span class="comment">%   process. Specifically, the wild-type average RNA polymerase</span>
+0053 <span class="comment">%   transcription unit promoter binding probabilities are multiplied by the</span>
+0054 <span class="comment">%   binding probability fold change effects simulated in this process.</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   The RNA polymerase binding probability fold change is simulated for</span>
+0057 <span class="comment">%   each promoter as the product of the observed expression fold change</span>
+0058 <span class="comment">%   effects of each bound transcription factor. When a promoter is bound by</span>
+0059 <span class="comment">%   a single transcription factor, the net RNA polymerase binding</span>
+0060 <span class="comment">%   probability fold change is the observed expression fold change of that</span>
+0061 <span class="comment">%   transcription factor. When a promoter is bound by multiple</span>
+0062 <span class="comment">%   transcription units, the net RNA polymerase binding probability fold</span>
+0063 <span class="comment">%   change is given by the product of the individual fold change effects of</span>
+0064 <span class="comment">%   the bound transcription factors.</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%   Knowledge Base</span>
+0067 <span class="comment">%   ==============</span>
+0068 <span class="comment">%   The list of transcriptional regulatory relationships is maintained in the</span>
+0069 <span class="comment">%   the knowledge base. As of 8/10/2010, it contained 31 such relationships</span>
+0070 <span class="comment">%   between 5 transcription factors and 29 transcription units containing 37</span>
+0071 <span class="comment">%   genes. The knowledge base was built from a variety of literature sources</span>
+0072 <span class="comment">%   and databases including:</span>
+0073 <span class="comment">%   - PUB_0096</span>
+0074 <span class="comment">%   - PUB_0110</span>
+0075 <span class="comment">%   - PUB_0112</span>
+0076 <span class="comment">%   - PUB_0196</span>
+0077 <span class="comment">%   - PUB_0418-20</span>
+0078 <span class="comment">%   - PUB_0433-8</span>
+0079 <span class="comment">%   - PUB_0505</span>
+0080 <span class="comment">%</span>
+0081 <span class="comment">%   Initialization</span>
+0082 <span class="comment">%   =================</span>
+0083 <span class="comment">%   Because we assume that transcription factors have high affinity for DNA and</span>
+0084 <span class="comment">%   bind DNA stably, we initialize as many transcription factors as possible to</span>
+0085 <span class="comment">%   the promoter-bound state. We randomly assign transcription factors to</span>
+0086 <span class="comment">%   promoters using their relative affinities.</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   Simulation</span>
+0089 <span class="comment">%   ==============</span>
+0090 <span class="comment">%   For each kind of transcription factor, bind any free transcription factors</span>
+0091 <span class="comment">%   to promoters that aren't already occupied by this kind of transcription</span>
+0092 <span class="comment">%   factor. Choose the binding sites randomly, weighted by the transcription</span>
+0093 <span class="comment">%   factor's affinity to them.</span>
+0094 <span class="comment">%</span>
+0095 <span class="comment">%   References</span>
+0096 <span class="comment">%   ==============</span>
+0097 <span class="comment">%   1) Lacramioara Bintu and Nicolas E Buchler and Hernan G Garcia and</span>
+0098 <span class="comment">%      Ulrich Gerland and Terence Hwa, Jane Kondev and Rob Phillips (2005).</span>
+0099 <span class="comment">%      Transcriptional regulation by the numbers: models. Curr Opin Genet</span>
+0100 <span class="comment">%      Dev. 15:116-24.</span>
+0101 <span class="comment">%   2) Lacramioara Bintu and Nicolas E Buchler and Hernan G Garcia and</span>
+0102 <span class="comment">%      Ulrich Gerland and Terence Hwa, Jane Kondev and Rob Phillips (2005).</span>
+0103 <span class="comment">%      Transcriptional regulation by the numbers: applications. Curr Opin</span>
+0104 <span class="comment">%      Genet Dev. 15:125-35.</span>
+0105 <span class="comment">%</span>
+0106 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0107 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0108 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0109 <span class="comment">% Last updated: 10/19/2010</span>
+0110 classdef <a href="TranscriptionalRegulation.html" class="code" title="">TranscriptionalRegulation</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0111     <span class="comment">%property annotations</span>
+0112     properties (Constant)
+0113         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0114         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0115             <span class="string">'tfIndexs'</span>;
+0116             <span class="string">'tuIndexs'</span>;
+0117             <span class="string">'tfAffinities'</span>;
+0118             <span class="string">'tfActivities'</span>;
+0119             <span class="string">'tfPositionStrands'</span>;
+0120             <span class="string">'otherActivities'</span>;
+0121             };
+0122         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0123         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0124     <span class="keyword">end</span>
+0125 
+0126     <span class="comment">%IDs, names, and local indices</span>
+0127     properties
+0128         stimuliWholeCellModelIDs = {};
+0129         substrateWholeCellModelIDs = {};
+0130 
+0131         enzymeWholeCellModelIDs
+0132         enzymeIndexs_fur         <span class="comment">%MG_236_MONOMER  ferric uptake repressor</span>
+0133         enzymeIndexs_gntR        <span class="comment">%MG_101_MONOMER  Uncharacterized HTH-type transcriptional regulator</span>
+0134         enzymeIndexs_hrcA        <span class="comment">%MG_205_DIMER    heat-inducible transcription repressor HrcA, putative</span>
+0135         enzymeIndexs_luxR        <span class="comment">%MG_428_DIMER    LuxR bacterial regulatory protein, putative</span>
+0136         enzymeIndexs_spx         <span class="comment">%MG_127_MONOMER  Spx subfamily protein</span>
+0137 
+0138         transcriptionUnitWholeCellModelIDs
+0139     <span class="keyword">end</span>
+0140 
+0141     <span class="comment">%fixed biological constants</span>
+0142     properties
+0143         tfIndexs           <span class="comment">%identifying index of transcription factor that binds each site [sites X 2]</span>
+0144         tuIndexs           <span class="comment">%identifying index of transcription unit associated with each TF binding site [sites X 2]</span>
+0145         tfAffinities       <span class="comment">%affinity of each transcription factor for each promoter it binds [sites X 2]</span>
+0146         tfActivities       <span class="comment">%fold change expression of each transcription unit when its promoter is bound by a particular transcription factor [sites X 2]</span>
+0147         tfPositionStrands  <span class="comment">%start position and strand of each transcription factor DNA binding site [2*sites X 2]</span>
+0148         otherActivities    <span class="comment">%fold change each non-DNA-binding transcription factor has on each transcription unit's expression [nTFs X nTUs]</span>
+0149     <span class="keyword">end</span>
+0150 
+0151     <span class="comment">%dependent local state (implemented as dependent property for convenience)</span>
+0152     properties (Dependent, SetAccess = protected)
+0153         tfBoundPromoters       <span class="comment">%number of each transcription factor bound to promoter of each transcription unit [transcription factors X promoters X 2]</span>
+0154         boundTFs               <span class="comment">%count of how many of each transcription factor are bound [transcription factors X 1]</span>
+0155     <span class="keyword">end</span>
+0156     
+0157     <span class="comment">%references to cell state</span>
+0158     properties
+0159         rnaPolymerase             <span class="comment">%reference to RNA polymerase state</span>
+0160     <span class="keyword">end</span>
+0161 
+0162     <span class="comment">%constructor</span>
+0163     methods
+0164         <a name="_sub0" href="#_subfunctions" class="code">function this = TranscriptionalRegulation(wholeCellModelID, name)</a>
+0165             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0166         <span class="keyword">end</span>
+0167     <span class="keyword">end</span>
+0168 
+0169     <span class="comment">%communication between process/simulation</span>
+0170     methods
+0171         <span class="comment">%set references to state objects</span>
+0172         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0173             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0174             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0175             
+0176             this.rnaPolymerase = simulation.state(<span class="string">'RNAPolymerase'</span>);
+0177             this.states = [this.states; {this.rnaPolymerase}];
+0178         <span class="keyword">end</span>
+0179         
+0180         <span class="comment">%initialize constants</span>
+0181         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, varargin)</a>
+0182             <span class="comment">%build object arrays of transcription factor monomers and complexes</span>
+0183             monomers = [];
+0184             complexs = [];
+0185             <span class="keyword">for</span> i = 1:knowledgeBase.numTranscriptionUnits
+0186                 m = knowledgeBase.transcriptionUnits(i).transcriptionFactorProteinMonomers;
+0187                 c = knowledgeBase.transcriptionUnits(i).transcriptionFactorProteinComplexs;
+0188                 <span class="keyword">if</span> ~isempty(m)
+0189                     monomers = [monomers; m]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0190                 <span class="keyword">end</span>
+0191                 <span class="keyword">if</span> ~isempty(c)
+0192                     complexs = [complexs; c]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0193                 <span class="keyword">end</span>
+0194             <span class="keyword">end</span>
+0195             
+0196             <span class="comment">%whole cell model ids of all transcription factors</span>
+0197             this.enzymeWholeCellModelIDs = unique({
+0198                 monomers.wholeCellModelID<span class="keyword">...</span>
+0199                 complexs.wholeCellModelID}');
+0200 
+0201             <span class="comment">%transcription factors indices</span>
+0202             this.enzymeIndexs_fur  = this.enzymeIndexs({<span class="string">'MG_236_MONOMER'</span>});
+0203             this.enzymeIndexs_gntR = this.enzymeIndexs({<span class="string">'MG_101_MONOMER'</span>});
+0204             this.enzymeIndexs_hrcA = this.enzymeIndexs({<span class="string">'MG_205_DIMER'</span>});
+0205             this.enzymeIndexs_luxR = this.enzymeIndexs({<span class="string">'MG_428_DIMER'</span>});
+0206             this.enzymeIndexs_spx  = this.enzymeIndexs({<span class="string">'MG_127_MONOMER'</span>});
+0207 
+0208             <span class="comment">%call super class method to compute mapping between enzymes of</span>
+0209             <span class="comment">%this process, and of protein monomers and complexes of the simulation</span>
+0210             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0211                 knowledgeBase, varargin{:});
+0212             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(<span class="keyword">...</span>
+0213                 knowledgeBase, varargin{:});
+0214 
+0215             <span class="comment">%whole cell model ids of transcription units</span>
+0216             this.transcriptionUnitWholeCellModelIDs = <span class="keyword">...</span>
+0217                 {knowledgeBase.transcriptionUnits.wholeCellModelID}';
+0218 
+0219             <span class="comment">%build matrices of transcription factor positions, affinities, activities</span>
+0220             n = length(monomers) + length(complexs);
+0221             this.tuIndexs = zeros(n, 2);
+0222             this.tfIndexs = zeros(n, 2);
+0223             this.tfActivities = zeros(n, 2);
+0224             this.tfPositionStrands = zeros(n*2, 2);
+0225             c = this.chromosome;
+0226             j = 1;
+0227             <span class="keyword">for</span> i = 1:knowledgeBase.numTranscriptionUnits
+0228                 tu = knowledgeBase.transcriptionUnits(i);
+0229 
+0230                 <span class="keyword">if</span> ~isempty(tu.transcriptionFactorProteinMonomers)
+0231                     [tf, proteinIndexs] = ismember(<span class="keyword">...</span>
+0232                         [tu.transcriptionFactorProteinMonomers.idx]',<span class="keyword">...</span>
+0233                         this.enzymeMonomerGlobalIndexs);
+0234                     k = nnz(tf) - 1;
+0235                     this.tuIndexs(j:j+k) = i;
+0236 
+0237                     proteinIndexs = proteinIndexs(tf);
+0238                     this.tfIndexs(j:j+k) = this.enzymeMonomerLocalIndexs(proteinIndexs);
+0239 
+0240                     regulationIndexs = <span class="keyword">...</span>
+0241                         this.enzymeMonomerCompartmentIndexs(proteinIndexs) == <span class="keyword">...</span>
+0242                         [tu.transcriptionFactorProteinMonomerCompartments.idx]';
+0243                     this.tfActivities(j:j+k) = <span class="keyword">...</span>
+0244                         tu.transcriptionFactorProteinMonomerActivitys(regulationIndexs);
+0245 
+0246                     footprints = c.monomerDNAFootprints([tu.transcriptionFactorProteinMonomers.idx]');
+0247                     startCoordinates = tu.transcriptionFactorProteinMonomerBindingSiteStartCoordinates;
+0248                     lengths = tu.transcriptionFactorProteinMonomerBindingSiteLengths;
+0249                     this.tfPositionStrands(j:j+k) = <span class="keyword">...</span>
+0250                         mod(ceil(startCoordinates + lengths/2 - footprints/2) - 1, c.sequenceLen) + 1;
+0251                     j = j + 1 + k;
+0252                 <span class="keyword">end</span>
+0253 
+0254                 <span class="keyword">if</span> ~isempty(tu.transcriptionFactorProteinComplexs)
+0255                     [tf, proteinIndexs] = ismember(<span class="keyword">...</span>
+0256                         [tu.transcriptionFactorProteinComplexs.idx]',<span class="keyword">...</span>
+0257                         this.enzymeComplexGlobalIndexs);
+0258                     k = nnz(tf) - 1;
+0259                     this.tuIndexs(j:j+k) = i;
+0260 
+0261                     proteinIndexs = proteinIndexs(tf);
+0262                     this.tfIndexs(j:j+k) = this.enzymeComplexLocalIndexs(proteinIndexs);
+0263                    
+0264                     regulationIndexs = <span class="keyword">...</span>
+0265                         this.enzymeComplexCompartmentIndexs(proteinIndexs) == <span class="keyword">...</span>
+0266                         [tu.transcriptionFactorProteinComplexCompartments.idx]';
+0267                     this.tfActivities(j:j+k) = <span class="keyword">...</span>
+0268                         tu.transcriptionFactorProteinComplexActivitys(regulationIndexs);
+0269 
+0270                     footprints = c.complexDNAFootprints([tu.transcriptionFactorProteinComplexs.idx]');
+0271                     startCoordinates = tu.transcriptionFactorProteinComplexBindingSiteStartCoordinates;
+0272                     lengths = tu.transcriptionFactorProteinComplexBindingSiteLengths;
+0273                     this.tfPositionStrands(j:j+k) = <span class="keyword">...</span>
+0274                         mod(ceil(startCoordinates + lengths/2 - footprints/2) - 1, c.sequenceLen) + 1;
+0275                     j = j + 1 + k;
+0276                 <span class="keyword">end</span>
+0277             <span class="keyword">end</span>
+0278 
+0279             validateattributes(this.tfActivities, {<span class="string">'numeric'</span>}, {<span class="string">'nonnegative'</span>});
+0280             
+0281             this.tuIndexs(:,2) = this.tuIndexs(:,1);
+0282             this.tfIndexs(:,2) = this.tfIndexs(:,1);
+0283             this.tfActivities(:,2) = this.tfActivities(:,1);
+0284 
+0285             this.tfPositionStrands(1:n,2) = 1;
+0286             this.tfPositionStrands(n+1:2*n,1) = this.tfPositionStrands(1:n,1);
+0287             this.tfPositionStrands(n+1:2*n,2) = 3;
+0288 
+0289             this.tfAffinities = this.tfActivities;
+0290             this.tfActivities(this.tfActivities&lt;1 &amp; this.tfAffinities&gt;0) = <span class="keyword">...</span>
+0291                 this.tfActivities(this.tfActivities&lt;1 &amp; this.tfAffinities&gt;0) .^ -1;
+0292  
+0293             bind = ~isnan(this.tfPositionStrands(1:n,1));
+0294             this.otherActivities = ones(<span class="keyword">...</span>
+0295                 length(this.transcriptionUnitWholeCellModelIDs), <span class="keyword">...</span>
+0296                 length(this.enzymeWholeCellModelIDs));
+0297             this.otherActivities(sub2ind(<span class="keyword">...</span>
+0298                 size(this.otherActivities), <span class="keyword">...</span>
+0299                 this.tuIndexs(~bind), <span class="keyword">...</span>
+0300                 this.tfIndexs(~bind))) = <span class="keyword">...</span>
+0301                 this.tfActivities(~bind);
+0302             this.tuIndexs = this.tuIndexs(bind,:);
+0303             this.tfIndexs = this.tfIndexs(bind,:);
+0304             this.tfAffinities = this.tfAffinities(bind,:);
+0305             this.tfActivities = this.tfActivities(bind,:);
+0306             this.tfPositionStrands = this.tfPositionStrands(repmat(bind, [2 1]), :);
+0307         <span class="keyword">end</span>
+0308     <span class="keyword">end</span>
+0309 
+0310     <span class="comment">%model</span>
+0311     methods
+0312         <span class="comment">%Calculate</span>
+0313         <span class="comment">%- contribution to FBA objective</span>
+0314         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0315         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0316             <span class="comment">%no substrate and byproducts required</span>
+0317             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0318             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0319             
+0320             <span class="comment">%no enzymes required</span>
+0321             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0322             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0323         <span class="keyword">end</span>
+0324 
+0325         <span class="comment">%initialization:</span>
+0326         <span class="comment">%- Simulation initializeState method initializes 1 undamaged chromosome</span>
+0327         <span class="comment">%- Various processes may bind proteins to chromosome</span>
+0328         <span class="comment">%- Here we bind transcription factors to the initial chromosome</span>
+0329         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(this)</a>
+0330             this.evolveState();
+0331         <span class="keyword">end</span>
+0332 
+0333         <span class="comment">%resource requirements</span>
+0334         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0335             result = zeros(size(this.substrates));
+0336         <span class="keyword">end</span>
+0337 
+0338         <span class="comment">%simulation</span>
+0339         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0340             <span class="comment">%Bind transcription factors to accessible sites</span>
+0341             tfBoundPromoters = this.bindTranscriptionFactors();
+0342             
+0343             <span class="comment">%Compute new fold changes</span>
+0344             this.rnaPolymerase.transcriptionFactorBindingProbFoldChange = <span class="keyword">...</span>
+0345                 this.calcBindingProbabilityFoldChange(tfBoundPromoters);
+0346         <span class="keyword">end</span>
+0347         
+0348         <span class="comment">%Bind transcription factors to accessible sites.</span>
+0349         <a name="_sub7" href="#_subfunctions" class="code">function tfBoundPromoters = bindTranscriptionFactors(this)</a>
+0350             <span class="comment">%Estimate which binding sites exist and are accessible to the</span>
+0351             <span class="comment">%transcription unit. (Note chromosome class which ensure that sites</span>
+0352             <span class="comment">%are truly accessible, and only allow transcription factors to bind</span>
+0353             <span class="comment">%to these sites).</span>
+0354             tfBoundPromoters = this.tfBoundPromoters;
+0355             accessible = ~tfBoundPromoters &amp; reshape(this.chromosome.isRegionPolymerized(this.tfPositionStrands, 1, false), [], 2);
+0356             
+0357             <span class="keyword">for</span> i = 1:size(this.enzymes, 1)
+0358                 <span class="comment">%For each transcription factor:</span>
+0359                 <span class="comment">%  Stochastically pick transcription unit promoters elements to</span>
+0360                 <span class="comment">%  bind from among free promoter elements weighted by the</span>
+0361                 <span class="comment">%  transcription factors' affinities for the promoters. (Note:</span>
+0362                 <span class="comment">%  each transcription factor is assumed to bind a distinct</span>
+0363                 <span class="comment">%  promoter region near each transcription unit such that</span>
+0364                 <span class="comment">%  transcription factors only compete within their species</span>
+0365                 <span class="comment">%  for binding to promoters.)</span>
+0366                 
+0367                 <span class="keyword">if</span> this.enzymes(i) &lt;= 0
+0368                     <span class="keyword">continue</span>;
+0369                 <span class="keyword">end</span>
+0370                 
+0371                 sites = find((this.tfIndexs == i) &amp; accessible);
+0372                 <span class="keyword">if</span> isempty(sites)
+0373                     <span class="keyword">continue</span>;
+0374                 <span class="keyword">end</span>
+0375                 
+0376                 tf = this.bindProteinToChromosome(<span class="keyword">...</span>
+0377                     this.tfPositionStrands(sites, :), i, this.enzymes(i), this.tfAffinities(sites), [], false, 1, false, []);
+0378                 
+0379                 tfBoundPromoters(sites(tf)) = true;
+0380             <span class="keyword">end</span>
+0381         <span class="keyword">end</span>
+0382         
+0383         <a name="_sub8" href="#_subfunctions" class="code">function foldChange = calcBindingProbabilityFoldChange(this, tfBoundPromoters)</a>
+0384             <span class="comment">%reset fold change</span>
+0385             foldChange = ones(size(this.chromosome.transcriptionUnitStartCoordinates, 1), 2);
+0386             
+0387             <span class="comment">%fold change effect of bound TFs</span>
+0388             <span class="keyword">for</span> i = 1:size(this.tfIndexs, 1)
+0389                 <span class="keyword">for</span> j = 1:size(this.tfIndexs, 2)
+0390                     <span class="keyword">if</span> ~tfBoundPromoters(i, j)
+0391                         <span class="keyword">continue</span>;
+0392                     <span class="keyword">end</span>
+0393                 
+0394                     foldChange(this.tuIndexs(i, j), j) = foldChange(this.tuIndexs(i, j), j) * this.tfActivities(i, j);
+0395                 <span class="keyword">end</span>
+0396             <span class="keyword">end</span>
+0397             
+0398             otherFoldChanges = prod(this.otherActivities .^ (this.enzymes(:, ones(1, size(foldChange, 1)))' &gt; 0), 2);
+0399             foldChange = foldChange .* [otherFoldChanges otherFoldChanges];
+0400         <span class="keyword">end</span>
+0401     <span class="keyword">end</span>
+0402     
+0403     <span class="comment">%get methods of dependent local state</span>
+0404     methods
+0405         <a name="_sub9" href="#_subfunctions" class="code">function result = get.tfBoundPromoters(this)</a>
+0406             result = reshape(this.isDnaBound(this.tfPositionStrands, this.tfIndexs(:)), [], 2);
+0407         <span class="keyword">end</span>
+0408         
+0409         <a name="_sub10" href="#_subfunctions" class="code">function result = get.boundTFs(this)</a>
+0410             result = histc(this.tfIndexs(logical(this.tfBoundPromoters(:,1))), 1:numel(this.enzymes));
+0411         <span class="keyword">end</span>
+0412     <span class="keyword">end</span>
+0413 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

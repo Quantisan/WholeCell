@@ -1,0 +1,89 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: pathway-links.dat
+# Date and time generated: March 29, 2012, 18:01:34
+#
+ACETATEUTIL_PWY	acetate utilization and formation	
+ALA_ASP_METABOLISM	Alanine and Aspartate Metabolism	
+ALT_CARBON_METABOLISM	Alternate Carbon Metabolism	
+ANAEROFRUCAT_PWY	homolactic fermentation	
+ANAPLEROTIC_REACTIONS	Anaplerotic Reactions	
+ARG_PRO_METABOLISM	Arginine and Proline Metabolism	
+CITRIC_ACID_CYCLE	Citric Acid Cycle	
+COA_PWY	coenzyme A biosynthesis	
+CODH_PWY	reductive acetyl coenzyme A pathway	
+COFACTOR_PROSTHETIC_BIOSYNTHESIS	Cofactor and Prosthetic Group Biosynthesis	
+DENOVOPURINE2_PWY	purine nucleotides <i>de novo</i> biosynthesis I	
+DRIBOPMET_PWY	(deoxy)ribose phosphate degradation	
+ENVELOPE_BIOSYNTHESIS	Cell Envelope Biosynthesis	
+FERMENTATION_PWY	mixed acid fermentation	
+FOLATE_METABOLISM	Folate Metabolism	
+GALACTMETAB_PWY	UDP-galactose biosynthesis (salvage pathway from galactose using UDP-glucose)	
+GLYCEROPHOSPHOLIPID_METBOLISM	Glycerophospholipid Metabolism	
+GLYCLEAV_PWY	glycine cleavage complex	
+GLYCOLYSIS	Glycolysis/Gluconeogenesis	
+GLYSYN_PWY	glycine biosynthesis I	
+GLY_SER_METABOLISM	Glycine and Serine Metabolism	
+HISTIDINE_METABOLISM	Histidine Metabolism	
+NADPHOS_DEPHOS_PWY	NAD phosphorylation and dephosphorylation	
+NAD_BIOSYNTHESIS_II	NAD salvage pathway II	
+NAD_BIOSYNTHESIS_III	NAD biosynthesis III	
+NONOXIPENT_PWY	pentose phosphate pathway (non-oxidative branch)	
+OXIDATIVE_PHOSPHORYLATION	Oxidative Phosphorylation	
+P122_PWY	heterolactic fermentation I	
+P142_PWY	pyruvate fermentation to acetate I	
+P1_PWY	salvage pathways of purine and pyrimidine nucleotides	
+P21_PWY	pentose phosphate pathway (partial)	
+P41_PWY	pyruvate fermentation to acetate and lactate I	
+P61_PWY	UDP-glucose conversion	
+PHOSLIPSYN_PWY	phospholipid biosynthesis I	
+PPGPPMET_PWY	ppGpp biosynthesis	
+PWY0_163	salvage pathways of pyrimidine ribonucleotides	
+PWY0_166	de novo biosynthesis of pyrimidine deoxyribonucleotides	
+PWY0_181	salvage pathways of pyrimidine deoxyribonucleotides	
+PWY0_381	glycerol degradation I	
+PWY0_662	PRPP biosynthesis I	
+PWY0_901	selenocysteine biosynthesis	
+PWY_1622	formaldehyde assimilation I (serine pathway)	
+PWY_1861	formaldehyde assimilation II (RuMP Cycle)	
+PWY_2201	folate transformations	
+PWY_3742	tetrahydrofolate biosynthesis II	
+PWY_3841	formylTHF biosynthesis II	
+PWY_4261	glycerol degradation IV	
+PWY_5046	branched-chain &alpha;-keto acid dehydrogenase complex	
+PWY_5083	NAD/NADH phosphorylation and dephosphorylation	
+PWY_5084	2-keto glutarate dehydrogenase complex	
+PWY_5481	pyruvate fermentation to lactate	
+PWY_5482	pyruvate fermentation to acetate II	
+PWY_5485	pyruvate fermentation to acetate IV	
+PWY_5497	purine degradation II (anaerobic)	
+PYRUVATE_METABOLISM	Pyruvate Metabolism	
+PYRUVDEHYD_PWY	pyruvate dehydrogenase complex	
+RIBOSYN2_PWY	flavin biosynthesis	
+SAM_PWY	S-adenosylmethionine biosynthesis	
+THIOREDOX_PWY	thioredoxin pathway	
+THR_LYS_METABOLISM	Threonine and Lysine Metabolism	
+TRANS_INNER	Transport, Inner Membrane	
+TRANS_INORG_ION	Inorganic Ion Transport and Metabolism	
+TRANS_OUTER	Transport, Outer Membrane	
+TRANS_OUTER_PORIN	Transport, Outer Membrane Porin	
+TRNA_CHARGING_PWY	tRNA charging pathway	
+TYR_TRP_PHE_METABOLISM	Tyrosine, Tryptophan, and Phenylalanine Metabolism	

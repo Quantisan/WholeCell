@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TimeCourse</title>
+  <meta name="keywords" content="TimeCourse">
+  <meta name="description" content="TimeCourse">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; TimeCourse.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TimeCourse
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>TimeCourse</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TimeCourse
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TimeCourse.html" class="code" title="">TimeCourse</a>	TimeCourse</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TimeCourse.html" class="code" title="">TimeCourse</a>	TimeCourse</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function plotRNAs(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub3" class="code">function plotrRNAs(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub4" class="code">function plotsRNAs(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub5" class="code">function plottRNAs(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub6" class="code">function plotProteins(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub7" class="code">function plotWeights(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub8" class="code">function plotRNA_Weight_Fractions(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub9" class="code">function plotNTPs(sim, axesHandle, time, compartments)</a></li><li><a href="#_sub10" class="code">function plotAAs(sim, axesHandle, time, compartments)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%TimeCourse</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 9/12/2010</span>
+0006 classdef <a href="TimeCourse.html" class="code" title="">TimeCourse</a>
+0007     methods (Static)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0009             import edu.stanford.covert.cell.sim.analysis.TimeCourse;
+0010             
+0011             <span class="comment">% plots</span>
+0012             <span class="keyword">if</span> nargin == 1
+0013                 TimeCourse.plotRNAs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0014                 TimeCourse.plotrRNAs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0015                 TimeCourse.plotsRNAs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0016                 TimeCourse.plottRNAs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0017                 TimeCourse.plotProteins(sim, PlotUtil.newAxesHandle(), 1, compIdxs);
+0018                 TimeCourse.plotWeights(sim, PlotUtil.newAxesHandle(), 1, compIdxs);
+0019                 TimeCourse.plotRNA_Weight_Fractions(sim, PlotUtil.newAxesHandle(), 1, compIdxs);
+0020                 TimeCourse.plotNTPs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0021                 TimeCourse.plotAAs(sim, PlotUtil.newAxesHandle(), 1, cIdx);
+0022             <span class="keyword">else</span>
+0023                 [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0024                 
+0025                 cIdx = sim.compartment.cytosolIndexs;
+0026                 compIdxs = 1:sim.compartment.count;
+0027                 
+0028                 cla(axesHandle);
+0029                 TimeCourse.plotRNAs(sim, axesHandle, 1, cIdx);
+0030                 saveas(figHandle, [fileName <span class="string">'-RNAs.pdf'</span>]);
+0031                 
+0032                 cla(axesHandle);
+0033                 TimeCourse.plotrRNAs(sim, axesHandle, 1, cIdx);
+0034                 saveas(figHandle, [fileName <span class="string">'-rRNAs.pdf'</span>]);
+0035                 
+0036                 cla(axesHandle);
+0037                 TimeCourse.plotsRNAs(sim, axesHandle, 1, cIdx);
+0038                 saveas(figHandle, [fileName <span class="string">'-sRNAs.pdf'</span>]);
+0039                 
+0040                 cla(axesHandle);
+0041                 TimeCourse.plottRNAs(sim, axesHandle, 1, cIdx);
+0042                 saveas(figHandle, [fileName <span class="string">'-tRNAs.pdf'</span>]);
+0043                 
+0044                 cla(axesHandle);
+0045                 TimeCourse.plotProteins(sim, axesHandle, 1, compIdxs);
+0046                 saveas(figHandle, [fileName <span class="string">'-Proteins.pdf'</span>]);
+0047                 
+0048                 cla(axesHandle);
+0049                 TimeCourse.plotWeights(sim, axesHandle, 1, compIdxs);
+0050                 saveas(figHandle, [fileName <span class="string">'-Weights.pdf'</span>]);
+0051                 
+0052                 cla(axesHandle);
+0053                 TimeCourse.plotRNA_Weight_Fractions(sim, axesHandle, 1, compIdxs);
+0054                 saveas(figHandle, [fileName <span class="string">'-Weight Fractions.pdf'</span>]);
+0055                 
+0056                 cla(axesHandle);
+0057                 TimeCourse.plotNTPs(sim, axesHandle, 1, cIdx);
+0058                 saveas(figHandle, [fileName <span class="string">'-NTPs.pdf'</span>]);
+0059                 
+0060                 cla(axesHandle);
+0061                 TimeCourse.plotAAs(sim, axesHandle, 1, cIdx);
+0062                 saveas(figHandle, [fileName <span class="string">'-AAs.pdf'</span>]);
+0063                 
+0064                 close(figHandle);
+0065             <span class="keyword">end</span>
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068     
+0069     <span class="comment">%plots</span>
+0070     methods (Static)
+0071         <span class="comment">% plot RNA</span>
+0072         <a name="_sub1" href="#_subfunctions" class="code">function plotRNAs(sim, axesHandle, time, compartments)</a>
+0073             r = sim.state(<span class="string">'Rna'</span>);
+0074             
+0075             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(sim, compartments, [
+0076                 sum(r.counts, 1);
+0077                 sum(r.counts(r.matureIndexs(r.matureMRNAIndexs), :, :), 1);
+0078                 sum(r.counts(r.matureIndexs(r.matureRRNAIndexs), :, :), 1);
+0079                 sum(r.counts(r.matureIndexs(r.matureSRNAIndexs), :, :), 1);
+0080                 sum(r.counts(r.matureIndexs(r.matureTRNAIndexs), :, :), 1)]);
+0081             
+0082             plotHandles = plot(axesHandle, time/3600, values);
+0083             sim.labelCompartmentPlot(plotHandles, compartments, {<span class="string">'Total'</span>,<span class="string">'mRNA'</span>,<span class="string">'rRNA'</span>,<span class="string">'sRNA'</span>,<span class="string">'tRNA'</span>});
+0084             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0085             ylabel(axesHandle, <span class="string">'RNA'</span>, <span class="string">'fontSize'</span>, 8);
+0086             xlim(axesHandle, [0 max(time)] / 3600);
+0087         <span class="keyword">end</span>
+0088         
+0089         <a name="_sub2" href="#_subfunctions" class="code">function plotrRNAs(sim, axesHandle, time, compartments)</a>
+0090             r = sim.state(<span class="string">'Rna'</span>);
+0091             
+0092             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(<span class="keyword">...</span>
+0093                 sim, compartments, r.counts(r.matureIndexs(r.matureRRNAIndexs), :, :));
+0094             plotHandles = plot(axesHandle, time/3600, values);
+0095             sim.labelCompartmentPlot(plotHandles, compartments, r.wholeCellModelIDs(r.matureIndexs(r.matureRRNAIndexs)));
+0096             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0097             ylabel(axesHandle, <span class="string">'rRNA'</span>, <span class="string">'fontSize'</span>, 8);
+0098             xlim(axesHandle, [0 max(time)] / 3600);
+0099         <span class="keyword">end</span>
+0100         
+0101         <a name="_sub3" href="#_subfunctions" class="code">function plotsRNAs(sim, axesHandle, time, compartments)</a>
+0102             r = sim.state(<span class="string">'Rna'</span>);
+0103             
+0104             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(<span class="keyword">...</span>
+0105                 sim, compartments, r.counts(r.matureIndexs(r.matureSRNAIndexs), :, :));
+0106             plotHandles = plot(axesHandle, time/3600, values);
+0107             sim.labelCompartmentPlot(plotHandles, compartments, r.wholeCellModelIDs(r.matureIndexs(r.matureSRNAIndexs)));
+0108             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0109             ylabel(axesHandle, <span class="string">'sRNA'</span>, <span class="string">'fontSize'</span>, 8);
+0110             xlim(axesHandle, [0 max(time)] / 3600);
+0111         <span class="keyword">end</span>
+0112         
+0113         <a name="_sub4" href="#_subfunctions" class="code">function plottRNAs(sim, axesHandle, time, compartments)</a>
+0114             r = sim.state(<span class="string">'Rna'</span>);
+0115             
+0116             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(<span class="keyword">...</span>
+0117                 sim, compartments, r.counts(r.matureIndexs(r.matureTRNAIndexs), :, :));
+0118             plotHandles = plot(axesHandle, time/3600, values);
+0119             sim.labelCompartmentPlot(plotHandles, compartments);
+0120             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0121             ylabel(axesHandle, <span class="string">'tRNA'</span>, <span class="string">'fontSize'</span>, 8);
+0122             xlim(axesHandle, [0 max(time)] / 3600);
+0123         <span class="keyword">end</span>
+0124         
+0125         <span class="comment">% plot proteins</span>
+0126         <a name="_sub5" href="#_subfunctions" class="code">function plotProteins(sim, axesHandle, time, compartments)</a>
+0127             m = sim.state(<span class="string">'ProteinMonomer'</span>);
+0128             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0129             
+0130             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(<span class="keyword">...</span>
+0131                 sim, compartments, [sum(m.counts); sum(c.counts)]);
+0132             plotHandles = plot(axesHandle, time/3600, values);
+0133             sim.labelCompartmentPlot(plotHandles, compartments, {<span class="string">'Monomers'</span>,<span class="string">'Complexes'</span>});
+0134             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0135             ylabel(axesHandle, <span class="string">'Protein'</span>, <span class="string">'fontSize'</span>, 8);
+0136             xlim(axesHandle, [0 max(time)] / 3600);
+0137         <span class="keyword">end</span>
+0138         
+0139         <span class="comment">% plot weights</span>
+0140         <a name="_sub6" href="#_subfunctions" class="code">function plotWeights(sim, axesHandle, time, compartments)</a>
+0141             mass = sim.state(<span class="string">'Mass'</span>);
+0142             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(sim, compartments, [
+0143                 mass.cell;
+0144                 mass.rnaWt;
+0145                 mass.proteinWt]) / (mass.cellInitialDryWeight * (1 + 1/mass.fractionWetWeight));
+0146             plotHandles = plot(axesHandle, time/3600, values);
+0147             sim.labelCompartmentPlot(plotHandles, compartments, {<span class="string">'Total'</span>, <span class="string">'RNA'</span>, <span class="string">'Protein'</span>});
+0148             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0149             ylabel(axesHandle, <span class="string">'Weight (Cells)'</span>, <span class="string">'fontSize'</span>, 8);
+0150             xlim(axesHandle, [0 max(time)] / 3600);
+0151         <span class="keyword">end</span>
+0152         
+0153         <a name="_sub7" href="#_subfunctions" class="code">function plotRNA_Weight_Fractions(sim, axesHandle, time, compartments)</a>
+0154             r = sim.state(<span class="string">'Rna'</span>);
+0155             
+0156             weightFractions = [<span class="keyword">...</span>
+0157                 multiprod(r.molecularWeights(r.matureIndexs(r.matureMRNAIndexs))', <span class="keyword">...</span>
+0158                 r.counts(r.matureIndexs(r.matureMRNAIndexs), :, :), [1 2], [1 2]);<span class="keyword">...</span>
+0159                 repmat(r.molecularWeights(r.matureIndexs(r.matureRibosomalRRNAIndexs)),<span class="keyword">...</span>
+0160                 [1 numel(sim.compartment.wholeCellModelIDs) size(r.counts,3)]).*<span class="keyword">...</span>
+0161                 r.counts(r.matureIndexs(r.matureRibosomalRRNAIndexs),:,:);<span class="keyword">...</span>
+0162                 multiprod(r.molecularWeights(r.matureIndexs([r.matureSRNAIndexs;r.matureTRNAIndexs]))', <span class="keyword">...</span>
+0163                 r.counts(r.matureIndexs([r.matureSRNAIndexs;r.matureTRNAIndexs]), :, :),[1 2],[1 2])];
+0164             weightFractions = weightFractions./repmat(sum(weightFractions(:)),[size(weightFractions,1),size(weightFractions,2), 1]);
+0165             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(sim, compartments, weightFractions);
+0166             
+0167             plotHandles = plot(axesHandle, time/3600, values);
+0168             sim.labelCompartmentPlot(plotHandles, compartments, {<span class="string">'mRNA'</span>,<span class="string">'rRNA 5S'</span>,<span class="string">'rRNA 16S'</span>,<span class="string">'rRNA 23S'</span>,<span class="string">'sRNA, tRNA'</span>});
+0169             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0170             ylabel(axesHandle, <span class="string">'Weight Fraction'</span>, <span class="string">'fontSize'</span>, 8);
+0171             xlim(axesHandle, [0 max(time)] / 3600);
+0172         <span class="keyword">end</span>
+0173         
+0174         <a name="_sub8" href="#_subfunctions" class="code">function plotNTPs(sim, axesHandle, time, compartments)</a>
+0175             r = sim.state(<span class="string">'Rna'</span>);
+0176             
+0177             ntpIncorporation = multiprod(r.baseCounts(:,sim.state(<span class="string">'Metabolite'</span>).nmpIndexs)',r.counts,[1 2],[1 2]);
+0178             ntpIncorporation = ntpIncorporation./repmat(sum(sum(ntpIncorporation,1),2),[size(ntpIncorporation,1), size(ntpIncorporation,2), 1]);
+0179             values = edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(sim, compartments, ntpIncorporation);
+0180             plotHandles = plot(axesHandle, time/3600, values);
+0181             sim.labelCompartmentPlot(plotHandles, compartments, sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(sim.state(<span class="string">'Metabolite'</span>).ntpIndexs));
+0182             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>,8);
+0183             ylabel(axesHandle, <span class="string">'NMPs'</span>, <span class="string">'fontSize'</span>,8);
+0184             xlim(axesHandle, [0 max(time)] / 3600);
+0185         <span class="keyword">end</span>
+0186         
+0187         <a name="_sub9" href="#_subfunctions" class="code">function plotAAs(sim, axesHandle, time, compartments)</a>
+0188             m = sim.state(<span class="string">'ProteinMonomer'</span>);
+0189             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0190             
+0191             aaIncorporation=<span class="keyword">...</span>
+0192                 multiprod(m.baseCounts(:,sim.state(<span class="string">'Metabolite'</span>).aminoAcidIndexs)',m.counts,[1 2],[1 2]) + <span class="keyword">...</span>
+0193                 multiprod(c.naseCounts(:,sim.state(<span class="string">'Metabolite'</span>).aminoAcidIndexs)',c.counts,[1 2],[1 2]);
+0194             
+0195             aaIncorporation=aaIncorporation./repmat(sum(sum(aaIncorporation,1),2), [size(aaIncorporation,1), size(aaIncorporation,2), 1]);
+0196             values=edu.stanford.covert.cell.sim.util.PlotUtil.selectCompartmentsForPlot(sim, compartments, aaIncorporation);
+0197             plotHandles=plot(axesHandle, time/3600, values);
+0198             
+0199             sim.labelCompartmentPlot(plotHandles, compartments, sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(sim.state(<span class="string">'Metabolite'</span>).aminoAcidIndexs));
+0200             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0201             ylabel(axesHandle,<span class="string">'AAs'</span>,<span class="string">'fontSize'</span>,8);
+0202             xlim(axesHandle,[0 max(time)]/3600);
+0203         <span class="keyword">end</span>
+0204     <span class="keyword">end</span>
+0205 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

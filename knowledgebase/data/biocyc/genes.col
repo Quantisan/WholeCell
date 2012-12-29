@@ -1,0 +1,549 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: genes.col
+# Date and time generated: March 29, 2012, 18:01:33
+#
+UNIQUE-ID	NAME	PRODUCT-NAME	SWISS-PROT-ID	REPLICON	START-BASE	END-BASE	SYNONYMS	SYNONYMS	SYNONYMS	SYNONYMS	GENE-CLASS	GENE-CLASS	GENE-CLASS	GENE-CLASS
+MG_001	dnaN	DNA polymerase III, beta subunit	P47247	TU_001	686	1828	dnaN				mRNA			
+MG_002	MG_002	DnaJ domain protein	P47248	TU_001	1828	2760					mRNA			
+MG_003	gyrB	DNA gyrase, B subunit	P47249	TU_002	2845	4797	gyrB				mRNA			
+MG_004	gyrA	DNA gyrase, A subunit	P47250	TU_002	4812	7322	gyrA				mRNA			
+MG_005	serS	seryl-tRNA synthetase	P47251	TU_003	7294	8547	serS				mRNA			
+MG_006	tmk	thymidylate kinase	P47252	TU_003	8551	9183	tmk				mRNA			
+MG_007	holB	DNA polymerase III delta prime subunit, putative	P47253	TU_003	9156	9917	holB				mRNA			
+MG_008	mnmE	tRNA modification GTPase TrmE	P47254	TU_003	9923	11251	mnmE	thdF	trmE		mRNA			
+MG_009	tatD	deoxyribonuclease	P47255	TU_003	11251	12039	tatD	mttC	ychF		mRNA			
+MG_010	dnaE	DNA primase-related protein	P47256	TU_004	12068	12724	dnaE				mRNA			
+MG_011	MG_011		P47257	TU_005	13564	12701					mRNA			
+MG_012	rimK	alpha-L-glutamate ligase	P47258	TU_005	14432	13569	rimK				mRNA			
+MG_013	folD	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	P47259	TU_006	15216	14395	folD				mRNA			
+MG471	MG471			TU_007	15369	15294					tRNA			
+MG472	MG472			TU_007	15451	15375					tRNA			
+MG_014	mdlB	multidrug ABC transporter, ATP-binding/permease protein	P47260	TU_008	15555	17426	mdlB				mRNA			
+MG_015	mdlB	multidrug ABC transporter, ATP-binding/permease protein	P47261	TU_008	17473	19242	mdlB	lmrA			mRNA			
+MG_018	hepA2	SNF2 family helicase putative	P47264	TU_009	19252	22347	hepA2				mRNA			
+MG_019	dnaJ	chaperone protein DnaJ	P47265	TU_010	22389	23558	dnaJ				mRNA			
+MG_020	pepP	proline iminopeptidase	P47266	TU_010	23542	24468	pepP	pip			mRNA			
+MG_021	metG	methionyl-tRNA synthetase	P47267	TU_010	24468	26006	metG				mRNA			
+MG_022	rpoE	DNA-directed RNA polymerase, delta subunit	P47268	TU_011	26036	26473	rpoE				mRNA			
+MG_023	fba	fructose-1,6-bisphosphate aldolase, class II	P47269	TU_011	26479	27345	fba				mRNA			
+MG_024	ychF	GTP-binding protein YchF	P47270	TU_011	27346	28449	ychF	engD	gtp1		mRNA			
+MG_025	trsB	Beta-glycosyl transferase	P47271	TU_012	28652	29548	trsB				mRNA			
+MG_026	efp	translation elongation factor P	P47272	TU_013	29552	30124	efp				mRNA			
+MG_027	nusB	transcription termination/antitermination protein NusB	P47273	TU_013	30093	30548	nusB				mRNA			
+MG_028	MG_028		P47274	TU_013	30548	31153					mRNA			
+MG_029	MG_029	DJ-1/PfpI family protein	P47275	TU_014	31703	31143					mRNA			
+MG_030	upp	uracil phosphoribosyltransferase	P47276	TU_014	32325	31705	upp				mRNA			
+MG_031	polC	DNA polymerase III, alpha subunit, Gram-positive type	P47277	TU_014	36714	32359	polC				mRNA			
+MG_032	MG_032		P47278	TU_015	36977	38977					mRNA			
+MG_033	glpF	glycerol uptake facilitator	P47279	TU_016	39127	39903	glpF				mRNA			
+MG_034	tdk	thymidine kinase	P47280	TU_017	40513	39872	tdk				mRNA			
+MG_035	hisS	histidyl-tRNA synthetase	P47281	TU_018	40542	41786	hisS				mRNA			
+MG_036	aspS	aspartyl-tRNA synthetase	P47282	TU_019	41776	43428	aspS				mRNA			
+MG_037	pncB	nicotinate phosphoribosyltransferase	P47283	TU_020	43401	44753	pncB				mRNA			
+MG_038	glpK	glycerol kinase	P47284	TU_021	46276	44750	glpK				mRNA			
+MG_039	gpsA	FAD-dependent glycerol-3-phosphate dehydrogenase, putative	P47285	TU_022	47421	46267	gpsA				mRNA			
+MG_040	MG_040	Monosaccharide (riboside/galactoside) ABC transporter, substrate binding protein	P47286	TU_023	47580	49355					mRNA			
+MG_041	ptsH	PTS system, HPr	P47287	TU_024	49376	49642	ptsH				mRNA			
+MG_042	potA	spermidine/putrescine (polyamine) ABC transporter, ATP-binding protein, putative	P47288	TU_025	49840	51519	potA				mRNA			
+MG_043	potB	spermidine/putrescine (polyamine) ABC transporter, permease protein, putative	P47289	TU_025	51524	52381	potB				mRNA			
+MG_044	potC	spermidine/putrescine (polyamine) ABC transporter, permease protein, putative	P47290	TU_025	52365	53219	potC				mRNA			
+MG_045	potD	spermidine/putrescine (polyamine) ABC transporter, spermidine/putrescine binding protein, putative	P47291	TU_026	53204	54652	potD				mRNA			
+MG_046	gcp	metalloendopeptidase	P47292	TU_027	54657	55604	gcp				mRNA			
+MG_047	metK	S-adenosylmethionine synthetase	P47293	TU_027	55588	56739	metK				mRNA			
+MG_048	ffh	signal recognition particle protein	P47294	TU_028	58309	56969	ffh				mRNA			
+MG_049	deoD	purine nucleoside phosphorylase	P47295	TU_029	58362	59078	deoD				mRNA			
+MG_050	deoC	deoxyribose-phosphate aldolase	P47296	TU_029	59082	59753	deoC				mRNA			
+MG_051	pdp	pyrimidine-nucleoside phosphorylase	P47297	TU_029	59740	61005	pdp				mRNA			
+MG_052	cdd	cytidine deaminase	P47298	TU_030	61014	61406	cdd				mRNA			
+MG_053	pgm	phosphoglucomutase/phosphomannomutase, putative	P47299	TU_030	61406	63058	pgm				mRNA			
+MG_054	nusG	transcription antitermination protein NusG, putative	P47300	TU_031	63985	63035	nusG				mRNA			
+MG_055	secE	preprotein translocase, SecE subunit	P47301	TU_031	64360	63989	secE				mRNA			
+MG_473	rpmG-2	ribosomal protein L33 type 2	Q9ZB82	TU_031	64513	64367	rpmG-2				mRNA			
+MG_474	MG_474		Q9ZB81	TU_032	64910	64527					mRNA			
+MG_056	yraL	tetrapyrrole (corrin/porphyrin) methylase protein	P47302	TU_032	65730	64897	yraL				mRNA			
+MG_057	MG_057	small primase-like protein	P47303	TU_032	66248	65712					mRNA			
+MG_058	prs	ribose-phosphate pyrophosphokinase	P47304	TU_033	67225	66227	prs				mRNA			
+MG_059	smpB	SsrA-binding protein	P47305	TU_034	67643	67206	smpB				mRNA			
+MG_060	rfbV	glycosyl transferase	P47306	TU_035	67650	68543	rfbV				mRNA			
+MG_061	uhpT	Mycoplasma MFS transporter	P47307	TU_036	70225	68522	uhpT				mRNA			
+MG475	MG475			TU_037	70481	70393					tRNA			
+MG_062	fruA	PTS system, fructose-specific IIABC component	P47308	TU_038	70530	72572	fruA				mRNA			
+MG_063	fruK	1-phosphofructokinase, putative	Q49396	TU_039	72523	73434	fruK				mRNA			
+MG_064	MG_064	ABC transporter, permease protein, putative	P47310	TU_040	73690	77685					mRNA			
+MG_065	MG_065	ABC transporter, ATP-binding protein	P47311	TU_040	77685	79085					mRNA			
+MG_066	tkt	transketolase	P47312	TU_041	79089	81035	tkt				mRNA			
+MG_067	MG_067	lipoprotein, putative	P47313	TU_042	81046	82596					mRNA			
+MG_068	MG_068	lipoprotein, putative	P47314	TU_042	82620	84044					mRNA			
+MG_069	ptsG	PTS system, glucose-specific IIABC component	P47315	TU_043	88228	90954	ptsG				mRNA			
+MG_070	rpsB	ribosomal protein S2	P47316	TU_044	91065	91919	rpsB				mRNA			
+MG_071	mgtA	ATPase, P-type (transporting), HAD superfamily, subfamily IC	P47317	TU_045	91924	94548	mgtA	pacL			mRNA			
+MG_072	secA	preprotein translocase, SecA subunit	P47318	TU_046	94535	96955	secA				mRNA			
+MG_073	uvrB	excinuclease ABC, B subunit	P47319	TU_047	96933	98903	uvrB				mRNA			
+MG_074	MG_074		P47320	TU_048	98906	99319					mRNA			
+MG_075	MG_075	116 kDa surface antigen	P47321	TU_049	99383	102457					mRNA			
+MG_076	MG_076		P47322	TU_050	102870	102454					mRNA			
+MG_077	oppB	oligopeptide ABC transporter, permease protein	P47323	TU_051	103104	104327	oppB				mRNA			
+MG_078	oppC	oligopeptide ABC transporter, permease protein	P47324	TU_051	104320	105450	oppC				mRNA			
+MG_079	oppD	oligopeptide ABC transporter, ATP-binding protein	P47325	TU_051	105452	106660	oppD				mRNA			
+MG_080	oppF	oligopeptide ABC transporter, ATP-binding protein	P47326	TU_051	106660	109206	oppF				mRNA			
+MG_081	rplK	ribosomal protein L11	P47327	TU_052	109262	109675	rplK				mRNA			
+MG_082	rplA	ribosomal protein L1	P47328	TU_052	109675	110355	rplA				mRNA			
+MG_083	pth	peptidyl-tRNA hydrolase	P47329	TU_053	110355	110924	pth				mRNA			
+MG_084	tilS	tRNA(Ile)-lysidine synthetase	P47330	TU_054	110917	111789	tilS				mRNA			
+MG_085	hprK	HPr(Ser) kinase/phosphatase	P47331	TU_054	111790	112725	hprK				mRNA			
+MG_086	lgt	prolipoprotein diacylglyceryl transferase	P47332	TU_055	112718	113866	lgt	gerF			mRNA			
+MG_087	rpsL	ribosomal protein S12	P47333	TU_055	113895	114314	rpsL				mRNA			
+MG_088	rpsG	ribosomal protein S7	P47334	TU_055	114331	114798	rpsG				mRNA			
+MG_089	fusA	translation elongation factor G	P47335	TU_055	114808	116874	fusA				mRNA			
+MG_090	rpsF	ribosomal protein S6	P47336	TU_056	116926	117552	rpsF				mRNA			
+MG_091	MG_091	single-strand binding protein family	P47337	TU_057	117553	118035					mRNA			
+MG_092	rpsR	ribosomal protein S18	P47338	TU_058	118025	118342	rpsR				mRNA			
+MG_093	rplI	ribosomal protein L9	P47339	TU_059	118345	118797	rplI				mRNA			
+MG_094	dnaB	replicative DNA helicase	P47340	TU_059	118781	120187	dnaB				mRNA			
+MG_095	MG_095	lipoprotein, putative	P47341	TU_059	120191	121387					mRNA			
+MG_096	MG_096		P47342	TU_060	121571	123523					mRNA			
+MG_097	ung	uracil-DNA glycosylase, putative	P47343	TU_061	123580	124317	ung				mRNA			
+MG_098	MG_098	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, C subunit	P47344	TU_062	124417	125850					mRNA			
+MG_099	gatA	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, A subunit	P47345	TU_062	125853	127286	gatA				mRNA			
+MG_100	gatB	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, B subunit	P47346	TU_062	127279	128712	gatB				mRNA			
+MG_101	gntR	Uncharacterized HTH-type transcriptional regulator	P47347	TU_063	128687	129355	gntR				mRNA			
+MG_102	trxB	thioredoxin-disulfide reductase	P47348	TU_063	129348	130295	trxB				mRNA			
+MG_103	MG_103		P47349	TU_063	130285	131127					mRNA			
+MG_476	secG	preprotein translocase, SecG subunit		TU_064	131149	131382	secG				mRNA			
+MG_104	rnr	ribonuclease R	P47350	TU_065	131385	133562	rnr				mRNA			
+MG_105	disA	putative DNA integrity scanning protein	P47351	TU_066	133570	134172	disA				mRNA			
+MG_106	def	peptide deformylase	P47352	TU_067	134728	134147	def				mRNA			
+MG_107	gmk	guanylate kinase	P47353	TU_068	134769	135338	gmk				mRNA			
+MG_108	ptc1	Ser/Thr protein phosphatase 2C, putative	P47354	TU_068	135338	136120	ptc1				mRNA			
+MG_109	prkC	serine/threonine protein kinase, putative	P47355	TU_068	136105	137268	prkC				mRNA			
+MG_110	rsgA	ribosome small subunit-dependent GTPase A	P47356	TU_068	137255	138091	rsgA	yjeQ			mRNA			
+MG_111	pgi	glucose-6-phosphate isomerase	P47357	TU_069	138106	139407	pgi				mRNA			
+MG_112	rpe	ribulose-phosphate 3-epimerase	P47358	TU_069	139397	140026	rpe				mRNA			
+MG_113	asnS	asparaginyl-tRNA synthetase	P47359	TU_070	140040	141410	asnS				mRNA			
+MG_114	pgsA	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	P47360	TU_071	141346	142056	pgsA				mRNA			
+MG_115	cinA	competence/damage-inducible protein CinA domain protein	P47361	TU_072	142081	142554	cinA				mRNA			
+MG_116	MG_116		P47362	TU_073	142563	143318					mRNA			
+MG_117	MG_117		P47363	TU_073	143311	143955					mRNA			
+MG_118	galE	UDP-glucose 4-epimerase	P47364	TU_073	143936	144958	galE				mRNA			
+MG_119	rbsA	Monosaccharide (riboside/galactoside) ABC transporter, ATP-binding protein	P47365	TU_074	144973	146667	rbsA				mRNA			
+MG_120	rbsB	Monosaccharide (riboside/galactoside) ABC transporter, permease protein	P47366	TU_074	146674	148236	rbsB				mRNA			
+MG_121	rbsC	Monosaccharide (riboside/galactoside) ABC transporter, permease protein	P47367	TU_074	148239	149159	rbsC				mRNA			
+MG_122	topA	DNA topoisomerase I	P47368	TU_074	149199	151328	topA				mRNA			
+MG_123	MG_123	arginine deaminasse	P47369	TU_075	151306	152721					mRNA			
+MG_124	trx	thioredoxin	P47370	TU_076	152768	153076	trx				mRNA			
+MG_125	MG_125	Cof-like hydrolase, putative	P47371	TU_076	153082	153939					mRNA			
+MG_126	trpS	tryptophanyl-tRNA synthetase	P47372	TU_077	154963	153920	trpS				mRNA			
+MG_127	spx	Spx subfamily protein	P47373	TU_078	154999	155436	spx	yjbD			mRNA			
+MG_128	nadK	inorganic polyphosphate/ATP-NAD kinase, probable	P47374	TU_078	155444	156223	nadK				mRNA			
+MG_129	MG_129	Putative phosphotransferase enzyme glucose-specific IIB component	Q49397	TU_079	156223	156576					mRNA			
+MG_130	cpdB		P47376	TU_080	156566	158020	cpdB				mRNA			
+MG_131	MG_131	hypothetical protein		TU_081	158023	158309					mRNA			
+MG_132	hinT	purine nucleoside phosphoramidase	P47378	TU_082	159006	158581	hinT				mRNA			
+MG_133	MG_133	membrane protein, putative	P47379	TU_083	159778	158984					mRNA			
+MG_134	MG_134		P47380	TU_084	159798	160100					mRNA			
+MG_135	MG_135	membrane protein, putative	P47381	TU_085	160914	160072					mRNA			
+MG_136	lysS	lysyl-tRNA synthetase	P47382	TU_086	160963	162435	lysS				mRNA			
+MG_137	glf	UDP-galactopyranose mutase	Q49398	TU_086	162377	163591	glf				mRNA			
+MG_138	lepA	Translation elongation factor 4	P47384	TU_086	163591	165387	lepA	EF4			mRNA			
+MG_139	rnjA	ribonuclease J	P47385	TU_087	165471	167180	rnjA	ykqC			mRNA			
+MGrrnA16S	rrsA	16S ribosomal rRNA		TU_088	170007	171525	rrsA				rRNA			
+MGrrnA23S	rrlA	23S ribosomal rRNA		TU_088	171728	174461	rrlA				rRNA			
+MGrrnA5S	rrfA	5S ribosomal rRNA		TU_088	174690	174793	rrfA				rRNA			
+MG_140	MG_140	putative ATP-dependent helicase	P47386	TU_089	175805	179146					mRNA			
+MG_141	nusA	transcription termination factor NusA	P47387	TU_090	179151	180746	nusA				mRNA			
+MG_477	MG_477			TU_091	180746	181018					mRNA			
+MG_142	infB	translation initiation factor IF-2	P47388	TU_092	181005	182864	infB				mRNA			
+MG_143	rbfA	ribosome-binding factor A	P47389	TU_092	182851	183189	rbfA				mRNA			
+MG_144	MG_144		P47390	TU_092	183214	184053					mRNA			
+MG_145	ribF	riboflavin biosynthesis protein RibF	P47391	TU_093	184053	184862	ribF				mRNA			
+MG_146	MG_146	UPF0053 protein	Q49399	TU_094	184875	186149					mRNA			
+MG_147	MG_147	membrane protein, putative	P47393	TU_095	186136	187263					mRNA			
+MG_148	MG_148		P47394	TU_096	187302	188531					mRNA			
+MG_149	MG_149	lipoprotein, putative	P47395	TU_097	188607	189452					mRNA			
+MG_478	MG_478		Q9ZB80	TU_098	189492	189956					mRNA			
+MG_150	rpsJ	ribosomal protein S10	P47396	TU_099	190046	190366	rpsJ				mRNA			
+MG_151	rplC	ribosomal protein L3	P47397	TU_100	190370	191143	rplC				mRNA			
+MG_152	rplD	ribosomal protein L4/L1 family	P47398	TU_101	191143	191778	rplD				mRNA			
+MG_153	rplW	ribosomal protein L23	P47399	TU_101	191782	192102	rplW				mRNA			
+MG_154	rplB	ribosomal protein L2	P47400	TU_102	192102	192959	rplB				mRNA			
+MG_155	rpsS	ribosomal protein S19	P47401	TU_102	192959	193222	rpsS				mRNA			
+MG_156	rplV	ribosomal protein L22	P47402	TU_102	193225	193659	rplV				mRNA			
+MG_157	rpsC	ribosomal protein S3	P47403	TU_102	193662	194468	rpsC				mRNA			
+MG_158	rplP	ribosomal protein L16	P47404	TU_102	194474	194890	rplP				mRNA			
+MG_159	rpmC	ribosomal protein L29	P47405	TU_102	194890	195492	rpmC				mRNA			
+MG_160	rpsQ	ribosomal protein S17	P47406	TU_102	195492	195749	rpsQ				mRNA			
+MG_161	rplN	ribosomal protein L14	P47407	TU_102	195753	196121	rplN				mRNA			
+MG_162	rplX	ribosomal protein L24	P47408	TU_102	196121	196447	rplX				mRNA			
+MG_163	rplE	ribosomal protein L5	P47409	TU_102	196453	196995	rplE				mRNA			
+MG_164	rpsN	ribosomal protein S14	P47410	TU_103	196998	197180	rpsN				mRNA			
+MG_165	rpsH	ribosomal protein S8	P47411	TU_104	197177	197602	rpsH				mRNA			
+MG_166	rplF	ribosomal protein L6	P47412	TU_104	197609	198163	rplF				mRNA			
+MG_167	rplR	ribosomal protein L18	P47413	TU_104	198165	198512	rplR				mRNA			
+MG_168	rpsE	ribosomal protein S5	P47414	TU_104	198517	199152	rpsE				mRNA			
+MG_169	rplO	ribosomal protein L15	P47415	TU_104	199158	199610	rplO				mRNA			
+MG_170	secY	preprotein translocase, SecY subunit	P47416	TU_105	199610	201037	secY				mRNA			
+MG_171	adk	adenylate kinase	P47417	TU_105	201031	201675	adk				mRNA			
+MG_172	map	methionine aminopeptidase, type I	P47418	TU_105	201678	202424	map				mRNA			
+MG_173	infA	translation initiation factor IF-1	P47419	TU_105	202424	202636	infA				mRNA			
+MG_174	rpmJ	ribosomal protein L36	P47420	TU_106	202647	202760	rpmJ				mRNA			
+MG_175	rpsM	ribosomal protein S13	P47421	TU_107	202760	203134	rpsM				mRNA			
+MG_176	rpsK		P47422	TU_107	203134	203499	rpsK				mRNA			
+MG_177	rpoA	DNA-directed RNA polymerase, alpha subunit	P47423	TU_107	203515	204501	rpoA				mRNA			
+MG_178	rplQ	ribosomal protein L17	P47424	TU_108	204514	204885	rplQ				mRNA			
+MG_179	cbiO	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	P47425	TU_109	204872	205696	cbiO				mRNA			
+MG_180	cbiO	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	P47426	TU_110	205681	206595	cbiO				mRNA			
+MG_181	cbiQ	metal ion (cobalt) ABC transporter, permease protein	P47427	TU_111	206588	207850	cbiQ				mRNA			
+MG_182	truA	tRNA pseudouridine synthase A	P47428	TU_112	207843	208577	truA	hisT			mRNA			
+MG_183	pepF	oligoendopeptidase F	P47429	TU_113	208567	210390	pepF				mRNA			
+MG_184	MunI	adenine-specific DNA modification methylase	Q49400	TU_113	210391	211344	MunI				mRNA			
+MG_185	MG_185	lipoprotein, putative	P47431	TU_114	211444	213549					mRNA			
+MG_186	MG_186	Oligosaccharide or polyol ABC transporter, substrate binding protein	P47432	TU_115	216016	216768					mRNA			
+MG_187	MG_187	Oligosaccharide or polyol ABC transporter, ATP-binding protein	P47433	TU_116	216761	218518					mRNA			
+MG_188	MG_188	Oligosaccharide or polyol ABC transporter, permease protein	P47434	TU_116	218521	219510					mRNA			
+MG_189	MG_189	Oligosaccharide or polyol ABC transporter, permease protein	P47435	TU_116	219482	220438					mRNA			
+MG_190	mgpA	phosphoesterase	P22746	TU_117	220607	221563	mgpA	recJ			mRNA			
+MG_191	mgpB	MgPa adhesin	P20796	TU_118	221570	225904	mgpB	MgPa	P1	p140	mRNA			
+MG_192	mgpC	P110 protein	P22747	TU_118	225906	229067	mgpC	p110	p40	p90	mRNA			
+MG_194	pheS	phenylalanyl-tRNA synthetase, alpha subunit	P47436	TU_119	232009	233034	pheS				mRNA			
+MG_195	pheT	phenylalanyl-tRNA synthetase, beta subunit	P47437	TU_119	233038	235458	pheT				mRNA			
+MG_196	infC	translation initiation factor IF-3	P47438	TU_120	235517	236062	infC				mRNA			
+MG_197	rpmI	ribosomal protein L35	P47439	TU_120	236065	236244	rpmI				mRNA			
+MG_198	rplT	ribosomal protein L20	P47440	TU_120	236247	236621	rplT				mRNA			
+MG_199	rnhC	ribonuclease HIII, putative, frameshift		TU_121	237300	236593	rnhC				mRNA			
+MG_200	MG_200	DnaJ domain protein	P47442	TU_122	237347	239152					mRNA			
+MG_201	grpE	co-chaperone GrpE	P47443	TU_122	239164	239817	grpE				mRNA			
+MG_202	MG_202		P47444	TU_122	239827	240195					mRNA			
+MG479	MG479			TU_123	240286	240213					tRNA			
+MG_203	parE	DNA topoisomerase IV, B subunit	P47445	TU_124	240323	242224	parE				mRNA			
+MG_204	parC	DNA topoisomerase IV, A subunit	P47446	TU_124	242224	244569	parC				mRNA			
+MG_205	hrcA	heat-inducible transcription repressor HrcA, putative	P47447	TU_125	245597	244566	hrcA				mRNA			
+MG_206	uvrC	excinuclease ABC, C subunit	P47448	TU_126	245633	247426	uvrC				mRNA			
+MG_207	MG_207	Ser/Thr protein phosphatase 2A	P47449	TU_127	247407	247910					mRNA			
+MG_208	MG_208	glycoprotease	P47450	TU_128	248493	247903					mRNA			
+MG_209	yceC	23S rRNA pseudouridine synthase; U955, U2504, U2580	P47451	TU_128	249403	248477	yceC	rluA	rluC		mRNA			
+MG_210	lspA	prolipoprotein signal peptidase, signal peptidase II	Q49401	TU_128	249948	249403	lspA				mRNA			
+MG_480	MG_480		P56723	TU_129	250149	250808					mRNA			
+MG_481	rpsU	30S ribosomal protein S21		TU_130	250808	250996	rpsU				mRNA			
+MG_211	MG_211		P47453	TU_131	250998	251441					mRNA			
+MG_482	acpS	holo-(acyl-carrier-protein) synthase	Q9ZB79	TU_131	251444	251788	acpS				mRNA			
+MG_212	plsC	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	Q49402	TU_131	251781	252587	plsC				mRNA			
+MG_213	scpA	segregation and condensation protein A	P47455	TU_132	252580	253995	scpA				mRNA			
+MG_214	scpB	segregation and condensation protein B	P47456	TU_132	253979	254602	scpB				mRNA			
+MG_215	pfk	6-phosphofructokinase	P47457	TU_133	254621	255592	pfk				mRNA			
+MG_216	pyk	pyruvate kinase	P47458	TU_133	255595	257121	pyk				mRNA			
+MG483	MG483			TU_134	257158	257234					tRNA			
+MG484	MG484			TU_135	257269	257345					tRNA			
+MG485	MG485			TU_136	257349	257425					tRNA			
+MG486	MG486			TU_137	257445	257521					tRNA			
+MG487	MG487			TU_138	257559	257650					tRNA			
+MG488	MG488			TU_139	257664	257740					tRNA			
+MG489	MG489			TU_140	257742	257815					tRNA			
+MG490	MG490			TU_141	257818	257893					tRNA			
+MG_217	p65	P65 adhesin	P47459	TU_142	258041	259159	p65				mRNA			
+MG_218	hmw2	high molecular weight cytadherence accessory protein 2	P47460	TU_143	259177	264594	hmw2				mRNA			
+MG_491	MG_491		Q9ZB78	TU_143	264597	265637					mRNA			
+MG_219	MG_219		P47461	TU_144	265597	266043					mRNA			
+MG_220	MG_220		Q49403	TU_145	266356	266075					mRNA			
+MG492	MG492			TU_146	266423	266499					tRNA			
+MG_221	mraZ	mraZ protein	P47463	TU_147	266666	267091	mraZ				mRNA			
+MG_222	mraW	S-adenosyl-methyltransferase MraW	P47464	TU_147	267081	268010	mraW				mRNA			
+MG_223	MG_223		P47465	TU_147	268012	269247					mRNA			
+MG_224	ftsZ	cell division protein FtsZ	P47466	TU_148	269250	270359	ftsZ				mRNA			
+MG_225	potE2	amino acid-polyamine-organocation (APC) permease	P47467	TU_149	270405	271874	potE2				mRNA			
+MG_226	potE1	amino acid-polyamine-organocation (APC) permease	P47468	TU_149	271840	273318	potE1	aroP			mRNA			
+MG_227	thyA	thymidylate synthase	P47469	TU_150	273790	274653	thyA				mRNA			
+MG_228	dhfR	dihydrofolate reductase	P47470	TU_151	274653	275135	dhfR				mRNA			
+MG_229	nrdF	ribonucleoside-diphosphate reductase, beta chain	P47471	TU_151	275141	276163	nrdF				mRNA			
+MG_230	nrdI	ribonucleotide reductase stimulatory protein	P47472	TU_151	276167	276628	nrdI				mRNA			
+MG_231	nrdE	ribonucleoside-diphosphate reductase, alpha chain	P47473	TU_151	276647	278812	nrdE				mRNA			
+MG_232	rplU	ribosomal protein L21	P47474	TU_152	278905	279207	rplU				mRNA			
+MG_233	MG_233		P47475	TU_152	279200	279499					mRNA			
+MG_234	rpmA	ribosomal protein L27	P47476	TU_152	279492	279806	rpmA				mRNA			
+MG_235	nfo	apurinic endonuclease	P47477	TU_152	279799	280674	nfo				mRNA			
+MG_236	fur	ferric uptake repressor	P47478	TU_152	280664	281086	fur				mRNA			
+MG_237	MG_237		P47479	TU_153	281079	281963					mRNA			
+MG_238	tig	trigger factor	P47480	TU_154	281993	283327	tig				mRNA			
+MG_239	lon	ATP-dependent protease La	P47481	TU_155	283396	285783	lon				mRNA			
+MG_240	nadR	nicotinamide-nucleotide adenylyltransferase/conserved hypothetical protein	P47482	TU_156	286832	285780	nadR				mRNA			
+MG_241	MG_241		P47483	TU_157	286885	288747					mRNA			
+MG_242	MG_242		P47484	TU_158	288753	290645					mRNA			
+MG_243	MG_243	conserved hypothetical protein, authentic frameshift		TU_159	290648	291328					mRNA			
+MG_244	pcrA	3-5' helicase	P47486	TU_159	291334	293445	pcrA	uvrD, recB			mRNA			
+MG_245	MG_245	5-formyltetrahydrofolate cyclo-ligase, putative	P47487	TU_160	293448	293945					mRNA			
+MG_246	MG_246	Ser/Thr protein phosphatase 2A	P47488	TU_161	293938	294783					mRNA			
+MG_247	MG_247	membrane protein, putative	P47489	TU_162	295486	294767					mRNA			
+MG_248	MG_248		P47490	TU_163	296129	295473					mRNA			
+MG_249	rpoD	RNA polymerase sigma factor RpoD	P47491	TU_163	297606	296113	rpoD				mRNA			
+MG_250	dnaG	DNA primase	P47492	TU_164	299474	297651	dnaG				mRNA			
+MG_251	glyS	glycyl-tRNA synthetase	P47493	TU_164	300804	299464	glyS				mRNA			
+MG_252	rlmB	23S rRNA methyltransferase; G2251	P47494	TU_165	301552	300824	rlmB	yjfH			mRNA			
+MG_253	cysS	cysteinyl-tRNA synthetase	P47495	TU_165	302841	301555	cysS				mRNA			
+MG_254	ligA	DNA ligase, NAD-dependent	P47496	TU_165	304825	302846	ligA				mRNA			
+MG493	MG493			TU_166	304965	304892					tRNA			
+MG_255	MG_255		P47497	TU_167	305001	306098					mRNA			
+MG_494	MG_494		Q9ZB77	TU_167	306202	306654					mRNA			
+MG495	MG495			TU_168	306617	306691					tRNA			
+MG496	MG496			TU_168	306740	306813					tRNA			
+MG_256	MG_256		P47498	TU_169	306821	307591					mRNA			
+MG_257	rpmE	ribosomal protein L31	P47499	TU_170	307637	307930	rpmE				mRNA			
+MG_258	prfA	peptide chain release factor 1	P47500	TU_170	307930	309009	prfA				mRNA			
+MG_259	hemG	modification methylase	Q49404	TU_170	309010	310380	hemG				mRNA			
+MG_260	MG_260	lipoprotein, putative	P47502	TU_171	310511	312808					mRNA			
+MG497	MG497			TU_172	315377	315301					tRNA			
+MG_261	polC-2	DNA polymerase III, alpha subunit	Q49405	TU_173	315701	318325	polC-2				mRNA			
+MG_262	polA	polI-like 5'-3' exonuclease, putative	Q49406	TU_173	318332	319207	polA				mRNA			
+MG_498	mutM	formamidopyrimidine-DNA glycosylase	P55825	TU_173	319207	320061	mutM	fpg			mRNA			
+MG_263	MG_263	Cof-like hydrolase	P47505	TU_174	320177	321052					mRNA			
+MG_264	coaE	dephospho-CoA kinase	P47506	TU_175	321046	321642	coaE				mRNA			
+MG_265	ybiV	sugar phosphatase	P47507	TU_176	322414	321578	ybiV				mRNA			
+MG_266	leuS	leucyl-tRNA synthetase	P47508	TU_176	324811	322433	leuS				mRNA			
+MG_267	MG_267		P47509	TU_176	325159	324812					mRNA			
+MG_268	MG_268		P47510	TU_177	325879	325193					mRNA			
+MG_0001	ffs	scRNA, signal recognition particle 4.5S RNA, MCS1		TU_178	326006	325924	ffs	4.5S RNA	scRNA		sRNA			
+MG_269	MG_269		Q49407	TU_179	327052	326030					mRNA			
+MG_270	lplA	lipoyltransferase/lipoate-protein ligase, putative	P47512	TU_180	328443	327433	lplA				mRNA			
+MG_271	lpdA	dihydrolipoamide dehydrogenase	P47513	TU_180	329827	328454	lpdA				mRNA			
+MG_272	pdhC	dihydrolipoamide acetyltransferase	P47514	TU_180	330985	329831	pdhC				mRNA			
+MG_0002	MG_0002	MG170 RNA		TU_181	331215	331034					sRNA			
+MG_273	pdhB	pyruvate dehydrogenase component E1, beta subunit	P47515	TU_182	332215	331235	pdhB				mRNA			
+MG_274	pdhA	pyruvate dehydrogenase component E1, alpha subunit	P47516	TU_182	333309	332233	pdhA				mRNA			
+MG_275	nox	NADH oxidase	Q49408	TU_182	334773	333337	nox				mRNA			
+MG_276	apt	adenine phosphoribosyltransferase	P47518	TU_183	335398	334856	apt				mRNA			
+MG_277	secDF	Protein-export membrane protein secDF	Q49409	TU_184	338324	335412	secDF				mRNA			
+MG_278	relA	GTP diphosphokinase	P47520	TU_185	338367	340529	relA	spoT			mRNA			
+MG_279	MG_279		P47521	TU_186	341182	340526					mRNA			
+MG_280	htrII	sensory rhodopsin II transducer motif	P47522	TU_186	341972	341175	htrII				mRNA			
+MG_281	MG_281		P47523	TU_186	343703	342033					mRNA			
+MG499	MG499			TU_187	343957	343884					tRNA			
+MG500	MG500			TU_187	344050	343965					tRNA			
+MG501	MG501			TU_187	344125	344051					tRNA			
+MG502	MG502			TU_188	344246	344172					tRNA			
+MG503	MG503			TU_189	344337	344251					tRNA			
+MG_282	greA	transcription elongation factor GreA	P47524	TU_190	344850	344365	greA				mRNA			
+MG_283	proS	prolyl-tRNA synthetase	P47525	TU_191	345182	346633	proS				mRNA			
+MG_284	MG_284		P47526	TU_192	346854	347252					mRNA			
+MG_285	MG_285		P47527	TU_192	347215	348258					mRNA			
+MG_286	MG_286		P47528	TU_192	348261	348851					mRNA			
+MG_287	acpP	acyl carrier protein	P47529	TU_193	348883	349137	acpP				mRNA			
+MG504	MG504			TU_194	349128	349202					tRNA			
+MG_288	MG_288	protein L		TU_195	353035	351791					mRNA			
+MG_289	phnD	phosphonate ABC transporter, substrate binding protein (P37), putative	Q49410	TU_196	354024	355130	phnD				mRNA			
+MG_290	phnC	phosphonate ABC transporter, ATP-binding protein, putative	P47532	TU_196	355120	355857	phnC				mRNA			
+MG_291	phnE	phosphonate ABC transporter, permease protein (P69), putative	P47533	TU_196	355847	357478	phnE				mRNA			
+MG_505	MG_505	putative holliday junction resolvase	Q9ZB76	TU_197	357891	357475					mRNA			
+MG_292	alaS	alanyl-tRNA synthetase	P47534	TU_198	360593	357891	alaS				mRNA			
+MG_293	glpQ	glycerophosphoryl diester phosphodiesterase	P47535	TU_198	361385	360651	glpQ				mRNA			
+MG_294	yihN	major facilitator superfamily (MFS) protein	Q49411	TU_198	362802	361378	yihN				mRNA			
+MG_295	mnmA	tRNA U34 sulfurtransferase	P47537	TU_199	364023	362920	mnmA	asuE	trmU		mRNA			
+MG_296	MG_296		P47538	TU_200	364415	364026					mRNA			
+MG_297	ftsY	signal recognition particle receptor	P47539	TU_201	365575	364535	ftsY				mRNA			
+MG_298	smc	chromosome segregation protein SMC	P47540	TU_202	368530	365582	smc				mRNA			
+MG_299	pta	phosphate acetyltransferase	P47541	TU_203	369695	368733	pta				mRNA			
+MG_300	pgk	phosphoglycerate kinase	P47542	TU_204	370948	369713	pgk				mRNA			
+MG_301	gap	glyceraldehyde-3-phosphate dehydrogenase, type I	P47543	TU_204	371963	370950	gap				mRNA			
+MG_302	cbiQ	metal ion (cobalt) ABC transporter, permease protein, putative	P47544	TU_205	372947	371994	cbiQ				mRNA			
+MG_303	cbiO	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	P47545	TU_206	373999	372926	cbiO				mRNA			
+MG_304	cbiO	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	P47546	TU_207	374793	373981	cbiO				mRNA			
+MG_305	dnaK	chaperone	P47547	TU_208	376706	374919	dnaK				mRNA			
+MG_306	MG_306	membrane protein, putative	P47548	TU_209	377975	376794					mRNA			
+MG_307	MG_307	lipoprotein, putative	P47549	TU_210	381508	377975					mRNA			
+MG_308	MG_308	ATP-dependent RNA helicase	P52271	TU_211	382725	381493					mRNA			
+MG_309	MG_309	lipoprotein, putative	P47551	TU_211	386409	382732					mRNA			
+MG_310	MG_310	hydrolase, Putative esterase/lipase 1	Q49412	TU_212	386463	387269					mRNA			
+MG_311	rpsD	ribosomal protein S4	P47553	TU_213	387893	387276	rpsD				mRNA			
+MG_312	hmw1	high molecular weight cytadherence accessory protein 1	Q49413	TU_214	391335	387916	hmw1				mRNA			
+MG_313	MG_313	membrane protein, putative	Q49414	TU_215	392258	391395					mRNA			
+MG_314	MG_314		Q49415	TU_215	393634	392303					mRNA			
+MG_315	holA	DNA polymerase III, delta subunit, putative	Q49416	TU_215	394551	393658	holA				mRNA			
+MG_316	comEC	DNA internalization-related competence protein ComEC/Rec2	P47558	TU_216	395584	394475	comEC				mRNA			
+MG_317	hmw3	high molecular weight cytadherence accessory protein 3	Q57081	TU_217	397424	395625	hmw3	p69			mRNA			
+MG_318	p32	P32 adhesin	Q49417	TU_217	398281	397439	p32	p30			mRNA			
+MG_319	MG_319		P47561	TU_218	398834	398298					mRNA			
+MG_320	MG_320	membrane protein, putative	P47562	TU_219	399798	398938					mRNA			
+MG506	MG506			TU_220	399868	399958					tRNA			
+MG507	MG507			TU_221	399960	400048					tRNA			
+MG_321	oppA	oligopeptide ABC transporter, substrate binding protein	P47563	TU_222	402923	400119	oppA				mRNA			
+MG508	MG508			TU_223	403218	403134					tRNA			
+MG509	MG509			TU_223	403299	403224					tRNA			
+MG510	MG510			TU_223	403381	403306					tRNA			
+MG511	MG511			TU_223	403458	403383					tRNA			
+MG512	MG512			TU_223	403541	403467					tRNA			
+MG513	MG513			TU_223	403620	403544					tRNA			
+MG514	MG514			TU_223	403701	403627					tRNA			
+MG_322	trkH	potassium uptake protein	P47564	TU_224	405399	403723	trkH				mRNA			
+MG_323	trkA	potassium uptake protein	P47565	TU_225	405456	406139	trkA				mRNA			
+MG_0003	rpnB	Rnase P RNA, MCS5, M1 RNA		TU_226	406519	406142	rpnB				sRNA			
+MG_0004	ssrA	transfer-messenger RNA, tmRNA, MCS6, 10Sa RNA		TU_227	406929	406542	ssrA				sRNA			
+MG_515	MG_515		Q9ZB74	TU_228	407784	406975					mRNA			
+MG_324	yihN	aminopeptidase	P47566	TU_228	408793	407729	yihN	pepP			mRNA			
+MG_325	rpmG	ribosomal protein L33	P47567	TU_228	408954	408793	rpmG				mRNA			
+MG_326	MG_326	degV family protein	P47568	TU_229	409858	408971					mRNA			
+MG_327	MG_327	hydrolase, Putative esterase/lipase 2	Q49418	TU_230	410677	409871					mRNA			
+MG_328	MG_328	coiled coil putative structural protein involved in cytoskeleton	Q49419	TU_231	412934	410664					mRNA			
+MG_329	engA	GTP-binding protein engA	P47571	TU_232	414319	412973	engA	yfgK	yphC		mRNA			
+MG_330	cmk	cytidylate kinase	P47572	TU_233	414976	414323	cmk				mRNA			
+MG_331	MG_331		P47573	TU_233	415623	414985					mRNA			
+MG_332	yebC		P47574	TU_233	416330	415611	yebC				mRNA			
+MG_333	azoR	FMN-dependent NADH-azoreductase, putative		TU_233	416930	416337	azoR				mRNA			
+MG_334	valS	valyl-tRNA synthetase	P47576	TU_234	419480	416967	valS				mRNA			
+MG_335	engB	GTP-binding protein engB, putative	P47577	TU_235	420045	419470	engB	yihA	ysxC		mRNA			
+MG_516	MG_516		Q49310	TU_236	420274	420053					mRNA			
+MG_517	MG_517	glycosyl transferase, group 2 family protein	Q9ZB73	TU_237	420333	421358					mRNA			
+MG_336	csdA	cysteine desulfurase	Q49420	TU_238	421467	422693	csdA	nifS			mRNA			
+MG_337	MG_337		P47579	TU_239	422697	423113					mRNA			
+MG_338	MG_338	lipoprotein, putative	P47580	TU_240	426912	423100					mRNA			
+MG_339	recA	recombination protein, strand exchange	P47581	TU_241	428043	427090	recA				mRNA			
+MG_340	rpoC	DNA-directed RNA polymerase, beta subunit	P47582	TU_242	434458	430580	rpoC				mRNA			
+MG_341	rpoB	DNA-directed RNA polymerase, beta subunit	P47583	TU_242	438640	434468	rpoB				mRNA			
+MG_342	fre	NADPH-dependent FMN reductase domain protein	P47584	TU_243	439236	438730	fre				mRNA			
+MG_343	MG_343		P47585	TU_244	440355	439315					mRNA			
+MG_344	MG_344	hydrolase, Putative esterase/lipase 3	Q49421	TU_245	441180	440359					mRNA			
+MG_345	ileS	isoleucyl-tRNA synthetase	P47587	TU_246	443878	441191	ileS				mRNA			
+MG_346	yibK	23S rRNA methyltransferase; U2552	P47588	TU_247	443922	444422	yibK				mRNA			
+MG_347	trmI	tRNA (guanine-N(7)-)-methyltransferase	P47589	TU_247	444413	445045	trmI	trmB			mRNA			
+MG518	MG518			TU_248	445078	445153					tRNA			
+MG_348	MG_348	lipoprotein, putative	P47590	TU_249	446165	445197					mRNA			
+MG519	MG519			TU_250	446265	446178					tRNA			
+MG_349	dnaB	Replication initiation/membrane attachment protein	P47591	TU_251	446576	447790	dnaB				mRNA			
+MG_350	MG_350		P47592	TU_251	447790	448725					mRNA			
+MG520	MG520			TU_252	448783	448864					tRNA			
+MG_521	MG_521	membrane protein, putative	Q9ZB72	TU_253	449617	448943					mRNA			
+MG_351	ppa	inorganic pyrophosphatase	P47593	TU_254	449665	450219	ppa				mRNA			
+MG_352	recU	Holliday junction endonuclease	Q49422	TU_255	450222	450722	recU	ruvC			mRNA			
+MG_353	MG_353	DNA-binding protein HU, putative	P47595	TU_256	451048	450719					mRNA			
+MG_354	MG_354		P47596	TU_257	451197	451610					mRNA			
+MG_355	clpB	ATP-dependent Clp protease, ATPase subunit	P47597	TU_258	453757	451613	clpB				mRNA			
+MG_356	MG_356	choline/ethanolamine kinase, putative	Q49423	TU_259	454753	453911					mRNA			
+MG_357	ackA	acetate kinase	P47599	TU_260	455947	454766	ackA				mRNA			
+MG_358	ruvA	Holliday junction DNA helicase	Q49424	TU_261	456755	457372	ruvA				mRNA			
+MG_359	ruvB	Holliday junction DNA helicase RuvB	Q49425	TU_261	457347	458270	ruvB				mRNA			
+MG_360	dinB	ImpB/MucB/SamB family protein	Q49426	TU_262	459495	458260	dinB	umuC			mRNA			
+MG_361	rplJ	ribosomal protein L10	P36263	TU_263	459615	460103	rplJ				mRNA			
+MG_362	rplL	ribosomal protein L7/L12	P36255	TU_263	460126	460494	rplL				mRNA			
+MG_363	rpmF	ribosomal protein L32	P47603	TU_263	460497	460670	rpmF				mRNA			
+MG_522	rpsT	ribosomal protein S20	P55750	TU_264	460951	460685	rpsT				mRNA			
+MG_364	mob13	Replication initiation/membrane attachment protein	P47604	TU_265	461015	461689	mob13				mRNA			
+MG_365	fmt	methionyl-tRNA formyltransferase	P47605	TU_266	461682	462617	fmt				mRNA			
+MG_366	MG_366		P47606	TU_267	462619	464622					mRNA			
+MG_367	rnc	ribonuclease III	P47607	TU_268	465434	464646	rnc				mRNA			
+MG_368	plsX	fatty acid/phospholipid synthesis protein PlsX	Q49427	TU_268	466410	465424	plsX				mRNA			
+MG_369	dhaK	DAK2 phosphatase domain protein	P47609	TU_268	468083	466410	dhaK				mRNA			
+MG_370	yfiI	23S rRNA pseudouridine synthase; U1911, U1915, U1917	P47610	TU_269	469123	468152	yfiI	rluA	rluD		mRNA			
+MG_371	MG_371	DHH family protein	Q49428	TU_270	470084	469110					mRNA			
+MG_372	thiL	thiamine biosynthesis/tRNA modification protein ThiI	P47612	TU_271	471234	470077	thiL	thiI			mRNA			
+MG_373	MG_373		P47613	TU_271	472066	471221					mRNA			
+MG_374	MG_374		P47614	TU_271	472891	472067					mRNA			
+MG_375	thrS	threonyl-tRNA synthetase	P47615	TU_271	474578	472884	thrS				mRNA			
+MG_376	MG_376		P47616	TU_272	474892	474578					mRNA			
+MG_377	MG_377		P47617	TU_273	475479	474898					mRNA			
+MG_378	argS	arginyl-tRNA synthetase	P47618	TU_274	477139	475526	argS				mRNA			
+MG_379	gidA	tRNA uridine 5-carboxymethylaminomethyl modification enzyme GidA	P47619	TU_275	477168	479006	gidA				mRNA			
+MG_380	gidB	methyltransferase GidB	P47620	TU_275	478999	479577	gidB	rsmG			mRNA			
+MG_381	MG_381		P47621	TU_275	479570	480226					mRNA			
+MG523	MG523			TU_276	480315	480240					tRNA			
+MG_382	udk	uridine kinase	P47622	TU_277	480691	481332	udk				mRNA			
+MG_383	nadE	NH(3)-dependent NAD+ synthetase, putative	P47623	TU_278	482075	481329	nadE				mRNA			
+MG_384	obg	GTPase1 Obg	P47624	TU_279	483369	482068	obg	cgtA	obgE	yhbZ	mRNA			
+MG_524	MG_524		Q9ZB71	TU_280	483818	483369					mRNA			
+MG_385	ugpQ	glycerophosphoryl diester phosphodiesterase family protein	P47625	TU_280	484699	483989	ugpQ				mRNA			
+MG_386	p200	P200 protein	Q49429	TU_281	489552	484702	p200				mRNA			
+MG_387	era	GTP-binding protein Era	P47627	TU_282	490711	489839	era				mRNA			
+MG_388	MG_388	Putative metalloprotease	P47628	TU_282	491163	490699					mRNA			
+MG_389	MG_389		P47629	TU_283	491530	491147					mRNA			
+MG_390	sunT	toxin ABC transporter, ATP-binding/permease protein	Q49430	TU_284	493516	491534	sunT	lagD			mRNA			
+MG_391	pepA	cytosol aminopeptidase	P47631	TU_285	494967	493624	pepA				mRNA			
+MG_392	groEL	chaperonin	P47632	TU_285	496615	494984	groEL	groL			mRNA			
+MG_393	groES	chaperonin, 10 kDa	P47633	TU_285	496960	496628	groES	groS			mRNA			
+MG_394	glyA	serine hydroxymethyltransferase	P47634	TU_286	498306	497086	glyA				mRNA			
+MG_395	MG_395	lipoprotein, putative	P47635	TU_287	499890	498316					mRNA			
+MG_396	rpiB	ribose 5-phosphate isomerase B	P47636	TU_288	500719	500261	rpiB				mRNA			
+MG_397	MG_397		P47637	TU_288	502420	500720					mRNA			
+MG_398	atpC	ATP synthase F1, epsilon subunit	P47638	TU_289	502823	502422	atpC				mRNA			
+MG_399	atpD	ATP synthase F1, beta subunit	P47639	TU_290	504258	502828	atpD				mRNA			
+MG_400	atpG	ATP synthase F1, gamma subunit	P47640	TU_291	505099	504260	atpG				mRNA			
+MG_401	atpA	ATP synthase F1, alpha subunit	P47641	TU_291	506655	505099	atpA				mRNA			
+MG_402	atpH	ATP synthase F1, delta subunit	P47642	TU_292	507201	506671	atpH				mRNA			
+MG_403	atpF	ATP synthase F0, B subunit	P47643	TU_292	507820	507194	atpF				mRNA			
+MG_404	atpE	ATP synthase F0, C subunit	P47644	TU_292	508131	507823	atpE				mRNA			
+MG_405	atpB	ATP synthase F0, A subunit	P47645	TU_292	509012	508134	atpB				mRNA			
+MG_406	MG_406		Q49431	TU_293	509454	508978					mRNA			
+MG_407	eno	enolase	P47647	TU_294	510836	509460	eno				mRNA			
+MG_408	msrA	methionine-S-sulfoxide reductase	P47648	TU_295	510903	511376	msrA				mRNA			
+MG_409	phoU	phosphate transport system regulatory protein PhoU, putative	P47649	TU_296	512050	511373	phoU				mRNA			
+MG_410	pstB	phosphate ABC transporter, ATP-binding protein	P47650	TU_296	513042	512053	pstB				mRNA			
+MG_411	ptsAC	phosphate ABC transporter, permease protein PstA	P47651	TU_296	514991	513027	ptsAC				mRNA			
+MG_412	MG_412	phosphate ABC transporter, substrate-binding protein	P47652	TU_296	516124	514991					mRNA			
+MG_414	MG_414		P47653	TU_297	519355	516245					mRNA			
+MG_525	MG_525			TU_298	521414	519420					mRNA			
+MG_417	rpsI	ribosomal protein S9	P47656	TU_299	521868	521470	rpsI				mRNA			
+MG_418	rplM	ribosomal protein L13	P47657	TU_300	522314	521874	rplM				mRNA			
+MG_419	dnaX	DNA polymerase III, subunit gamma and tau	P47658	TU_301	524145	522352	dnaX				mRNA			
+MG_421	uvrA	excinuclease ABC, A subunit	P47660	TU_301	527015	524151	uvrA				mRNA			
+MG_422	MG_422		P47661	TU_301	529494	526987					mRNA			
+MG_423	MG_423	metallo-beta-lactamase superfamily protein	P47662	TU_301	531217	529532					mRNA			
+MG_424	rpsO	ribosomal protein S15	P47663	TU_302	531480	531220	rpsO				mRNA			
+MG_425	deaD	ATP-dependent RNA helicase	P47664	TU_303	531669	533018	deaD				mRNA			
+MG_426	rpmB	ribosomal protein L28	P47665	TU_304	533041	533235	rpmB				mRNA			
+MG_427	osmC	osmotically inducible peroxidase	P47666	TU_305	533271	533696	osmC				mRNA			
+MG_428	gerE	LuxR bacterial regulatory protein, putative	P47667	TU_306	533807	534322	gerE	luxR			mRNA			
+MG_429	ptsI	PTS system, E1	P47668	TU_307	536037	534319	ptsI				mRNA			
+MG_430	gpmI	2,3-bisphosphoglycerate-independent phosphoglycerate mutase	P47669	TU_307	537564	536041	gpmI				mRNA			
+MG_431	tpiA	triosephosphate isomerase	P47670	TU_307	538291	537557	tpiA				mRNA			
+MG_432	MG_432	membrane protein, putative	Q49432	TU_308	539547	538351					mRNA			
+MG_433	tsf	translation elongation factor Ts	P47246	TU_309	539633	540529	tsf				mRNA			
+MG_434	pyrH	uridylate kinase	P47672	TU_310	540510	541241	pyrH				mRNA			
+MG_435	frr	ribosome recycling factor	P47673	TU_311	541241	541792	frr				mRNA			
+MG_437	cdsA	phosphatidate cytidylyltransferase	Q49433	TU_312	541793	542986	cdsA				mRNA			
+MG_438	ecoD	type I restriction modification DNA specificity domain protein	Q49434	TU_313	543006	544157	ecoD	hsdS			mRNA			
+MG_439	MG_439	lipoprotein, putative	P47677	TU_314	545380	544562					mRNA			
+MG_440	MG_440	lipoprotein, putative	P47678	TU_315	546156	545380					mRNA			
+MG_441	MG_441		P47679	TU_315	546709	546302					mRNA			
+MG_442	rbgA	ribosomal biogenesis GTPase	Q49435	TU_316	547692	546880	rbgA	ylqF			mRNA			
+MG_443	MG_443	membrane protein, putative	P47681	TU_316	548851	547664					mRNA			
+MG_444	rplS	ribosomal protein L19	P47682	TU_317	549226	548867	rplS				mRNA			
+MG_445	trmD	tRNA (guanine-N1)-methyltransferase	P47683	TU_317	549905	549210	trmD				mRNA			
+MG_446	rpsP	ribosomal protein S16	P47684	TU_317	550192	549905	rpsP				mRNA			
+MG_447	norM	multidrug efflux pump	P47685	TU_318	552446	550803	norM				mRNA			
+MG_448	msrB	methionine-R-sulfoxide reductase	P47686	TU_319	552899	552447	msrB				mRNA			
+MG_449	MG_449	conserved hypothetical protein, authentic frameshift		TU_320	553548	552863					mRNA			
+MG_450	MG_450	degV family protein	P47688	TU_321	554430	553558					mRNA			
+MG_451	tuf	translation elongation factor Tu	P13927	TU_321	555614	554430	tuf				mRNA			
+MG_452	MG_452	membrane protein, putative	P47690	TU_322	555667	556452					mRNA			
+MG_453	galU	UTP-glucose-1-phosphate uridylyltransferase	P47691	TU_322	556437	557315	galU				mRNA			
+MG_454	ohr	thiol-dependent peroxidase	P47692	TU_323	557772	557305	ohr				mRNA			
+MG_455	tyrS	tyrosyl-tRNA synthetase	P47693	TU_324	557759	558949	tyrS				mRNA			
+MG_456	MG_456		P47694	TU_325	559943	558939					mRNA			
+MG_457	ftsH	ATP-dependent metalloprotease FtsH	P47695	TU_326	562604	560496	ftsH				mRNA			
+MG_458	hpt	hypoxanthine phosphoribosyltransferase	P47696	TU_327	563309	562782	hpt				mRNA			
+MG_459	MG_459	putative 2-C-methyl-D-erythritol-2,4-cyclodiphosphate synthase	Q49436	TU_328	563820	563311					mRNA			
+MG_460	ldh	L-lactate dehydrogenase/malate dehydrogenase	P47698	TU_329	563993	564931	ldh				mRNA			
+MG_461	MG_461	HD domain protein	P47699	TU_330	566205	564928					mRNA			
+MG_462	gltX	glutamyl-tRNA synthetase	P47700	TU_330	567640	566186	gltX				mRNA			
+MG_463	ksgA	dimethyladenosine transferase	P47701	TU_331	568406	567627	ksgA	rsmA			mRNA			
+MG_464	yidC	inner-membrane protein insertion factor	P47702	TU_331	569556	568399	yidC				mRNA			
+MG_465	rnpA	ribonuclease P protein component	P47703	TU_331	569914	569528	rnpA				mRNA			
+MG_466	rpL34	ribosomal protein L34	P47704	TU_332	570029	569883	rpL34				mRNA			
+MG_467	MG_467	salivaricin A ABC transporter, ATP-binding protein	P47705	TU_333	570990	570055					mRNA			
+MG_468	MG_468	salivaricin A ABC transporter, permease protein	Q49460	TU_333	576345	570994					mRNA			
+MG_526	MG_526	salivaricin A ABC transporter, ATP-binding protein	Q9ZB70	TU_334	577205	576351					mRNA			
+MG_469	dnaA	chromosomal replication initiator protein DnaA	P35888	TU_335	578581	577268	dnaA				mRNA			
+MG_470	soj	CobQ/CobB/MinD/ParA nucleotide binding domain	P47706	TU_335	580033	579224	soj	parA			mRNA			

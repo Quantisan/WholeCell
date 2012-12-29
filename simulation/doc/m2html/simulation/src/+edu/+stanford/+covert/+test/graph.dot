@@ -1,0 +1,11 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  Coverage -> Coverage;
+  XMLTestRunDisplay -> XMLTestRunDisplay;
+  mock -> mock;
+
+  Coverage [URL="Coverage.html"];
+  XMLTestRunDisplay [URL="XMLTestRunDisplay.html"];
+  mock [URL="mock.html"];
+  runtests [URL="runtests.html"];
+}

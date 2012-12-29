@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Rna</title>
+  <meta name="keywords" content="Rna">
+  <meta name="description" content="Rna">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Rna.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Rna
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Rna</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Rna
+1. nascent
+2. processed
+3. intergenic segments
+4. modified
+5. bound
+6. misfolded
+7. damaged
+8. aminoacylated
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Rna.html" class="code" title="">Rna</a>	Rna</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Rna.html" class="code" title="">Rna</a>	Rna</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Rna(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function notUpdatedRnas = updateExternalState(this, deltaRnas, rnaIsDegraded)</a></li><li><a href="#_sub5" class="code">function value = getIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub6" class="code">function value = get.geneHalfLives(this)</a></li><li><a href="#_sub7" class="code">function value = get.geneDecayRates(this)</a></li><li><a href="#_sub8" class="code">function value = get.expectedGeneDecayRates(this)</a></li><li><a href="#_sub9" class="code">function value = get.weightFractions(this)</a></li><li><a href="#_sub10" class="code">function value = get.expectedWeightFractions(this)</a></li><li><a href="#_sub11" class="code">function value = get.geneExpression(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Rna</span>
+0002 <span class="comment">%1. nascent</span>
+0003 <span class="comment">%2. processed</span>
+0004 <span class="comment">%3. intergenic segments</span>
+0005 <span class="comment">%4. modified</span>
+0006 <span class="comment">%5. bound</span>
+0007 <span class="comment">%6. misfolded</span>
+0008 <span class="comment">%7. damaged</span>
+0009 <span class="comment">%8. aminoacylated</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0012 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0013 <span class="comment">% Last Updated: 1/5/2011</span>
+0014 classdef <a href="Rna.html" class="code" title="">Rna</a> &lt; edu.stanford.covert.cell.sim.MoleculeCountState
+0015     properties (Constant)
+0016         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0017             <span class="string">'verbosity'</span>;
+0018             <span class="string">'seed'</span>;
+0019             };
+0020         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0021             <span class="string">'molecularWeights'</span>;
+0022             <span class="string">'baseCounts'</span>;
+0023             <span class="string">'lengths'</span>;
+0024             <span class="string">'halfLives'</span>;
+0025             <span class="string">'compartments'</span>
+0026             <span class="string">'expectedGeneExpression'</span>
+0027             <span class="string">'expectedGeneHalfLives'</span>
+0028             <span class="string">'weightFractionMRNA'</span>
+0029             <span class="string">'weightFractionRRNA5S'</span>
+0030             <span class="string">'weightFractionRRNA16S'</span>
+0031             <span class="string">'weightFractionRRNA23S'</span>
+0032             <span class="string">'weightFractionTRNA'</span>
+0033             <span class="string">'weightFractionSRNA'</span>
+0034             <span class="string">'nascentRNAGeneComposition'</span>
+0035             <span class="string">'nascentRNAMatureRNAComposition'</span>
+0036             <span class="string">'matureRNAGeneComposition'</span>
+0037             <span class="string">'intergenicRNAMatrix'</span>
+0038             <span class="string">'geneExpressionRobustness'</span>
+0039             <span class="string">'minTRnaCnt'</span>
+0040             }
+0041         fittedConstantNames     = {   <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0042             <span class="string">'expression'</span>
+0043             };
+0044         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0045             <span class="string">'counts'</span>
+0046             };
+0047         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0048     <span class="keyword">end</span>
+0049     
+0050     properties (Constant)
+0051         mRNAWeightFractionIndexs    = 1;
+0052         rRNAWeightFractionIndexs    = (2:4)';
+0053         sRNAWeightFractionIndexs    = 5;
+0054         tRNAWeightFractionIndexs    = 6;
+0055         rRNA5SWeightFractionIndexs  = 2;
+0056         rRNA16SWeightFractionIndexs = 3;
+0057         rRNA23SWeightFractionIndexs = 4;
+0058     <span class="keyword">end</span>
+0059     
+0060     <span class="comment">%indices</span>
+0061     properties
+0062         nascentIndexs               <span class="comment">%index within RNAs</span>
+0063         processedIndexs             <span class="comment">%index within RNAs</span>
+0064         intergenicIndexs            <span class="comment">%index within RNAs</span>
+0065         matureIndexs                <span class="comment">%index within RNAs</span>
+0066         boundIndexs                 <span class="comment">%index within RNAs</span>
+0067         misfoldedIndexs             <span class="comment">%index within RNAs</span>
+0068         damagedIndexs               <span class="comment">%index within RNAs</span>
+0069         aminoacylatedIndexs         <span class="comment">%index within RNAs</span>
+0070         
+0071         matureMRNAIndexs            <span class="comment">%mRNAs within mature RNAs</span>
+0072         matureRRNAIndexs            <span class="comment">%rRNAs within mature RNAs</span>
+0073         matureSRNAIndexs            <span class="comment">%sRNAs within mature RNAs</span>
+0074         matureTRNAIndexs            <span class="comment">%tRNAs within mature RNAs</span>
+0075         matureRibosomalRRNAIndexs   <span class="comment">%ribosomal RNAs within mature RNAs</span>
+0076         matureTMRNAIndexs           <span class="comment">%tmRNAs within mature RNAs</span>
+0077     <span class="keyword">end</span>
+0078     
+0079     properties
+0080         expression
+0081         expectedGeneExpression      <span class="comment">%experimental gene expression</span>
+0082         expectedGeneHalfLives       <span class="comment">%experimental gene half lives</span>
+0083         weightFractionMRNA          <span class="comment">%mRNA fraction of RNAs, by weight</span>
+0084         weightFractionRRNA5S        <span class="comment">%5S rRNA fraction of RNAs, by weight</span>
+0085         weightFractionRRNA16S       <span class="comment">%16S rRNA fraction of RNAs, by weight</span>
+0086         weightFractionRRNA23S       <span class="comment">%23S rRNA fraction of RNAs, by weight</span>
+0087         weightFractionTRNA          <span class="comment">%tRNA fraction of RNAs, by weight</span>
+0088         weightFractionSRNA          <span class="comment">%sRNA fraction of RNAs, by weight</span>
+0089         
+0090         nascentRNAGeneComposition      <span class="comment">%genes and nascent RNAs (genes X transcription units)</span>
+0091         nascentRNAMatureRNAComposition <span class="comment">%processed/mature RNAs and nascent RNAs (processed RNAs X transcription units)</span>
+0092         matureRNAGeneComposition       <span class="comment">%genes and processed/mature RNAs (genes X processed/mature RNAs)</span>
+0093         intergenicRNAMatrix            <span class="comment">%unprocessed RNAs (transcription units) that are precursors to discarded intergenic RNA segments</span>
+0094         
+0095         geneExpressionRobustness     <span class="comment">%how robust to make growth rate against stochastic gene expression</span>
+0096         minTRnaCnt                   <span class="comment">%minimum mean count for each tRNA species</span>
+0097     <span class="keyword">end</span>
+0098     
+0099     properties (Dependent)
+0100         geneHalfLives               <span class="comment">%half lifes of each gene (s)</span>
+0101         geneDecayRates              <span class="comment">%decay rates of RNAs of each gene (molecules/s)</span>
+0102         weightFractions             <span class="comment">%fractions of RNA weight (mRNA, rRNA 5S, rRNA 16S, rRNA 23S, s/tRNA)</span>
+0103         geneExpression              <span class="comment">%mol fractions of genes</span>
+0104         expectedGeneDecayRates      <span class="comment">%experimentally determined RNA decay rates (s)</span>
+0105         expectedWeightFractions     <span class="comment">%experimentally determined RNA weight fractions</span>
+0106     <span class="keyword">end</span>
+0107     
+0108     <span class="comment">%object references</span>
+0109     properties
+0110         ribosome
+0111     <span class="keyword">end</span>
+0112     
+0113     <span class="comment">%constructor</span>
+0114     methods
+0115         <a name="_sub0" href="#_subfunctions" class="code">function this = Rna(wholeCellModelID, name)</a>
+0116             this = this@edu.stanford.covert.cell.sim.MoleculeCountState(wholeCellModelID, name);
+0117         <span class="keyword">end</span>
+0118     <span class="keyword">end</span>
+0119     
+0120     methods
+0121         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0122             this.storeObjectReferences@edu.stanford.covert.cell.sim.MoleculeCountState(simulation);
+0123             
+0124             this.ribosome = simulation.state(<span class="string">'Ribosome'</span>);
+0125         <span class="keyword">end</span>
+0126     <span class="keyword">end</span>
+0127     
+0128     methods
+0129         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0130             this.initializeConstants@edu.stanford.covert.cell.sim.MoleculeCountState(knowledgeBase, simulation);
+0131             
+0132             <span class="comment">%genes</span>
+0133             this.expectedGeneHalfLives  = [knowledgeBase.genes.halfLife]' * 60;
+0134             this.expectedGeneExpression = reshape([knowledgeBase.genes.expression], [], knowledgeBase.numGenes)';
+0135             this.expectedGeneExpression = this.expectedGeneExpression ./ repmat(sum(this.expectedGeneExpression), knowledgeBase.numGenes, 1);
+0136             
+0137             <span class="comment">%RNA</span>
+0138             this.nascentRNAGeneComposition      = sum(knowledgeBase.transcriptionUnitComposition_Genes, 3);
+0139             this.nascentRNAMatureRNAComposition = sum(knowledgeBase.transcriptionUnitComposition_ProcessedRNAs, 3);
+0140             this.matureRNAGeneComposition       = sum(knowledgeBase.processedRNAComposition_Genes, 3);
+0141             this.intergenicRNAMatrix            = sum(knowledgeBase.transcriptionUnitComposition_IntergenicRNAs, 3);
+0142                         
+0143             nascentRNAs       = knowledgeBase.nascentRNAs;
+0144             processedRNAs     = knowledgeBase.processedRNAs;
+0145             intergenicRNAs    = knowledgeBase.intergenicRNAs;
+0146             matureRNAs        = knowledgeBase.matureRNAs;
+0147             aminoacylatedRNAs = knowledgeBase.aminoacylatedRNAs;
+0148             
+0149             this.nascentIndexs       = (1:numel(nascentRNAs.wholeCellModelIDs))';
+0150             this.processedIndexs     = (1:numel(processedRNAs.wholeCellModelIDs))'     + this.nascentIndexs(end);
+0151             this.intergenicIndexs    = (1:numel(intergenicRNAs.wholeCellModelIDs))'    + this.processedIndexs(end);
+0152             this.matureIndexs        = (1:numel(matureRNAs.wholeCellModelIDs))'        + this.intergenicIndexs(end);
+0153             this.boundIndexs         = (1:numel(matureRNAs.wholeCellModelIDs))'        + this.matureIndexs(end);
+0154             this.misfoldedIndexs     = (1:numel(matureRNAs.wholeCellModelIDs))'        + this.boundIndexs(end);
+0155             this.damagedIndexs       = (1:numel(matureRNAs.wholeCellModelIDs))'        + this.misfoldedIndexs(end);
+0156             this.aminoacylatedIndexs = (1:numel(aminoacylatedRNAs.wholeCellModelIDs))' + this.damagedIndexs(end);
+0157             
+0158             this.wholeCellModelIDs = [
+0159                 nascentRNAs.wholeCellModelIDs;
+0160                 processedRNAs.wholeCellModelIDs;
+0161                 intergenicRNAs.wholeCellModelIDs;
+0162                 repmat(matureRNAs.wholeCellModelIDs, 4, 1);
+0163                 aminoacylatedRNAs.wholeCellModelIDs];
+0164             this.expression = [
+0165                 zeros(length(this.nascentIndexs), 1);
+0166                 zeros(length(this.processedIndexs), 1);
+0167                 edu.stanford.covert.math.unit(<span class="keyword">...</span>
+0168                 this.matureRNAGeneComposition' * this.expectedGeneExpression(:, 1), 1);
+0169                 zeros(length(this.boundIndexs), 1);
+0170                 zeros(length(this.misfoldedIndexs), 1);
+0171                 zeros(length(this.damagedIndexs), 1);
+0172                 zeros(length(this.aminoacylatedIndexs), 1)];
+0173             this.names = [
+0174                 nascentRNAs.names;
+0175                 processedRNAs.names;
+0176                 intergenicRNAs.names;
+0177                 repmat(matureRNAs.names, 4, 1);
+0178                 aminoacylatedRNAs.names];
+0179             this.lengths = [
+0180                 nascentRNAs.lengths;
+0181                 processedRNAs.lengths;
+0182                 intergenicRNAs.lengths;
+0183                 repmat(matureRNAs.lengths, 4, 1);
+0184                 aminoacylatedRNAs.lengths];
+0185             this.baseCounts =[
+0186                 nascentRNAs.baseCounts;
+0187                 processedRNAs.baseCounts;
+0188                 intergenicRNAs.baseCounts;
+0189                 repmat(matureRNAs.baseCounts, 4, 1);
+0190                 aminoacylatedRNAs.baseCounts];
+0191             this.molecularWeights = [
+0192                 nascentRNAs.molecularWeights;
+0193                 processedRNAs.molecularWeights;
+0194                 intergenicRNAs.molecularWeights;
+0195                 repmat(matureRNAs.molecularWeights, 4, 1);
+0196                 aminoacylatedRNAs.molecularWeights];
+0197             
+0198             this.matureMRNAIndexs = find(sum(this.matureRNAGeneComposition([knowledgeBase.mRNAGenes.idx], :), 1))';
+0199             this.matureRRNAIndexs = find(sum(this.matureRNAGeneComposition([knowledgeBase.rRNAGenes.idx], :), 1))';
+0200             this.matureSRNAIndexs = find(sum(this.matureRNAGeneComposition([knowledgeBase.sRNAGenes.idx], :), 1))';
+0201             this.matureTRNAIndexs = find(sum(this.matureRNAGeneComposition([knowledgeBase.tRNAGenes.idx], :), 1))';
+0202             this.matureRibosomalRRNAIndexs = zeros(size(knowledgeBase.ribosomalRRNAIndexs));
+0203             <span class="keyword">for</span> i = 1:length(knowledgeBase.ribosomalRRNAIndexs)
+0204                 this.matureRibosomalRRNAIndexs(i) = find(this.matureRNAGeneComposition(knowledgeBase.ribosomalRRNAIndexs(i), :));
+0205             <span class="keyword">end</span>
+0206             this.matureTMRNAIndexs = this.getIndexs(<span class="string">'MG_0004'</span>);
+0207         <span class="keyword">end</span>
+0208     <span class="keyword">end</span>
+0209     
+0210     methods
+0211         <a name="_sub3" href="#_subfunctions" class="code">function notUpdatedRnas = updateExternalState(this, deltaRnas, rnaIsDegraded) </a><span class="comment">%#ok&lt;INUSD&gt;</span>
+0212             r = this.ribosome;
+0213             
+0214             notUpdatedRnas = zeros(size(deltaRnas));
+0215             deltaMatureRnas = deltaRnas(this.matureIndexs, this.compartment.cytosolIndexs);
+0216             deltaBoundRnas = deltaRnas(this.boundIndexs, this.compartment.cytosolIndexs);
+0217             
+0218             <span class="comment">%mRNA or tmRNA</span>
+0219             <span class="keyword">if</span> any(deltaMatureRnas(this.matureMRNAIndexs)) || deltaBoundRnas(this.matureTMRNAIndexs) &lt; 0
+0220                 r.releaseRibosome(0, -deltaBoundRnas(this.matureTMRNAIndexs), -deltaMatureRnas(this.matureMRNAIndexs));
+0221             <span class="keyword">end</span>
+0222         <span class="keyword">end</span>
+0223     <span class="keyword">end</span>
+0224     
+0225     <span class="comment">%helper methods</span>
+0226     methods
+0227         <a name="_sub4" href="#_subfunctions" class="code">function value = getIndexs(this, wholeCellModelIDs)</a>
+0228             [~, value] = ismember(wholeCellModelIDs, this.wholeCellModelIDs(this.matureIndexs));
+0229         <span class="keyword">end</span>
+0230     <span class="keyword">end</span>
+0231     
+0232     <span class="comment">%getters</span>
+0233     methods
+0234         <a name="_sub5" href="#_subfunctions" class="code">function value = get.geneHalfLives(this)</a>
+0235             value = this.matureRNAGeneComposition * <span class="keyword">...</span>
+0236                 this.halfLives(this.matureIndexs);
+0237         <span class="keyword">end</span>
+0238         
+0239         <span class="comment">%decay rates of RNAs (moleculeces/s)</span>
+0240         <a name="_sub6" href="#_subfunctions" class="code">function value = get.geneDecayRates(this)</a>
+0241             value = log(2) ./ this.geneHalfLives;
+0242         <span class="keyword">end</span>
+0243         
+0244         <span class="comment">%experimental decay rates</span>
+0245         <a name="_sub7" href="#_subfunctions" class="code">function value = get.expectedGeneDecayRates(this)</a>
+0246             value = log(2) ./ this.expectedGeneHalfLives;
+0247         <span class="keyword">end</span>
+0248         
+0249         <span class="comment">%RNA weight fractions</span>
+0250         <a name="_sub8" href="#_subfunctions" class="code">function value = get.weightFractions(this)</a>
+0251             value = [
+0252                 this.molecularWeights(this.matureIndexs(this.matureMRNAIndexs))'          * this.expression(this.matureIndexs(this.matureMRNAIndexs));
+0253                 this.molecularWeights(this.matureIndexs(this.matureRibosomalRRNAIndexs)) .* this.expression(this.matureIndexs(this.matureRibosomalRRNAIndexs));
+0254                 this.molecularWeights(this.matureIndexs(this.matureSRNAIndexs))'          * this.expression(this.matureIndexs(this.matureSRNAIndexs));
+0255                 this.molecularWeights(this.matureIndexs(this.matureTRNAIndexs))'          * this.expression(this.matureIndexs(this.matureTRNAIndexs));
+0256                 ];
+0257             value = value / sum(value);
+0258         <span class="keyword">end</span>
+0259         
+0260         <span class="comment">%experimental RNA weight fractions</span>
+0261         <a name="_sub9" href="#_subfunctions" class="code">function value = get.expectedWeightFractions(this)</a>
+0262             value = [
+0263                 this.weightFractionMRNA
+0264                 this.weightFractionRRNA5S
+0265                 this.weightFractionRRNA16S
+0266                 this.weightFractionRRNA23S
+0267                 this.weightFractionSRNA
+0268                 this.weightFractionTRNA];
+0269             value = value / sum(value);
+0270         <span class="keyword">end</span>
+0271         
+0272         <span class="comment">%calculated expression of RNAs, monomers,</span>
+0273         <a name="_sub10" href="#_subfunctions" class="code">function value = get.geneExpression(this)</a>
+0274             value = this.matureRNAGeneComposition * this.expression(this.matureIndexs);
+0275             value = value / sum(value);
+0276         <span class="keyword">end</span>
+0277     <span class="keyword">end</span>
+0278 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

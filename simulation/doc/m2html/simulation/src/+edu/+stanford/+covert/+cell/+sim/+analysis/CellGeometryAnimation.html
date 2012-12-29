@@ -1,0 +1,561 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellGeometryAnimation</title>
+  <meta name="keywords" content="CellGeometryAnimation">
+  <meta name="description" content="CellGeometryAnimation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; CellGeometryAnimation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellGeometryAnimation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellGeometryAnimation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CellGeometryAnimation
+
+ Author: Derek Macklin, macklin@stanford.edu
+         (Based on code developed by Jonathan Karr, jkarr@stanford.edu)
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/22/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellGeometryAnimation.html" class="code" title="">CellGeometryAnimation</a>	CellGeometryAnimation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellGeometryAnimation.html" class="code" title="">CellGeometryAnimation</a>	CellGeometryAnimation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CellGeometryAnimation(simGroupId, simId, movieFileName, downsampleStepSizeSec, frameRenderer, movieRenderer, verbosity)</a></li><li><a href="#_sub2" class="code">function run(this)</a></li><li><a href="#_sub3" class="code">function loadSimulationData(this)</a></li><li><a href="#_sub4" class="code">function drawFrame(this, frameIdx, timeIdx)</a></li><li><a href="#_sub5" class="code">function svg = drawCell(this, scale, width, cylindricalLength, septumLength, maxTotalLength, maxWidth)</a></li><li><a href="#_sub6" class="code">function svg = drawArc(this, posStrnds, lens, r0, strokeColor, strokeWidth, helicase, centerX, centerY)</a></li><li><a href="#_sub7" class="code">function svg = drawCircles(this, posStrnds, lens, r0, strokeColor, strokeWidth, helicase, centerX, centerY, rad, fill)</a></li><li><a href="#_sub8" class="code">function renderFrames(this)</a></li><li><a href="#_sub9" class="code">function renderFrames_librsvg(this)</a></li><li><a href="#_sub10" class="code">function renderFrames_imagemagick(this)</a></li><li><a href="#_sub11" class="code">function renderFrames_inkscape(this)</a></li><li><a href="#_sub12" class="code">function renderFrames_batik(this)</a></li><li><a href="#_sub13" class="code">function initializeSubtitles(this)</a></li><li><a href="#_sub14" class="code">function appendSubtitle(this, frameIdx, timeIdx)</a></li><li><a href="#_sub15" class="code">function finalizeSubtitles(this)</a></li><li><a href="#_sub16" class="code">function renderMovie(this)</a></li><li><a href="#_sub17" class="code">function renderMovie_ffmpeg(this)</a></li><li><a href="#_sub18" class="code">function renderMovie_mencoder(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%CellGeometryAnimation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0004 <span class="comment">%         (Based on code developed by Jonathan Karr, jkarr@stanford.edu)</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 7/22/2011</span>
+0007 classdef <a href="CellGeometryAnimation.html" class="code" title="">CellGeometryAnimation</a> &lt; handle
+0008     properties (SetAccess = protected)
+0009         title = <span class="string">'Whole Cell DNA Animation'</span>
+0010         description = <span class="string">'Animation of cell geometry dynamics in a single Mycoplasma genitalium whole-cell simulation.'</span>
+0011         author = <span class="string">'Derek Macklin, Covert Lab, Department of Bioengineering, Stanford University'</span>
+0012         year
+0013         copyright
+0014         
+0015         tmpDirectory
+0016         frameFilePattern = <span class="string">'frame_%d'</span>
+0017         subtitleFileName = <span class="string">'subtitles.srt'</span>
+0018         movieFileName
+0019         movieDPI = 250;
+0020         movieWidth
+0021         movieHeight
+0022         
+0023         frameRenderer
+0024         movieRenderer
+0025         codec = struct(<span class="keyword">...</span>
+0026             <span class="string">'ffmpeg'</span>, <span class="string">'libx264'</span>, <span class="keyword">...</span>
+0027             <span class="string">'mencoder'</span>, <span class="string">'mpeg4'</span>)
+0028         subtitleCodec = <span class="string">'srt'</span>
+0029         frameRate = 30
+0030         bitRate = 1200
+0031         loopCount = 0
+0032         
+0033         verbosity
+0034     <span class="keyword">end</span>
+0035     
+0036     properties (SetAccess = protected)
+0037         simGroupId
+0038         simId
+0039         downsampleStepSizeSec
+0040         
+0041         simulation
+0042         states
+0043         log
+0044         feature
+0045     <span class="keyword">end</span>
+0046     
+0047     properties (SetAccess = protected)
+0048         subtitleFid
+0049     <span class="keyword">end</span>
+0050     
+0051     methods
+0052         <a name="_sub0" href="#_subfunctions" class="code">function this = CellGeometryAnimation(simGroupId, simId, movieFileName, downsampleStepSizeSec, frameRenderer, movieRenderer, verbosity)</a>
+0053             <span class="keyword">if</span> nargin &lt; 1 || isempty(simGroupId)
+0054                 simGroupId = <span class="string">'2011_07_15_20_08_43'</span>;
+0055             <span class="keyword">end</span>
+0056             <span class="keyword">if</span> nargin &lt; 1 || isempty(simId)
+0057                 simId = 1;
+0058             <span class="keyword">end</span>
+0059             <span class="keyword">if</span> nargin &lt; 3 || isempty(movieFileName)
+0060                 movieFileName = <span class="string">'video.avi'</span>;
+0061             <span class="keyword">end</span>
+0062             <span class="keyword">if</span> nargin &lt; 4 || isempty(downsampleStepSizeSec)
+0063                 downsampleStepSizeSec = 100;
+0064             <span class="keyword">end</span>
+0065             <span class="keyword">if</span> nargin &lt; 5 || isempty(frameRenderer)
+0066                 frameRenderer = <span class="string">'imagemagick'</span>;
+0067             <span class="keyword">end</span>
+0068             <span class="keyword">if</span> nargin &lt; 6 || isempty(movieRenderer)
+0069                 movieRenderer = <span class="string">'mencoder'</span>;
+0070             <span class="keyword">end</span>
+0071             <span class="keyword">if</span> nargin &lt; 7 || isempty(verbosity)
+0072                 verbosity = 0;
+0073             <span class="keyword">end</span>
+0074             
+0075             this.simGroupId = simGroupId;
+0076             this.simId = simId;
+0077             this.movieFileName = movieFileName;
+0078             this.downsampleStepSizeSec = downsampleStepSizeSec;
+0079             this.frameRenderer = frameRenderer;
+0080             this.movieRenderer = movieRenderer;
+0081             this.verbosity = verbosity;
+0082             
+0083             this.year = datestr(now, <span class="string">'YYYY'</span>);
+0084             this.copyright = [<span class="string">'Copyright '</span> this.author <span class="string">' '</span> this.year];
+0085             this.tmpDirectory = tempname;
+0086             
+0087             this.movieWidth = ceil(600/90 * this.movieDPI);
+0088             this.movieHeight = ceil(300/90 * this.movieDPI);
+0089         <span class="keyword">end</span>
+0090         
+0091         <a name="_sub1" href="#_subfunctions" class="code">function run(this)</a>
+0092             <span class="comment">%make temporary directory</span>
+0093             mkdir(this.tmpDirectory);
+0094             
+0095             <span class="comment">%load simulation data</span>
+0096             this.loadSimulationData();
+0097             
+0098             <span class="comment">%initialize subtitles</span>
+0099             this.initializeSubtitles();
+0100             
+0101             <span class="comment">%draw frames and build subtitles</span>
+0102             nFrames = floor(numel(this.states.Time.values) / this.downsampleStepSizeSec);
+0103             <span class="keyword">for</span> frameIdx = 1:nFrames
+0104                 <span class="comment">%calculate time index</span>
+0105                 timeIdx = (frameIdx - 1) * this.downsampleStepSizeSec + 1;
+0106                 
+0107                 <span class="comment">%build svg</span>
+0108                 this.drawFrame(frameIdx, timeIdx);
+0109                 
+0110                 <span class="comment">%subtitle</span>
+0111                 this.appendSubtitle(frameIdx, timeIdx);
+0112             <span class="keyword">end</span>
+0113             
+0114             <span class="comment">%finalize subtitles</span>
+0115             this.finalizeSubtitles();
+0116             
+0117             <span class="comment">%convert to png</span>
+0118             this.renderFrames();
+0119             
+0120             <span class="comment">%render movie</span>
+0121             this.renderMovie();
+0122             
+0123             <span class="comment">%clean up temporary directory</span>
+0124             rmdir(this.tmpDirectory, <span class="string">'s'</span>);
+0125         <span class="keyword">end</span>
+0126         
+0127         <a name="_sub2" href="#_subfunctions" class="code">function loadSimulationData(this)</a>
+0128             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0129             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0130             import edu.stanford.covert.cell.sim.state.CellGeometry;
+0131             [simDir,~,this.simulation]=SimulationDiskUtil.getSimulation(<span class="string">'2011_07_19_18_35_32/1'</span>);
+0132             stateNames={<span class="string">'Geometry'</span> <span class="string">'width'</span>
+0133                         <span class="string">'Geometry'</span> <span class="string">'pinchedDiameter'</span>
+0134                         <span class="string">'Chromosome'</span> <span class="string">'polymerizedRegions'</span>
+0135                         <span class="string">'Chromosome'</span> <span class="string">'monomerBoundSites'</span>
+0136                         <span class="string">'Chromosome'</span> <span class="string">'complexBoundSites'</span>
+0137                         <span class="string">'Time'</span> <span class="string">'values'</span>};
+0138             this.states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0139             this.log = load([simDir filesep <span class="string">'summary.mat'</span>]);
+0140             
+0141             cm = this.simulation.state(<span class="string">'Mass'</span>);
+0142             geom = this.simulation.state(<span class="string">'Geometry'</span>);
+0143             density = geom.density;
+0144             mass = (this.log.mass(2:end) * cm.cellInitialDryWeight)/(1-cm.fractionWetWeight);
+0145             width = squeeze(this.states.Geometry.width);
+0146             pinchedDiameter = squeeze(this.states.Geometry.pinchedDiameter);
+0147             t = squeeze(this.states.Time.values);
+0148             septumLength = (width - pinchedDiameter)/2;
+0149             
+0150             cylindricalLength = zeros(size(mass));
+0151             maxTotalLengths = zeros(size(mass));
+0152             
+0153             <span class="keyword">for</span> i=1:length(cylindricalLength)
+0154                 <span class="keyword">if</span>(pinchedDiameter(i) &gt; 0)
+0155                     [cylindricalLength(i), ~, maxTotalLengths(i)] = CellGeometry.calculateGeometry(<span class="keyword">...</span>
+0156                         width(i), <span class="keyword">...</span>
+0157                         pinchedDiameter(i), <span class="keyword">...</span>
+0158                         mass(i)/density);
+0159                 <span class="keyword">end</span>
+0160             <span class="keyword">end</span>
+0161             
+0162             this.feature = struct;
+0163             this.feature.cylindricalLength = cylindricalLength;
+0164             this.feature.septumLength = septumLength;
+0165             this.feature.maxTotalLengths = maxTotalLengths;
+0166             this.feature.t = t;
+0167 
+0168         <span class="keyword">end</span>
+0169         
+0170         <a name="_sub3" href="#_subfunctions" class="code">function drawFrame(this, frameIdx, timeIdx)</a>
+0171             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0172             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0173             import edu.stanford.covert.cell.sim.state.CellGeometry;
+0174             fileName = sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.svg'</span>], this.tmpDirectory, filesep, frameIdx);
+0175             chr = this.simulation.state(<span class="string">'Chromosome'</span>);
+0176 
+0177             cylindricalLength = this.feature.cylindricalLength;
+0178             septumLength = this.feature.septumLength;
+0179             maxTotalLengths = this.feature.maxTotalLengths;
+0180             t = this.feature.t;
+0181             width = this.states.Geometry.width;
+0182             
+0183             scale = 1e-9;
+0184             
+0185             idx = find(t==timeIdx);
+0186             maxTotalLength = max(maxTotalLengths);
+0187             
+0188             svg_width = maxTotalLength / scale + 2;
+0189             svg_height = max(width) / scale + 2;
+0190             
+0191             <span class="comment">%open svg</span>
+0192             fid = fopen(fileName, <span class="string">'w'</span>);
+0193             fprintf(fid, <span class="string">'&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;\n'</span>);
+0194             fprintf(fid, <span class="string">'&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;\n'</span>);
+0195             fprintf(fid, <span class="string">'&lt;svg width=&quot;%d&quot; height=&quot;%d&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;%d %d %d %d&quot;&gt;\n'</span>, svg_width, svg_height, 0, 0, svg_width, svg_height);
+0196             fprintf(fid, <span class="string">'&lt;defs&gt;\n'</span>);
+0197             fprintf(fid, <span class="string">'&lt;linearGradient id=&quot;cellBg&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>);
+0198             fprintf(fid, <span class="string">'&lt;stop style=&quot;stop-color:#97b0fb;stop-opacity:0.05&quot; offset=&quot;0&quot;/&gt;\n'</span>);
+0199             fprintf(fid, <span class="string">'&lt;stop style=&quot;stop-color:#89b8d6;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>);
+0200             fprintf(fid, <span class="string">'&lt;/linearGradient&gt;'</span>);
+0201             fprintf(fid, <span class="string">'&lt;/defs&gt;\n'</span>);
+0202 
+0203             <span class="comment">% White background</span>
+0204             fprintf(fid, <span class="string">'&lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:white; stroke:none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0205                 0, 0, svg_width, svg_height);
+0206            
+0207             <span class="comment">% Draw the cell</span>
+0208             fprintf(fid, this.drawCell(scale,width(idx),cylindricalLength(idx),septumLength(idx),maxTotalLength,max(width)));
+0209             
+0210             <span class="comment">% Draw the chromosomes</span>
+0211             [posStrnds, lens] = find(this.states.Chromosome.polymerizedRegions);
+0212             lens = lens(posStrnds(:, 3) == timeIdx, :);
+0213             posStrnds = posStrnds(posStrnds(:, 3) == timeIdx, 1:2);
+0214             centerX = [ (maxTotalLength / 2 - septumLength(idx) - cylindricalLength(idx) / 2), (maxTotalLength / 2 + septumLength(idx) + cylindricalLength(idx) / 2) ];
+0215             centerY = [ (width(idx) / 2), (width(idx) / 2) ];
+0216             fprintf(fid, this.drawArc(posStrnds, lens, [width(idx)*0.5 width(idx)*0.55]/(2*scale), <span class="string">'black'</span>, 2, this.log.replisome(1:2,idx), centerX/scale, centerY/scale));
+0217             
+0218             <span class="comment">%bound proteins (RNA Pol)</span>
+0219             [cpxPosStrnds, cpxIdxs] = find(this.states.Chromosome.complexBoundSites == 200);
+0220             posStrnds = [<span class="keyword">...</span>
+0221                 cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx, 1:2)
+0222                 ];
+0223             lens = [<span class="keyword">...</span>
+0224                 chr.complexDNAFootprints(cpxIdxs(cpxPosStrnds(:, 3) == timeIdx, :))
+0225                 ];
+0226             fprintf(fid, this.drawCircles(posStrnds, lens, [width(idx)*0.45 width(idx)*0.60]/(2*scale), <span class="string">'green'</span>, 1, this.log.replisome(1:2,idx), centerX/scale, centerY/scale, 5, <span class="string">'none'</span>)); 
+0227 
+0228             clear cpxPosStrnds;
+0229             clear cpxIdxs;
+0230             <span class="comment">%bound proteins (Helicase)</span>
+0231             [cpxPosStrnds, cpxIdxs] = find(this.states.Chromosome.complexBoundSites == 50);
+0232             <span class="keyword">if</span> numel(cpxIdxs) &gt; 0
+0233                 posStrnds = [<span class="keyword">...</span>
+0234                     cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx, 1:2)
+0235                     ];
+0236                 lens = [<span class="keyword">...</span>
+0237                     chr.complexDNAFootprints(cpxIdxs(cpxPosStrnds(:, 3) == timeIdx, :))
+0238                     ];
+0239                 <span class="keyword">if</span> ~isempty(posStrnds)
+0240                     fprintf(fid, this.drawCircles(posStrnds, lens, [width(idx)*0.45 width(idx)*0.60]/(2*scale), <span class="string">'gold'</span>, 1, this.log.replisome(1:2,idx), centerX/scale, centerY/scale, 3, <span class="string">'gold'</span>));
+0241                 <span class="keyword">end</span>
+0242             <span class="keyword">end</span>
+0243 
+0244             clear cpxPosStrnds;
+0245             clear cpxIdxs;
+0246              <span class="comment">%bound proteins (DnaA-ADP 1mer)</span>
+0247             [cpxPosStrnds, cpxIdxs] = find(this.states.Chromosome.complexBoundSites == 181);
+0248             <span class="keyword">if</span> numel(cpxIdxs) &gt; 0
+0249                 posStrnds = [<span class="keyword">...</span>
+0250                     cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx, 1:2)
+0251                     ];
+0252                 lens = [<span class="keyword">...</span>
+0253                     chr.complexDNAFootprints(cpxIdxs(cpxPosStrnds(:, 3) == timeIdx, :))
+0254                     ];
+0255                 <span class="keyword">if</span> ~isempty(posStrnds)
+0256                     fprintf(fid, this.drawCircles(posStrnds, lens, [width(idx)*0.525 width(idx)*0.525]/(2*scale), <span class="string">'lightskyblue'</span>, 1, this.log.replisome(1:2,idx), centerX/scale, centerY/scale, 2, <span class="string">'lightskyblue'</span>));
+0257                 <span class="keyword">end</span>
+0258             <span class="keyword">end</span>
+0259             
+0260             <span class="comment">%close svg</span>
+0261             fprintf(fid, <span class="string">'&lt;/svg&gt;\n'</span>);
+0262             fclose(fid);
+0263         <span class="keyword">end</span>
+0264         
+0265         <a name="_sub4" href="#_subfunctions" class="code">function svg = drawCell(this, scale, width, cylindricalLength, septumLength, maxTotalLength, maxWidth)</a>
+0266             width = width / scale;
+0267             cylindricalLength = cylindricalLength / scale;
+0268             septumLength = septumLength / scale;
+0269             maxTotalLength = maxTotalLength / scale;
+0270             maxWidth = maxWidth / scale;
+0271             
+0272             svg = [<span class="string">'&lt;path d=&quot;\n'</span>, <span class="keyword">...</span>
+0273                    sprintf(<span class="string">'M%0.4f,1 a%0.4f,%0.4f 0 1 0 0,%0.4f\n'</span>, maxTotalLength/2-septumLength-cylindricalLength/2+1, width/2, width/2, width), <span class="keyword">...</span>
+0274                    sprintf(<span class="string">'l%0.4f,0\n'</span>, cylindricalLength/2), <span class="keyword">...</span>
+0275                    sprintf(<span class="string">'l%0.4f,-%0.4f\n'</span>, septumLength, septumLength), <span class="keyword">...</span>
+0276                    sprintf(<span class="string">'m0,0 l%0.4f,%0.4f\n'</span>, septumLength, septumLength), <span class="keyword">...</span>
+0277                    sprintf(<span class="string">'l%0.4f,0\n'</span>, cylindricalLength/2), <span class="keyword">...</span>
+0278                    sprintf(<span class="string">'a%0.4f,%0.4f 0 1 0 0,-%0.4f\n'</span>, width/2,width/2, width), <span class="keyword">...</span>
+0279                    sprintf(<span class="string">'l-%0.4f,0\n'</span>, cylindricalLength/2), <span class="keyword">...</span>
+0280                    sprintf(<span class="string">'l-%0.4f,%0.4f\n'</span>, septumLength, septumLength), <span class="keyword">...</span>
+0281                    sprintf(<span class="string">'l-%0.4f,-%0.4f\n'</span>, septumLength, septumLength), <span class="keyword">...</span>
+0282                    sprintf(<span class="string">'l-%0.4f,0&quot;\n'</span>, cylindricalLength/2), <span class="keyword">...</span>
+0283                    <span class="string">'style=&quot;stroke:rgb(0,0,0);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;fill:url(#cellBg)&quot;/&gt;\n'</span>];
+0284         <span class="keyword">end</span>
+0285         
+0286         <a name="_sub5" href="#_subfunctions" class="code">function svg = drawArc(this, posStrnds, lens, r0, strokeColor, strokeWidth, helicase, centerX, centerY)</a>
+0287             chr = this.simulation.state(<span class="string">'Chromosome'</span>);
+0288             strokeColor_set = strokeColor;
+0289             
+0290             svg = [];
+0291             <span class="keyword">for</span> j = 1:size(posStrnds, 1)
+0292                 theta = posStrnds(j, 1) / chr.sequenceLen * 2 * pi - pi/2;
+0293                 dTheta = lens(j) / chr.sequenceLen * 2 * pi;
+0294                 largeArc = dTheta &gt;= pi;
+0295                 r = r0(iseven(posStrnds(j, 2)) + 1);
+0296                 <span class="keyword">if</span> posStrnds(j, 2) &lt;= 2
+0297                     cx = centerX(1);
+0298                     cy = centerY(1);
+0299                 <span class="keyword">else</span>
+0300                     cx = centerX(2);
+0301                     cy = centerY(2);
+0302                 <span class="keyword">end</span>
+0303                 
+0304                 strokeColor = strokeColor_set;
+0305                 <span class="keyword">if</span> ~isequal(helicase,[0;0]) &amp;&amp; helicase(2) &gt; 0
+0306                     <span class="keyword">if</span> posStrnds(j,2) == 2 &amp;&amp; (posStrnds(j,1) &gt; helicase(1) || posStrnds(j,1) &lt; helicase(2))
+0307                         strokeColor = <span class="string">'red'</span>;       
+0308                     <span class="keyword">elseif</span> posStrnds(j,2) == 3 &amp;&amp; (posStrnds(j,1) &gt; helicase(1) || posStrnds(j,1) &lt; helicase(2))
+0309                           strokeColor = <span class="string">'red'</span>;       
+0310                     <span class="keyword">end</span>
+0311                 <span class="keyword">end</span>
+0312                 <span class="keyword">if</span> lens(j) == chr.sequenceLen
+0313                     svg = [svg sprintf(<span class="string">'&lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; stroke=&quot;%s&quot; stroke-width=&quot;%f&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0314                         cx, cy, r, <span class="keyword">...</span>
+0315                         strokeColor, strokeWidth)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0316                 <span class="keyword">else</span>
+0317                     svg = [svg sprintf(<span class="string">'&lt;path d=&quot;M%f,%f A%f,%f %d %d,%d %f %f&quot; stroke=&quot;%s&quot; stroke-width=&quot;%d&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0318                         cx + r*cos(theta), cy + r*sin(theta), <span class="keyword">...</span>
+0319                         r, r, 0, largeArc, 1, cx + r*cos(theta+dTheta), cy + r*sin(theta+dTheta), <span class="keyword">...</span>
+0320                         strokeColor, strokeWidth)];
+0321                 <span class="keyword">end</span>
+0322             <span class="keyword">end</span>
+0323         <span class="keyword">end</span>
+0324         
+0325         <a name="_sub6" href="#_subfunctions" class="code">function svg = drawCircles(this, posStrnds, lens, r0, strokeColor, strokeWidth, helicase, centerX, centerY, rad, fill)</a>
+0326            chr = this.simulation.state(<span class="string">'Chromosome'</span>);
+0327 <span class="comment">%             strokeColor_set = strokeColor;</span>
+0328             
+0329             svg = [];
+0330             <span class="keyword">for</span> j = 1:size(posStrnds, 1)
+0331                 theta = posStrnds(j, 1) / chr.sequenceLen * 2 * pi - pi/2;
+0332                 dTheta = lens(j) / chr.sequenceLen * 2 * pi;
+0333                 largeArc = dTheta &gt;= pi;
+0334                 r = r0(iseven(posStrnds(j, 2)) + 1);
+0335                 <span class="keyword">if</span> posStrnds(j, 2) &lt;= 2
+0336                     cx = centerX(1) + r*cos(theta);
+0337                     cy = centerY(1) + r*sin(theta);
+0338                 <span class="keyword">else</span>
+0339                     cx = centerX(2) + r*cos(theta);
+0340                     cy = centerY(2) + r*sin(theta);
+0341                 <span class="keyword">end</span>
+0342                 
+0343 <span class="comment">%                 strokeColor = strokeColor_set;</span>
+0344 <span class="comment">%                 if ~isequal(helicase,[0;0]) &amp;&amp; helicase(2) &gt; 0</span>
+0345 <span class="comment">%                     if posStrnds(j,2) == 2 &amp;&amp; (posStrnds(j,1) &gt; helicase(1) || posStrnds(j,1) &lt; helicase(2))</span>
+0346 <span class="comment">%                         strokeColor = 'red';</span>
+0347 <span class="comment">%                     elseif posStrnds(j,2) == 3 &amp;&amp; (posStrnds(j,1) &gt; helicase(1) || posStrnds(j,1) &lt; helicase(2))</span>
+0348 <span class="comment">%                           strokeColor = 'red';</span>
+0349 <span class="comment">%                     end</span>
+0350 <span class="comment">%                 end</span>
+0351 
+0352                 svg = [svg sprintf(<span class="string">'&lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; stroke=&quot;%s&quot; stroke-width=&quot;%f&quot; fill=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0353                     cx, cy, rad, <span class="keyword">...</span>
+0354                     strokeColor, strokeWidth, fill)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0355             <span class="keyword">end</span>
+0356         <span class="keyword">end</span>
+0357         
+0358         <a name="_sub7" href="#_subfunctions" class="code">function renderFrames(this)</a>
+0359             <span class="keyword">switch</span> this.frameRenderer
+0360                 <span class="keyword">case</span> <span class="string">'librsvg'</span>
+0361                     this.renderFrames_librsvg();
+0362                 <span class="keyword">case</span> <span class="string">'imagemagick'</span>
+0363                     this.renderFrames_imagemagick();
+0364                 <span class="keyword">case</span> <span class="string">'inkscape'</span>
+0365                     this.renderFrames_inkscape();
+0366                 <span class="keyword">case</span> <span class="string">'batik'</span>
+0367                     this.renderFrames_batik();
+0368                 <span class="keyword">otherwise</span>
+0369                     throw(MException(<span class="string">'CellGeometryAnimation:error'</span>, <span class="string">'Undefined renderer %s'</span>, this.frameRenderer))
+0370             <span class="keyword">end</span>
+0371         <span class="keyword">end</span>
+0372         
+0373         <a name="_sub8" href="#_subfunctions" class="code">function renderFrames_librsvg(this)</a>
+0374             tic
+0375             nFrames = floor(numel(this.states.Time.values) / this.downsampleStepSizeSec);
+0376             renderFileName = [this.tmpDirectory, filesep <span class="string">'renderFrames.sh'</span>];
+0377             fid = fopen(renderFileName, <span class="string">'w'</span>);
+0378             fprintf(fid, <span class="string">'#!/bin/sh\n'</span>);
+0379             <span class="keyword">for</span> frameIdx = 1:nFrames
+0380                 fprintf(fid, [<span class="keyword">...</span>
+0381                     <span class="string">'rsvg-convert '</span><span class="keyword">...</span>
+0382                     <span class="string">'-f png '</span><span class="keyword">...</span>
+0383                     <span class="string">'-w %d -h %d '</span><span class="keyword">...</span>
+0384                     <span class="string">'-o &quot;%s%s%s.png&quot; &quot;%s%s%s.svg&quot;\n'</span>], <span class="keyword">...</span>
+0385                     this.movieWidth, this.movieHeight, <span class="keyword">...</span>
+0386                     this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx)), <span class="keyword">...</span>
+0387                     this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx)));
+0388             <span class="keyword">end</span>
+0389             fclose(fid);
+0390             [status, result] = system([<span class="string">'chmod 775 '</span> renderFileName <span class="string">' &amp;&amp; '</span> renderFileName]);
+0391             <span class="keyword">if</span> status ~= 0
+0392                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0393             <span class="keyword">end</span>
+0394             toc
+0395         <span class="keyword">end</span>
+0396         
+0397         <a name="_sub9" href="#_subfunctions" class="code">function renderFrames_imagemagick(this)</a>
+0398             [status, result] = system(sprintf([<span class="keyword">...</span>
+0399                 <span class="string">'mogrify '</span><span class="keyword">...</span>
+0400                 <span class="string">'-format png -define png:bit-depth=8 -define png:color-type=2 -define png:compression-level=0 -define png:compression-strategy=0 '</span><span class="keyword">...</span>
+0401                 <span class="string">'-density %d -resize %dx%d '</span><span class="keyword">...</span>
+0402                 <span class="string">'&quot;%s%s%s.svg&quot;'</span>], <span class="keyword">...</span>
+0403                 round(3*this.movieDPI/90*72), round(this.movieWidth), round(this.movieHeight), this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, <span class="string">'*'</span>)));
+0404             <span class="keyword">if</span> status ~= 0
+0405                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0406             <span class="keyword">end</span>
+0407         <span class="keyword">end</span>
+0408         
+0409         <a name="_sub10" href="#_subfunctions" class="code">function renderFrames_inkscape(this)</a>
+0410             <span class="keyword">if</span>(isunix())
+0411                 a=getenv(<span class="string">'LD_LIBRARY_PATH'</span>);
+0412                 a=[<span class="string">'/usr/lib:'</span> a];
+0413                 setenv(<span class="string">'LD_LIBRARY_PATH'</span>,a);
+0414             <span class="keyword">end</span>
+0415             nFrames = floor(numel(this.states.Time.values) / this.downsampleStepSizeSec);
+0416             <span class="keyword">for</span> frameIdx = 1:nFrames
+0417                 <span class="comment">%print status</span>
+0418                 <span class="keyword">if</span> this.verbosity &gt; 0
+0419                     fprintf(<span class="string">'Drawing frame %d of %d frames\n'</span>, <span class="keyword">...</span>
+0420                         frameIdx, nFrames);
+0421                 <span class="keyword">end</span>
+0422                 [status, result] = system(sprintf(<span class="string">'inkscape &quot;%s&quot; --export-png=&quot;%s&quot; --export-area-page -w %d -h %d'</span>, <span class="keyword">...</span>
+0423                     sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.svg'</span>], this.tmpDirectory, filesep, frameIdx), <span class="keyword">...</span>
+0424                     sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.png'</span>], this.tmpDirectory, filesep, frameIdx), <span class="keyword">...</span>
+0425                     round(this.movieWidth), round(this.movieHeight)));
+0426                 <span class="keyword">if</span> status ~= 0
+0427                     throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0428                 <span class="keyword">end</span>
+0429             <span class="keyword">end</span>
+0430         <span class="keyword">end</span>
+0431         
+0432         <a name="_sub11" href="#_subfunctions" class="code">function renderFrames_batik(this)</a>
+0433             [status, result] = system(sprintf(<span class="string">'java -jar batik-rasterizer.jar -m image/png -d &quot;%s&quot; &quot;%s%s%s.svg&quot;'</span>, <span class="keyword">...</span>
+0434                 this.tmpDirectory, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, <span class="string">'*'</span>)));
+0435             <span class="keyword">if</span> status ~= 0
+0436                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0437             <span class="keyword">end</span>
+0438         <span class="keyword">end</span>
+0439         
+0440         <a name="_sub12" href="#_subfunctions" class="code">function initializeSubtitles(this)</a>
+0441             this.subtitleFid = fopen([this.tmpDirectory filesep this.subtitleFileName], <span class="string">'w'</span>);
+0442         <span class="keyword">end</span>
+0443         
+0444         <a name="_sub13" href="#_subfunctions" class="code">function appendSubtitle(this, frameIdx, timeIdx)</a>
+0445             fprintf(this.subtitleFid, <span class="string">'%d\n'</span>, frameIdx);
+0446             fprintf(this.subtitleFid, <span class="string">'%s --&gt; %s\n'</span>, <span class="keyword">...</span>
+0447                 datestr((frameIdx-1)/this.frameRate/(24*60*60), <span class="string">'HH:MM:SS,FFF'</span>), <span class="keyword">...</span>
+0448                 datestr((frameIdx-1)/this.frameRate/(24*60*60), <span class="string">'HH:MM:SS,FFF'</span>));
+0449             fprintf(this.subtitleFid, <span class="string">'%s\n\n'</span>, datestr(this.states.Time.values(timeIdx) / 3600 / 24, <span class="string">'HH:MM:SS'</span>));
+0450         <span class="keyword">end</span>
+0451         
+0452         <a name="_sub14" href="#_subfunctions" class="code">function finalizeSubtitles(this)</a>
+0453             fclose(this.subtitleFid);
+0454         <span class="keyword">end</span>
+0455         
+0456         <a name="_sub15" href="#_subfunctions" class="code">function renderMovie(this)</a>
+0457             <span class="keyword">switch</span> this.movieRenderer
+0458                 <span class="keyword">case</span> <span class="string">'ffmpeg'</span>
+0459                     this.renderMovie_ffmpeg();
+0460                 <span class="keyword">case</span> <span class="string">'mencoder'</span>
+0461                     this.renderMovie_mencoder();
+0462                 <span class="keyword">otherwise</span>
+0463                     throw(MException(<span class="string">'CellGeometryAnimation:error'</span>, <span class="string">'Undefined renderer %s'</span>, this.movieRenderer))
+0464             <span class="keyword">end</span>
+0465         <span class="keyword">end</span>
+0466         
+0467         <a name="_sub16" href="#_subfunctions" class="code">function renderMovie_ffmpeg(this)</a>
+0468             cmd = sprintf([<span class="keyword">...</span>
+0469                 <span class="string">'ffmpeg -f image2 -i &quot;%s/%s.png&quot; '</span> <span class="keyword">...</span>
+0470                 <span class="string">'-vcodec %s -r %f -b %dk -loop_output %d '</span> <span class="keyword">...</span>
+0471                 <span class="string">'-an '</span> <span class="keyword">...</span>
+0472                 <span class="string">'-timestamp now -metadata title=&quot;%s&quot; -metadata description=&quot;%s&quot; -metadata author=&quot;%s&quot; -metadata year=&quot;%s&quot;  -metadata copyright=&quot;%s&quot;'</span> <span class="keyword">...</span>
+0473                 <span class="string">'-y &quot;%s&quot;'</span>
+0474                 ], <span class="keyword">...</span>
+0475                 this.tmpDirectory, this.frameFilePattern, <span class="keyword">...</span>
+0476                 this.codec.ffmpeg, this.frameRate, this.bitRate, this.loopCount, <span class="keyword">...</span>
+0477                 this.title, this.description, this.author, this.year, this.copyright, <span class="keyword">...</span>
+0478                 this.movieFileName);
+0479             [status, result] = system(cmd);
+0480             <span class="keyword">if</span> status ~= 0
+0481                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Failed to render movie: %s'</span>, result));
+0482             <span class="keyword">end</span>
+0483         <span class="keyword">end</span>
+0484         
+0485         <a name="_sub17" href="#_subfunctions" class="code">function renderMovie_mencoder(this)</a>
+0486             movieFileName = this.movieFileName; <span class="comment">%#ok&lt;*PROP&gt;</span>
+0487             <span class="keyword">if</span> ~((isunix &amp;&amp; movieFileName(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; movieFileName(2) == <span class="string">':'</span>))
+0488                 movieFileName = [pwd filesep movieFileName];
+0489             <span class="keyword">end</span>
+0490             
+0491             cmd = sprintf([
+0492                 <span class="string">'cd %s &amp;&amp; '</span> <span class="keyword">...</span>
+0493                 <span class="string">'mencoder &quot;mf://%s.png&quot; -mf type=png:fps=%d -sub &quot;%s&quot; -o &quot;%s&quot; '</span> <span class="keyword">...</span>
+0494                 <span class="string">'-ovc lavc -lavcopts vcodec=%s:vbitrate=%d:vpass=1 '</span> <span class="keyword">...</span>
+0495                 <span class="string">'-subcp enca:en:iso-8859-7 '</span> <span class="keyword">...</span>
+0496                 <span class="string">'-info name=&quot;%s&quot;:subject=&quot;%s&quot;:artist=&quot;%s&quot;:copyright=&quot;%s&quot; '</span> <span class="keyword">...</span>
+0497                 ], <span class="keyword">...</span>
+0498                 this.tmpDirectory, this.frameFilePattern, this.frameRate, this.subtitleFileName, movieFileName, <span class="keyword">...</span>
+0499                 this.codec.mencoder, this.bitRate, <span class="keyword">...</span>
+0500                 this.title, this.description, this.author, this.copyright);
+0501             [status, result] = system(cmd);
+0502             <span class="keyword">if</span> status ~= 0
+0503                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Failed to render movie: %s'</span>, result));
+0504             <span class="keyword">end</span>
+0505         <span class="keyword">end</span>
+0506     <span class="keyword">end</span>
+0507 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of InterfaceUtil</title>
+  <meta name="keywords" content="InterfaceUtil">
+  <meta name="description" content="InterfaceUtil">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; InterfaceUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>InterfaceUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>InterfaceUtil</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">InterfaceUtil
+ Checks if a class (or class instance) properly implements a specificed
+ interface.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="InterfaceUtil.html" class="code" title="">InterfaceUtil</a>	InterfaceUtil</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="InterfaceUtil.html" class="code" title="">InterfaceUtil</a>	InterfaceUtil</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function assertInterface(instanceOrClassName, instanceOrMetaclass)</a></li><li><a href="#_sub2" class="code">function assertPropertyInterface(instanceOrClassName, interface)</a></li><li><a href="#_sub3" class="code">function assertMethodInterface(instanceOrClassName, interface)</a></li><li><a href="#_sub4" class="code">function tf = hasDuckTypeMetaProperty(prop)</a></li><li><a href="#_sub5" class="code">function tf = hasDuckTypeMetaMethod(method)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%InterfaceUtil</span>
+0002 <span class="comment">% Checks if a class (or class instance) properly implements a specificed</span>
+0003 <span class="comment">% interface.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0006 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0007 <span class="comment">% Last Updated: 9/12/2010</span>
+0008 classdef <a href="InterfaceUtil.html" class="code" title="">InterfaceUtil</a>
+0009     methods (Static = true)
+0010         <span class="comment">%Throws an exception is the class/class instance doesn't properly</span>
+0011         <span class="comment">%implement the specified interface.</span>
+0012         <span class="comment">%</span>
+0013         <span class="comment">%Inputs:</span>
+0014         <span class="comment">%- instanceOrClassName is an instance of a class, or a char equal to the</span>
+0015         <span class="comment">%  name of a class</span>
+0016         <span class="comment">%- metaclass is a struct of duck type meta.class with properties</span>
+0017         <span class="comment">%  - Properties: cell array of objects of duck type meta.property. Each</span>
+0018         <span class="comment">%    element of Properties must have the field Name,</span>
+0019         <span class="comment">%    corresponding to the name of the property whose attributes should</span>
+0020         <span class="comment">%    be validated. The other field names of Properties must equal</span>
+0021         <span class="comment">%    names of property attributes, and the field values represent</span>
+0022         <span class="comment">%    acceptable values of the corresponding property attribute. A</span>
+0023         <span class="comment">%    Properties field value of null means that any value of the</span>
+0024         <span class="comment">%    property attribute is acceptable.</span>
+0025         <span class="comment">%  - Methods: cell array of objects of duck type meta.method. Each</span>
+0026         <span class="comment">%    element of Methods must have the field Name, corresponding</span>
+0027         <span class="comment">%    to the name of the method whose attributes should be validated. The</span>
+0028         <span class="comment">%    other field names of Methods must equal names of method</span>
+0029         <span class="comment">%    attributes, and the field values represent acceptable values of the</span>
+0030         <span class="comment">%    corresponding method attribute. A Methods field value of</span>
+0031         <span class="comment">%    null means that any value of the method attribute is acceptable.</span>
+0032         <a name="_sub0" href="#_subfunctions" class="code">function assertInterface(instanceOrClassName, instanceOrMetaclass)</a>
+0033             import edu.stanford.covert.util.InterfaceUtil;
+0034             
+0035             <span class="keyword">if</span> isa(instanceOrMetaclass, <span class="string">'meta.class'</span>) || isstruct(instanceOrMetaclass)
+0036                 metadata = instanceOrMetaclass;
+0037             <span class="keyword">elseif</span> ischar(instanceOrMetaclass)
+0038                 metadata = meta.class.fromName(instanceOrMetaclass);
+0039             <span class="keyword">else</span>
+0040                 metadata = metaclass(instanceOrMetaclass);
+0041             <span class="keyword">end</span>
+0042             
+0043             InterfaceUtil.assertPropertyInterface(instanceOrClassName, metadata.Properties);
+0044             InterfaceUtil.assertMethodInterface(instanceOrClassName, metadata.Methods);
+0045         <span class="keyword">end</span>
+0046     <span class="keyword">end</span>
+0047     
+0048     methods (Static = true, Access = protected)
+0049         <a name="_sub1" href="#_subfunctions" class="code">function assertPropertyInterface(instanceOrClassName, interface)</a>
+0050             import edu.stanford.covert.util.InterfaceUtil;
+0051             
+0052             <span class="keyword">if</span> isempty(interface)
+0053                 <span class="keyword">return</span>;
+0054             <span class="keyword">end</span>
+0055             
+0056             <span class="comment">%validate input</span>
+0057             <span class="keyword">if</span> ~isvector(interface) || ~iscell(interface) || ~all(cellfun(@InterfaceUtil.hasDuckTypeMetaProperty, interface))
+0058                 throw(MException(<span class="string">'Interface:invalidInput'</span>, <span class="string">'interface must be a cell array of objects of duck type meta.property'</span>))
+0059             <span class="keyword">end</span>
+0060             
+0061             <span class="comment">%get metadata</span>
+0062             <span class="keyword">if</span> ischar(instanceOrClassName)
+0063                 metadata = meta.class.fromName(instanceOrClassName);
+0064             <span class="keyword">else</span>
+0065                 metadata = metaclass(instanceOrClassName);
+0066             <span class="keyword">end</span>
+0067             
+0068             <span class="comment">%check property interface</span>
+0069             propertyNames = cellfun(@(property) property.Name, metadata.Properties, <span class="string">'UniformOutput'</span>, false);
+0070             <span class="keyword">for</span> i = 1:numel(interface)
+0071                 iProperty = find(strcmp(propertyNames, interface{i}.Name), 1, <span class="string">'first'</span>);                
+0072                 interfaceFieldNames = setdiff(fieldnames(interface{i}), {<span class="string">'Name'</span>, <span class="string">'Description'</span>, <span class="string">'DetailedDescription'</span>, <span class="string">'DefiningClass'</span>});
+0073 
+0074                 <span class="keyword">if</span> isempty(iProperty)
+0075                     throw(MException(<span class="string">'Interface:incompleteInterface'</span>, <span class="keyword">...</span>
+0076                         <span class="string">'The class %s must implement a %s property'</span>, <span class="keyword">...</span>
+0077                         metadata.Name, interface{i}.Name));
+0078                 <span class="keyword">end</span>
+0079 
+0080                 property = metadata.Properties{iProperty};
+0081                 <span class="keyword">for</span> j = 1:numel(interfaceFieldNames)
+0082                     <span class="keyword">if</span> isempty(interface{i}.(interfaceFieldNames{j}))
+0083                         <span class="keyword">continue</span>;
+0084                     <span class="keyword">end</span>
+0085                     
+0086                     interfaceValue = interface{i}.(interfaceFieldNames{j});
+0087                     interfaceValueStr = interface{i}.(interfaceFieldNames{j});
+0088                     <span class="keyword">if</span> ischar(interfaceValue)                        
+0089                         interfaceValueStr = {interfaceValue};
+0090                         interfaceValue = {interfaceValue};
+0091                     <span class="keyword">elseif</span> ~iscell(interfaceValue)                                   
+0092                         interfaceValueStr = cellfun(@num2str, num2cell(interfaceValue), <span class="string">'UniformOutput'</span>, false);
+0093                     <span class="keyword">end</span>
+0094                     
+0095                     propertyValue = property.(interfaceFieldNames{j});
+0096                     <span class="keyword">if</span> ischar(propertyValue)
+0097                         <span class="comment">%GetAccess, SetAccess</span>
+0098                         propertyValue = {propertyValue};
+0099                     <span class="keyword">elseif</span> isa(propertyValue, <span class="string">'function_handle'</span>)
+0100                         <span class="comment">%GetMethod, SetMethod</span>
+0101                         propertyValue = ~isempty(propertyValue);
+0102                     <span class="keyword">end</span>
+0103                     
+0104                     <span class="keyword">if</span> ~ismember(propertyValue, interfaceValue)
+0105                         throw(MException(<span class="string">'Interface:incompatibleInterface'</span>, <span class="keyword">...</span>
+0106                             <span class="string">'The class %s %s property must have attribute %s with value {%s}'</span>, <span class="keyword">...</span>
+0107                             metadata.Name, interface{i}.Name, interfaceFieldNames{j}, [<span class="string">''''</span> strjoin(<span class="string">''', '''</span>,interfaceValueStr{:}) <span class="string">''''</span>]));
+0108                     <span class="keyword">end</span>
+0109                 <span class="keyword">end</span>
+0110             <span class="keyword">end</span>
+0111         <span class="keyword">end</span>
+0112         
+0113         <a name="_sub2" href="#_subfunctions" class="code">function assertMethodInterface(instanceOrClassName, interface)</a>
+0114             import edu.stanford.covert.util.InterfaceUtil;
+0115             
+0116             <span class="keyword">if</span> isempty(interface)
+0117                 <span class="keyword">return</span>;
+0118             <span class="keyword">end</span>
+0119             
+0120             <span class="comment">%validate input</span>
+0121             <span class="keyword">if</span> ~isvector(interface) || ~iscell(interface) || ~all(cellfun(@InterfaceUtil.hasDuckTypeMetaMethod, interface))
+0122                 throw(MException(<span class="string">'Interface:invalidInput'</span>, <span class="string">'interface must be a cell array of objects of duck type meta.method'</span>))
+0123             <span class="keyword">end</span>
+0124             
+0125             <span class="comment">%get metadata</span>
+0126             <span class="keyword">if</span> ischar(instanceOrClassName)
+0127                 metadata = meta.class.fromName(instanceOrClassName);
+0128             <span class="keyword">else</span>
+0129                 metadata = metaclass(instanceOrClassName);
+0130             <span class="keyword">end</span>
+0131             
+0132             <span class="comment">%check method interface</span>
+0133             methodNames = cellfun(@(method) method.Name, metadata.Methods, <span class="string">'UniformOutput'</span>, false);
+0134             <span class="keyword">for</span> i = 1:numel(interface)
+0135                 iMethod = find(strcmp(methodNames, interface{i}.Name), 1, <span class="string">'first'</span>);                
+0136                 interfaceFieldNames = setdiff(fieldnames(interface{i}), {<span class="string">'Name'</span>, <span class="string">'Description'</span>, <span class="string">'DetailedDescription'</span>, <span class="string">'DefiningClass'</span>});
+0137 
+0138                 <span class="keyword">if</span> isempty(iMethod)
+0139                     throw(MException(<span class="string">'Interface:incompleteInterface'</span>, <span class="keyword">...</span>
+0140                         <span class="string">'The class %s must implement a %s method'</span>, <span class="keyword">...</span>
+0141                         metadata.Name, interface{i}.Name));
+0142                 <span class="keyword">end</span>
+0143 
+0144                 method = metadata.Methods{iMethod};
+0145                 <span class="keyword">for</span> j = 1:numel(interfaceFieldNames)
+0146                     <span class="keyword">if</span> isempty(interface{i}.(interfaceFieldNames{j}))
+0147                         <span class="keyword">continue</span>;
+0148                     <span class="keyword">end</span>
+0149                     
+0150                     interfaceValue = interface{i}.(interfaceFieldNames{j});
+0151                     interfaceValueStr = interface{i}.(interfaceFieldNames{j});
+0152                     <span class="keyword">if</span> ischar(interfaceValue)                        
+0153                         interfaceValueStr = {interfaceValue};
+0154                         interfaceValue = {interfaceValue};
+0155                     <span class="keyword">elseif</span> ~iscell(interfaceValue)                                   
+0156                         interfaceValueStr = cellfun(@num2str, num2cell(interfaceValue), <span class="string">'UniformOutput'</span>, false);
+0157                     <span class="keyword">end</span>
+0158                     
+0159                     methodValue = method.(interfaceFieldNames{j});
+0160                     <span class="keyword">if</span> ischar(methodValue)
+0161                         <span class="comment">%Access</span>
+0162                         methodValue = {methodValue};
+0163                         
+0164                         <span class="keyword">if</span> ~ismember(methodValue, interfaceValue)
+0165                             throw(MException(<span class="string">'Interface:incompatibleInterface'</span>, <span class="keyword">...</span>
+0166                                 <span class="string">'The class %s %s method must have attribute %s with value {%s}'</span>, <span class="keyword">...</span>
+0167                                 metadata.Name, interface{i}.Name, interfaceFieldNames{j}, [<span class="string">''''</span> strjoin(<span class="string">''', '''</span>,interfaceValueStr{:}) <span class="string">''''</span>]));
+0168                         <span class="keyword">end</span>
+0169                     <span class="keyword">elseif</span> iscell(methodValue)
+0170                         <span class="comment">%InputNames, OutputNames</span>
+0171                         methodValue = numel(methodValue);
+0172                         <span class="keyword">if</span> iscell(interfaceValue)
+0173                             interfaceValue = numel(interfaceValue);
+0174                         <span class="keyword">elseif</span> numel(interfaceValue)~=1
+0175                             throw(MException(<span class="string">'Interface:invalidInput'</span>, <span class="string">'interface must specify number or names of %s'</span>,interfaceFieldNames{j}));
+0176                         <span class="keyword">end</span>
+0177                         
+0178                         <span class="keyword">if</span> methodValue &lt; interfaceValue
+0179                             throw(MException(<span class="string">'Interface:incompatibleInterface'</span>, <span class="keyword">...</span>
+0180                                 <span class="string">'The class %s %s method must have at at least %d %s'</span>, <span class="keyword">...</span>
+0181                                 metadata.Name, interface{i}.Name, interfaceValue, interfaceFieldNames{j}));
+0182                         <span class="keyword">end</span>
+0183                     <span class="keyword">else</span>
+0184                         <span class="keyword">if</span> ~ismember(methodValue, interfaceValue)
+0185                             throw(MException(<span class="string">'Interface:incompatibleInterface'</span>, <span class="keyword">...</span>
+0186                                 <span class="string">'The class %s %s method must have attribute %s with value {%s}'</span>, <span class="keyword">...</span>
+0187                                 metadata.Name, interface{i}.Name, interfaceFieldNames{j}, [<span class="string">''''</span> strjoin(<span class="string">''', '''</span>,interfaceValueStr{:}) <span class="string">''''</span>]));
+0188                         <span class="keyword">end</span>
+0189                     <span class="keyword">end</span>
+0190                 <span class="keyword">end</span>
+0191             <span class="keyword">end</span>
+0192         <span class="keyword">end</span>
+0193         
+0194         <a name="_sub3" href="#_subfunctions" class="code">function tf = hasDuckTypeMetaProperty(prop)</a>
+0195             tf = false;
+0196             
+0197             <span class="keyword">if</span> isa(prop, <span class="string">'meta.property'</span>)
+0198                 tf = true;
+0199                 <span class="keyword">return</span>;
+0200             <span class="keyword">end</span>
+0201             
+0202             metaPropertyFieldNames = {<span class="string">'Name'</span>; <span class="string">'Description'</span>; <span class="string">'DetailedDescription'</span>; 
+0203                 <span class="string">'GetAccess'</span>; <span class="string">'SetAccess'</span>; <span class="string">'Dependent'</span>; <span class="string">'Constant'</span>; <span class="string">'Abstract'</span>; <span class="string">'Transient'</span>; 
+0204                 <span class="string">'Hidden'</span>; <span class="string">'GetObservable'</span>; <span class="string">'SetObservable'</span>; <span class="string">'AbortSet'</span>; <span class="string">'GetMethod'</span>; 
+0205                 <span class="string">'SetMethod'</span>; <span class="string">'HasDefault'</span>; <span class="string">'DefaultValue'</span>; <span class="string">'DefiningClass'</span>};
+0206             
+0207             <span class="keyword">if</span> isstruct(prop) &amp;&amp; ismember(<span class="string">'Name'</span>,fieldnames(prop)) &amp;&amp; all(ismember(fieldnames(prop), metaPropertyFieldNames))
+0208                 tf = true;
+0209                 <span class="keyword">return</span>
+0210             <span class="keyword">end</span>           
+0211         <span class="keyword">end</span>
+0212         
+0213         <a name="_sub4" href="#_subfunctions" class="code">function tf = hasDuckTypeMetaMethod(method)</a>
+0214             tf = false;
+0215             
+0216             <span class="keyword">if</span> isa(method, <span class="string">'meta.method'</span>)
+0217                 tf = true;
+0218                 <span class="keyword">return</span>;
+0219             <span class="keyword">end</span>
+0220             
+0221             metaMethodFieldNames = {<span class="string">'Name'</span>; <span class="string">'Description'</span>; <span class="string">'DetailedDescription'</span>;
+0222                 <span class="string">'Access'</span>; <span class="string">'Static'</span>; <span class="string">'Abstract'</span>; <span class="string">'Sealed'</span>; <span class="string">'Hidden'</span>; <span class="string">'InputNames'</span>;
+0223                 <span class="string">'OutputNames'</span>; <span class="string">'DefiningClass'</span>};
+0224             
+0225             <span class="keyword">if</span> isstruct(method) &amp;&amp; ismember(<span class="string">'Name'</span>,fieldnames(method)) &amp;&amp; all(ismember(fieldnames(method), metaMethodFieldNames))
+0226                 tf = true;
+0227                 <span class="keyword">return</span>
+0228             <span class="keyword">end</span>
+0229         <span class="keyword">end</span>
+0230     <span class="keyword">end</span>
+0231 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

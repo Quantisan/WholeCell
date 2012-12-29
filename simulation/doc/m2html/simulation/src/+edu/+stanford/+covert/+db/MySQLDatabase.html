@@ -1,0 +1,478 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of MySQLDatabase</title>
+  <meta name="keywords" content="MySQLDatabase">
+  <meta name="description" content="Class for querying a MySQL database. This is a Java ODBC wrapper.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+db</a> &gt; MySQLDatabase.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+db&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>MySQLDatabase
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Class for querying a MySQL database. This is a Java ODBC wrapper.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Class for querying a MySQL database. This is a Java ODBC wrapper.
+
+   Provides methods:
+   - MySQLDatabase:    Create a database thisect
+   - prepareStatement: Create an SQL statement
+   - query:            Query the database
+   - lastInsertID:     Optionally return the last generated primary key
+   - close:            Close the connection to the database when done.
+ 
+   Example usage
+   &gt; addpath('src');
+   &gt; javaaddpath(path-to-parent-folder-of-MySQLLoader.class);
+   &gt; javaaddpath(path-to-mysql-connector-java-x.x.x-bin.jar);
+   &gt; import edu.stanford.covert.db.MySQLDatabase;
+   &gt; db = MySQLDatabase(hostName, schema, userName, password);
+   &gt; db.setNullValue(nullValue);
+   &gt; db.prepareStatement(sql);
+   &gt; data = db.query();
+   &gt; db.close();
+
+   prepareStatement syntax is the same as mym, that is the placeholders &quot;{S}&quot;, &quot;{Si}&quot;,
+   &quot;{Sn}&quot;, &quot;{F}&quot;, and &quot;{uF}&quot; are replaced by the contents of varargin, eg.
+     sql='SELECT * FROM table where id=&quot;{Si}&quot; and type=&quot;{S}&quot;'
+     varargin{1}=1;
+     varargin{2}='text';
+   will be evaluated as 
+     SELECT * FROM table where id=1 &amp;&amp; type='text'
+  
+   &quot;{S}&quot;  placeholder is for strings
+   &quot;{Si}&quot; placeholder is for integers
+   &quot;{Sn}&quot; placeholder is for floats
+   &quot;{F}&quot;, &quot;{uF}&quot; are synonymous placeholders for binary files, that is
+     the varargin element should be a filename and the placeholder will be
+     replaced with the contents of the file of the name equal to the
+     corresponding varargin element
+
+   query returns data as struct with field names equal to the mysql result
+   set column names. The fields of the struct will be MATLAB (cell)arrays
+   with length the number of returned records.
+
+ Requires mysql connector J:
+ - http://www.etf-central.com/using-matlab%2526%2523039%3Bs-database-toolbox-mysql-connector/j-214
+ - http://www.mysql.com/products/connector/
+ - http://neumann.bsn.com/doc/mysql-connector-java/javadoc/com/mysql/jdbc/package-summary.html
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Alex Harper, aharper@guralp.com
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/21/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="MySQLDatabase.html" class="code" title="">MySQLDatabase</a>	Class for querying a MySQL database. This is a Java ODBC wrapper.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="MySQLDatabase.html" class="code" title="">MySQLDatabase</a>	Class for querying a MySQL database. This is a Java ODBC wrapper.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = MySQLDatabase(varargin)</a></li><li><a href="#_sub2" class="code">function prepareStatement(this, sql, varargin)</a></li><li><a href="#_sub3" class="code">function out = query(this)</a></li><li><a href="#_sub4" class="code">function close(this)</a></li><li><a href="#_sub5" class="code">function delete(this)</a></li><li><a href="#_sub6" class="code">function reopen(this)</a></li><li><a href="#_sub7" class="code">function out = lastInsertID(this)</a></li><li><a href="#_sub8" class="code">function setNullValue(this, value)</a></li><li><a href="#_sub9" class="code">function value = isClosed(this)</a></li><li><a href="#_sub10" class="code">function value = isValid(this)</a></li><li><a href="#_sub11" class="code">function open(this)</a></li><li><a href="#_sub12" class="code">function closeStreams(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Class for querying a MySQL database. This is a Java ODBC wrapper.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">%   Provides methods:</span>
+0004 <span class="comment">%   - MySQLDatabase:    Create a database thisect</span>
+0005 <span class="comment">%   - prepareStatement: Create an SQL statement</span>
+0006 <span class="comment">%   - query:            Query the database</span>
+0007 <span class="comment">%   - lastInsertID:     Optionally return the last generated primary key</span>
+0008 <span class="comment">%   - close:            Close the connection to the database when done.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   Example usage</span>
+0011 <span class="comment">%   &gt; addpath('src');</span>
+0012 <span class="comment">%   &gt; javaaddpath(path-to-parent-folder-of-MySQLLoader.class);</span>
+0013 <span class="comment">%   &gt; javaaddpath(path-to-mysql-connector-java-x.x.x-bin.jar);</span>
+0014 <span class="comment">%   &gt; import edu.stanford.covert.db.MySQLDatabase;</span>
+0015 <span class="comment">%   &gt; db = MySQLDatabase(hostName, schema, userName, password);</span>
+0016 <span class="comment">%   &gt; db.setNullValue(nullValue);</span>
+0017 <span class="comment">%   &gt; db.prepareStatement(sql);</span>
+0018 <span class="comment">%   &gt; data = db.query();</span>
+0019 <span class="comment">%   &gt; db.close();</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   prepareStatement syntax is the same as mym, that is the placeholders &quot;{S}&quot;, &quot;{Si}&quot;,</span>
+0022 <span class="comment">%   &quot;{Sn}&quot;, &quot;{F}&quot;, and &quot;{uF}&quot; are replaced by the contents of varargin, eg.</span>
+0023 <span class="comment">%     sql='SELECT * FROM table where id=&quot;{Si}&quot; and type=&quot;{S}&quot;'</span>
+0024 <span class="comment">%     varargin{1}=1;</span>
+0025 <span class="comment">%     varargin{2}='text';</span>
+0026 <span class="comment">%   will be evaluated as</span>
+0027 <span class="comment">%     SELECT * FROM table where id=1 &amp;&amp; type='text'</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   &quot;{S}&quot;  placeholder is for strings</span>
+0030 <span class="comment">%   &quot;{Si}&quot; placeholder is for integers</span>
+0031 <span class="comment">%   &quot;{Sn}&quot; placeholder is for floats</span>
+0032 <span class="comment">%   &quot;{F}&quot;, &quot;{uF}&quot; are synonymous placeholders for binary files, that is</span>
+0033 <span class="comment">%     the varargin element should be a filename and the placeholder will be</span>
+0034 <span class="comment">%     replaced with the contents of the file of the name equal to the</span>
+0035 <span class="comment">%     corresponding varargin element</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   query returns data as struct with field names equal to the mysql result</span>
+0038 <span class="comment">%   set column names. The fields of the struct will be MATLAB (cell)arrays</span>
+0039 <span class="comment">%   with length the number of returned records.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">% Requires mysql connector J:</span>
+0042 <span class="comment">% - http://www.etf-central.com/using-matlab%2526%2523039%3Bs-database-toolbox-mysql-connector/j-214</span>
+0043 <span class="comment">% - http://www.mysql.com/products/connector/</span>
+0044 <span class="comment">% - http://neumann.bsn.com/doc/mysql-connector-java/javadoc/com/mysql/jdbc/package-summary.html</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0047 <span class="comment">% Author: Alex Harper, aharper@guralp.com</span>
+0048 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0049 <span class="comment">% Last updated: 1/21/2011</span>
+0050 classdef <a href="MySQLDatabase.html" class="code" title="">MySQLDatabase</a> &lt; edu.stanford.covert.db.Database
+0051     properties (SetAccess = protected)
+0052         dbConn                 <span class="comment">%The database connection</span>
+0053         hostName               <span class="comment">%The database host</span>
+0054         schema                 <span class="comment">%The schema to use (test7, ims, etc...)</span>
+0055         userName               <span class="comment">%The userName for the database</span>
+0056         password               <span class="comment">%The database password</span>
+0057         sqlStatement           <span class="comment">%Holds the current sql statement</span>
+0058         sqlStatementStreams    <span class="comment">%Holds streams for the current sql statement</span>
+0059         data                   <span class="comment">%This holds the returned result, -1 for error message update</span>
+0060         errorMsg               <span class="comment">%This holds the last generated error message</span>
+0061         nullValue              <span class="comment">%null value</span>
+0062     <span class="keyword">end</span>
+0063     
+0064     methods
+0065         <span class="comment">% Constructor</span>
+0066         <a name="_sub0" href="#_subfunctions" class="code">function this = MySQLDatabase(varargin)</a>
+0067             this = this@edu.stanford.covert.db.Database(varargin{:});
+0068             this.nullValue = 0;
+0069             this.open();            
+0070         <span class="keyword">end</span>
+0071         
+0072         <a name="_sub1" href="#_subfunctions" class="code">function prepareStatement(this, sql, varargin)</a>
+0073             <span class="comment">%format query according to mym syntax, see mym for details</span>
+0074             [startIndex, tokenStr] = regexp(sql, <span class="string">'&quot;{(S|Sn|Si|M|B|F|uF)}&quot;'</span>, <span class="string">'start'</span>, <span class="string">'tokens'</span>);
+0075             sql = regexprep(sql, <span class="string">'&quot;{(S|Sn|Si|M|B|F|uF)}&quot;'</span>, <span class="string">'?'</span>);
+0076             
+0077             this.closeStreams();
+0078             this.sqlStatement = this.dbConn.prepareStatement(sql);
+0079             this.sqlStatementStreams = cell(length(startIndex), 1);
+0080             
+0081             <span class="keyword">for</span> i = 1:length(startIndex)
+0082                 <span class="keyword">switch</span> tokenStr{i}{1}
+0083                     <span class="keyword">case</span> <span class="string">'S'</span>,     this.sqlStatement.setString(i, java.lang.String(varargin{i}));
+0084                     <span class="keyword">case</span> <span class="string">'Sn'</span>,    this.sqlStatement.setDouble(i, varargin{i});
+0085                     <span class="keyword">case</span> <span class="string">'Si'</span>,    this.sqlStatement.setLong(i, varargin{i});
+0086                     <span class="keyword">case</span> <span class="string">'M'</span>,     throw(MException(<span class="string">'MySQLDatabase:unsupportedType'</span>, tokenStr{i}{1}));
+0087                     <span class="keyword">case</span> <span class="string">'B'</span>,     throw(MException(<span class="string">'MySQLDatabase:unsupportedType'</span>, tokenStr{i}{1}));
+0088                     <span class="keyword">case</span> {<span class="string">'F'</span>, <span class="string">'uF'</span>},
+0089                         this.sqlStatementStreams{i} = java.io.FileInputStream(varargin{i});
+0090                         this.sqlStatement.setBinaryStream(i, this.sqlStatementStreams{i});
+0091                 <span class="keyword">end</span>
+0092             <span class="keyword">end</span>
+0093         <span class="keyword">end</span>
+0094         
+0095         <a name="_sub2" href="#_subfunctions" class="code">function out = query(this)</a>
+0096             <span class="comment">% return 0 for 'ok', a positive number for an</span>
+0097             <span class="comment">% 'auto_insert_id()', or a -1 to indicate an error and that the</span>
+0098             <span class="comment">% user should check the error message for details.</span>
+0099             
+0100             <span class="keyword">try</span>
+0101                 this.sqlStatement.execute();
+0102                 
+0103             <span class="keyword">catch</span> exception
+0104                 tmperrormsg = char(exception.message);
+0105                 <span class="comment">% If it's a recognised error:</span>
+0106                 <span class="keyword">if</span> ~isempty(strfind(tmperrormsg, <span class="string">'Duplicate entry'</span>))
+0107                     this.errorMsg = tmperrormsg;
+0108                     this.data = -1;
+0109                     out = this.data;
+0110                     <span class="keyword">return</span>;
+0111                 <span class="keyword">end</span>
+0112                 <span class="comment">% if it's an unrecognised error then:</span>
+0113                 throw(MException(<span class="string">'MySQLDatabase:mysqlError'</span>, <span class="keyword">...</span>
+0114                     sprintf(<span class="string">'%s\n%s'</span>, char(this.sqlStatement.toString()), char(exception.message))));
+0115             <span class="keyword">end</span>
+0116             
+0117             <span class="comment">%close streams</span>
+0118             this.closeStreams();
+0119             
+0120             resultSet = this.sqlStatement.getResultSet();
+0121             <span class="comment">% If the result set is empty, return an empty set.</span>
+0122             <span class="keyword">if</span> isempty(resultSet)
+0123                 this.data = [];
+0124                 out = this.data;
+0125                 <span class="keyword">return</span>;
+0126             <span class="keyword">end</span>
+0127             
+0128             metaData = resultSet.getMetaData();
+0129             columnTypes = regexp(char(metaData.toString()), <span class="keyword">...</span>
+0130                 <span class="string">',columnName=.*?,originalColumnName=.*?,mysqlType=\d*\((.*?)\),'</span>, <span class="string">'tokens'</span>);
+0131             this.data = struct;
+0132             
+0133             <span class="keyword">for</span> i = 1:metaData.getColumnCount()
+0134                 columnName = char(metaData.getColumnLabel(i));
+0135                 <span class="keyword">switch</span> columnTypes{i}{1}
+0136                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_NULL'</span>,        this.data.(columnName) = cell(0, 1);
+0137                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TINY'</span>,        this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0138                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_SHORT'</span>,       this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0139                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_INT24'</span>,       this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0140                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_LONG'</span>,        this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0141                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_LONGLONG'</span>,    this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0142                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DECIMAL'</span>,     this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0143                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_FLOAT'</span>,       this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0144                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DOUBLE'</span>,      this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0145                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_YEAR'</span>,        this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0146                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TIMESTAMP'</span>,   this.data.(columnName) = cell(0, 1);
+0147                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DATE'</span>,        this.data.(columnName) = cell(0, 1);
+0148                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TIME'</span>,        this.data.(columnName) = cell(0, 1);
+0149                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DATETIME'</span>,    this.data.(columnName) = cell(0, 1);
+0150                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_NEWDATE'</span>,     throw(MException(<span class="string">'MySQLDatabase:unsupportedType'</span>, columnTypes{i}{1}))
+0151                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_ENUM'</span>,        this.data.(columnName) = char(resultSet.getString(i));
+0152                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_SET'</span>,         this.data.(columnName) = cell(0, 1);
+0153                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TINY_BLOB'</span>,   this.data.(columnName) = cell(0, 1);
+0154                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_MEDIUM_BLOB'</span>, this.data.(columnName) = cell(0, 1);
+0155                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_LONG_BLOB'</span>,   this.data.(columnName) = cell(0, 1);
+0156                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_BLOB'</span>,        this.data.(columnName) = cell(0, 1);
+0157                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_VAR_STRING'</span>,  this.data.(columnName) = cell(0, 1);
+0158                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_STRING'</span>,      this.data.(columnName) = cell(0, 1);
+0159                     <span class="keyword">case</span> <span class="string">'FIELD_TYPE_GEOMETRY'</span>,    throw(MException(<span class="string">'MySQLDatabase:unsupportedType'</span>, columnTypes{i}{1}))
+0160                     <span class="keyword">otherwise</span>,                     this.data.(columnName) = zeros(0, 1, <span class="string">'double'</span>);
+0161                 <span class="keyword">end</span>
+0162             <span class="keyword">end</span>
+0163             
+0164             <span class="keyword">if</span> ~resultSet.first()
+0165                 out = this.data;
+0166                 <span class="keyword">return</span>;
+0167             <span class="keyword">end</span>
+0168             
+0169             j = 0;
+0170             <span class="keyword">while</span> 1
+0171                 j = j + 1;
+0172                 <span class="keyword">for</span> i = 1:metaData.getColumnCount()
+0173                     columnName = char(metaData.getColumnLabel(i));
+0174                     
+0175                     <span class="keyword">switch</span> columnTypes{i}{1}
+0176                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_NULL'</span>,
+0177                             this.data.(columnName){j, 1} = [];
+0178                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TINY'</span>,
+0179                             this.data.(columnName)(j, 1) = double(resultSet.getTiny(i));
+0180                             <span class="keyword">if</span> resultSet.wasNull()
+0181                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0182                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0183                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0184                             <span class="keyword">end</span>
+0185                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_SHORT'</span>,
+0186                             this.data.(columnName)(j, 1) = double(resultSet.getShort(i));
+0187                             <span class="keyword">if</span> resultSet.wasNull()
+0188                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0189                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0190                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0191                             <span class="keyword">end</span>
+0192                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_INT24'</span>,
+0193                             this.data.(columnName)(j, 1) = double(resultSet.getInt(i));
+0194                             <span class="keyword">if</span> resultSet.wasNull()
+0195                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0196                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0197                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0198                             <span class="keyword">end</span>
+0199                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_LONG'</span>,
+0200                             this.data.(columnName)(j, 1) = double(resultSet.getInt(i));
+0201                             <span class="keyword">if</span> resultSet.wasNull()
+0202                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0203                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0204                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0205                             <span class="keyword">end</span>
+0206                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_LONGLONG'</span>,
+0207                             this.data.(columnName)(j, 1) = double(resultSet.getLong(i));
+0208                             <span class="keyword">if</span> resultSet.wasNull()
+0209                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0210                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0211                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0212                             <span class="keyword">end</span>
+0213                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DECIMAL'</span>,
+0214                             this.data.(columnName)(j, 1) = double(resultSet.getFloat(i));
+0215                             <span class="keyword">if</span> resultSet.wasNull()
+0216                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0217                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0218                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0219                             <span class="keyword">end</span>
+0220                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_FLOAT'</span>,
+0221                             this.data.(columnName)(j, 1) = double(resultSet.getFloat(i));
+0222                             <span class="keyword">if</span> resultSet.wasNull()
+0223                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0224                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0225                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0226                             <span class="keyword">end</span>
+0227                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DOUBLE'</span>,
+0228                             this.data.(columnName)(j, 1) = double(resultSet.getDouble(i));
+0229                             <span class="keyword">if</span> resultSet.wasNull()
+0230                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0231                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0232                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0233                             <span class="keyword">end</span>
+0234                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_YEAR'</span>,
+0235                             this.data.(columnName)(j, 1) = double(resultSet.getShort(i));
+0236                             <span class="keyword">if</span> resultSet.wasNull()
+0237                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0238                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0239                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0240                             <span class="keyword">end</span>
+0241                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TIMESTAMP'</span>,
+0242                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0243                             <span class="keyword">if</span> resultSet.wasNull()
+0244                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0245                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0246                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0247                             <span class="keyword">end</span>
+0248                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DATE'</span>,
+0249                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0250                             <span class="keyword">if</span> resultSet.wasNull()
+0251                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0252                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0253                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0254                             <span class="keyword">end</span>
+0255                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_TIME'</span>,
+0256                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0257                             <span class="keyword">if</span> resultSet.wasNull()
+0258                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0259                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0260                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0261                             <span class="keyword">end</span>
+0262                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_DATETIME'</span>,
+0263                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0264                             <span class="keyword">if</span> resultSet.wasNull()
+0265                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0266                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0267                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0268                             <span class="keyword">end</span>
+0269                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_ENUM'</span>,
+0270                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0271                             <span class="keyword">if</span> resultSet.wasNull()
+0272                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0273                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0274                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0275                             <span class="keyword">end</span>
+0276                         <span class="keyword">case</span> <span class="string">'FIELD_TYPE_SET'</span>,
+0277                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0278                             <span class="keyword">if</span> resultSet.wasNull()
+0279                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0280                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0281                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0282                             <span class="keyword">end</span>
+0283                         <span class="keyword">case</span> {<span class="string">'FIELD_TYPE_TINY_BLOB'</span>, <span class="string">'FIELD_TYPE_MEDIUM_BLOB'</span>, <span class="string">'FIELD_TYPE_LONG_BLOB'</span>, <span class="string">'FIELD_TYPE_BLOB'</span>}
+0284                             this.data.(columnName){j, 1} = resultSet.getBytes(i);
+0285                         <span class="keyword">case</span> {<span class="string">'FIELD_TYPE_VAR_STRING'</span>,<span class="string">'FIELD_TYPE_STRING'</span>}
+0286                             this.data.(columnName){j, 1} = char(resultSet.getString(i));
+0287                             <span class="keyword">if</span> resultSet.wasNull()
+0288                                 this.data.(columnName){j, 1} = <span class="string">''</span>;
+0289                             <span class="keyword">elseif</span> isempty(this.data.(columnName){j, 1})
+0290                                 this.data.(columnName){j, 1} = resultSet.getBytes(i);
+0291                             <span class="keyword">end</span>
+0292                         <span class="keyword">case</span> {<span class="string">'FIELD_TYPE_GEOMETRY'</span>, <span class="string">'FIELD_TYPE_NEWDATE'</span>}
+0293                             throw(MException(<span class="string">'MySQLDatabase:unsupportedType'</span>, columnTypes{i}{1}))
+0294                         <span class="keyword">otherwise</span>
+0295                             this.data.(columnName)(j, 1) = double(resultSet.getDouble(i));
+0296                             <span class="keyword">if</span> resultSet.wasNull()
+0297                                 this.data.(columnName)(j, 1) = double(this.nullValue);
+0298                             <span class="keyword">elseif</span> isempty(this.data.(columnName)(j, 1))
+0299                                 throw(MException(<span class="string">'MySQLDatabase:earlyNullTermination'</span>, columnTypes{i}{1}))
+0300                             <span class="keyword">end</span>
+0301                     <span class="keyword">end</span>
+0302                     
+0303                     <span class="keyword">if</span>      iscell(this.data.(columnName)) &amp;&amp; <span class="keyword">...</span>
+0304                             isempty(this.data.(columnName){j, 1}) &amp;&amp; <span class="keyword">...</span>
+0305                             any(size(this.data.(columnName){j, 1}))
+0306                         this.data.(columnName){j, 1} = <span class="string">''</span>;
+0307                     <span class="keyword">end</span>
+0308                 <span class="keyword">end</span>
+0309                 
+0310                 <span class="keyword">if</span> ~resultSet.next()
+0311                     <span class="keyword">break</span>;
+0312                 <span class="keyword">end</span>
+0313             <span class="keyword">end</span>
+0314             
+0315             resultSet.close();
+0316             out = this.data;
+0317         <span class="keyword">end</span>
+0318         
+0319         <a name="_sub3" href="#_subfunctions" class="code">function close(this)</a>
+0320             <span class="keyword">if</span> ~isempty(this.sqlStatement)
+0321                 this.sqlStatement.close();
+0322             <span class="keyword">end</span>
+0323             this.dbConn.close();
+0324         <span class="keyword">end</span>
+0325         
+0326         <a name="_sub4" href="#_subfunctions" class="code">function delete(this)</a>
+0327             this.close();
+0328             this.delete@edu.stanford.covert.db.Database();
+0329         <span class="keyword">end</span>
+0330         
+0331         <a name="_sub5" href="#_subfunctions" class="code">function reopen(this)</a>
+0332             this.close();
+0333             this.open();
+0334         <span class="keyword">end</span>
+0335         
+0336         <a name="_sub6" href="#_subfunctions" class="code">function out = lastInsertID(this)</a>
+0337             stmt = this.dbConn.createStatement();
+0338             rs = stmt.executeQuery(<span class="string">'SELECT LAST_INSERT_ID()'</span>);
+0339             <span class="keyword">if</span> rs.next()
+0340                 this.data = double(rs.getInt(1));
+0341                 out = this.data;
+0342             <span class="keyword">end</span>
+0343             rs.close();
+0344         <span class="keyword">end</span>
+0345         
+0346         <a name="_sub7" href="#_subfunctions" class="code">function setNullValue(this, value)</a>
+0347             this.nullValue = value;
+0348         <span class="keyword">end</span>
+0349         
+0350         <a name="_sub8" href="#_subfunctions" class="code">function value = isClosed(this)</a>
+0351             value = this.dbConn.isClosed();
+0352         <span class="keyword">end</span>
+0353         
+0354         <a name="_sub9" href="#_subfunctions" class="code">function value = isValid(this)</a>
+0355             value = this.dbConn.isValid(0);
+0356         <span class="keyword">end</span>
+0357     <span class="keyword">end</span>
+0358     
+0359     methods (Access = protected)
+0360         <a name="_sub10" href="#_subfunctions" class="code">function open(this)</a>
+0361             <span class="keyword">try</span>
+0362                 this.dbConn = MySQLLoader.makeConnection(this.hostName, this.schema, this.userName, this.password);
+0363                 this.dbConn.setAutoReconnect(true);
+0364                 this.dbConn.setAutoReconnectForPools(true);
+0365                 this.dbConn.setAutoReconnectForConnectionPools(true);
+0366             <span class="keyword">catch</span> exception
+0367                 throw(MException(<span class="string">'MySQLDatabase:mysqlError'</span>, char(exception.message)));
+0368             <span class="keyword">end</span>
+0369         <span class="keyword">end</span>
+0370         
+0371         <a name="_sub11" href="#_subfunctions" class="code">function closeStreams(this)</a>
+0372             <span class="keyword">for</span> i = 1:numel(this.sqlStatementStreams)
+0373                 <span class="keyword">if</span> ~isempty(this.sqlStatementStreams{i})
+0374                     stream = this.sqlStatementStreams{i};
+0375                     stream.close;
+0376                 <span class="keyword">end</span>
+0377             <span class="keyword">end</span>
+0378             this.sqlStatementStreams = {};
+0379         <span class="keyword">end</span>
+0380     <span class="keyword">end</span>
+0381 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

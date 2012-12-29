@@ -1,0 +1,554 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinTranslocation</title>
+  <meta name="keywords" content="ProteinTranslocation">
+  <meta name="description" content="Translocate Proteins">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinTranslocation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinTranslocation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Translocate Proteins</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Translocate Proteins
+
+ @wholeCellModelID Process_ProteinTranslocation
+ @name             Protein translocation
+ @description
+   Biology
+   ===============
+   Proteins are produced in the cytoplasm, and integral membrane proteins,
+   lipoproteins, and extracellular proteins must be translocated into and
+   through the cell membrane to reach their intended destination. These three
+   types of proteins are recognized by the translocation machinery through
+   N-terminal signal sequences. Integral membrane proteins are first
+   recognized by the signal recognition particle (SRP) which in turn delivers
+   them to the the preprotein translocase and pore. Lipoproteins and
+   extracellular proteins are recognized directly by the preprotein translocase
+   and pore. After association with the preprotein translocase, proteins are
+   pushed through the preprotein translocation pore by an ATP-dependent,
+   step-wise mechanism. After insertion into/through the membrane lipoprotein
+   and extracellular protein signal peptides are cleaved (see Protein
+   Processing II process).
+
+   This process simulates protein translocation into and through the cell
+   membrane involving four enzymes:
+   - signal recognition particle
+   - signal recognition particle receptor
+   - translocase ATPase
+   - translocase pore
+
+   Knowledge Base
+   ===============
+   We assigned each protein monomer and complex to one of the localizations:
+   - Integral membrane
+   - Lipoprotein
+   - Cytoplasmic
+   - Extracellular
+   - Terminal oganelle, cytoplasmic
+   - Terminal organelle, integral membrane
+
+   The localization of each protein, and the signal peptide length of
+   lipoproteins and secreted proteins was compiled from several sources:
+   - Computational prediction of membrane spanning domains and signal peptides
+     - Phobius [PUB_0262]
+     - PrediSi [PUB_0255]
+     - SignalP-HMM [PUB_0263]
+     - SignalP-NN [PUB_0263]
+     - SOSUI [PUB_0261, PUB_0264]
+     - SPdb database of observed signal peptides [PUB_0253]
+   - Mass-Spec determination of the N-terminal residue of each protein [PUB_0280]
+   - Databases of protein localization: BRENDA [PUB_0570], DBSubLoc [PUB_0573],
+     EchoBase [PUB_0574], GenoBase [PUB_0386], PSortDB [PUB_0572], and UniProt
+     [PUB_0096]
+   - Primary literature of the composition of the terminal organelle [PUB_0088,
+     PUB_0089, PUB_0091, PUB_0092, PUB_0093, PUB_0406, PUB_0407, PUB_0408, PUB_0409]
+   - Primary literature [PUB_0284, PUB_0303]
+
+   Additionally, we tried unsuccessfully to include computational predictions
+   from these sources:
+   - SecretomeP – didn't predicted any secreted peptides [PUB_0252]
+   - LipPred    – had CGI and bad request errors [PUB_0254]
+   - SIG-Pred   – found no signal sequences [PUB_0255]
+   - sigcleave  – unclear what it returns [PUB_0257]
+   - TatFind    – identified no Tat signal peptides [PUB_0258]
+   - PilFind    – identified no type IV pilin-like signal peptides [PUB_0259]
+   - SPEPLip    – provides no easy way to query on genome-scale [PUB_0260]
+
+   Roughly 25% of M. genitalium proteins require translocation.
+     Localization         No. Monomers
+     =================    ============
+     Cytosol              363
+     Integral membrane     82
+     Lipoprotein           14
+     Secreted              20
+     -----------------    ------------
+     Total                479
+
+   Representation
+   ===============
+   The substrates, enzymes, and monomers properties represent the counts of
+   metabolites, translocation enzymes, and protein. The substrates and enzymes
+   properties have compartment dimension length 1, meaning that the process only
+   accesses the counts of each metabolite and enzyme in the relevant
+   compartment. The monomers property has compartment dimension length 5,
+   meaning it accesses protein monomers in all compartments of the simulation.
+   Although it is known that protein translocation proceeds in discrete steps,
+   this process doesn't not represent any intermediate states of protein
+   translocation. The process treats protein translocation as an all-or-nothing
+   event.
+
+   monomerSRPPathways is a boolean which represents whether or not each protein
+   monomer requires the signal recognition particle (SRP) and its receptor to
+   translocate. This variable is true for integral membrane proteins, and false
+   otherwise. monomerLengths represents the number of amino acids in each
+   protein monomer species.
+   ceil(monomerLengths/preproteinTranslocase_aaTranslocatedPerATP) represents
+   the ATP cost of the translocase to translocate each monomer.
+   SRP_GTPUsedPerMonomer represents the GTP cost to translocate each integral
+   membrane protein.
+
+   Initialization
+   ===============
+   All protein monomers are initialized to the mature state, and in their
+   correct localization. This is achieved by the simulation class
+   initializeState method.
+
+   Simulation
+   ===============
+   In a randomized order, for each protein monomer across all species that
+   requires translocation
+   1. Calculate amount of ATP, GTP, SRP, and translocase required to
+      translocate the single monomer.
+   2. Terminate if insufficient resources exist to translocate the monomer.
+   3. Update the counts of ATP, GTP, ADP, GDP, Pi, H2O, and H+.
+   4. Decrement the counts of available SRP and translocase
+   5. Increment the count of the monomer in its localized compartment.
+      Decrement the count of the monoemr in the cytosol compartment.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/30/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinTranslocation.html" class="code" title="">ProteinTranslocation</a>	Translocate Proteins</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinTranslocation.html" class="code" title="">ProteinTranslocation</a>	Translocate Proteins</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinTranslocation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function copyFromState(this)</a></li><li><a href="#_sub4" class="code">function copyToState(this)</a></li><li><a href="#_sub5" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(~)</a></li><li><a href="#_sub8" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub9" class="code">function evolveState(this)</a></li><li><a href="#_sub10" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Translocate Proteins</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinTranslocation</span>
+0004 <span class="comment">% @name             Protein translocation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   Proteins are produced in the cytoplasm, and integral membrane proteins,</span>
+0009 <span class="comment">%   lipoproteins, and extracellular proteins must be translocated into and</span>
+0010 <span class="comment">%   through the cell membrane to reach their intended destination. These three</span>
+0011 <span class="comment">%   types of proteins are recognized by the translocation machinery through</span>
+0012 <span class="comment">%   N-terminal signal sequences. Integral membrane proteins are first</span>
+0013 <span class="comment">%   recognized by the signal recognition particle (SRP) which in turn delivers</span>
+0014 <span class="comment">%   them to the the preprotein translocase and pore. Lipoproteins and</span>
+0015 <span class="comment">%   extracellular proteins are recognized directly by the preprotein translocase</span>
+0016 <span class="comment">%   and pore. After association with the preprotein translocase, proteins are</span>
+0017 <span class="comment">%   pushed through the preprotein translocation pore by an ATP-dependent,</span>
+0018 <span class="comment">%   step-wise mechanism. After insertion into/through the membrane lipoprotein</span>
+0019 <span class="comment">%   and extracellular protein signal peptides are cleaved (see Protein</span>
+0020 <span class="comment">%   Processing II process).</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   This process simulates protein translocation into and through the cell</span>
+0023 <span class="comment">%   membrane involving four enzymes:</span>
+0024 <span class="comment">%   - signal recognition particle</span>
+0025 <span class="comment">%   - signal recognition particle receptor</span>
+0026 <span class="comment">%   - translocase ATPase</span>
+0027 <span class="comment">%   - translocase pore</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   Knowledge Base</span>
+0030 <span class="comment">%   ===============</span>
+0031 <span class="comment">%   We assigned each protein monomer and complex to one of the localizations:</span>
+0032 <span class="comment">%   - Integral membrane</span>
+0033 <span class="comment">%   - Lipoprotein</span>
+0034 <span class="comment">%   - Cytoplasmic</span>
+0035 <span class="comment">%   - Extracellular</span>
+0036 <span class="comment">%   - Terminal oganelle, cytoplasmic</span>
+0037 <span class="comment">%   - Terminal organelle, integral membrane</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   The localization of each protein, and the signal peptide length of</span>
+0040 <span class="comment">%   lipoproteins and secreted proteins was compiled from several sources:</span>
+0041 <span class="comment">%   - Computational prediction of membrane spanning domains and signal peptides</span>
+0042 <span class="comment">%     - Phobius [PUB_0262]</span>
+0043 <span class="comment">%     - PrediSi [PUB_0255]</span>
+0044 <span class="comment">%     - SignalP-HMM [PUB_0263]</span>
+0045 <span class="comment">%     - SignalP-NN [PUB_0263]</span>
+0046 <span class="comment">%     - SOSUI [PUB_0261, PUB_0264]</span>
+0047 <span class="comment">%     - SPdb database of observed signal peptides [PUB_0253]</span>
+0048 <span class="comment">%   - Mass-Spec determination of the N-terminal residue of each protein [PUB_0280]</span>
+0049 <span class="comment">%   - Databases of protein localization: BRENDA [PUB_0570], DBSubLoc [PUB_0573],</span>
+0050 <span class="comment">%     EchoBase [PUB_0574], GenoBase [PUB_0386], PSortDB [PUB_0572], and UniProt</span>
+0051 <span class="comment">%     [PUB_0096]</span>
+0052 <span class="comment">%   - Primary literature of the composition of the terminal organelle [PUB_0088,</span>
+0053 <span class="comment">%     PUB_0089, PUB_0091, PUB_0092, PUB_0093, PUB_0406, PUB_0407, PUB_0408, PUB_0409]</span>
+0054 <span class="comment">%   - Primary literature [PUB_0284, PUB_0303]</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   Additionally, we tried unsuccessfully to include computational predictions</span>
+0057 <span class="comment">%   from these sources:</span>
+0058 <span class="comment">%   - SecretomeP – didn't predicted any secreted peptides [PUB_0252]</span>
+0059 <span class="comment">%   - LipPred    – had CGI and bad request errors [PUB_0254]</span>
+0060 <span class="comment">%   - SIG-Pred   – found no signal sequences [PUB_0255]</span>
+0061 <span class="comment">%   - sigcleave  – unclear what it returns [PUB_0257]</span>
+0062 <span class="comment">%   - TatFind    – identified no Tat signal peptides [PUB_0258]</span>
+0063 <span class="comment">%   - PilFind    – identified no type IV pilin-like signal peptides [PUB_0259]</span>
+0064 <span class="comment">%   - SPEPLip    – provides no easy way to query on genome-scale [PUB_0260]</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%   Roughly 25% of M. genitalium proteins require translocation.</span>
+0067 <span class="comment">%     Localization         No. Monomers</span>
+0068 <span class="comment">%     =================    ============</span>
+0069 <span class="comment">%     Cytosol              363</span>
+0070 <span class="comment">%     Integral membrane     82</span>
+0071 <span class="comment">%     Lipoprotein           14</span>
+0072 <span class="comment">%     Secreted              20</span>
+0073 <span class="comment">%     -----------------    ------------</span>
+0074 <span class="comment">%     Total                479</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">%   Representation</span>
+0077 <span class="comment">%   ===============</span>
+0078 <span class="comment">%   The substrates, enzymes, and monomers properties represent the counts of</span>
+0079 <span class="comment">%   metabolites, translocation enzymes, and protein. The substrates and enzymes</span>
+0080 <span class="comment">%   properties have compartment dimension length 1, meaning that the process only</span>
+0081 <span class="comment">%   accesses the counts of each metabolite and enzyme in the relevant</span>
+0082 <span class="comment">%   compartment. The monomers property has compartment dimension length 5,</span>
+0083 <span class="comment">%   meaning it accesses protein monomers in all compartments of the simulation.</span>
+0084 <span class="comment">%   Although it is known that protein translocation proceeds in discrete steps,</span>
+0085 <span class="comment">%   this process doesn't not represent any intermediate states of protein</span>
+0086 <span class="comment">%   translocation. The process treats protein translocation as an all-or-nothing</span>
+0087 <span class="comment">%   event.</span>
+0088 <span class="comment">%</span>
+0089 <span class="comment">%   monomerSRPPathways is a boolean which represents whether or not each protein</span>
+0090 <span class="comment">%   monomer requires the signal recognition particle (SRP) and its receptor to</span>
+0091 <span class="comment">%   translocate. This variable is true for integral membrane proteins, and false</span>
+0092 <span class="comment">%   otherwise. monomerLengths represents the number of amino acids in each</span>
+0093 <span class="comment">%   protein monomer species.</span>
+0094 <span class="comment">%   ceil(monomerLengths/preproteinTranslocase_aaTranslocatedPerATP) represents</span>
+0095 <span class="comment">%   the ATP cost of the translocase to translocate each monomer.</span>
+0096 <span class="comment">%   SRP_GTPUsedPerMonomer represents the GTP cost to translocate each integral</span>
+0097 <span class="comment">%   membrane protein.</span>
+0098 <span class="comment">%</span>
+0099 <span class="comment">%   Initialization</span>
+0100 <span class="comment">%   ===============</span>
+0101 <span class="comment">%   All protein monomers are initialized to the mature state, and in their</span>
+0102 <span class="comment">%   correct localization. This is achieved by the simulation class</span>
+0103 <span class="comment">%   initializeState method.</span>
+0104 <span class="comment">%</span>
+0105 <span class="comment">%   Simulation</span>
+0106 <span class="comment">%   ===============</span>
+0107 <span class="comment">%   In a randomized order, for each protein monomer across all species that</span>
+0108 <span class="comment">%   requires translocation</span>
+0109 <span class="comment">%   1. Calculate amount of ATP, GTP, SRP, and translocase required to</span>
+0110 <span class="comment">%      translocate the single monomer.</span>
+0111 <span class="comment">%   2. Terminate if insufficient resources exist to translocate the monomer.</span>
+0112 <span class="comment">%   3. Update the counts of ATP, GTP, ADP, GDP, Pi, H2O, and H+.</span>
+0113 <span class="comment">%   4. Decrement the counts of available SRP and translocase</span>
+0114 <span class="comment">%   5. Increment the count of the monomer in its localized compartment.</span>
+0115 <span class="comment">%      Decrement the count of the monoemr in the cytosol compartment.</span>
+0116 <span class="comment">%</span>
+0117 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0118 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0119 <span class="comment">% Last updated: 7/30/2010</span>
+0120 classdef  <a href="ProteinTranslocation.html" class="code" title="">ProteinTranslocation</a> &lt; edu.stanford.covert.cell.sim.Process
+0121     <span class="comment">%property annotations</span>
+0122     properties (Constant)
+0123         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0124         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0125             <span class="string">'translocaseSpecificRate'</span>;
+0126             <span class="string">'preproteinTranslocase_aaTranslocatedPerATP'</span>;
+0127             <span class="string">'SRP_GTPUsedPerMonomer'</span>;
+0128             <span class="string">'monomerLengths'</span>;
+0129             <span class="string">'monomerCompartments'</span>;
+0130             <span class="string">'monomerSRPPathways'</span>;
+0131             };
+0132         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0133         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0134             <span class="string">'monomers'</span>};
+0135     <span class="keyword">end</span>
+0136 
+0137     <span class="comment">%IDs, names, and local indices</span>
+0138     properties
+0139         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0140 
+0141         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0142             <span class="string">'ATP'</span>;<span class="string">'GTP'</span>;<span class="string">'ADP'</span>;<span class="string">'GDP'</span>;<span class="string">'H'</span>;<span class="string">'H2O'</span>;<span class="string">'PI'</span>};
+0143         substrateIndexs_atp       = 1; <span class="comment">%index of ATP within substrateWholeCellModelIDs</span>
+0144         substrateIndexs_gtp       = 2; <span class="comment">%index of ATP within substrateWholeCellModelIDs</span>
+0145         substrateIndexs_adp       = 3; <span class="comment">%index of ADP within substrateWholeCellModelIDs</span>
+0146         substrateIndexs_gdp       = 4; <span class="comment">%index of ADP within substrateWholeCellModelIDs</span>
+0147         substrateIndexs_hydrogen  = 5; <span class="comment">%index of hydrogen within substrateWholeCellModelIDs</span>
+0148         substrateIndexs_water     = 6; <span class="comment">%index of water within substrateWholeCellModelIDs</span>
+0149         substrateIndexs_phosphate = 7; <span class="comment">%index of inorganic phosphate within substrateWholeCellModelIDs</span>
+0150 
+0151         enzymeWholeCellModelIDs = {    <span class="comment">%enzyme whole cell model ids</span>
+0152             <span class="string">'MG_0001_048'</span>;                   <span class="comment">%signal recognition particle</span>
+0153             <span class="string">'MG_297_MONOMER'</span>;                <span class="comment">%signal recognition particle receptor</span>
+0154             <span class="string">'MG_072_DIMER'</span>;                  <span class="comment">%preprotein translocase, SecA subunit</span>
+0155             <span class="string">'MG_055_170_277_464_476_20MER'</span>}; <span class="comment">%preprotein translocase pore</span>
+0156         enzymeIndexs_signalRecognitionParticle         = 1; <span class="comment">%index of signal recognition particle within enzymeWholeCellModelIDs</span>
+0157         enzymeIndexs_signalRecognitionParticleReceptor = 2; <span class="comment">%index of signal recognition particle receptor within enzymeWholeCellModelIDs</span>
+0158         enzymeIndexs_translocaseATPase                 = 3; <span class="comment">%index of translocase ATPase within enzymeWholeCellModelIDs</span>
+0159         enzymeIndexs_translocasePore                   = 4; <span class="comment">%index of translocase pore within enzymeWholeCellModelIDs</span>
+0160                 
+0161         monomerWholeCellModelIDs         <span class="comment">%whole cell model IDs of nascent protein monomers</span>
+0162         monomerIndexs_translocating      <span class="comment">%indices of monomers that need to be translocated within monmers</span>
+0163         monomerIndexs_nontranslocating   <span class="comment">%indices of monomers that don't need to be translocated within monmers</span>
+0164     <span class="keyword">end</span>
+0165     
+0166     <span class="comment">%fixed biological constants</span>
+0167     properties
+0168         translocaseSpecificRate                     <span class="comment">%number amino acids translocated per translocase per second (2.710e12) [PUB_0001]</span>
+0169         preproteinTranslocase_aaTranslocatedPerATP  <span class="comment">%number amino acids translocated by translocase per ATP hydrolysis (35) [PUB_0001, PUB_0002, PUB_0003]</span>
+0170         SRP_GTPUsedPerMonomer                       <span class="comment">%GTPs required for SRP to shuttle each monomer (2) [PUB_0003, PUB_0010]</span>
+0171 
+0172         monomerLengths                              <span class="comment">%lengths of nascent monomers</span>
+0173         monomerCompartments                         <span class="comment">%indices of monomer compartments within compartment.wholeCellModelIDs</span>
+0174         monomerSRPPathways                          <span class="comment">%true ==&gt; monomer requires SRP to translocate; false ==&gt; monomer doesn't require SRP</span>
+0175     <span class="keyword">end</span>
+0176 
+0177     <span class="comment">%global state (stored locally for convenience)</span>
+0178     properties
+0179         monomers                    <span class="comment">%numbers of nascent protein monomers</span>
+0180     <span class="keyword">end</span>
+0181 
+0182     <span class="comment">%constructor</span>
+0183     methods
+0184         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinTranslocation(wholeCellModelID, name)</a>
+0185             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0186         <span class="keyword">end</span>
+0187     <span class="keyword">end</span>
+0188 
+0189     <span class="comment">%communication between process/simulation</span>
+0190     methods
+0191         <span class="comment">%initialize constants</span>
+0192         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0193             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0194                 knowledgeBase, simulation, varargin{:});
+0195         
+0196             this.monomerWholeCellModelIDs        = this.monomer.wholeCellModelIDs(this.monomer.processedIIndexs);
+0197             this.monomerLengths                  = this.monomer.lengths(this.monomer.processedIIndexs);
+0198             this.monomerCompartments             = double(knowledgeBase.proteinMonomerCompartments);
+0199             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0200             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0201             this.monomerIndexs_translocating     = find(this.monomerCompartments ~= this.compartment.cytosolIndexs);
+0202             this.monomerIndexs_nontranslocating  = find(this.monomerCompartments == this.compartment.cytosolIndexs);
+0203             this.monomerSRPPathways              = ismember({knowledgeBase.proteinMonomers.signalSequenceType}',{<span class="string">'lipoprotein'</span>,<span class="string">'secretory'</span>}');
+0204         <span class="keyword">end</span>
+0205 
+0206         <span class="comment">%retrieve state from simulation</span>
+0207         <a name="_sub2" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0208             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0209 
+0210             this.monomers = this.monomer.counts(this.monomer.processedIIndexs, :, :);
+0211         <span class="keyword">end</span>
+0212 
+0213         <span class="comment">%send state to simulation</span>
+0214         <a name="_sub3" href="#_subfunctions" class="code">function copyToState(this)</a>
+0215             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0216 
+0217             this.monomer.counts(this.monomer.processedIIndexs, :, :) = this.monomers;
+0218         <span class="keyword">end</span>
+0219     <span class="keyword">end</span>
+0220 
+0221     <span class="comment">%allocate memory for state</span>
+0222     methods
+0223         <a name="_sub4" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0224             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0225 
+0226             this.monomers = zeros(length(this.monomerWholeCellModelIDs), this.compartment.count, numTimePoints);
+0227         <span class="keyword">end</span>
+0228     <span class="keyword">end</span>
+0229 
+0230     <span class="comment">%model</span>
+0231     methods
+0232         <span class="comment">%Calculate</span>
+0233         <span class="comment">%- contribution to FBA objective</span>
+0234         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0235         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0236             <span class="comment">%% initialize</span>
+0237             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0238             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0239             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0240             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0241             
+0242             <span class="comment">%% substrate and byproducts</span>
+0243             <span class="comment">%preprotein translocase ATP cost</span>
+0244             translocaseEnergy = states.monomerProductions(this.monomerIndexs_translocating)' * <span class="keyword">...</span>
+0245                 ceil(this.monomerLengths(this.monomerIndexs_translocating) / this.preproteinTranslocase_aaTranslocatedPerATP);
+0246             
+0247             bmProd(this.substrateIndexs_atp)       = bmProd(this.substrateIndexs_atp)       + translocaseEnergy;
+0248             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + translocaseEnergy;
+0249             byProd(this.substrateIndexs_adp)       = byProd(this.substrateIndexs_adp)       + translocaseEnergy;
+0250             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + translocaseEnergy;
+0251             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + translocaseEnergy;
+0252             
+0253             <span class="comment">%GTP cost of SRP for monomers with N-terminal signal sequences</span>
+0254             srpEnergy = this.SRP_GTPUsedPerMonomer * this.monomerSRPPathways' * states.monomerProductions;
+0255             
+0256             bmProd(this.substrateIndexs_gtp)       = bmProd(this.substrateIndexs_gtp)       + srpEnergy;
+0257             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + srpEnergy;
+0258             byProd(this.substrateIndexs_gdp)       = byProd(this.substrateIndexs_gdp)       + srpEnergy;
+0259             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + srpEnergy;
+0260             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + srpEnergy;
+0261             
+0262             <span class="comment">%% enzymes</span>
+0263             <span class="comment">%preprotein translocase and pore</span>
+0264             minEnzExp([this.enzymeIndexs_translocaseATPase; this.enzymeIndexs_translocasePore]) = <span class="keyword">...</span>
+0265                 2 * states.monomerProductions0(this.monomerIndexs_translocating)' * <span class="keyword">...</span>
+0266                 ceil(this.monomerLengths(this.monomerIndexs_translocating) / this.preproteinTranslocase_aaTranslocatedPerATP) / <span class="keyword">...</span>
+0267                 this.translocaseSpecificRate;
+0268             minEnzExp(this.enzymeIndexs_translocasePore) = minEnzExp(this.enzymeIndexs_translocaseATPase);
+0269 
+0270             <span class="comment">%SRP for monomers with N-terminal signal sequences</span>
+0271             minEnzExp([this.enzymeIndexs_signalRecognitionParticle; this.enzymeIndexs_signalRecognitionParticleReceptor]) = <span class="keyword">...</span>
+0272                 2 * this.monomerSRPPathways' * states.monomerProductions0;
+0273         <span class="keyword">end</span>
+0274 
+0275         <span class="comment">%initialization: monomers initialized to mature/bound/inactivated state</span>
+0276         <span class="comment">%by simulation initializeState method</span>
+0277         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(~)</a>
+0278         <span class="keyword">end</span>
+0279 
+0280         <span class="comment">%resource requirements</span>
+0281         <a name="_sub7" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0282             result = zeros(size(this.substrates));
+0283             
+0284             translocases = ceil(min(this.enzymes([this.enzymeIndexs_translocaseATPase this.enzymeIndexs_translocasePore])) * this.translocaseSpecificRate * this.stepSizeSec);
+0285             SRPs         = ceil(min(this.enzymes([this.enzymeIndexs_signalRecognitionParticle this.enzymeIndexs_signalRecognitionParticleReceptor])) * this.stepSizeSec);
+0286             
+0287             <span class="comment">%ATP cost of preprotein translocase</span>
+0288             result(this.substrateIndexs_atp) = min(<span class="keyword">...</span>
+0289                 translocases, <span class="keyword">...</span>
+0290                 this.monomers(this.monomerIndexs_translocating, this.compartment.cytosolIndexs)' * <span class="keyword">...</span>
+0291                 ceil(this.monomerLengths(this.monomerIndexs_translocating) / this.preproteinTranslocase_aaTranslocatedPerATP));
+0292             
+0293             <span class="comment">%GTP cost of SRP for monomers with N-terminal signal sequences</span>
+0294             result(this.substrateIndexs_gtp) = this.SRP_GTPUsedPerMonomer * min(<span class="keyword">...</span>
+0295                 SRPs, <span class="keyword">...</span>
+0296                 this.monomerSRPPathways' * this.monomers(:, this.compartment.cytosolIndexs));
+0297             
+0298             <span class="comment">%water</span>
+0299             result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0300                 + result(this.substrateIndexs_atp) <span class="keyword">...</span>
+0301                 + result(this.substrateIndexs_gtp);
+0302         <span class="keyword">end</span>
+0303 
+0304         <span class="comment">%simulation</span>
+0305         <a name="_sub8" href="#_subfunctions" class="code">function evolveState(this)</a>
+0306             <span class="comment">%randomly select protein monomers to translocate</span>
+0307             monomersNeedingTranslocation = cumsum(this.monomers(this.monomerIndexs_translocating, this.compartment.cytosolIndexs)); <span class="comment">%cumulative sum of monomers that need to be translocated</span>
+0308 
+0309             <span class="comment">%stop if no monomers need to be translocated</span>
+0310             <span class="keyword">if</span> isempty(monomersNeedingTranslocation) || monomersNeedingTranslocation(end) == 0
+0311                 <span class="keyword">return</span>;
+0312             <span class="keyword">end</span>
+0313             
+0314             <span class="comment">%resources required for translocation</span>
+0315             <span class="comment">%-substrates: ATP, water</span>
+0316             <span class="comment">%-translocase pore, ATPase</span>
+0317             <span class="comment">%-signal recognition particle, receptor</span>
+0318             atp          = this.substrates(this.substrateIndexs_atp);
+0319             gtp          = this.substrates(this.substrateIndexs_gtp);
+0320             water        = this.substrates(this.substrateIndexs_water);
+0321             translocases = min(this.enzymes([this.enzymeIndexs_translocaseATPase this.enzymeIndexs_translocasePore])) * this.translocaseSpecificRate * this.stepSizeSec / this.preproteinTranslocase_aaTranslocatedPerATP;
+0322             SRPs         = min(this.enzymes([this.enzymeIndexs_signalRecognitionParticle this.enzymeIndexs_signalRecognitionParticleReceptor])) * this.stepSizeSec;
+0323 
+0324             <span class="comment">%randomly select protein monomers to translocate</span>
+0325             randomMonomerOrder = this.randStream.randperm(monomersNeedingTranslocation(end)); <span class="comment">%random ordering over monomers that need to be translocated</span>
+0326 
+0327             <span class="keyword">for</span> i = 1:monomersNeedingTranslocation(end)
+0328                 <span class="comment">%indices</span>
+0329                 idx_translocatingMonomer = find(randomMonomerOrder(i) &lt;= monomersNeedingTranslocation, 1, <span class="string">'first'</span>); <span class="comment">%index of randomly selected monomer within monomerIndexs_translocating</span>
+0330                 idx_monomer = this.monomerIndexs_translocating(idx_translocatingMonomer); <span class="comment">%index of randomly selected monomer within monomers</span>
+0331 
+0332                 <span class="comment">%cost of translocating this monomer</span>
+0333                 monomerTranslocaseCost = ceil(this.monomerLengths(idx_monomer)/this.preproteinTranslocase_aaTranslocatedPerATP); <span class="comment">%translocase cost of translocating the randomly selected monomer (1/translocaseSpecificRate translocase enzymes per preproteinTranslocase_aaTranslocatedPerATP amino acids)</span>
+0334                 monomerSRPCost         = this.monomerSRPPathways(idx_monomer);              <span class="comment">%SRP cost of translocating the randomly selected monomer (1 signal recognition particle and receptor per monomer)</span>
+0335                 monomerATPCost         = monomerTranslocaseCost;                            <span class="comment">%ATP cost of translocating the randomly selected monomer (translocase: 1 ATP per preproteinTranslocase_aaTranslocatedPerATP amino acids)</span>
+0336                 monomerGTPCost         = monomerSRPCost * this.SRP_GTPUsedPerMonomer;       <span class="comment">%GTP cost of translocating the randomly selected monomer (SRP: 2 GTP per monomer)</span>
+0337                 monomerWaterCost       = monomerATPCost + monomerGTPCost;                   <span class="comment">%water cost of translocating the randomly selected monomer (SRP: 2 water per monomer; translocase: 1 water per preproteinTranslocase_aaTranslocatedPerATP amino acids)</span>
+0338 
+0339                 <span class="comment">%stop if insufficient resources available for translocation</span>
+0340                 <span class="keyword">if</span> <span class="keyword">...</span>
+0341                         translocases &lt; monomerTranslocaseCost || <span class="keyword">...</span>
+0342                         SRPs         &lt; monomerSRPCost         || <span class="keyword">...</span>
+0343                         atp          &lt; monomerATPCost         || <span class="keyword">...</span>
+0344                         gtp          &lt; monomerGTPCost         || <span class="keyword">...</span>
+0345                         water        &lt; monomerWaterCost
+0346                     <span class="keyword">break</span>;
+0347                 <span class="keyword">end</span>
+0348 
+0349                 <span class="comment">%update protein monomers</span>
+0350                 this.monomers(idx_monomer, this.monomerCompartments(idx_monomer)) = <span class="keyword">...</span>
+0351                     this.monomers(idx_monomer, this.monomerCompartments(idx_monomer)) + 1;
+0352                 this.monomers(idx_monomer, this.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0353                     this.monomers(idx_monomer, this.compartment.cytosolIndexs) - 1;
+0354 
+0355                 <span class="comment">%update substrates</span>
+0356                 atp          = atp          - monomerATPCost;
+0357                 gtp          = gtp          - monomerGTPCost;
+0358                 water        = water        - monomerWaterCost;
+0359                 translocases = translocases - monomerTranslocaseCost;
+0360                 SRPs         = SRPs         - monomerSRPCost;
+0361 
+0362                 this.substrates(this.substrateIndexs_atp)       = this.substrates(this.substrateIndexs_atp)       - monomerATPCost;
+0363                 this.substrates(this.substrateIndexs_gtp)       = this.substrates(this.substrateIndexs_gtp)       - monomerGTPCost;
+0364                 this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - monomerWaterCost;
+0365                 this.substrates(this.substrateIndexs_adp)       = this.substrates(this.substrateIndexs_adp)       + monomerATPCost;
+0366                 this.substrates(this.substrateIndexs_gdp)       = this.substrates(this.substrateIndexs_gdp)       + monomerGTPCost;
+0367                 this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + monomerWaterCost;
+0368                 this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + monomerWaterCost;
+0369             <span class="keyword">end</span>
+0370         <span class="keyword">end</span>
+0371     <span class="keyword">end</span>
+0372 
+0373     <span class="comment">%get methods of dependent local state</span>
+0374     methods
+0375         <a name="_sub9" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0376             <span class="keyword">if</span> size(this.monomers, 3) == 1
+0377                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0378                     this.monomer.molecularWeights(this.monomer.processedIIndexs)' * sum(this.monomers, 2) <span class="keyword">...</span>
+0379                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0380             <span class="keyword">else</span>
+0381                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0382                     permute(this.monomer.molecularWeights(this.monomer.processedIIndexs)' * permute(sum(this.monomers, 2),[1 3 2]),[1 3 2]) <span class="keyword">...</span>
+0383                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0384             <span class="keyword">end</span>
+0385         <span class="keyword">end</span>
+0386     <span class="keyword">end</span>
+0387 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

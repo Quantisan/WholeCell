@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setWarnings</title>
+  <meta name="keywords" content="setWarnings">
+  <meta name="description" content="SETWARNINGS Turns on and off (mostly off) specific warnings.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; setWarnings.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>setWarnings
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>SETWARNINGS Turns on and off (mostly off) specific warnings.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function setWarnings() </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETWARNINGS Turns on and off (mostly off) specific warnings.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 9/21/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="generateTestFixtures.html" class="code" title="">generateTestFixtures</a>	Generates test fixtures for whole cell simulation.</li><li><a href="install.html" class="code" title="function install">install</a>	Installs whole-cell model</li><li><a href="loadSimulation.html" class="code" title="function [simulation, states, options, parameters, fittedConstants, metadata] = loadSimulation(directoryOrWID, timeInit, timeFin, downsampleStepSec, downsampleType)">loadSimulation</a>	Load whole cell simulation from disk/database.</li><li><a href="runAnalysis.html" class="code" title="function runAnalysis(varargin)">runAnalysis</a>	Analyzes whole cell simulations.</li><li><a href="runAnalysisTests.html" class="code" title="function runAnalysisTests()">runAnalysisTests</a>	Runs the analysis tests for the whole cell simulation.</li><li><a href="runAnimation.html" class="code" title="function runAnimation(varargin)">runAnimation</a>	Generates an animation</li><li><a href="runChromosomeTests.html" class="code" title="">runChromosomeTests</a>	Run chromosome tests.</li><li><a href="runCoverageTests.html" class="code" title="function runCoverageTests()">runCoverageTests</a>	Gathers code coverage for whole cell simulation tests.</li><li><a href="runDisplacementCalculation.html" class="code" title="function runDisplacementCalculation(simBatch, simIdx, outDir)">runDisplacementCalculation</a>	Calculates DNA-bound protein displacements</li><li><a href="runLargeTests.html" class="code" title="function runLargeTests()">runLargeTests</a>	Runs the large tests for the whole cell simulation.</li><li><a href="runMediumDNATests.html" class="code" title="function runMediumDNATests()">runMediumDNATests</a>	Runs the medium DNA tests for the whole cell simulation.</li><li><a href="runMediumProteinTests.html" class="code" title="function runMediumProteinTests()">runMediumProteinTests</a>	Runs the medium protein tests for the whole cell simulation.</li><li><a href="runMediumTests.html" class="code" title="function runMediumTests()">runMediumTests</a>	Runs the medium tests for the whole cell simulation.</li><li><a href="runReindexing.html" class="code" title="function runReindexing(outputDirectory)">runReindexing</a>	Reindexes whole cell simulation.</li><li><a href="runSimulation.html" class="code" title="function simulation = runSimulation(configDirectory, logToDisk, logToDatabase)">runSimulation</a>	Executes whole cell simulation.</li><li><a href="runSimulationTests.html" class="code" title="function runSimulationTests(runProfiler)">runSimulationTests</a>	Runs a full length simulation.</li><li><a href="runSmallTests.html" class="code" title="function runSmallTests()">runSmallTests</a>	Runs the small tests for the whole cell simulation.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function setWarnings()</a>
+0002 <span class="comment">%SETWARNINGS Turns on and off (mostly off) specific warnings.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updated: 9/21/2010</span>
+0007 
+0008 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:dispatcher:nameConflict'</span>);
+0009 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:class:cannotUpdateClass'</span>);
+0010 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:ClassInstanceExists'</span>);
+0011 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:xlsread:Mode'</span>)
+0012 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:xlsread:RangeIncompatible'</span>);
+0013 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:javaclasspath:duplicateEntry'</span>);
+0014 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:xlswrite:AddSheet'</span>);
+0015 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:structOnObject'</span>);
+0016 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:Print:CustomResizeFcnInPrint'</span>);
+0017 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:save:sizeTooBigForMATFile'</span>);
+0018 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:load:variableNotFound'</span>);
+0019 warning(<span class="string">'off'</span>, <span class="string">'WholeCell:warning:network'</span>);
+0020 warning(<span class="string">'off'</span>, <span class="string">'WholeCell:warning:initializeNegativeCounts'</span>);
+0021 warning(<span class="string">'off'</span>, <span class="string">'MATLAB:Axes:NegativeDataInLogAxis'</span>);
+0022 warning(<span class="string">'off'</span>, <span class="string">'swtest:largeSampleSize'</span>);
+0023 warning(<span class="string">'off'</span>, <span class="string">'stats:gamfit:ZerosInData'</span>);</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

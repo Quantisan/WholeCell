@@ -1,0 +1,36 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  CellGeometry -> CellGeometry;
+  CellMass -> CellMass;
+  Chromosome -> Chromosome;
+  FtsZRing -> FtsZRing;
+  Host -> Host;
+  MetabolicReaction -> MetabolicReaction;
+  Metabolite -> Metabolite;
+  Polypeptide -> Polypeptide;
+  ProteinComplex -> ProteinComplex;
+  ProteinMonomer -> ProteinMonomer;
+  RNAPolymerase -> RNAPolymerase;
+  Ribosome -> Ribosome;
+  Rna -> Rna;
+  Stimulus -> Stimulus;
+  Time -> Time;
+  Transcript -> Transcript;
+
+  CellGeometry [URL="CellGeometry.html"];
+  CellMass [URL="CellMass.html"];
+  Chromosome [URL="Chromosome.html"];
+  FtsZRing [URL="FtsZRing.html"];
+  Host [URL="Host.html"];
+  MetabolicReaction [URL="MetabolicReaction.html"];
+  Metabolite [URL="Metabolite.html"];
+  Polypeptide [URL="Polypeptide.html"];
+  ProteinComplex [URL="ProteinComplex.html"];
+  ProteinMonomer [URL="ProteinMonomer.html"];
+  RNAPolymerase [URL="RNAPolymerase.html"];
+  Ribosome [URL="Ribosome.html"];
+  Rna [URL="Rna.html"];
+  Stimulus [URL="Stimulus.html"];
+  Time [URL="Time.html"];
+  Transcript [URL="Transcript.html"];
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellMass</title>
+  <meta name="keywords" content="CellMass">
+  <meta name="description" content="CellWeight">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; CellMass.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellMass
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellWeight</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CellWeight
+ Calculates weight of various fractions of the simulation:
+ - cell/media
+ - metabolite/RNA/protein
+ - cytosol/membrane/terminal organelle/extracellular
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellMass.html" class="code" title="">CellMass</a>	CellWeight</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellMass.html" class="code" title="">CellMass</a>	CellWeight</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CellMass(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function allocateMemory(~, ~)</a></li><li><a href="#_sub4" class="code">function initialize(this)</a></li><li><a href="#_sub5" class="code">function calcMass(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%CellWeight</span>
+0002 <span class="comment">% Calculates weight of various fractions of the simulation:</span>
+0003 <span class="comment">% - cell/media</span>
+0004 <span class="comment">% - metabolite/RNA/protein</span>
+0005 <span class="comment">% - cytosol/membrane/terminal organelle/extracellular</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0008 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0009 <span class="comment">% Last Updated: 9/12/2010</span>
+0010 classdef <a href="CellMass.html" class="code" title="">CellMass</a> &lt; edu.stanford.covert.cell.sim.CellState
+0011     properties (Constant)
+0012         dryWeight = 0;        <span class="comment">%dry weight of this class' state properties</span>
+0013     <span class="keyword">end</span>
+0014     
+0015     properties (Constant)
+0016         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0017             <span class="string">'verbosity'</span>;
+0018             <span class="string">'seed'</span>;
+0019             };
+0020         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0021             <span class="string">'fractionWetWeight'</span>;
+0022             <span class="string">'initialBiomassConcentration'</span>;
+0023             <span class="string">'cellInitialDryWeight'</span>;
+0024             <span class="string">'initialFractionNTPsInRNAs'</span>;
+0025             <span class="string">'initialFractionAAsInMonomers'</span>;
+0026             <span class="string">'timeAveragedCellWeight'</span>;
+0027             <span class="string">'cellInitialMassVariation'</span>;
+0028             };
+0029         fittedConstantNames     = {   <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0030             <span class="string">'dryWeightFractionDNA'</span>
+0031             <span class="string">'dryWeightFractionRNA'</span>
+0032             <span class="string">'dryWeightFractionProtein'</span>
+0033             <span class="string">'dryWeightFractionLipid'</span>
+0034             <span class="string">'dryWeightFractionPolyamine'</span>
+0035             <span class="string">'dryWeightFractionCarbohydrate'</span>
+0036             <span class="string">'dryWeightFractionVitamin'</span>
+0037             <span class="string">'dryWeightFractionIon'</span>
+0038             <span class="string">'dryWeightFractionNucleotide'</span>
+0039             };
+0040         stateNames              = {}; <span class="comment">%names of properties which are part of the simulation's state</span>
+0041         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0042             <span class="string">'total'</span>
+0043             <span class="string">'cell'</span>
+0044             <span class="string">'cellDry'</span>
+0045             <span class="string">'media'</span>
+0046             <span class="string">'waterWt'</span>
+0047             <span class="string">'metaboliteWt'</span>
+0048             <span class="string">'dnaWt'</span>
+0049             <span class="string">'rnaWt'</span>
+0050             <span class="string">'proteinWt'</span>
+0051             };
+0052     <span class="keyword">end</span>
+0053         
+0054     <span class="comment">%constants</span>
+0055     properties
+0056         fractionWetWeight                <span class="comment">%percent cell mass that is wet (ie. water) [PUB_0554 pp. 303]</span>
+0057         initialBiomassConcentration      <span class="comment">%initial concentration of biomass (g/L)</span>
+0058         cellInitialDryWeight             <span class="comment">%cell dry mass -- DNA, RNA, protein, membrane, etc. (g) [PUB_0553, PUB_0554, PUB_0555]</span>
+0059         initialFractionNTPsInRNAs        <span class="comment">%fraction of initial NTPs that should be incorporated into RNAs</span>
+0060         initialFractionAAsInMonomers     <span class="comment">%fraction of initial AAs that should be incorporated into protein monomers</span>
+0061         timeAveragedCellWeight           <span class="comment">%time average of normalized cell weight, (current cell weight / one cell weight) [PUB_0094, PUB_0553, PUB_0554, PUB_0555, PUB_0556, PUB_0559, PUB_0560, PUB_0561]</span>
+0062         cellInitialMassVariation         <span class="comment">%ratio of standard deviation to mean initial cell mass</span>
+0063         
+0064         dryWeightFractionDNA             <span class="comment">%DNA fraction of cell dry weight</span>
+0065         dryWeightFractionRNA             <span class="comment">%RNA fraction of cell dry weight</span>
+0066         dryWeightFractionProtein         <span class="comment">%Protein fraction of cell dry weight</span>
+0067         dryWeightFractionLipid           <span class="comment">%Lipid fraction of cell dry weight</span>
+0068         dryWeightFractionPolyamine       <span class="comment">%Polyamine fraction of cell dry weight</span>
+0069         dryWeightFractionCarbohydrate    <span class="comment">%Carbohydrate fraction of cell dry weight</span>
+0070         dryWeightFractionVitamin         <span class="comment">%Vitamin fraction of cell dry weight</span>
+0071         dryWeightFractionIon             <span class="comment">%Ion fraction of cell dry weight</span>
+0072         dryWeightFractionNucleotide      <span class="comment">%Free nucleotide fraction of cell dry weight</span>
+0073     <span class="keyword">end</span>
+0074     
+0075     <span class="comment">%component weight</span>
+0076     properties (SetAccess = protected)
+0077         waterWt               <span class="comment">%water weight (g)</span>
+0078         metaboliteWt          <span class="comment">%metabolite weight (g)</span>
+0079         dnaWt                 <span class="comment">%DNA weight (g)</span>
+0080         rnaWt                 <span class="comment">%RNA weight (g)</span>
+0081         proteinWt             <span class="comment">%protein weight (g)</span>
+0082         
+0083         total                 <span class="comment">%total weight of cell and media (g)</span>
+0084         cell                  <span class="comment">%total weight of cell (g)</span>
+0085         cellDry               <span class="comment">%total dry weight of cell (g)</span>
+0086         media                 <span class="comment">%total weight of media (g)</span>
+0087     <span class="keyword">end</span>
+0088     
+0089     <span class="comment">%references to other parts of cell state</span>
+0090     properties
+0091         compartment
+0092         
+0093         states
+0094         
+0095         metabolite
+0096         rna
+0097         monomer
+0098         complex
+0099         chromosome
+0100     <span class="keyword">end</span>
+0101     
+0102     <span class="comment">%constructor</span>
+0103     methods
+0104         <a name="_sub0" href="#_subfunctions" class="code">function this = CellMass(wholeCellModelID, name)</a>
+0105             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0106         <span class="keyword">end</span>
+0107     <span class="keyword">end</span>
+0108     
+0109     methods
+0110         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0111             this.compartment = simulation.compartment;
+0112             
+0113             this.states = simulation.states;
+0114             
+0115             this.metabolite = simulation.state(<span class="string">'Metabolite'</span>);
+0116             this.rna        = simulation.state(<span class="string">'Rna'</span>);
+0117             this.monomer    = simulation.state(<span class="string">'ProteinMonomer'</span>);
+0118             this.complex    = simulation.state(<span class="string">'ProteinComplex'</span>);
+0119             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0120         <span class="keyword">end</span>
+0121     <span class="keyword">end</span>
+0122     
+0123     methods
+0124         <a name="_sub2" href="#_subfunctions" class="code">function allocateMemory(~, ~)</a>
+0125         <span class="keyword">end</span>
+0126         
+0127         <a name="_sub3" href="#_subfunctions" class="code">function initialize(this)</a>
+0128             this.calcMass();
+0129         <span class="keyword">end</span>
+0130         
+0131         <a name="_sub4" href="#_subfunctions" class="code">function calcMass(this)</a>
+0132             <span class="comment">%fractions</span>
+0133             this.waterWt = this.metabolite.wetWeight;
+0134             
+0135             <span class="comment">%total</span>
+0136             this.proteinWt = zeros(size(this.waterWt));
+0137             this.total = this.waterWt;
+0138             <span class="keyword">for</span> i = 1:numel(this.states)
+0139                 dryWt = this.states{i}.dryWeight;
+0140                 <span class="keyword">if</span> size(dryWt, 2) == 1
+0141                     this.total(:, this.compartment.cytosolIndexs, :) = <span class="keyword">...</span>
+0142                         this.total(:, this.compartment.cytosolIndexs, :) + <span class="keyword">...</span>
+0143                         dryWt;
+0144                 <span class="keyword">else</span>
+0145                     this.total = this.total + dryWt;
+0146                 <span class="keyword">end</span>
+0147                 <span class="keyword">if</span> isequal(this.states{i}, this.metabolite)
+0148                     this.metaboliteWt = dryWt;
+0149                 <span class="keyword">elseif</span> isequal(this.states{i}, this.chromosome)
+0150                     this.dnaWt = zeros(size(this.waterWt));
+0151                     this.dnaWt(:, this.compartment.cytosolIndexs, :) = dryWt;
+0152                 <span class="keyword">elseif</span> isequal(this.states{i}, this.rna)
+0153                     this.rnaWt = dryWt;
+0154                 <span class="keyword">elseif</span> isequal(this.states{i}, this.monomer) || isequal(this.states{i}, this.complex)
+0155                     this.proteinWt = this.proteinWt + dryWt;
+0156                 <span class="keyword">end</span>
+0157             <span class="keyword">end</span>
+0158             
+0159             <span class="comment">%cell</span>
+0160             this.cell = this.total;
+0161             this.cell(:, this.compartment.extracellularIndexs, :) = 0;
+0162             
+0163             this.cellDry = zeros(size(this.cell));
+0164             this.cellDry(:, this.compartment.cellularIndexs, :) = <span class="keyword">...</span>
+0165                 + this.cell(:, this.compartment.cellularIndexs, :) <span class="keyword">...</span>
+0166                 - this.waterWt(:, this.compartment.cellularIndexs, :);
+0167             
+0168             <span class="comment">%media</span>
+0169             this.media = this.total;
+0170             this.media(:, this.compartment.cellularIndexs, :) = 0;
+0171         <span class="keyword">end</span>
+0172     <span class="keyword">end</span>
+0173 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

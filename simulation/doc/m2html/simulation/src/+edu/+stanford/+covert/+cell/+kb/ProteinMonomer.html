@@ -1,0 +1,1237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinMonomer</title>
+  <meta name="keywords" content="ProteinMonomer">
+  <meta name="description" content="Defines a protein monomer">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; ProteinMonomer.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinMonomer
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a protein monomer</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a protein monomer
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a>	Defines a protein monomer</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a>	Defines a protein monomer</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinMonomer(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function value = get.empiricalFormula(~)</a></li><li><a href="#_sub4" class="code">function value = get.smiles(~)</a></li><li><a href="#_sub5" class="code">function value = get.charge(~)</a></li><li><a href="#_sub6" class="code">function value = get.pKa(~)</a></li><li><a href="#_sub7" class="code">function value = get.sequence(this)</a></li><li><a href="#_sub8" class="code">function value = get.signalSequence(this)</a></li><li><a href="#_sub9" class="code">function value = get.processedISequence(this)</a></li><li><a href="#_sub10" class="code">function value = get.processedIISequence(this)</a></li><li><a href="#_sub11" class="code">function value = get.foldedSequence(this)</a></li><li><a href="#_sub12" class="code">function value = get.matureSequence(this)</a></li><li><a href="#_sub13" class="code">function value = get.processedISequenceLength(this)</a></li><li><a href="#_sub14" class="code">function value = get.processedIISequenceLength(this)</a></li><li><a href="#_sub15" class="code">function value = get.foldedSequenceLength(this)</a></li><li><a href="#_sub16" class="code">function value = get.matureSequenceLength(this)</a></li><li><a href="#_sub17" class="code">function value = get.baseCount(this)</a></li><li><a href="#_sub18" class="code">function value = get.signalSequenceBaseCount(this)</a></li><li><a href="#_sub19" class="code">function value = get.processedISequenceBaseCount(this)</a></li><li><a href="#_sub20" class="code">function value = get.processedIISequenceBaseCount(this)</a></li><li><a href="#_sub21" class="code">function value = get.foldedSequenceBaseCount(this)</a></li><li><a href="#_sub22" class="code">function value = get.matureSequenceBaseCount(this)</a></li><li><a href="#_sub23" class="code">function value = get.cumulativeBaseCount(this)</a></li><li><a href="#_sub24" class="code">function value = get.tRNACount(~)</a></li><li><a href="#_sub25" class="code">function value = get.molecularWeight(this)</a></li><li><a href="#_sub26" class="code">function value = get.signalSequenceMolecularWeight(this)</a></li><li><a href="#_sub27" class="code">function value = get.processedISequenceMolecularWeight(this)</a></li><li><a href="#_sub28" class="code">function value = get.processedIISequenceMolecularWeight(this)</a></li><li><a href="#_sub29" class="code">function value = get.foldedSequenceMolecularWeight(this)</a></li><li><a href="#_sub30" class="code">function value = get.matureSequenceMolecularWeight(this)</a></li><li><a href="#_sub31" class="code">function value = get.decayReaction(this)</a></li><li><a href="#_sub32" class="code">function value = get.signalSequenceDecayReaction(this)</a></li><li><a href="#_sub33" class="code">function value = get.processedISequenceDecayReaction(this)</a></li><li><a href="#_sub34" class="code">function value = get.processedIISequenceDecayReaction(this)</a></li><li><a href="#_sub35" class="code">function value = get.foldedSequenceDecayReaction(this)</a></li><li><a href="#_sub36" class="code">function value = get.matureSequenceDecayReaction(this)</a></li><li><a href="#_sub37" class="code">function value = get.halfLife(this)</a></li><li><a href="#_sub38" class="code">function value = get.signalSequenceHalfLife(this)</a></li><li><a href="#_sub39" class="code">function value = get.processedISequenceHalfLife(this)</a></li><li><a href="#_sub40" class="code">function value = get.processedIISequenceHalfLife(this)</a></li><li><a href="#_sub41" class="code">function value = get.foldedSequenceHalfLife(this)</a></li><li><a href="#_sub42" class="code">function value = get.matureSequenceHalfLife(this)</a></li><li><a href="#_sub43" class="code">function value = get.density(this)</a></li><li><a href="#_sub44" class="code">function value = get.volume(this)</a></li><li><a href="#_sub45" class="code">function value = get.pI(this)</a></li><li><a href="#_sub46" class="code">function value = get.extinctionCoefficient(this)</a></li><li><a href="#_sub47" class="code">function value = get.absorbanceFactor(this)</a></li><li><a href="#_sub48" class="code">function value = get.negAA(this)</a></li><li><a href="#_sub49" class="code">function value = get.posAA(this)</a></li><li><a href="#_sub50" class="code">function value = get.nTerminalAA(this)</a></li><li><a href="#_sub51" class="code">function value = get.disulfideBonds(~)</a></li><li><a href="#_sub52" class="code">function value = get.instabilityIndex(this)</a></li><li><a href="#_sub53" class="code">function value = get.stable(this)</a></li><li><a href="#_sub54" class="code">function value = get.aliphaticIndex(this)</a></li><li><a href="#_sub55" class="code">function value = get.gravy(this)</a></li><li><a href="#_sub56" class="code">function value = computeBaseCount(sequence, numMetabolites, aminoAcidIndexs, nTerminalFormylMethionine)</a></li><li><a href="#_sub57" class="code">function value = computeDecayReaction(baseCount, sequenceLength, waterIndexs)</a></li><li><a href="#_sub58" class="code">function value = computeMolecularWeight(baseCount, sequenceLength, metaboliteMolecularWeights)</a></li><li><a href="#_sub59" class="code">function value = computeHalfLife(nTerminalAA)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a protein monomer</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a> &lt; edu.stanford.covert.cell.kb.Polymer &amp; edu.stanford.covert.cell.kb.Protein
+0007     properties
+0008         gene                             = edu.stanford.covert.cell.kb.Gene.empty(0,0);
+0009         geneCompartments                 = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0010         
+0011         prostheticGroups                 = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0012         prostheticGroupCompartments      = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0013         prostheticGroupCoefficients      = [];
+0014         
+0015         chaperoneSubstrates              = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0016         chaperoneCompartments            = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0017         chaperoneCoefficients            = [];
+0018         
+0019         proteinComplexs                  = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0020         
+0021         stableModificationReactions      = edu.stanford.covert.cell.kb.Reaction.empty(0,0);
+0022         
+0023         regulatedTranscriptionUnits      = edu.stanford.covert.cell.kb.TranscriptionUnit.empty(0,0);
+0024         
+0025         compartment                      = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0026         
+0027         stimuliRegulators                = edu.stanford.covert.cell.kb.Stimuli.empty(0,0);
+0028         metaboliteRegulators             = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0029         proteinMonomerRegulators         = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0030         proteinComplexRegulators         = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0031         
+0032         regulatedProteinMonomers         = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0033         regulatedProteinComplexs         = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0034         
+0035         parameters                       = edu.stanford.covert.cell.kb.Parameter.empty(0,0);
+0036     <span class="keyword">end</span>
+0037     
+0038     properties (SetAccess = protected)
+0039         empiricalFormula
+0040         smiles
+0041         charge
+0042         pKa
+0043         halfLife
+0044         sequence
+0045         
+0046         topology
+0047         activeSite
+0048         metalBindingSite
+0049         
+0050         nTerminalMethionineCleavage
+0051         signalSequenceType
+0052         signalSequenceLocation
+0053         signalSequenceLength
+0054         
+0055         activationRule
+0056     <span class="keyword">end</span>
+0057 
+0058     <span class="comment">%computed properties</span>
+0059     properties (SetAccess = protected)
+0060         molecularWeight
+0061         density
+0062         volume
+0063         pI
+0064         extinctionCoefficient
+0065         absorbanceFactor
+0066         
+0067         negAA
+0068         posAA
+0069         instabilityIndex
+0070         stable
+0071         aliphaticIndex
+0072         gravy
+0073         
+0074         baseCount
+0075         cumulativeBaseCount
+0076         decayReaction
+0077         tRNACount
+0078         nTerminalAA
+0079         
+0080         disulfideBonds
+0081         
+0082         signalSequence
+0083         signalSequenceBaseCount
+0084         signalSequenceMolecularWeight
+0085         signalSequenceHalfLife
+0086         signalSequenceDecayReaction
+0087         
+0088         processedISequence
+0089         processedISequenceLength
+0090         processedISequenceBaseCount
+0091         processedISequenceMolecularWeight
+0092         processedISequenceHalfLife
+0093         processedISequenceDecayReaction
+0094         
+0095         processedIISequence
+0096         processedIISequenceLength
+0097         processedIISequenceBaseCount
+0098         processedIISequenceMolecularWeight
+0099         processedIISequenceHalfLife
+0100         processedIISequenceDecayReaction
+0101         
+0102         foldedSequence
+0103         foldedSequenceLength
+0104         foldedSequenceBaseCount
+0105         foldedSequenceMolecularWeight
+0106         foldedSequenceHalfLife
+0107         foldedSequenceDecayReaction
+0108         
+0109         matureSequence
+0110         matureSequenceLength
+0111         matureSequenceBaseCount
+0112         matureSequenceMolecularWeight
+0113         matureSequenceHalfLife
+0114         matureSequenceDecayReaction
+0115     <span class="keyword">end</span>
+0116 
+0117     properties (Constant = true)
+0118         bases = <span class="string">'ARNDCQEGHILKMFPSTWYV'</span>;
+0119 
+0120         <span class="comment">%dipeptide instability weight value (DIWV)</span>
+0121         <span class="comment">%1. http://ca.expasy.org/tools/protparam-doc.html</span>
+0122         <span class="comment">%2. Kunchur Guruprasad, B.V.Bhasker Reddy and Madhusudan W.Pandit</span>
+0123         <span class="comment">%   (1990). Correlation between stability of a protein and its</span>
+0124         <span class="comment">%   dipeptide composition: a novel approach for predicting in vivo</span>
+0125         <span class="comment">%   stability of a protein from its primary sequence. Protein</span>
+0126         <span class="comment">%   Engineering 4(2):155-161. Table 3 copied to</span>
+0127         <span class="comment">%   src/+edu/+stanford/+covert/+cell/+kb/DIWV.xlsx.</span>
+0128         DIWV = [
+0129               1.00   1.00   1.00  -7.49 44.94  1.00  1.00   1.00 -7.49  1.00  1.00   1.00  1.00   1.00 20.26  1.00   1.00   1.00  1.00  1.00
+0130               1.00  58.28  13.34   1.00  1.00 20.26  1.00  -7.49 20.26  1.00  1.00   1.00  1.00   1.00 20.26 44.94   1.00  58.28 -6.54  1.00
+0131               1.00   1.00   1.00   1.00 -1.88 -6.54  1.00 -14.03  1.00 44.94  1.00  24.68  1.00 -14.03 -1.88  1.00  -7.49  -9.37  1.00  1.00
+0132               1.00  -6.54   1.00   1.00  1.00  1.00  1.00   1.00  1.00  1.00  1.00  -7.49  1.00  -6.54  1.00 20.26 -14.03   1.00  1.00  1.00
+0133               1.00   1.00   1.00  20.26  1.00 -6.54  1.00   1.00 33.60  1.00 20.26   1.00 33.60   1.00 20.26  1.00  33.60  24.68  1.00 -6.54
+0134               1.00   1.00   1.00  20.26 -6.54 20.26 20.26   1.00  1.00  1.00  1.00   1.00  1.00  -6.54 20.26 44.94   1.00   1.00 -6.54 -6.54
+0135               1.00   1.00   1.00  20.26 44.94 20.26 33.60   1.00 -6.54 20.26  1.00   1.00  1.00   1.00 20.26 20.26   1.00 -14.03  1.00  1.00
+0136              -7.49   1.00  -7.49   1.00  1.00  1.00 -6.54  13.34  1.00 -7.49  1.00  -7.49  1.00   1.00  1.00  1.00  -7.49  13.34 -7.49  1.00
+0137               1.00   1.00  24.68   1.00  1.00  1.00  1.00  -9.37  1.00 44.94  1.00  24.68  1.00  -9.37 -1.88  1.00  -6.54  -1.88 44.94  1.00
+0138               1.00   1.00   1.00   1.00  1.00  1.00 44.94   1.00 13.34  1.00 20.26  -7.49  1.00   1.00 -1.88  1.00   1.00   1.00  1.00 -7.49
+0139               1.00  20.26   1.00   1.00  1.00 33.60  1.00   1.00  1.00  1.00  1.00  -7.49  1.00   1.00 20.26  1.00   1.00  24.68  1.00  1.00
+0140               1.00  33.60   1.00   1.00  1.00 24.68  1.00  -7.49  1.00 -7.49 -7.49   1.00 33.60   1.00 -6.54  1.00   1.00   1.00  1.00 -7.49
+0141              13.34  -6.54   1.00   1.00  1.00 -6.54  1.00   1.00 58.28  1.00  1.00   1.00 -1.88   1.00 44.94 44.94  -1.88   1.00 24.68  1.00
+0142               1.00   1.00   1.00  13.34  1.00  1.00  1.00   1.00  1.00  1.00  1.00 -14.03  1.00   1.00 20.26  1.00   1.00   1.00 33.60  1.00
+0143              20.26  -6.54   1.00  -6.54 -6.54 20.26 18.38   1.00  1.00  1.00  1.00   1.00 -6.54  20.26 20.26 20.26   1.00  -1.88  1.00 20.26
+0144               1.00  20.26   1.00   1.00 33.60 20.26 20.26   1.00  1.00  1.00  1.00   1.00  1.00   1.00 44.94 20.26   1.00   1.00  1.00  1.00
+0145               1.00   1.00 -14.03   1.00  1.00 -6.54 20.26  -7.49  1.00  1.00  1.00   1.00  1.00  13.34  1.00  1.00   1.00 -14.03  1.00  1.00
+0146             -14.03   1.00  13.34   1.00  1.00  1.00  1.00  -9.37 24.68  1.00 13.34   1.00 24.68   1.00  1.00  1.00 -14.03   1.00  1.00 -7.49
+0147              24.68 -15.91   1.00  24.68  1.00  1.00 -6.54  -7.49 13.34  1.00  1.00   1.00 44.94   1.00 13.34  1.00  -7.49  -9.37 13.34  1.00
+0148               1.00   1.00   1.00 -14.03  1.00  1.00  1.00  -7.49  1.00  1.00  1.00  -1.88  1.00   1.00 20.26  1.00  -7.49   1.00 -6.54  1.00];
+0149     <span class="keyword">end</span>
+0150 
+0151     methods
+0152         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinMonomer(knowledgeBase, wid, wholeCellModelID, name,</a><span class="keyword">...</span>
+0153                 topology, activeSite, metalBindingSite, dnaFootprint, dnaFootprintBindingStrandedness, dnaFootprintRegionStrandedness, molecularInteraction, <span class="keyword">...</span>
+0154                 chemicalRegulation, subsystem, generalClassification, proteaseClassification, <span class="keyword">...</span>
+0155                 transporterClassification, <span class="keyword">...</span>
+0156                 nTerminalMethionineCleavage, signalSequenceType, signalSequenceLocation, signalSequenceLength, <span class="keyword">...</span>
+0157                 activationRule, <span class="keyword">...</span>
+0158                 comments, crossReferences)
+0159 
+0160             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0161 
+0162             this = edu.stanford.covert.cell.kb.ProteinMonomer.empty(size(wid,1),0);
+0163             this(size(wid,1),1) = edu.stanford.covert.cell.kb.ProteinMonomer;
+0164             <span class="keyword">for</span> i = 1:size(wid,1)
+0165                 this(i,1).idx = i;
+0166                 this(i,1).knowledgeBase = knowledgeBase;
+0167                 this(i,1).wid = wid(i);
+0168                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0169                 this(i,1).name = name{i};
+0170                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0171                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>, <span class="string">'var'</span>)
+0172                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0173                         this(i,1).crossReferences = crossReferences(i);
+0174                     <span class="keyword">else</span>
+0175                         this(i,1).crossReferences = struct;
+0176                         fields = fieldnames(crossReferences);
+0177                         <span class="keyword">for</span> j = 1:size(fields,1)
+0178                             values = crossReferences.(fields{j});
+0179                             this(i,1).crossReferences.(fields{j}) = values(i);
+0180                         <span class="keyword">end</span>
+0181                     <span class="keyword">end</span>
+0182                 <span class="keyword">end</span>
+0183 
+0184                 this(i,1).topology = topology{i};
+0185                 this(i,1).activeSite = activeSite{i};
+0186                 this(i,1).metalBindingSite = metalBindingSite{i};
+0187                 this(i,1).dnaFootprint = dnaFootprint(i);
+0188                 this(i,1).dnaFootprintBindingStrandedness = dnaFootprintBindingStrandedness{i};
+0189                 this(i,1).dnaFootprintRegionStrandedness = dnaFootprintRegionStrandedness{i};
+0190                 this(i,1).molecularInteraction = molecularInteraction{i};
+0191                 this(i,1).chemicalRegulation = chemicalRegulation{i};
+0192                 this(i,1).subsystem = subsystem{i};
+0193                 this(i,1).generalClassification = generalClassification{i};
+0194                 this(i,1).proteaseClassification = proteaseClassification;
+0195                 this(i,1).transporterClassification = transporterClassification{i};
+0196                 this(i,1).nTerminalMethionineCleavage = nTerminalMethionineCleavage(i);
+0197                 this(i,1).signalSequenceType = signalSequenceType{i};
+0198                 this(i,1).signalSequenceLocation = signalSequenceLocation{i};
+0199                 this(i,1).signalSequenceLength = signalSequenceLength(i);
+0200                 this(i,1).activationRule = activationRule{i};
+0201             <span class="keyword">end</span>
+0202         <span class="keyword">end</span>
+0203 
+0204         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0205             <span class="keyword">for</span> i = 1:numel(this)
+0206                 this(i).gene                             = [];
+0207                 this(i).geneCompartments                 = [];
+0208 
+0209                 this(i).prostheticGroups                 = [];
+0210                 this(i).prostheticGroupCompartments      = [];
+0211                 this(i).prostheticGroupCoefficients      = [];
+0212 
+0213                 this(i).chaperoneSubstrates              = [];
+0214                 this(i).chaperoneCompartments            = [];
+0215                 this(i).chaperoneCoefficients            = [];
+0216 
+0217                 this(i).proteinComplexs                  = [];
+0218 
+0219                 this(i).stableModificationReactions      = [];
+0220 
+0221                 this(i).regulatedTranscriptionUnits      = [];
+0222 
+0223                 this(i).compartment                      = [];
+0224 
+0225                 this(i).stimuliRegulators                = [];
+0226                 this(i).metaboliteRegulators             = [];
+0227                 this(i).proteinMonomerRegulators         = [];
+0228                 this(i).proteinComplexRegulators         = [];
+0229 
+0230                 this(i).regulatedProteinMonomers         = [];
+0231                 this(i).regulatedProteinComplexs         = [];
+0232 
+0233                 this(i).parameters                       = [];
+0234 
+0235                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.Polymer(this(i));
+0236                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.Protein(this(i));
+0237             <span class="keyword">end</span>
+0238         <span class="keyword">end</span>
+0239 
+0240         <a name="_sub2" href="#_subfunctions" class="code">function value = get.empiricalFormula(~)</a>
+0241             throw(MException(<span class="string">'ProteinMonomer:error property is not defined'</span>));
+0242         <span class="keyword">end</span>
+0243 
+0244         <a name="_sub3" href="#_subfunctions" class="code">function value = get.smiles(~)</a>
+0245             throw(MException(<span class="string">'ProteinMonomer:error'</span>, <span class="string">'property is not defined'</span>));
+0246         <span class="keyword">end</span>
+0247 
+0248         <a name="_sub4" href="#_subfunctions" class="code">function value = get.charge(~)</a>
+0249             throw(MException(<span class="string">'ProteinMonomer:error'</span>, <span class="string">'property is not defined'</span>));
+0250         <span class="keyword">end</span>
+0251 
+0252         <a name="_sub5" href="#_subfunctions" class="code">function value = get.pKa(~)</a>
+0253             throw(MException(<span class="string">'ProteinMonomer:error'</span>, <span class="string">'property is not defined'</span>));
+0254         <span class="keyword">end</span>
+0255 
+0256         <a name="_sub6" href="#_subfunctions" class="code">function value = get.sequence(this)</a>
+0257             <span class="comment">%retrieve</span>
+0258             <span class="keyword">if</span> ~isempty(this.sequence)
+0259                 value = this.sequence;
+0260                 <span class="keyword">return</span>;
+0261             <span class="keyword">end</span>
+0262             
+0263             <span class="comment">%calculate</span>
+0264             value = nt2aa(this.gene.dnaSequence,<span class="string">'GeneticCode'</span>,this.knowledgeBase.translationTable);
+0265             stopCodonIdx = strfind(value, <span class="string">'*'</span>);
+0266             <span class="keyword">if</span> ~isempty(stopCodonIdx)
+0267                 value = value(1:stopCodonIdx-1);
+0268             <span class="keyword">end</span>
+0269             
+0270             <span class="comment">%store</span>
+0271             this.sequence = value;
+0272         <span class="keyword">end</span>
+0273 
+0274         <a name="_sub7" href="#_subfunctions" class="code">function value = get.signalSequence(this)</a>
+0275             <span class="comment">%retrieve</span>
+0276             <span class="keyword">if</span> ~isempty(this.signalSequence)
+0277                 value = this.signalSequence;
+0278                 <span class="keyword">return</span>;
+0279             <span class="keyword">end</span>
+0280             
+0281             <span class="comment">%calculate</span>
+0282             value = this.sequence(1:this.signalSequenceLength);
+0283             
+0284             <span class="comment">%store</span>
+0285             this.signalSequence = value;
+0286         <span class="keyword">end</span>
+0287 
+0288         <a name="_sub8" href="#_subfunctions" class="code">function value = get.processedISequence(this)</a>
+0289             <span class="comment">%retrieve</span>
+0290             <span class="keyword">if</span> ~isempty(this.processedISequence)
+0291                 value = this.processedISequence;
+0292                 <span class="keyword">return</span>;
+0293             <span class="keyword">end</span>
+0294             
+0295             <span class="comment">%calculate</span>
+0296             value = this.sequence(this.nTerminalMethionineCleavage+1:end);
+0297             
+0298             <span class="comment">%store</span>
+0299             this.processedISequence = value;
+0300         <span class="keyword">end</span>
+0301 
+0302         <a name="_sub9" href="#_subfunctions" class="code">function value = get.processedIISequence(this)</a>
+0303             <span class="comment">%retrieve</span>
+0304             <span class="keyword">if</span> ~isempty(this.processedIISequence)
+0305                 value = this.processedIISequence;
+0306                 <span class="keyword">return</span>;
+0307             <span class="keyword">end</span>
+0308             
+0309             <span class="comment">%calculate</span>
+0310             <span class="keyword">if</span> this.signalSequenceLength&gt;0
+0311                 value = this.sequence(this.signalSequenceLength+1:end);
+0312             <span class="keyword">else</span>
+0313                 value = this.sequence(this.nTerminalMethionineCleavage+1:end);
+0314             <span class="keyword">end</span>
+0315             
+0316             <span class="comment">%store</span>
+0317             this.processedIISequence = value;
+0318         <span class="keyword">end</span>
+0319 
+0320         <a name="_sub10" href="#_subfunctions" class="code">function value = get.foldedSequence(this)</a>
+0321             <span class="comment">%retrieve</span>
+0322             <span class="keyword">if</span> ~isempty(this.foldedSequence)
+0323                 value = this.foldedSequence;
+0324                 <span class="keyword">return</span>;
+0325             <span class="keyword">end</span>
+0326             
+0327             <span class="comment">%calculate</span>
+0328             value = this.processedIISequence;
+0329             
+0330             <span class="comment">%store</span>
+0331             this.foldedSequence = value;
+0332         <span class="keyword">end</span>
+0333 
+0334         <a name="_sub11" href="#_subfunctions" class="code">function value = get.matureSequence(this)</a>
+0335             <span class="comment">%retrieve</span>
+0336             <span class="keyword">if</span> ~isempty(this.matureSequence)
+0337                 value = this.matureSequence;
+0338                 <span class="keyword">return</span>;
+0339             <span class="keyword">end</span>
+0340             
+0341             <span class="comment">%calculate</span>
+0342             value = this.foldedSequence;
+0343 
+0344             <span class="keyword">if</span> isempty(this.stableModificationReactions); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0345 
+0346             ligations = zeros(1, this.knowledgeBase.numMetabolites);
+0347             <span class="keyword">for</span> i = 1:length(this.stableModificationReactions)
+0348                 reaction = this.stableModificationReactions(i);
+0349                 <span class="keyword">if</span> ~strcmp(reaction.type,<span class="string">'ligation'</span>) || isempty(reaction.metabolites); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0350                 ligations([reaction.metabolites.idx]) = <span class="keyword">...</span>
+0351                     ligations([reaction.metabolites.idx])+<span class="keyword">...</span>
+0352                     reaction.metaboliteCoefficients';
+0353             <span class="keyword">end</span>
+0354 
+0355             <span class="keyword">for</span> i = 1:length(this.bases)
+0356                 value = [value repmat(this.bases(i), 1, -ligations(this.knowledgeBase.aminoAcidIndexs(i)))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0357             <span class="keyword">end</span>
+0358             
+0359             <span class="comment">%store</span>
+0360             this.matureSequence = value;
+0361         <span class="keyword">end</span>
+0362 
+0363         <a name="_sub12" href="#_subfunctions" class="code">function value = get.processedISequenceLength(this)</a>
+0364             <span class="comment">%retrieve</span>
+0365             <span class="keyword">if</span> ~isempty(this.processedISequenceLength)
+0366                 value = this.processedISequenceLength;
+0367                 <span class="keyword">return</span>;
+0368             <span class="keyword">end</span>
+0369             
+0370             <span class="comment">%calculate</span>
+0371             value = length(this.processedISequence);
+0372             
+0373             <span class="comment">%store</span>
+0374             this.processedISequenceLength = value;
+0375         <span class="keyword">end</span>
+0376 
+0377         <a name="_sub13" href="#_subfunctions" class="code">function value = get.processedIISequenceLength(this)</a>
+0378             <span class="comment">%retrieve</span>
+0379             <span class="keyword">if</span> ~isempty(this.processedIISequenceLength)
+0380                 value = this.processedIISequenceLength;
+0381                 <span class="keyword">return</span>;
+0382             <span class="keyword">end</span>
+0383             
+0384             <span class="comment">%calculate</span>
+0385             value = length(this.processedIISequence);
+0386             
+0387             <span class="comment">%store</span>
+0388             this.processedIISequenceLength = value;
+0389         <span class="keyword">end</span>
+0390 
+0391         <a name="_sub14" href="#_subfunctions" class="code">function value = get.foldedSequenceLength(this)</a>
+0392             <span class="comment">%retrieve</span>
+0393             <span class="keyword">if</span> ~isempty(this.foldedSequenceLength)
+0394                 value = this.foldedSequenceLength;
+0395                 <span class="keyword">return</span>;
+0396             <span class="keyword">end</span>
+0397             
+0398             <span class="comment">%calculate</span>
+0399             value = length(this.foldedSequence);
+0400             
+0401             <span class="comment">%store</span>
+0402             this.foldedSequenceLength = value;
+0403         <span class="keyword">end</span>
+0404 
+0405         <a name="_sub15" href="#_subfunctions" class="code">function value = get.matureSequenceLength(this)</a>
+0406             <span class="comment">%retrieve</span>
+0407             <span class="keyword">if</span> ~isempty(this.matureSequenceLength)
+0408                 value = this.matureSequenceLength;
+0409                 <span class="keyword">return</span>;
+0410             <span class="keyword">end</span>
+0411             
+0412             <span class="comment">%calculate</span>
+0413             value = length(this.matureSequence);
+0414             
+0415             <span class="comment">%store</span>
+0416             this.matureSequenceLength = value;
+0417         <span class="keyword">end</span>
+0418 
+0419         <a name="_sub16" href="#_subfunctions" class="code">function value = get.baseCount(this)</a>
+0420             <span class="comment">%retrieve</span>
+0421             <span class="keyword">if</span> ~isempty(this.baseCount)
+0422                 value = this.baseCount;
+0423                 <span class="keyword">return</span>;
+0424             <span class="keyword">end</span>
+0425             
+0426             <span class="comment">%calculate</span>
+0427             value = this.computeBaseCount(this.sequence, this.knowledgeBase.numMetabolites, this.knowledgeBase.aminoAcidIndexs, true);
+0428             
+0429             <span class="comment">%store</span>
+0430             this.baseCount = value;
+0431         <span class="keyword">end</span>
+0432 
+0433         <a name="_sub17" href="#_subfunctions" class="code">function value = get.signalSequenceBaseCount(this)</a>
+0434             <span class="comment">%retrieve</span>
+0435             <span class="keyword">if</span> ~isempty(this.signalSequenceBaseCount)
+0436                 value = this.signalSequenceBaseCount;
+0437                 <span class="keyword">return</span>;
+0438             <span class="keyword">end</span>
+0439             
+0440             <span class="comment">%calculate</span>
+0441             value = this.computeBaseCount(this.signalSequence, this.knowledgeBase.numMetabolites, this.knowledgeBase.aminoAcidIndexs, false);
+0442             
+0443             <span class="comment">%store</span>
+0444             this.signalSequenceBaseCount = value;
+0445         <span class="keyword">end</span>
+0446 
+0447         <a name="_sub18" href="#_subfunctions" class="code">function value = get.processedISequenceBaseCount(this)</a>
+0448             <span class="comment">%retrieve</span>
+0449             <span class="keyword">if</span> ~isempty(this.processedISequenceBaseCount)
+0450                 value = this.processedISequenceBaseCount;
+0451                 <span class="keyword">return</span>;
+0452             <span class="keyword">end</span>
+0453             
+0454             <span class="comment">%calculate</span>
+0455             value = this.computeBaseCount(this.processedISequence, this.knowledgeBase.numMetabolites, this.knowledgeBase.aminoAcidIndexs, false);
+0456             
+0457             <span class="comment">%store</span>
+0458             this.processedISequenceBaseCount = value;
+0459         <span class="keyword">end</span>
+0460 
+0461         <a name="_sub19" href="#_subfunctions" class="code">function value = get.processedIISequenceBaseCount(this)</a>
+0462             <span class="comment">%retrieve</span>
+0463             <span class="keyword">if</span> ~isempty(this.processedIISequenceBaseCount)
+0464                 value = this.processedIISequenceBaseCount;
+0465                 <span class="keyword">return</span>;
+0466             <span class="keyword">end</span>
+0467             
+0468             <span class="comment">%calculate</span>
+0469             value = this.computeBaseCount(this.processedIISequence, this.knowledgeBase.numMetabolites, this.knowledgeBase.aminoAcidIndexs, false);
+0470 
+0471             <span class="keyword">if</span> strcmp(this.signalSequenceType,<span class="string">'lipoprotein'</span>)
+0472                 value(this.knowledgeBase.cysteineIndexs) = <span class="keyword">...</span>
+0473                     value(this.knowledgeBase.cysteineIndexs)-1;
+0474                 value(this.knowledgeBase.diacylglycerolCysteineIndexs) = <span class="keyword">...</span>
+0475                     value(this.knowledgeBase.diacylglycerolCysteineIndexs)+1;
+0476             <span class="keyword">end</span>
+0477             
+0478             <span class="comment">%store</span>
+0479             this.processedIISequenceBaseCount = value;
+0480         <span class="keyword">end</span>
+0481 
+0482         <a name="_sub20" href="#_subfunctions" class="code">function value = get.foldedSequenceBaseCount(this)</a>
+0483             <span class="comment">%retrieve</span>
+0484             <span class="keyword">if</span> ~isempty(this.foldedSequenceBaseCount)
+0485                 value = this.foldedSequenceBaseCount;
+0486                 <span class="keyword">return</span>;
+0487             <span class="keyword">end</span>
+0488             
+0489             <span class="comment">%calculate</span>
+0490             value = this.processedIISequenceBaseCount;
+0491 
+0492             <span class="keyword">if</span> isempty(this.prostheticGroups); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0493 
+0494             value([this.prostheticGroups.idx]) = <span class="keyword">...</span>
+0495                 value([this.prostheticGroups.idx]) + <span class="keyword">...</span>
+0496                 max(1, this.prostheticGroupCoefficients)';
+0497             
+0498             <span class="comment">%store</span>
+0499             this.foldedSequenceBaseCount = value;
+0500         <span class="keyword">end</span>
+0501 
+0502         <a name="_sub21" href="#_subfunctions" class="code">function value = get.matureSequenceBaseCount(this)</a>
+0503             <span class="comment">%retrieve</span>
+0504             <span class="keyword">if</span> ~isempty(this.matureSequenceBaseCount)
+0505                 value = this.matureSequenceBaseCount;
+0506                 <span class="keyword">return</span>;
+0507             <span class="keyword">end</span>
+0508             
+0509             <span class="comment">%calculate</span>
+0510             value = this.foldedSequenceBaseCount;
+0511             
+0512             <span class="keyword">if</span> ~isempty(this.stableModificationReactions)                
+0513                 adductions = zeros(size(value));
+0514                 ligations  = zeros(size(value));
+0515                 <span class="keyword">for</span> i = 1:length(this.stableModificationReactions)
+0516                     reaction = this.stableModificationReactions(i);
+0517                     <span class="keyword">if</span> isempty(reaction.metabolites); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0518                     
+0519                     <span class="keyword">switch</span> reaction.type
+0520                         <span class="keyword">case</span> <span class="string">'adduction'</span>
+0521                             adductions([reaction.metabolites.idx]) = <span class="keyword">...</span>
+0522                                 adductions([reaction.metabolites.idx]) + <span class="keyword">...</span>
+0523                                 reaction.metaboliteCoefficients';
+0524                         <span class="keyword">case</span> <span class="string">'ligation'</span>
+0525                             ligations([reaction.metabolites.idx]) = <span class="keyword">...</span>
+0526                                 ligations([reaction.metabolites.idx]) + <span class="keyword">...</span>
+0527                                 reaction.metaboliteCoefficients';
+0528                     <span class="keyword">end</span>
+0529                 <span class="keyword">end</span>
+0530                 
+0531                 value([this.knowledgeBase.aminoAcidIndexs; this.knowledgeBase.modifiedAminoAcidIndexs]) = <span class="keyword">...</span>
+0532                     value([this.knowledgeBase.aminoAcidIndexs; this.knowledgeBase.modifiedAminoAcidIndexs]) + <span class="keyword">...</span>
+0533                     adductions([this.knowledgeBase.aminoAcidIndexs; this.knowledgeBase.modifiedAminoAcidIndexs]);
+0534                 
+0535                 value(this.knowledgeBase.aminoAcidIndexs) = <span class="keyword">...</span>
+0536                     value(this.knowledgeBase.aminoAcidIndexs) + <span class="keyword">...</span>
+0537                     -ligations(this.knowledgeBase.aminoAcidIndexs);
+0538             <span class="keyword">end</span>
+0539             
+0540             <span class="comment">%store</span>
+0541             this.matureSequenceBaseCount = value;
+0542         <span class="keyword">end</span>
+0543 
+0544         <a name="_sub22" href="#_subfunctions" class="code">function value = get.cumulativeBaseCount(this)</a>
+0545             <span class="comment">%retrieve</span>
+0546             <span class="keyword">if</span> ~isempty(this.cumulativeBaseCount)
+0547                 value = this.cumulativeBaseCount;
+0548                 <span class="keyword">return</span>;
+0549             <span class="keyword">end</span>
+0550             
+0551             <span class="comment">%calculate</span>
+0552             aminoAcidIndexs = this.knowledgeBase.aminoAcidIndexs;
+0553             value = zeros(length(this.sequence), this.knowledgeBase.numMetabolites);
+0554             <span class="keyword">for</span> i = 1:length(this.bases)
+0555                 value(:,aminoAcidIndexs(i)) = this.sequence == this.bases(i);
+0556             <span class="keyword">end</span>
+0557             value = cumsum(value,2);
+0558             
+0559             <span class="comment">%store</span>
+0560             this.cumulativeBaseCount = value;
+0561         <span class="keyword">end</span>
+0562 
+0563         <a name="_sub23" href="#_subfunctions" class="code">function value = get.tRNACount(~)</a>
+0564             throw(MException(<span class="string">'ProteinMonomer:error'</span>,<span class="string">'property is not defined'</span>));
+0565         <span class="keyword">end</span>
+0566 
+0567         <a name="_sub24" href="#_subfunctions" class="code">function value = get.molecularWeight(this)</a>
+0568             <span class="comment">%retrieve</span>
+0569             <span class="keyword">if</span> ~isempty(this.molecularWeight)
+0570                 value = this.molecularWeight;
+0571                 <span class="keyword">return</span>;
+0572             <span class="keyword">end</span>
+0573             
+0574             <span class="comment">%calculate</span>
+0575             value = this.computeMolecularWeight(this.baseCount, this.sequenceLength, this.knowledgeBase.metaboliteMolecularWeights);
+0576             
+0577             <span class="comment">%store</span>
+0578             this.molecularWeight = value;
+0579         <span class="keyword">end</span>
+0580 
+0581         <a name="_sub25" href="#_subfunctions" class="code">function value = get.signalSequenceMolecularWeight(this)</a>
+0582             <span class="comment">%retrieve</span>
+0583             <span class="keyword">if</span> ~isempty(this.signalSequenceMolecularWeight)
+0584                 value = this.signalSequenceMolecularWeight;
+0585                 <span class="keyword">return</span>;
+0586             <span class="keyword">end</span>
+0587             
+0588             <span class="comment">%calculate</span>
+0589             value = this.computeMolecularWeight(this.signalSequenceBaseCount, this.signalSequenceLength, this.knowledgeBase.metaboliteMolecularWeights);
+0590             
+0591             <span class="comment">%store</span>
+0592             this.signalSequenceMolecularWeight = value;
+0593         <span class="keyword">end</span>
+0594 
+0595         <a name="_sub26" href="#_subfunctions" class="code">function value = get.processedISequenceMolecularWeight(this)</a>
+0596             <span class="comment">%retrieve</span>
+0597             <span class="keyword">if</span> ~isempty(this.processedISequenceMolecularWeight)
+0598                 value = this.processedISequenceMolecularWeight;
+0599                 <span class="keyword">return</span>;
+0600             <span class="keyword">end</span>
+0601             
+0602             <span class="comment">%calculate</span>
+0603             value = this.computeMolecularWeight(this.processedISequenceBaseCount, this.processedISequenceLength, this.knowledgeBase.metaboliteMolecularWeights);
+0604             
+0605             <span class="comment">%store</span>
+0606             this.processedISequenceMolecularWeight = value;
+0607         <span class="keyword">end</span>
+0608 
+0609         <a name="_sub27" href="#_subfunctions" class="code">function value = get.processedIISequenceMolecularWeight(this)</a>
+0610             <span class="comment">%retrieve</span>
+0611             <span class="keyword">if</span> ~isempty(this.processedIISequenceMolecularWeight)
+0612                 value = this.processedIISequenceMolecularWeight;
+0613                 <span class="keyword">return</span>;
+0614             <span class="keyword">end</span>
+0615             
+0616             <span class="comment">%calculate</span>
+0617             value = this.computeMolecularWeight(this.processedIISequenceBaseCount, this.processedIISequenceLength, this.knowledgeBase.metaboliteMolecularWeights);
+0618             
+0619             <span class="comment">%store</span>
+0620             this.processedIISequenceMolecularWeight = value;
+0621         <span class="keyword">end</span>
+0622 
+0623         <a name="_sub28" href="#_subfunctions" class="code">function value = get.foldedSequenceMolecularWeight(this)</a>
+0624             <span class="comment">%retrieve</span>
+0625             <span class="keyword">if</span> ~isempty(this.foldedSequenceMolecularWeight)
+0626                 value = this.foldedSequenceMolecularWeight;
+0627                 <span class="keyword">return</span>;
+0628             <span class="keyword">end</span>
+0629             
+0630             <span class="comment">%calculate</span>
+0631             value = this.processedIISequenceMolecularWeight;
+0632 
+0633             <span class="keyword">if</span> ~isempty(this.prostheticGroups)
+0634                 value = value + [this.prostheticGroups.molecularWeight] * <span class="keyword">...</span>
+0635                     max(1, this.prostheticGroupCoefficients);
+0636             <span class="keyword">end</span>
+0637             
+0638             <span class="comment">%store</span>
+0639             this.foldedSequenceMolecularWeight = value;
+0640         <span class="keyword">end</span>
+0641 
+0642         <a name="_sub29" href="#_subfunctions" class="code">function value = get.matureSequenceMolecularWeight(this)</a>
+0643             <span class="comment">% import classes</span>
+0644             import edu.stanford.covert.util.ConstantUtil;
+0645             
+0646             <span class="comment">%retrieve</span>
+0647             <span class="keyword">if</span> ~isempty(this.matureSequenceMolecularWeight)
+0648                 value = this.matureSequenceMolecularWeight;
+0649                 <span class="keyword">return</span>;
+0650             <span class="keyword">end</span>
+0651             
+0652             <span class="comment">%calculate</span>
+0653             value = this.foldedSequenceMolecularWeight;
+0654 
+0655             <span class="keyword">if</span> ~isempty(this.stableModificationReactions)
+0656                 adductions = zeros(this.knowledgeBase.numMetabolites, 1);
+0657                 ligations  = zeros(this.knowledgeBase.numMetabolites, 1);
+0658                 <span class="keyword">for</span> i = 1:length(this.stableModificationReactions)
+0659                     reaction = this.stableModificationReactions(i);
+0660                     <span class="keyword">if</span> isempty(reaction.metabolites); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0661 
+0662                     <span class="keyword">switch</span> reaction.type
+0663                         <span class="keyword">case</span> <span class="string">'adduction'</span>
+0664                             adductions([reaction.metabolites.idx]) = <span class="keyword">...</span>
+0665                                 adductions([reaction.metabolites.idx]) + <span class="keyword">...</span>
+0666                                 reaction.metaboliteCoefficients;
+0667                         <span class="keyword">case</span> <span class="string">'ligation'</span>
+0668                             ligations([reaction.metabolites.idx]) = <span class="keyword">...</span>
+0669                                 ligations([reaction.metabolites.idx]) + <span class="keyword">...</span>
+0670                                 reaction.metaboliteCoefficients;
+0671                     <span class="keyword">end</span>
+0672                 <span class="keyword">end</span>
+0673 
+0674                 molecularWeightH2O = 2 * ConstantUtil.elements.H + ConstantUtil.elements.O;
+0675 
+0676                 value = value <span class="keyword">...</span>
+0677                     + this.knowledgeBase.metaboliteMolecularWeights([this.knowledgeBase.aminoAcidIndexs; this.knowledgeBase.modifiedAminoAcidIndexs])'<span class="keyword">...</span>
+0678                     * adductions([this.knowledgeBase.aminoAcidIndexs;this.knowledgeBase.modifiedAminoAcidIndexs]) <span class="keyword">...</span>
+0679                     - (this.knowledgeBase.metaboliteMolecularWeights(this.knowledgeBase.aminoAcidIndexs) - molecularWeightH2O)'<span class="keyword">...</span>
+0680                     * ligations(this.knowledgeBase.aminoAcidIndexs);
+0681             <span class="keyword">end</span>
+0682             
+0683             <span class="comment">%store</span>
+0684             this.matureSequenceMolecularWeight = value;
+0685         <span class="keyword">end</span>
+0686 
+0687         <a name="_sub30" href="#_subfunctions" class="code">function value = get.decayReaction(this)</a>
+0688             <span class="comment">%retrieve</span>
+0689             <span class="keyword">if</span> ~isempty(this.decayReaction)
+0690                 value = this.decayReaction;
+0691                 <span class="keyword">return</span>;
+0692             <span class="keyword">end</span>
+0693             
+0694             <span class="comment">%calculate</span>
+0695             value = this.computeDecayReaction(this.baseCount, this.sequenceLength, this.knowledgeBase.waterIndexs);
+0696             
+0697             <span class="comment">%store</span>
+0698             this.decayReaction = value;
+0699         <span class="keyword">end</span>
+0700 
+0701         <a name="_sub31" href="#_subfunctions" class="code">function value = get.signalSequenceDecayReaction(this)</a>
+0702             <span class="comment">%retrieve</span>
+0703             <span class="keyword">if</span> ~isempty(this.signalSequenceDecayReaction)
+0704                 value = this.signalSequenceDecayReaction;
+0705                 <span class="keyword">return</span>;
+0706             <span class="keyword">end</span>
+0707             
+0708             <span class="comment">%calculate</span>
+0709             value = this.computeDecayReaction(this.signalSequenceBaseCount, this.signalSequenceLength, this.knowledgeBase.waterIndexs);
+0710             
+0711             <span class="comment">%store</span>
+0712             this.signalSequenceDecayReaction = value;
+0713         <span class="keyword">end</span>
+0714 
+0715         <a name="_sub32" href="#_subfunctions" class="code">function value = get.processedISequenceDecayReaction(this)</a>
+0716             <span class="comment">%retrieve</span>
+0717             <span class="keyword">if</span> ~isempty(this.processedISequenceDecayReaction)
+0718                 value = this.processedISequenceDecayReaction;
+0719                 <span class="keyword">return</span>;
+0720             <span class="keyword">end</span>
+0721             
+0722             <span class="comment">%calculate</span>
+0723             value = this.computeDecayReaction(this.processedISequenceBaseCount, this.processedISequenceLength, this.knowledgeBase.waterIndexs);
+0724             
+0725             <span class="comment">%store</span>
+0726             this.processedISequenceDecayReaction = value;
+0727         <span class="keyword">end</span>
+0728 
+0729         <a name="_sub33" href="#_subfunctions" class="code">function value = get.processedIISequenceDecayReaction(this)</a>
+0730             <span class="comment">%retrieve</span>
+0731             <span class="keyword">if</span> ~isempty(this.processedIISequenceDecayReaction)
+0732                 value = this.processedIISequenceDecayReaction;
+0733                 <span class="keyword">return</span>;
+0734             <span class="keyword">end</span>
+0735             
+0736             <span class="comment">%calculate</span>
+0737             value = this.computeDecayReaction(this.processedIISequenceBaseCount, this.processedIISequenceLength, this.knowledgeBase.waterIndexs);
+0738             
+0739             <span class="comment">%store</span>
+0740             this.processedIISequenceDecayReaction = value;
+0741         <span class="keyword">end</span>
+0742 
+0743         <a name="_sub34" href="#_subfunctions" class="code">function value = get.foldedSequenceDecayReaction(this)</a>
+0744             <span class="comment">%retrieve</span>
+0745             <span class="keyword">if</span> ~isempty(this.foldedSequenceDecayReaction)
+0746                 value = this.foldedSequenceDecayReaction;
+0747                 <span class="keyword">return</span>;
+0748             <span class="keyword">end</span>
+0749             
+0750             <span class="comment">%calculate</span>
+0751             value = this.computeDecayReaction(this.foldedSequenceBaseCount, this.foldedSequenceLength, this.knowledgeBase.waterIndexs);
+0752             
+0753             <span class="comment">%store</span>
+0754             this.foldedSequenceDecayReaction = value;
+0755         <span class="keyword">end</span>
+0756 
+0757         <a name="_sub35" href="#_subfunctions" class="code">function value = get.matureSequenceDecayReaction(this)</a>
+0758             <span class="comment">%retrieve</span>
+0759             <span class="keyword">if</span> ~isempty(this.matureSequenceDecayReaction)
+0760                 value = this.matureSequenceDecayReaction;
+0761                 <span class="keyword">return</span>;
+0762             <span class="keyword">end</span>
+0763             
+0764             <span class="comment">%calculate</span>
+0765             value = this.computeDecayReaction(this.matureSequenceBaseCount, this.matureSequenceLength, this.knowledgeBase.waterIndexs);
+0766             
+0767             <span class="comment">%store</span>
+0768             this.matureSequenceDecayReaction = value;
+0769         <span class="keyword">end</span>
+0770 
+0771         <a name="_sub36" href="#_subfunctions" class="code">function value = get.halfLife(this)</a>
+0772             <span class="comment">%retrieve</span>
+0773             <span class="keyword">if</span> ~isempty(this.halfLife)
+0774                 value = this.halfLife;
+0775                 <span class="keyword">return</span>;
+0776             <span class="keyword">end</span>
+0777             
+0778             <span class="comment">%calculate</span>
+0779             value = this.computeHalfLife(this.nTerminalAA);
+0780             
+0781             <span class="comment">%store</span>
+0782             this.halfLife = value;
+0783         <span class="keyword">end</span>
+0784         
+0785         <a name="_sub37" href="#_subfunctions" class="code">function value = get.signalSequenceHalfLife(this)</a>
+0786             <span class="comment">%retrieve</span>
+0787             <span class="keyword">if</span> ~isempty(this.signalSequenceHalfLife)
+0788                 value = this.signalSequenceHalfLife;
+0789                 <span class="keyword">return</span>;
+0790             <span class="keyword">end</span>
+0791             
+0792             <span class="comment">%calculate</span>
+0793             value = 0;
+0794             
+0795             <span class="comment">%store</span>
+0796             this.signalSequenceHalfLife = value;
+0797         <span class="keyword">end</span>
+0798         
+0799         <a name="_sub38" href="#_subfunctions" class="code">function value = get.processedISequenceHalfLife(this)</a>
+0800             <span class="comment">%retrieve</span>
+0801             <span class="keyword">if</span> ~isempty(this.processedISequenceHalfLife)
+0802                 value = this.processedISequenceHalfLife;
+0803                 <span class="keyword">return</span>;
+0804             <span class="keyword">end</span>
+0805             
+0806             <span class="comment">%calculate</span>
+0807             value = this.computeHalfLife(this.processedISequence(1));
+0808             
+0809             <span class="comment">%store</span>
+0810             this.processedISequenceHalfLife = value;
+0811         <span class="keyword">end</span>
+0812         
+0813         <a name="_sub39" href="#_subfunctions" class="code">function value = get.processedIISequenceHalfLife(this)</a>
+0814             <span class="comment">%retrieve</span>
+0815             <span class="keyword">if</span> ~isempty(this.processedIISequenceHalfLife)
+0816                 value = this.processedIISequenceHalfLife;
+0817                 <span class="keyword">return</span>;
+0818             <span class="keyword">end</span>
+0819             
+0820             <span class="comment">%calculate</span>
+0821             value = this.computeHalfLife(this.processedIISequence(1));
+0822             
+0823             <span class="comment">%store</span>
+0824             this.processedIISequenceHalfLife = value;
+0825         <span class="keyword">end</span>
+0826         
+0827         <a name="_sub40" href="#_subfunctions" class="code">function value = get.foldedSequenceHalfLife(this)</a>
+0828             <span class="comment">%retrieve</span>
+0829             <span class="keyword">if</span> ~isempty(this.foldedSequenceHalfLife)
+0830                 value = this.foldedSequenceHalfLife;
+0831                 <span class="keyword">return</span>;
+0832             <span class="keyword">end</span>
+0833             
+0834             <span class="comment">%calculate</span>
+0835             value = this.computeHalfLife(this.foldedSequence(1));
+0836             
+0837             <span class="comment">%store</span>
+0838             this.foldedSequenceHalfLife = value;
+0839         <span class="keyword">end</span>
+0840         
+0841         <a name="_sub41" href="#_subfunctions" class="code">function value = get.matureSequenceHalfLife(this)</a>
+0842             <span class="comment">%retrieve</span>
+0843             <span class="keyword">if</span> ~isempty(this.matureSequenceHalfLife)
+0844                 value = this.matureSequenceHalfLife;
+0845                 <span class="keyword">return</span>;
+0846             <span class="keyword">end</span>
+0847             
+0848             <span class="comment">%calculate</span>
+0849             value = this.computeHalfLife(this.matureSequence(1));
+0850             
+0851             <span class="comment">%store</span>
+0852             this.matureSequenceHalfLife = value;
+0853         <span class="keyword">end</span>
+0854 
+0855         <span class="comment">%http://www3.interscience.wiley.com/journal/121602274/abstract?CRETRY=1&amp;SRETRY=0</span>
+0856         <a name="_sub42" href="#_subfunctions" class="code">function value = get.density(this)</a>
+0857             <span class="comment">%retrieve</span>
+0858             <span class="keyword">if</span> ~isempty(this.density)
+0859                 value = this.density;
+0860                 <span class="keyword">return</span>;
+0861             <span class="keyword">end</span>
+0862             
+0863             <span class="comment">%calculate</span>
+0864             value = 1.35;
+0865             
+0866             <span class="comment">%store</span>
+0867             this.density = value;
+0868         <span class="keyword">end</span>
+0869 
+0870         <a name="_sub43" href="#_subfunctions" class="code">function value = get.volume(this)</a>
+0871             <span class="comment">%retrieve</span>
+0872             <span class="keyword">if</span> ~isempty(this.volume)
+0873                 value = this.volume;
+0874                 <span class="keyword">return</span>;
+0875             <span class="keyword">end</span>
+0876             
+0877             <span class="comment">%calculate</span>
+0878             value = this.molecularWeight/this.density;
+0879             
+0880             <span class="comment">%store</span>
+0881             this.volume = value;
+0882         <span class="keyword">end</span>
+0883 
+0884         <span class="comment">%http://isoelectric.ovh.org/files/practise-isoelectric-point.html</span>
+0885         <a name="_sub44" href="#_subfunctions" class="code">function value = get.pI(this)</a>
+0886             <span class="comment">%retrieve</span>
+0887             <span class="keyword">if</span> ~isempty(this.pI)
+0888                 value = this.pI;
+0889                 <span class="keyword">return</span>;
+0890             <span class="keyword">end</span>
+0891             
+0892             <span class="comment">%calculate</span>
+0893             numAsp = sum(<span class="string">'D'</span> == this.sequence);
+0894             numGlu = sum(<span class="string">'E'</span> == this.sequence);
+0895             numCys = sum(<span class="string">'C'</span> == this.sequence);
+0896             numTyr = sum(<span class="string">'Y'</span> == this.sequence);
+0897             numHis = sum(<span class="string">'H'</span> == this.sequence);
+0898             numLys = sum(<span class="string">'K'</span> == this.sequence);
+0899             numArg = sum(<span class="string">'R'</span> == this.sequence);
+0900 
+0901             pH = 6.5;             <span class="comment">%starting point pI = 6.5 - theoretically it should be 7, but average protein pI is 6.5 so we increase the probability</span>
+0902             pHprev = 0.0;         <span class="comment">%of finding the solution</span>
+0903             pHnext = 14.0;        <span class="comment">%0-14 is possible pH range</span>
+0904             E = 0.01;             <span class="comment">%epsilon means precision [pI = pH \pm E]</span>
+0905 
+0906             <span class="comment">%the infinite loop</span>
+0907             <span class="keyword">while</span> true
+0908 
+0909                 <span class="comment">% we are using pK values form Wikipedia as they give quite good approximation</span>
+0910                 <span class="comment">% if you want you can change it</span>
+0911                 QN1 = -1/(1+10^(3.65-pH));       <span class="comment">%C-terminal charge</span>
+0912                 QN2 = -numAsp/(1+10^(3.9-pH));   <span class="comment">%D charge</span>
+0913                 QN3 = -numGlu/(1+10^(4.07-pH));  <span class="comment">%E charge</span>
+0914                 QN4 = -numCys/(1+10^(8.18-pH));  <span class="comment">%C charge</span>
+0915                 QN5 = -numTyr/(1+10^(10.46-pH)); <span class="comment">%Y charge</span>
+0916                 QP1 = numHis/(1+10^(pH-6.04));   <span class="comment">%H charge</span>
+0917                 QP2 = 1/(1+10^(pH-8.2));         <span class="comment">%NH2 charge</span>
+0918                 QP3 = numLys/(1+10^(pH-10.54));  <span class="comment">%K charge</span>
+0919                 QP4 = numArg/(1+10^(pH-12.48));  <span class="comment">%R charge</span>
+0920 
+0921                 NQ = QN1+QN2+QN3+QN4+QN5+QP1+QP2+QP3+QP4; <span class="comment">%net charge in given pH</span>
+0922 
+0923 
+0924                 <span class="keyword">if</span> pH &gt;= 14.0
+0925                     throw(MException(<span class="string">'ProteinMonomer:error'</span>,<span class="string">'pH higher than 14'</span>));
+0926                 <span class="keyword">end</span>
+0927 
+0928                 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%   BISECTION   %%%%%%%%%%%%%%%%%%%%%%%%</span>
+0929 
+0930                 <span class="comment">%we are out of range, thus the new pH value must be smaller</span>
+0931                 <span class="keyword">if</span> NQ&lt;0
+0932                     temp = pH;
+0933                     pH = pH-((pH-pHprev)/2);
+0934                     pHnext = temp;
+0935 
+0936                     <span class="comment">%we used to small pH value, so we have to increase it</span>
+0937                 <span class="keyword">else</span>
+0938                     temp = pH;
+0939                     pH = pH + ((pHnext-pH)/2);
+0940                     pHprev = temp;
+0941                 <span class="keyword">end</span>
+0942 
+0943                 <span class="comment">%terminal condition, finding isoelectric point with given precision</span>
+0944                 <span class="keyword">if</span> (pH-pHprev&lt;E) &amp;&amp; (pHnext-pH&lt;E)
+0945                     <span class="keyword">break</span>;
+0946                 <span class="keyword">end</span>
+0947             <span class="keyword">end</span>
+0948 
+0949             value = pH;
+0950             
+0951             <span class="comment">%store</span>
+0952             this.pI = value;
+0953         <span class="keyword">end</span>
+0954 
+0955         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+0956         <a name="_sub45" href="#_subfunctions" class="code">function value = get.extinctionCoefficient(this)</a>
+0957             <span class="comment">%retrieve</span>
+0958             <span class="keyword">if</span> ~isempty(this.extinctionCoefficient)
+0959                 value = this.extinctionCoefficient;
+0960                 <span class="keyword">return</span>;
+0961             <span class="keyword">end</span>
+0962             
+0963             <span class="comment">%calculate</span>
+0964             value = <span class="keyword">...</span>
+0965                 sum(<span class="string">'W'</span> == this.sequence) * 5500 + <span class="keyword">...</span>
+0966                 sum(<span class="string">'Y'</span> == this.sequence) * 1490 + <span class="keyword">...</span>
+0967                 sum(<span class="string">'C'</span> == this.sequence) * 125;
+0968             
+0969             <span class="comment">%store</span>
+0970             this.extinctionCoefficient = value;
+0971         <span class="keyword">end</span>
+0972 
+0973         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+0974         <a name="_sub46" href="#_subfunctions" class="code">function value = get.absorbanceFactor(this)</a>
+0975             <span class="comment">%retrieve</span>
+0976             <span class="keyword">if</span> ~isempty(this.absorbanceFactor)
+0977                 value = this.absorbanceFactor;
+0978                 <span class="keyword">return</span>;
+0979             <span class="keyword">end</span>
+0980             
+0981             <span class="comment">%calculate</span>
+0982             value = this.extinctionCoefficient/this.molecularWeight;
+0983             
+0984             <span class="comment">%store</span>
+0985             this.absorbanceFactor = value;
+0986         <span class="keyword">end</span>
+0987 
+0988         <span class="comment">%http://en.wikipedia.org/wiki/Amino_acid</span>
+0989         <a name="_sub47" href="#_subfunctions" class="code">function value = get.negAA(this)</a>
+0990             <span class="comment">%retrieve</span>
+0991             <span class="keyword">if</span> ~isempty(this.negAA)
+0992                 value = this.negAA;
+0993                 <span class="keyword">return</span>;
+0994             <span class="keyword">end</span>
+0995             
+0996             <span class="comment">%calculate</span>
+0997             value = sum(<span class="string">'D'</span> == this.sequence) + sum(<span class="string">'E'</span> == this.sequence);
+0998             
+0999             <span class="comment">%store</span>
+1000             this.negAA = value;
+1001         <span class="keyword">end</span>
+1002 
+1003         <span class="comment">%http://en.wikipedia.org/wiki/Amino_acid</span>
+1004         <a name="_sub48" href="#_subfunctions" class="code">function value = get.posAA(this)</a>
+1005             <span class="comment">%retrieve</span>
+1006             <span class="keyword">if</span> ~isempty(this.posAA)
+1007                 value = this.posAA;
+1008                 <span class="keyword">return</span>;
+1009             <span class="keyword">end</span>
+1010             
+1011             <span class="comment">%calculate</span>
+1012             value = <span class="keyword">...</span>
+1013                 sum(<span class="string">'R'</span> == this.sequence) + <span class="keyword">...</span>
+1014                 sum(<span class="string">'H'</span> == this.sequence) + <span class="keyword">...</span>
+1015                 sum(<span class="string">'K'</span> == this.sequence);
+1016             
+1017             <span class="comment">%store</span>
+1018             this.posAA = value;
+1019         <span class="keyword">end</span>
+1020 
+1021         <a name="_sub49" href="#_subfunctions" class="code">function value = get.nTerminalAA(this)</a>
+1022             <span class="comment">%retrieve</span>
+1023             <span class="keyword">if</span> ~isempty(this.nTerminalAA)
+1024                 value = this.nTerminalAA;
+1025                 <span class="keyword">return</span>;
+1026             <span class="keyword">end</span>
+1027             
+1028             <span class="comment">%calculate</span>
+1029             value = this.sequence(1);
+1030             
+1031             <span class="comment">%store</span>
+1032             this.nTerminalAA = value;
+1033         <span class="keyword">end</span>
+1034 
+1035         <a name="_sub50" href="#_subfunctions" class="code">function value = get.disulfideBonds(~)</a>
+1036             throw(MException(<span class="string">'ProteinMonomer:error'</span>,<span class="string">'property is not defined'</span>));
+1037         <span class="keyword">end</span>
+1038 
+1039         <span class="comment">%Instability index (II)</span>
+1040         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+1041         <a name="_sub51" href="#_subfunctions" class="code">function value = get.instabilityIndex(this)</a>
+1042             <span class="comment">%retrieve</span>
+1043             <span class="keyword">if</span> ~isempty(this.instabilityIndex)
+1044                 value = this.instabilityIndex;
+1045                 <span class="keyword">return</span>;
+1046             <span class="keyword">end</span>
+1047             
+1048             <span class="comment">%calculate</span>
+1049             value = 0;
+1050             idx2 = aa2int(this.sequence(1));
+1051             <span class="keyword">for</span> i = 1:length(this.sequence)-1
+1052                 idx1 = idx2;
+1053                 idx2 = aa2int(this.sequence(i+1));
+1054                 <span class="keyword">if</span> idx1&gt;size(this.DIWV,1) || idx2&gt;size(this.DIWV,2); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+1055                 value = value+this.DIWV(idx1,idx2);
+1056             <span class="keyword">end</span>
+1057             value = 10/length(this.sequence)*value;
+1058             
+1059             <span class="comment">%store</span>
+1060             this.instabilityIndex = value;
+1061         <span class="keyword">end</span>
+1062 
+1063         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+1064         <a name="_sub52" href="#_subfunctions" class="code">function value = get.stable(this)</a>
+1065             <span class="comment">%retrieve</span>
+1066             <span class="keyword">if</span> ~isempty(this.stable)
+1067                 value = this.stable;
+1068                 <span class="keyword">return</span>;
+1069             <span class="keyword">end</span>
+1070             
+1071             <span class="comment">%calculate</span>
+1072             value = (this.instabilityIndex&lt;40);
+1073             
+1074             <span class="comment">%store</span>
+1075             this.sequence = value;
+1076         <span class="keyword">end</span>
+1077 
+1078         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+1079         <a name="_sub53" href="#_subfunctions" class="code">function value = get.aliphaticIndex(this)</a>
+1080             <span class="comment">%retrieve</span>
+1081             <span class="keyword">if</span> ~isempty(this.sequence)
+1082                 value = this.sequence;
+1083                 <span class="keyword">return</span>;
+1084             <span class="keyword">end</span>
+1085             
+1086             <span class="comment">%calculate</span>
+1087             value = 100*(<span class="keyword">...</span>
+1088                 1.0*sum(<span class="string">'A'</span> == this.sequence)+<span class="keyword">...</span>
+1089                 2.9*sum(<span class="string">'V'</span> == this.sequence)+<span class="keyword">...</span>
+1090                 3.9*sum(<span class="string">'I'</span> == this.sequence)+<span class="keyword">...</span>
+1091                 3.9*sum(<span class="string">'L'</span> == this.sequence)) / <span class="keyword">...</span>
+1092                 this.sequenceLength;
+1093             
+1094             <span class="comment">%store</span>
+1095             this.stable = value;
+1096         <span class="keyword">end</span>
+1097 
+1098         <span class="comment">%GRAVY (Grand Average of Hydropathy)</span>
+1099         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+1100         <a name="_sub54" href="#_subfunctions" class="code">function value = get.gravy(this)</a>
+1101             <span class="comment">%retrieve</span>
+1102             <span class="keyword">if</span> ~isempty(this.gravy)
+1103                 value = this.gravy;
+1104                 <span class="keyword">return</span>;
+1105             <span class="keyword">end</span>
+1106             
+1107             <span class="comment">%calculate</span>
+1108             value = <span class="keyword">...</span>
+1109                 (1.8*sum(<span class="string">'A'</span> == this.sequence)+<span class="keyword">...</span>
+1110                 -4.5*sum(<span class="string">'R'</span> == this.sequence)+<span class="keyword">...</span>
+1111                 -3.5*sum(<span class="string">'N'</span> == this.sequence)+<span class="keyword">...</span>
+1112                 -3.5*sum(<span class="string">'D'</span> == this.sequence)+<span class="keyword">...</span>
+1113                  2.5*sum(<span class="string">'C'</span> == this.sequence)+<span class="keyword">...</span>
+1114                 -3.5*sum(<span class="string">'Q'</span> == this.sequence)+<span class="keyword">...</span>
+1115                 -3.5*sum(<span class="string">'E'</span> == this.sequence)+<span class="keyword">...</span>
+1116                 -0.4*sum(<span class="string">'G'</span> == this.sequence)+<span class="keyword">...</span>
+1117                 -3.2*sum(<span class="string">'H'</span> == this.sequence)+<span class="keyword">...</span>
+1118                  4.5*sum(<span class="string">'I'</span> == this.sequence)+<span class="keyword">...</span>
+1119                  3.8*sum(<span class="string">'L'</span> == this.sequence)+<span class="keyword">...</span>
+1120                 -3.9*sum(<span class="string">'K'</span> == this.sequence)+<span class="keyword">...</span>
+1121                  1.9*sum(<span class="string">'M'</span> == this.sequence)+<span class="keyword">...</span>
+1122                  2.8*sum(<span class="string">'F'</span> == this.sequence)+<span class="keyword">...</span>
+1123                 -1.6*sum(<span class="string">'P'</span> == this.sequence)+<span class="keyword">...</span>
+1124                 -0.8*sum(<span class="string">'S'</span> == this.sequence)+<span class="keyword">...</span>
+1125                 -0.7*sum(<span class="string">'T'</span> == this.sequence)+<span class="keyword">...</span>
+1126                 -0.9*sum(<span class="string">'W'</span> == this.sequence)+<span class="keyword">...</span>
+1127                 -1.3*sum(<span class="string">'Y'</span> == this.sequence)+<span class="keyword">...</span>
+1128                  4.2*sum(<span class="string">'V'</span> == this.sequence)) /<span class="keyword">...</span>
+1129                  this.sequenceLength;
+1130              
+1131              <span class="comment">%store</span>
+1132             this.gravy = value;
+1133         <span class="keyword">end</span>               
+1134     <span class="keyword">end</span>
+1135 
+1136     methods (Static = true)
+1137         <a name="_sub55" href="#_subfunctions" class="code">function value = computeBaseCount(sequence, numMetabolites, aminoAcidIndexs, nTerminalFormylMethionine)</a>
+1138             import edu.stanford.covert.cell.kb.ProteinMonomer;
+1139 
+1140             value = zeros(1,numMetabolites);
+1141             <span class="keyword">for</span> i = 1:length(ProteinMonomer.bases)
+1142                 value(aminoAcidIndexs(i)) = sum(ProteinMonomer.bases(i) == sequence);
+1143             <span class="keyword">end</span>
+1144 
+1145             <span class="keyword">if</span> nTerminalFormylMethionine
+1146                 value(aminoAcidIndexs(13)) = value(aminoAcidIndexs(13)) - 1;
+1147                 value(aminoAcidIndexs(21)) = value(aminoAcidIndexs(21)) + 1;
+1148             <span class="keyword">end</span>
+1149         <span class="keyword">end</span>
+1150 
+1151         <a name="_sub56" href="#_subfunctions" class="code">function value = computeDecayReaction(baseCount, sequenceLength, waterIndexs)</a>
+1152             value = baseCount;
+1153             value(waterIndexs) = <span class="keyword">...</span>
+1154                 + value(waterIndexs) <span class="keyword">...</span>
+1155                 - max(0, sequenceLength - 1);
+1156         <span class="keyword">end</span>
+1157 
+1158         <a name="_sub57" href="#_subfunctions" class="code">function value = computeMolecularWeight(baseCount, sequenceLength, metaboliteMolecularWeights)</a>
+1159             <span class="comment">% import classes</span>
+1160             import edu.stanford.covert.util.ConstantUtil;
+1161 
+1162             molecularWeightH2O = 2 * ConstantUtil.elements.H + ConstantUtil.elements.O;
+1163 
+1164             <span class="keyword">if</span> ~any(baseCount)
+1165                 value = 0;
+1166                 <span class="keyword">return</span>;
+1167             <span class="keyword">end</span>
+1168 
+1169             value = baseCount * metaboliteMolecularWeights <span class="keyword">...</span>
+1170                 - molecularWeightH2O * max(0, sequenceLength - 1);
+1171         <span class="keyword">end</span>
+1172 
+1173         <span class="comment">%N-end rule</span>
+1174         <span class="comment">%http://ca.expasy.org/tools/protparam-doc.html</span>
+1175         <a name="_sub58" href="#_subfunctions" class="code">function value = computeHalfLife(nTerminalAA) </a><span class="comment">%#ok&lt;INUSD&gt;</span>
+1176 <span class="comment">%             switch nTerminalAA</span>
+1177 <span class="comment">%                 case {'R','L','K','F','W','Y'}, value = 2*60;</span>
+1178 <span class="comment">%                 case {'P'}, value = Inf;</span>
+1179 <span class="comment">%                 otherwise, value = 10*60*60;</span>
+1180 <span class="comment">%             end</span>
+1181             value = 20 * 60 * 60;
+1182         <span class="keyword">end</span>
+1183     <span class="keyword">end</span>
+1184 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

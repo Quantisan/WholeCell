@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNADecay</title>
+  <meta name="keywords" content="RNADecay">
+  <meta name="description" content="RNA Decay">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; RNADecay.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNADecay
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNA Decay</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNA Decay
+
+ @wholeCellModelID Process_RNADecay
+ @name             RNA Decay
+ @description
+   Biology
+   ===============
+   In presence of ribonucleases such as ribonuclease R (MG_104_MONOMER) RNAs
+   have relatively short half lives compared to that of other macromolecules
+   (eg. protein, DNA) and the M. genitalium cell cycle length. The relatively
+   short half lives of RNAs enables the small M. genitalium with its very small
+   pool of RNAs and particularly mRNAs to sample a broader range of
+   configurations of the RNA pool over a shorter period that would be possible
+   with longer half lifes. This helps the cell more finely tune the expression
+   of proteins, more efficiently execute cell-cycle dependent events, and
+   respond to the external environment. This enhanced fitness due to short RNA
+   half lifes comes at a large energetic cost however.
+
+   In addition to ribonucleases, aminoacylated RNAs require peptidyl tRNA
+   hydrolase (MG_083_MONOMER) to release their conjugated amino acids.
+
+   This process decays all species of RNA, and at all maturation states
+   including aminoacylated states.
+
+   Knowledge Base
+   ===============
+   The knowledge base contains experimentally measured half lifes of many RNA
+   species measured largely in E. coli and mapped to M. genitalium by homology.
+   These half lifes are refined, by simulation.fitConstants to make them
+   consistent with other experimental data used to fit the model. Prior to
+   fitting missing half lifes are imputed either as the average of that of all
+   measured RNA species.
+
+      Type   Avg Half Life (m)
+      ====   =================
+      mRNA   4.5 +/- 2.0
+      rRNA   150
+      sRNA   89
+      tRNA   45
+
+   Representation
+   ===============
+   The substrates, enzymes, and RNAs properties represent the counts of
+   metabolites, ribonuclease R and peptidyl tRNA hydrolase enzymes, and RNAs.
+   This process contains no intermediate representation of RNA degradation; RNA
+   degradation is treated as an all-or-nothing event that either proceeds to
+   complete with a time step or doesn't progress at all.
+
+   decayRates represents the decay rate of each RNA species in seconds.
+   decayRates is informed by experimentally measured RNA half lifes organized
+   in the knowledge base, and fit by simulation.fitConstants. decayReactions
+   represents the metabolites required to decay each RNA species, and the
+   metabolic byproducts of the decay of each RNA species. decayReactions is
+   computed by the knowledge RNA classes based on the sequence, processing, and
+   modifications of each RNA species.
+
+   Initialization
+   ===============
+   All RNAs are initialized to the mature state. This is accomplished by the
+   simulation class initializeState method.
+
+   Simulation
+   ===============
+   This process models RNA decay as an enyzme-dependent poisson process with
+   rate parameter:
+     lambda = RNAs .* decayRates * stepSizeSec
+
+   Algorithm
+   +++++++++++++++
+   1. Stochastically select RNAs to decay based on poission distribution with
+      lambda = RNAs .* decayRates * stepSizeSec
+   2. (Ignore limits to decay posed by availability of metabolite reactants
+      since the only reactant is water, and water is abundantly available)
+   3. Limit RNA decay by available enzyme activity
+      a. All RNAs require ribonuclease R to decay
+      b. Additionally, only decay aminoacylated tRNAs up to the limit of
+         available peptidyl tRNA hydrolase activity.
+   4. Update counts of RNAs
+   5. Update counts of metabolic byproducts of RNA decay
+
+ Author: Markus Covert, mcovert@stanford.edu
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/30/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNADecay.html" class="code" title="">RNADecay</a>	RNA Decay</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNADecay.html" class="code" title="">RNADecay</a>	RNA Decay</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RNADecay(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(~)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNA Decay</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_RNADecay</span>
+0004 <span class="comment">% @name             RNA Decay</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   In presence of ribonucleases such as ribonuclease R (MG_104_MONOMER) RNAs</span>
+0009 <span class="comment">%   have relatively short half lives compared to that of other macromolecules</span>
+0010 <span class="comment">%   (eg. protein, DNA) and the M. genitalium cell cycle length. The relatively</span>
+0011 <span class="comment">%   short half lives of RNAs enables the small M. genitalium with its very small</span>
+0012 <span class="comment">%   pool of RNAs and particularly mRNAs to sample a broader range of</span>
+0013 <span class="comment">%   configurations of the RNA pool over a shorter period that would be possible</span>
+0014 <span class="comment">%   with longer half lifes. This helps the cell more finely tune the expression</span>
+0015 <span class="comment">%   of proteins, more efficiently execute cell-cycle dependent events, and</span>
+0016 <span class="comment">%   respond to the external environment. This enhanced fitness due to short RNA</span>
+0017 <span class="comment">%   half lifes comes at a large energetic cost however.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   In addition to ribonucleases, aminoacylated RNAs require peptidyl tRNA</span>
+0020 <span class="comment">%   hydrolase (MG_083_MONOMER) to release their conjugated amino acids.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   This process decays all species of RNA, and at all maturation states</span>
+0023 <span class="comment">%   including aminoacylated states.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   Knowledge Base</span>
+0026 <span class="comment">%   ===============</span>
+0027 <span class="comment">%   The knowledge base contains experimentally measured half lifes of many RNA</span>
+0028 <span class="comment">%   species measured largely in E. coli and mapped to M. genitalium by homology.</span>
+0029 <span class="comment">%   These half lifes are refined, by simulation.fitConstants to make them</span>
+0030 <span class="comment">%   consistent with other experimental data used to fit the model. Prior to</span>
+0031 <span class="comment">%   fitting missing half lifes are imputed either as the average of that of all</span>
+0032 <span class="comment">%   measured RNA species.</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%      Type   Avg Half Life (m)</span>
+0035 <span class="comment">%      ====   =================</span>
+0036 <span class="comment">%      mRNA   4.5 +/- 2.0</span>
+0037 <span class="comment">%      rRNA   150</span>
+0038 <span class="comment">%      sRNA   89</span>
+0039 <span class="comment">%      tRNA   45</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   Representation</span>
+0042 <span class="comment">%   ===============</span>
+0043 <span class="comment">%   The substrates, enzymes, and RNAs properties represent the counts of</span>
+0044 <span class="comment">%   metabolites, ribonuclease R and peptidyl tRNA hydrolase enzymes, and RNAs.</span>
+0045 <span class="comment">%   This process contains no intermediate representation of RNA degradation; RNA</span>
+0046 <span class="comment">%   degradation is treated as an all-or-nothing event that either proceeds to</span>
+0047 <span class="comment">%   complete with a time step or doesn't progress at all.</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   decayRates represents the decay rate of each RNA species in seconds.</span>
+0050 <span class="comment">%   decayRates is informed by experimentally measured RNA half lifes organized</span>
+0051 <span class="comment">%   in the knowledge base, and fit by simulation.fitConstants. decayReactions</span>
+0052 <span class="comment">%   represents the metabolites required to decay each RNA species, and the</span>
+0053 <span class="comment">%   metabolic byproducts of the decay of each RNA species. decayReactions is</span>
+0054 <span class="comment">%   computed by the knowledge RNA classes based on the sequence, processing, and</span>
+0055 <span class="comment">%   modifications of each RNA species.</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   Initialization</span>
+0058 <span class="comment">%   ===============</span>
+0059 <span class="comment">%   All RNAs are initialized to the mature state. This is accomplished by the</span>
+0060 <span class="comment">%   simulation class initializeState method.</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%   Simulation</span>
+0063 <span class="comment">%   ===============</span>
+0064 <span class="comment">%   This process models RNA decay as an enyzme-dependent poisson process with</span>
+0065 <span class="comment">%   rate parameter:</span>
+0066 <span class="comment">%     lambda = RNAs .* decayRates * stepSizeSec</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   Algorithm</span>
+0069 <span class="comment">%   +++++++++++++++</span>
+0070 <span class="comment">%   1. Stochastically select RNAs to decay based on poission distribution with</span>
+0071 <span class="comment">%      lambda = RNAs .* decayRates * stepSizeSec</span>
+0072 <span class="comment">%   2. (Ignore limits to decay posed by availability of metabolite reactants</span>
+0073 <span class="comment">%      since the only reactant is water, and water is abundantly available)</span>
+0074 <span class="comment">%   3. Limit RNA decay by available enzyme activity</span>
+0075 <span class="comment">%      a. All RNAs require ribonuclease R to decay</span>
+0076 <span class="comment">%      b. Additionally, only decay aminoacylated tRNAs up to the limit of</span>
+0077 <span class="comment">%         available peptidyl tRNA hydrolase activity.</span>
+0078 <span class="comment">%   4. Update counts of RNAs</span>
+0079 <span class="comment">%   5. Update counts of metabolic byproducts of RNA decay</span>
+0080 <span class="comment">%</span>
+0081 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0082 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0083 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0084 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0085 <span class="comment">% Last updated: 7/30/2010</span>
+0086 classdef <a href="RNADecay.html" class="code" title="">RNADecay</a> &lt; edu.stanford.covert.cell.sim.Process
+0087 
+0088     <span class="comment">%property annotations</span>
+0089     properties (Constant)
+0090         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0091         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0092             <span class="string">'peptidylTRNAHydrolaseSpecificRate'</span>;
+0093             <span class="string">'ribonucleaseRFragmentLength'</span>;
+0094             <span class="string">'decayReactions'</span>;
+0095             };            
+0096         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0097         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0098             <span class="string">'RNAs'</span>};
+0099     <span class="keyword">end</span>
+0100 
+0101     <span class="comment">%IDs, names, and local indices</span>
+0102     properties
+0103         stimuliWholeCellModelIDs = {};   <span class="comment">%whole cell model IDs of stimuli</span>
+0104 
+0105         substrateWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of substrates</span>
+0106         substrateIndexs_hydrogen         <span class="comment">%index within substrates of hydrogen</span>
+0107         substrateIndexs_water            <span class="comment">%index within substrates of water</span>
+0108         substrateIndexs_methionine       <span class="comment">%index within substrates of methionine</span>
+0109         substrateIndexs_fmethionine      <span class="comment">%index within substrates of formylmethionine</span>
+0110         substrateIndexs_glutamate        <span class="comment">%index within substrates of glutamate</span>
+0111         substrateIndexs_glutamine        <span class="comment">%index within substrates of glutamine</span>
+0112         substrateIndexs_formate          <span class="comment">%index within substrates of formate</span>
+0113         substrateIndexs_ammonia          <span class="comment">%index within substrates of ammonia</span>
+0114         substrateIndexs_aminoAcids       <span class="comment">%index within substrates of amino acids</span>
+0115         substrateIndexs_nmps             <span class="comment">%index within substrates of NMPs</span>
+0116 
+0117         enzymeWholeCellModelIDs = {      <span class="comment">%enzyme whole cell model ids</span>
+0118             <span class="string">'MG_104_MONOMER'</span>;            <span class="comment">%ribonuclease R</span>
+0119             <span class="string">'MG_083_MONOMER'</span>};           <span class="comment">%peptidyl-tRNA hydrolase</span>
+0120         enzymeIndexs_ribonucleaseR         = 1; <span class="comment">%index within enzymes of ribonuclease R</span>
+0121         enzymeIndexs_peptidylTRNAHydrolase = 2; <span class="comment">%index within enzymes of peptidyl-tRNA hydrolase</span>
+0122         
+0123         matureTRNAIndexs                 <span class="comment">%indices of mature tRNAs within RNAs</span>
+0124         matureTMRNAIndexs                <span class="comment">%indices of mature tmRNAs within RNAs</span>
+0125     <span class="keyword">end</span>
+0126     
+0127     <span class="comment">%fixed biological constants</span>
+0128     properties
+0129         peptidylTRNAHydrolaseSpecificRate   <span class="comment">%0.700 [PUB_0026]</span>
+0130         ribonucleaseRFragmentLength         <span class="comment">%5 [PUB_0039]</span>
+0131         decayReactions                      <span class="comment">%adjacency matrix -- RNAs X (reactants and products of RNA decay)</span>
+0132     <span class="keyword">end</span>
+0133 
+0134     <span class="comment">%global state (copied locally for convenience)</span>
+0135     properties
+0136         RNAs                                <span class="comment">%counts of RNAs</span>
+0137     <span class="keyword">end</span>
+0138             
+0139     <span class="comment">%global state (referenced locally for convenience)</span>
+0140     properties
+0141         transcripts                         <span class="comment">%New Transcripts state class</span>
+0142     <span class="keyword">end</span>
+0143 
+0144     <span class="comment">%constructor</span>
+0145     methods
+0146         <a name="_sub0" href="#_subfunctions" class="code">function this = RNADecay(wholeCellModelID, name)</a>
+0147             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0148         <span class="keyword">end</span>
+0149     <span class="keyword">end</span>
+0150 
+0151     <span class="comment">%communication between process/simulation</span>
+0152     methods
+0153         <span class="comment">%set references to state objects</span>
+0154         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0155             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0156             
+0157             this.transcripts = simulation.state(<span class="string">'Transcript'</span>);
+0158             this.states = [this.states; {this.transcripts}];
+0159         <span class="keyword">end</span>
+0160         
+0161         <span class="comment">%initialize constants</span>
+0162         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0163             s = this.rna;
+0164             g = this.gene;
+0165             
+0166             <span class="comment">%include all metabolites involved in RNA decay</span>
+0167             decayReactions_nascentRNA       = knowledgeBase.nascentRNAs.decayReactions;
+0168             decayReactions_processedRNA     = knowledgeBase.processedRNAs.decayReactions;
+0169             decayReactions_intergenicRNA    = knowledgeBase.intergenicRNAs.decayReactions;
+0170             decayReactions_matureRNA        = knowledgeBase.matureRNAs.decayReactions;
+0171             decayReactions_aminoacylatedRNA = knowledgeBase.aminoacylatedRNAs.decayReactions;  
+0172             
+0173             this.substrateWholeCellModelIDs = unique([simulation.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(<span class="keyword">...</span>
+0174                 any(decayReactions_nascentRNA,       1) | <span class="keyword">...</span>
+0175                 any(decayReactions_processedRNA,     1) | <span class="keyword">...</span>
+0176                 any(decayReactions_intergenicRNA,    1) | <span class="keyword">...</span>
+0177                 any(decayReactions_matureRNA,        1) | <span class="keyword">...</span>
+0178                 any(decayReactions_aminoacylatedRNA, 1));
+0179                 <span class="string">'H'</span>;<span class="string">'H2O'</span>;<span class="string">'NH3'</span>;<span class="string">'FOR'</span>;
+0180                 <span class="string">'ALA'</span>;<span class="string">'ARG'</span>;<span class="string">'ASN'</span>;<span class="string">'ASP'</span>;<span class="string">'CYS'</span>;<span class="string">'GLN'</span>;<span class="string">'GLU'</span>;<span class="string">'GLY'</span>;<span class="string">'HIS'</span>;<span class="string">'ILE'</span>;<span class="string">'LEU'</span>;<span class="string">'LYS'</span>;<span class="string">'MET'</span>;<span class="string">'PHE'</span>;<span class="string">'PRO'</span>;<span class="string">'SER'</span>;<span class="string">'THR'</span>;<span class="string">'TRP'</span>;<span class="string">'TYR'</span>;<span class="string">'VAL'</span>;<span class="string">'FMET'</span>]);
+0181 
+0182             <span class="comment">%super class method</span>
+0183             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0184                 knowledgeBase, simulation, varargin{:});
+0185             
+0186             <span class="comment">%substrate indices</span>
+0187             this.substrateIndexs_hydrogen    = this.substrateIndexs({<span class="string">'H'</span>});
+0188             this.substrateIndexs_water       = this.substrateIndexs({<span class="string">'H2O'</span>});
+0189             this.substrateIndexs_methionine  = this.substrateIndexs({<span class="string">'MET'</span>});
+0190             this.substrateIndexs_fmethionine = this.substrateIndexs({<span class="string">'FMET'</span>});
+0191             this.substrateIndexs_glutamate   = this.substrateIndexs({<span class="string">'GLU'</span>});
+0192             this.substrateIndexs_glutamine   = this.substrateIndexs({<span class="string">'GLN'</span>});
+0193             this.substrateIndexs_ammonia     = this.substrateIndexs({<span class="string">'NH3'</span>});
+0194             this.substrateIndexs_formate     = this.substrateIndexs({<span class="string">'FOR'</span>});
+0195             this.substrateIndexs_aminoAcids  = this.substrateIndexs({<span class="string">'ALA'</span>;<span class="string">'ARG'</span>;<span class="string">'ASN'</span>;<span class="string">'ASP'</span>;<span class="string">'CYS'</span>;<span class="string">'GLN'</span>;<span class="string">'GLU'</span>;<span class="string">'GLY'</span>;<span class="string">'HIS'</span>;<span class="string">'ILE'</span>;<span class="string">'LEU'</span>;<span class="string">'LYS'</span>;<span class="string">'MET'</span>;<span class="string">'PHE'</span>;<span class="string">'PRO'</span>;<span class="string">'SER'</span>;<span class="string">'THR'</span>;<span class="string">'TRP'</span>;<span class="string">'TYR'</span>;<span class="string">'VAL'</span>;<span class="string">'FMET'</span>});
+0196             this.substrateIndexs_nmps        = this.substrateIndexs({<span class="string">'AMP'</span>;<span class="string">'CMP'</span>;<span class="string">'GMP'</span>;<span class="string">'UMP'</span>});
+0197             
+0198             this.matureTRNAIndexs = find(any(s.matureRNAGeneComposition(g.tRNAIndexs, :), 1))';
+0199             this.matureTMRNAIndexs = s.getIndexs(<span class="string">'MG_0004'</span>);
+0200             
+0201             this.decayReactions = zeros(numel(this.rna.wholeCellModelIDs), numel(this.substrateWholeCellModelIDs));
+0202             this.decayReactions(s.nascentIndexs, :)       = decayReactions_nascentRNA(:,       this.substrateMetaboliteGlobalIndexs);
+0203             this.decayReactions(s.processedIndexs, :)     = decayReactions_processedRNA(:,     this.substrateMetaboliteGlobalIndexs);
+0204             this.decayReactions(s.intergenicIndexs, :)    = decayReactions_intergenicRNA(:,    this.substrateMetaboliteGlobalIndexs);
+0205             this.decayReactions(s.matureIndexs, :)        = decayReactions_matureRNA(:,        this.substrateMetaboliteGlobalIndexs);
+0206             this.decayReactions(s.boundIndexs, :)         = decayReactions_matureRNA(:,        this.substrateMetaboliteGlobalIndexs);
+0207             this.decayReactions(s.misfoldedIndexs, :)     = decayReactions_matureRNA(:,        this.substrateMetaboliteGlobalIndexs);
+0208             this.decayReactions(s.damagedIndexs, :)       = decayReactions_matureRNA(:,        this.substrateMetaboliteGlobalIndexs);
+0209             this.decayReactions(s.aminoacylatedIndexs, :) = decayReactions_aminoacylatedRNA(:, this.substrateMetaboliteGlobalIndexs);           
+0210         <span class="keyword">end</span>
+0211 
+0212         <span class="comment">%retrieve state from simulation</span>
+0213         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0214             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0215 
+0216             this.RNAs = this.rna.counts(:, this.compartment.cytosolIndexs, :);
+0217         <span class="keyword">end</span>
+0218 
+0219         <span class="comment">%send state to simulation</span>
+0220         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0221             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0222 
+0223             this.rna.counts(:, this.compartment.cytosolIndexs, :) = this.RNAs;
+0224         <span class="keyword">end</span>
+0225     <span class="keyword">end</span>
+0226     
+0227     <span class="comment">%memory alloction for state</span>
+0228     methods
+0229         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0230             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0231             
+0232             this.RNAs = zeros(size(this.rna.counts, 1), 1, numTimePoints);
+0233         <span class="keyword">end</span>
+0234     <span class="keyword">end</span>
+0235 
+0236     <span class="comment">%model</span>
+0237     methods
+0238         <span class="comment">%Calculate</span>
+0239         <span class="comment">%- contribution to FBA objective</span>
+0240         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0241         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0242             import edu.stanford.covert.util.ComputationUtil;
+0243             invMat = this.rna.intergenicRNAMatrix * <span class="keyword">...</span>
+0244                 ComputationUtil.invertCompositionMatrix(this.rna.nascentRNAMatureRNAComposition);
+0245             
+0246             <span class="comment">%% substrate and byproducts</span>
+0247             <span class="comment">%data</span>
+0248             matureRNAReactions = this.decayReactions(this.rna.aminoacylatedIndexs, :); <span class="comment">%same as mature for (m,r)RNA and for non-aminoacylated sRNA</span>
+0249             intergenicRNAReactions = this.decayReactions(this.rna.intergenicIndexs, :);
+0250             intergenicRNADecays = invMat * states.rnaProductions;
+0251 
+0252             <span class="comment">%RNA decay</span>
+0253             bmProd = <span class="keyword">...</span>
+0254                 + max(0, -matureRNAReactions)'     * states.rnaDecays <span class="keyword">...</span>
+0255                 + max(0, -intergenicRNAReactions)' * intergenicRNADecays;
+0256             byProd = <span class="keyword">...</span>
+0257                 + max(0,  matureRNAReactions)'     * states.rnaDecays <span class="keyword">...</span>
+0258                 + max(0,  intergenicRNAReactions)' * intergenicRNADecays;
+0259             
+0260             <span class="comment">%% enzymes</span>
+0261             
+0262             <span class="comment">%data</span>
+0263             rnaDecays = states.rnaDecays0;
+0264             aminoacylatedRNADecays = rnaDecays([this.matureTRNAIndexs; this.matureTMRNAIndexs]);
+0265             intergenicRNADecays = invMat * states.rnaProductions0;
+0266 
+0267             <span class="comment">%RNA decay</span>
+0268             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0269             minEnzExp(this.enzymeIndexs_ribonucleaseR) = <span class="keyword">...</span>
+0270                 2 * (sum(rnaDecays) + sum(intergenicRNADecays));
+0271             minEnzExp(this.enzymeIndexs_peptidylTRNAHydrolase) = <span class="keyword">...</span>
+0272                 2 * sum(aminoacylatedRNADecays) / this.peptidylTRNAHydrolaseSpecificRate;
+0273             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0274         <span class="keyword">end</span>
+0275 
+0276         <span class="comment">%initialization: RNAs intialized to mature/aminoacylated state by</span>
+0277         <span class="comment">%simulation intializeState method</span>
+0278         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(~)</a>
+0279         <span class="keyword">end</span>
+0280 
+0281         <span class="comment">%resource requirements</span>
+0282         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0283             <span class="keyword">if</span> this.enzymes(this.enzymeIndexs_ribonucleaseR) == 0
+0284                 result = zeros(size(this.substrates));
+0285                 <span class="keyword">return</span>;
+0286             <span class="keyword">end</span>
+0287             
+0288             result = max(0, -this.decayReactions' * (min(1, this.rna.decayRates) .* this.RNAs));
+0289             <span class="keyword">if</span> ~isempty(this.transcripts.abortedTranscripts)
+0290                 result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0291                     + result(this.substrateIndexs_water) <span class="keyword">...</span>
+0292                     + sum(this.transcripts.abortedTranscripts(:, 2) - 1);
+0293             <span class="keyword">end</span>
+0294         <span class="keyword">end</span>
+0295 
+0296         <span class="comment">%simulation</span>
+0297         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0298             <span class="comment">% import classes</span>
+0299             import edu.stanford.covert.cell.kb.ssRNA;
+0300             
+0301             <span class="comment">% numbers of enzymes</span>
+0302             ribonucleaseR = this.enzymes(this.enzymeIndexs_ribonucleaseR);
+0303             peptidylTRNAHydrolase = this.randStream.stochasticRound(<span class="keyword">...</span>
+0304                 this.enzymes(this.enzymeIndexs_peptidylTRNAHydrolase) <span class="keyword">...</span>
+0305                 * this.peptidylTRNAHydrolaseSpecificRate <span class="keyword">...</span>
+0306                 * this.stepSizeSec);
+0307             
+0308             <span class="comment">%Ribonuclease R required for decay, terminate early if no ribonuclease R</span>
+0309             <span class="keyword">if</span> ribonucleaseR == 0
+0310                 <span class="keyword">return</span>;
+0311             <span class="keyword">end</span>
+0312             
+0313             <span class="comment">%% decay all aborted transcripts</span>
+0314             abortedSeqs = this.transcripts.abortedSequences;
+0315             abortedTfs = false(size(abortedSeqs));
+0316             <span class="keyword">for</span> i = 1:numel(abortedSeqs)
+0317                 substrateCost = ssRNA.computeDecayReaction(ssRNA.computeBaseCount(<span class="keyword">...</span>
+0318                     abortedSeqs{i}, numel(this.substrates), this.substrateIndexs_nmps), <span class="keyword">...</span>
+0319                     numel(abortedSeqs{i}), <span class="string">'linear'</span>, <span class="keyword">...</span>
+0320                     this.substrateIndexs_water, this.substrateIndexs_hydrogen)';
+0321                 <span class="keyword">if</span> any(this.substrates &lt; -substrateCost)
+0322                     <span class="keyword">break</span>;
+0323                 <span class="keyword">end</span>
+0324                 abortedTfs(i) = true;
+0325                 this.substrates = this.substrates + substrateCost;
+0326             <span class="keyword">end</span>
+0327             this.transcripts.abortedTranscripts = this.transcripts.abortedTranscripts(~abortedTfs, :);
+0328             
+0329             <span class="comment">%% Stochastically decay free RNA as poisson process</span>
+0330             decayingRNAs = min(this.randStream.random(<span class="string">'poisson'</span>, <span class="keyword">...</span>
+0331                 this.RNAs .* min(1e6, this.rna.decayRates * this.stepSizeSec)), <span class="keyword">...</span>
+0332                 this.RNAs);
+0333             <span class="keyword">if</span> ~any(decayingRNAs)
+0334                 <span class="keyword">return</span>;
+0335             <span class="keyword">end</span>
+0336             
+0337             <span class="comment">%Require peptidyl tRNA hydrolase to decay aminoacylated tRNAs</span>
+0338             tmp = decayingRNAs(this.rna.aminoacylatedIndexs);
+0339             tmp2 = zeros(size(tmp));
+0340             <span class="keyword">while</span> any(tmp)
+0341                 <span class="keyword">if</span> peptidylTRNAHydrolase &lt;= 0
+0342                     <span class="keyword">break</span>;
+0343                 <span class="keyword">end</span>
+0344                 idx = this.randStream.randsample(numel(tmp), 1, true, tmp);
+0345                 tmp(idx) = tmp(idx) - 1;
+0346                 tmp2(idx) = tmp2(idx) + 1;
+0347                 peptidylTRNAHydrolase = peptidylTRNAHydrolase - 1;
+0348             <span class="keyword">end</span>
+0349             decayingRNAs(this.rna.aminoacylatedIndexs) = tmp2;
+0350             
+0351             <span class="comment">%require substrates (water) to decay RNAs</span>
+0352             tmp = decayingRNAs;
+0353             tmp2 = zeros(size(tmp));
+0354             water = this.substrates(this.substrateIndexs_water);
+0355             waterReqs = max(0, -this.decayReactions(:, this.substrateIndexs_water));
+0356             <span class="keyword">while</span> any(tmp)
+0357                 idx = this.randStream.randsample(numel(tmp), 1, true, tmp);
+0358                 <span class="keyword">if</span> water &lt; waterReqs(idx);
+0359                     <span class="keyword">break</span>;
+0360                 <span class="keyword">end</span>
+0361                 water = water - waterReqs(idx);
+0362                 tmp(idx) = tmp(idx) - 1;
+0363                 tmp2(idx) = tmp2(idx) + 1;
+0364             <span class="keyword">end</span>
+0365             decayingRNAs = tmp2;
+0366             
+0367             <span class="comment">%update numbers of RNAs</span>
+0368             this.RNAs = this.RNAs - decayingRNAs;
+0369             
+0370             <span class="comment">%update metabolites</span>
+0371             <span class="comment">%- water, hydrogen for hydrolysis</span>
+0372             <span class="comment">%- nucleotide monophosphate salvage</span>
+0373             this.substrates = this.substrates + this.decayReactions' * decayingRNAs;
+0374             
+0375             this.rna.counts(:, this.compartment.cytosolIndexs) = this.RNAs;
+0376             <span class="keyword">if</span> any(any(this.rna.updateExternalState(-decayingRNAs, true)))
+0377                 throw(MException(<span class="string">'RNADecay:error'</span>, <span class="string">'All RNAs should have been degraded'</span>));
+0378             <span class="keyword">end</span>
+0379             this.RNAs = this.rna.counts(:, this.compartment.cytosolIndexs);
+0380         <span class="keyword">end</span>
+0381     <span class="keyword">end</span>
+0382 
+0383     <span class="comment">%get methods of dependent local state</span>
+0384     methods
+0385         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0386             <span class="keyword">if</span> size(this.RNAs, 3) == 1
+0387                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0388                     this.rna.molecularWeights' * this.RNAs / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0389             <span class="keyword">else</span>
+0390                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+0391                     permute(this.rna.molecularWeights' * permute(this.RNAs,[1 3 2]),[1 3 2]) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0392             <span class="keyword">end</span>
+0393         <span class="keyword">end</span>
+0394     <span class="keyword">end</span>
+0395 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

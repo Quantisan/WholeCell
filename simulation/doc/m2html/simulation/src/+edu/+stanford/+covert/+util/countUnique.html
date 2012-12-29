@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of countUnique</title>
+  <meta name="keywords" content="countUnique">
+  <meta name="description" content="COUNT_UNIQUE  Determines unique values, and counts occurrences">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; countUnique.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>countUnique
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>COUNT_UNIQUE  Determines unique values, and counts occurrences</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [uniques,numUnique] = countUnique(x,option) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">COUNT_UNIQUE  Determines unique values, and counts occurrences
+   [uniques,numUnique] = count_unique(x)
+
+   This function determines unique values of an array, and also counts the
+   number of instances of those values.
+
+   This uses the MATLAB builtin function accumarray, and is faster than
+   MATLAB's unique function for intermediate to large sizes of arrays for integer values.
+   Unlike 'unique' it cannot be used to determine if rows are unique or
+   operate on cell arrays.
+
+   If float values are passed, it uses MATLAB's logic builtin unique function to
+   determine unique values, and then to count instances.
+
+   Descriptions of Input Variables:
+   x:  Input vector or matrix, N-D.  Must be a type acceptable to
+       accumarray, numeric, logical, char, scalar, or cell array of
+       strings.
+   option: Acceptable values currently only 'float'.  If 'float' is
+           specified, the input x vector will be treated as containing
+           decimal values, regardless of whether it is a float array type.
+
+   Descriptions of Output Variables:
+   uniques:    sorted unique values
+   numUnique:  number of instances of each unique value
+
+   Example(s):
+   &gt;&gt; [uniques] = countUnique(largeArray);
+   &gt;&gt; [uniques,numUnique] = countUnique(largeArray);
+
+   See also: unique, accumarray</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [uniques,numUnique] = int_log_unique(x,nOut)</a></li><li><a href="#_sub2" class="code">function [uniques,numUnique] = float_cell_unique(x,nOut)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [uniques,numUnique] = countUnique(x,option)</a>
+0002 <span class="comment">%COUNT_UNIQUE  Determines unique values, and counts occurrences</span>
+0003 <span class="comment">%   [uniques,numUnique] = count_unique(x)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%   This function determines unique values of an array, and also counts the</span>
+0006 <span class="comment">%   number of instances of those values.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%   This uses the MATLAB builtin function accumarray, and is faster than</span>
+0009 <span class="comment">%   MATLAB's unique function for intermediate to large sizes of arrays for integer values.</span>
+0010 <span class="comment">%   Unlike 'unique' it cannot be used to determine if rows are unique or</span>
+0011 <span class="comment">%   operate on cell arrays.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%   If float values are passed, it uses MATLAB's logic builtin unique function to</span>
+0014 <span class="comment">%   determine unique values, and then to count instances.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   Descriptions of Input Variables:</span>
+0017 <span class="comment">%   x:  Input vector or matrix, N-D.  Must be a type acceptable to</span>
+0018 <span class="comment">%       accumarray, numeric, logical, char, scalar, or cell array of</span>
+0019 <span class="comment">%       strings.</span>
+0020 <span class="comment">%   option: Acceptable values currently only 'float'.  If 'float' is</span>
+0021 <span class="comment">%           specified, the input x vector will be treated as containing</span>
+0022 <span class="comment">%           decimal values, regardless of whether it is a float array type.</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   Descriptions of Output Variables:</span>
+0025 <span class="comment">%   uniques:    sorted unique values</span>
+0026 <span class="comment">%   numUnique:  number of instances of each unique value</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   Example(s):</span>
+0029 <span class="comment">%   &gt;&gt; [uniques] = countUnique(largeArray);</span>
+0030 <span class="comment">%   &gt;&gt; [uniques,numUnique] = countUnique(largeArray);</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   See also: unique, accumarray</span>
+0033 
+0034 <span class="comment">% Author: Anthony Kendall</span>
+0035 <span class="comment">% Contact: anthony [dot] kendall [at] gmail [dot] com, http://www.mathworks.com/matlabcentral/fileexchange/23333</span>
+0036 <span class="comment">% Created: 2009-03-17</span>
+0037 
+0038 <span class="keyword">if</span> isempty(x)
+0039     uniques = x;
+0040     numUnique = x;
+0041     <span class="keyword">return</span>;
+0042 <span class="keyword">elseif</span> isscalar(x)
+0043     uniques = x;
+0044     numUnique = 1;
+0045     <span class="keyword">return</span>;
+0046 <span class="keyword">end</span>
+0047 
+0048 testFloat = false;
+0049 <span class="keyword">if</span> nargin == 2 &amp;&amp; strcmpi(option,<span class="string">'float'</span>)
+0050     testFloat = true;
+0051 <span class="keyword">end</span>
+0052 
+0053 nOut = nargout;
+0054 <span class="keyword">if</span> testFloat
+0055     <span class="keyword">if</span> nOut &lt; 2
+0056         [uniques] = <a href="#_sub2" class="code" title="subfunction [uniques,numUnique] = float_cell_unique(x,nOut)">float_cell_unique</a>(x,nOut);
+0057     <span class="keyword">else</span>
+0058         [uniques,numUnique] = <a href="#_sub2" class="code" title="subfunction [uniques,numUnique] = float_cell_unique(x,nOut)">float_cell_unique</a>(x,nOut);
+0059     <span class="keyword">end</span>
+0060 <span class="keyword">else</span>
+0061     <span class="keyword">try</span> <span class="comment">%this will fail if the array is float or cell</span>
+0062         <span class="keyword">if</span> nOut &lt; 2
+0063             [uniques] = <a href="#_sub1" class="code" title="subfunction [uniques,numUnique] = int_log_unique(x,nOut)">int_log_unique</a>(x,nOut);
+0064         <span class="keyword">else</span>
+0065             [uniques,numUnique] = <a href="#_sub1" class="code" title="subfunction [uniques,numUnique] = int_log_unique(x,nOut)">int_log_unique</a>(x,nOut);
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">catch</span> <span class="comment">%default to standard approach</span>
+0068         <span class="keyword">if</span> nOut &lt; 2
+0069             [uniques] = <a href="#_sub2" class="code" title="subfunction [uniques,numUnique] = float_cell_unique(x,nOut)">float_cell_unique</a>(x,nOut);
+0070         <span class="keyword">else</span>
+0071             [uniques,numUnique] = <a href="#_sub2" class="code" title="subfunction [uniques,numUnique] = float_cell_unique(x,nOut)">float_cell_unique</a>(x,nOut);
+0072         <span class="keyword">end</span>
+0073     <span class="keyword">end</span>
+0074 <span class="keyword">end</span>
+0075 
+0076 <span class="keyword">end</span>
+0077 
+0078 <a name="_sub1" href="#_subfunctions" class="code">function [uniques,numUnique] = int_log_unique(x,nOut)</a>
+0079 <span class="comment">%Check to see if accumarray is appropriate for this function</span>
+0080 maxVal = max(x(:));
+0081 <span class="keyword">if</span> maxVal / numel(x) &gt; 1000
+0082     throw(MException(<span class="string">'countUnique'</span>,<span class="string">'Accumarray is inefficient for arrays when ind values are &gt;&gt; than the number of elements'</span>))
+0083 <span class="keyword">end</span>
+0084 <span class="comment">%First, determine the offset for negative values</span>
+0085 minVal = min(x(:));
+0086 <span class="keyword">if</span> minVal &lt; 1
+0087     <span class="comment">%Now, offset to get the index</span>
+0088     index = x(:) - minVal + 1;
+0089 
+0090     <span class="comment">%Get the number of duplicates with accumarray</span>
+0091     numUnique = accumarray(index,1);
+0092 
+0093     <span class="comment">%Get the sum of those duplicate values</span>
+0094     sumDups = accumarray(index,x(:));
+0095 <span class="keyword">else</span>
+0096     <span class="comment">%Get the number of duplicates with accumarray</span>
+0097     numUnique = accumarray(x(:),1);
+0098 
+0099     <span class="comment">%Get the sum of those duplicate values</span>
+0100     sumDups = accumarray(x(:),x(:));
+0101 <span class="keyword">end</span>
+0102 
+0103 <span class="comment">%Find numUnique &gt; 0</span>
+0104 test = (numUnique &gt; 0);
+0105 
+0106 <span class="comment">%Determine the unique values</span>
+0107 uniques = sumDups(test) ./ (numUnique(test));
+0108 
+0109 <span class="keyword">if</span> nOut == 2
+0110     <span class="comment">%Trim the numUnique array</span>
+0111     numUnique = numUnique(test);
+0112 <span class="keyword">end</span>
+0113 <span class="keyword">end</span>
+0114 
+0115 <a name="_sub2" href="#_subfunctions" class="code">function [uniques,numUnique] = float_cell_unique(x,nOut)</a>
+0116 
+0117 <span class="keyword">if</span> ~iscell(x)
+0118     <span class="comment">%First, sort the input vector</span>
+0119     x = sort(x(:));
+0120     numelX = numel(x);
+0121 
+0122     <span class="comment">%Check to see if the array type needs to be converted to double</span>
+0123     currClass = class(x);
+0124     isdouble = strcmp(currClass,<span class="string">'double'</span>);
+0125 
+0126     <span class="keyword">if</span> ~isdouble
+0127         x = double(x);
+0128     <span class="keyword">end</span>
+0129 
+0130     <span class="comment">%Check to see if there are any NaNs or Infs, sort returns these either at</span>
+0131     <span class="comment">%the beginning or end of an array</span>
+0132     <span class="keyword">if</span> isnan(x(1)) || isinf(x(1)) || isnan(x(numelX)) || isinf(x(numelX))
+0133         <span class="comment">%Check to see if the array contains nans or infs</span>
+0134         xnan = isnan(x);
+0135         xinf = isinf(x);
+0136         testRep = xnan | xinf;
+0137 
+0138         <span class="comment">%Remove all of these from the array</span>
+0139         x = x(~testRep);
+0140     <span class="keyword">end</span>
+0141 
+0142     <span class="comment">%Determine break locations of unique values</span>
+0143     uniqueLocs = [true;diff(x) ~= 0];
+0144 <span class="keyword">else</span>
+0145     isdouble = true; <span class="comment">%just to avoid conversion on finish</span>
+0146 
+0147     <span class="comment">%Sort the rows of the cell array</span>
+0148     x = sort(x(:));
+0149 
+0150     <span class="comment">%Determine unique location values</span>
+0151     uniqueLocs = [true;~strcmp(x(1:end-1),x(2:end)) ~= 0] ;
+0152 <span class="keyword">end</span>
+0153 
+0154 <span class="comment">%Determine the unique values</span>
+0155 uniques = x(uniqueLocs);
+0156 
+0157 <span class="keyword">if</span> ~isdouble
+0158     x = feval(currClass,x);
+0159 <span class="keyword">end</span>
+0160 
+0161 <span class="comment">%Count the number of duplicate values</span>
+0162 <span class="keyword">if</span> nOut == 2
+0163     numUnique = diff([find(uniqueLocs);length(x)+1]);
+0164 <span class="keyword">end</span>
+0165 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DNADamage</title>
+  <meta name="keywords" content="DNADamage">
+  <meta name="description" content="DNADamage">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; DNADamage.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>DNADamage
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>DNADamage</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DNADamage
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 4/19/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNADamage.html" class="code" title="">DNADamage</a>	DNADamage</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNADamage.html" class="code" title="">DNADamage</a>	DNADamage</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels, indentation] = calcExpectedRates(sim)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%DNADamage</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 4/19/2011</span>
+0006 classdef <a href="DNADamage.html" class="code" title="">DNADamage</a>
+0007     methods (Static = true)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0009             import edu.stanford.covert.cell.sim.analysis.DNADamage;
+0010             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0011             
+0012             <span class="comment">%excel file</span>
+0013             [content, colLabels, indentation] = DNADamage.calcExpectedRates(sim);
+0014             <span class="keyword">if</span> nargin == 1
+0015                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0016             <span class="keyword">else</span>
+0017                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'State'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0018             <span class="keyword">end</span>
+0019         <span class="keyword">end</span>
+0020         
+0021         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels, indentation] = calcExpectedRates(sim)</a>
+0022             d = sim.process(<span class="string">'DNADamage'</span>);
+0023                         
+0024             reactionVulnerableMotifs = d.reactionVulnerableMotifs;
+0025             tfs = ismember(d.reactionVulnerableMotifTypes, {<span class="string">'damagedBases'</span>,<span class="string">'damagedSugarPhosphates'</span>,<span class="string">'intrastrandCrossLinks'</span>});
+0026             reactionVulnerableMotifs(tfs) = <span class="keyword">...</span>
+0027                 d.metabolite.wholeCellModelIDs(cell2mat(d.reactionVulnerableMotifs(tfs)));
+0028             tfs = ismember(d.reactionVulnerableMotifTypes, {<span class="string">'abasicSites'</span>,<span class="string">'gapSites'</span>,<span class="string">'hollidayJunctions'</span>, <span class="string">'strandBreaks'</span>});
+0029             reactionVulnerableMotifs(tfs) = cell(sum(tfs), 1);
+0030             
+0031             rates = d.calcExpectedReactionRates();
+0032             
+0033             reactionRadiation = cell(size(d.reactionRadiation));
+0034             reactionRadiationLevels = zeros(size(d.reactionRadiation));
+0035             reactionRadiation(d.reactionRadiation~=0) = <span class="keyword">...</span>
+0036                 d.substrateWholeCellModelIDs(d.reactionRadiation(d.reactionRadiation~=0));
+0037             reactionRadiationLevels(d.reactionRadiation~=0) = <span class="keyword">...</span>
+0038                 d.substrates(d.reactionRadiation(d.reactionRadiation~=0));
+0039             
+0040             colLabels = {<span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="keyword">...</span>
+0041                 <span class="string">'Damage Type'</span>, <span class="string">'Damage Motif'</span>, <span class="string">'No. Vulnerable Site'</span>, <span class="keyword">...</span>
+0042                 <span class="string">'Specific Rate (eg 1/s/nt/gy)'</span>, <span class="string">'Rate (1/s/cell)'</span>, <span class="string">'Rate (1/cell cycle)'</span>, <span class="keyword">...</span>
+0043                 <span class="string">'Radiation ID'</span>, <span class="string">'Radiation Value'</span>};
+0044             
+0045             content = [<span class="keyword">...</span>
+0046                 d.reactionWholeCellModelIDs d.reactionNames <span class="keyword">...</span>
+0047                 d.reactionVulnerableMotifTypes reactionVulnerableMotifs num2cell(d.calcNumberVulnerableSites()) <span class="keyword">...</span>
+0048                 num2cell(d.reactionBounds(:, 2)) num2cell(rates) num2cell(rates * ((9.0 + 2) * 3600)) <span class="keyword">...</span>
+0049                 reactionRadiation num2cell(reactionRadiationLevels) <span class="keyword">...</span>
+0050                 ];
+0051             
+0052             indentation = zeros(size(content, 1), 1);
+0053         <span class="keyword">end</span>
+0054     <span class="keyword">end</span>
+0055 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

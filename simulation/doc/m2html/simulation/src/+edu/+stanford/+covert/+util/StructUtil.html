@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of StructUtil</title>
+  <meta name="keywords" content="StructUtil">
+  <meta name="description" content="Struct Utility functions">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; StructUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>StructUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Struct Utility functions</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Struct Utility functions
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/14/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="StructUtil.html" class="code" title="">StructUtil</a>	Struct Utility functions</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="StructUtil.html" class="code" title="">StructUtil</a>	Struct Utility functions</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function A = catstruct(varargin)</a></li><li><a href="#_sub2" class="code">function diff(struct1, struct2, indent)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Struct Utility functions</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 7/14/2010</span>
+0006 classdef <a href="StructUtil.html" class="code" title="">StructUtil</a>
+0007     methods (Static=true)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function A = catstruct(varargin)</a>
+0009             <span class="comment">% CATSTRUCT - concatenate structures</span>
+0010             <span class="comment">%</span>
+0011             <span class="comment">%   X = CATSTRUCT(S1,S2,S3,...) concates the structures S1, S2, ... into one</span>
+0012             <span class="comment">%   structure X.</span>
+0013             <span class="comment">%</span>
+0014             <span class="comment">%   Example:</span>
+0015             <span class="comment">%     A.name = 'Me' ;</span>
+0016             <span class="comment">%     B.income = 99999 ;</span>
+0017             <span class="comment">%     X = catstruct(A,B)</span>
+0018             <span class="comment">%     % -&gt; X.name = 'Me' ;</span>
+0019             <span class="comment">%     %    X.income = 99999 ;</span>
+0020             <span class="comment">%</span>
+0021             <span class="comment">%   CATSTRUCT(S1,S2,'sorted') will sort the fieldnames alphabetically.</span>
+0022             <span class="comment">%</span>
+0023             <span class="comment">%   If a fieldname occurs more than once in the argument list, only the last</span>
+0024             <span class="comment">%   occurence is used, and the fields are alphabetically sorted.</span>
+0025             <span class="comment">%</span>
+0026             <span class="comment">%   To sort the fieldnames of a structure A use:</span>
+0027             <span class="comment">%     A = CATSTRUCT(A,'sorted') ;</span>
+0028             <span class="comment">%</span>
+0029             <span class="comment">%   To concatenate two similar array of structs use simple concatenation:</span>
+0030             <span class="comment">%     A = dir('*.mat') ; B = dir('*.m') ; C = [A ; B] ;</span>
+0031             <span class="comment">%</span>
+0032             <span class="comment">%   When there is nothing to concatenate, the result will be an empty</span>
+0033             <span class="comment">%   struct (0x0 struct array with no fields).</span>
+0034             <span class="comment">%</span>
+0035             <span class="comment">%   See also CAT, STRUCT, FIELDNAMES, STRUCT2CELL</span>
+0036 
+0037             <span class="comment">% for Matlab R13 and up</span>
+0038             <span class="comment">% version 2.2 (oct 2008)</span>
+0039             <span class="comment">% (c) Jos van der Geest</span>
+0040             <span class="comment">% email: jos@jasen.nl</span>
+0041 
+0042             <span class="comment">% History</span>
+0043             <span class="comment">% Created:  2005</span>
+0044             <span class="comment">% Revisions</span>
+0045             <span class="comment">%   2.0 (sep 2007) removed bug when dealing with fields containing cell</span>
+0046             <span class="comment">%                  arrays (Thanks to Rene Willemink)</span>
+0047             <span class="comment">%   2.1 (sep 2008) added warning and error identifiers</span>
+0048             <span class="comment">%   2.2 (oct 2008) fixed error when dealing with empty structs (Thanks to</span>
+0049             <span class="comment">%                  Lars Barring)</span>
+0050 
+0051             N = nargin ;
+0052 
+0053             error(nargchk(1,Inf,N)) ;
+0054 
+0055             <span class="keyword">if</span> ~isstruct(varargin{end}),
+0056                 <span class="keyword">if</span> isequal(varargin{end},<span class="string">'sorted'</span>),
+0057                     sorted = 1 ;
+0058                     N = N-1 ;
+0059                     <span class="keyword">if</span> N &lt; 1,
+0060                         A = struct([]) ;
+0061                         <span class="keyword">return</span>
+0062                     <span class="keyword">end</span>
+0063                 <span class="keyword">else</span>
+0064                     error(<span class="string">'catstruct:InvalidArgument'</span>,<span class="string">'Last argument should be a structure, or the string &quot;sorted&quot;.'</span>) ;
+0065                 <span class="keyword">end</span>
+0066             <span class="keyword">else</span>
+0067                 sorted = 0 ;
+0068             <span class="keyword">end</span>
+0069 
+0070             FN = cell(N,1) ;
+0071             VAL = cell(N,1) ;
+0072 
+0073             <span class="keyword">for</span> ii=1:N,
+0074                 X = varargin{ii} ;
+0075                 <span class="keyword">if</span> ~isstruct(X),
+0076                     error(<span class="string">'catstruct:InvalidArgument'</span>,[<span class="string">'Argument #'</span> num2str(ii) <span class="string">' is not a structure.'</span>]) ;
+0077                 <span class="keyword">end</span>
+0078                 <span class="keyword">if</span> ~isempty(X),
+0079                     <span class="comment">% empty structs are ignored</span>
+0080                     FN{ii} = fieldnames(X) ;
+0081                     VAL{ii} = struct2cell(X) ;
+0082                 <span class="keyword">end</span>
+0083             <span class="keyword">end</span>
+0084 
+0085             FN = cat(1,FN{:}) ;
+0086             VAL = cat(1,VAL{:}) ;
+0087             [UFN,ind] = unique(FN) ;
+0088 
+0089             <span class="comment">%BEGIN added by jkarr</span>
+0090             UVAL = {VAL{ind}}';
+0091             <span class="keyword">for</span> i=1:length(UFN)
+0092                 idxs = find(strcmp(FN,UFN{i}));
+0093                 <span class="keyword">if</span>(length(idxs)==1)
+0094                     <span class="keyword">continue</span>;
+0095                 <span class="keyword">end</span>
+0096 
+0097                 recurse=true;
+0098                 <span class="keyword">for</span> j=1:length(idxs)
+0099                     <span class="keyword">if</span>(~isstruct(VAL{idxs(j)}))
+0100                         recurse=false;
+0101                         <span class="keyword">break</span>;
+0102                     <span class="keyword">end</span>
+0103                 <span class="keyword">end</span>
+0104 
+0105                 <span class="keyword">if</span>(recurse)
+0106                     UVAL{i} = edu.stanford.covert.util.StructUtil.catstruct(VAL{idxs});
+0107                 <span class="keyword">end</span>
+0108             <span class="keyword">end</span>
+0109             VAL=UVAL;
+0110             FN=UFN;
+0111             <span class="comment">%END added by jkarr</span>
+0112 
+0113             <span class="comment">%BEGIN removed by jkarr</span>
+0114             <span class="comment">%if numel(UFN) ~= numel(FN),</span>
+0115             <span class="comment">%    warning('catstruct:DuplicatesFound','Duplicate fieldnames found. Last value is used and fields are sorted') ;</span>
+0116             <span class="comment">%    sorted = 1 ;</span>
+0117             <span class="comment">%end</span>
+0118             <span class="comment">%</span>
+0119             <span class="comment">%if sorted,</span>
+0120             <span class="comment">%    VAL = VAL(ind) ;</span>
+0121             <span class="comment">%    FN = FN(ind) ;</span>
+0122             <span class="comment">%end</span>
+0123             <span class="comment">%END removed by jkarr</span>
+0124 
+0125             <span class="keyword">if</span> ~isempty(FN),
+0126                 <span class="comment">% This deals correctly with cell arrays</span>
+0127                 A = cell2struct(VAL, FN);
+0128             <span class="keyword">else</span>
+0129                 A = struct([]) ;
+0130             <span class="keyword">end</span>
+0131         <span class="keyword">end</span>
+0132         
+0133         <a name="_sub1" href="#_subfunctions" class="code">function diff(struct1, struct2, indent)</a>
+0134             <span class="keyword">if</span> ~exist(<span class="string">'indent'</span>, <span class="string">'var'</span>)
+0135                 indent = 0;
+0136             <span class="keyword">end</span>
+0137             
+0138             fieldNames1 = fieldnames(struct1);
+0139             fieldNames2 = fieldnames(struct2);
+0140             
+0141             fieldsNotIn2 = setdiff(fieldNames1, fieldNames2);
+0142             fieldsNotIn1 = setdiff(fieldNames2, fieldNames1);
+0143             
+0144             <span class="keyword">if</span> ~isempty(fieldsNotIn2)
+0145                 fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Fields in struct1 not in struct2:\n'</span> repmat(<span class="string">'- %s\n'</span>, 1, numel(fieldsNotIn2))], fieldsNotIn2{:});
+0146             <span class="keyword">end</span>
+0147             <span class="keyword">if</span> ~isempty(fieldsNotIn1)
+0148                 fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Fields in struct2 not in struct1:\n'</span> repmat(<span class="string">'- %s\n'</span>, 1, numel(fieldsNotIn1))], fieldsNotIn2{:});
+0149             <span class="keyword">end</span>
+0150             
+0151             commonFieldNames = intersect(fieldNames1, fieldNames2);
+0152             <span class="keyword">for</span> i = 1:numel(commonFieldNames)
+0153                 val1 = struct1.(commonFieldNames{i});
+0154                 val2 = struct2.(commonFieldNames{i});
+0155                 class1 = class(val1);
+0156                 class2 = class(val2);
+0157                 <span class="keyword">if</span> ~isequal(class1, class2)
+0158                     fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Types of %s''s fields differ (%s v. %s)\n'</span>], commonFieldNames{i}, class1, class2);
+0159                     <span class="keyword">continue</span>;
+0160                 <span class="keyword">end</span>
+0161                 
+0162                 size1 = size(val1);
+0163                 size2 = size(val2);
+0164                 <span class="keyword">if</span> ~isequal(size1, size2)
+0165                     fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Sizes of %s''s fields differ (%s v. %s)\n'</span>], commonFieldNames{i}, <span class="keyword">...</span>
+0166                         sprintf([<span class="string">'%d'</span> repmat(<span class="string">' x %d'</span>, 1, numel(size1)-1)], size1), <span class="keyword">...</span>
+0167                         sprintf([<span class="string">'%d'</span> repmat(<span class="string">' x %d'</span>, 1, numel(size2)-1)], size2));
+0168                     <span class="keyword">continue</span>;
+0169                 <span class="keyword">end</span>
+0170                 
+0171                 <span class="keyword">switch</span> class1                    
+0172                     <span class="keyword">case</span> <span class="string">'cell'</span>
+0173                         idxs = find(cellfun(@(x, y) ~isequal(x, y), val1, val2));
+0174                         <span class="keyword">if</span> isempty(idxs); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0175                         
+0176                         fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Comparing %s fields\n'</span>], commonFieldNames{i});
+0177                         subs = cell(1, ndims(val1));
+0178                         [subs{:}] = ind2sub(size1, idxs);
+0179                         subs = cell2mat(subs);
+0180                         val1 = val1(idxs);
+0181                         <span class="keyword">for</span> j = 1:numel(idxs)
+0182                             fprintf([repmat(<span class="string">'\t'</span>, 1, indent+1) <span class="string">'%s\t%s\n'</span>], <span class="keyword">...</span>
+0183                                 sprintf([<span class="string">'(%d'</span> repmat(<span class="string">', %d'</span>, 1, ndims(val1)-1)  <span class="string">')'</span>], subs(j, :)), <span class="keyword">...</span>
+0184                                 <span class="string">'differs'</span>);
+0185                         <span class="keyword">end</span>
+0186                     <span class="keyword">case</span> {<span class="string">'logical'</span>, <span class="string">'int8'</span>, <span class="string">'int16'</span> ,<span class="string">'int32 '</span>,<span class="string">'int64'</span>, <span class="string">'uint8'</span>, <span class="string">'uint16'</span>, <span class="string">'uint32'</span>, <span class="string">'uint64'</span>, <span class="string">'double'</span>, <span class="string">'single'</span>, <span class="string">'char'</span>}
+0187                         idxs = find(val1 ~= val2);
+0188                         <span class="keyword">if</span> isempty(idxs); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0189                         
+0190                         fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Comparing %s fields\n'</span>], commonFieldNames{i});
+0191                         subs = cell(1, ndims(val1));
+0192                         [subs{:}] = ind2sub(size1, idxs);
+0193                         subs = cell2mat(subs);
+0194                         val1 = val1(idxs);
+0195                         val2 = val2(idxs);
+0196                         <span class="keyword">for</span> j = 1:numel(idxs)
+0197                             fprintf([repmat(<span class="string">'\t'</span>, 1, indent+1) <span class="string">'%s\t%e\t%e\n'</span>], <span class="keyword">...</span>
+0198                                 sprintf([<span class="string">'(%d'</span> repmat(<span class="string">', %d'</span>, 1, ndims(val1)-1)  <span class="string">')'</span>], subs(j, :)), <span class="keyword">...</span>
+0199                                 val1(j), val2(j));
+0200                         <span class="keyword">end</span>
+0201                     <span class="keyword">case</span> {<span class="string">'edu.stanford.covert.util.SparseMat'</span>, <span class="string">'edu.stanford.covert.util.CircularSparseMat'</span>}
+0202                         subs = find(val1 ~= val2);
+0203                         <span class="keyword">if</span> isempty(subs); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0204                         
+0205                         fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Comparing %s fields\n'</span>], commonFieldNames{i});
+0206                         val1 = val1(subs);
+0207                         val2 = val2(subs);                        
+0208                         <span class="keyword">for</span> j = 1:numel(idxs)
+0209                             fprintf([repmat(<span class="string">'\t'</span>, 1, indent+1) <span class="string">'%s\t%e\t%e\n'</span>], <span class="keyword">...</span>
+0210                                 sprintf([<span class="string">'(%d'</span> repmat(<span class="string">', %d'</span>, 1, ndims(val1)-1)  <span class="string">')'</span>], subs(j, :)), <span class="keyword">...</span>
+0211                                 val1(j), val2(j)); 
+0212                         <span class="keyword">end</span>
+0213                     <span class="keyword">otherwise</span>
+0214                         fprintf([repmat(<span class="string">'\t'</span>, 1, indent) <span class="string">'Comparing %s fields\n'</span>], commonFieldNames{i});
+0215                         edu.stanford.covert.util.StructUtil.diff(val1, val2, indent+1);
+0216                 <span class="keyword">end</span>
+0217             <span class="keyword">end</span>
+0218         <span class="keyword">end</span>
+0219     <span class="keyword">end</span>
+0220 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

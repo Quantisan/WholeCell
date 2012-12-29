@@ -1,0 +1,6648 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: enzrxns.dat
+# Date and time generated: March 29, 2012, 18:01:32
+#
+UNIQUE-ID - ENZRXN-FOR-AceE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate dehydrogenase
+ENZYME - MG_271_272_273_274_192MER
+REACTION - AceE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+COFACTORS - TPP
+KM - 700
+VMAX - 8.8
+PH-OPT - 7.9
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-AceE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate dehydrogenase
+ENZYME - MG_271_272_273_274_192MER
+REACTION - AceE
+REACTION-DIRECTION - RIGHT-TO-LEFT
+COFACTORS - FAD
+COFACTORS - TPP
+PH-OPT - 7.9
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-AckA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - acetate kinase
+ENZYME - MG_357_DIMER
+REACTION - AckA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 50;0.34;360
+VMAX - 68
+PH-OPT - 7.5
+TEMPERATURE-OPT - 62
+//
+UNIQUE-ID - ENZRXN-REV-AckA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - acetate kinase
+ENZYME - MG_357_DIMER
+REACTION - AckA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 350;5.8;20
+VMAX - 70
+PH-OPT - 7.5
+TEMPERATURE-OPT - 62
+//
+UNIQUE-ID - ENZRXN-FOR-AcpS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - acyl-carrier protein synthase
+ENZYME - MG_482_DIMER
+REACTION - AcpS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 68
+KCAT - 125
+PH-OPT - 7.1
+TEMPERATURE-OPT - 48
+//
+UNIQUE-ID - ENZRXN-FOR-Adi
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginine deiminase
+ENZYME - MG_123_DIMER
+REACTION - Adi
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-Adi
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginine deiminase
+ENZYME - MG_123_DIMER
+REACTION - Adi
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-Adk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adenylate kinase (ATP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 38
+VMAX - 1247
+PH-OPT - 7.5
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-REV-Adk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adenylate kinase (ATP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.5
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-Adk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adentylate kinase (GTP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-REV-Adk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adentylate kinase (GTP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-Adk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adentylate kinase (ITP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-REV-Adk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adentylate kinase (ITP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-Adk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyadenylate kinase (dADP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.5
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-REV-Adk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyadenylate kinase (dADP)
+ENZYME - MG_171_MONOMER
+REACTION - Adk4
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 850
+VMAX - 875
+PH-OPT - 7.5
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-Apt
+TYPES - Enzymatic-Reactions
+COMMON-NAME - adenine phosphoribosyltransferase
+ENZYME - MG_276_DIMER
+REACTION - Apt
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 6;140
+VMAX - 9.58
+PH-OPT - 8
+TEMPERATURE-OPT - 43
+//
+UNIQUE-ID - ENZRXN-FOR-AP_endonuclease
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 5'-apurinic/apyrimidinic endonuclease
+ENZYME - MG_235_MONOMER
+REACTION - AP_endonuclease
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 32500
+KCAT - 184.8
+//
+UNIQUE-ID - ENZRXN-FOR-AP_lyase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 3'-apurinic/apyrimidinic lyase
+ENZYME - MG_498_MONOMER
+REACTION - AP_lyase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 13700
+KCAT - 0.0534
+//
+UNIQUE-ID - ENZRXN-FOR-AtpA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ATP synthase (four protons for one ATP) (periplasm)
+ENZYME - MG_398_399_400_401_402_403_404_405_22MER
+REACTION - AtpA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 8
+//
+UNIQUE-ID - ENZRXN-REV-AtpA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ATP synthase (four protons for one ATP) (periplasm)
+ENZYME - MG_398_399_400_401_402_403_404_405_22MER
+REACTION - AtpA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 23
+KCAT - 294
+PH-OPT - 8
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_DNAReplication_Helicase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA unwinding
+ENZYME - MG_094_HEXAMER
+REACTION - ATPHs_DNAReplication_Helicase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_DNASupercoiling_gyrase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Negative supercoiling (gyrase)
+ENZYME - DNA_GYRASE
+REACTION - ATPHs_DNASupercoiling_gyrase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 72
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_DNASupercoiling_topoisomeraseI
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Positive supercoiling (topoisomerase I)
+ENZYME - MG_122_MONOMER
+REACTION - ATPHs_DNASupercoiling_topoisomeraseI
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_DNASupercoiling_topoisomeraseIV
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Negative supercoiling (topoisomerase I)
+ENZYME - MG_203_204_TETRAMER
+REACTION - ATPHs_DNASupercoiling_topoisomeraseIV
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 150
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_ProteinTranslocation_SecA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein translocation (SecA)
+ENZYME - MG_072_DIMER
+REACTION - ATPHs_ProteinTranslocation_SecA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.626e+14
+//
+UNIQUE-ID - ENZRXN-FOR-ATPHs_ProteinTranslocation_SRP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein translocation (SRP)
+ENZYME - MG_0001_048
+REACTION - ATPHs_ProteinTranslocation_SRP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-AzoR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methyl red azoreductase
+ENZYME - MG_333_DIMER
+REACTION - AzoR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-Cdd1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidine deaminase
+ENZYME - MG_052_DIMER
+REACTION - Cdd1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 220
+VMAX - 118
+PH-OPT - 7.2
+TEMPERATURE-OPT - 48
+//
+UNIQUE-ID - ENZRXN-FOR-Cdd2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxycytidine deaminase
+ENZYME - MG_052_DIMER
+REACTION - Cdd2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 58
+VMAX - 118
+TEMPERATURE-OPT - 99
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C12:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C12:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C14:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C14:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C14:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C14:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C16:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C16:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA4
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C16:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C16:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA5
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C18:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA6
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C18:0)
+ENZYME - MG_437_DIMER
+REACTION - CdsA6
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CdsA7
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C18:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA7
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-CdsA7
+TYPES - Enzymatic-Reactions
+COMMON-NAME - CDP-diacylglycerol synthetase (n-C18:1)
+ENZYME - MG_437_DIMER
+REACTION - CdsA7
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-CholK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - choline kinase
+ENZYME - MG_356_MONOMER
+REACTION - CholK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-CmkA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidylate kinase (dCMP)
+ENZYME - MG_330_MONOMER
+REACTION - CmkA1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 94;2800
+VMAX - 263
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-REV-CmkA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidylate kinase (dCMP)
+ENZYME - MG_330_MONOMER
+REACTION - CmkA1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-FOR-CmkA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidylate kinase (CMP)
+ENZYME - MG_330_MONOMER
+REACTION - CmkA2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 38;35
+VMAX - 250
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-REV-CmkA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidylate kinase (CMP)
+ENZYME - MG_330_MONOMER
+REACTION - CmkA2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-FOR-CmkB3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UMP kinase
+ENZYME - MG_434_HEXAMER
+REACTION - CmkB3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 920;100
+VMAX - 399
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-REV-CmkB3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UMP kinase
+ENZYME - MG_434_HEXAMER
+REACTION - CmkB3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.2
+//
+UNIQUE-ID - ENZRXN-FOR-CoaE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - dephospho-CoA kinase
+ENZYME - MG_264_MONOMER
+REACTION - CoaE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.1;330
+VMAX - 4.37
+PH-OPT - 8.5
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-FOR-CpdB1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 2',3'-cyclic-nucleotide phosphodiesterase (UMP)
+ENZYME - MG_130_MONOMER
+REACTION - CpdB1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-CpdB2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 2',3'-cyclic-nucleotide phosphodiesterase (CMP)
+ENZYME - MG_130_MONOMER
+REACTION - CpdB2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-CpdB3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 2',3'-cyclic-nucleotide phosphodiesterase (AMP)
+ENZYME - MG_130_MONOMER
+REACTION - CpdB3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-CpdB4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 2',3'-cyclic-nucleotide phosphodiesterase (GMP)
+ENZYME - MG_130_MONOMER
+REACTION - CpdB4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-CpsG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphomannomutase
+ENZYME - MG_053_TRIMER
+REACTION - CpsG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 8.7
+TEMPERATURE-OPT - 65
+//
+UNIQUE-ID - ENZRXN-REV-CpsG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphomannomutase
+ENZYME - MG_053_TRIMER
+REACTION - CpsG
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 18
+VMAX - 49
+PH-OPT - 8.7
+TEMPERATURE-OPT - 65
+//
+UNIQUE-ID - ENZRXN-FOR-CsdA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-cysteine sulfinic acid desulfurase
+ENZYME - MG_336_DIMER
+REACTION - CsdA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.0035
+VMAX - 16
+//
+UNIQUE-ID - ENZRXN-FOR-Dak1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyadenylate kinase (dA:ATP)
+ENZYME - MG_171_MONOMER
+REACTION - Dak1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 373
+VMAX - 15.166
+PH-OPT - 7.8
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-FOR-Deformylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Deformylation
+ENZYME - MG_106_DIMER
+REACTION - Deformylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2280
+//
+UNIQUE-ID - ENZRXN-FOR-DeoC
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribose-phosphate aldolase
+ENZYME - MG_050_MONOMER
+REACTION - DeoC
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100
+VMAX - 58.3
+PH-OPT - 7
+TEMPERATURE-OPT - 58
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyinosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 62
+VMAX - 0.0141
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyinosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyadenosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 145
+VMAX - 4.55
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyadenosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyguanosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 44
+VMAX - 0.0141
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyguanosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Inosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Inosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD4
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 340
+VMAX - 0.0141
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Adenosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Adenosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD5
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 46
+KCAT - 198
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Guanosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD6
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-REV-DeoD6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Guanosine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD6
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 4.1
+VMAX - 0.0141
+PH-OPT - 7.6
+TEMPERATURE-OPT - 60
+//
+UNIQUE-ID - ENZRXN-FOR-DeoD8
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyuridine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD8
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 735
+VMAX - 0.003837
+PH-OPT - 7.6
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-REV-DeoD8
+TYPES - Enzymatic-Reactions
+COMMON-NAME - purine-nucleoside phosphorylase (Deoxyuridine)
+ENZYME - MG_049_HEXAMER
+REACTION - DeoD8
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-FOR-deoxyribosephosphodiesterase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 5'-deoxyribophosphodiesterase; exonuclease
+ENZYME - MG_235_MONOMER
+REACTION - deoxyribosephosphodiesterase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 130000
+KCAT - 3
+//
+UNIQUE-ID - ENZRXN-FOR-Dgk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyguanylate kinase (dG:ATP)
+ENZYME - MG_107_DIMER
+REACTION - Dgk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2000
+VMAX - 3.666
+PH-OPT - 7.8
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-FOR-DhaK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Dihydroxyacetone phosphotransferase
+ENZYME - MG_369_DIMER
+REACTION - DhaK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-DhfR1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - dihydrofolate reductase
+ENZYME - MG_228_TETRAMER
+REACTION - DhfR1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.89
+KCAT - 370.8
+PH-OPT - 4.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-REV-DhfR1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - dihydrofolate reductase
+ENZYME - MG_228_TETRAMER
+REACTION - DhfR1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 4.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-FOR-diadenylate_cyclase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - diadenylate cyclase
+ENZYME - MG_105_OCTAMER
+REACTION - diadenylate_cyclase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-DNALigation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA ligationi
+ENZYME - MG_254_MONOMER
+REACTION - DNALigation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100000
+KCAT - 2.4
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPolymerization_dATP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dATP)
+ENZYME - DNA_POLYMERASE_CORE
+REACTION - DNAPolymerization_dATP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPolymerization_dCTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dCTP)
+ENZYME - DNA_POLYMERASE_CORE
+REACTION - DNAPolymerization_dCTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPolymerization_dGTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dGTP)
+ENZYME - DNA_POLYMERASE_CORE
+REACTION - DNAPolymerization_dGTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPolymerization_dTTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dTTP)
+ENZYME - DNA_POLYMERASE_CORE
+REACTION - DNAPolymerization_dTTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPrimerPolymerization_ATP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA primer polymerization (ATP)
+ENZYME - MG_250_MONOMER
+REACTION - DNAPrimerPolymerization_ATP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPrimerPolymerization_CTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA primer polymerization (CTP)
+ENZYME - MG_250_MONOMER
+REACTION - DNAPrimerPolymerization_CTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPrimerPolymerization_GTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA primer polymerization (GTP)
+ENZYME - MG_250_MONOMER
+REACTION - DNAPrimerPolymerization_GTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAPrimerPolymerization_UTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA primer polymerization (UTP)
+ENZYME - MG_250_MONOMER
+REACTION - DNAPrimerPolymerization_UTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 6000
+//
+UNIQUE-ID - ENZRXN-FOR-DNAProcessiveCleavage_dAMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA cleavage (dAMP)
+ENZYME - MG_190_MONOMER
+REACTION - DNAProcessiveCleavage_dAMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.1
+KCAT - 4.44
+//
+UNIQUE-ID - ENZRXN-FOR-DNAProcessiveCleavage_dCMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA cleavage (dCMP)
+ENZYME - MG_190_MONOMER
+REACTION - DNAProcessiveCleavage_dCMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.1
+KCAT - 4.44
+//
+UNIQUE-ID - ENZRXN-FOR-DNAProcessiveCleavage_dGMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA cleavage (dGMP)
+ENZYME - MG_190_MONOMER
+REACTION - DNAProcessiveCleavage_dGMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.1
+KCAT - 4.44
+//
+UNIQUE-ID - ENZRXN-FOR-DNAProcessiveCleavage_dTMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA cleavage (dTMP)
+ENZYME - MG_190_MONOMER
+REACTION - DNAProcessiveCleavage_dTMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.1
+KCAT - 4.44
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_ligation_repair
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA ligation
+ENZYME - MG_254_MONOMER
+REACTION - DNA_ligation_repair
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100000
+KCAT - 2.4
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_polymerization_dATP_repair
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dATP)
+ENZYME - MG_001_MONOMER
+REACTION - DNA_polymerization_dATP_repair
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300000
+KCAT - 27
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_polymerization_dCTP_repair
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dACP)
+ENZYME - MG_001_MONOMER
+REACTION - DNA_polymerization_dCTP_repair
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300000
+KCAT - 27
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_polymerization_dGTP_repair
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dGTP)
+ENZYME - MG_001_MONOMER
+REACTION - DNA_polymerization_dGTP_repair
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300000
+KCAT - 27
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_polymerization_dTTP_repair
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA polymerization (dGTP)
+ENZYME - MG_001_MONOMER
+REACTION - DNA_polymerization_dTTP_repair
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300000
+KCAT - 27
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_RM_EcoD_Methylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - EcoD DNA restriction/modification, DNA base methylation (adenine ==> 6-methyladenine; S-Adenosyl-L-methionine)
+ENZYME - MG_438_MONOMER
+REACTION - DNA_RM_EcoD_Methylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_RM_EcoD_Restriction
+TYPES - Enzymatic-Reactions
+COMMON-NAME - EcoD DNA restriction/modification, DNA restriction
+ENZYME - MG_438_MONOMER
+REACTION - DNA_RM_EcoD_Restriction
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-DNA_RM_MunI_Methylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - MunI DNA restriction/modification, DNA base methylation (adenine ==> 6-methyladenine; S-Adenosyl-L-methionine)
+ENZYME - MG_184_DIMER
+REACTION - DNA_RM_MunI_Methylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.065
+//
+UNIQUE-ID - ENZRXN-FOR-dRiboseP_lyase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribose 5'-phosphate lyase
+ENZYME - MG_001_MONOMER
+REACTION - dRiboseP_lyase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 500000
+KCAT - 4.5
+//
+UNIQUE-ID - ENZRXN-FOR-Eno
+TYPES - Enzymatic-Reactions
+COMMON-NAME - enolase
+ENZYME - MG_407_DIMER
+REACTION - Eno
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100
+VMAX - 180
+PH-OPT - 8.1
+TEMPERATURE-OPT - 64
+//
+UNIQUE-ID - ENZRXN-REV-Eno
+TYPES - Enzymatic-Reactions
+COMMON-NAME - enolase
+ENZYME - MG_407_DIMER
+REACTION - Eno
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 8.1
+TEMPERATURE-OPT - 64
+//
+UNIQUE-ID - ENZRXN-FOR-Fba
+TYPES - Enzymatic-Reactions
+COMMON-NAME - fructose-bisphosphate aldolase
+ENZYME - MG_023_DIMER
+REACTION - Fba
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 250
+VMAX - 22.3
+PH-OPT - 9
+TEMPERATURE-OPT - 47
+//
+UNIQUE-ID - ENZRXN-REV-Fba
+TYPES - Enzymatic-Reactions
+COMMON-NAME - fructose-bisphosphate aldolase
+ENZYME - MG_023_DIMER
+REACTION - Fba
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 9
+TEMPERATURE-OPT - 47
+//
+UNIQUE-ID - ENZRXN-FOR-FolD1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methylenetetrahydrofolate dehydrogenase (NADP)
+ENZYME - MG_013_DIMER
+REACTION - FolD1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 92;45
+VMAX - 160
+PH-OPT - 7.1
+TEMPERATURE-OPT - 47
+//
+UNIQUE-ID - ENZRXN-REV-FolD1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methylenetetrahydrofolate dehydrogenase (NADP)
+ENZYME - MG_013_DIMER
+REACTION - FolD1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.1
+TEMPERATURE-OPT - 47
+//
+UNIQUE-ID - ENZRXN-FOR-FolD2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methenyltetrahydrofolate cyclohydrolase
+ENZYME - MG_013_DIMER
+REACTION - FolD2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 74
+VMAX - 31
+PH-OPT - 7.4
+TEMPERATURE-OPT - 27
+//
+UNIQUE-ID - ENZRXN-REV-FolD2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methenyltetrahydrofolate cyclohydrolase
+ENZYME - MG_013_DIMER
+REACTION - FolD2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.4
+TEMPERATURE-OPT - 27
+//
+UNIQUE-ID - ENZRXN-FOR-Fre1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - FAD reductase
+ENZYME - MG_342_MONOMER
+REACTION - Fre1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 8.8;1.5
+KCAT - 15300
+PH-OPT - 7.7
+TEMPERATURE-OPT - 34
+//
+UNIQUE-ID - ENZRXN-FOR-Fre3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - flavin reductase (NADP)
+ENZYME - MG_342_MONOMER
+REACTION - Fre3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 5.6
+KCAT - 16560
+PH-OPT - 7.7
+TEMPERATURE-OPT - 34
+//
+UNIQUE-ID - ENZRXN-FOR-Fre5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - FMN reductase
+ENZYME - MG_342_MONOMER
+REACTION - Fre5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 5.4
+KCAT - 1680
+PH-OPT - 7.9
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Fre6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - FMN reductase
+ENZYME - MG_342_MONOMER
+REACTION - Fre6
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 30;1.5
+VMAX - 130
+PH-OPT - 6.9
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-FruK1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - fructose-1-phosphate kinase
+ENZYME - MG_063_DIMER
+REACTION - FruK1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 750;700
+VMAX - 47
+PH-OPT - 7.8
+TEMPERATURE-OPT - 30
+//
+UNIQUE-ID - ENZRXN-FOR-FruK2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tagatose-6-phosphate kinase
+ENZYME - MG_053_TRIMER
+REACTION - FruK2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 160
+VMAX - 0.83
+PH-OPT - 8.7
+//
+UNIQUE-ID - ENZRXN-FOR-FthC
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methylenetetrahydrofolate cyclohydrase
+ENZYME - MG_245_MONOMER
+REACTION - FthC
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2
+VMAX - 37
+PH-OPT - 6.7
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-REV-FthC
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methylenetetrahydrofolate cyclohydrase
+ENZYME - MG_245_MONOMER
+REACTION - FthC
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.7
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-FTHFS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - formate-tetrahydrofolate ligase
+ENZYME - MG_013_DIMER
+REACTION - FTHFS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 364.8
+//
+UNIQUE-ID - ENZRXN-FOR-GalE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UDPglucose 4-epimerase
+ENZYME - MG_118_DIMER
+REACTION - GalE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - NAD
+KM - 160
+KCAT - 30000
+PH-OPT - 8.1
+//
+UNIQUE-ID - ENZRXN-REV-GalE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UDPglucose 4-epimerase
+ENZYME - MG_118_DIMER
+REACTION - GalE
+REACTION-DIRECTION - RIGHT-TO-LEFT
+COFACTORS - NAD
+PH-OPT - 8.1
+//
+UNIQUE-ID - ENZRXN-FOR-GalU1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UTP-glucose-1-phosphate uridylyltransferase (irreversible)
+ENZYME - MG_453_TETRAMER
+REACTION - GalU1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-GalU1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - UTP-glucose-1-phosphate uridylyltransferase (irreversible)
+ENZYME - MG_453_TETRAMER
+REACTION - GalU1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-GapA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glyceraldehyde-3-phosphate dehydrogenase
+ENZYME - MG_301_TETRAMER
+REACTION - GapA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 90;39
+VMAX - 225
+PH-OPT - 8.5
+TEMPERATURE-OPT - 30
+//
+UNIQUE-ID - ENZRXN-REV-GapA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glyceraldehyde-3-phosphate dehydrogenase
+ENZYME - MG_301_TETRAMER
+REACTION - GapA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 34;12
+VMAX - 204
+PH-OPT - 8.5
+TEMPERATURE-OPT - 30
+//
+UNIQUE-ID - ENZRXN-FOR-Glf
+TYPES - Enzymatic-Reactions
+COMMON-NAME - FAD reductase
+ENZYME - MG_137_DIMER
+REACTION - Glf
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+//
+UNIQUE-ID - ENZRXN-FOR-GlpK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol kinase
+ENZYME - MG_038_TETRAMER
+REACTION - GlpK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 150
+VMAX - 116
+PH-OPT - 8.6
+TEMPERATURE-OPT - 46
+//
+UNIQUE-ID - ENZRXN-FOR-GlpQ1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphocholine)
+ENZYME - MG_293_DIMER
+REACTION - GlpQ1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GlpQ2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoethanolamine)
+ENZYME - MG_293_DIMER
+REACTION - GlpQ2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GlpQ3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoserine)
+ENZYME - MG_293_DIMER
+REACTION - GlpQ3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GlpQ4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoglycerol)
+ENZYME - MG_293_DIMER
+REACTION - GlpQ4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GlpQ5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoinositol)
+ENZYME - MG_293_DIMER
+REACTION - GlpQ5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GlyA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycine hydroxymethyltransferase, reversible
+ENZYME - MG_394_TETRAMER
+REACTION - GlyA3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - PL5P
+KM - 80;150
+VMAX - 13.6
+PH-OPT - 7.6
+TEMPERATURE-OPT - 49
+//
+UNIQUE-ID - ENZRXN-FOR-GlyA4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Threonine aldolase
+ENZYME - MG_394_TETRAMER
+REACTION - GlyA4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - PL5P
+KM - 2850
+VMAX - 1.7
+PH-OPT - 9.25
+TEMPERATURE-OPT - 67.5
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_Ceramide16_GalCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Ceramide (d18:1/16:0) ==> galactosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_Ceramide16_GalCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_Ceramide16_GlcCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Ceramide (d18:1/16:0) ==> glucosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_Ceramide16_GlcCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG160_GalDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-16:0) ==> galactosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG160_GalDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG160_GlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-16:0) ==> glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG160_GlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG161_GalDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-16:1) ==> galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG161_GalDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG161_GlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-16:1) ==> glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG161_GlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG181_GalDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-18:1) ==> galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG181_GalDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_DAG181_GlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Diacylglycerol (n-18:1) ==> glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_DAG181_GlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalCer16_GalGalCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-galactosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalCer16_GalGalCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalCer16_GlcGalCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-Ceramide (d18:1/16:0) ==> glucosyl-?1-4-galactosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalCer16_GlcGalCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG160_GalGalDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG160_GalGalDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG160_GlcGalDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG160_GlcGalDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG161_GalGalDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG161_GalGalDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG161_GlcGalDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG161_GlcGalDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG181_GalGalDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG181_GalGalDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalDAG181_GlcGalDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalDAG181_GlcGalDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG160_GalGalGalDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG160_GalGalGalDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG160_GlcGalGalDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG160_GlcGalGalDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG161_GalGalGalDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG161_GalGalGalDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG161_GlcGalGalDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG161_GlcGalGalDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG181_GalGalGalDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG181_GalGalGalDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGalDAG181_GlcGalGalDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?1-4-galactosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGalDAG181_GlcGalGalDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcCer16_GalGalGlcCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcCer16_GalGalGlcCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG160_GalGalGlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG160_GalGalGlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG160_GlcGalGlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG160_GlcGalGlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG161_GalGalGlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG161_GalGalGlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG161_GlcGalGlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG161_GlcGalGlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG181_GalGalGlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG181_GalGalGlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GalGlcDAG181_GlcGalGlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GalGlcDAG181_GlcGalGlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcCer16_GalGlcCer16
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-Ceramide (d18:1/16:0) ==> galactosyl-?1-4-glucosyl-?-Ceramide (d18:1/16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcCer16_GalGlcCer16
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG160_GalGlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG160_GalGlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG160_GlcGlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG160_GlcGlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG161_GalGlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG161_GalGlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG161_GlcGlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG161_GlcGlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG181_GalGlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> galactosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG181_GalGlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcDAG181_GlcGlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcDAG181_GlcGlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcGlcDAG160_GlcGlcGlcDAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(16:0/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcGlcDAG160_GlcGlcGlcDAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcGlcDAG161_GlcGlcGlcDAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(16:1(9Z)/16:1(9Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcGlcDAG161_GlcGlcGlcDAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_GlcGlcDAG181_GlcGlcGlcDAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)) ==> glucosyl-?1-4-glucosyl-?1-4-glucosyl-?-diacylglycerol(18:1(11Z)/18:1(11Z)))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_GlcGlcDAG181_GlcGlcGlcDAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_PG160_DAG160
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Phosphatidylglycerol (dihexadecanoyl, n-C16:0) ==> Diacylglycerol (n-16:0))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_PG160_DAG160
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_PG161_DAG161
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Phosphatidylglycerol (dihexadec-9-enoyl, n-C16:1) ==> Diacylglycerol (n-16:1))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_PG161_DAG161
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-glycosyltransferase_PG181_DAG181
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycosyltransferase (Phosphatidylglycerol (dioctadec-11-enoyl, n-C18:1) ==> Diacylglycerol (n-18:1))
+ENZYME - MG_517_MONOMER
+REACTION - glycosyltransferase_PG181_DAG181
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-Gmk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - guanylate kinase (GMP:ATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 41
+VMAX - 1581
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-REV-Gmk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - guanylate kinase (GMP:ATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-Gmk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyguanylate kinase (dGMP:ATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300
+VMAX - 187
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-REV-Gmk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyguanylate kinase (dGMP:ATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-Gmk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - guanylate kinase (GMP:dATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 41
+VMAX - 187
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-REV-Gmk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - guanylate kinase (GMP:dATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-Gmk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyguanylate kinase (dGMP:dATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300
+VMAX - 11
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-REV-Gmk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyguanylate kinase (dGMP:dATP)
+ENZYME - MG_107_DIMER
+REACTION - Gmk4
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-GpmA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate mutase
+ENZYME - MG_430_MONOMER
+REACTION - GpmA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 210
+KCAT - 57000
+PH-OPT - 7.4
+//
+UNIQUE-ID - ENZRXN-REV-GpmA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate mutase
+ENZYME - MG_430_MONOMER
+REACTION - GpmA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.4
+//
+UNIQUE-ID - ENZRXN-FOR-GpsA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate dehydrogenase (NAD)
+ENZYME - MG_039_DIMER
+REACTION - GpsA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.8
+TEMPERATURE-OPT - 43
+//
+UNIQUE-ID - ENZRXN-REV-GpsA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate dehydrogenase (NAD)
+ENZYME - MG_039_DIMER
+REACTION - GpsA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 23000
+VMAX - 2.858
+PH-OPT - 7.8
+TEMPERATURE-OPT - 43
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_ChromosomeSegregation_CobQ
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Chromosome segregation (MraZ)
+ENZYME - MG_470_MONOMER
+REACTION - GTPHs_ChromosomeSegregation_CobQ
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_ChromosomeSegregation_Era
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Chromosome segregation (Era)
+ENZYME - MG_384_MONOMER
+REACTION - GTPHs_ChromosomeSegregation_Era
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_ChromosomeSegregation_MraZ
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Chromosome segregation (CobQ)
+ENZYME - MG_221_OCTAMER
+REACTION - GTPHs_ChromosomeSegregation_MraZ
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_ChromosomeSegregation_Obg
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Chromosome segregation (Obg)
+ENZYME - MG_387_MONOMER
+REACTION - GTPHs_ChromosomeSegregation_Obg
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_EngA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (EngA)
+ENZYME - MG_329_MONOMER
+REACTION - GTPHs_RibosomeAssembly_EngA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_EngB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (EngB)
+ENZYME - MG_335_MONOMER
+REACTION - GTPHs_RibosomeAssembly_EngB
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_Era
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (Era)
+ENZYME - MG_387_MONOMER
+REACTION - GTPHs_RibosomeAssembly_Era
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_Obg
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (Obg)
+ENZYME - MG_384_MONOMER
+REACTION - GTPHs_RibosomeAssembly_Obg
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_RbfA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (RbfA)
+ENZYME - MG_143_MONOMER
+REACTION - GTPHs_RibosomeAssembly_RbfA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-GTPHs_RibosomeAssembly_RbgA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Ribosome assembly (RbgA)
+ENZYME - MG_442_MONOMER
+REACTION - GTPHs_RibosomeAssembly_RbgA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-HemG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protoporphyrinogen oxidase (aerobic)
+ENZYME - MG_259_TETRAMER
+REACTION - HemG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+KM - 850
+VMAX - 7.15
+PH-OPT - 7.8
+TEMPERATURE-OPT - 24
+//
+UNIQUE-ID - ENZRXN-FOR-Hpt1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - hypoxanthine phosphoribosyltransferase (Hypoxanthine)
+ENZYME - MG_458_TETRAMER
+REACTION - Hpt1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2.7;138
+KCAT - 954
+PH-OPT - 8.4
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-FOR-Hpt2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - guanine phosphoribosyltransferase
+ENZYME - MG_458_TETRAMER
+REACTION - Hpt2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 3.2;112
+KCAT - 489.6
+PH-OPT - 8.4
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-FOR-HR_DNAResection_dAMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA resection (dAMP)
+ENZYME - MG_262_MONOMER
+REACTION - HR_DNAResection_dAMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.1
+KCAT - 6.6
+//
+UNIQUE-ID - ENZRXN-FOR-HR_DNAResection_dCMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA resection (dCMP)
+ENZYME - MG_262_MONOMER
+REACTION - HR_DNAResection_dCMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.1
+KCAT - 6.6
+//
+UNIQUE-ID - ENZRXN-FOR-HR_DNAResection_dGMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA resection (dGMP)
+ENZYME - MG_262_MONOMER
+REACTION - HR_DNAResection_dGMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.1
+KCAT - 6.6
+//
+UNIQUE-ID - ENZRXN-FOR-HR_DNAResection_dTMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA resection (dTMP)
+ENZYME - MG_262_MONOMER
+REACTION - HR_DNAResection_dTMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 0.1
+KCAT - 6.6
+//
+UNIQUE-ID - ENZRXN-FOR-HR_junctionMigration
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA recombination Holliday junction migration
+ENZYME - MG_358_359_10MER
+REACTION - HR_junctionMigration
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 272.727
+//
+UNIQUE-ID - ENZRXN-FOR-HR_junctionResolution
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA recombination Holliday junction resolution
+ENZYME - MG_352_DIMER
+REACTION - HR_junctionResolution
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.209
+//
+UNIQUE-ID - ENZRXN-FOR-HR_strandExchange
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA recombination strand exchange
+ENZYME - MG_339_MONOMER
+REACTION - HR_strandExchange
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 28.37
+KCAT - 3.6
+//
+UNIQUE-ID - ENZRXN-FOR-LdhA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - D-lactate dehydrogenase
+ENZYME - MG_460_TETRAMER
+REACTION - LdhA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 660;45000
+VMAX - 2000
+PH-OPT - 7.1
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-REV-LdhA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - D-lactate dehydrogenase
+ENZYME - MG_460_TETRAMER
+REACTION - LdhA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.1
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_DIBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_DIBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_DIBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_DIBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_DIBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_DIBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (dibutyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_DIBUTYRIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_METHYL_OCDCEA_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_METHYL_OCDCEA_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (methyl_ocdcea) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_METHYL_OCDCEA_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_MONOBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_MONOBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_MONOBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_MONOBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (1-monobutyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_MONOBUTYRIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIBUTYRIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIBUTYRIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIBUTYRIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tributyrin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIBUTYRIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRILAURIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRILAURIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRILAURIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRILAURIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRILAURIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRILAURIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRILAURIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRILAURIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRILAURIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRILAURIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRILAURIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trilaurin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRILAURIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIMYRISTIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIMYRISTIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIMYRISTIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIMYRISTIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (trimyristin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIMYRISTIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIOLEIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME -  Triacylglycerol lipase (triolein) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIOLEIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME -  Triacylglycerol lipase (triolein) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIOLEIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME -  Triacylglycerol lipase (triolein) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIOLEIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME -  Triacylglycerol lipase (triolein) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIOLEIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (triolein) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIOLEIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (triolein) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIOLEIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIPALMITIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIPALMITIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIPALMITIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_310)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIPALMITIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_310)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRIPALMITIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRIPALMITIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tripalmitin) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRIPALMITIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRISTEARIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRISTEARIN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRISTEARIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRISTEARIN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRISTEARIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRISTEARIN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (octadecanoate) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRISTEARIN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_HDCEA_IN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_HDCEA_IN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_hdcea_in) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRI_HDCEA_IN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TRI_TTDCEA_IN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TRI_TTDCEA_IN_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (tri_ttdcea_in) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TRI_TTDCEA_IN_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TWEEN80_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TWEEN80_MG310
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TWEEN80_MG310
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_310)
+ENZYME - MG_310_MONOMER
+REACTION - LIPASE_TWEEN80_MG310
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TWEEN80_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TWEEN80_MG327
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TWEEN80_MG327
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_327)
+ENZYME - MG_327_MONOMER
+REACTION - LIPASE_TWEEN80_MG327
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LIPASE_TWEEN80_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TWEEN80_MG344
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-LIPASE_TWEEN80_MG344
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Triacylglycerol lipase (Tween 80) (MG_344)
+ENZYME - MG_344_MONOMER
+REACTION - LIPASE_TWEEN80_MG344
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-LplA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ATP:lipoate adenylyltransferase
+ENZYME - MG_270_MONOMER
+REACTION - LplA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-Mdh
+TYPES - Enzymatic-Reactions
+COMMON-NAME - malate dehydrogenase
+ENZYME - MG_460_TETRAMER
+REACTION - Mdh
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 20
+VMAX - 11
+PH-OPT - 8.1
+TEMPERATURE-OPT - 55
+//
+UNIQUE-ID - ENZRXN-REV-Mdh
+TYPES - Enzymatic-Reactions
+COMMON-NAME - malate dehydrogenase
+ENZYME - MG_460_TETRAMER
+REACTION - Mdh
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 250;10
+VMAX - 29
+PH-OPT - 8.1
+TEMPERATURE-OPT - 55
+//
+UNIQUE-ID - ENZRXN-FOR-MetF
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 5,10-methylenetetrahydrofolate reductase (NADH)
+ENZYME - MG_228_TETRAMER
+REACTION - MetF
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 4.7
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-MetK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methionine adenosyltransferase
+ENZYME - MG_047_TETRAMER
+REACTION - MetK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 6
+VMAX - 0.039
+//
+UNIQUE-ID - ENZRXN-FOR-MG385r1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphocholine)
+ENZYME - MG_385_DIMER
+REACTION - MG385r1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG385r2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoethanolamine)
+ENZYME - MG_385_DIMER
+REACTION - MG385r2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG385r3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoserine)
+ENZYME - MG_385_DIMER
+REACTION - MG385r3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG385r4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoglycerol)
+ENZYME - MG_385_DIMER
+REACTION - MG385r4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG385r5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glycerophosphodiester phosphodiesterase (Glycerophosphoinositol)
+ENZYME - MG_385_DIMER
+REACTION - MG385r5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG471_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - alanyl-tRNA (MG471) aminoacylation
+ENZYME - MG_292_TETRAMER
+REACTION - MG471_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG471_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG471_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG471_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG471_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG471_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG471_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG472_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - isoleucyl-tRNA (MG472) aminoacylation
+ENZYME - MG_345_MONOMER
+REACTION - MG472_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 255.762
+//
+UNIQUE-ID - ENZRXN-FOR-MG472_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG472_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG472_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG472_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG475_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - seryl-tRNA (MG475) aminoacylation
+ENZYME - MG_005_DIMER
+REACTION - MG475_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG475_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG475_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG479_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - threonyl-tRNA (MG479) aminoacylation
+ENZYME - MG_375_DIMER
+REACTION - MG479_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5400
+//
+UNIQUE-ID - ENZRXN-FOR-MG479_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG479_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG483_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cysteinyl-tRNA (MG483) aminoacylation
+ENZYME - MG_253_MONOMER
+REACTION - MG483_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 8514
+//
+UNIQUE-ID - ENZRXN-FOR-MG483_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG483_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG483_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG483_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG484_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - prolyl-tRNA (MG484) aminoacylation
+ENZYME - MG_283_DIMER
+REACTION - MG484_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 840
+//
+UNIQUE-ID - ENZRXN-FOR-MG484_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(1)-)-methyltransferase
+ENZYME - MG_445_DIMER
+REACTION - MG484_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10
+//
+UNIQUE-ID - ENZRXN-FOR-MG484_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG484_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG484_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG484_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG485_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methionyl-tRNA (MG485) aminoacylation
+ENZYME - MG_021_DIMER
+REACTION - MG485_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 192
+//
+UNIQUE-ID - ENZRXN-FOR-MG485_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG485_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG485_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG485_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG486_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - isoleucyl-tRNA (MG486) aminoacylation
+ENZYME - MG_345_MONOMER
+REACTION - MG486_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 255.762
+//
+UNIQUE-ID - ENZRXN-FOR-MG486_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG486_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG486_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA(Ile)-lysidine synthetase
+ENZYME - MG_084_TETRAMER
+REACTION - MG486_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 9.378e+06
+//
+UNIQUE-ID - ENZRXN-FOR-MG486_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG486_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG486_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG486_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG487_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - seryl-tRNA (MG487) aminoacylation
+ENZYME - MG_005_DIMER
+REACTION - MG487_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG487_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(1)-)-methyltransferase
+ENZYME - MG_445_DIMER
+REACTION - MG487_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10
+//
+UNIQUE-ID - ENZRXN-FOR-MG487_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG487_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG488_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - formyl-methionyl-tRNA (MG488) aminoacylation
+ENZYME - MG_021_DIMER
+REACTION - MG488_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 192
+//
+UNIQUE-ID - ENZRXN-FOR-MG488_Formyltransferase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - methionyl-tRNA (MG488) formyltransferase
+ENZYME - MG_365_MONOMER
+REACTION - MG488_Formyltransferase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG488_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG488_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG488_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG488_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG488_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG488_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG489_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - aspartyl-tRNA (MG489) aminoacylation
+ENZYME - MG_036_DIMER
+REACTION - MG489_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG489_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG489_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG490_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phenylalanyl-tRNA (MG490) aminoacylation
+ENZYME - MG_194_195_TETRAMER
+REACTION - MG490_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 324
+//
+UNIQUE-ID - ENZRXN-FOR-MG490_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG490_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG490_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG490_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG492_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginyl-tRNA (MG492) aminoacylation
+ENZYME - MG_378_MONOMER
+REACTION - MG492_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 168
+//
+UNIQUE-ID - ENZRXN-FOR-MG492_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG492_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG492_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG492_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG493_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycyl-tRNA (MG493) aminoacylation
+ENZYME - MG_251_DIMER
+REACTION - MG493_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG493_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG493_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG495_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginyl-tRNA (MG495) aminoacylation
+ENZYME - MG_378_MONOMER
+REACTION - MG495_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 168
+//
+UNIQUE-ID - ENZRXN-FOR-MG495_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG495_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG495_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG495_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG496_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tryptophanyl-tRNA (MG496) aminoacylation
+ENZYME - MG_126_DIMER
+REACTION - MG496_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG496_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG496_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG497_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginyl-tRNA (MG497) aminoacylation
+ENZYME - MG_378_MONOMER
+REACTION - MG497_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 168
+//
+UNIQUE-ID - ENZRXN-FOR-MG497_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG497_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG497_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG497_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG499_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycyl-tRNA (MG499) aminoacylation
+ENZYME - MG_251_DIMER
+REACTION - MG499_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG499_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG499_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG500_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - leucyl-tRNA (MG500) aminoacylation
+ENZYME - MG_266_MONOMER
+REACTION - MG500_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 306
+//
+UNIQUE-ID - ENZRXN-FOR-MG500_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG500_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG500_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG500_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - lysyl-tRNA (MG501) aminoacylation
+ENZYME - MG_136_DIMER
+REACTION - MG501_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG501_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U34 sulfurtransferase
+ENZYME - MG_295_MONOMER
+REACTION - MG501_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA uridine 5-carboxymethylaminomethyl modification enzyme
+ENZYME - MG_008_379_TETRAMER
+REACTION - MG501_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+KCAT - 9.3
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG501_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG501_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG501_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_Amidotransferase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glutamyl-tRNA (MG502) amidotransferase
+ENZYME - MG_098_099_100_TRIMER
+REACTION - MG502_Amidotransferase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 57.6
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glutamy-tRNA (MG502) aminoacylation
+ENZYME - MG_462_MONOMER
+REACTION - MG502_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 264
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U34 sulfurtransferase
+ENZYME - MG_295_MONOMER
+REACTION - MG502_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA uridine 5-carboxymethylaminomethyl modification enzyme
+ENZYME - MG_008_379_TETRAMER
+REACTION - MG502_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+KCAT - 9.3
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG502_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG502_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG502_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG503_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tyrosyl-tRNA (MG503) aminoacylation
+ENZYME - MG_455_DIMER
+REACTION - MG503_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 44.4
+//
+UNIQUE-ID - ENZRXN-FOR-MG503_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG503_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG503_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG503_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG504_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tryptophanyl-tRNA (MG504) aminoacylation
+ENZYME - MG_126_DIMER
+REACTION - MG504_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG504_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG504_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG504_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG504_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG504_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG504_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG506_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - seryl-tRNA (MG506) aminoacylation
+ENZYME - MG_005_DIMER
+REACTION - MG506_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG506_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG506_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG507_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - seryl-tRNA (MG507) aminoacylation
+ENZYME - MG_005_DIMER
+REACTION - MG507_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG507_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG507_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG508_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - leucyl-tRNA (MG508) aminoacylation
+ENZYME - MG_266_MONOMER
+REACTION - MG508_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 306
+//
+UNIQUE-ID - ENZRXN-FOR-MG508_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(1)-)-methyltransferase
+ENZYME - MG_445_DIMER
+REACTION - MG508_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10
+//
+UNIQUE-ID - ENZRXN-FOR-MG508_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG508_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG508_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG508_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG509_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - lysyl-tRNA (MG509) aminoacylation
+ENZYME - MG_136_DIMER
+REACTION - MG509_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG509_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG509_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG509_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG509_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG509_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG509_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG510_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - threonyl-tRNA (MG510) aminoacylation
+ENZYME - MG_375_DIMER
+REACTION - MG510_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5400
+//
+UNIQUE-ID - ENZRXN-FOR-MG510_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG510_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG510_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG510_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG510_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG510_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG511_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - valyl-tRNA (MG511) aminoacylation
+ENZYME - MG_334_MONOMER
+REACTION - MG511_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG511_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG511_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG511_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG511_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG512_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - threonyl-tRNA (MG512) aminoacylation
+ENZYME - MG_375_DIMER
+REACTION - MG512_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5400
+//
+UNIQUE-ID - ENZRXN-FOR-MG512_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG512_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG512_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG512_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG512_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG512_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG513_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glutamyl-tRNA (MG513) aminoacylation
+ENZYME - MG_462_MONOMER
+REACTION - MG513_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 264
+//
+UNIQUE-ID - ENZRXN-FOR-MG513_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U34 sulfurtransferase
+ENZYME - MG_295_MONOMER
+REACTION - MG513_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG513_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA uridine 5-carboxymethylaminomethyl modification enzyme
+ENZYME - MG_008_379_TETRAMER
+REACTION - MG513_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+KCAT - 9.3
+//
+UNIQUE-ID - ENZRXN-FOR-MG513_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG513_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG514_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - asparaginyl-tRNA (MG514) aminoacylation
+ENZYME - MG_113_DIMER
+REACTION - MG514_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1620
+//
+UNIQUE-ID - ENZRXN-FOR-MG514_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG514_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG514_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG514_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG518_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - histidyl-tRNA (MG518) aminoacylation
+ENZYME - MG_035_DIMER
+REACTION - MG518_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 8520
+//
+UNIQUE-ID - ENZRXN-FOR-MG518_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA pseudouridine synthase A
+ENZYME - MG_182_DIMER
+REACTION - MG518_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10.8
+//
+UNIQUE-ID - ENZRXN-FOR-MG518_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG518_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG519_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - leucyl-tRNA (MG519) aminoacylation
+ENZYME - MG_266_MONOMER
+REACTION - MG519_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 306
+//
+UNIQUE-ID - ENZRXN-FOR-MG519_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(1)-)-methyltransferase
+ENZYME - MG_445_DIMER
+REACTION - MG519_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 10
+//
+UNIQUE-ID - ENZRXN-FOR-MG519_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG519_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG519_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG519_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG520_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - leucyl-tRNA (MG520) aminoacylation
+ENZYME - MG_266_MONOMER
+REACTION - MG520_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 306
+//
+UNIQUE-ID - ENZRXN-FOR-MG520_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG520_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MG523_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - arginyl-tRNA (MG523) aminoacylation
+ENZYME - MG_378_MONOMER
+REACTION - MG523_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 168
+//
+UNIQUE-ID - ENZRXN-FOR-MG523_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA (guanine-N(7)-)-methyltransferase
+ENZYME - MG_347_DIMER
+REACTION - MG523_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 3.95
+//
+UNIQUE-ID - ENZRXN-FOR-MG523_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tRNA U8 sulfurtransferase
+ENZYME - MG_372_DIMER
+REACTION - MG523_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00815
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA16S_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 16S rRNA (guanine-N(2)-)-methyltransferase
+ENZYME - MG_380_MONOMER
+REACTION - MGrrnA16S_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.0071
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA16S_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 16S rRNA (adenine-N(6)-)-methyltransferase
+ENZYME - MG_463_MONOMER
+REACTION - MGrrnA16S_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.384
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA16S_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 16S rRNA (adenine-N(6)-)-methyltransferase
+ENZYME - MG_463_MONOMER
+REACTION - MGrrnA16S_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.384
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA16S_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 16S rRNA (adenine-N(6)-)-methyltransferase
+ENZYME - MG_463_MONOMER
+REACTION - MGrrnA16S_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.384
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA16S_MODIFICATION_006
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 16S rRNA (adenine-N(6)-)-methyltransferase
+ENZYME - MG_463_MONOMER
+REACTION - MGrrnA16S_MODIFICATION_006
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.384
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA pseudouridine synthase A
+ENZYME - MG_370_MONOMER
+REACTION - MGrrnA23S_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5.94
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA pseudouridine synthase A
+ENZYME - MG_370_MONOMER
+REACTION - MGrrnA23S_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5.94
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA (guanine-N(2)-)-methyltransferase
+ENZYME - MG_252_DIMER
+REACTION - MGrrnA23S_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.0071
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA pseudouridine synthase A
+ENZYME - MG_209_MONOMER
+REACTION - MGrrnA23S_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5.94
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_006
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA (uracil-N(2)-)-methyltransferase
+ENZYME - MG_346_DIMER
+REACTION - MGrrnA23S_MODIFICATION_006
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.064
+//
+UNIQUE-ID - ENZRXN-FOR-MGrrnA23S_MODIFICATION_007
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 23S rRNA pseudouridine synthase A
+ENZYME - MG_209_MONOMER
+REACTION - MGrrnA23S_MODIFICATION_007
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 5.94
+//
+UNIQUE-ID - ENZRXN-FOR-MG_0004_Aminoacylation
+TYPES - Enzymatic-Reactions
+COMMON-NAME - tmRNA (MG_0004) aminoacylation
+ENZYME - MG_292_TETRAMER
+REACTION - MG_0004_Aminoacylation
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 456
+//
+UNIQUE-ID - ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_070_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_070_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_070_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_070_MONOMER_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_070_MONOMER_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_070_MONOMER_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_166_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - alpha-L-glutamate ligase
+ENZYME - MG_012_MONOMER
+REACTION - MG_166_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.00072
+//
+UNIQUE-ID - ENZRXN-FOR-MG_191_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - MgPa terminal organelle assembly
+ENZYME - MG_312_MONOMER
+REACTION - MG_191_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_217_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_217_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_217_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - P65 terminal organelle assembly
+ENZYME - MG_318_MONOMER
+REACTION - MG_217_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_218_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - HMW2 terminal organelle assembly
+ENZYME - MG_312_MONOMER
+REACTION - MG_218_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_218_TerminalOrganelleAssembly_02
+TYPES - Enzymatic-Reactions
+COMMON-NAME - HMW2 terminal organelle assembly
+ENZYME - MG_312_MONOMER
+REACTION - MG_218_TerminalOrganelleAssembly_02
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_272_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein lysine lipoate ligation
+ENZYME - MG_270_MONOMER
+REACTION - MG_272_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 48.7
+//
+UNIQUE-ID - ENZRXN-FOR-MG_273_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_273_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_274_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_274_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_282_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_282_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_305_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_305_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_305_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_305_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_312_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - HMW1 terminal organelle assembly
+ENZYME - MG_218_MONOMER
+REACTION - MG_312_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_312_TerminalOrganelleAssembly_02
+TYPES - Enzymatic-Reactions
+COMMON-NAME - HMW1 terminal organelle assembly
+ENZYME - MG_218_MONOMER
+REACTION - MG_312_TerminalOrganelleAssembly_02
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_317_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_317_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_317_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_317_MONOMER_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_MONOMER_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_317_MONOMER_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_317_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - HMW3 terminal organelle assembly
+ENZYME - MG_312_MONOMER
+REACTION - MG_317_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_318_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - P32 terminal organelle assembly
+ENZYME - MG_317_MONOMER
+REACTION - MG_318_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_328_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_328_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_342_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_342_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_006
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_006
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_007
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_007
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_008
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_008
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_009
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_009
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_010
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_010
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_377_MONOMER_MODIFICATION_011
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_377_MONOMER_MODIFICATION_011
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_386_TerminalOrganelleAssembly_01
+TYPES - Enzymatic-Reactions
+COMMON-NAME - P200 terminal organelle assembly
+ENZYME - MG_312_MONOMER
+REACTION - MG_386_TerminalOrganelleAssembly_01
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-MG_392_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_392_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_392_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_392_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_006
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_006
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_007
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_007
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_008
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_008
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_401_MONOMER_MODIFICATION_009
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_401_MONOMER_MODIFICATION_009
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_407_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_407_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_407_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_407_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_427_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_427_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_427_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_427_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_004
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_004
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_005
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein tyrosine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_005
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_006
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_006
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_007
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_007
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_008
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_008
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_438_MONOMER_MODIFICATION_009
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_438_MONOMER_MODIFICATION_009
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_451_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_451_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_451_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_451_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_460_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_002
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_460_MONOMER_MODIFICATION_002
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_460_MONOMER_MODIFICATION_003
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein threonine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_460_MONOMER_MODIFICATION_003
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MG_491_MONOMER_MODIFICATION_001
+TYPES - Enzymatic-Reactions
+COMMON-NAME - protein serine phosphorylation
+ENZYME - MG_109_DIMER
+REACTION - MG_491_MONOMER_MODIFICATION_001
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 2.56
+//
+UNIQUE-ID - ENZRXN-FOR-MsrA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-methionine-S-sulfoxide reductase
+ENZYME - MG_408_MONOMER
+REACTION - MsrA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 222
+//
+UNIQUE-ID - ENZRXN-REV-MsrA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-methionine-S-sulfoxide reductase
+ENZYME - MG_408_MONOMER
+REACTION - MsrA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-MsrB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-methionine-R-sulfoxide reductase
+ENZYME - MG_448_MONOMER
+REACTION - MsrB
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 66
+//
+UNIQUE-ID - ENZRXN-REV-MsrB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-methionine-R-sulfoxide reductase
+ENZYME - MG_448_MONOMER
+REACTION - MsrB
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-MutM_FAPyAD
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (4,6-diamino-5-N-formamidopyrimidine)
+ENZYME - MG_498_MONOMER
+REACTION - MutM_FAPyAD
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1863000
+KCAT - 0.0834
+//
+UNIQUE-ID - ENZRXN-FOR-MutM_FAPyGN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (2,6-diamino-4-hydroxy-5-formamidopyrimidine)
+ENZYME - MG_498_MONOMER
+REACTION - MutM_FAPyGN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1863000
+KCAT - 0.0834
+//
+UNIQUE-ID - ENZRXN-FOR-MutM_oxo8AD
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (8-hydroxyadenine)
+ENZYME - MG_498_MONOMER
+REACTION - MutM_oxo8AD
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1863000
+KCAT - 0.0834
+//
+UNIQUE-ID - ENZRXN-FOR-MutM_oxo8GN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (8-Oxo-guanine; 8-hydroxyguanine)
+ENZYME - MG_498_MONOMER
+REACTION - MutM_oxo8GN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1863000
+KCAT - 0.0834
+//
+UNIQUE-ID - ENZRXN-FOR-NadE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - NAD synthase (nh3)
+ENZYME - MG_383_DIMER
+REACTION - NadE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 110;200
+VMAX - 6.9
+PH-OPT - 8.5
+TEMPERATURE-OPT - 49
+//
+UNIQUE-ID - ENZRXN-FOR-NadK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - NAD kinase
+ENZYME - MG_128_HEXAMER
+REACTION - NadK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 730
+VMAX - 3.82
+PH-OPT - 7.6
+TEMPERATURE-OPT - 49
+//
+UNIQUE-ID - ENZRXN-REV-NadK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - NAD kinase
+ENZYME - MG_128_HEXAMER
+REACTION - NadK
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 49
+//
+UNIQUE-ID - ENZRXN-FOR-NADR1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - nicotinamide-nucleotide adenylyltransferase
+ENZYME - MG_240_HEXAMER
+REACTION - NADR1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 160;80
+KCAT - 600
+PH-OPT - 8.6
+TEMPERATURE-OPT - 80
+//
+UNIQUE-ID - ENZRXN-FOR-NADR2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - nicotinate-nucleotide adenylyltransferase
+ENZYME - MG_240_HEXAMER
+REACTION - NADR2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 135;43
+VMAX - 11.1
+PH-OPT - 8.6
+TEMPERATURE-OPT - 80
+//
+UNIQUE-ID - ENZRXN-FOR-NER_DNAExcision
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA excision
+ENZYME - MG_244_DIMER
+REACTION - NER_DNAExcision
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 11580
+//
+UNIQUE-ID - ENZRXN-FOR-NER_DNAIncision
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA incision
+ENZYME - MG_073_206_421_TETRAMER
+REACTION - NER_DNAIncision
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 0.5
+//
+UNIQUE-ID - ENZRXN-FOR-NOX
+TYPES - Enzymatic-Reactions
+COMMON-NAME - NADH dehydrogenase
+ENZYME - MG_275_TETRAMER
+REACTION - NOX
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+PH-OPT - 5.2
+TEMPERATURE-OPT - 28
+//
+UNIQUE-ID - ENZRXN-FOR-NrdEF_ADP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribonucleoside-diphosphate reductase (ADP)
+ENZYME - MG_229_231_TETRAMER
+REACTION - NrdEF_ADP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-NrdEF_CDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribonucleoside-diphosphate reductase (CDP)
+ENZYME - MG_229_231_TETRAMER
+REACTION - NrdEF_CDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-NrdEF_GDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribonucleoside-diphosphate reductase (GDP)
+ENZYME - MG_229_231_TETRAMER
+REACTION - NrdEF_GDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-NrdEF_maintenance
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribonucleoside-diphosphate reductase maintenance
+ENZYME - MG_230_MONOMER
+REACTION - NrdEF_maintenance
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-NrdEF_UDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribonucleoside-diphosphate reductase (UDP)
+ENZYME - MG_229_231_TETRAMER
+REACTION - NrdEF_UDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-NTerminalMethionineClevage
+TYPES - Enzymatic-Reactions
+COMMON-NAME - N-terminal methionine cleavage
+ENZYME - MG_172_MONOMER
+REACTION - NTerminalMethionineClevage
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 360
+//
+UNIQUE-ID - ENZRXN-FOR-Pdp1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyuridine phosphorylase
+ENZYME - MG_051_DIMER
+REACTION - Pdp1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 735
+VMAX - 0.003837
+PH-OPT - 7.4
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pdp1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyuridine phosphorylase
+ENZYME - MG_051_DIMER
+REACTION - Pdp1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.4
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pdp2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thymidine phosphorylase
+ENZYME - MG_051_DIMER
+REACTION - Pdp2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 152
+VMAX - 0.001468
+PH-OPT - 7.4
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pdp2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thymidine phosphorylase
+ENZYME - MG_051_DIMER
+REACTION - Pdp2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.4
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_ALA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (ALA)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_ALA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_ARG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (ARG)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_ARG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_ASN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (ASN)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_ASN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_ASP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (ASP)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_ASP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_CYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (CYS)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_CYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_FMET
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (MET)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_FMET
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_GLN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (GLN)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_GLN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_GLU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (GLU)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_GLU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_GLY
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (GLY)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_GLY
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_HIS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (HIS)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_HIS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_ILE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (ILE)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_ILE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_LEU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (LEU)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_LEU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_LYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (LYS)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_LYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_MET
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (MET)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_MET
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_PHE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (PHE)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_PHE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_PRO
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (PRO)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_PRO
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_SER
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (SER)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_SER
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_THR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (THR)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_THR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_TRP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (TRP)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_TRP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_TYR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (TYR)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_TYR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PeptidylTRNAHs_VAL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Peptidyl-tRNA hydrolysis (VAL)
+ENZYME - MG_083_MONOMER
+REACTION - PeptidylTRNAHs_VAL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PfkA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 140;130
+VMAX - 30.6
+PH-OPT - 7.6
+TEMPERATURE-OPT - 36
+//
+UNIQUE-ID - ENZRXN-FOR-PfkA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 800;230
+VMAX - 30.6
+PH-OPT - 7.6
+TEMPERATURE-OPT - 36
+//
+UNIQUE-ID - ENZRXN-FOR-PfkA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PfkA4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100;160
+VMAX - 30.6
+PH-OPT - 7.6
+TEMPERATURE-OPT - 36
+//
+UNIQUE-ID - ENZRXN-FOR-PfkA5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 200;1000
+VMAX - 12
+PH-OPT - 7.6
+TEMPERATURE-OPT - 36
+//
+UNIQUE-ID - ENZRXN-REV-PfkA5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphofructokinase
+ENZYME - MG_215_TETRAMER
+REACTION - PfkA5
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 36
+//
+UNIQUE-ID - ENZRXN-FOR-Pgi
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glucose-6-phosphate isomerase
+ENZYME - MG_111_DIMER
+REACTION - Pgi
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 11
+VMAX - 740
+PH-OPT - 7.7
+TEMPERATURE-OPT - 76
+//
+UNIQUE-ID - ENZRXN-REV-Pgi
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glucose-6-phosphate isomerase
+ENZYME - MG_111_DIMER
+REACTION - Pgi
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.7
+TEMPERATURE-OPT - 76
+//
+UNIQUE-ID - ENZRXN-FOR-Pgk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 10000
+VMAX - 10
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-REV-Pgk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 1200
+VMAX - 1.5
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Pgk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 300
+VMAX - 45
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-REV-Pgk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 250
+VMAX - 14
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Pgk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 488.1
+KCAT - 50670
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-REV-Pgk3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 73.59999999999999
+KCAT - 1.8
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Pgk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 700
+VMAX - 41
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-REV-Pgk4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk4
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 800
+VMAX - 13
+PH-OPT - 7.4
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Pgk5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-Pgk5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglycerate kinase
+ENZYME - MG_300_MONOMER
+REACTION - Pgk5
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-Pgm
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglucomutase
+ENZYME - MG_053_TRIMER
+REACTION - Pgm
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 71.40000000000001
+VMAX - 65.3
+PH-OPT - 8.7
+TEMPERATURE-OPT - 63
+//
+UNIQUE-ID - ENZRXN-REV-Pgm
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoglucomutase
+ENZYME - MG_053_TRIMER
+REACTION - Pgm
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 8.7
+TEMPERATURE-OPT - 63
+//
+UNIQUE-ID - ENZRXN-FOR-PgsA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C16:0)
+ENZYME - MG_114_DIMER
+REACTION - PgsA1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-PgsA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C16:0)
+ENZYME - MG_114_DIMER
+REACTION - PgsA1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-PgsA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C16:1)
+ENZYME - MG_114_DIMER
+REACTION - PgsA2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-PgsA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C16:1)
+ENZYME - MG_114_DIMER
+REACTION - PgsA2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-PgsA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C18:1)
+ENZYME - MG_114_DIMER
+REACTION - PgsA3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-PgsA3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Phosphatidylglycerol synthase (n-C18:1)
+ENZYME - MG_114_DIMER
+REACTION - PgsA3
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-tetradecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C12:0)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-tetradecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C14:0)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-tetradec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C14:1)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-hexadecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C16:0)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-hexadec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C16:1)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-octadecanoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C18:0)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC6
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsC7
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 1-octadec-7-enoyl-sn-glycerol 3-phosphate O-acyltransferase (n-C18:1)
+ENZYME - MG_212_MONOMER
+REACTION - PlsC7
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C12:0)
+ENZYME - MG_368_DIMER
+REACTION - PlsX1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C14:0)
+ENZYME - MG_368_DIMER
+REACTION - PlsX2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C14:1)
+ENZYME - MG_368_DIMER
+REACTION - PlsX3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX4
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C16:0)
+ENZYME - MG_368_DIMER
+REACTION - PlsX4
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX5
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C16:1)
+ENZYME - MG_368_DIMER
+REACTION - PlsX5
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX6
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C18:0)
+ENZYME - MG_368_DIMER
+REACTION - PlsX6
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PlsX7
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol-3-phosphate acyltransferase (C18:1)
+ENZYME - MG_368_DIMER
+REACTION - PlsX7
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-PncB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - nicotinic acid mononucleotide pyrophosphorylase
+ENZYME - MG_037_MONOMER
+REACTION - PncB
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 22;1.5
+VMAX - 3
+PH-OPT - 7.7
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-FOR-Ppa
+TYPES - Enzymatic-Reactions
+COMMON-NAME - inorganic diphosphatase
+ENZYME - MG_351_HEXAMER
+REACTION - Ppa
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.4
+TEMPERATURE-OPT - 54
+//
+UNIQUE-ID - ENZRXN-FOR-ProLipoproteinDiacylglycerylTransferase
+TYPES - Enzymatic-Reactions
+COMMON-NAME - prolipoprotein diacylglyceryl transferase
+ENZYME - MG_086_MONOMER
+REACTION - ProLipoproteinDiacylglycerylTransferase
+REACTION-DIRECTION - LEFT-TO-RIGHT
+VMAX - 0.0221
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_ALA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ALA)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_ALA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_ARG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ARG)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_ARG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_ASN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ASN)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_ASN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_ASP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ASP)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_ASP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_CYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (CYS)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_CYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_GLN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLN)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_GLN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_GLU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLU)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_GLU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_GLY
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLY)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_GLY
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_HIS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (HIS)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_HIS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_ILE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ILE)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_ILE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_LEU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (LEU)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_LEU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_LYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (LYS)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_LYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_MET
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (MET)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_MET
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_PHE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (PHE)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_PHE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_PRO
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (PRO)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_PRO
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_SER
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (SER)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_SER
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_THR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (THR)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_THR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_TRP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (TRP)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_TRP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_TYR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (TYR)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_TYR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_FtsH_VAL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (VAL)
+ENZYME - MG_457_HEXAMER
+REACTION - ProteinDegradation_FtsH_VAL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 1.8
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_ALA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ALA)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_ALA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_ARG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ARG)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_ARG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_ASN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ASN)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_ASN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_ASP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ASP)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_ASP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_CYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (CYS)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_CYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_GLN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLN)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_GLN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_GLU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLU)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_GLU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_GLY
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (GLY)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_GLY
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_HIS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (HIS)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_HIS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_ILE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (ILE)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_ILE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_LEU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (LEU)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_LEU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_LYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (LYS)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_LYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_MET
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (MET)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_MET
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_PHE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (PHE)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_PHE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_PRO
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (PRO)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_PRO
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_SER
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (SER)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_SER
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_THR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (THR)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_THR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_TRP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (TRP)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_TRP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_TYR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (TYR)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_TYR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinDegradation_Lon_VAL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein degradation (VAL)
+ENZYME - MG_239_HEXAMER
+REACTION - ProteinDegradation_Lon_VAL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 100.02
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_ALA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Ala)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_ALA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_ARG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Arg)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_ARG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_ASN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Asn)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_ASN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_ASP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Asp)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_ASP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_CYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Cys)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_CYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_GLN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Gln)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_GLN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_GLU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Glu)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_GLU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_GLY
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Gly)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_GLY
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_HIS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (His)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_HIS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_ILE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Ile)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_ILE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_LEU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Leu)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_LEU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_LYS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Lys)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_LYS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_MET
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Met)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_MET
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_PHE
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Phe)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_PHE
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_PRO
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Pro)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_PRO
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_SER
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Ser)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_SER
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_THR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Thr)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_THR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_TRP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Trp)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_TRP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_TYR
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Tyr)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_TYR
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-ProteinPolymerization_VAL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Protein polymerization (Val)
+ENZYME - RIBOSOME_70S
+REACTION - ProteinPolymerization_VAL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 960
+//
+UNIQUE-ID - ENZRXN-FOR-PrsA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoribosylpyrophosphate synthetase
+ENZYME - MG_058_HEXAMER
+REACTION - PrsA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 660;480
+VMAX - 190
+PH-OPT - 8
+TEMPERATURE-OPT - 42
+//
+UNIQUE-ID - ENZRXN-REV-PrsA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphoribosylpyrophosphate synthetase
+ENZYME - MG_058_HEXAMER
+REACTION - PrsA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 8
+TEMPERATURE-OPT - 42
+//
+UNIQUE-ID - ENZRXN-FOR-Pta
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphotransacetylase
+ENZYME - MG_299_DIMER
+REACTION - Pta
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 60
+VMAX - 1371
+PH-OPT - 7.7
+TEMPERATURE-OPT - 54
+//
+UNIQUE-ID - ENZRXN-REV-Pta
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphotransacetylase
+ENZYME - MG_299_DIMER
+REACTION - Pta
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.7
+TEMPERATURE-OPT - 54
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_ADP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_ADP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1000;170
+VMAX - 98
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_ADP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_ADP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_CDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_CDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 690
+VMAX - 235
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_CDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_CDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_DADP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DADP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_DADP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DADP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_DCDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DCDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_DCDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DCDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_DGDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DGDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_DGDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DGDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_DTDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DTDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_DTDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DTDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_DUDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DUDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_DUDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_DUDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_GDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_GDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1180
+VMAX - 223.6
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_GDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_GDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_IDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_IDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_IDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_IDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_TDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_TDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_TDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_TDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-Pyk_UDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_UDP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-REV-Pyk_UDP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - pyruvate kinase
+ENZYME - MG_216_TETRAMER
+REACTION - Pyk_UDP
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 6.8
+TEMPERATURE-OPT - 51
+//
+UNIQUE-ID - ENZRXN-FOR-RelA1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - GDP diphosphokinase
+ENZYME - MG_278_DIMER
+REACTION - RelA1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RelA2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - GTP diphosphokinase
+ENZYME - MG_278_DIMER
+REACTION - RelA2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RibF1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - riboflavin kinase
+ENZYME - MG_145_MONOMER
+REACTION - RibF1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1500
+VMAX - 0.59
+PH-OPT - 8.3
+TEMPERATURE-OPT - 49
+//
+UNIQUE-ID - ENZRXN-FOR-RibF2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - FMN adenylyltransferase
+ENZYME - MG_145_MONOMER
+REACTION - RibF2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1500
+VMAX - 0.59
+PH-OPT - 7.3
+TEMPERATURE-OPT - 37
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_DeaD_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_425_DIMER
+REACTION - RNACleavage_DeaD_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 88.8
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_DeaD_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_425_DIMER
+REACTION - RNACleavage_DeaD_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 88.8
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_DeaD_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_425_DIMER
+REACTION - RNACleavage_DeaD_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 88.8
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_DeaD_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_425_DIMER
+REACTION - RNACleavage_DeaD_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 88.8
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseIII_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_367_DIMER
+REACTION - RNACleavage_RNAseIII_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 462
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseIII_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_367_DIMER
+REACTION - RNACleavage_RNAseIII_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 462
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseIII_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_367_DIMER
+REACTION - RNACleavage_RNAseIII_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 462
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseIII_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_367_DIMER
+REACTION - RNACleavage_RNAseIII_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 462
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseJ_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_139_DIMER
+REACTION - RNACleavage_RNAseJ_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 22.2
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseJ_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_139_DIMER
+REACTION - RNACleavage_RNAseJ_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 22.2
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseJ_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_139_DIMER
+REACTION - RNACleavage_RNAseJ_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 22.2
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseJ_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_139_DIMER
+REACTION - RNACleavage_RNAseJ_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 22.2
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseP_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_0003_465
+REACTION - RNACleavage_RNAseP_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 360
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseP_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_0003_465
+REACTION - RNACleavage_RNAseP_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 360
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseP_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_0003_465
+REACTION - RNACleavage_RNAseP_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 360
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseP_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_0003_465
+REACTION - RNACleavage_RNAseP_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 360
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseR_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_104_MONOMER
+REACTION - RNACleavage_RNAseR_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseR_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_104_MONOMER
+REACTION - RNACleavage_RNAseR_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseR_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_104_MONOMER
+REACTION - RNACleavage_RNAseR_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RNAseR_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_104_MONOMER
+REACTION - RNACleavage_RNAseR_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RsgA_AMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (AMP)
+ENZYME - MG_110_MONOMER
+REACTION - RNACleavage_RsgA_AMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 17.502
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RsgA_CMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (CMP)
+ENZYME - MG_110_MONOMER
+REACTION - RNACleavage_RsgA_CMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 17.502
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RsgA_GMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (GMP)
+ENZYME - MG_110_MONOMER
+REACTION - RNACleavage_RsgA_GMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 17.502
+//
+UNIQUE-ID - ENZRXN-FOR-RNACleavage_RsgA_UMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA cleavage (UMP)
+ENZYME - MG_110_MONOMER
+REACTION - RNACleavage_RsgA_UMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 17.502
+//
+UNIQUE-ID - ENZRXN-FOR-RnaPolymerization_ATP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA polymerization (ATP)
+ENZYME - RNA_POLYMERASE
+REACTION - RnaPolymerization_ATP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 3000
+//
+UNIQUE-ID - ENZRXN-FOR-RnaPolymerization_CTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA polymerization (CTP)
+ENZYME - RNA_POLYMERASE
+REACTION - RnaPolymerization_CTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 3000
+//
+UNIQUE-ID - ENZRXN-FOR-RnaPolymerization_GTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA polymerization (GTP)
+ENZYME - RNA_POLYMERASE
+REACTION - RnaPolymerization_GTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 3000
+//
+UNIQUE-ID - ENZRXN-FOR-RnaPolymerization_UTP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - RNA polymerization (UTP)
+ENZYME - RNA_POLYMERASE
+REACTION - RnaPolymerization_UTP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 3000
+//
+UNIQUE-ID - ENZRXN-FOR-Rpe
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribulose 5-phosphate 3-epimerase
+ENZYME - MG_112_DIMER
+REACTION - Rpe
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.9
+//
+UNIQUE-ID - ENZRXN-REV-Rpe
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribulose 5-phosphate 3-epimerase
+ENZYME - MG_112_DIMER
+REACTION - Rpe
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.9
+//
+UNIQUE-ID - ENZRXN-FOR-RpiB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribose-5-phosphate isomerase
+ENZYME - MG_396_DIMER
+REACTION - RpiB
+REACTION-DIRECTION - LEFT-TO-RIGHT
+PH-OPT - 7.6
+TEMPERATURE-OPT - 74
+//
+UNIQUE-ID - ENZRXN-REV-RpiB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - ribose-5-phosphate isomerase
+ENZYME - MG_396_DIMER
+REACTION - RpiB
+REACTION-DIRECTION - RIGHT-TO-LEFT
+KM - 1780
+KCAT - 39180
+PH-OPT - 7.6
+TEMPERATURE-OPT - 74
+//
+UNIQUE-ID - ENZRXN-FOR-TatD_dAMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribonuclease (dAMP)
+ENZYME - MG_009_MONOMER
+REACTION - TatD_dAMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TatD_dCMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribonuclease (dCMP)
+ENZYME - MG_009_MONOMER
+REACTION - TatD_dCMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TatD_dGMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribonuclease (dGMP)
+ENZYME - MG_009_MONOMER
+REACTION - TatD_dGMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TatD_dTMP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyribonuclease (dTMP)
+ENZYME - MG_009_MONOMER
+REACTION - TatD_dTMP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-Tdk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - deoxyuridine kinase (ATP:Deoxyuridine)
+ENZYME - MG_034_DIMER
+REACTION - Tdk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2.5
+VMAX - 4.35
+PH-OPT - 7.8
+TEMPERATURE-OPT - 31
+//
+UNIQUE-ID - ENZRXN-FOR-Tdk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thymidine kinase (ATP:thymidine)
+ENZYME - MG_034_DIMER
+REACTION - Tdk2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2.5
+VMAX - 4.35
+PH-OPT - 7.8
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-FOR-ThiL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thiamine-phosphate kinase
+ENZYME - MG_372_DIMER
+REACTION - ThiL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1.1;270
+VMAX - 0.000197
+PH-OPT - 8
+//
+UNIQUE-ID - ENZRXN-REV-ThiL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thiamine-phosphate kinase
+ENZYME - MG_372_DIMER
+REACTION - ThiL
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 8
+//
+UNIQUE-ID - ENZRXN-FOR-ThyA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thymidylate synthase
+ENZYME - MG_227_DIMER
+REACTION - ThyA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 2.7;10.1
+KCAT - 12.78
+PH-OPT - 7.1
+TEMPERATURE-OPT - 38
+//
+UNIQUE-ID - ENZRXN-FOR-Tkt1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - transketolase
+ENZYME - MG_066_DIMER
+REACTION - Tkt1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - TPP
+KM - 160;1400
+VMAX - 50.4
+PH-OPT - 7.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-REV-Tkt1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - transketolase
+ENZYME - MG_066_DIMER
+REACTION - Tkt1
+REACTION-DIRECTION - RIGHT-TO-LEFT
+COFACTORS - TPP
+PH-OPT - 7.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-FOR-Tkt2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - transketolase
+ENZYME - MG_066_DIMER
+REACTION - Tkt2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - TPP
+KM - 90;160 
+VMAX - 50.4
+PH-OPT - 7.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-REV-Tkt2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - transketolase
+ENZYME - MG_066_DIMER
+REACTION - Tkt2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+COFACTORS - TPP
+PH-OPT - 7.7
+TEMPERATURE-OPT - 33
+//
+UNIQUE-ID - ENZRXN-FOR-Tmk
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thiamine kinase
+ENZYME - MG_006_DIMER
+REACTION - Tmk
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4.9
+VMAX - 0.0833
+PH-OPT - 7.9
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-REV-Tmk
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thiamine kinase
+ENZYME - MG_006_DIMER
+REACTION - Tmk
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.9
+TEMPERATURE-OPT - 45
+//
+UNIQUE-ID - ENZRXN-FOR-TpiA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - triose-phosphate isomerase
+ENZYME - MG_431_DIMER
+REACTION - TpiA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 1230
+KCAT - 49000
+PH-OPT - 7.9
+TEMPERATURE-OPT - 43
+//
+UNIQUE-ID - ENZRXN-REV-TpiA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - triose-phosphate isomerase
+ENZYME - MG_431_DIMER
+REACTION - TpiA
+REACTION-DIRECTION - RIGHT-TO-LEFT
+PH-OPT - 7.9
+TEMPERATURE-OPT - 43
+//
+UNIQUE-ID - ENZRXN-FOR-TrxB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thioredoxin reductase (NADPH)
+ENZYME - MG_102_DIMER
+REACTION - TrxB
+REACTION-DIRECTION - LEFT-TO-RIGHT
+COFACTORS - FAD
+KM - 1.5
+KCAT - 1250
+PH-OPT - 7.6
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-REV-TrxB
+TYPES - Enzymatic-Reactions
+COMMON-NAME - thioredoxin reductase (NADPH)
+ENZYME - MG_102_DIMER
+REACTION - TrxB
+REACTION-DIRECTION - RIGHT-TO-LEFT
+COFACTORS - FAD
+PH-OPT - 7.6
+TEMPERATURE-OPT - 44
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP11
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-phenylalanine reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP11
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP11
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-phenylalanine reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP11
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP12
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tryptophan reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP12
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP12
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tryptophan reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP12
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP13
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tyrosine reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP13
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP13
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tyrosine reversible transport via proton symport
+ENZYME - MG_226_DIMER
+REACTION - TX_AROP13
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP21
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-phenylalanine reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP21
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP21
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-phenylalanine reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP21
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP22
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tryptophan reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP22
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP22
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tryptophan reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP22
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_AROP23
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tyrosine reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP23
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_AROP23
+TYPES - Enzymatic-Reactions
+COMMON-NAME - L-tyrosine reversible transport via proton symport
+ENZYME - MG_225_DIMER
+REACTION - TX_AROP23
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_Cbi_Co
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cobalt transport via ABC system
+ENZYME - MG_179_180_181_TETRAMER
+REACTION - TX_Cbi_Co
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_Cbi_Ni
+TYPES - Enzymatic-Reactions
+COMMON-NAME - nickel transport via ABC system
+ENZYME - MG_302_303_304_TETRAMER
+REACTION - TX_Cbi_Ni
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_ComEC_dApdAp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA internalization (dApdAp)
+ENZYME - MG_316_DIMER
+REACTION - TX_ComEC_dApdAp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_ComEC_dCpdCp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA internalization (dCpdCp)
+ENZYME - MG_316_DIMER
+REACTION - TX_ComEC_dCpdCp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_ComEC_dGpdGp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA internalization (dGpdGp)
+ENZYME - MG_316_DIMER
+REACTION - TX_ComEC_dGpdGp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_ComEC_dTpdTp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - DNA internalization (dTpdTp)
+ENZYME - MG_316_DIMER
+REACTION - TX_ComEC_dTpdTp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_FRUPTS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - D-fructose transport via PEP:Pyr PTS
+ENZYME - MG_041_062_429_PENTAMER
+REACTION - TX_FRUPTS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_GL
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol transport via ABC system
+ENZYME - MG_186_187_188_189_PENTAMER
+REACTION - TX_GL
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_GL3P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol transport via ABC system
+ENZYME - MG_186_187_188_189_PENTAMER
+REACTION - TX_GL3P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_GLCPTS
+TYPES - Enzymatic-Reactions
+COMMON-NAME - D-glucose transport via PEP:Pyr PTS
+ENZYME - MG_041_069_429_PENTAMER
+REACTION - TX_GLCPTS
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_GLUP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - glycerol transport via diffusion
+ENZYME - MG_033_TETRAMER
+REACTION - TX_GLUP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MdlB_doxorubicin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (doxorubicin) via ABC system
+ENZYME - MG_014_015_DIMER
+REACTION - TX_MdlB_doxorubicin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_CA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - calcium-transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_CA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_CU
+TYPES - Enzymatic-Reactions
+COMMON-NAME - copper-transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_CU
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_FE2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - iron (II) transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_FE2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_FE3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - iron (III) transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_FE3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_MG
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Magnesium-transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_MG
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_MN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Manganese-transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_MN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_MOBD
+TYPES - Enzymatic-Reactions
+COMMON-NAME - molybdate transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_MOBD
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_MGTA_ZN
+TYPES - Enzymatic-Reactions
+COMMON-NAME - zinc-transporting ATPase
+ENZYME - MG_071_MONOMER
+REACTION - TX_MGTA_ZN
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NAUP2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sodium transport out via proton antiport
+ENZYME - MG_322_323_TETRAMER
+REACTION - TX_NAUP2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_NAUP2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sodium transport out via proton antiport
+ENZYME - MG_322_323_TETRAMER
+REACTION - TX_NAUP2
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_acriflavine
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (acriflavine) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_acriflavine
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_benzalkonium
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (benzalkonium) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_benzalkonium
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_berberine
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (berberine) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_berberine
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_ciprofloxacin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (ciprofloxacin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_ciprofloxacin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_crystalViolet
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (crystal violet) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_crystalViolet
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_doxorubicin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (doxorubicin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_doxorubicin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_enoxacin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (enoxacin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_enoxacin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_ethidium
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (ethidium bromide) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_ethidium
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_lomefloxacin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (lomefloxacin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_lomefloxacin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_norfloxacin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (norfloxacin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_norfloxacin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_novobiocin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (novobiocin) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_novobiocin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_proflavine
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (proflavine) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_proflavine
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_rhodamine6G
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (rhodamine 6G) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_rhodamine6G
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_NormM_tetraphenylphosphonium
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (tetraphenylphosphonium) via sodium antiport
+ENZYME - MG_447_MONOMER
+REACTION - TX_NormM_tetraphenylphosphonium
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Ala
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Ala) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Ala
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Arg
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Arg) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Arg
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Asn
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Asn) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Asn
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Asp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Asp) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Asp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Cys
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Cys) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Cys
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Gln
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Gln) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Gln
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Glu
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Glu) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Glu
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Gly
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Gly) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Gly
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_His
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (His) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_His
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Ile
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Ile) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Ile
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Leu
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Leu) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Leu
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Lys
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Lys) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Lys
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Met
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Met) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Met
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Phe
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Phe) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Phe
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Pro
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Pro) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Pro
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Ser
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Ser) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Ser
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Thr
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Thr) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Thr
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Trp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Trp) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Trp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Tyr
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Tyr) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Tyr
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_OppB_Val
+TYPES - Enzymatic-Reactions
+COMMON-NAME - oligopeptide (Val) transport via ABC system
+ENZYME - MG_077_078_079_080_321_PENTAMER
+REACTION - TX_OppB_Val
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_PHNT
+TYPES - Enzymatic-Reactions
+COMMON-NAME - 2-aminoethylphosphonate transport via ABC system
+ENZYME - MG_289_290_291_PENTAMER
+REACTION - TX_PHNT
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_PIUP1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - phosphate transport via ABC system
+ENZYME - MG_410_411_412_PENTAMER
+REACTION - TX_PIUP1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_RIBUP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - D-ribose transport via ABC system
+ENZYME - MG_040_119_120_121_PENTAMER
+REACTION - TX_RIBUP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_SalX_nisin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - drug efflux (nisin) via ABC system
+ENZYME - MG_467_468_526_TETRAMER
+REACTION - TX_SalX_nisin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_SPMDUP1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - spermidine transport via ABC system
+ENZYME - MG_042_043_044_045_PENTAMER
+REACTION - TX_SPMDUP1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_SPRDUP2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - putrescine transport via ABC system
+ENZYME - MG_042_043_044_045_PENTAMER
+REACTION - TX_SPRDUP2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_SunT_nisin
+TYPES - Enzymatic-Reactions
+COMMON-NAME - toxin secretion (nisin) via ABC system
+ENZYME - MG_390_DIMER
+REACTION - TX_SunT_nisin
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_TRK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - potassium transport in via proton symport
+ENZYME - MG_322_323_TETRAMER
+REACTION - TX_TRK
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-REV-TX_TRK
+TYPES - Enzymatic-Reactions
+COMMON-NAME - potassium transport in via proton symport
+ENZYME - MG_322_323_TETRAMER
+REACTION - TX_TRK
+REACTION-DIRECTION - RIGHT-TO-LEFT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_UHPT1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Glucose-6-phosphate transport via phosphate antiport
+ENZYME - MG_061_MONOMER
+REACTION - TX_UHPT1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_UHPT2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Fucose-1-phosphate transport via phosphate antiport
+ENZYME - MG_061_MONOMER
+REACTION - TX_UHPT2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-TX_UHPT3
+TYPES - Enzymatic-Reactions
+COMMON-NAME - Mannose-6-phosphate transport via phosphate antiport
+ENZYME - MG_061_MONOMER
+REACTION - TX_UHPT3
+REACTION-DIRECTION - LEFT-TO-RIGHT
+//
+UNIQUE-ID - ENZRXN-FOR-Udk1
+TYPES - Enzymatic-Reactions
+COMMON-NAME - uridine kinase (GTP:Uridine)
+ENZYME - MG_382_TETRAMER
+REACTION - Udk1
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 350
+VMAX - 200
+PH-OPT - 7.2
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Udk2
+TYPES - Enzymatic-Reactions
+COMMON-NAME - cytidine kinase (GTP)
+ENZYME - MG_382_TETRAMER
+REACTION - Udk2
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 130
+VMAX - 200
+PH-OPT - 7.2
+TEMPERATURE-OPT - 40
+//
+UNIQUE-ID - ENZRXN-FOR-Ung_ho5URA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (5-hydroxyuracil)
+ENZYME - MG_097_MONOMER
+REACTION - Ung_ho5URA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100000
+KCAT - 2520
+//
+UNIQUE-ID - ENZRXN-FOR-Ung_URA
+TYPES - Enzymatic-Reactions
+COMMON-NAME - base excision (uracil)
+ENZYME - MG_097_MONOMER
+REACTION - Ung_URA
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 100000
+KCAT - 2520
+//
+UNIQUE-ID - ENZRXN-FOR-Upp
+TYPES - Enzymatic-Reactions
+COMMON-NAME - uracil phosphoribosyltransferase
+ENZYME - MG_030_TRIMER
+REACTION - Upp
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 50;2
+VMAX - 0.07
+PH-OPT - 7.4
+TEMPERATURE-OPT - 42
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_deoxyG6P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (2-deoxy-glucose-6-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_deoxyG6P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 54
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_F6P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (fructose-6-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_F6P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 36.96
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_G6P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (glucose-6-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_G6P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 212.5
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_GL2P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (sn-glycerol-2-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_GL2P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 4500
+KCAT - 30
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_MAN6P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (mannose-6-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_MAN6P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 48
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_R5P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (ribose-5-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_R5P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 6000
+KCAT - 240
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_SBT6P
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (sorbitol-6-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_SBT6P
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KCAT - 47.04
+//
+UNIQUE-ID - ENZRXN-FOR-YbiV_SNGLYP
+TYPES - Enzymatic-Reactions
+COMMON-NAME - sugar phosphatase (sn-glycerol-1-phosphate)
+ENZYME - MG_265_DIMER
+REACTION - YbiV_SNGLYP
+REACTION-DIRECTION - LEFT-TO-RIGHT
+KM - 6000
+KCAT - 54
+//

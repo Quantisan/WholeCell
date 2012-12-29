@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Ribosome</title>
+  <meta name="keywords" content="Ribosome">
+  <meta name="description" content="Ribosome">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Ribosome.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Ribosome
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Ribosome</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Ribosome
+
+ @wholeCellModelID State_Ribosome
+ @name             Ribosome
+ @description
+
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Ribosome.html" class="code" title="">Ribosome</a>	Ribosome</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Ribosome.html" class="code" title="">Ribosome</a>	Ribosome</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Ribosome(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub4" class="code">function initialize(~)</a></li><li><a href="#_sub5" class="code">function releaseRibosome(this, nRibs, nTMRNA, mRNAs)</a></li><li><a href="#_sub6" class="code">function value = get.stateOccupancies(this)</a></li><li><a href="#_sub7" class="code">function value = get.nActive(this)</a></li><li><a href="#_sub8" class="code">function value = get.nNotExist(this)</a></li><li><a href="#_sub9" class="code">function value = get.nStalled(this)</a></li><li><a href="#_sub10" class="code">function value = get.nMRNAsBound(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Ribosome</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_Ribosome</span>
+0004 <span class="comment">% @name             Ribosome</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0009 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0010 <span class="comment">% Last updated: 1/4/2011</span>
+0011 classdef <a href="Ribosome.html" class="code" title="">Ribosome</a> &lt; edu.stanford.covert.cell.sim.CellState
+0012     <span class="comment">%property annotations</span>
+0013     properties (Constant)
+0014         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0015             <span class="string">'verbosity'</span>;
+0016             <span class="string">'seed'</span>;
+0017             };
+0018         fixedConstantNames      = {}; <span class="comment">%names of process properties that are considered fixed constants</span>
+0019         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0020         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0021             <span class="string">'states'</span>;
+0022             <span class="string">'boundMRNAs'</span>;
+0023             <span class="string">'mRNAPositions'</span>;
+0024             <span class="string">'tmRNAPositions'</span>;
+0025             };
+0026         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0027             <span class="string">'stateOccupancies'</span>
+0028             <span class="string">'nActive'</span>
+0029             <span class="string">'nNotExist'</span>
+0030             <span class="string">'nStalled'</span>
+0031             <span class="comment">%'nMRNAsBound'</span>
+0032             };
+0033     <span class="keyword">end</span>
+0034     
+0035     <span class="comment">%enumerations</span>
+0036     properties (Constant)
+0037         activeIndex   =  1; <span class="comment">%index in stateOccupancies</span>
+0038         notExistIndex =  2; <span class="comment">%index in stateOccupancies</span>
+0039         stalledIndex  =  3; <span class="comment">%index in stateOccupancies</span>
+0040         
+0041         activeValue   =  1; <span class="comment">%value within states</span>
+0042         notExistValue =  0; <span class="comment">%value within states</span>
+0043         stalledValue  = -1; <span class="comment">%value within states</span>
+0044     <span class="keyword">end</span>
+0045         
+0046     <span class="comment">%state</span>
+0047     properties
+0048         states           <span class="comment">%ribosome state</span>
+0049         boundMRNAs       <span class="comment">%index of gene each ribosome is bound to</span>
+0050         mRNAPositions    <span class="comment">%length of nascent monomer</span>
+0051         tmRNAPositions   <span class="comment">%length of nascent proteolysis tag</span>
+0052     <span class="keyword">end</span>
+0053     
+0054     <span class="comment">%dependent local state (implemented as dependent property for convenience)</span>
+0055     properties (Dependent = true)
+0056         stateOccupancies <span class="comment">%numbers of ribosomes in various states</span>
+0057         
+0058         nActive          <span class="comment">%number of actively translating</span>
+0059         nNotExist        <span class="comment">%number of non-existent ribosomes</span>
+0060         nStalled         <span class="comment">%number of stalled ribosomes</span>
+0061         
+0062         nMRNAsBound      <span class="comment">%Number of ribosomes actively translating each mRNA</span>
+0063     <span class="keyword">end</span>
+0064     
+0065     <span class="comment">%dependent state</span>
+0066     properties (Constant)
+0067         dryWeight = 0;                 <span class="comment">%dry weight of this class' state properties</span>
+0068     <span class="keyword">end</span>
+0069         
+0070     <span class="comment">%references to other parts of cell state</span>
+0071     properties
+0072         gene        <span class="comment">%gene</span>
+0073         polypeptide <span class="comment">%polypeptides</span>
+0074         chromosome  <span class="comment">%chromosomes</span>
+0075         rna         <span class="comment">%RNA</span>
+0076         complex     <span class="comment">%macromolecular complexes</span>
+0077     <span class="keyword">end</span>
+0078     
+0079     <span class="comment">%constructor</span>
+0080     methods
+0081         <a name="_sub0" href="#_subfunctions" class="code">function this = Ribosome(wholeCellModelID, name)</a>
+0082             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0083         <span class="keyword">end</span>
+0084     <span class="keyword">end</span>
+0085     
+0086     methods
+0087         <span class="comment">%set references to state objects</span>
+0088         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0089             this.storeObjectReferences@edu.stanford.covert.cell.sim.CellState(simulation);
+0090             
+0091             this.gene = simulation.gene;
+0092             this.polypeptide = simulation.state(<span class="string">'Polypeptide'</span>);
+0093             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0094             this.rna = simulation.state(<span class="string">'Rna'</span>);
+0095             this.complex = simulation.state(<span class="string">'ProteinComplex'</span>);
+0096         <span class="keyword">end</span>
+0097     <span class="keyword">end</span>
+0098     
+0099     <span class="comment">%allocate memory for state</span>
+0100     methods
+0101         <a name="_sub2" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0102             this.states         = zeros(0, 1, numTimePoints);
+0103             this.boundMRNAs     = zeros(0, 1, numTimePoints);
+0104             this.mRNAPositions  = zeros(0, 1, numTimePoints);
+0105             this.tmRNAPositions = zeros(0, 1, numTimePoints);
+0106         <span class="keyword">end</span>
+0107     <span class="keyword">end</span>
+0108     
+0109     <span class="comment">%initialize state</span>
+0110     methods
+0111         <a name="_sub3" href="#_subfunctions" class="code">function initialize(~)</a>
+0112         <span class="keyword">end</span>
+0113     <span class="keyword">end</span>
+0114     
+0115     methods
+0116         <a name="_sub4" href="#_subfunctions" class="code">function releaseRibosome(this, nRibs, nTMRNA, mRNAs)</a>
+0117             poly = this.polypeptide;
+0118             
+0119             ribIdxs = [];
+0120             <span class="keyword">if</span> nRibs &gt; 0
+0121                 ribIdxs = this.randStream.randomlySelectNRows(find(this.states ~= this.notExistValue), nRibs); <span class="comment">%#ok&lt;FNDSB&gt;</span>
+0122                 <span class="keyword">if</span> numel(ribIdxs) &lt; nRibs
+0123                     throw(MException(<span class="string">'Ribosome:error'</span>, <span class="string">'Unable release ribosomes'</span>));
+0124                 <span class="keyword">end</span>
+0125             <span class="keyword">end</span>
+0126             
+0127             tmRNAIdxs = [];
+0128             <span class="keyword">if</span> nTMRNA &gt; 0
+0129                 tmRNAIdxs = this.randStream.randomlySelectNRows(find(this.states == this.stalledValue), nTMRNA); <span class="comment">%#ok&lt;FNDSB&gt;</span>
+0130                 <span class="keyword">if</span> numel(tmRNAIdxs) &lt; nTMRNA
+0131                     throw(MException(<span class="string">'Ribosome:error'</span>, <span class="string">'Unable release tmRNA'</span>));
+0132                 <span class="keyword">end</span>
+0133             <span class="keyword">end</span>
+0134             
+0135             mRNAIdxs = [];
+0136             <span class="keyword">if</span> any(mRNAs)
+0137                 mRNAGenes = this.rna.matureRNAGeneComposition(this.gene.mRNAIndexs, this.rna.matureMRNAIndexs) * mRNAs;
+0138                 totMRNAGenes = this.rna.matureRNAGeneComposition(this.gene.mRNAIndexs, this.rna.matureMRNAIndexs) * <span class="keyword">...</span>
+0139                     this.rna.counts(this.rna.matureIndexs(this.rna.matureMRNAIndexs), this.rna.compartment.cytosolIndexs);
+0140                 tmp = find(mRNAGenes);
+0141                 mRNAIdxs = [];
+0142                 <span class="keyword">for</span> i = 1:numel(tmp)
+0143                     tmpIdxs = find(this.boundMRNAs == tmp(i));
+0144                     <span class="keyword">if</span> isempty(tmpIdxs)
+0145                         <span class="keyword">continue</span>;
+0146                     <span class="keyword">end</span>
+0147                     mRNAIdxs = [mRNAIdxs;
+0148                         tmpIdxs(this.randStream.rand(size(tmpIdxs)) &lt;= mRNAGenes(tmp(i)) / totMRNAGenes(tmp(i)));
+0149                         ]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0150                 <span class="keyword">end</span>
+0151             <span class="keyword">end</span>
+0152             
+0153             <span class="keyword">if</span> ~isempty(ribIdxs) + ~isempty(mRNAIdxs) + ~isempty(tmRNAIdxs) &gt; 1
+0154                 idxs = unique([ribIdxs; mRNAIdxs; tmRNAIdxs]);
+0155             <span class="keyword">else</span>
+0156                 idxs = [ribIdxs; mRNAIdxs; tmRNAIdxs];
+0157             <span class="keyword">end</span>
+0158             
+0159             <span class="comment">%abort peptides</span>
+0160             <span class="keyword">for</span> i = 1:numel(idxs)
+0161                 <span class="keyword">if</span> this.mRNAPositions(idxs(i)) == 0 &amp;&amp; this.tmRNAPositions(idxs(i)) == 0
+0162                     <span class="keyword">continue</span>;
+0163                 <span class="keyword">end</span>
+0164                 poly.abortedPolypeptides = [
+0165                     poly.abortedPolypeptides
+0166                     this.boundMRNAs(idxs(i)) this.mRNAPositions(idxs(i)) 0
+0167                     ];
+0168                 
+0169                 <span class="keyword">if</span> this.states(idxs(i)) == this.stalledValue
+0170                     poly.abortedPolypeptides(<span class="keyword">end</span>, 3) = this.tmRNAPositions(idxs(i));
+0171                 <span class="keyword">end</span>
+0172             <span class="keyword">end</span>
+0173             
+0174             <span class="comment">%release ribosomes</span>
+0175             <span class="keyword">if</span> numel(idxs) - nRibs &gt; 0
+0176                 this.complex.counts(this.complex.boundIndexs(this.complex.ribosome70SIndexs), this.complex.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0177                     + this.complex.counts(this.complex.boundIndexs(this.complex.ribosome70SIndexs), this.complex.compartment.cytosolIndexs) <span class="keyword">...</span>
+0178                     - (numel(idxs) - nRibs);
+0179                 this.complex.counts(this.complex.matureIndexs([this.complex.ribosome30SIndexs; this.complex.ribosome50SIndexs]), this.complex.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0180                     + this.complex.counts(this.complex.matureIndexs([this.complex.ribosome30SIndexs; this.complex.ribosome50SIndexs]), this.complex.compartment.cytosolIndexs) <span class="keyword">...</span>
+0181                     + (numel(idxs) - nRibs);
+0182             <span class="keyword">end</span>
+0183             
+0184             <span class="comment">%release tmRNA</span>
+0185             <span class="keyword">if</span> sum(this.states(idxs) == this.stalledValue) - nTMRNA &gt; 0
+0186                 this.rna.counts(this.rna.boundIndexs(this.rna.matureTMRNAIndexs), this.rna.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0187                     + this.rna.counts(this.rna.boundIndexs(this.rna.matureTMRNAIndexs), this.rna.compartment.cytosolIndexs) <span class="keyword">...</span>
+0188                     - (sum(this.states(idxs) == this.stalledValue) - nTMRNA);
+0189                 this.rna.counts(this.rna.matureIndexs(this.rna.matureTMRNAIndexs), this.rna.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0190                     + this.rna.counts(this.rna.matureIndexs(this.rna.matureTMRNAIndexs), this.rna.compartment.cytosolIndexs) + <span class="keyword">...</span>
+0191                     + (sum(this.states(idxs) == this.stalledValue) - nTMRNA);
+0192             <span class="keyword">end</span>
+0193             
+0194             <span class="comment">%update polypeptide, ribosome states</span>
+0195             this.states(idxs) = this.notExistValue;
+0196             this.boundMRNAs(idxs) = this.notExistValue;
+0197             this.mRNAPositions(idxs) = this.notExistValue;
+0198             this.tmRNAPositions(idxs) = this.notExistValue;
+0199             poly.boundMRNAs(idxs) = this.boundMRNAs(idxs);
+0200             poly.nascentMonomerLengths(idxs) = this.mRNAPositions(idxs);
+0201             poly.proteolysisTagLengths(idxs) = this.tmRNAPositions(idxs);
+0202         <span class="keyword">end</span>
+0203     <span class="keyword">end</span>
+0204     
+0205     <span class="comment">%getters</span>
+0206     methods
+0207         <span class="comment">%occupancies of ribosome states</span>
+0208         <span class="comment">%fraction of all 30S Ribosomes that are active or are in the</span>
+0209         <span class="comment">%30SIF3 state.</span>
+0210         <a name="_sub5" href="#_subfunctions" class="code">function value = get.stateOccupancies(this)</a>
+0211             value = zeros(3, 1, size(this.states, 3));
+0212             value(this.activeIndex,   :, :) = this.nActive;
+0213             value(this.notExistIndex, :, :) = this.nNotExist;
+0214             value(this.stalledIndex,  :, :) = this.nStalled;
+0215             value = value ./ repmat(sum(value, 1), [3 1 1]);
+0216         <span class="keyword">end</span>
+0217 
+0218         <span class="comment">%number of actively translating ribosomes</span>
+0219         <a name="_sub6" href="#_subfunctions" class="code">function value = get.nActive(this)</a>
+0220             value = sum(this.states == this.activeValue);
+0221         <span class="keyword">end</span>
+0222 
+0223         <span class="comment">%number of non-existent ribosomes</span>
+0224         <a name="_sub7" href="#_subfunctions" class="code">function value = get.nNotExist(this)</a>
+0225             value = sum(this.states == this.notExistValue);
+0226         <span class="keyword">end</span>
+0227 
+0228         <span class="comment">%number of stalled ribosomes</span>
+0229         <a name="_sub8" href="#_subfunctions" class="code">function value = get.nStalled(this)</a>
+0230             value = sum(this.states == this.stalledValue);
+0231         <span class="keyword">end</span>        
+0232 
+0233         <span class="comment">%Number of ribosomes actively translating each mRNA</span>
+0234         <a name="_sub9" href="#_subfunctions" class="code">function value = get.nMRNAsBound(this)</a>
+0235             value = zeros(length(this.polypeptide.monomerLengths), 1, size(this.states, 3));
+0236             <span class="keyword">for</span> i = 1:size(this.states, 1)
+0237                 <span class="keyword">for</span> k = 1:size(this.states, 3)
+0238                     boundMRNA = this.boundMRNAs(i, 1, k);
+0239                     <span class="keyword">if</span> boundMRNA &lt; 1
+0240                         <span class="keyword">continue</span>; 
+0241                     <span class="keyword">end</span>
+0242                     value(boundMRNA, 1, k) = <span class="keyword">...</span>
+0243                         value(boundMRNA, 1, k) + 1;
+0244                 <span class="keyword">end</span>
+0245             <span class="keyword">end</span>
+0246         <span class="keyword">end</span>
+0247     <span class="keyword">end</span>
+0248 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TerminalOrganelleAssembly</title>
+  <meta name="keywords" content="TerminalOrganelleAssembly">
+  <meta name="description" content="Assemble Terminal Organelle">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; TerminalOrganelleAssembly.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TerminalOrganelleAssembly
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Assemble Terminal Organelle</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Assemble Terminal Organelle
+
+ @wholeCellModelID Process_TerminalOrganelleAssembly
+ @name             Terminal Organelle Assembly
+ @description
+   Biology
+   ===============
+   The terminal organelle is a 300 x 80 nm membrane-bound bleb believed to
+   be involved in several processes including motility, adhesion,
+   replication, and cytokinesis. The terminal organelle is electron lucent 
+   and non-fibrillar and enriched for adhesins and adhesin accessory proteins 
+   which help the adhesins localize to the terminal organelle. The terminal 
+   organelle has been investigated in several studies by Mitchell Balish at
+   Miami University of Ohio and Duncan Krause of the University of Georgia. In
+   particular, they have examined the composition and assembly of the electron
+   dense (protein) portion of the terminal organelle, and have examined the
+   duplication and migration to the opposite pole of the daughter terminal
+   organelle during cell division. Pich et al have studied the regulation of
+   terminal organelle duplication.
+
+   The terminal organelle is composed of 8 proteins.
+   - HMW1-3
+   - MgPa
+   - P32, P65, P110, P200
+
+   These 8 proteins assemble in a stereotyped order; that is, there is a
+   heirarchical pattern to the assembly of the terminal organelle: several
+   proteins require other proteins to be already localized in the terminal
+   organelle to be incorporated into the terminal organelle, and two proteins
+   HMW1 and HMW2 require the other either to already been incorporated in the
+   terminal organelle, or free in the cytoplasm to be incorporated into the
+   terminal organelle. No kinetic information has been reported on terminal
+   organelle assembly.
+
+   During replication a second organelle is believed to duplicate from the
+   first organelle and migrate toward the opposite pole.
+
+   Knowledge Base
+   ===============
+   The hierarchical pattern of terminal organelle assembly among the 8 proteins
+   is encoded in 10 reactions in the knowledge base.
+
+   Representation
+   ===============
+   Proteins are incorporated according to one of two patterns:
+   - cytoplasm -&gt; terminal organelle cytoplasm
+   - membrane  -&gt; terminal organelle membrane
+
+   The counts of terminal organelle proteins are represented by the substrates
+   property. Because proteins are only incorporated in two patterns, the
+   substrates property has two compartments: one to represent the
+   unincorporated compartment of each protein (cytoplasm/membrane) and a
+   second for the incorporated compartment of each protein (terminal organelle
+   cytoplasm/membrane).
+
+   The hierarchical pattern of terminal organelle assembly is represented in
+   this process by localizationReactions and localizationSubstrates.
+   localizationSubstrates represents the protein translocated by each of the
+   10 reactions. localizationReactions represents the proteins (and the
+   compartment in which the protein must be located) required for each
+   translocation reaction to proceed.
+
+   Initialization
+   ===============
+   Terminal organelle proteins are all initialized into the terminal organelle
+   compartments.
+
+   Simulation
+   ===============
+     1. Compute which reactions can proceed based on the amounts of
+        unincorporated and incorporated proteins.
+     2. Compute which proteins can localize to the terminal organelle based on
+        step (1).
+     3. Incorporate the proteins that can localize into the terminal organelle.
+     4. Repeat steps 1-3 until no additional proteins can localize.
+
+   References
+   ===============
+   1. Structure, function, and assembly of the terminal organelle of
+      Mycoplasma pneumoniae (2001). FEMS Microbiology Letters. 198: 1-7.
+   2. Cellular engineering in a minimal microbe: structure and assembly of
+      the terminal organelle of Mycoplasma pneumoniae (2004). Mol
+      Microbiol. 51(4): 917-24.
+   3. Razin S, Jacobs E (1992). Mycoplasma adhesion. J Gen Microbiol.
+      138(3): 407-22. [PUB_0088].
+   4. Balish (2006). Subcellular structures of mycoplasmas. Front Biosci.
+      11: 2017-27. [PUB_0407]
+   5. Chaudhry R, Varshney AK, Malhotra P (2007). Adhesion proteins of
+      Mycoplasma pneumoniae. Front Biosci. 12: 690-9. [PUB_ 0406]
+   6. Balish MF, Krause DC (2006). Mycoplasmas: A Distinct Cytoskeleton
+      for Wall-Less Bacteria. J Mol Microbiol Biotechnol. 11(3-5): 244-55.
+      [PUB_0091]
+   7. Pich OQ, Burgos R, Querol E, Pinol J (2009). P110 and P140 
+      cytadherence-related proteins are negative effectors of terminal 
+      organelle duplication in Mycoplasma genitalium. PLoS One. 4 (10):
+      e7452. [PUB_0794].
+   8. Pich OQ, Burgos R, Ferrer-Navarro M, Querol E, Pinol J (2008). 
+      Role of Mycoplasma genitalium MG218 and MG317 cytoskeletal proteins in 
+      terminal organelle organization, gliding motility and cytadherence. 
+      Microbiology. 154 (Pt 10): 3188-98. [PUB_0803]
+   9. Boonmee A, Ruppert T, Herrmann R (2009). The gene mpn310 (hmw2) from 
+      Mycoplasma pneumoniae encodes two proteins, HMW2 and HMW2-s, which
+      differ in size but use the same reading frame. FEMS Microbiol Lett.
+      290(2): 174-81. [PUB_0804]
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TerminalOrganelleAssembly.html" class="code" title="">TerminalOrganelleAssembly</a>	Assemble Terminal Organelle</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="TerminalOrganelleAssembly.html" class="code" title="">TerminalOrganelleAssembly</a>	Assemble Terminal Organelle</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = TerminalOrganelleAssembly(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub4" class="code">function initializeState(~)</a></li><li><a href="#_sub5" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub6" class="code">function evolveState(this)</a></li><li><a href="#_sub7" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Assemble Terminal Organelle</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_TerminalOrganelleAssembly</span>
+0004 <span class="comment">% @name             Terminal Organelle Assembly</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   The terminal organelle is a 300 x 80 nm membrane-bound bleb believed to</span>
+0009 <span class="comment">%   be involved in several processes including motility, adhesion,</span>
+0010 <span class="comment">%   replication, and cytokinesis. The terminal organelle is electron lucent</span>
+0011 <span class="comment">%   and non-fibrillar and enriched for adhesins and adhesin accessory proteins</span>
+0012 <span class="comment">%   which help the adhesins localize to the terminal organelle. The terminal</span>
+0013 <span class="comment">%   organelle has been investigated in several studies by Mitchell Balish at</span>
+0014 <span class="comment">%   Miami University of Ohio and Duncan Krause of the University of Georgia. In</span>
+0015 <span class="comment">%   particular, they have examined the composition and assembly of the electron</span>
+0016 <span class="comment">%   dense (protein) portion of the terminal organelle, and have examined the</span>
+0017 <span class="comment">%   duplication and migration to the opposite pole of the daughter terminal</span>
+0018 <span class="comment">%   organelle during cell division. Pich et al have studied the regulation of</span>
+0019 <span class="comment">%   terminal organelle duplication.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   The terminal organelle is composed of 8 proteins.</span>
+0022 <span class="comment">%   - HMW1-3</span>
+0023 <span class="comment">%   - MgPa</span>
+0024 <span class="comment">%   - P32, P65, P110, P200</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   These 8 proteins assemble in a stereotyped order; that is, there is a</span>
+0027 <span class="comment">%   heirarchical pattern to the assembly of the terminal organelle: several</span>
+0028 <span class="comment">%   proteins require other proteins to be already localized in the terminal</span>
+0029 <span class="comment">%   organelle to be incorporated into the terminal organelle, and two proteins</span>
+0030 <span class="comment">%   HMW1 and HMW2 require the other either to already been incorporated in the</span>
+0031 <span class="comment">%   terminal organelle, or free in the cytoplasm to be incorporated into the</span>
+0032 <span class="comment">%   terminal organelle. No kinetic information has been reported on terminal</span>
+0033 <span class="comment">%   organelle assembly.</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   During replication a second organelle is believed to duplicate from the</span>
+0036 <span class="comment">%   first organelle and migrate toward the opposite pole.</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   Knowledge Base</span>
+0039 <span class="comment">%   ===============</span>
+0040 <span class="comment">%   The hierarchical pattern of terminal organelle assembly among the 8 proteins</span>
+0041 <span class="comment">%   is encoded in 10 reactions in the knowledge base.</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   Representation</span>
+0044 <span class="comment">%   ===============</span>
+0045 <span class="comment">%   Proteins are incorporated according to one of two patterns:</span>
+0046 <span class="comment">%   - cytoplasm -&gt; terminal organelle cytoplasm</span>
+0047 <span class="comment">%   - membrane  -&gt; terminal organelle membrane</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   The counts of terminal organelle proteins are represented by the substrates</span>
+0050 <span class="comment">%   property. Because proteins are only incorporated in two patterns, the</span>
+0051 <span class="comment">%   substrates property has two compartments: one to represent the</span>
+0052 <span class="comment">%   unincorporated compartment of each protein (cytoplasm/membrane) and a</span>
+0053 <span class="comment">%   second for the incorporated compartment of each protein (terminal organelle</span>
+0054 <span class="comment">%   cytoplasm/membrane).</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   The hierarchical pattern of terminal organelle assembly is represented in</span>
+0057 <span class="comment">%   this process by localizationReactions and localizationSubstrates.</span>
+0058 <span class="comment">%   localizationSubstrates represents the protein translocated by each of the</span>
+0059 <span class="comment">%   10 reactions. localizationReactions represents the proteins (and the</span>
+0060 <span class="comment">%   compartment in which the protein must be located) required for each</span>
+0061 <span class="comment">%   translocation reaction to proceed.</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   Initialization</span>
+0064 <span class="comment">%   ===============</span>
+0065 <span class="comment">%   Terminal organelle proteins are all initialized into the terminal organelle</span>
+0066 <span class="comment">%   compartments.</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   Simulation</span>
+0069 <span class="comment">%   ===============</span>
+0070 <span class="comment">%     1. Compute which reactions can proceed based on the amounts of</span>
+0071 <span class="comment">%        unincorporated and incorporated proteins.</span>
+0072 <span class="comment">%     2. Compute which proteins can localize to the terminal organelle based on</span>
+0073 <span class="comment">%        step (1).</span>
+0074 <span class="comment">%     3. Incorporate the proteins that can localize into the terminal organelle.</span>
+0075 <span class="comment">%     4. Repeat steps 1-3 until no additional proteins can localize.</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">%   References</span>
+0078 <span class="comment">%   ===============</span>
+0079 <span class="comment">%   1. Structure, function, and assembly of the terminal organelle of</span>
+0080 <span class="comment">%      Mycoplasma pneumoniae (2001). FEMS Microbiology Letters. 198: 1-7.</span>
+0081 <span class="comment">%   2. Cellular engineering in a minimal microbe: structure and assembly of</span>
+0082 <span class="comment">%      the terminal organelle of Mycoplasma pneumoniae (2004). Mol</span>
+0083 <span class="comment">%      Microbiol. 51(4): 917-24.</span>
+0084 <span class="comment">%   3. Razin S, Jacobs E (1992). Mycoplasma adhesion. J Gen Microbiol.</span>
+0085 <span class="comment">%      138(3): 407-22. [PUB_0088].</span>
+0086 <span class="comment">%   4. Balish (2006). Subcellular structures of mycoplasmas. Front Biosci.</span>
+0087 <span class="comment">%      11: 2017-27. [PUB_0407]</span>
+0088 <span class="comment">%   5. Chaudhry R, Varshney AK, Malhotra P (2007). Adhesion proteins of</span>
+0089 <span class="comment">%      Mycoplasma pneumoniae. Front Biosci. 12: 690-9. [PUB_ 0406]</span>
+0090 <span class="comment">%   6. Balish MF, Krause DC (2006). Mycoplasmas: A Distinct Cytoskeleton</span>
+0091 <span class="comment">%      for Wall-Less Bacteria. J Mol Microbiol Biotechnol. 11(3-5): 244-55.</span>
+0092 <span class="comment">%      [PUB_0091]</span>
+0093 <span class="comment">%   7. Pich OQ, Burgos R, Querol E, Pinol J (2009). P110 and P140</span>
+0094 <span class="comment">%      cytadherence-related proteins are negative effectors of terminal</span>
+0095 <span class="comment">%      organelle duplication in Mycoplasma genitalium. PLoS One. 4 (10):</span>
+0096 <span class="comment">%      e7452. [PUB_0794].</span>
+0097 <span class="comment">%   8. Pich OQ, Burgos R, Ferrer-Navarro M, Querol E, Pinol J (2008).</span>
+0098 <span class="comment">%      Role of Mycoplasma genitalium MG218 and MG317 cytoskeletal proteins in</span>
+0099 <span class="comment">%      terminal organelle organization, gliding motility and cytadherence.</span>
+0100 <span class="comment">%      Microbiology. 154 (Pt 10): 3188-98. [PUB_0803]</span>
+0101 <span class="comment">%   9. Boonmee A, Ruppert T, Herrmann R (2009). The gene mpn310 (hmw2) from</span>
+0102 <span class="comment">%      Mycoplasma pneumoniae encodes two proteins, HMW2 and HMW2-s, which</span>
+0103 <span class="comment">%      differ in size but use the same reading frame. FEMS Microbiol Lett.</span>
+0104 <span class="comment">%      290(2): 174-81. [PUB_0804]</span>
+0105 <span class="comment">%</span>
+0106 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0107 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0108 <span class="comment">% Last updated: 1/4/2010</span>
+0109 classdef  <a href="TerminalOrganelleAssembly.html" class="code" title="">TerminalOrganelleAssembly</a> &lt; edu.stanford.covert.cell.sim.ReactionProcess
+0110     <span class="comment">%property annotations</span>
+0111     properties (Constant)
+0112         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0113         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0114             <span class="string">'localizationReactions'</span>;
+0115             <span class="string">'localizationSubstrates'</span>;
+0116             <span class="string">'localizationThreshold'</span>;
+0117             };
+0118         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0119         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0120     <span class="keyword">end</span>
+0121 
+0122     <span class="comment">%IDs, names, and local indices</span>
+0123     properties
+0124         compartmentIndexs_incorporated   = 1; <span class="comment">%index of terminal organelle cytosol and membrane compartments of substrates</span>
+0125         compartmentIndexs_unincorporated = 2; <span class="comment">%index of cytosol and membrane compartments of substrates</span>
+0126 
+0127         substrateWholeCellModelIDs__={ <span class="comment">%whole cell model IDs of substrates</span>
+0128             <span class="string">'MG_191_MONOMER'</span>;  <span class="comment">%MgPa adhesin</span>
+0129             <span class="string">'MG_192_MONOMER'</span>;  <span class="comment">%P110 protein</span>
+0130             <span class="string">'MG_217_MONOMER'</span>;  <span class="comment">%P65 adhesin</span>
+0131             <span class="string">'MG_218_MONOMER'</span>;  <span class="comment">%high molecular weight cytadherence accessory protein 2</span>
+0132             <span class="string">'MG_312_MONOMER'</span>;  <span class="comment">%high molecular weight cytadherence accessory protein 1</span>
+0133             <span class="string">'MG_317_MONOMER'</span>;  <span class="comment">%high molecular weight cytadherence accessory protein 3</span>
+0134             <span class="string">'MG_318_MONOMER'</span>;  <span class="comment">%P32 adhesin</span>
+0135             <span class="string">'MG_386_MONOMER'</span>}; <span class="comment">%P200 protein</span>
+0136         substrateIndexs_MgPa = 1; <span class="comment">%index within substrates of MgPa adhesin</span>
+0137         substrateIndexs_P110 = 2; <span class="comment">%index within substrates of P110 protein</span>
+0138         substrateIndexs_P65  = 3; <span class="comment">%index within substrates of P65 adhesin</span>
+0139         substrateIndexs_HMW2 = 4; <span class="comment">%index within substrates of high molecular weight cytadherence accessory protein 2</span>
+0140         substrateIndexs_HMW1 = 5; <span class="comment">%index within substrates of high molecular weight cytadherence accessory protein 1</span>
+0141         substrateIndexs_HMW3 = 6; <span class="comment">%index within substrates of high molecular weight cytadherence accessory protein 3</span>
+0142         substrateIndexs_P32  = 7; <span class="comment">%index within substrates of P32 adhesin</span>
+0143         substrateIndexs_P200 = 8; <span class="comment">%index within substrates of P200 protein</span>
+0144 
+0145         enzymeIndexs_HMW1 <span class="comment">%index within enzymes of high molecular weight cytadherence accessory protein 1</span>
+0146         enzymeIndexs_HMW2 <span class="comment">%index within enzymes of high molecular weight cytadherence accessory protein 2</span>
+0147         enzymeIndexs_HMW3 <span class="comment">%index within enzymes of high molecular weight cytadherence accessory protein 3</span>
+0148         enzymeIndexs_P32  <span class="comment">%index within enzymes of P32 adhesin</span>
+0149     <span class="keyword">end</span>
+0150 
+0151     <span class="comment">%fixed biological constants</span>
+0152     properties
+0153         localizationReactions       <span class="comment">%adjacency matrix between proteins and the reactions that incorporate them into the terminal organelle [reactions X substrates]</span>
+0154         localizationSubstrates      <span class="comment">%adjacency matrix between reactions and the proteins required to carry out that reaction [reactions X substrates X compartment (incorporation/unincorporated)]</span>
+0155         localizationThreshold       <span class="comment">%number of proteins required to carry out each reaction [reactions X 1], equals sum(sum(localizationSubstrates,3),2)</span>
+0156     <span class="keyword">end</span>
+0157 
+0158     <span class="comment">%constructor</span>
+0159     methods
+0160         <a name="_sub0" href="#_subfunctions" class="code">function this = TerminalOrganelleAssembly(wholeCellModelID, name)</a>
+0161             this = this@edu.stanford.covert.cell.sim.ReactionProcess(wholeCellModelID, name);
+0162         <span class="keyword">end</span>
+0163     <span class="keyword">end</span>
+0164 
+0165     <span class="comment">%communication between process/simulation</span>
+0166     methods
+0167         <span class="comment">%initialize constants</span>
+0168         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0169             options.retainEnzymeCompartments       = true;
+0170             options.retainModificationCompartments = true;
+0171 
+0172             this.initializeConstants@edu.stanford.covert.cell.sim.ReactionProcess(<span class="keyword">...</span>
+0173                 knowledgeBase, simulation, options);
+0174 
+0175             <span class="comment">%enzymes</span>
+0176             this.enzymeIndexs_HMW1 = this.enzymeIndexs({<span class="string">'MG_312_MONOMER'</span>}); <span class="comment">%high molecular weight cytadherence accessory protein 1</span>
+0177             this.enzymeIndexs_HMW2 = this.enzymeIndexs({<span class="string">'MG_218_MONOMER'</span>}); <span class="comment">%high molecular weight cytadherence accessory protein 2</span>
+0178             this.enzymeIndexs_HMW3 = this.enzymeIndexs({<span class="string">'MG_317_MONOMER'</span>}); <span class="comment">%high molecular weight cytadherence accessory protein 3</span>
+0179             this.enzymeIndexs_P32  = this.enzymeIndexs({<span class="string">'MG_318_MONOMER'</span>}); <span class="comment">%P32 adhesin</span>
+0180 
+0181             <span class="comment">%proteins</span>
+0182             this.substrateWholeCellModelIDs = sort(this.substrateWholeCellModelIDs__);
+0183             [this.substrateNames<span class="keyword">...</span>
+0184              this.substrateStimulusLocalIndexs<span class="keyword">...</span>
+0185              this.substrateStimulusGlobalIndexs<span class="keyword">...</span>
+0186              this.substrateStimulusCompartmentIndexs<span class="keyword">...</span>
+0187              this.substrateStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+0188              this.substrateMetaboliteLocalIndexs<span class="keyword">...</span>
+0189              this.substrateMetaboliteGlobalIndexs<span class="keyword">...</span>
+0190              this.substrateMetaboliteCompartmentIndexs<span class="keyword">...</span>
+0191              this.substrateMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+0192              this.substrateRNALocalIndexs<span class="keyword">...</span>
+0193              this.substrateRNAGlobalIndexs<span class="keyword">...</span>
+0194              this.substrateRNACompartmentIndexs<span class="keyword">...</span>
+0195              this.substrateRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+0196              this.substrateMonomerLocalIndexs<span class="keyword">...</span>
+0197              this.substrateMonomerGlobalIndexs<span class="keyword">...</span>
+0198              this.substrateMonomerCompartmentIndexs<span class="keyword">...</span>
+0199              this.substrateMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+0200              this.substrateComplexLocalIndexs<span class="keyword">...</span>
+0201              this.substrateComplexGlobalIndexs<span class="keyword">...</span>
+0202              this.substrateComplexCompartmentIndexs<span class="keyword">...</span>
+0203              this.substrateComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+0204              ~, ~, ~, <span class="keyword">...</span>
+0205              this.substrateGlobalIndexs<span class="keyword">...</span>
+0206              this.substrateMolecularWeights] = this.initializeConstantsHelper(<span class="keyword">...</span>
+0207                 this.substrateWholeCellModelIDs, false);
+0208 
+0209             this.substrateStimulusGlobalIndexs        = repmat(this.substrateStimulusGlobalIndexs,1,2);
+0210             this.substrateMetaboliteGlobalIndexs      = repmat(this.substrateMetaboliteGlobalIndexs,1,2);
+0211             this.substrateRNAGlobalIndexs             = repmat(this.substrateRNAGlobalIndexs,1,2);
+0212             this.substrateMonomerGlobalIndexs         = repmat(this.substrateMonomerGlobalIndexs,1,2);
+0213             this.substrateComplexGlobalIndexs         = repmat(this.substrateComplexGlobalIndexs,1,2);
+0214 
+0215             this.substrateStimulusCompartmentIndexs   = repmat(this.substrateStimulusCompartmentIndexs,1,2);
+0216             this.substrateMetaboliteCompartmentIndexs = repmat(this.substrateMetaboliteCompartmentIndexs,1,2);
+0217             this.substrateRNACompartmentIndexs        = repmat(this.substrateRNACompartmentIndexs,1,2);
+0218             this.substrateMonomerCompartmentIndexs    = repmat(this.substrateMonomerCompartmentIndexs,1,2);
+0219             this.substrateComplexCompartmentIndexs    = repmat(this.substrateComplexCompartmentIndexs,1,2);
+0220 
+0221             this.substrateMonomerCompartmentIndexs(this.substrateMonomerCompartmentIndexs(:,this.compartmentIndexs_unincorporated) == this.compartment.terminalOrganelleCytosolIndexs, this.compartmentIndexs_unincorporated)  = this.compartment.cytosolIndexs;
+0222             this.substrateMonomerCompartmentIndexs(this.substrateMonomerCompartmentIndexs(:,this.compartmentIndexs_unincorporated) == this.compartment.terminalOrganelleMembraneIndexs, this.compartmentIndexs_unincorporated) = this.compartment.membraneIndexs;
+0223             this.substrateComplexCompartmentIndexs(this.substrateComplexCompartmentIndexs(:,this.compartmentIndexs_unincorporated) == this.compartment.terminalOrganelleCytosolIndexs, this.compartmentIndexs_unincorporated)  = this.compartment.cytosolIndexs;
+0224             this.substrateComplexCompartmentIndexs(this.substrateComplexCompartmentIndexs(:,this.compartmentIndexs_unincorporated) == this.compartment.terminalOrganelleMembraneIndexs, this.compartmentIndexs_unincorporated) = this.compartment.membraneIndexs;
+0225             
+0226             this.substrateStimulusGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0227                 [numel(this.stimulus.wholeCellModelIDs) this.compartment.count],<span class="keyword">...</span>
+0228                 this.substrateStimulusGlobalIndexs,<span class="keyword">...</span>
+0229                 this.substrateStimulusCompartmentIndexs);
+0230             this.substrateMetaboliteGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0231                 [numel(this.metabolite.wholeCellModelIDs) this.compartment.count],<span class="keyword">...</span>
+0232                 this.substrateMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0233                 this.substrateMetaboliteCompartmentIndexs);
+0234             this.substrateRNAGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0235                 [numel(this.rna.wholeCellModelIDs) this.compartment.count],<span class="keyword">...</span>
+0236                 this.rna.matureIndexs(this.substrateRNAGlobalIndexs),<span class="keyword">...</span>
+0237                 this.substrateRNACompartmentIndexs);
+0238             this.substrateMonomerGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0239                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count],<span class="keyword">...</span>
+0240                 this.monomer.matureIndexs(this.substrateMonomerGlobalIndexs),<span class="keyword">...</span>
+0241                 this.substrateMonomerCompartmentIndexs);
+0242             this.substrateComplexGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+0243                 [numel(this.complex.wholeCellModelIDs) this.compartment.count],<span class="keyword">...</span>
+0244                 this.complex.matureIndexs(this.substrateComplexGlobalIndexs),<span class="keyword">...</span>
+0245                 this.substrateComplexCompartmentIndexs);
+0246 
+0247             <span class="comment">%Localization requirements (see references)</span>
+0248             <span class="comment">%localizationSubstrates(i,j): unincorporated terminalOrganelleProtein j localized in reaction i</span>
+0249             <span class="comment">%localizationReactions(i,j,k): protein j in compartment k required for localization reaction i</span>
+0250             <span class="comment">%localizationThreshold: number of protein species that must be present for localization of protein; sum of dims 2, 3 of localizationReactions</span>
+0251             substrateIndexs = zeros(size(this.substrateWholeCellModelIDs));
+0252             substrateIndexs(this.substrateMonomerLocalIndexs) = this.gene.mRNAIndexs(this.substrateMonomerGlobalIndexs(:,1));
+0253             substrateIndexs(this.substrateComplexLocalIndexs) = this.substrateComplexGlobalIndexs(:,1) + knowledgeBase.numGenes;
+0254             this.localizationSubstrates = sum(isnan(this.reactionModificationMatrix(:, substrateIndexs, :)),3);
+0255 
+0256             numProteins  = length(this.substrateWholeCellModelIDs__);
+0257             numReactions = size(this.reactionCatalysisMatrix,1);
+0258             this.localizationReactions = zeros(numReactions, numProteins, 2);
+0259 
+0260             <span class="keyword">for</span> i = 1:numReactions
+0261                 [enzymeLocalIndex, enzymeGlobalCompartmentIndex] = find(permute(<span class="keyword">...</span>
+0262                     this.reactionCatalysisMatrix(i,:,:), [2 3 1]));
+0263 
+0264                 <span class="keyword">if</span> isempty(enzymeLocalIndex); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0265 
+0266                 <span class="keyword">if</span> any(this.enzymeMonomerLocalIndexs == enzymeLocalIndex)
+0267                     enzymeGlobalIndex = this.enzymeGlobalIndexs(enzymeLocalIndex);
+0268                     proteinLocalIndex = this.substrateMonomerLocalIndexs(this.substrateMonomerGlobalIndexs(:,1) == enzymeGlobalIndex);
+0269                     proteinLocalCompartmentIndex = find(this.substrateMonomerCompartmentIndexs(proteinLocalIndex,:) == enzymeGlobalCompartmentIndex);
+0270                 <span class="keyword">else</span>
+0271                     enzymeGlobalIndex = this.enzymeGlobalIndexs(enzymeLocalIndex);
+0272                     proteinLocalIndex = this.substrateComplexLocalIndexs(this.substrateComplexGlobalIndexs(:,1) == enzymeGlobalIndex);
+0273                     proteinLocalCompartmentIndex = find(this.substrateComplexCompartmentIndexs(proteinLocalIndex,:) == enzymeGlobalCompartmentIndex);
+0274                 <span class="keyword">end</span>
+0275 
+0276                 this.localizationReactions(i, proteinLocalIndex, proteinLocalCompartmentIndex) = 1;
+0277             <span class="keyword">end</span>
+0278 
+0279             this.localizationThreshold = sum(sum(this.localizationReactions,3),2);
+0280         <span class="keyword">end</span>
+0281     <span class="keyword">end</span>
+0282 
+0283     <span class="comment">%model</span>
+0284     methods
+0285         <span class="comment">%Calculate</span>
+0286         <span class="comment">%- contribution to FBA objective</span>
+0287         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0288         <a name="_sub2" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0289             <span class="comment">%initialize</span>
+0290             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0291             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0292             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0293             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0294             
+0295             <span class="comment">%no substrate and byproducts required</span>
+0296             
+0297             <span class="comment">%at least 1 copy of the foundational proteins</span>
+0298             minEnzExp([
+0299                 this.enzymeIndexs_HMW1;
+0300                 this.enzymeIndexs_HMW2;
+0301                 this.enzymeIndexs_HMW3;
+0302                 this.enzymeIndexs_P32]) = 1;
+0303         <span class="keyword">end</span>       
+0304 
+0305         <span class="comment">%initialization: proteins initialized to mature/bound/inactivated state</span>
+0306         <span class="comment">%by simulation initializeState method</span>
+0307         <a name="_sub3" href="#_subfunctions" class="code">function initializeState(~)</a>
+0308         <span class="keyword">end</span>
+0309 
+0310         <span class="comment">%resource requirements</span>
+0311         <a name="_sub4" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0312             result = zeros(size(this.substrates));
+0313         <span class="keyword">end</span>
+0314 
+0315         <span class="comment">%simulation</span>
+0316         <a name="_sub5" href="#_subfunctions" class="code">function evolveState(this)</a>
+0317             <span class="comment">% incorporate proteins into terminal organelle</span>
+0318             <span class="comment">% cytoplasm -&gt; terminal organelle cytoplasma</span>
+0319             <span class="comment">% membrane  -&gt; terminal organelle membrane</span>
+0320             <span class="keyword">while</span> any(this.substrates(:, this.compartmentIndexs_unincorporated))
+0321                 activeReactions = <span class="keyword">...</span>
+0322                     this.localizationReactions(:, :, 1) * (this.substrates(:, 1) &gt; 0) + <span class="keyword">...</span>
+0323                     this.localizationReactions(:, :, 2) * (this.substrates(:, 2) &gt; 0) &gt;= <span class="keyword">...</span>
+0324                     this.localizationThreshold;
+0325                 
+0326                 localizingProteins = logical(<span class="keyword">...</span>
+0327                     this.substrates(:, this.compartmentIndexs_unincorporated) .* <span class="keyword">...</span>
+0328                     (this.localizationSubstrates' * activeReactions));
+0329                 <span class="keyword">if</span> ~any(localizingProteins)
+0330                     <span class="keyword">break</span>; 
+0331                 <span class="keyword">end</span>
+0332 
+0333                 this.substrates(localizingProteins, this.compartmentIndexs_incorporated) = <span class="keyword">...</span>
+0334                     this.substrates(localizingProteins, this.compartmentIndexs_incorporated) + <span class="keyword">...</span>
+0335                     this.substrates(localizingProteins, this.compartmentIndexs_unincorporated);
+0336                 this.substrates(localizingProteins, this.compartmentIndexs_unincorporated) = 0;
+0337             <span class="keyword">end</span>
+0338         <span class="keyword">end</span>
+0339     <span class="keyword">end</span>
+0340 
+0341     <span class="comment">%get methods of dependent local state</span>
+0342     methods
+0343         <a name="_sub6" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0344             <span class="keyword">if</span> size(this.substrates, 3) == 1
+0345                 value = this.substrateMolecularWeights' * sum(this.substrates, 2) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0346             <span class="keyword">else</span>
+0347                 value = permute(<span class="keyword">...</span>
+0348                     this.substrateMolecularWeights' * permute(sum(this.substrates,2), [1 3 2]),<span class="keyword">...</span>
+0349                     [1 3 2]) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0350             <span class="keyword">end</span>
+0351         <span class="keyword">end</span>
+0352     <span class="keyword">end</span>
+0353 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

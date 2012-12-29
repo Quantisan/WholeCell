@@ -1,0 +1,254 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: dnabindsites.dat
+# Date and time generated: March 29, 2012, 18:01:33
+#
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_008
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 15541
+RIGHT-END-POSITION - 15553
+SITE-LENGTH - 13
+COMPONENT-OF - TU_008
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_008
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_016
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 39069
+RIGHT-END-POSITION - 39081
+SITE-LENGTH - 13
+COMPONENT-OF - TU_016
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_016
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_085
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 160992
+RIGHT-END-POSITION - 161004
+SITE-LENGTH - 13
+COMPONENT-OF - TU_085
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_085
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_097
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 188565
+RIGHT-END-POSITION - 188577
+SITE-LENGTH - 13
+COMPONENT-OF - TU_097
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_097
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_196
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 353984
+RIGHT-END-POSITION - 353996
+SITE-LENGTH - 13
+COMPONENT-OF - TU_196
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_196
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_207
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 374865
+RIGHT-END-POSITION - 374877
+SITE-LENGTH - 13
+COMPONENT-OF - TU_207
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_207
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_222
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 402949
+RIGHT-END-POSITION - 402961
+SITE-LENGTH - 13
+COMPONENT-OF - TU_222
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_222
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_fur_TU_249
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 446208
+RIGHT-END-POSITION - 446220
+SITE-LENGTH - 13
+COMPONENT-OF - TU_249
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_fur_TU_249
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_gntR_TU_063
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 128640
+RIGHT-END-POSITION - 128657
+SITE-LENGTH - 18
+COMPONENT-OF - TU_063
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_gntR_TU_063
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_010
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 22362
+RIGHT-END-POSITION - 22388
+SITE-LENGTH - 27
+COMPONENT-OF - TU_010
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_010
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_122
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 237286
+RIGHT-END-POSITION - 237312
+SITE-LENGTH - 27
+COMPONENT-OF - TU_122
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_122
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_155
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 283324
+RIGHT-END-POSITION - 283350
+SITE-LENGTH - 27
+COMPONENT-OF - TU_155
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_155
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_208
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 376755
+RIGHT-END-POSITION - 376781
+SITE-LENGTH - 27
+COMPONENT-OF - TU_208
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_208
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_258
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 453791
+RIGHT-END-POSITION - 453817
+SITE-LENGTH - 27
+COMPONENT-OF - TU_258
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_258
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_hrcA_TU_285
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 496994
+RIGHT-END-POSITION - 497020
+SITE-LENGTH - 27
+COMPONENT-OF - TU_285
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_hrcA_TU_285
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_luxR_TU_063
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 128607
+RIGHT-END-POSITION - 128626
+SITE-LENGTH - 20
+COMPONENT-OF - TU_063
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_luxR_TU_063
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_luxR_TU_318
+TYPES - DNA-Binding-Sites
+LEFT-END-POSITION - 552557
+RIGHT-END-POSITION - 552576
+SITE-LENGTH - 20
+COMPONENT-OF - TU_318
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_luxR_TU_318
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_008
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_008
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_008
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_014
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_014
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_014
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_030
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_030
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_030
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_051
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_051
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_051
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_063
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_063
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_063
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_074
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_074
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_074
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_076
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_076
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_076
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_113
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_113
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_113
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_180
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_180
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_180
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_190
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_190
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_190
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_198
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_198
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_198
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_207
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_207
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_207
+//
+UNIQUE-ID - BS0-TranscriptionalRegulation_spx_TU_326
+TYPES - DNA-Binding-Sites
+COMPONENT-OF - TU_326
+COMPONENT-OF - CHROMOSOME-1
+INVOLVED-IN-REGULATION - TranscriptionalRegulation_spx_TU_326
+//

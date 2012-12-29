@@ -1,0 +1,1149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Translation</title>
+  <meta name="keywords" content="Translation">
+  <meta name="description" content="Translation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; Translation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Translation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Translation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Translation
+
+ @wholeCellModelID Process_Translation
+ @name             Translation
+ @description
+   Biology
+   ===============
+   Translation is the first step in the synthesis of function proteins whereby
+   the ribosome, accessory enzymes, and tRNAs transcode mRNAs and produce
+   amino acid polymers. Following translation proteins must be matured to
+   become fully functional:
+    1. Protein Processing I: N-terminal methionine deformylation and cleavage
+    2. Protein Translocation: Translocation of integral membrane proteins,
+       lipoproteins, and secreted proteins into and through the cell membrane
+    3. Protein Processing II: Diacylglyceryl addition to lipoproteins. Signal
+       sequence cleavage of lipo- and secreted proteins.
+    4. Protein Folding: Folding and prosthetic group coordination of proteins.
+    5. Protein Modification: Addition of covalently attached chemical groups to
+       proteins.
+    6. Macromolecular Complexation: Incorporation of protein monomers into
+       larger macromolecular assemblies.
+    7. Ribosome Assembly: Special case of macromolecular complexation of the
+       ribosome which requires GTPases.
+    8. Terminal Organelle Assembly: Special case of translocation which
+       sequesters several protein species in a membrane-bound bleb referred to
+       as the terminal organelle.
+    9. Protein Activation: Functional activation and inactivation of proteins
+       in response to their surrounding chemical environment.
+
+   Translation begins with the recruitment of the 30S and 50S ribosomal
+   particles and initiation factor 3 (IF3) to an mRNA molecule. Next the
+   ribosomal particles assembly into a 70S ribosome on the mRNA molecule with
+   the help of initiation factors. Third the ribosome polymerizes amino
+   acids with the help of elongation factors. Finally release factor
+   (MG_258) recognizes the stop codon UAG, release factor hydolyzes the
+   peptidyl tRNA bond and dissociates, ribosome recycling factor
+   dissociates the E-site tRna, elongation factor G release the release
+   factor and 50S ribosome, and initiation factor 3 dissociates the 30S
+   ribosome, P-site tRNA, and mRNA.
+
+   When a ribosome stalls its lastest tRNA is expelled and replaced by the
+   tRNA-like domain of a tmRNA molecule. Next the mRNA-like domain of the tmRNA
+   expels the bound mRNA. Third the ribosome resumes polymerization, now
+   using the tmRNA's mRNA-like domain as its template. This results in the
+   production of an amino acid polymer containing a C-terminal proteolysis tag.
+   Finally, the proteolysis tag will be recognized by the protein degradation
+   machinery, and the amino acid polymer will be degraded into its individual
+   component amino acids.
+
+   This process simulates protein translation by ribosomes and acessory
+   initiation, elongation, and termination factors. The process also simulates
+   the identification of stalled ribosomes by the tmRNA, the replacement of the
+   tRNA and mRNA with the tmRNA, and the synthesis of the proteolysis tag
+   encoded by the tmRNA's mRNA-like domain.
+
+   Knowledge Base
+   ===============
+   The knowledge base contains the region of the genome each mRNA species
+   corresponds to, and the location of the tmRNA mRNA-like domain on the
+   genome. This information is converted into a sequence of tRNAs which are
+   required to polymerize each protein and proteolysis tag by the knowledge
+   base class' computeTRNASequences method.
+
+   Representation
+   ===============
+   The properties substrates, enzymes, monomers, mRNAs, freeTRNAs,
+   aminoacylatedTRNAs, and aminoacylatedTMRNA represents the counts of
+   metabolites, translation enzymes, nascent peptides, mature mRNAs, free
+   tRNAs, aminoacylated tRNAs, and aminoacylated tmRNAs.
+
+   monomerTRNASequences and tmRNAProteolysisTagTRNASequence represent the
+   sequences of tRNAs required to polymerize each protein and proteolysis tag.
+   These tRNA sequences are computed from the DNA sequence of the mRNA gene /
+   tmRNA gene by the knowledge  base classs' computeTRNASequences method.
+
+   ribosomeStates represents the state/pseudostate (actively translating, free,
+   non-existent) of each ribosome. boundMRNAs indicates the mRNA
+   species each actively translating ribosome is bound to. The non-existent
+   pseudostate is used to keep track of elements in ribosomeStates
+   and boundMRNAs which have been allocated.
+   nascentMonomerLengths and proteolysisTagLengths represeent
+   the position of actively  translating ribosomes on mRNAs, and if stalled on
+   a tmRNA.
+
+   Initialization
+   ===============
+   All protein monomers are initialized to the mature state, and in their
+   correct localization. This is achieved by the simulation class
+   initializeState method.
+
+   Ribosomes are initialized to their steady state:
+   - Each ribosome is randomly assigned (without replacement) to mRNA species,
+     weighted by the current expression of the mRNAs,.
+   - Each ribosome is randomly assigned to positions within the assigned mRNA
+     with uniform probably.
+   - No ribosomes are initialized to the stalled state, since the expected
+     occupancy is negligible. No tmRNAs are initialized to the bound state.
+
+   tRNAs and tmRNAs are initialized to the aminoacyated state by
+   simulation.initializeState.
+
+   Simulation
+   ===============
+   Evolves the states of ribosomes among two states:
+   - actively translating
+   - free
+
+   Transition to from the free state to the actively translating state is
+   allowed when
+   - ribosome binding factor A is present
+   - initiation factors (IF-1, IF-2, and IF-3) are present
+   - one unit of energy (GTP) is available.
+   At this time the ribosome binds an mRNA randomly with uniform probability.
+
+   At the next iteration the initiation factors are released when the first
+   amino acid, f-methionine binds and elongation begins, assuming that
+   elongation factors (EF-tu, TS, and G) and energy (GTP) is available.
+
+   ASSUMPTION made here is that one of each is sufficient for each ribosome,
+   but need a separate set for each ribosome. So each ribosome can only
+   translate if a full set exists for it. Also, for cases in which
+   translation of a peptide finishes partway through the time step, the EFs
+   are free, but haven't added the complexity of another ribosome being able
+   to take up EFs partway through the timestep.
+
+   Finally, once all amino acids of a protein have been translated,
+   termination occurs if
+   - at least one terminator (RF-1) available
+   - at least one recycling factor available
+   - at least one elongation factor G available
+   - at least one trigger factor available
+   - energy is available.
+   The ribosome will be available to bind mRNA at the following iteration.
+
+   Ribosomes are created in the free state.
+
+   Algorithm
+   +++++++++++++++
+   1. Up to limit of elongation factors, randomly select actively translating
+      ribosomes to elongate.
+   2. Up to limit of initiation factors and energy, randomly select ribosomal
+      particles to initiatate. These ribosome will be able to start elongating
+      at the next time step. Randomly select mRNA species for each initiating
+      mRNA to bind to, weighted by the counts of each mRNA species. Update
+      ribosomeStates, boundMRNAs. Update substrates.
+   3. Allocate available amino acids and energy among actively translating
+      ribosomes. Update ribosome nascentMonomerLengths, or
+      proteolysisTagLengths for stalled ribosomes with the number of
+      polymerized bases. Update substrates.
+   4. If ribosome has reached end of (t)mRNA and termination factors
+      available, increase count of protein and dissolve (t)mRNA-ribosome
+      complex. Update substrates.
+   5. If ribosome hasn't advanced, then with a small probability transition
+      ribosome to stalled state. Expel mRNA and replace with tmRNA. Update
+      ribosomeStates. Update substrates.
+
+   References
+   ===============
+   1. Petry S, Weixlbaumer A, Ramakrishnan V (2008). The termination of
+      translation. Curr Opin Struct Biol. 18(1):70-7. [PUB_0226].
+
+ Author: Markus Covert, mcovert@stanford.edu
+ Author: Jayodita Sanghvi, jayodita@stanfod.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Translation.html" class="code" title="">Translation</a>	Translation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Translation.html" class="code" title="">Translation</a>	Translation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Translation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Translation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_Translation</span>
+0004 <span class="comment">% @name             Translation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   Translation is the first step in the synthesis of function proteins whereby</span>
+0009 <span class="comment">%   the ribosome, accessory enzymes, and tRNAs transcode mRNAs and produce</span>
+0010 <span class="comment">%   amino acid polymers. Following translation proteins must be matured to</span>
+0011 <span class="comment">%   become fully functional:</span>
+0012 <span class="comment">%    1. Protein Processing I: N-terminal methionine deformylation and cleavage</span>
+0013 <span class="comment">%    2. Protein Translocation: Translocation of integral membrane proteins,</span>
+0014 <span class="comment">%       lipoproteins, and secreted proteins into and through the cell membrane</span>
+0015 <span class="comment">%    3. Protein Processing II: Diacylglyceryl addition to lipoproteins. Signal</span>
+0016 <span class="comment">%       sequence cleavage of lipo- and secreted proteins.</span>
+0017 <span class="comment">%    4. Protein Folding: Folding and prosthetic group coordination of proteins.</span>
+0018 <span class="comment">%    5. Protein Modification: Addition of covalently attached chemical groups to</span>
+0019 <span class="comment">%       proteins.</span>
+0020 <span class="comment">%    6. Macromolecular Complexation: Incorporation of protein monomers into</span>
+0021 <span class="comment">%       larger macromolecular assemblies.</span>
+0022 <span class="comment">%    7. Ribosome Assembly: Special case of macromolecular complexation of the</span>
+0023 <span class="comment">%       ribosome which requires GTPases.</span>
+0024 <span class="comment">%    8. Terminal Organelle Assembly: Special case of translocation which</span>
+0025 <span class="comment">%       sequesters several protein species in a membrane-bound bleb referred to</span>
+0026 <span class="comment">%       as the terminal organelle.</span>
+0027 <span class="comment">%    9. Protein Activation: Functional activation and inactivation of proteins</span>
+0028 <span class="comment">%       in response to their surrounding chemical environment.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   Translation begins with the recruitment of the 30S and 50S ribosomal</span>
+0031 <span class="comment">%   particles and initiation factor 3 (IF3) to an mRNA molecule. Next the</span>
+0032 <span class="comment">%   ribosomal particles assembly into a 70S ribosome on the mRNA molecule with</span>
+0033 <span class="comment">%   the help of initiation factors. Third the ribosome polymerizes amino</span>
+0034 <span class="comment">%   acids with the help of elongation factors. Finally release factor</span>
+0035 <span class="comment">%   (MG_258) recognizes the stop codon UAG, release factor hydolyzes the</span>
+0036 <span class="comment">%   peptidyl tRNA bond and dissociates, ribosome recycling factor</span>
+0037 <span class="comment">%   dissociates the E-site tRna, elongation factor G release the release</span>
+0038 <span class="comment">%   factor and 50S ribosome, and initiation factor 3 dissociates the 30S</span>
+0039 <span class="comment">%   ribosome, P-site tRNA, and mRNA.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   When a ribosome stalls its lastest tRNA is expelled and replaced by the</span>
+0042 <span class="comment">%   tRNA-like domain of a tmRNA molecule. Next the mRNA-like domain of the tmRNA</span>
+0043 <span class="comment">%   expels the bound mRNA. Third the ribosome resumes polymerization, now</span>
+0044 <span class="comment">%   using the tmRNA's mRNA-like domain as its template. This results in the</span>
+0045 <span class="comment">%   production of an amino acid polymer containing a C-terminal proteolysis tag.</span>
+0046 <span class="comment">%   Finally, the proteolysis tag will be recognized by the protein degradation</span>
+0047 <span class="comment">%   machinery, and the amino acid polymer will be degraded into its individual</span>
+0048 <span class="comment">%   component amino acids.</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   This process simulates protein translation by ribosomes and acessory</span>
+0051 <span class="comment">%   initiation, elongation, and termination factors. The process also simulates</span>
+0052 <span class="comment">%   the identification of stalled ribosomes by the tmRNA, the replacement of the</span>
+0053 <span class="comment">%   tRNA and mRNA with the tmRNA, and the synthesis of the proteolysis tag</span>
+0054 <span class="comment">%   encoded by the tmRNA's mRNA-like domain.</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   Knowledge Base</span>
+0057 <span class="comment">%   ===============</span>
+0058 <span class="comment">%   The knowledge base contains the region of the genome each mRNA species</span>
+0059 <span class="comment">%   corresponds to, and the location of the tmRNA mRNA-like domain on the</span>
+0060 <span class="comment">%   genome. This information is converted into a sequence of tRNAs which are</span>
+0061 <span class="comment">%   required to polymerize each protein and proteolysis tag by the knowledge</span>
+0062 <span class="comment">%   base class' computeTRNASequences method.</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   Representation</span>
+0065 <span class="comment">%   ===============</span>
+0066 <span class="comment">%   The properties substrates, enzymes, monomers, mRNAs, freeTRNAs,</span>
+0067 <span class="comment">%   aminoacylatedTRNAs, and aminoacylatedTMRNA represents the counts of</span>
+0068 <span class="comment">%   metabolites, translation enzymes, nascent peptides, mature mRNAs, free</span>
+0069 <span class="comment">%   tRNAs, aminoacylated tRNAs, and aminoacylated tmRNAs.</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   monomerTRNASequences and tmRNAProteolysisTagTRNASequence represent the</span>
+0072 <span class="comment">%   sequences of tRNAs required to polymerize each protein and proteolysis tag.</span>
+0073 <span class="comment">%   These tRNA sequences are computed from the DNA sequence of the mRNA gene /</span>
+0074 <span class="comment">%   tmRNA gene by the knowledge  base classs' computeTRNASequences method.</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">%   ribosomeStates represents the state/pseudostate (actively translating, free,</span>
+0077 <span class="comment">%   non-existent) of each ribosome. boundMRNAs indicates the mRNA</span>
+0078 <span class="comment">%   species each actively translating ribosome is bound to. The non-existent</span>
+0079 <span class="comment">%   pseudostate is used to keep track of elements in ribosomeStates</span>
+0080 <span class="comment">%   and boundMRNAs which have been allocated.</span>
+0081 <span class="comment">%   nascentMonomerLengths and proteolysisTagLengths represeent</span>
+0082 <span class="comment">%   the position of actively  translating ribosomes on mRNAs, and if stalled on</span>
+0083 <span class="comment">%   a tmRNA.</span>
+0084 <span class="comment">%</span>
+0085 <span class="comment">%   Initialization</span>
+0086 <span class="comment">%   ===============</span>
+0087 <span class="comment">%   All protein monomers are initialized to the mature state, and in their</span>
+0088 <span class="comment">%   correct localization. This is achieved by the simulation class</span>
+0089 <span class="comment">%   initializeState method.</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   Ribosomes are initialized to their steady state:</span>
+0092 <span class="comment">%   - Each ribosome is randomly assigned (without replacement) to mRNA species,</span>
+0093 <span class="comment">%     weighted by the current expression of the mRNAs,.</span>
+0094 <span class="comment">%   - Each ribosome is randomly assigned to positions within the assigned mRNA</span>
+0095 <span class="comment">%     with uniform probably.</span>
+0096 <span class="comment">%   - No ribosomes are initialized to the stalled state, since the expected</span>
+0097 <span class="comment">%     occupancy is negligible. No tmRNAs are initialized to the bound state.</span>
+0098 <span class="comment">%</span>
+0099 <span class="comment">%   tRNAs and tmRNAs are initialized to the aminoacyated state by</span>
+0100 <span class="comment">%   simulation.initializeState.</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">%   Simulation</span>
+0103 <span class="comment">%   ===============</span>
+0104 <span class="comment">%   Evolves the states of ribosomes among two states:</span>
+0105 <span class="comment">%   - actively translating</span>
+0106 <span class="comment">%   - free</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">%   Transition to from the free state to the actively translating state is</span>
+0109 <span class="comment">%   allowed when</span>
+0110 <span class="comment">%   - ribosome binding factor A is present</span>
+0111 <span class="comment">%   - initiation factors (IF-1, IF-2, and IF-3) are present</span>
+0112 <span class="comment">%   - one unit of energy (GTP) is available.</span>
+0113 <span class="comment">%   At this time the ribosome binds an mRNA randomly with uniform probability.</span>
+0114 <span class="comment">%</span>
+0115 <span class="comment">%   At the next iteration the initiation factors are released when the first</span>
+0116 <span class="comment">%   amino acid, f-methionine binds and elongation begins, assuming that</span>
+0117 <span class="comment">%   elongation factors (EF-tu, TS, and G) and energy (GTP) is available.</span>
+0118 <span class="comment">%</span>
+0119 <span class="comment">%   ASSUMPTION made here is that one of each is sufficient for each ribosome,</span>
+0120 <span class="comment">%   but need a separate set for each ribosome. So each ribosome can only</span>
+0121 <span class="comment">%   translate if a full set exists for it. Also, for cases in which</span>
+0122 <span class="comment">%   translation of a peptide finishes partway through the time step, the EFs</span>
+0123 <span class="comment">%   are free, but haven't added the complexity of another ribosome being able</span>
+0124 <span class="comment">%   to take up EFs partway through the timestep.</span>
+0125 <span class="comment">%</span>
+0126 <span class="comment">%   Finally, once all amino acids of a protein have been translated,</span>
+0127 <span class="comment">%   termination occurs if</span>
+0128 <span class="comment">%   - at least one terminator (RF-1) available</span>
+0129 <span class="comment">%   - at least one recycling factor available</span>
+0130 <span class="comment">%   - at least one elongation factor G available</span>
+0131 <span class="comment">%   - at least one trigger factor available</span>
+0132 <span class="comment">%   - energy is available.</span>
+0133 <span class="comment">%   The ribosome will be available to bind mRNA at the following iteration.</span>
+0134 <span class="comment">%</span>
+0135 <span class="comment">%   Ribosomes are created in the free state.</span>
+0136 <span class="comment">%</span>
+0137 <span class="comment">%   Algorithm</span>
+0138 <span class="comment">%   +++++++++++++++</span>
+0139 <span class="comment">%   1. Up to limit of elongation factors, randomly select actively translating</span>
+0140 <span class="comment">%      ribosomes to elongate.</span>
+0141 <span class="comment">%   2. Up to limit of initiation factors and energy, randomly select ribosomal</span>
+0142 <span class="comment">%      particles to initiatate. These ribosome will be able to start elongating</span>
+0143 <span class="comment">%      at the next time step. Randomly select mRNA species for each initiating</span>
+0144 <span class="comment">%      mRNA to bind to, weighted by the counts of each mRNA species. Update</span>
+0145 <span class="comment">%      ribosomeStates, boundMRNAs. Update substrates.</span>
+0146 <span class="comment">%   3. Allocate available amino acids and energy among actively translating</span>
+0147 <span class="comment">%      ribosomes. Update ribosome nascentMonomerLengths, or</span>
+0148 <span class="comment">%      proteolysisTagLengths for stalled ribosomes with the number of</span>
+0149 <span class="comment">%      polymerized bases. Update substrates.</span>
+0150 <span class="comment">%   4. If ribosome has reached end of (t)mRNA and termination factors</span>
+0151 <span class="comment">%      available, increase count of protein and dissolve (t)mRNA-ribosome</span>
+0152 <span class="comment">%      complex. Update substrates.</span>
+0153 <span class="comment">%   5. If ribosome hasn't advanced, then with a small probability transition</span>
+0154 <span class="comment">%      ribosome to stalled state. Expel mRNA and replace with tmRNA. Update</span>
+0155 <span class="comment">%      ribosomeStates. Update substrates.</span>
+0156 <span class="comment">%</span>
+0157 <span class="comment">%   References</span>
+0158 <span class="comment">%   ===============</span>
+0159 <span class="comment">%   1. Petry S, Weixlbaumer A, Ramakrishnan V (2008). The termination of</span>
+0160 <span class="comment">%      translation. Curr Opin Struct Biol. 18(1):70-7. [PUB_0226].</span>
+0161 <span class="comment">%</span>
+0162 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0163 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanfod.edu</span>
+0164 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0165 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0166 <span class="comment">% Last updated: 1/4/2010</span>
+0167 
+0168 <span class="comment">%TODO: Bind specific mRNAs rather than kinds of mRNAs.</span>
+0169 <span class="comment">%</span>
+0170 <span class="comment">%TODO: Prevent ribosomes from colliding/overlapping on an mRNA. Currently this</span>
+0171 <span class="comment">%      is only somewhat ensured by allowing only one ribosome to bind each mRNA</span>
+0172 <span class="comment">%      per time step.</span>
+0173 <span class="comment">%</span>
+0174 <span class="comment">%TODO: Associate elongation factors to mRNA for just 1 amino acid, not</span>
+0175 <span class="comment">%      elongationRate amino acids. With this change, all mRNAs will</span>
+0176 <span class="comment">%      translate at each second but with a slower rate. Related to the</span>
+0177 <span class="comment">%      assumption above. That is we should translate total of min(energy,</span>
+0178 <span class="comment">%      min(EFs)*rate*this.simulationTime) amino acids, where rate is a</span>
+0179 <span class="comment">%      rate of EF recycling per second, that is how many times an</span>
+0180 <span class="comment">%      individual EF can be used per second.</span>
+0181 classdef <a href="Translation.html" class="code" title="">Translation</a> &lt; edu.stanford.covert.cell.sim.Process
+0182     <span class="comment">%property annotations</span>
+0183     properties (Constant)
+0184         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0185         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0186             <span class="string">'ribosomeElongationRate'</span>
+0187             <span class="string">'tmRNABindingProbability'</span>
+0188             };
+0189         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0190         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0191             <span class="string">'mRNAs'</span>
+0192             <span class="string">'freeTRNAs'</span>
+0193             <span class="string">'aminoacylatedTRNAs'</span>
+0194             <span class="string">'aminoacylatedTMRNA'</span>
+0195             <span class="string">'monomers'</span>
+0196             };
+0197     <span class="keyword">end</span>
+0198 
+0199     <span class="comment">%IDs, names, and local indices</span>
+0200     properties
+0201         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0202 
+0203         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0204             <span class="string">'ALA'</span>; <span class="string">'ARG'</span>; <span class="string">'ASN'</span>; <span class="string">'ASP'</span>; <span class="string">'CYS'</span>; <span class="string">'GLN'</span>; <span class="string">'GLU'</span>; <span class="string">'GLY'</span>; <span class="string">'HIS'</span>; <span class="string">'ILE'</span>;
+0205             <span class="string">'LEU'</span>; <span class="string">'LYS'</span>; <span class="string">'MET'</span>; <span class="string">'PHE'</span>; <span class="string">'PRO'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TRP'</span>; <span class="string">'TYR'</span>; <span class="string">'VAL'</span>; <span class="string">'FMET'</span>;
+0206             <span class="string">'GTP'</span>; <span class="string">'GDP'</span>; <span class="string">'PI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0207         substrateIndexs_aminoAcids  = (1:20)'; <span class="comment">%indices within substrates of amino acids</span>
+0208         substrateIndexs_fMet        = 21;      <span class="comment">%index within substrates of formylmethionine</span>
+0209         substrateIndexs_gtp         = 22;      <span class="comment">%index within substrates of GTP</span>
+0210         substrateIndexs_gdp         = 23;      <span class="comment">%index within substrates of GDP</span>
+0211         substrateIndexs_phosphate   = 24;      <span class="comment">%index within substrates of phosphate</span>
+0212         substrateIndexs_water       = 25;      <span class="comment">%index within substrates of water</span>
+0213         substrateIndexs_hydrogen    = 26;      <span class="comment">%index within substrates of hydrogen</span>
+0214 
+0215         enzymeWholeCellModelIDs = { <span class="comment">%whole cell model ids of enzymes</span>
+0216             <span class="string">'MG_173_MONOMER'</span>;   <span class="comment">%translation initiation factor IF-1</span>
+0217             <span class="string">'MG_142_MONOMER'</span>;   <span class="comment">%translation initiation factor IF-2</span>
+0218             <span class="string">'MG_196_MONOMER'</span>;   <span class="comment">%translation initiation factor IF-3</span>
+0219             <span class="string">'MG_089_DIMER'</span>;     <span class="comment">%translation elongation factor G</span>
+0220             <span class="string">'MG_026_MONOMER'</span>;   <span class="comment">%translation elongation factor P</span>
+0221             <span class="string">'MG_451_DIMER'</span>;     <span class="comment">%translation elongation factor Tu</span>
+0222             <span class="string">'MG_433_DIMER'</span>;     <span class="comment">%translation elongation factor Ts</span>
+0223             <span class="string">'MG_258_MONOMER'</span>;   <span class="comment">%peptide chain release factor 1</span>
+0224             <span class="string">'MG_435_MONOMER'</span>;   <span class="comment">%ribosome recycling factor</span>
+0225             <span class="string">'RIBOSOME_30S'</span>;     <span class="comment">%30S ribosomal subunit</span>
+0226             <span class="string">'RIBOSOME_30S_IF3'</span>; <span class="comment">%30S ribosomal subunit - translation initiation factor IF-3 complex</span>
+0227             <span class="string">'RIBOSOME_50S'</span>;     <span class="comment">%50S ribosomal subunit</span>
+0228             <span class="string">'RIBOSOME_70S'</span>;     <span class="comment">%70S ribosome</span>
+0229             <span class="string">'MG_0004'</span>;          <span class="comment">%transfer-messenger RNA, tmRNA, MCS6, 10Sa RNA</span>
+0230             <span class="string">'MG_059_MONOMER'</span>;   <span class="comment">%SsrA-binding protein</span>
+0231             <span class="string">'MG_083_MONOMER'</span>};  <span class="comment">%peptidyl-tRNA hydrolase</span>
+0232         enzymeIndexs_translationFactors          = (1:9)';    <span class="comment">%indices within enzymes of translation factors</span>
+0233         enzymeIndexs_initiationFactors           = (1:3)';    <span class="comment">%indices within enzymes of initiation factors</span>
+0234         enzymeIndexs_initiationFactor1           = 1;         <span class="comment">%index within enzymes of initiation factor 1</span>
+0235         enzymeIndexs_initiationFactor2           = 2;         <span class="comment">%index within enzymes of initiation factor 2</span>
+0236         enzymeIndexs_initiationFactor3           = 3;         <span class="comment">%index within enzymes of initiation factor 3</span>
+0237         enzymeIndexs_elongationFactors           = (4:7)';    <span class="comment">%indices within enzymes of elongation factors</span>
+0238         enzymeIndexs_elongationGFactor           = 4;         <span class="comment">%index within enzymes of elongation factor G</span>
+0239         enzymeIndexs_terminationFactor           = 8;         <span class="comment">%index within enzymes of termination factor</span>
+0240         enzymeIndexs_recyclingFactor             = 9;         <span class="comment">%index within enzymes of recylcing factor</span>
+0241         enzymeIndexs_ribosome30S                 = 10;        <span class="comment">%index within enzymes of 30S ribosomal particle</span>
+0242         enzymeIndexs_ribosome30SIF3              = 11;        <span class="comment">%index within enzymes of 30S ribosomal particle-initiation factor 3 complex</span>
+0243         enzymeIndexs_ribosome50S                 = 12;        <span class="comment">%index within enzymes of 50S ribosomal particle</span>
+0244         enzymeIndexs_ribosome70S                 = 13;        <span class="comment">%index within enzymes of 70S ribosome</span>
+0245         enzymeIndexs_abortiveTranslationEnzymes  = (14:16)';  <span class="comment">%indices within enzymes of abortive translation enzymes</span>
+0246         enzymeIndexs_tmRNA                       = 14;        <span class="comment">%index within enzymes of tmRNA</span>
+0247         enzymeIndexs_tmRNABindingProtein         = 15;        <span class="comment">%index within enzymes of tmRNA binding protein</span>
+0248         enzymeIndexs_peptidylTRNAHydrolase       = 16;        <span class="comment">%index within enzymes of peptidyl-tRNA hydrolase</span>
+0249 
+0250         freeTRNAWholeCellModelIDs          <span class="comment">%IDs of free (non-aminoacylated) tRNAs</span>
+0251         aminoacylatedTRNAWholeCellModelIDs <span class="comment">%IDs of aminoacylated tRNAs</span>
+0252         aminoacylatedTMRNAWholeCellModelID <span class="comment">%ID of aminoacylated tmRNA</span>
+0253         
+0254         tmRNAGlobalIndex <span class="comment">%index of tmRNA within simulation.matureRNAIndexs</span>
+0255     <span class="keyword">end</span>
+0256 
+0257     <span class="comment">%fixed biological constants</span>
+0258     properties
+0259         ribosomeElongationRate             <span class="comment">%ribosomse elongation rate (amino acids per second per ribosome) [PUB_0564]</span>
+0260         tmRNABindingProbability            <span class="comment">%probability that tmRNA is recruited to non-elongating, active ribosome</span>
+0261     <span class="keyword">end</span>
+0262 
+0263     <span class="comment">%global state (stored locally for convenience)</span>
+0264     properties
+0265         monomers                       <span class="comment">%numbers of protein monomers</span>
+0266         mRNAs                          <span class="comment">%numbers of mRNAs</span>
+0267         freeTRNAs                      <span class="comment">%numbers of free (non-aminoacylated) tRNAs</span>
+0268         freeTMRNA                      <span class="comment">%numbers of free tmRNA</span>
+0269         aminoacylatedTRNAs             <span class="comment">%numbers of aminoacylated tRNAs</span>
+0270         aminoacylatedTMRNA             <span class="comment">%numbers of aminoacylated tmRNA</span>
+0271         boundTMRNA                     <span class="comment">%numbers of bound tmRNA</span>
+0272     <span class="keyword">end</span>
+0273   
+0274     <span class="comment">%global state (referenced locally for convenience)</span>
+0275     properties
+0276         polypeptide                    <span class="comment">%New polypeptides state class</span>
+0277         ribosome                       <span class="comment">%Ribosome state class</span>
+0278     <span class="keyword">end</span>
+0279     
+0280     <span class="comment">%constructor</span>
+0281     methods
+0282         <a name="_sub0" href="#_subfunctions" class="code">function this = Translation(wholeCellModelID, name)</a>
+0283             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0284         <span class="keyword">end</span>
+0285     <span class="keyword">end</span>
+0286 
+0287     <span class="comment">%communication between process/simulation</span>
+0288     methods
+0289         <span class="comment">%set references to state objects</span>
+0290         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0291             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0292             
+0293             this.polypeptide = simulation.state(<span class="string">'Polypeptide'</span>);
+0294             this.ribosome = simulation.state(<span class="string">'Ribosome'</span>);
+0295             this.states = [this.states; {this.polypeptide; this.ribosome}];
+0296         <span class="keyword">end</span>
+0297         
+0298         <span class="comment">%initialize constants</span>
+0299         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)            </a>
+0300             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0301                 knowledgeBase, simulation, varargin{:});           
+0302             
+0303             <span class="comment">%tmRNA</span>
+0304             this.tmRNAGlobalIndex = this.enzymeRNAGlobalIndexs(this.enzymeRNALocalIndexs==this.enzymeIndexs_tmRNA);
+0305             
+0306             <span class="comment">%RNA</span>
+0307             this.freeTRNAWholeCellModelIDs          = this.rna.wholeCellModelIDs(this.rna.matureIndexs(this.rna.matureTRNAIndexs));
+0308             this.aminoacylatedTRNAWholeCellModelIDs = this.rna.wholeCellModelIDs(this.rna.aminoacylatedIndexs(this.rna.matureTRNAIndexs));
+0309             this.aminoacylatedTMRNAWholeCellModelID = this.rna.wholeCellModelIDs(this.rna.aminoacylatedIndexs(this.tmRNAGlobalIndex));
+0310         <span class="keyword">end</span>
+0311 
+0312         <span class="comment">%retrieve state from simulation</span>
+0313         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0314             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0315             
+0316             r = this.rna;
+0317             m = this.monomer;
+0318             
+0319             <span class="keyword">if</span> size(r.counts, 3) == 1
+0320                 this.mRNAs = <span class="keyword">...</span>
+0321                     r.matureRNAGeneComposition(this.gene.mRNAIndexs, r.matureMRNAIndexs) * <span class="keyword">...</span>
+0322                     r.counts(r.matureIndexs(r.matureMRNAIndexs), this.compartment.cytosolIndexs);
+0323             <span class="keyword">else</span>
+0324                 this.mRNAs = multiprod(<span class="keyword">...</span>
+0325                     r.matureRNAGeneComposition(this.gene.mRNAIndexs, r.matureMRNAIndexs), <span class="keyword">...</span>
+0326                     r.counts(r.matureIndexs(r.matureMRNAIndexs), this.compartment.cytosolIndexs, :), [1 2], 1);
+0327             <span class="keyword">end</span>
+0328             this.monomers           = m.counts(m.nascentIndexs, this.compartment.cytosolIndexs, :);
+0329             this.freeTRNAs          = r.counts(r.matureIndexs(this.rna.matureTRNAIndexs), this.compartment.cytosolIndexs, :);
+0330             this.freeTMRNA          = r.counts(r.matureIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :);
+0331             this.aminoacylatedTRNAs = r.counts(r.aminoacylatedIndexs(this.rna.matureTRNAIndexs), this.compartment.cytosolIndexs, :);
+0332             this.aminoacylatedTMRNA = r.counts(r.aminoacylatedIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :);
+0333             this.boundTMRNA         = r.counts(r.boundIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :);
+0334         <span class="keyword">end</span>
+0335         
+0336         <span class="comment">%send state to simulation</span>
+0337         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0338             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0339             
+0340             r = this.rna;
+0341             m = this.monomer;
+0342             
+0343             m.counts(m.nascentIndexs, this.compartment.cytosolIndexs, :)  = this.monomers;
+0344             r.counts(r.matureIndexs(this.rna.matureTRNAIndexs), this.compartment.cytosolIndexs, :) = this.freeTRNAs;
+0345             r.counts(r.matureIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :) = this.freeTMRNA;
+0346             r.counts(r.aminoacylatedIndexs(this.rna.matureTRNAIndexs), this.compartment.cytosolIndexs, :) = this.aminoacylatedTRNAs;
+0347             r.counts(r.aminoacylatedIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :) = this.aminoacylatedTMRNA;
+0348             r.counts(r.boundIndexs(this.tmRNAGlobalIndex), this.compartment.cytosolIndexs, :) = this.boundTMRNA;
+0349         <span class="keyword">end</span>
+0350     <span class="keyword">end</span>
+0351 
+0352     <span class="comment">%allocate memory for state</span>
+0353     methods
+0354         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0355             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0356 
+0357             this.monomers           = zeros(length(this.polypeptide.monomerLengths), 1, numTimePoints);
+0358             this.mRNAs              = zeros(length(this.gene.mRNAIndexs), 1, numTimePoints);
+0359             this.freeTRNAs          = zeros(length(this.rna.matureTRNAIndexs), 1, numTimePoints);
+0360             this.freeTMRNA          = zeros(1, 1, numTimePoints);
+0361             this.aminoacylatedTRNAs = zeros(length(this.rna.matureTRNAIndexs), 1, numTimePoints);
+0362             this.aminoacylatedTMRNA = zeros(1, 1, numTimePoints);
+0363             this.boundTMRNA         = zeros(1, 1, numTimePoints);
+0364         <span class="keyword">end</span>
+0365     <span class="keyword">end</span>
+0366 
+0367     <span class="comment">%model</span>
+0368     methods
+0369         <span class="comment">%Calculate</span>
+0370         <span class="comment">%- contribution to FBA objective</span>
+0371         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0372         <span class="comment">%</span>
+0373         <span class="comment">%Contributions, by process, to protein synthesis:</span>
+0374         <span class="comment">%                            AAs --(translation)----&gt; nascent monomer + water</span>
+0375         <span class="comment">%          nascent monomer + H2O --(processing)-----&gt; processed protein + AAs</span>
+0376         <span class="comment">%processed monomer + metabolites --(folding)--------&gt; folded monomer</span>
+0377         <span class="comment">%   folded monomer + metabolites --(modification)---&gt; mature monomer + metabolites</span>
+0378         <span class="comment">%              modified monomers --(complexation)---&gt; nascent complexs</span>
+0379         <span class="comment">% nascent complexs + metabolites --(folding)--------&gt; mature complexes</span>
+0380         <span class="comment">%          monomer/complex + H2O --(decay)----------&gt; AAs + modified AAs</span>
+0381         <span class="comment">%        phosphorylated AA + H2O --(catabolism)-----&gt; AA + Pi</span>
+0382         <span class="comment">%            lipoyl lysine + H2O --(catabolism)-----&gt; lysine + lipoate</span>
+0383         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0384             <span class="comment">%% initialize</span>
+0385             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0386             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0387             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0388             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0389             
+0390             <span class="comment">%% substrate and byproducts</span>
+0391             
+0392             <span class="comment">%breaking tRNA-peptidyl bond</span>
+0393             bmProd(this.substrateIndexs_water) = <span class="keyword">...</span>
+0394                 bmProd(this.substrateIndexs_water) + <span class="keyword">...</span>
+0395                 this.polypeptide.monomerLengths' * states.monomerProductions;
+0396             byProd(this.substrateIndexs_hydrogen) = <span class="keyword">...</span>
+0397                 byProd(this.substrateIndexs_hydrogen) + <span class="keyword">...</span>
+0398                 this.polypeptide.monomerLengths' * states.monomerProductions;
+0399             
+0400             <span class="comment">%peptide bond formation</span>
+0401             byProd(this.substrateIndexs_water) = <span class="keyword">...</span>
+0402                 byProd(this.substrateIndexs_water) + <span class="keyword">...</span>
+0403                 max(0, this.polypeptide.monomerLengths - 1)' * states.monomerProductions;
+0404             
+0405             <span class="comment">%energy</span>
+0406             translationEnergy = <span class="keyword">...</span>
+0407                 2 * this.polypeptide.monomerLengths' * states.monomerProductions + <span class="keyword">...</span><span class="comment">  %elongation</span>
+0408                 3 * sum(states.monomerProductions);                                     <span class="comment">%initiation, termination</span>
+0409             bmProd(this.substrateIndexs_gtp)       = bmProd(this.substrateIndexs_gtp)       + translationEnergy;
+0410             bmProd(this.substrateIndexs_water)     = bmProd(this.substrateIndexs_water)     + translationEnergy;
+0411             byProd(this.substrateIndexs_gdp)       = byProd(this.substrateIndexs_gdp)       + translationEnergy;
+0412             byProd(this.substrateIndexs_phosphate) = byProd(this.substrateIndexs_phosphate) + translationEnergy;
+0413             byProd(this.substrateIndexs_hydrogen)  = byProd(this.substrateIndexs_hydrogen)  + translationEnergy;
+0414             
+0415             <span class="comment">%% enzymes</span>
+0416 
+0417             <span class="comment">%Ribosome</span>
+0418             fractionInitiating = this.ribosomeElongationRate *  <span class="keyword">...</span>
+0419                 states.monomerProductions0' * (1 ./ this.polypeptide.monomerLengths) / <span class="keyword">...</span>
+0420                 sum(states.monomerProductions0); <span class="comment">%fraction of ribosomes that are initiating</span>
+0421             aaPolymerized0 = (states.monomerProductions0' * this.polypeptide.monomerLengths);
+0422             minEnzExp(this.enzymeIndexs_ribosome30S) = 1.65 * aaPolymerized0 / this.ribosomeElongationRate / (1 - fractionInitiating);
+0423             minEnzExp(this.enzymeIndexs_ribosome50S) = 1.65 * aaPolymerized0 / this.ribosomeElongationRate / (1 - fractionInitiating);
+0424 
+0425             <span class="comment">%initiation, elongation, termination factors</span>
+0426             minEnzExp(this.enzymeIndexs_initiationFactors)     = 3 * minEnzExp(this.enzymeIndexs_ribosome30S) *      fractionInitiating;
+0427             minEnzExp(this.enzymeIndexs_elongationFactors)     = 3 * minEnzExp(this.enzymeIndexs_ribosome30S) * (1 - fractionInitiating);
+0428             minEnzExp(this.enzymeIndexs_terminationFactor)     = 3;
+0429             minEnzExp(this.enzymeIndexs_recyclingFactor)       = 3;
+0430             minEnzExp(this.enzymeIndexs_elongationGFactor)     = 3 + minEnzExp(this.enzymeIndexs_elongationGFactor);
+0431 
+0432             <span class="comment">%abortive translation enzymes</span>
+0433             minEnzExp(this.enzymeIndexs_tmRNA)                 = 3;
+0434             minEnzExp(this.enzymeIndexs_tmRNABindingProtein)   = 3;
+0435             minEnzExp(this.enzymeIndexs_peptidylTRNAHydrolase) = 3;
+0436         <span class="keyword">end</span>
+0437         
+0438         <span class="comment">%Initialize ribosome, bound mRNAs, translation factor states</span>
+0439         <span class="comment">%Assumptions:</span>
+0440         <span class="comment">%- Metabolic cost of the transcription of these amino acids is negligible</span>
+0441         <span class="comment">%- Probability that so many ribosomes bind a given mRNA that they can't</span>
+0442         <span class="comment">%  pack along the mRNA without steric interactions is negligible. Thus we</span>
+0443         <span class="comment">%  don't try to handle this case separately.</span>
+0444         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0445             <span class="comment">%references to states</span>
+0446             rib = this.ribosome;
+0447             pol = this.polypeptide;
+0448             
+0449             <span class="comment">%Check ribosomes and polypeptides are synchronized</span>
+0450             <span class="keyword">if</span> <span class="keyword">...</span>
+0451                     ~isequal(rib.boundMRNAs, pol.boundMRNAs) || <span class="keyword">...</span>
+0452                     ~isequal(rib.mRNAPositions, pol.nascentMonomerLengths) || <span class="keyword">...</span>
+0453                     ~isequal(rib.tmRNAPositions, pol.proteolysisTagLengths)
+0454                 throw(MException(<span class="string">'Translation:error'</span>, <span class="string">'Ribosomes and polypeptides must be synchronized'</span>));
+0455             <span class="keyword">end</span>
+0456             
+0457             <span class="comment">%enzymes</span>
+0458             this.enzymes = this.enzymes + this.boundEnzymes;
+0459             this.boundEnzymes(:) = 0;
+0460             this.enzymes(this.enzymeIndexs_ribosome30S) = this.enzymes(this.enzymeIndexs_ribosome30S) + this.enzymes(this.enzymeIndexs_ribosome70S);
+0461             this.enzymes(this.enzymeIndexs_ribosome50S) = this.enzymes(this.enzymeIndexs_ribosome50S) + this.enzymes(this.enzymeIndexs_ribosome70S);
+0462             this.enzymes(this.enzymeIndexs_ribosome70S) = 0;
+0463             this.enzymes(this.enzymeIndexs_ribosome30S) = this.enzymes(this.enzymeIndexs_ribosome30S) + this.enzymes(this.enzymeIndexs_ribosome30SIF3);
+0464             this.enzymes(this.enzymeIndexs_initiationFactor3) = this.enzymes(this.enzymeIndexs_initiationFactor3) + this.enzymes(this.enzymeIndexs_ribosome30SIF3);
+0465             this.enzymes(this.enzymeIndexs_ribosome30SIF3) = 0;
+0466             
+0467             freeTranslationFactors  = this.enzymes(this.enzymeIndexs_translationFactors);
+0468             boundTranslationFactors = this.boundEnzymes(this.enzymeIndexs_translationFactors);
+0469             ribosome30S             = this.enzymes(this.enzymeIndexs_ribosome30S);
+0470             ribosome30SIF3          = this.enzymes(this.enzymeIndexs_ribosome30SIF3);
+0471             ribosome50S             = this.enzymes(this.enzymeIndexs_ribosome50S);
+0472             ribosome70S             = this.enzymes(this.enzymeIndexs_ribosome70S);
+0473 
+0474             boundRibosome70S = min([
+0475                 ribosome30S;
+0476                 ribosome50S;
+0477                 freeTranslationFactors(this.enzymeIndexs_elongationFactors);
+0478                 sum(this.mRNAs)]);
+0479             ribosome30S = ribosome30S - boundRibosome70S;
+0480             ribosome50S = ribosome50S - boundRibosome70S;
+0481             freeTranslationFactors(this.enzymeIndexs_elongationFactors)  = freeTranslationFactors(this.enzymeIndexs_elongationFactors)  - boundRibosome70S;
+0482             boundTranslationFactors(this.enzymeIndexs_elongationFactors) = boundTranslationFactors(this.enzymeIndexs_elongationFactors) + boundRibosome70S;
+0483 
+0484             <span class="comment">%allocate</span>
+0485             rib.states                = repmat(rib.notExistValue, [2*boundRibosome70S, 1, 1]);
+0486             pol.boundMRNAs            = zeros(2 * boundRibosome70S, 1, 1);
+0487             pol.nascentMonomerLengths = zeros(2 * boundRibosome70S, 1, 1);
+0488             pol.proteolysisTagLengths = zeros(2 * boundRibosome70S, 1, 1);
+0489 
+0490             <span class="comment">%bind random mRNA</span>
+0491             <span class="keyword">for</span> i = 1:boundRibosome70S
+0492                 pol.boundMRNAs(i) = this.randStream.randsample(numel(this.mRNAs), 1, true, this.mRNAs .* pol.monomerLengths);                
+0493             <span class="keyword">end</span>
+0494 
+0495             <span class="comment">%actively bound</span>
+0496             <span class="comment">%- partition sequence among RNA polymerases bound to transcription unit</span>
+0497             <span class="comment">%- randomly select position of RNA polymerases within partition</span>
+0498             <span class="keyword">for</span> i = 1:length(this.mRNAs)
+0499                 boundRibosomes = find(pol.boundMRNAs == i);
+0500                 partitions = round(<span class="keyword">...</span>
+0501                     (0:length(boundRibosomes)) * <span class="keyword">...</span>
+0502                     (pol.monomerLengths(i) + this.ribosomeElongationRate - 1) / length(boundRibosomes) -<span class="keyword">...</span>
+0503                     1/2*this.ribosomeElongationRate);
+0504 
+0505                 <span class="keyword">for</span> j = 1:length(boundRibosomes)
+0506                     minState = partitions(j)   + 1/2 * this.ribosomeElongationRate;
+0507                     maxState = partitions(j+1) - 1/2 * this.ribosomeElongationRate;
+0508                     rib.states(boundRibosomes(j)) = rib.activeValue;
+0509                     <span class="keyword">if</span> maxState &lt; minState
+0510                         pol.nascentMonomerLengths(boundRibosomes(j)) = round(max(1, min(pol.monomerLengths(i), mean(partitions(j:j+1)))));
+0511                     <span class="keyword">else</span>
+0512                         pol.nascentMonomerLengths(boundRibosomes(j)) = round(minState + this.randStream.rand * (maxState - minState));
+0513                     <span class="keyword">end</span>
+0514                 <span class="keyword">end</span>
+0515             <span class="keyword">end</span>
+0516             
+0517             <span class="comment">%synchronize ribosome and polypeptide states</span>
+0518             rib.boundMRNAs = pol.boundMRNAs;
+0519             rib.mRNAPositions = pol.nascentMonomerLengths;
+0520             rib.tmRNAPositions = pol.proteolysisTagLengths;
+0521 
+0522             <span class="comment">%store enzymes</span>
+0523             this.enzymes(this.enzymeIndexs_translationFactors)      = freeTranslationFactors;
+0524             this.boundEnzymes(this.enzymeIndexs_translationFactors) = boundTranslationFactors;
+0525             this.enzymes(this.enzymeIndexs_ribosome30S)             = ribosome30S;
+0526             this.enzymes(this.enzymeIndexs_ribosome30SIF3)          = ribosome30SIF3;
+0527             this.enzymes(this.enzymeIndexs_ribosome50S)             = ribosome50S;
+0528             this.enzymes(this.enzymeIndexs_ribosome70S)             = ribosome70S;
+0529             this.boundEnzymes(this.enzymeIndexs_ribosome70S)        = boundRibosome70S;
+0530             
+0531             <span class="comment">%decrement counts of protein</span>
+0532             this.copyToState();
+0533             
+0534             g = this.gene;
+0535             rna = this.rna;
+0536             mon = this.monomer;
+0537             cpx = this.complex;
+0538             pcComp = sum(cpx.proteinComplexComposition(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :, :), 3);
+0539             
+0540             initMonCnts = mon.counts;
+0541             initCpxCnts = cpx.counts;
+0542             matureProteinWt = max(0, sum(mon.dryWeight + cpx.dryWeight) - pol.dryWeight);
+0543             <span class="keyword">while</span> sum(mon.dryWeight + cpx.dryWeight) &gt; matureProteinWt
+0544                 idx = this.randStream.randsample(numel(mon.counts) + numel(cpx.counts), 1, false, [mon.counts(:); cpx.counts(:)]);
+0545                 <span class="keyword">if</span> idx &lt;= numel(mon.counts)
+0546                     mon.counts(idx) = mon.counts(idx) - 1;
+0547                 <span class="keyword">else</span>
+0548                     idx = idx - numel(mon.counts);
+0549                     [i, ~] = ind2sub(size(cpx.counts), idx);
+0550                     i = mod(i - 1, numel(cpx.matureIndexs)) + 1;
+0551                     <span class="keyword">if</span> any(pcComp(:, i))
+0552                         rna.counts(rna.matureIndexs(setdiff(1:<span class="keyword">end</span>, rna.matureMRNAIndexs))) = <span class="keyword">...</span>
+0553                             + rna.counts(rna.matureIndexs(setdiff(1:<span class="keyword">end</span>, rna.matureMRNAIndexs))) <span class="keyword">...</span>
+0554                             + pcComp(:, i);
+0555                     <span class="keyword">end</span>
+0556                     cpx.counts(idx) = cpx.counts(idx) - 1;
+0557                 <span class="keyword">end</span>
+0558             <span class="keyword">end</span>
+0559             mon.counts = <span class="keyword">...</span>
+0560                 + mon.counts <span class="keyword">...</span>
+0561                 + mon.updateExternalState(-(initMonCnts - mon.counts), true);
+0562             cpx.counts = <span class="keyword">...</span>
+0563                 + cpx.counts <span class="keyword">...</span>
+0564                 + cpx.updateExternalState(-(initCpxCnts - cpx.counts), true);
+0565             
+0566             this.copyFromState();
+0567         <span class="keyword">end</span>
+0568 
+0569         <span class="comment">%resource requirements</span>
+0570         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0571             initiationFactor3 = this.enzymes(this.enzymeIndexs_initiationFactor3);
+0572             ribosome30S       = this.enzymes(this.enzymeIndexs_ribosome30S);
+0573             ribosome30SIF3    = this.enzymes(this.enzymeIndexs_ribosome30SIF3);
+0574             ribosome50S       = this.enzymes(this.enzymeIndexs_ribosome50S);
+0575             nRibosomes = <span class="keyword">...</span>
+0576                 this.enzymes(this.enzymeIndexs_ribosome70S) + <span class="keyword">...</span>
+0577                 this.boundEnzymes(this.enzymeIndexs_ribosome70S) + <span class="keyword">...</span>
+0578                 min(ribosome30SIF3 + min(ribosome30S, initiationFactor3), ribosome50S);
+0579                 
+0580             nInitiations = nRibosomes;
+0581             nElongations = min([
+0582                 sum(this.aminoacylatedTRNAs) + this.aminoacylatedTMRNA
+0583                 nRibosomes * this.ribosomeElongationRate]);
+0584             nTerminations = nRibosomes;
+0585 
+0586             <span class="comment">%energy for initiation, elongation, termination</span>
+0587             result = zeros(size(this.substrates));
+0588             result(this.substrateIndexs_gtp)   = nInitiations + 2 * nElongations + 3 * nTerminations;
+0589             result(this.substrateIndexs_water) = nInitiations + 2 * nElongations + 3 * nTerminations;
+0590             
+0591             <span class="comment">%water to cleave peptidyl-tRNA bound</span>
+0592             result(this.substrateIndexs_water) = - nInitiations - nElongations;
+0593             
+0594             <span class="comment">%water from peptide bond formation</span>
+0595             result(this.substrateIndexs_water) = + nElongations;
+0596         <span class="keyword">end</span>
+0597         
+0598         <span class="comment">%simulation</span>
+0599         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0600             <span class="comment">%% references to states</span>
+0601             rib = this.ribosome;
+0602             pol = this.polypeptide;
+0603             
+0604             <span class="comment">%% Check ribosomes and polypeptides are synchronized</span>
+0605             <span class="keyword">if</span> <span class="keyword">...</span>
+0606                     ~isequal(rib.boundMRNAs, pol.boundMRNAs) || <span class="keyword">...</span>
+0607                     ~isequal(rib.mRNAPositions, pol.nascentMonomerLengths) || <span class="keyword">...</span>
+0608                     ~isequal(rib.tmRNAPositions, pol.proteolysisTagLengths)
+0609                 throw(MException(<span class="string">'Translation:error'</span>, <span class="string">'Ribosomes and polypeptides must be synchronized'</span>));
+0610             <span class="keyword">end</span>
+0611             
+0612             <span class="comment">%% allocate memory and initialize variables</span>
+0613             
+0614             <span class="comment">% Numbers of enzymes</span>
+0615             freeTranslationFactors     = this.enzymes(this.enzymeIndexs_translationFactors);
+0616             boundTranslationFactors    = this.boundEnzymes(this.enzymeIndexs_translationFactors);
+0617             ribosome30S                = this.enzymes(this.enzymeIndexs_ribosome30S);
+0618             ribosome30SIF3             = this.enzymes(this.enzymeIndexs_ribosome30SIF3);
+0619             ribosome50S                = this.enzymes(this.enzymeIndexs_ribosome50S);
+0620             ribosome70S                = this.enzymes(this.enzymeIndexs_ribosome70S);
+0621             boundRibosome70S           = this.boundEnzymes(this.enzymeIndexs_ribosome70S);
+0622             freeTMRNA                  = this.freeTMRNA; <span class="comment">%#ok&lt;*PROP&gt;</span>
+0623             freeTMRNABindingProtein    = this.enzymes(this.enzymeIndexs_tmRNABindingProtein);
+0624             freePeptidylTRNAHydrolase  = this.enzymes(this.enzymeIndexs_peptidylTRNAHydrolase);
+0625             boundTMRNA                 = this.boundTMRNA;
+0626             aminoacylatedTmRNA         = this.aminoacylatedTMRNA;
+0627             
+0628             <span class="comment">% form ribosomes</span>
+0629             new_ribosome30SIF3 = min(ribosome30S, freeTranslationFactors(this.enzymeIndexs_initiationFactor3));
+0630             ribosome30SIF3 = ribosome30SIF3 + new_ribosome30SIF3;
+0631             ribosome30S    = ribosome30S - new_ribosome30SIF3;
+0632             freeTranslationFactors(this.enzymeIndexs_initiationFactor3) = freeTranslationFactors(this.enzymeIndexs_initiationFactor3) - new_ribosome30SIF3;
+0633             
+0634             <span class="comment">%allocate space to store states of new ribosomes</span>
+0635             <span class="keyword">if</span> boundRibosome70S + ribosome30SIF3 &gt; numel(rib.states)
+0636                 rib.states = [
+0637                     rib.states;
+0638                     repmat(rib.notExistValue, [boundRibosome70S + ribosome30SIF3 1])];
+0639                 pol.boundMRNAs = [
+0640                     pol.boundMRNAs;
+0641                     zeros([boundRibosome70S + ribosome30SIF3 1])];
+0642                 pol.nascentMonomerLengths = [
+0643                     pol.nascentMonomerLengths;
+0644                     zeros([boundRibosome70S + ribosome30SIF3 1])];
+0645                 pol.proteolysisTagLengths = [
+0646                     pol.proteolysisTagLengths;
+0647                     zeros([boundRibosome70S + ribosome30SIF3 1])];
+0648             <span class="keyword">end</span>
+0649 
+0650             <span class="comment">%ribosomes</span>
+0651             elongationRate = this.ribosomeElongationRate;               <span class="comment">%ribosome elongation rate (aa/s)</span>
+0652             actRibs = find(<span class="keyword">...</span><span class="comment">                                          %indices of active ribosomes</span>
+0653                 rib.states == rib.activeValue | <span class="keyword">...</span>
+0654                 rib.states == rib.stalledValue);
+0655             notExistRibs = find(rib.states == rib.notExistValue);       <span class="comment">%indices of free ribosomes 30SIF3</span>
+0656             elngRibs = false(size(rib.states, 1), 1);                   <span class="comment">%indicate of ribosome actively translating</span>
+0657             elngSeqs = zeros(size(rib.states, 1), elongationRate);      <span class="comment">%tRNA sequences of mRNAs segments that should be translated</span>
+0658             termRibs = false(size(rib.states, 1), 1);
+0659             termRibs(rib.states == rib.activeValue, 1) = <span class="keyword">...</span>
+0660                 pol.monomerLengths(pol.boundMRNAs(rib.states == rib.activeValue, 1), 1) == <span class="keyword">...</span>
+0661                 pol.nascentMonomerLengths(rib.states == rib.activeValue, 1);
+0662             termRibs = termRibs | pol.proteolysisTagLengths == pol.proteolysisTagLength;
+0663             
+0664             <span class="comment">%mRNAs</span>
+0665             bndProbs = this.mRNAs;                                      <span class="comment">%unnormalized probability of binding mRNAs</span>
+0666             
+0667             <span class="comment">%tRNAs</span>
+0668             nTRNAs = length(this.freeTRNAs);                            <span class="comment">%number of tRNA species</span>
+0669             tRNAs  = this.freeTRNAs + this.aminoacylatedTRNAs;          <span class="comment">%total numbers of tRNAs (free and aminoacylated)</span>
+0670             
+0671             <span class="comment">%energy</span>
+0672             energyAllocation = max(0, this.substrates(this.substrateIndexs_gtp));
+0673             availableEnergy  = energyAllocation;                        <span class="comment">%energy (GTP) allocated to translation</span>
+0674             
+0675             <span class="comment">%water</span>
+0676             availableWater = this.substrates(this.substrateIndexs_water);
+0677      
+0678             <span class="comment">%% recycle elongation factors</span>
+0679             freeTranslationFactors(this.enzymeIndexs_elongationFactors) = <span class="keyword">...</span>
+0680                 freeTranslationFactors(this.enzymeIndexs_elongationFactors) + <span class="keyword">...</span>
+0681                 boundTranslationFactors(this.enzymeIndexs_elongationFactors);
+0682             boundTranslationFactors(this.enzymeIndexs_elongationFactors) = 0;
+0683 
+0684             <span class="comment">%% select bound mRNAs to elongate</span>
+0685             <span class="comment">%elongate if all elongation factors available</span>
+0686             nElongatingRibosomes = min([
+0687                 numel(actRibs)
+0688                 boundRibosome70S
+0689                 floor(min(availableEnergy, availableWater) / 2)]);
+0690             
+0691             randomOrder = this.randStream.randperm(boundRibosome70S);
+0692             <span class="keyword">for</span> idx = 1:nElongatingRibosomes
+0693                 i = actRibs(randomOrder(idx));
+0694 
+0695                 <span class="comment">%Use elongation factors to elongate</span>
+0696                 <span class="keyword">if</span> ~termRibs(i)
+0697                     <span class="keyword">if</span> all(freeTranslationFactors(this.enzymeIndexs_elongationFactors))
+0698                         freeTranslationFactors(this.enzymeIndexs_elongationFactors)  = freeTranslationFactors(this.enzymeIndexs_elongationFactors)  - 1;
+0699                         boundTranslationFactors(this.enzymeIndexs_elongationFactors) = boundTranslationFactors(this.enzymeIndexs_elongationFactors) + 1;
+0700                     <span class="keyword">else</span>
+0701                         <span class="keyword">continue</span>;
+0702                     <span class="keyword">end</span>
+0703                 <span class="keyword">end</span>
+0704 
+0705                 <span class="comment">%Extract portion of sequence to be translated</span>
+0706                 <span class="keyword">switch</span> rib.states(i)
+0707                     <span class="keyword">case</span> rib.activeValue
+0708                         idxs = pol.nascentMonomerLengths(i) + 1:min([
+0709                             pol.monomerLengths(pol.boundMRNAs(i));
+0710                             pol.nascentMonomerLengths(i) + elongationRate]);
+0711                         elngSeqs(i, :) = padarray(pol.monomerTRNASequences{pol.boundMRNAs(i)}(idxs)', [0 elongationRate-length(idxs)], 0, <span class="string">'post'</span>);
+0712                         elngRibs(i) = true;
+0713                     <span class="keyword">case</span> rib.stalledValue
+0714                         idxs = pol.proteolysisTagLengths(i) + 1:min([
+0715                             pol.proteolysisTagLength;
+0716                             pol.proteolysisTagLengths(i) + elongationRate]);
+0717                         elngSeqs(i, :) = padarray(pol.proteolysisTagTRNASequence(idxs)', [0 elongationRate-length(idxs)], 0, <span class="string">'post'</span>);
+0718                         elngRibs(i) = true;
+0719                 <span class="keyword">end</span>
+0720             <span class="keyword">end</span>
+0721             nElongatingRibosomes = sum(elngRibs);
+0722 
+0723             <span class="comment">%% make/update free ribosomes, initiate translation</span>
+0724             <span class="comment">%Ribosome 70S assembly proceeds as:</span>
+0725             <span class="comment">%30S-IF3 + IF2 + IF1 --&gt; 30S-IF1-IF2-IF3-mRNA --&gt; 30S-IF1-IF2-IF3-mRNA-tRNA</span>
+0726             <span class="comment">%--&gt; 30S-50S-IF1-IF2-mRNA-tRNA --&gt; 30S-50S-mRNA-tRNA</span>
+0727             <span class="comment">%All of these steps occur quite rapidly, so in our model if enough factors,</span>
+0728             <span class="comment">%subunits, RNAs exist, then a 70S ribosome can be formed and</span>
+0729             <span class="comment">%translation initiated.</span>
+0730             <span class="comment">%(tRNA is bound in elongation, not initiation.)</span>
+0731 
+0732             <span class="comment">%Initiate if</span>
+0733             <span class="comment">%- 30S-IF3 and 50S available</span>
+0734             <span class="comment">%- initiation factors IF1 IF2 available</span>
+0735             <span class="comment">%- energy available</span>
+0736             <span class="comment">%- ribosome binding factor available</span>
+0737             <span class="comment">%- mRNAs available</span>
+0738             <span class="comment">%- (already verified by knowledge base computeTRNASequences</span>
+0739             <span class="comment">%   method that first codon is formylmethionine)</span>
+0740             nInitiatingRibosomes = min([
+0741                 ribosome30SIF3;
+0742                 ribosome50S;
+0743                 freeTranslationFactors(this.enzymeIndexs_initiationFactor1);
+0744                 freeTranslationFactors(this.enzymeIndexs_initiationFactor2);
+0745                 max(0, min(availableEnergy, availableWater) - 2 * nElongatingRibosomes);
+0746                 sum(this.mRNAs)]);
+0747             <span class="keyword">if</span> nInitiatingRibosomes &gt; 0
+0748                 ribosome30SIF3   = ribosome30SIF3   - nInitiatingRibosomes;
+0749                 ribosome50S      = ribosome50S      - nInitiatingRibosomes;
+0750                 boundRibosome70S = boundRibosome70S + nInitiatingRibosomes;
+0751                 freeTranslationFactors(this.enzymeIndexs_initiationFactor3) = <span class="keyword">...</span>
+0752                     freeTranslationFactors(this.enzymeIndexs_initiationFactor3) + <span class="keyword">...</span>
+0753                     nInitiatingRibosomes;
+0754                 availableEnergy = availableEnergy - nInitiatingRibosomes;
+0755                 availableWater = availableWater - nInitiatingRibosomes;
+0756                 <span class="keyword">for</span> idx = 1:nInitiatingRibosomes
+0757                     i = notExistRibs(idx);
+0758                     
+0759                     <span class="comment">%randomly choose mRNA to bind</span>
+0760                     pol.boundMRNAs(i) = this.randStream.randsample(numel(bndProbs), 1, true, bndProbs);
+0761                     
+0762                     <span class="comment">%update state of ribosome</span>
+0763                     rib.states(i) = rib.activeValue;
+0764                     
+0765                     <span class="comment">%update binding probabilities to prevent additional ribosomes</span>
+0766                     <span class="comment">%from initiating translation with same mRNA at same time</span>
+0767                     bndProbs(pol.boundMRNAs(i)) = max(0, bndProbs(pol.boundMRNAs(i)) - 1);
+0768                 <span class="keyword">end</span>
+0769             <span class="keyword">end</span>
+0770 
+0771             <span class="comment">%% Translate active sequences</span>
+0772             <span class="comment">%compute progress of translation</span>
+0773             nInit = sum((pol.nascentMonomerLengths(elngRibs) + pol.proteolysisTagLengths(elngRibs)) == 0);
+0774             availableEnergyWater = floor(min(availableEnergy, availableWater - nInit));
+0775             [translationProgress, this.aminoacylatedTRNAs, translationCost, availableEnergyWater2] = <span class="keyword">...</span>
+0776                 edu.stanford.covert.cell.sim.util.polymerize(<span class="keyword">...</span>
+0777                 elngSeqs(elngRibs, :), <span class="keyword">...</span>
+0778                 this.aminoacylatedTRNAs, 1:nTRNAs, 0, availableEnergyWater, 2, this.randStream);            
+0779             <span class="keyword">if</span> any(translationProgress)
+0780                 <span class="comment">%update water, gtp</span>
+0781                 availableWater = <span class="keyword">...</span>
+0782                     + availableWater <span class="keyword">...</span>
+0783                     - (availableEnergyWater - availableEnergyWater2) <span class="keyword">...</span>
+0784                     - sum((pol.nascentMonomerLengths(elngRibs) + pol.proteolysisTagLengths(elngRibs)) == 0 &amp; translationProgress &gt; 0);
+0785                 availableEnergy = availableEnergy - (availableEnergyWater - availableEnergyWater2);
+0786                 
+0787                 <span class="comment">%advance positions of ribosomes</span>
+0788                 pol.nascentMonomerLengths(elngRibs) = <span class="keyword">...</span>
+0789                     pol.nascentMonomerLengths(elngRibs) + <span class="keyword">...</span>
+0790                     translationProgress .* (rib.states(elngRibs) == rib.activeValue);
+0791                 <span class="keyword">if</span> any(rib.states(elngRibs) == rib.stalledValue)
+0792                     pol.proteolysisTagLengths(elngRibs) = <span class="keyword">...</span>
+0793                         pol.proteolysisTagLengths(elngRibs) + <span class="keyword">...</span>
+0794                         translationProgress .* (rib.states(elngRibs) == rib.stalledValue);
+0795                 <span class="keyword">end</span>
+0796             <span class="keyword">end</span>
+0797 
+0798             <span class="comment">%% Terminate, remaining in elongating state, or convert to stalled state</span>
+0799             <span class="comment">%If these conditions are true</span>
+0800             <span class="comment">%(1) ribosome has translated entire sequence,</span>
+0801             <span class="comment">%(2) termination factor is available (pfrA)--dissociates</span>
+0802             <span class="comment">%    peptide from complex needs 1GTP,</span>
+0803             <span class="comment">%(3) ribosome recycling factor (frr) and EF-G (fusA) available</span>
+0804             <span class="comment">%    (use 1GTP) to split off the 50S subunit,</span>
+0805             <span class="comment">%(4) IF-3 (infC) available to split off mRNA and tRNA and</span>
+0806             <span class="comment">%(5) energy is available (total 2GTPs)</span>
+0807             <span class="comment">%</span>
+0808             <span class="comment">%Then terminate translation:</span>
+0809             <span class="comment">%- use energy to terminate</span>
+0810             <span class="comment">%- release ribosomes which have completed translation</span>
+0811             <span class="comment">%- increment expression of the corresponding protein</span>
+0812             <span class="comment">%- IF3 remains bound to 30S</span>
+0813 
+0814             randomOrder = this.randStream.randperm(length(elngRibs));
+0815             tmpProg = zeros(size(elngRibs));
+0816             tmpProg(elngRibs) = translationProgress;
+0817             <span class="keyword">for</span> idx = 1:length(elngRibs)
+0818                 i = randomOrder(idx);
+0819                 <span class="keyword">if</span> elngRibs(i) &amp;&amp; (tmpProg(i) || pol.nascentMonomerLengths(i) &gt;= pol.monomerLengths(pol.boundMRNAs(i)))
+0820                     <span class="keyword">if</span> (pol.nascentMonomerLengths(i) &gt;= pol.monomerLengths(pol.boundMRNAs(i)) || <span class="keyword">...</span>
+0821                             pol.proteolysisTagLengths(i) &gt;= pol.proteolysisTagLength) &amp;&amp; <span class="keyword">...</span>
+0822                             freeTranslationFactors(this.enzymeIndexs_terminationFactor) &amp;&amp; <span class="keyword">...</span>
+0823                             freeTranslationFactors(this.enzymeIndexs_recyclingFactor) &amp;&amp; <span class="keyword">...</span>
+0824                             (freeTranslationFactors(this.enzymeIndexs_elongationGFactor) || tmpProg(i)) &amp;&amp; <span class="keyword">...</span>
+0825                             freeTranslationFactors(this.enzymeIndexs_initiationFactor3) &amp;&amp; <span class="keyword">...</span>
+0826                             availableEnergy &gt;= 2 &amp;&amp; <span class="keyword">...</span>
+0827                             availableWater &gt;= 2
+0828                         
+0829                         <span class="comment">%use energy, (tRNAs have already been released in elongation)</span>
+0830                         availableEnergy = availableEnergy - 2;
+0831                         availableWater = availableWater - 2;
+0832                         
+0833                         <span class="keyword">switch</span> rib.states(i)
+0834                             <span class="keyword">case</span> rib.activeValue
+0835                                 <span class="comment">%update protein count</span>
+0836                                 this.monomers(pol.boundMRNAs(i)) = this.monomers(pol.boundMRNAs(i)) + 1;
+0837                             <span class="keyword">case</span> rib.stalledValue
+0838                                 <span class="comment">%update stalled polypeptide count</span>
+0839                                 pol.abortedPolypeptides = [
+0840                                     pol.abortedPolypeptides;
+0841                                     pol.boundMRNAs(i) pol.nascentMonomerLengths(i) pol.proteolysisTagLength];
+0842                                 
+0843                                 <span class="comment">%release tmRNA</span>
+0844                                 boundTMRNA = boundTMRNA - 1;
+0845                                 freeTMRNA  = freeTMRNA  + 1;
+0846                         <span class="keyword">end</span>
+0847                         
+0848                         <span class="comment">%release ribosome</span>
+0849                         rib.states(i) = rib.notExistValue;
+0850                         
+0851                         <span class="comment">%release mRNA</span>
+0852                         pol.nascentMonomerLengths(i) = 0;
+0853                         pol.proteolysisTagLengths(i) = 0;
+0854                         pol.boundMRNAs(i)            = 0;
+0855 
+0856                         <span class="comment">%release ribosome, split into 30S and 50S</span>
+0857                         boundRibosome70S = boundRibosome70S - 1;
+0858                         ribosome30S      = ribosome30S      + 1;
+0859                         ribosome50S      = ribosome50S      + 1;
+0860                     <span class="keyword">end</span>
+0861                 <span class="keyword">elseif</span> rib.states(i) == rib.activeValue &amp;&amp; <span class="keyword">...</span>
+0862                         pol.nascentMonomerLengths(i) &gt; 0 &amp;&amp; <span class="keyword">...</span>
+0863                         aminoacylatedTmRNA &gt; 0 &amp;&amp; <span class="keyword">...</span>
+0864                         freeTMRNABindingProtein &gt; 0  &amp;&amp; <span class="keyword">...</span>
+0865                         freePeptidylTRNAHydrolase &gt; 0 &amp;&amp; <span class="keyword">...</span>
+0866                         this.randStream.rand &lt; this.tmRNABindingProbability
+0867 
+0868                     <span class="comment">%set ribosome to stalled state</span>
+0869                     rib.states(i) = rib.stalledValue;
+0870 
+0871                     <span class="comment">%increment bound tmRNAs</span>
+0872                     boundTMRNA = boundTMRNA + 1;
+0873 
+0874                     <span class="comment">%decrement free aminoacylated tmRNAs</span>
+0875                     aminoacylatedTmRNA = aminoacylatedTmRNA - 1;
+0876 
+0877                     <span class="comment">%increment proteolysis tag length by 1 for alanine</span>
+0878                     <span class="comment">%bound to tRNA-like portion of tmRNA</span>
+0879                     pol.proteolysisTagLengths(i) = 1;
+0880                 <span class="keyword">end</span>
+0881             <span class="keyword">end</span>
+0882             
+0883             <span class="comment">%% synchronize ribosome and polypeptide states</span>
+0884             rib.boundMRNAs = pol.boundMRNAs;
+0885             rib.mRNAPositions = pol.nascentMonomerLengths;
+0886             rib.tmRNAPositions = pol.proteolysisTagLengths;
+0887 
+0888             <span class="comment">%% store enzymes</span>
+0889             this.enzymes(this.enzymeIndexs_translationFactors)         = freeTranslationFactors;
+0890             this.boundEnzymes(this.enzymeIndexs_translationFactors)    = boundTranslationFactors;
+0891             this.enzymes(this.enzymeIndexs_ribosome30S)                = ribosome30S;
+0892             this.enzymes(this.enzymeIndexs_ribosome30SIF3)             = ribosome30SIF3;
+0893             this.enzymes(this.enzymeIndexs_ribosome50S)                = ribosome50S;
+0894             this.enzymes(this.enzymeIndexs_ribosome70S)                = ribosome70S;
+0895             this.boundEnzymes(this.enzymeIndexs_ribosome70S)           = boundRibosome70S;
+0896             this.freeTMRNA                                             = freeTMRNA;
+0897             this.enzymes(this.enzymeIndexs_tmRNABindingProtein)        = freeTMRNABindingProtein;
+0898             this.enzymes(this.enzymeIndexs_peptidylTRNAHydrolase)      = freePeptidylTRNAHydrolase;
+0899             this.boundTMRNA                                            = boundTMRNA;
+0900             this.aminoacylatedTMRNA                                    = aminoacylatedTmRNA;
+0901 
+0902             <span class="comment">%% acount for used substrates</span>
+0903             <span class="comment">%aminoacylated tRNAs</span>
+0904             this.freeTRNAs = tRNAs - this.aminoacylatedTRNAs;
+0905 
+0906             <span class="comment">%energy (energy-availableEnergy), water</span>
+0907             this.substrates(this.substrateIndexs_gtp)       = this.substrates(this.substrateIndexs_gtp)       - (energyAllocation - availableEnergy);
+0908             this.substrates(this.substrateIndexs_water)     = availableWater;
+0909             this.substrates(this.substrateIndexs_gdp)       = this.substrates(this.substrateIndexs_gdp)       + (energyAllocation - availableEnergy); 
+0910             this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + (energyAllocation - availableEnergy); 
+0911             this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + (energyAllocation - availableEnergy) + sum(translationCost);
+0912         <span class="keyword">end</span>
+0913     <span class="keyword">end</span>
+0914     
+0915     <span class="comment">%get methods of dependent local state</span>
+0916     methods
+0917         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0918             <span class="keyword">if</span> size(this.monomers, 3) == 1
+0919                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0920                     this.monomer.molecularWeights(this.monomer.nascentIndexs)' * this.monomers           + <span class="keyword">...</span>
+0921                     this.rna.molecularWeights(this.rna.matureIndexs(this.rna.matureTRNAIndexs))'          * this.freeTRNAs          + <span class="keyword">...</span>
+0922                     this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.rna.matureTRNAIndexs))'   * this.aminoacylatedTRNAs + <span class="keyword">...</span>
+0923                     this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.tmRNAGlobalIndex))'       * this.aminoacylatedTMRNA) <span class="keyword">...</span>
+0924                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0925             <span class="keyword">else</span>
+0926                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0927                     permute(this.monomer.molecularWeights(this.monomer.nascentIndexs)' * permute(this.monomers,           [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0928                     permute(this.rna.molecularWeights(this.rna.matureIndexs(this.rna.matureTRNAIndexs))'        * permute(this.freeTRNAs,          [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0929                     permute(this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.rna.matureTRNAIndexs))' * permute(this.aminoacylatedTRNAs, [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0930                     permute(this.rna.molecularWeights(this.rna.aminoacylatedIndexs(this.tmRNAGlobalIndex))'     * permute(this.aminoacylatedTMRNA, [1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0931                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0932             <span class="keyword">end</span>
+0933         <span class="keyword">end</span>
+0934     <span class="keyword">end</span>
+0935 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

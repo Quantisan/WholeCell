@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Metabolite</title>
+  <meta name="keywords" content="Metabolite">
+  <meta name="description" content="Metabolite">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Metabolite.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Metabolite
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Metabolite</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Metabolite
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Metabolite.html" class="code" title="">Metabolite</a>	Metabolite</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Metabolite.html" class="code" title="">Metabolite</a>	Metabolite</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Metabolite(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub3" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub4" class="code">function value = get.metabolismProduction(this)</a></li><li><a href="#_sub5" class="code">function value = get.experimentalNMPComposition(this)</a></li><li><a href="#_sub6" class="code">function value = get.experimentalAAComposition(this)</a></li><li><a href="#_sub7" class="code">function value = get.nmpComposition(this)</a></li><li><a href="#_sub8" class="code">function value = get.aaComposition(this)</a></li><li><a href="#_sub9" class="code">function value = calcDryWeight(this)</a></li><li><a href="#_sub10" class="code">function value = get.wetWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Metabolite</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 1/5/2011</span>
+0006 classdef <a href="Metabolite.html" class="code" title="">Metabolite</a> &lt; edu.stanford.covert.cell.sim.MoleculeCountState
+0007     <span class="comment">%Constants</span>
+0008     properties (Constant)
+0009         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0010             <span class="string">'verbosity'</span>
+0011             <span class="string">'seed'</span>
+0012             };
+0013         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0014             <span class="string">'molecularWeights'</span>
+0015             <span class="string">'baseCounts'</span>
+0016             <span class="string">'lengths'</span>
+0017             <span class="string">'halfLives'</span>
+0018             <span class="string">'compartments'</span>
+0019             <span class="string">'meanNTPConcentration'</span>
+0020             <span class="string">'meanNDPConcentration'</span>
+0021             <span class="string">'meanNMPConcentration'</span>
+0022             };
+0023         fittedConstantNames     = {   <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0024             <span class="string">'biomassComposition'</span>
+0025             <span class="string">'biomassProduction'</span>
+0026             <span class="string">'byproducts'</span>
+0027             };
+0028         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0029             <span class="string">'counts'</span>
+0030             <span class="string">'processRequirements'</span>   
+0031             <span class="string">'processAllocations'</span>
+0032             <span class="string">'processUsages'</span>
+0033             };
+0034         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0035     <span class="keyword">end</span>
+0036     
+0037     <span class="comment">%indices</span>
+0038     properties
+0039         hydrophobicIndexs    <span class="comment">%indices of hydrophobic counts</span>
+0040         aminoAcidIndexs      <span class="comment">%amino acids indices within counts</span>
+0041         dnmpIndexs           <span class="comment">%dAMP, dCMP, dGMP, dTMP indices within counts</span>
+0042         dndpIndexs           <span class="comment">%dADP, dCDP, dGDP, dTDP indices within counts</span>
+0043         dntpIndexs           <span class="comment">%dATP, dCTP, dGTP, dTTP indices within counts</span>
+0044         nmpIndexs            <span class="comment">%AMP, CMP, GMP, UMP indices within counts</span>
+0045         ndpIndexs            <span class="comment">%ADP, CDP, GDP, UDP indices within counts</span>
+0046         ntpIndexs            <span class="comment">%ATP, CTP, GTP, UTP indices within counts</span>
+0047         ampIndexs            <span class="comment">%AMP index within counts</span>
+0048         adpIndexs            <span class="comment">%ADP index within counts</span>
+0049         atpIndexs            <span class="comment">%ATP index within counts</span>
+0050         phosphateIndexs      <span class="comment">%Pi index within counts</span>
+0051         diphosphateIndexs    <span class="comment">%PPi index within counts</span>
+0052         waterIndexs          <span class="comment">%H2O index within counts</span>
+0053         hydrogenIndexs       <span class="comment">%H index within counts</span>
+0054         dr5pIndexs           <span class="comment">%DR5P index within counts</span>
+0055         unmodifiedBaseIndexs <span class="comment">%AD, CSN, GN, THY indices within counts</span>
+0056         m6ADIndexs           <span class="comment">%m6AD index within counts</span>
+0057         lipidIndexs          <span class="comment">%lipid indices within counts</span>
+0058         polyamineIndexs      <span class="comment">%polyamine indices within counts</span>
+0059         carbohydrateIndexs   <span class="comment">%carbohydrate indices within counts</span>
+0060         vitaminIndexs        <span class="comment">%vitamin indices within counts</span>
+0061         ionIndexs            <span class="comment">%ion indices within counts</span>
+0062         antibioticIndexs     <span class="comment">%antibiotic indices within counts</span>
+0063     <span class="keyword">end</span>
+0064     
+0065     <span class="comment">%constants</span>
+0066     properties
+0067         setCounts                                     <span class="comment">%experimentally set metabolic conditions (concentration, time when concentration is applied)</span>
+0068         
+0069         experimentalBiomassComposition                <span class="comment">%experimentally observed biomass composition (molecules / cell)</span>
+0070         experimentalBiomassCompositionWeightFractions <span class="comment">%experimentally observed biomass composition (weight fraction)</span>
+0071         experimentalBiomassCompositionMolFractions    <span class="comment">%experimentally observed biomass composition (mol fraction)</span>
+0072         biomassComposition                            <span class="comment">%metabolite composition of biomass (mollecules / cell) (metabolites X compartments)</span>
+0073         biomassProduction                             <span class="comment">%biomass production</span>
+0074         byproducts                                    <span class="comment">%expected energy and other byproducts of networks (ADP, AMP, PPi, Pi, H)</span>
+0075         processBiomassProduction                      <span class="comment">%expected metabolic demand of each process</span>
+0076         processByproduct                              <span class="comment">%expected metabolic byproducts produced by each process</span>
+0077         
+0078         meanNTPConcentration                          <span class="comment">%mean ATP, GTP concentration (mM)</span>
+0079         meanNDPConcentration                          <span class="comment">%mean ADP, GDP concentration (mM)</span>
+0080         meanNMPConcentration                          <span class="comment">%mean AMP, CMP, GMP, UMP concentration (mM)</span>
+0081         
+0082         processWholeCellModelIDs                      <span class="comment">%IDs of processes</span>
+0083     <span class="keyword">end</span>
+0084     
+0085     <span class="comment">%constants</span>
+0086     properties (Dependent)
+0087         metabolismProduction       <span class="comment">%biomass production</span>
+0088         
+0089         experimentalNMPComposition <span class="comment">%experimentally determined mol fractions of NMPs</span>
+0090         experimentalAAComposition  <span class="comment">%experimentally determined mol fractions of AAs</span>
+0091         
+0092         nmpComposition             <span class="comment">%mol fractions of NMPs</span>
+0093         aaComposition              <span class="comment">%mol fractions of AAs</span>
+0094         
+0095         wetWeight                  <span class="comment">%water weight (g)</span>
+0096     <span class="keyword">end</span>
+0097     
+0098     <span class="comment">%state</span>
+0099     properties
+0100         processRequirements        <span class="comment">%instantaneous metabolic requirements of each process</span>
+0101         processAllocations         <span class="comment">%instantaneous metabolites allocated to each process</span>
+0102         processUsages              <span class="comment">%instantaneous metabolic usages of each process</span>
+0103     <span class="keyword">end</span>
+0104     
+0105     <span class="comment">%constructor</span>
+0106     methods
+0107         <a name="_sub0" href="#_subfunctions" class="code">function this = Metabolite(wholeCellModelID, name)</a>
+0108             this = this@edu.stanford.covert.cell.sim.MoleculeCountState(wholeCellModelID, name);
+0109         <span class="keyword">end</span>
+0110     <span class="keyword">end</span>
+0111     
+0112     methods
+0113         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0114             import edu.stanford.covert.cell.sim.constant.Condition;
+0115             import edu.stanford.covert.util.ConstantUtil;
+0116             
+0117             this.initializeConstants@edu.stanford.covert.cell.sim.MoleculeCountState(knowledgeBase, simulation);
+0118             
+0119             <span class="comment">%ids, names, weights</span>
+0120             this.wholeCellModelIDs = {knowledgeBase.metabolites.wholeCellModelID}';
+0121             this.names             = {knowledgeBase.metabolites.name}';
+0122             this.molecularWeights  = [knowledgeBase.metabolites.molecularWeight]';
+0123             
+0124             <span class="comment">%indices</span>
+0125             this.hydrophobicIndexs    = find([knowledgeBase.metabolites.hydrophobic]);
+0126             this.aminoAcidIndexs      = this.getIndexs({<span class="string">'ALA'</span>; <span class="string">'ARG'</span>; <span class="string">'ASN'</span>; <span class="string">'ASP'</span>; <span class="string">'CYS'</span>; <span class="string">'GLN'</span>; <span class="string">'GLU'</span>; <span class="string">'GLY'</span>; <span class="string">'HIS'</span>; <span class="string">'ILE'</span>; <span class="string">'LEU'</span>; <span class="string">'LYS'</span>; <span class="string">'MET'</span>; <span class="string">'PHE'</span>; <span class="string">'PRO'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TRP'</span>; <span class="string">'TYR'</span>; <span class="string">'VAL'</span>; <span class="string">'FMET'</span>});                                                           
+0127             this.dnmpIndexs           = this.getIndexs({<span class="string">'DAMP'</span>; <span class="string">'DCMP'</span>; <span class="string">'DGMP'</span>; <span class="string">'DTMP'</span>});
+0128             this.dndpIndexs           = this.getIndexs({<span class="string">'DADP'</span>; <span class="string">'DCDP'</span>; <span class="string">'DGDP'</span>; <span class="string">'DTDP'</span>});
+0129             this.dntpIndexs           = this.getIndexs({<span class="string">'DATP'</span>; <span class="string">'DCTP'</span>; <span class="string">'DGTP'</span>; <span class="string">'DTTP'</span>});
+0130             this.nmpIndexs            = this.getIndexs({<span class="string">'AMP'</span>;  <span class="string">'CMP'</span>;  <span class="string">'GMP'</span>;  <span class="string">'UMP'</span>});
+0131             this.ndpIndexs            = this.getIndexs({<span class="string">'ADP'</span>;  <span class="string">'CDP'</span>;  <span class="string">'GDP'</span>;  <span class="string">'UDP'</span>});
+0132             this.ntpIndexs            = this.getIndexs({<span class="string">'ATP'</span>;  <span class="string">'CTP'</span>;  <span class="string">'GTP'</span>;  <span class="string">'UTP'</span>});
+0133             this.ampIndexs            = this.getIndexs({<span class="string">'AMP'</span>});
+0134             this.adpIndexs            = this.getIndexs({<span class="string">'ADP'</span>});
+0135             this.atpIndexs            = this.getIndexs({<span class="string">'ATP'</span>});
+0136             this.phosphateIndexs      = this.getIndexs({<span class="string">'PI'</span>});
+0137             this.diphosphateIndexs    = this.getIndexs({<span class="string">'PPI'</span>});
+0138             this.waterIndexs          = this.getIndexs({<span class="string">'H2O'</span>});
+0139             this.hydrogenIndexs       = this.getIndexs({<span class="string">'H'</span>});
+0140             this.dr5pIndexs           = this.getIndexs({<span class="string">'DR5P'</span>});
+0141             this.unmodifiedBaseIndexs = this.getIndexs({<span class="string">'AD'</span>; <span class="string">'CSN'</span>; <span class="string">'GN'</span>; <span class="string">'THY'</span>});
+0142             this.m6ADIndexs           = this.getIndexs({<span class="string">'m6AD'</span>});
+0143             this.lipidIndexs          = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'lipid'</span>));
+0144             this.polyamineIndexs      = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'polyamine'</span>));
+0145             this.carbohydrateIndexs   = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'carbohydrate'</span>));
+0146             this.vitaminIndexs        = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'vitamin'</span>));
+0147             this.ionIndexs            = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'ion'</span>));
+0148             this.antibioticIndexs     = find(strcmp({knowledgeBase.metabolites.category}', <span class="string">'antibiotic'</span>));
+0149             
+0150             <span class="comment">%media</span>
+0151             this.setCounts = zeros(0, 6);
+0152             <span class="keyword">for</span> i = 1:knowledgeBase.numMetabolites
+0153                 <span class="keyword">if</span> isempty(knowledgeBase.metabolites(i).mediaCompartments); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0154                 
+0155                 value = zeros(length(knowledgeBase.metabolites(i).mediaCompartments), 6);
+0156                 value(:, Condition.objectIndexs)      = knowledgeBase.metabolites(i).idx;
+0157                 value(:, Condition.compartmentIndexs) = [knowledgeBase.metabolites(i).mediaCompartments.idx];
+0158                 value(:, Condition.valueIndexs)       = knowledgeBase.metabolites(i).mediaConcentrations;
+0159                 value(:, Condition.initialTimeIndexs) = knowledgeBase.metabolites(i).mediaInitialTimes;
+0160                 value(:, Condition.finalTimeIndexs)   = knowledgeBase.metabolites(i).mediaFinalTimes;
+0161                 value(:, Condition.objectCompartmentIndexs) = sub2ind([knowledgeBase.numMetabolites knowledgeBase.numCompartments],<span class="keyword">...</span>
+0162                     value(:, Condition.objectIndexs),<span class="keyword">...</span>
+0163                     value(:, Condition.compartmentIndexs));
+0164                 
+0165                 this.setCounts = [this.setCounts; value];
+0166             <span class="keyword">end</span>
+0167             
+0168             this.setCounts(:, Condition.valueIndexs) = round(<span class="keyword">...</span>
+0169                 this.setCounts(:, Condition.valueIndexs) * <span class="keyword">...</span>
+0170                 edu.stanford.covert.util.ConstantUtil.nAvogadro / 1000 * simulation.state(<span class="string">'Geometry'</span>).chamberVolume);
+0171             
+0172             <span class="comment">%biomass</span>
+0173             this.experimentalBiomassComposition = -knowledgeBase.biomassComposition;
+0174             this.experimentalBiomassCompositionMolFractions = sum(this.experimentalBiomassComposition, 2) / sum(this.experimentalBiomassComposition(:));
+0175             this.experimentalBiomassCompositionWeightFractions = <span class="keyword">...</span>
+0176                 sum(this.experimentalBiomassCompositionMolFractions, 2) .* this.molecularWeights / <span class="keyword">...</span>
+0177                 (sum(this.experimentalBiomassCompositionMolFractions, 2)' * this.molecularWeights);
+0178             
+0179             <span class="comment">%processes</span>
+0180             this.processWholeCellModelIDs = {knowledgeBase.processes.wholeCellModelID}';
+0181         <span class="keyword">end</span>
+0182         
+0183         <a name="_sub2" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0184             import edu.stanford.covert.util.SparseMat;
+0185             
+0186             this.allocateMemory@edu.stanford.covert.cell.sim.MoleculeCountState(numTimePoints);
+0187             
+0188             nProcesses = numel(this.processWholeCellModelIDs);
+0189             this.processRequirements = SparseMat([], [], [numel(this.wholeCellModelIDs) * this.compartment.count  nProcesses  numTimePoints]);
+0190             this.processAllocations = SparseMat([], [], [numel(this.wholeCellModelIDs) * this.compartment.count  nProcesses  numTimePoints]);
+0191             this.processUsages = SparseMat([], [], [numel(this.wholeCellModelIDs) * this.compartment.count  nProcesses  numTimePoints]);
+0192         <span class="keyword">end</span>
+0193     <span class="keyword">end</span>
+0194     
+0195     <span class="comment">%getters</span>
+0196     methods
+0197         <a name="_sub3" href="#_subfunctions" class="code">function value = get.metabolismProduction(this)</a>
+0198             value = this.biomassProduction - this.byproducts;
+0199         <span class="keyword">end</span>
+0200         
+0201         <span class="comment">%experimental composition</span>
+0202         <a name="_sub4" href="#_subfunctions" class="code">function value = get.experimentalNMPComposition(this)</a>
+0203             value = this.experimentalBiomassCompositionMolFractions(this.nmpIndexs);
+0204             value = value / sum(value);
+0205         <span class="keyword">end</span>
+0206         
+0207         <a name="_sub5" href="#_subfunctions" class="code">function value = get.experimentalAAComposition(this)</a>
+0208             value = this.experimentalBiomassCompositionMolFractions(this.aminoAcidIndexs);
+0209             value = value / sum(value);
+0210         <span class="keyword">end</span>
+0211         
+0212         <span class="comment">%composition</span>
+0213         <a name="_sub6" href="#_subfunctions" class="code">function value = get.nmpComposition(this)</a>
+0214             value = this.biomassComposition(this.nmpIndexs, :);
+0215             value = value / sum(value(:));
+0216         <span class="keyword">end</span>
+0217         
+0218         <a name="_sub7" href="#_subfunctions" class="code">function value = get.aaComposition(this)</a>
+0219             value = sum(this.biomassComposition(this.aminoAcidIndexs, :), 2);
+0220             value = value / sum(value(:));
+0221         <span class="keyword">end</span>
+0222         
+0223         <span class="comment">%weight</span>
+0224         <a name="_sub8" href="#_subfunctions" class="code">function value = calcDryWeight(this)</a>
+0225             <span class="keyword">if</span> size(this.counts, 3) == 1
+0226                 value = this.molecularWeights' * this.counts;
+0227             <span class="keyword">else</span>
+0228                 value = multiprod(this.molecularWeights', this.counts, [1 2], [1 2]);
+0229             <span class="keyword">end</span>
+0230             value = <span class="keyword">...</span>
+0231                 + value / edu.stanford.covert.util.ConstantUtil.nAvogadro <span class="keyword">...</span>
+0232                 - this.wetWeight;
+0233         <span class="keyword">end</span>
+0234         
+0235         <a name="_sub9" href="#_subfunctions" class="code">function value = get.wetWeight(this)</a>
+0236             value = this.counts(this.waterIndexs, :, :) * this.molecularWeights(this.waterIndexs) / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0237         <span class="keyword">end</span>
+0238     <span class="keyword">end</span>
+0239 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

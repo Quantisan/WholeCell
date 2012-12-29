@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeSequence</title>
+  <meta name="keywords" content="ChromosomeSequence">
+  <meta name="description" content="ChromosomeSequence">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+constant</a> &gt; ChromosomeSequence.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+constant&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeSequence
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomeSequence</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> ChromosomeSequence
+   Object to represent the circular, complementary nature of chromosomal
+   sequences. Externally this object appears as a circular len X 4 character
+   array, where len is the length of the positive strand sequence, and the four
+   columns represent: (1) mother chromosome, positive strand, (2) mother
+   chromosome, negative strand, (3), daughter chromosome, positive strand,
+   (4) daughter chromosome, negative strand. Subscript referencing is
+   automatically wrapped over both dimensions so that
+     (a) x(-1,1) references to x(end-1,1) and
+     (b) x(1,5) references to x(1,1).
+
+   This object behaves differently that character arrays in several ways:
+   - Subscript assignment is prohibited
+   - Reshaping, squeezing, permuting, transposing, and concatenating return
+     results NOT of type ChromosomeSequence, but of type char
+
+   Internally this class uses one property positiveStrandSequence to represent
+   the mother and daughter chromosomes positive and negative sequences.
+   Negative sequences are computed using the seqcomplement method of the
+   bioinformatics toolbox.
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 9/6/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSequence.html" class="code" title="">ChromosomeSequence</a>	ChromosomeSequence</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSequence.html" class="code" title="">ChromosomeSequence</a>	ChromosomeSequence</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ChromosomeSequence(positiveStrandSequence)</a></li><li><a href="#_sub2" class="code">function value = getGCContent(this)</a></li><li><a href="#_sub3" class="code">function value = getBaseCounts(this, strand)</a></li><li><a href="#_sub4" class="code">function seq = get.negativeStrandSequence(this)</a></li><li><a href="#_sub5" class="code">function seq = get.positiveAndNegtiveStrandSequences(this)</a></li><li><a href="#_sub6" class="code">function seq = get.positiveAndNegtiveStrandMotherAndDaughterSequences(this)</a></li><li><a href="#_sub7" class="code">function val = isempty(this)</a></li><li><a href="#_sub8" class="code">function val = numel(this)</a></li><li><a href="#_sub9" class="code">function val = length(this)</a></li><li><a href="#_sub10" class="code">function val = size(this, dim)</a></li><li><a href="#_sub11" class="code">function val = ndims(this)</a></li><li><a href="#_sub12" class="code">function seq = reshape(this, varargin)</a></li><li><a href="#_sub13" class="code">function seq = transpose(this)</a></li><li><a href="#_sub14" class="code">function seq = ctranspose(this)</a></li><li><a href="#_sub15" class="code">function seq = permute(this, dims)</a></li><li><a href="#_sub16" class="code">function seq = squeeze(this)</a></li><li><a href="#_sub17" class="code">function varargout = subsref(this, s)</a></li><li><a href="#_sub18" class="code">function val = subsasgn(this, s, rhs)</a></li><li><a href="#_sub19" class="code">function e = end(this, k, n)</a></li><li><a href="#_sub20" class="code">function seq = cat(dim, varargin)</a></li><li><a href="#_sub21" class="code">function seq = horzcat(varargin)</a></li><li><a href="#_sub22" class="code">function seq = vertcat(varargin)</a></li><li><a href="#_sub23" class="code">function val = isequal(A, B)</a></li><li><a href="#_sub24" class="code">function C = eq(A, B)</a></li><li><a href="#_sub25" class="code">function C = ne(A, B)</a></li><li><a href="#_sub26" class="code">function varargout = find(this)</a></li><li><a href="#_sub27" class="code">function positionStrands = findSubsequence(this, subsequence, subposition, bothStrands)</a></li><li><a href="#_sub28" class="code">function [allPositions, allLengths, allStrands, allSequences] = locateFeatures(this, features)</a></li><li><a href="#_sub29" class="code">function subsequence = subsequence(this, positions, strands)</a></li><li><a href="#_sub30" class="code">function baseCounts = subsequenceBaseCounts(this, varargin)</a></li><li><a href="#_sub31" class="code">function val = cast(this, newclass)</a></li><li><a href="#_sub32" class="code">function val = char(this)</a></li><li><a href="#_sub33" class="code">function val = uint8(this)</a></li><li><a href="#_sub34" class="code">function val = uint16(this)</a></li><li><a href="#_sub35" class="code">function val = uint32(this)</a></li><li><a href="#_sub36" class="code">function val = uint64(this)</a></li><li><a href="#_sub37" class="code">function val = int8(this)</a></li><li><a href="#_sub38" class="code">function val = int16(this)</a></li><li><a href="#_sub39" class="code">function val = int32(this)</a></li><li><a href="#_sub40" class="code">function val = int64(this)</a></li><li><a href="#_sub41" class="code">function val = single(this)</a></li><li><a href="#_sub42" class="code">function val = double(this)</a></li><li><a href="#_sub43" class="code">function disp(this)</a></li><li><a href="#_sub44" class="code">function display(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% ChromosomeSequence</span>
+0002 <span class="comment">%   Object to represent the circular, complementary nature of chromosomal</span>
+0003 <span class="comment">%   sequences. Externally this object appears as a circular len X 4 character</span>
+0004 <span class="comment">%   array, where len is the length of the positive strand sequence, and the four</span>
+0005 <span class="comment">%   columns represent: (1) mother chromosome, positive strand, (2) mother</span>
+0006 <span class="comment">%   chromosome, negative strand, (3), daughter chromosome, positive strand,</span>
+0007 <span class="comment">%   (4) daughter chromosome, negative strand. Subscript referencing is</span>
+0008 <span class="comment">%   automatically wrapped over both dimensions so that</span>
+0009 <span class="comment">%     (a) x(-1,1) references to x(end-1,1) and</span>
+0010 <span class="comment">%     (b) x(1,5) references to x(1,1).</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   This object behaves differently that character arrays in several ways:</span>
+0013 <span class="comment">%   - Subscript assignment is prohibited</span>
+0014 <span class="comment">%   - Reshaping, squeezing, permuting, transposing, and concatenating return</span>
+0015 <span class="comment">%     results NOT of type ChromosomeSequence, but of type char</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   Internally this class uses one property positiveStrandSequence to represent</span>
+0018 <span class="comment">%   the mother and daughter chromosomes positive and negative sequences.</span>
+0019 <span class="comment">%   Negative sequences are computed using the seqcomplement method of the</span>
+0020 <span class="comment">%   bioinformatics toolbox.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Author: Jonathan Karr</span>
+0023 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0024 <span class="comment">% Last updated: 9/6/2010</span>
+0025 classdef <a href="ChromosomeSequence.html" class="code" title="">ChromosomeSequence</a> &lt; handle
+0026     properties (Access = protected)
+0027         positiveStrandSequence
+0028         gcContent
+0029         baseCounts
+0030     <span class="keyword">end</span>
+0031 
+0032     properties (Access = protected, Dependent = true)
+0033         negativeStrandSequence
+0034         positiveAndNegtiveStrandSequences
+0035         positiveAndNegtiveStrandMotherAndDaughterSequences
+0036     <span class="keyword">end</span>
+0037 
+0038     properties (Constant = true, GetAccess = protected)
+0039         iPositiveStrand = 1;
+0040         iNegativeStrand = 2;
+0041         iMotherChromosome = 1;
+0042         iDaughterChromosome = 2;
+0043     <span class="keyword">end</span>
+0044 
+0045     <span class="comment">%constructor</span>
+0046     methods
+0047         <a name="_sub0" href="#_subfunctions" class="code">function this = ChromosomeSequence(positiveStrandSequence)</a>
+0048             <span class="keyword">if</span> <span class="keyword">...</span>
+0049                     ~ischar(positiveStrandSequence) || <span class="keyword">...</span>
+0050                     ~all(ismembc(positiveStrandSequence, <span class="string">'ACGT'</span>)) || <span class="keyword">...</span>
+0051                     ~isvector(positiveStrandSequence)
+0052                 throw(MException(<span class="string">'ChromosomeSequence:invalidSequence'</span>, <span class="string">'positiveStrandSequence must be a vector containing only the characters A, C, G, T'</span>));
+0053             <span class="keyword">end</span>
+0054 
+0055             this.positiveStrandSequence = <a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(positiveStrandSequence,[],1);
+0056         <span class="keyword">end</span>
+0057     <span class="keyword">end</span>
+0058     
+0059     <span class="comment">%getters</span>
+0060     methods
+0061         <a name="_sub1" href="#_subfunctions" class="code">function value = getGCContent(this)</a>
+0062             <span class="keyword">if</span> <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(this.gcContent)
+0063                 this.gcContent = (<span class="keyword">...</span>
+0064                     sum(this.positiveStrandSequence == <span class="string">'G'</span>) + <span class="keyword">...</span>
+0065                     sum(this.positiveStrandSequence == <span class="string">'C'</span>)) / <span class="keyword">...</span>
+0066                     <a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(this.positiveStrandSequence);
+0067             <span class="keyword">end</span>
+0068             
+0069             value = this.gcContent;
+0070         <span class="keyword">end</span>
+0071         
+0072         <a name="_sub2" href="#_subfunctions" class="code">function value = getBaseCounts(this, strand)</a>
+0073             <span class="keyword">if</span> <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(this.baseCounts)
+0074                 this.baseCounts = [
+0075                     sum(this.positiveStrandSequence == <span class="string">'A'</span>) sum(this.positiveStrandSequence == <span class="string">'T'</span>)
+0076                     sum(this.positiveStrandSequence == <span class="string">'C'</span>) sum(this.positiveStrandSequence == <span class="string">'G'</span>)
+0077                     sum(this.positiveStrandSequence == <span class="string">'G'</span>) sum(this.positiveStrandSequence == <span class="string">'C'</span>)
+0078                     sum(this.positiveStrandSequence == <span class="string">'T'</span>) sum(this.positiveStrandSequence == <span class="string">'A'</span>)];
+0079             <span class="keyword">end</span>
+0080             
+0081             <span class="keyword">if</span> nargin == 1
+0082                 value = sum(this.baseCounts, 2);
+0083             <span class="keyword">else</span>
+0084                 value = this.baseCounts(:, mod(strand - 1, 2) + 1);
+0085             <span class="keyword">end</span>
+0086         <span class="keyword">end</span>
+0087     <span class="keyword">end</span>
+0088 
+0089     <span class="comment">%getters</span>
+0090     methods
+0091         <a name="_sub3" href="#_subfunctions" class="code">function seq = get.negativeStrandSequence(this)</a>
+0092             seq = seqcomplement(this.positiveStrandSequence')';
+0093         <span class="keyword">end</span>
+0094 
+0095         <a name="_sub4" href="#_subfunctions" class="code">function seq = get.positiveAndNegtiveStrandSequences(this)</a>
+0096             seq = [this.positiveStrandSequence this.negativeStrandSequence];
+0097         <span class="keyword">end</span>
+0098 
+0099         <a name="_sub5" href="#_subfunctions" class="code">function seq = get.positiveAndNegtiveStrandMotherAndDaughterSequences(this)</a>
+0100             seq = repmat(this.positiveAndNegtiveStrandSequences, 1, 2);
+0101         <span class="keyword">end</span>
+0102     <span class="keyword">end</span>
+0103 
+0104     <span class="comment">%size</span>
+0105     methods
+0106         <a name="_sub6" href="#_subfunctions" class="code">function val = isempty(this)</a>
+0107             val = <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(this.positiveStrandSequence);
+0108         <span class="keyword">end</span>
+0109 
+0110         <a name="_sub7" href="#_subfunctions" class="code">function val = numel(this)</a>
+0111             val = prod(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this)); <span class="comment">%#ok&lt;PSIZE&gt;</span>
+0112         <span class="keyword">end</span>
+0113 
+0114         <a name="_sub8" href="#_subfunctions" class="code">function val = length(this)</a>
+0115             val = max(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this));
+0116         <span class="keyword">end</span>
+0117 
+0118         <a name="_sub9" href="#_subfunctions" class="code">function val = size(this, dim)</a>
+0119             <span class="keyword">if</span> exist(<span class="string">'dim'</span>,<span class="string">'var'</span>)
+0120                 <span class="keyword">if</span> dim &lt; 1 || ~<a href="#_sub23" class="code" title="subfunction val = isequal(A, B)">isequal</a>(dim, ceil(real(dim))) || <a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(dim) ~= 1
+0121                     throw(MException(<span class="string">'ChromosomeSequence:invalidDimension'</span>, <span class="string">'dim must be a positive real integer'</span>));
+0122                 <span class="keyword">elseif</span> dim == 1
+0123                     val = <a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(this.positiveStrandSequence);
+0124                 <span class="keyword">elseif</span> dim == 2
+0125                     val = 4;
+0126                 <span class="keyword">else</span>
+0127                     val = 1;
+0128                 <span class="keyword">end</span>
+0129             <span class="keyword">else</span>
+0130                 val = [<a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(this.positiveStrandSequence) 4];
+0131             <span class="keyword">end</span>
+0132         <span class="keyword">end</span>
+0133 
+0134         <a name="_sub10" href="#_subfunctions" class="code">function val = ndims(this)</a>
+0135             val = <a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this));
+0136         <span class="keyword">end</span>
+0137     <span class="keyword">end</span>
+0138 
+0139     <span class="comment">%size methods that return character arrays</span>
+0140     methods
+0141         <a name="_sub11" href="#_subfunctions" class="code">function seq = reshape(this, varargin)</a>
+0142             seq = <a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences, varargin{:});
+0143         <span class="keyword">end</span>
+0144 
+0145         <a name="_sub12" href="#_subfunctions" class="code">function seq = transpose(this)</a>
+0146             seq = <a href="#_sub13" class="code" title="subfunction seq = transpose(this)">transpose</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0147         <span class="keyword">end</span>
+0148 
+0149         <a name="_sub13" href="#_subfunctions" class="code">function seq = ctranspose(this)</a>
+0150             seq = <a href="#_sub13" class="code" title="subfunction seq = transpose(this)">transpose</a>(this);
+0151         <span class="keyword">end</span>
+0152 
+0153         <a name="_sub14" href="#_subfunctions" class="code">function seq = permute(this, dims)</a>
+0154             seq = <a href="#_sub15" class="code" title="subfunction seq = permute(this, dims)">permute</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences, dims);
+0155         <span class="keyword">end</span>
+0156 
+0157         <a name="_sub15" href="#_subfunctions" class="code">function seq = squeeze(this)</a>
+0158             seq = <a href="#_sub16" class="code" title="subfunction seq = squeeze(this)">squeeze</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0159         <span class="keyword">end</span>
+0160     <span class="keyword">end</span>
+0161 
+0162     <span class="comment">%subscript reference, assignment</span>
+0163     <span class="comment">%return character arrays</span>
+0164     methods
+0165         <a name="_sub16" href="#_subfunctions" class="code">function varargout = subsref(this, s)</a>
+0166             varargout = cell(max(1, nargout), 1);
+0167             <span class="keyword">if</span> strcmp(s(1).type, <span class="string">'()'</span>)
+0168                 <span class="keyword">if</span> <a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(s.subs) == 1
+0169                     varargout{1} = <a href="#_sub17" class="code" title="subfunction varargout = subsref(this, s)">subsref</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences, s);
+0170                 <span class="keyword">else</span>
+0171                     tmp = s;
+0172                     <span class="keyword">if</span> isnumeric(s.subs{1})
+0173                         s.subs{1} = mod(s.subs{1} - 1, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1)) + 1;
+0174                         tmp.subs{1} = s.subs{1};
+0175                     <span class="keyword">end</span>
+0176                     <span class="keyword">if</span> isnumeric(s.subs{2})
+0177                         s.subs{2} = mod(s.subs{2}, 2) == 0;
+0178                         tmp.subs{2} = ones(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(s.subs{2}));
+0179                     <span class="keyword">else</span>
+0180                         s.subs{2} = repmat([false; true], 2, 1);
+0181                         tmp.subs{2} = ones(4, 1);
+0182                     <span class="keyword">end</span>
+0183 
+0184                     varargout{1} = <a href="#_sub17" class="code" title="subfunction varargout = subsref(this, s)">subsref</a>(this.positiveStrandSequence, tmp);
+0185                     siz = <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(varargout{1});
+0186                     siz(2) = sum(s.subs{2});
+0187                     varargout{1}(:, s.subs{2}, :) = <a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(seqcomplement(<a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(varargout{1}(:, s.subs{2}, :), 1, [])), siz);
+0188                 <span class="keyword">end</span>
+0189             <span class="keyword">else</span>
+0190                 [varargout{:}] = builtin(<span class="string">'subsref'</span>, this, s);
+0191             <span class="keyword">end</span>
+0192         <span class="keyword">end</span>
+0193 
+0194         <a name="_sub17" href="#_subfunctions" class="code">function val = subsasgn(this, s, rhs)</a>
+0195             <span class="keyword">if</span> strcmp(s(1).type, <span class="string">'()'</span>)
+0196                 throw(MException(<span class="string">'ChromosomeSequence:invalidSyntax'</span>, <span class="string">'undefined syntax'</span>));
+0197             <span class="keyword">else</span>
+0198                 val = builtin(<span class="string">'subsasgn'</span>, this, s, rhs);
+0199             <span class="keyword">end</span>
+0200         <span class="keyword">end</span>
+0201         
+0202         <a name="_sub18" href="#_subfunctions" class="code">function e = end(this, k, n)</a>
+0203             <span class="keyword">if</span> n == 1
+0204                 e = <a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(this);
+0205             <span class="keyword">else</span>
+0206                 e = <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, k);
+0207             <span class="keyword">end</span>
+0208         <span class="keyword">end</span>
+0209     <span class="keyword">end</span>
+0210 
+0211     <span class="comment">%concatentation: return character arrays NOT ChromosomeSequences</span>
+0212     methods
+0213         <a name="_sub19" href="#_subfunctions" class="code">function seq = cat(dim, varargin)</a>
+0214             import edu.stanford.covert.cell.sim.constant.ChromosomeSequence;
+0215 
+0216             <span class="keyword">for</span> i = 1:<a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(varargin)
+0217                 <span class="keyword">if</span> isa(varargin{i}, <span class="string">'ChromosomeSequence'</span>)
+0218                     varargin{i} = varargin{i}.positiveAndNegtiveStrandMotherAndDaughterSequences;
+0219                 <span class="keyword">end</span>
+0220             <span class="keyword">end</span>
+0221 
+0222             seq = <a href="#_sub20" class="code" title="subfunction seq = cat(dim, varargin)">cat</a>(dim, varargin{:});
+0223         <span class="keyword">end</span>
+0224 
+0225         <a name="_sub20" href="#_subfunctions" class="code">function seq = horzcat(varargin)</a>
+0226             seq = <a href="#_sub20" class="code" title="subfunction seq = cat(dim, varargin)">cat</a>(2, varargin{:});
+0227         <span class="keyword">end</span>
+0228 
+0229         <a name="_sub21" href="#_subfunctions" class="code">function seq = vertcat(varargin)</a>
+0230             seq = <a href="#_sub20" class="code" title="subfunction seq = cat(dim, varargin)">cat</a>(1, varargin{:});
+0231         <span class="keyword">end</span>
+0232     <span class="keyword">end</span>
+0233 
+0234     methods
+0235         <a name="_sub22" href="#_subfunctions" class="code">function val = isequal(A, B)</a>
+0236             val = <span class="keyword">...</span>
+0237                 <a href="#_sub23" class="code" title="subfunction val = isequal(A, B)">isequal</a>(class(A), class(B)) &amp;&amp; <span class="keyword">...</span>
+0238                 <a href="#_sub23" class="code" title="subfunction val = isequal(A, B)">isequal</a>(A.positiveStrandSequence, B.positiveStrandSequence);
+0239         <span class="keyword">end</span>
+0240 
+0241         <a name="_sub23" href="#_subfunctions" class="code">function C = eq(A, B)</a>
+0242             import edu.stanford.covert.cell.sim.constant.ChromosomeSequence;
+0243 
+0244             <span class="keyword">if</span> isa(A, <span class="string">'ChromosomeSequence'</span>)
+0245                 <span class="keyword">if</span> isa(B, <span class="string">'ChromosomeSequence'</span>)
+0246                     C = <a href="#_sub24" class="code" title="subfunction C = eq(A, B)">eq</a>(A.positiveAndNegtiveStrandMotherAndDaughterSequences, B.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0247                 <span class="keyword">else</span>
+0248                     C = <a href="#_sub24" class="code" title="subfunction C = eq(A, B)">eq</a>(A.positiveAndNegtiveStrandMotherAndDaughterSequences, B);
+0249                 <span class="keyword">end</span>
+0250             <span class="keyword">else</span>
+0251                 C = <a href="#_sub24" class="code" title="subfunction C = eq(A, B)">eq</a>(A, B.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0252             <span class="keyword">end</span>
+0253         <span class="keyword">end</span>
+0254 
+0255         <a name="_sub24" href="#_subfunctions" class="code">function C = ne(A, B)</a>
+0256             import edu.stanford.covert.cell.sim.constant.ChromosomeSequence;
+0257 
+0258             <span class="keyword">if</span> isa(A, <span class="string">'ChromosomeSequence'</span>)
+0259                 <span class="keyword">if</span> isa(B, <span class="string">'ChromosomeSequence'</span>)
+0260                     C = <a href="#_sub25" class="code" title="subfunction C = ne(A, B)">ne</a>(A.positiveAndNegtiveStrandMotherAndDaughterSequences, B.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0261                 <span class="keyword">else</span>
+0262                     C = <a href="#_sub25" class="code" title="subfunction C = ne(A, B)">ne</a>(A.positiveAndNegtiveStrandMotherAndDaughterSequences, B);
+0263                 <span class="keyword">end</span>
+0264             <span class="keyword">else</span>
+0265                 C = <a href="#_sub25" class="code" title="subfunction C = ne(A, B)">ne</a>(A, B.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0266             <span class="keyword">end</span>
+0267         <span class="keyword">end</span>
+0268     <span class="keyword">end</span>
+0269 
+0270     <span class="comment">%find</span>
+0271     methods
+0272         <a name="_sub25" href="#_subfunctions" class="code">function varargout = find(this)</a>
+0273             varargout = cell(nargout,1);
+0274             <span class="keyword">switch</span> nargout
+0275                 <span class="keyword">case</span> 1,
+0276                     <span class="keyword">if</span> <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1) == 1 &amp;&amp; <a href="#_sub11" class="code" title="subfunction val = ndims(this)">ndims</a>(this) == 2
+0277                         varargout{1} = 1:<a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(this);
+0278                     <span class="keyword">else</span>
+0279                         varargout{1} = (1:<a href="#_sub8" class="code" title="subfunction val = numel(this)">numel</a>(this))';
+0280                     <span class="keyword">end</span>
+0281                 <span class="keyword">case</span> 2
+0282                     <span class="keyword">if</span> <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1) == 1 &amp;&amp; <a href="#_sub11" class="code" title="subfunction val = ndims(this)">ndims</a>(this) == 2
+0283                         varargout{1} = ones(1, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2));
+0284                         varargout{2} = 1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2);
+0285                     <span class="keyword">else</span>
+0286                         varargout{1} = repmat((1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1))', <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2), 1);
+0287                         varargout{2} = sort(repmat((1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2))', <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1), 1));
+0288                     <span class="keyword">end</span>
+0289                 <span class="keyword">case</span> 3
+0290                     <span class="keyword">if</span> <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1) == 1 &amp;&amp; <a href="#_sub11" class="code" title="subfunction val = ndims(this)">ndims</a>(this) == 2
+0291                         varargout{1} = ones(1, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2));
+0292                         varargout{2} = 1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 2);
+0293                         varargout{3} = <a href="#_sub42" class="code" title="subfunction val = double(this)">double</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0294                     <span class="keyword">else</span>
+0295                         varargout{1} = repmat((1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this,1))', <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this,2), 1);
+0296                         varargout{2} = sort(repmat((1:<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this,2))', <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this,1), 1));
+0297                         varargout{3} = <a href="#_sub42" class="code" title="subfunction val = double(this)">double</a>(<a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences,[],1));
+0298                     <span class="keyword">end</span>
+0299                 <span class="keyword">otherwise</span>
+0300                     throw(MException(<span class="string">'ChromosomeSequence:tooManyOutputs'</span>,<span class="string">'find produces at most 3 outputs'</span>));
+0301             <span class="keyword">end</span>
+0302         <span class="keyword">end</span>
+0303 
+0304         <a name="_sub26" href="#_subfunctions" class="code">function positionStrands = findSubsequence(this, subsequence, subposition, bothStrands)</a>
+0305             <span class="keyword">if</span> <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(subposition) || <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(this.positiveStrandSequence)
+0306                 positionStrands = [];
+0307                 <span class="keyword">return</span>;
+0308             <span class="keyword">end</span>
+0309 
+0310             sequence = this.positiveStrandSequence;
+0311             [~, positions1] = restrict([sequence; sequence(1:<a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>)-1)]', <a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>, subposition);
+0312             <span class="keyword">if</span> <a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(positions1) == 1 &amp;&amp; positions1 == 0
+0313                 positions1 = zeros(0, 1);
+0314             <span class="keyword">else</span>
+0315                 positions1 = positions1(2:end);
+0316             <span class="keyword">end</span>
+0317 
+0318             <span class="keyword">if</span> ~exist(<span class="string">'bothStrands'</span>, <span class="string">'var'</span>) || ~bothStrands
+0319                 positionStrands = positions1;
+0320                 <span class="keyword">return</span>;
+0321             <span class="keyword">end</span>
+0322 
+0323             sequence = this.negativeStrandSequence;
+0324             [~, positions2] = restrict([sequence(end-<a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>) + 2:end); sequence]', seqreverse(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>), subposition);
+0325             <span class="keyword">if</span> <a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(positions2) == 1 &amp;&amp; positions2 == 0
+0326                 positions2 = zeros(0, 1);
+0327             <span class="keyword">else</span>
+0328                 positions2 = positions2(2:end);
+0329             <span class="keyword">end</span>
+0330             
+0331             positionStrands = [
+0332                 positions1     ones(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions1));
+0333                 positions2 2 * ones(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions2))];
+0334         <span class="keyword">end</span>
+0335 
+0336         <span class="comment">%L = length of chromosome</span>
+0337         <span class="comment">%S = number of strands</span>
+0338         <span class="comment">%F = number of features</span>
+0339         <span class="comment">%l = length of longest feature</span>
+0340         <span class="comment">%</span>
+0341         <span class="comment">%features:  L x S boolean indicating positions of some feature in chromosome(s)</span>
+0342         <span class="comment">%positions: F x 1 integer indicating coordinates of features</span>
+0343         <span class="comment">%strands:   F x 1 integer indicating strands of features</span>
+0344         <span class="comment">%sequences: F x l char indicating sequences of features; vector is char(0) right padded</span>
+0345         <a name="_sub27" href="#_subfunctions" class="code">function [allPositions, allLengths, allStrands, allSequences] = locateFeatures(this, features)</a>
+0346             allPositions = zeros(0, 1);
+0347             allLengths   = zeros(0, 1);
+0348             allStrands   = zeros(0, 1);
+0349             allSequences = cell(0, 1);
+0350 
+0351             <span class="comment">%loop over strands</span>
+0352             <span class="keyword">for</span> i = 1:max(features(:, 2))
+0353                 positions = sort(features(features(:, 2) == i, 1));
+0354                 lengths   = ones(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions));
+0355                 seq = this.positiveStrandSequence(positions, 1);
+0356                 <span class="keyword">if</span> mod(i, 2) == 0 &amp;&amp; ~<a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(seq)
+0357                     seq = seqcomplement(seq')';
+0358                 <span class="keyword">end</span>
+0359                 sequences = num2cell(seq);
+0360 
+0361                 <span class="keyword">if</span> <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(positions);
+0362                     <span class="keyword">continue</span>;
+0363                 <span class="keyword">end</span>
+0364 
+0365                 <span class="keyword">for</span> j = <a href="#_sub9" class="code" title="subfunction val = length(this)">length</a>(positions):-1:2
+0366                     <span class="keyword">if</span> diff(positions(j-1:j)) == 1
+0367                         lengths(j-1) = lengths(j-1) + lengths(j);
+0368                         <span class="keyword">if</span> i == 1
+0369                             sequences{j-1} = [sequences{j-1} sequences{j}];
+0370                         <span class="keyword">else</span>
+0371                             sequences{j-1} = [sequences{j} sequences{j-1}];
+0372                         <span class="keyword">end</span>
+0373                         lengths(j) = 0;
+0374                         sequences{j} = <span class="string">''</span>;
+0375                     <span class="keyword">end</span>
+0376                 <span class="keyword">end</span>
+0377 
+0378                 positions = positions(lengths &gt; 0);
+0379                 sequences = sequences(lengths &gt; 0);
+0380                 lengths   = lengths(  lengths &gt; 0);
+0381 
+0382                 <span class="keyword">if</span> positions(1) == 1 &amp;&amp; positions(end) + lengths(end)-1 == <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this.positiveStrandSequence, 1)
+0383                     <span class="keyword">if</span> i == 1
+0384                         lengths(end) = lengths(end) + lengths(1);
+0385                         sequences{end} = [sequences{end} sequences{1}];
+0386                         positions(1) = [];
+0387                         sequences(1) = [];
+0388                         lengths(1) = [];
+0389                     <span class="keyword">else</span>
+0390                         lengths(1)   = lengths(1) + lengths(end);
+0391                         sequences{1} = [sequences{1} sequences{end}];
+0392                         positions(1) = positions(end);
+0393                         positions(end) = [];
+0394                         sequences(end) = [];
+0395                         lengths(end) = [];
+0396                     <span class="keyword">end</span>
+0397                 <span class="keyword">end</span>
+0398 
+0399                 <span class="keyword">if</span> i == 2
+0400                     positions = mod(positions + lengths -1 -1, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this.positiveStrandSequence,1))+1;
+0401                 <span class="keyword">end</span>
+0402 
+0403                 allPositions = [allPositions; positions];                <span class="comment">%#ok&lt;AGROW&gt;</span>
+0404                 allLengths   = [allLengths; lengths];                    <span class="comment">%#ok&lt;AGROW&gt;</span>
+0405                 allStrands   = [allStrands; repmat(i, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0406                 allSequences = [allSequences; sequences];                <span class="comment">%#ok&lt;AGROW&gt;</span>
+0407             <span class="keyword">end</span>
+0408         <span class="keyword">end</span>
+0409 
+0410         <a name="_sub28" href="#_subfunctions" class="code">function subsequence = subsequence(this, positions, strands)</a>
+0411             <span class="keyword">if</span> ~exist(<span class="string">'strands'</span>, <span class="string">'var'</span>)
+0412                 strands = positions(:, 2);
+0413                 positions = positions(:, 1);
+0414             <span class="keyword">end</span>
+0415 
+0416             <span class="keyword">if</span> <a href="#_sub7" class="code" title="subfunction val = isempty(this)">isempty</a>(positions)
+0417                 <a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> = <a href="#_sub32" class="code" title="subfunction val = char(this)">char</a>(zeros(1, 0));
+0418                 <span class="keyword">return</span>;
+0419             <span class="keyword">end</span>
+0420 
+0421             <span class="keyword">if</span> ~<a href="#_sub23" class="code" title="subfunction val = isequal(A, B)">isequal</a>(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(strands), <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions))
+0422                 strands = repmat(strands, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions) ./ <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(strands));
+0423             <span class="keyword">end</span>
+0424 
+0425             positions = mod(positions - 1, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this.positiveStrandSequence, 1)) + 1;
+0426             <a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> = <a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(this.positiveStrandSequence(sub2ind(<span class="keyword">...</span>
+0427                 <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this.positiveStrandSequence), positions, ones(<a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions)))), <span class="keyword">...</span>
+0428                 <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(positions));
+0429             <a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>(mod(strands, 2) == 0) = seqcomplement(<a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a>(mod(strands, 2) == 0), 1, []));
+0430         <span class="keyword">end</span>
+0431 
+0432         <a name="_sub29" href="#_subfunctions" class="code">function baseCounts = subsequenceBaseCounts(this, varargin)</a>
+0433             <a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> = <a href="#_sub12" class="code" title="subfunction seq = reshape(this, varargin)">reshape</a>(this.subsequence(varargin{:}), 1, []);
+0434             baseCounts = [
+0435                 sum(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> == <span class="string">'A'</span>);
+0436                 sum(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> == <span class="string">'C'</span>);
+0437                 sum(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> == <span class="string">'G'</span>);
+0438                 sum(<a href="#_sub29" class="code" title="subfunction subsequence = subsequence(this, positions, strands)">subsequence</a> == <span class="string">'T'</span>)];
+0439         <span class="keyword">end</span>
+0440     <span class="keyword">end</span>
+0441 
+0442     <span class="comment">%cast</span>
+0443     methods
+0444         <a name="_sub30" href="#_subfunctions" class="code">function val = cast(this, newclass)</a>
+0445             val = <a href="#_sub31" class="code" title="subfunction val = cast(this, newclass)">cast</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences, newclass);
+0446         <span class="keyword">end</span>
+0447 
+0448         <a name="_sub31" href="#_subfunctions" class="code">function val = char(this)</a>
+0449             val = this.positiveAndNegtiveStrandMotherAndDaughterSequences;
+0450         <span class="keyword">end</span>
+0451 
+0452         <a name="_sub32" href="#_subfunctions" class="code">function val = uint8(this)</a>
+0453             val = <a href="#_sub33" class="code" title="subfunction val = uint8(this)">uint8</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0454         <span class="keyword">end</span>
+0455 
+0456         <a name="_sub33" href="#_subfunctions" class="code">function val = uint16(this)</a>
+0457             val = <a href="#_sub34" class="code" title="subfunction val = uint16(this)">uint16</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0458         <span class="keyword">end</span>
+0459 
+0460         <a name="_sub34" href="#_subfunctions" class="code">function val = uint32(this)</a>
+0461             val = <a href="#_sub35" class="code" title="subfunction val = uint32(this)">uint32</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0462         <span class="keyword">end</span>
+0463 
+0464         <a name="_sub35" href="#_subfunctions" class="code">function val = uint64(this)</a>
+0465             val = <a href="#_sub36" class="code" title="subfunction val = uint64(this)">uint64</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0466         <span class="keyword">end</span>
+0467 
+0468         <a name="_sub36" href="#_subfunctions" class="code">function val = int8(this)</a>
+0469             val = <a href="#_sub37" class="code" title="subfunction val = int8(this)">int8</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0470         <span class="keyword">end</span>
+0471 
+0472         <a name="_sub37" href="#_subfunctions" class="code">function val = int16(this)</a>
+0473             val = <a href="#_sub38" class="code" title="subfunction val = int16(this)">int16</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0474         <span class="keyword">end</span>
+0475 
+0476         <a name="_sub38" href="#_subfunctions" class="code">function val = int32(this)</a>
+0477             val = <a href="#_sub39" class="code" title="subfunction val = int32(this)">int32</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0478         <span class="keyword">end</span>
+0479 
+0480         <a name="_sub39" href="#_subfunctions" class="code">function val = int64(this)</a>
+0481             val = <a href="#_sub40" class="code" title="subfunction val = int64(this)">int64</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0482         <span class="keyword">end</span>
+0483 
+0484         <a name="_sub40" href="#_subfunctions" class="code">function val = single(this)</a>
+0485             val = <a href="#_sub41" class="code" title="subfunction val = single(this)">single</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0486         <span class="keyword">end</span>
+0487 
+0488         <a name="_sub41" href="#_subfunctions" class="code">function val = double(this)</a>
+0489             val = <a href="#_sub42" class="code" title="subfunction val = double(this)">double</a>(this.positiveAndNegtiveStrandMotherAndDaughterSequences);
+0490         <span class="keyword">end</span>
+0491     <span class="keyword">end</span>
+0492 
+0493     <span class="comment">%display</span>
+0494     methods
+0495         <a name="_sub42" href="#_subfunctions" class="code">function disp(this)</a>
+0496             <a href="#_sub44" class="code" title="subfunction display(this)">display</a>(this);
+0497         <span class="keyword">end</span>
+0498 
+0499         <a name="_sub43" href="#_subfunctions" class="code">function display(this)</a>
+0500             fprintf(<span class="string">'ChromosomeSequence of 2 chromosomes (mother and daughter), of 2 strands each, each of length %d\n'</span>, <a href="#_sub10" class="code" title="subfunction val = size(this, dim)">size</a>(this, 1));
+0501         <span class="keyword">end</span>
+0502     <span class="keyword">end</span>
+0503 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

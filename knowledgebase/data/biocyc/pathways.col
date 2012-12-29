@@ -1,0 +1,90 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: pathways.col
+# Date and time generated: March 29, 2012, 18:01:34
+#
+UNIQUE-ID	NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME
+ACETATEUTIL_PWY	acetate utilization and formation
+ALA_ASP_METABOLISM	Alanine and Aspartate Metabolism	MG_072
+ALT_CARBON_METABOLISM	Alternate Carbon Metabolism	MG_050	MG_053	MG_369	MG_063	MG_118	MG_038
+ANAEROFRUCAT_PWY	homolactic fermentation
+ANAPLEROTIC_REACTIONS	Anaplerotic Reactions	MG_351
+ARG_PRO_METABOLISM	Arginine and Proline Metabolism	MG_482
+CITRIC_ACID_CYCLE	Citric Acid Cycle	MG_460
+COA_PWY	coenzyme A biosynthesis
+CODH_PWY	reductive acetyl coenzyme A pathway
+COFACTOR_PROSTHETIC_BIOSYNTHESIS	Cofactor and Prosthetic Group Biosynthesis	MG_264	MG_342	MG_037	MG_145	MG_228	MG_259	MG_383	MG_128	MG_240	MG_372	MG_006
+DENOVOPURINE2_PWY	purine nucleotides <i>de novo</i> biosynthesis I
+DRIBOPMET_PWY	(deoxy)ribose phosphate degradation
+ENVELOPE_BIOSYNTHESIS	Cell Envelope Biosynthesis	MG_453	MG_137
+FERMENTATION_PWY	mixed acid fermentation
+FOLATE_METABOLISM	Folate Metabolism	MG_245	MG_013	MG_228
+GALACTMETAB_PWY	UDP-galactose biosynthesis (salvage pathway from galactose using UDP-glucose)
+GLYCEROPHOSPHOLIPID_METBOLISM	Glycerophospholipid Metabolism	MG_212	MG_437	MG_293	MG_385	MG_114	MG_368
+GLYCLEAV_PWY	glycine cleavage complex
+GLYCOLYSIS	Glycolysis/Gluconeogenesis	MG_430	MG_300	MG_271	MG_272	MG_273	MG_274	MG_407	MG_023	MG_301	MG_215	MG_111	MG_216	MG_431
+GLYSYN_PWY	glycine biosynthesis I
+GLY_SER_METABOLISM	Glycine and Serine Metabolism	MG_394
+HISTIDINE_METABOLISM	Histidine Metabolism	MG_058
+NADPHOS_DEPHOS_PWY	NAD phosphorylation and dephosphorylation
+NAD_BIOSYNTHESIS_II	NAD salvage pathway II
+NAD_BIOSYNTHESIS_III	NAD biosynthesis III
+NONOXIPENT_PWY	pentose phosphate pathway (non-oxidative branch)	MG_112	MG_396	MG_066
+OXIDATIVE_PHOSPHORYLATION	Oxidative Phosphorylation	MG_398	MG_399	MG_400	MG_401	MG_402	MG_403	MG_404	MG_405	MG_102
+P122_PWY	heterolactic fermentation I
+P142_PWY	pyruvate fermentation to acetate I
+P1_PWY	salvage pathways of purine and pyrimidine nucleotides	MG_171	MG_330	MG_276	MG_052	MG_434	MG_049	MG_107	MG_458	MG_240	MG_229	MG_231	MG_051	MG_034	MG_227	MG_382	MG_030
+P21_PWY	pentose phosphate pathway (partial)
+P41_PWY	pyruvate fermentation to acetate and lactate I
+P61_PWY	UDP-glucose conversion
+PHOSLIPSYN_PWY	phospholipid biosynthesis I
+PPGPPMET_PWY	ppGpp biosynthesis
+PWY0_163	salvage pathways of pyrimidine ribonucleotides
+PWY0_166	de novo biosynthesis of pyrimidine deoxyribonucleotides
+PWY0_181	salvage pathways of pyrimidine deoxyribonucleotides
+PWY0_381	glycerol degradation I
+PWY0_662	PRPP biosynthesis I
+PWY0_901	selenocysteine biosynthesis
+PWY_1622	formaldehyde assimilation I (serine pathway)
+PWY_1861	formaldehyde assimilation II (RuMP Cycle)
+PWY_2201	folate transformations
+PWY_3742	tetrahydrofolate biosynthesis II
+PWY_3841	formylTHF biosynthesis II
+PWY_4261	glycerol degradation IV
+PWY_5046	branched-chain &alpha;-keto acid dehydrogenase complex
+PWY_5083	NAD/NADH phosphorylation and dephosphorylation
+PWY_5084	2-keto glutarate dehydrogenase complex
+PWY_5481	pyruvate fermentation to lactate
+PWY_5482	pyruvate fermentation to acetate II
+PWY_5485	pyruvate fermentation to acetate IV
+PWY_5497	purine degradation II (anaerobic)
+PYRUVATE_METABOLISM	Pyruvate Metabolism	MG_357	MG_460	MG_299
+PYRUVDEHYD_PWY	pyruvate dehydrogenase complex
+RIBOSYN2_PWY	flavin biosynthesis
+SAM_PWY	S-adenosylmethionine biosynthesis
+THIOREDOX_PWY	thioredoxin pathway
+THR_LYS_METABOLISM	Threonine and Lysine Metabolism	MG_394
+TRANS_INNER	Transport, Inner Membrane	MG_061	MG_041	MG_062	MG_429	MG_069	MG_077	MG_078	MG_079	MG_080	MG_321	MG_289	MG_290	MG_291	MG_040	MG_119	MG_120	MG_121	MG_042	MG_043	MG_044	MG_045
+TRANS_INORG_ION	Inorganic Ion Transport and Metabolism	MG_322	MG_323	MG_410	MG_411	MG_412
+TRANS_OUTER	Transport, Outer Membrane
+TRANS_OUTER_PORIN	Transport, Outer Membrane Porin	MG_033
+TRNA_CHARGING_PWY	tRNA charging pathway
+TYR_TRP_PHE_METABOLISM	Tyrosine, Tryptophan, and Phenylalanine Metabolism

@@ -1,0 +1,225 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: protcplxs.col
+# Date and time generated: March 29, 2012, 18:01:33
+#
+UNIQUE-ID	NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-NAME	GENE-ID	GENE-ID	GENE-ID	GENE-ID	SUBUNIT-COMPOSITION
+DNA_GYRASE	DNA gyrase	MG_003	MG_004			DNA gyrase, B subunit	DNA gyrase, A subunit			2*MG_003_MONOMER,2*MG_004_MONOMER
+DNA_POLYMERASE_2CORE_BETA_CLAMP_GAMMA_COMPLEX_PRIMASE	DNA polymerase (2) core, ?-clamp, ?-complex, and primase	MG_001	MG_250	MG_031	MG_261	DNA polymerase III, beta subunit	DNA primase	DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit	2*DNA_POLYMERASE_CORE,1*DNA_POLYMERASE_GAMMA_COMPLEX,2*MG_001_MONOMER,1*MG_250_MONOMER
+DNA_POLYMERASE_CORE	DNA-directed DNA polymerase	MG_031	MG_261			DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit			1*MG_031_MONOMER,1*MG_261_MONOMER
+DNA_POLYMERASE_CORE_BETA_CLAMP_GAMMA_COMPLEX	DNA polymerase core, &beta;-clamp, and &gamma;-complex	MG_001	MG_031	MG_261	MG_007	DNA polymerase III, beta subunit	DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit	DNA polymerase III delta prime subunit, putative	1*DNA_POLYMERASE_CORE,1*DNA_POLYMERASE_GAMMA_COMPLEX,2*MG_001_MONOMER
+DNA_POLYMERASE_CORE_BETA_CLAMP_PRIMASE	DNA polymerase core, &beta;-clamp, and primase	MG_001	MG_250	MG_031	MG_261	DNA polymerase III, beta subunit	DNA primase	DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit	1*DNA_POLYMERASE_CORE,2*MG_001_MONOMER,1*MG_250_MONOMER
+DNA_POLYMERASE_GAMMA_COMPLEX	DNA-directed DNA polymerase gamma complex	MG_007	MG_315	MG_419		DNA polymerase III delta prime subunit, putative	DNA polymerase III, delta subunit, putative	DNA polymerase III, subunit gamma and tau		1*MG_007_MONOMER,1*MG_315_MONOMER,4*MG_419_MONOMER
+DNA_POLYMERASE_HOLOENZYME	DNA-directed DNA polymerase holoenzyme	MG_001	MG_031	MG_261	MG_007	DNA polymerase III, beta subunit	DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit	DNA polymerase III delta prime subunit, putative	2*DNA_POLYMERASE_CORE,1*DNA_POLYMERASE_GAMMA_COMPLEX,2*MG_001_MONOMER
+MG_0001_048	signal recognition particle	MG_0001	MG_048			scRNA, signal recognition particle 4.5S RNA, MCS1	signal recognition particle protein			1*MG_0001,1*MG_048_MONOMER
+MG_0003_465	ribonuclease P	MG_0003	MG_465			Rnase P RNA, MCS5, M1 RNA	ribonuclease P protein component			1*MG_0003,1*MG_465_MONOMER
+MG_001_DIMER	DNA polymerase III, beta clamp	MG_001				DNA polymerase III, beta subunit				2*MG_001_MONOMER
+MG_005_DIMER	seryl-tRNA synthetase	MG_005				seryl-tRNA synthetase				2*MG_005_MONOMER
+MG_006_DIMER	thymidylate kinase	MG_006				thymidylate kinase				2*MG_006_MONOMER
+MG_008_379_TETRAMER	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	MG_008	MG_379			tRNA modification GTPase TrmE	tRNA uridine 5-carboxymethylaminomethyl modification enzyme GidA			2*MG_008_MONOMER,2*MG_379_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	MG_013				methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase				2*MG_013_MONOMER
+MG_014_015_DIMER	multidrug ABC transporter	MG_014	MG_015			multidrug ABC transporter, ATP-binding/permease protein	multidrug ABC transporter, ATP-binding/permease protein			1*MG_014_MONOMER,1*MG_015_MONOMER
+MG_019_DIMER	chaperone protein DnaJ	MG_019				chaperone protein DnaJ				2*MG_019_MONOMER
+MG_021_DIMER	methionyl-tRNA synthetase	MG_021				methionyl-tRNA synthetase				2*MG_021_MONOMER
+MG_023_DIMER	fructose-1,6-bisphosphate aldolase, class II	MG_023				fructose-1,6-bisphosphate aldolase, class II				2*MG_023_MONOMER
+MG_029_DIMER	DJ-1/PfpI family protein	MG_029				DJ-1/PfpI family protein				2*MG_029_MONOMER
+MG_030_TRIMER	uracil phosphoribosyltransferase	MG_030				uracil phosphoribosyltransferase				3*MG_030_MONOMER
+MG_033_TETRAMER	glycerol uptake facilitator	MG_033				glycerol uptake facilitator				4*MG_033_MONOMER
+MG_034_DIMER	thymidine kinase	MG_034				thymidine kinase				2*MG_034_MONOMER
+MG_035_DIMER	histidyl-tRNA synthetase	MG_035				histidyl-tRNA synthetase				2*MG_035_MONOMER
+MG_036_DIMER	aspartyl-tRNA synthetase	MG_036				aspartyl-tRNA synthetase				2*MG_036_MONOMER
+MG_038_TETRAMER	glycerol kinase	MG_038				glycerol kinase				4*MG_038_MONOMER
+MG_039_DIMER	FAD-dependent glycerol-3-phosphate dehydrogenase, putative	MG_039				FAD-dependent glycerol-3-phosphate dehydrogenase, putative				2*MG_039_MONOMER
+MG_040_119_120_121_PENTAMER	Monosaccharide (riboside/galactoside) ABC transporter	MG_040	MG_119	MG_120	MG_121	Monosaccharide (riboside/galactoside) ABC transporter, substrate binding protein	Monosaccharide (riboside/galactoside) ABC transporter, ATP-binding protein	Monosaccharide (riboside/galactoside) ABC transporter, permease protein	Monosaccharide (riboside/galactoside) ABC transporter, permease protein	1*MG_040_MONOMER,2*MG_119_MONOMER,1*MG_120_MONOMER,1*MG_121_MONOMER
+MG_041_062_429_PENTAMER	PTS system, fructose-specific	MG_041	MG_062	MG_429		PTS system, HPr	PTS system, fructose-specific IIABC component	PTS system, E1		1*MG_041_MONOMER,2*MG_062_MONOMER,2*MG_429_MONOMER
+MG_041_069_429_PENTAMER	PTS system, glucose-specific	MG_041	MG_069	MG_429		PTS system, HPr	PTS system, glucose-specific IIABC component	PTS system, E1		1*MG_041_MONOMER,2*MG_069_MONOMER,2*MG_429_MONOMER
+MG_042_043_044_045_PENTAMER	spermidine/putrescine (polyamine) ABC transporter	MG_042	MG_043	MG_044	MG_045	spermidine/putrescine (polyamine) ABC transporter, ATP-binding protein, putative	spermidine/putrescine (polyamine) ABC transporter, permease protein, putative	spermidine/putrescine (polyamine) ABC transporter, permease protein, putative	spermidine/putrescine (polyamine) ABC transporter, spermidine/putrescine binding protein, putative	2*MG_042_MONOMER,1*MG_043_MONOMER,1*MG_044_MONOMER,1*MG_045_MONOMER
+MG_046_DIMER	metalloendopeptidase	MG_046				metalloendopeptidase				2*MG_046_MONOMER
+MG_047_TETRAMER	S-adenosylmethionine synthetase	MG_047				S-adenosylmethionine synthetase				4*MG_047_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	MG_049				purine nucleoside phosphorylase				6*MG_049_MONOMER
+MG_051_DIMER	pyrimidine-nucleoside phosphorylase	MG_051				pyrimidine-nucleoside phosphorylase				2*MG_051_MONOMER
+MG_052_DIMER	cytidine deaminase	MG_052				cytidine deaminase				2*MG_052_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	MG_053				phosphoglucomutase/phosphomannomutase, putative				3*MG_053_MONOMER
+MG_055_170_277_464_476_20MER	preprotein translocase	MG_055	MG_170	MG_277	MG_464	preprotein translocase, SecE subunit	preprotein translocase, SecY subunit	Protein-export membrane protein secDF	inner-membrane protein insertion factor	4*MG_055_MONOMER,4*MG_170_MONOMER,4*MG_277_MONOMER,4*MG_464_MONOMER,4*MG_476_MONOMER
+MG_058_HEXAMER	ribose-phosphate pyrophosphokinase	MG_058				ribose-phosphate pyrophosphokinase				6*MG_058_MONOMER
+MG_063_DIMER	1-phosphofructokinase, putative	MG_063				1-phosphofructokinase, putative				2*MG_063_MONOMER
+MG_064_065_TETRAMER	ABC transporter	MG_064	MG_065			ABC transporter, permease protein, putative	ABC transporter, ATP-binding protein			2*MG_064_MONOMER,2*MG_065_MONOMER
+MG_066_DIMER	transketolase	MG_066				transketolase				2*MG_066_MONOMER
+MG_072_DIMER	preprotein translocase, SecA subunit	MG_072				preprotein translocase, SecA subunit				2*MG_072_MONOMER
+MG_073_206_421_TETRAMER	DNA incision complex	MG_073	MG_206	MG_421		excinuclease ABC, B subunit	excinuclease ABC, C subunit	excinuclease ABC, A subunit		1*MG_073_MONOMER,1*MG_206_MONOMER,2*MG_421_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	MG_077	MG_078	MG_079	MG_080	oligopeptide ABC transporter, permease protein	oligopeptide ABC transporter, permease protein	oligopeptide ABC transporter, ATP-binding protein	oligopeptide ABC transporter, ATP-binding protein	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_084_TETRAMER	tRNA(Ile)-lysidine synthetase	MG_084				tRNA(Ile)-lysidine synthetase				4*MG_084_MONOMER
+MG_085_HEXAMER	HPr(Ser) kinase/phosphatase	MG_085				HPr(Ser) kinase/phosphatase				6*MG_085_MONOMER
+MG_089_DIMER	translation elongation factor G	MG_089				translation elongation factor G				2*MG_089_MONOMER
+MG_091_OCTAMER	single-strand binding protein family, octamer	MG_091				single-strand binding protein family				2*MG_091_TETRAMER
+MG_091_TETRAMER	single-strand binding protein family, tetramer	MG_091				single-strand binding protein family				4*MG_091_MONOMER
+MG_094_HEXAMER	replicative DNA helicase	MG_094				replicative DNA helicase				6*MG_094_MONOMER
+MG_098_099_100_TRIMER	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase	MG_098	MG_099	MG_100		glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, C subunit	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, A subunit	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase, B subunit		1*MG_098_MONOMER,1*MG_099_MONOMER,1*MG_100_MONOMER
+MG_102_DIMER	thioredoxin-disulfide reductase	MG_102				thioredoxin-disulfide reductase				2*MG_102_MONOMER
+MG_102_DIMER_ox	oxidized thioredoxin-disulfide reductase	MG_102				thioredoxin-disulfide reductase				1*MG_102_DIMER
+MG_105_OCTAMER	putative DNA integrity scanning protein	MG_105				putative DNA integrity scanning protein				8*MG_105_MONOMER
+MG_106_DIMER	peptide deformylase	MG_106				peptide deformylase				2*MG_106_MONOMER
+MG_107_DIMER	guanylate kinase	MG_107				guanylate kinase				2*MG_107_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	MG_109				serine/threonine protein kinase, putative				2*MG_109_MONOMER
+MG_111_DIMER	glucose-6-phosphate isomerase	MG_111				glucose-6-phosphate isomerase				2*MG_111_MONOMER
+MG_112_DIMER	ribulose-phosphate 3-epimerase	MG_112				ribulose-phosphate 3-epimerase				2*MG_112_MONOMER
+MG_113_DIMER	asparaginyl-tRNA synthetase	MG_113				asparaginyl-tRNA synthetase				2*MG_113_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	MG_114				CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase				2*MG_114_MONOMER
+MG_118_DIMER	UDP-glucose 4-epimerase	MG_118				UDP-glucose 4-epimerase				2*MG_118_MONOMER
+MG_123_DIMER	arginine deaminase	MG_123				arginine deaminasse				2*MG_123_MONOMER
+MG_124_MONOMER_ox	oxidized thioredoxin	MG_124				thioredoxin				1*MG_124_MONOMER
+MG_126_DIMER	tryptophanyl-tRNA synthetase	MG_126				tryptophanyl-tRNA synthetase				2*MG_126_MONOMER
+MG_127_MONOMER_ox	oxidized Spx subfamily protein	MG_127				Spx subfamily protein				1*MG_127_MONOMER
+MG_128_HEXAMER	inorganic polyphosphate/ATP-NAD kinase, probable	MG_128				inorganic polyphosphate/ATP-NAD kinase, probable				6*MG_128_MONOMER
+MG_132_DIMER	purine nucleoside phosphoramidase	MG_132				purine nucleoside phosphoramidase				2*MG_132_MONOMER
+MG_136_DIMER	lysyl-tRNA synthetase	MG_136				lysyl-tRNA synthetase				2*MG_136_MONOMER
+MG_137_DIMER	UDP-galactopyranose mutase	MG_137				UDP-galactopyranose mutase				2*MG_137_MONOMER
+MG_139_DIMER	ribonuclease J	MG_139				ribonuclease J				2*MG_139_MONOMER
+MG_179_180_181_TETRAMER	metal ion (cobalt) ABC transporter	MG_179	MG_180	MG_181		metal ion (cobalt) ABC transporter, ATP-binding protein, putative	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	metal ion (cobalt) ABC transporter, permease protein		1*MG_179_MONOMER,1*MG_180_MONOMER,2*MG_181_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	MG_182				tRNA pseudouridine synthase A				2*MG_182_MONOMER
+MG_184_DIMER	adenine-specific DNA modification methylase	MG_184				adenine-specific DNA modification methylase				2*MG_184_MONOMER
+MG_186_187_188_189_PENTAMER	Oligosaccharide or polyol ABC transporter	MG_186	MG_187	MG_188	MG_189	Oligosaccharide or polyol ABC transporter, substrate binding protein	Oligosaccharide or polyol ABC transporter, ATP-binding protein	Oligosaccharide or polyol ABC transporter, permease protein	Oligosaccharide or polyol ABC transporter, permease protein	2*MG_186_MONOMER,1*MG_187_MONOMER,1*MG_188_MONOMER,1*MG_189_MONOMER
+MG_194_195_TETRAMER	phenylalanyl-tRNA synthetase	MG_194	MG_195			phenylalanyl-tRNA synthetase, alpha subunit	phenylalanyl-tRNA synthetase, beta subunit			2*MG_194_MONOMER,2*MG_195_MONOMER
+MG_201_DIMER	co-chaperone GrpE	MG_201				co-chaperone GrpE				2*MG_201_MONOMER
+MG_203_204_TETRAMER	topoisomerase IV	MG_203	MG_204			DNA topoisomerase IV, B subunit	DNA topoisomerase IV, A subunit			2*MG_203_MONOMER,2*MG_204_MONOMER
+MG_205_DIMER	heat-inducible transcription repressor HrcA, putative	MG_205				heat-inducible transcription repressor HrcA, putative				2*MG_205_MONOMER
+MG_208_DIMER	glycoprotease family protein	MG_208				glycoprotease				2*MG_208_MONOMER
+MG_213_214_298_6MER	chromosome segregation protein SMC	MG_213	MG_214	MG_298		segregation and condensation protein A	segregation and condensation protein B	chromosome segregation protein SMC		2*MG_213_MONOMER,2*MG_214_MONOMER,2*MG_298_MONOMER
+MG_213_214_298_6MER_ADP	Chromosome Segregation Protein SMC with SCP Proteins-ADP	MG_213	MG_214	MG_298		segregation and condensation protein A	segregation and condensation protein B	chromosome segregation protein SMC		1*ADP,1*MG_213_214_298_6MER
+MG_215_TETRAMER	6-phosphofructokinase	MG_215				6-phosphofructokinase				4*MG_215_MONOMER
+MG_216_TETRAMER	pyruvate kinase	MG_216				pyruvate kinase				4*MG_216_MONOMER
+MG_221_OCTAMER	mraZ protein	MG_221				mraZ protein				8*MG_221_MONOMER
+MG_224_2MER_GTP	cell division protein ftsZ activated 2mer	MG_224				cell division protein FtsZ				2*MG_224_MONOMER_GTP
+MG_224_3MER_GTP	cell division protein ftsZ activated 3mer	MG_224				cell division protein FtsZ				1*MG_224_2MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_4MER_GTP	cell division protein ftsZ activated 4mer	MG_224				cell division protein FtsZ				1*MG_224_3MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_5MER_GTP	cell division protein ftsZ activated 5mer	MG_224				cell division protein FtsZ				1*MG_224_4MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_6MER_GTP	cell division protein ftsZ activated 6mer	MG_224				cell division protein FtsZ				1*MG_224_5MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_7MER_GTP	cell division protein ftsZ activated 7mer	MG_224				cell division protein FtsZ				1*MG_224_6MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_8MER_GTP	cell division protein ftsZ activated 8mer	MG_224				cell division protein FtsZ				1*MG_224_7MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_9MER_GDP	cell division protein ftsZ deactivated 9mer	MG_224				cell division protein FtsZ				9*H2O,1*MG_224_9MER_GTP
+MG_224_9MER_GTP	cell division protein ftsZ activated 9mer	MG_224				cell division protein FtsZ				1*MG_224_8MER_GTP,1*MG_224_MONOMER_GTP
+MG_224_MONOMER_GDP	cell division protein ftsZ hydrolysed	MG_224				cell division protein FtsZ				1*GDP,1*MG_224_MONOMER
+MG_224_MONOMER_GTP	cell division protein ftsZ activated	MG_224				cell division protein FtsZ				1*GTP,1*MG_224_MONOMER
+MG_225_DIMER	amino acid transporter	MG_225				amino acid-polyamine-organocation (APC) permease				2*MG_225_MONOMER
+MG_226_DIMER	amino acid transporter	MG_226				amino acid-polyamine-organocation (APC) permease				2*MG_226_MONOMER
+MG_227_DIMER	thymidylate synthase	MG_227				thymidylate synthase				2*MG_227_MONOMER
+MG_228_TETRAMER	dihydrofolate reductase	MG_228				dihydrofolate reductase				4*MG_228_MONOMER
+MG_229_231_TETRAMER	ribonucleoside-diphosphate reductase	MG_229	MG_231			ribonucleoside-diphosphate reductase, beta chain	ribonucleoside-diphosphate reductase, alpha chain			2*MG_229_MONOMER,2*MG_231_MONOMER
+MG_229_231_TETRAMER_ox	oxidized ribonucleoside-diphosphate reductase	MG_229	MG_231			ribonucleoside-diphosphate reductase, beta chain	ribonucleoside-diphosphate reductase, alpha chain			1*MG_229_231_TETRAMER,1*O2
+MG_239_HEXAMER	ATP-dependent protease La	MG_239				ATP-dependent protease La				6*MG_239_MONOMER
+MG_240_HEXAMER	nicotinamide-nucleotide adenylyltransferase/conserved hypothetical protein	MG_240				nicotinamide-nucleotide adenylyltransferase/conserved hypothetical protein				6*MG_240_MONOMER
+MG_244_DIMER	3-5' helicase	MG_244				3-5' helicase				2*MG_244_MONOMER
+MG_251_DIMER	glycyl-tRNA synthetase	MG_251				glycyl-tRNA synthetase				2*MG_251_MONOMER
+MG_252_DIMER	23S rRNA methyltransferase	MG_252				23S rRNA methyltransferase; G2251				2*MG_252_MONOMER
+MG_259_TETRAMER	modification methylase	MG_259				modification methylase				4*MG_259_MONOMER
+MG_265_DIMER	sugar phosphatase	MG_265				sugar phosphatase				2*MG_265_MONOMER
+MG_271_272_273_274_192MER	pyruvate dehydrogenase	MG_271	MG_272	MG_273	MG_274	dihydrolipoamide dehydrogenase	dihydrolipoamide acetyltransferase	pyruvate dehydrogenase component E1, beta subunit	pyruvate dehydrogenase component E1, alpha subunit	12*MG_271_MONOMER,60*MG_272_MONOMER,60*MG_273_MONOMER,60*MG_274_MONOMER
+MG_271_272_273_274_192MER_ox	oxidized dihydrolipoamide dehydrogenase	MG_271	MG_272	MG_273	MG_274	dihydrolipoamide dehydrogenase	dihydrolipoamide acetyltransferase	pyruvate dehydrogenase component E1, beta subunit	pyruvate dehydrogenase component E1, alpha subunit	1*MG_271_272_273_274_192MER
+MG_275_TETRAMER	NADH oxidase	MG_275				NADH oxidase				4*MG_275_MONOMER
+MG_276_DIMER	adenine phosphoribosyltransferase	MG_276				adenine phosphoribosyltransferase				2*MG_276_MONOMER
+MG_278_DIMER	GTP pyrophosphokinase	MG_278				GTP diphosphokinase				2*MG_278_MONOMER
+MG_283_DIMER	prolyl-tRNA synthetase	MG_283				prolyl-tRNA synthetase				2*MG_283_MONOMER
+MG_287_MONOMER_ACP	holo acyl carrier protein	MG_287				acyl carrier protein				1*COA,1*MG_287_MONOMER
+MG_287_MONOMER_ddcaACP	Dodecanoyl-ACP (n-C12:0ACP)	MG_287				acyl carrier protein				1*ATP,1*COA,1*DDCA,1*MG_287_MONOMER
+MG_287_MONOMER_hdeACP	cis-hexadec-9-enoyl-[acyl-carrier protein] (n-C16:1)	MG_287				acyl carrier protein				1*ATP,1*COA,1*HDCEA,1*MG_287_MONOMER
+MG_287_MONOMER_myrsACP	Myristoyl-ACP (n-C14:0ACP)	MG_287				acyl carrier protein				1*ATP,1*COA,1*MG_287_MONOMER,1*TTDCA
+MG_287_MONOMER_ocdcaACP	Octadecanoyl-ACP (n-C18:0ACP)	MG_287				acyl carrier protein				1*ATP,1*COA,1*MG_287_MONOMER,1*OCDCA
+MG_287_MONOMER_octeACP	cis-octadec-11-enoyl-[acyl-carrier protein] (n-C18:1)	MG_287				acyl carrier protein				1*ATP,1*COA,1*MG_287_MONOMER,1*OCDCEA
+MG_287_MONOMER_palmACP	Palmitoyl-ACP (n-C16:0ACP)	MG_287				acyl carrier protein				1*ATP,1*COA,1*HDCA,1*MG_287_MONOMER
+MG_287_MONOMER_tdeACP	cis-tetradec-7-enoyl-[acyl-carrier protein] (n-C14:1)	MG_287				acyl carrier protein				1*ATP,1*COA,1*MG_287_MONOMER,1*TTDCEA
+MG_289_290_291_PENTAMER	phosphonate ABC transporter	MG_289	MG_290	MG_291		phosphonate ABC transporter, substrate binding protein (P37), putative	phosphonate ABC transporter, ATP-binding protein, putative	phosphonate ABC transporter, permease protein (P69), putative		1*MG_289_MONOMER,2*MG_290_MONOMER,2*MG_291_MONOMER
+MG_292_TETRAMER	alanyl-tRNA synthetase	MG_292				alanyl-tRNA synthetase				4*MG_292_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	MG_293				glycerophosphoryl diester phosphodiesterase				2*MG_293_MONOMER
+MG_295_MONOMER_ox	oxidized tRNA U34 sulfurtransferase	MG_295				tRNA U34 sulfurtransferase				1*MG_295_MONOMER
+MG_299_DIMER	phosphate acetyltransferase	MG_299				phosphate acetyltransferase				2*MG_299_MONOMER
+MG_301_TETRAMER	glyceraldehyde-3-phosphate dehydrogenase, type I	MG_301				glyceraldehyde-3-phosphate dehydrogenase, type I				4*MG_301_MONOMER
+MG_302_303_304_TETRAMER	metal ion (cobalt) ABC transporter	MG_302	MG_303	MG_304		metal ion (cobalt) ABC transporter, permease protein, putative	metal ion (cobalt) ABC transporter, ATP-binding protein, putative	metal ion (cobalt) ABC transporter, ATP-binding protein, putative		2*MG_302_MONOMER,1*MG_303_MONOMER,1*MG_304_MONOMER
+MG_316_DIMER	DNA internalization-related competence protein ComEC/Rec2	MG_316				DNA internalization-related competence protein ComEC/Rec2				2*MG_316_MONOMER
+MG_322_323_TETRAMER	potassium uptake protein, TrkH family, putative	MG_322	MG_323			potassium uptake protein	potassium uptake protein			2*MG_322_MONOMER,2*MG_323_MONOMER
+MG_333_DIMER	FMN-dependent NADH-azoreductase, putative	MG_333				FMN-dependent NADH-azoreductase, putative				2*MG_333_MONOMER
+MG_336_DIMER	cysteine desulfurase	MG_336				cysteine desulfurase				2*MG_336_MONOMER
+MG_346_DIMER	23S rRNA methyltransferase	MG_346				23S rRNA methyltransferase; U2552				2*MG_346_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	MG_347				tRNA (guanine-N(7)-)-methyltransferase				2*MG_347_MONOMER
+MG_349_HEXAMER	Replication initiation/membrane attachment protein	MG_349				Replication initiation/membrane attachment protein				6*MG_349_MONOMER
+MG_351_HEXAMER	inorganic pyrophosphatase	MG_351				inorganic pyrophosphatase				6*MG_351_MONOMER
+MG_352_DIMER	Holliday junction endonuclease	MG_352				Holliday junction endonuclease				2*MG_352_MONOMER
+MG_353_DIMER	DNA-binding protein HU, putative	MG_353				DNA-binding protein HU, putative				2*MG_353_MONOMER
+MG_355_HEXAMER	ATP-dependent Clp protease, ATPase subunit	MG_355				ATP-dependent Clp protease, ATPase subunit				6*MG_355_MONOMER
+MG_357_DIMER	acetate kinase	MG_357				acetate kinase				2*MG_357_MONOMER
+MG_358_359_10MER	Holliday junction DNA helicase	MG_358	MG_359			Holliday junction DNA helicase	Holliday junction DNA helicase RuvB			4*MG_358_MONOMER,6*MG_359_MONOMER
+MG_367_DIMER	ribonuclease III	MG_367				ribonuclease III				2*MG_367_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	MG_368				fatty acid/phospholipid synthesis protein PlsX				2*MG_368_MONOMER
+MG_369_DIMER	DAK2 phosphatase domain protein	MG_369				DAK2 phosphatase domain protein				2*MG_369_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	MG_372				thiamine biosynthesis/tRNA modification protein ThiI				2*MG_372_MONOMER
+MG_375_DIMER	threonyl-tRNA synthetase	MG_375				threonyl-tRNA synthetase				2*MG_375_MONOMER
+MG_376_HEXAMER		MG_376								6*MG_376_MONOMER
+MG_382_TETRAMER	uridine kinase	MG_382				uridine kinase				4*MG_382_MONOMER
+MG_383_DIMER	NH(3)-dependent NAD+ synthetase, putative	MG_383				NH(3)-dependent NAD+ synthetase, putative				2*MG_383_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	MG_385				glycerophosphoryl diester phosphodiesterase family protein				2*MG_385_MONOMER
+MG_390_DIMER	toxin ABC transporter, ATP-binding/permease protein	MG_390				toxin ABC transporter, ATP-binding/permease protein				2*MG_390_MONOMER
+MG_391_HEXAMER	cytosol aminopeptidase	MG_391				cytosol aminopeptidase				6*MG_391_MONOMER
+MG_392_393_21MER	GroEL-GroES chaperonin complex	MG_392	MG_393			chaperonin	chaperonin, 10 kDa			14*MG_392_MONOMER,7*MG_393_MONOMER
+MG_394_TETRAMER	serine hydroxymethyltransferase	MG_394				serine hydroxymethyltransferase				4*MG_394_MONOMER
+MG_396_DIMER	ribose 5-phosphate isomerase B	MG_396				ribose 5-phosphate isomerase B				2*MG_396_MONOMER
+MG_398_399_400_401_402_403_404_405_22MER	H(+)-transporting two-sector ATPase	MG_398	MG_399	MG_400	MG_401	ATP synthase F1, epsilon subunit	ATP synthase F1, beta subunit	ATP synthase F1, gamma subunit	ATP synthase F1, alpha subunit	1*MG_398_MONOMER,3*MG_399_MONOMER,1*MG_400_MONOMER,3*MG_401_MONOMER,1*MG_402_MONOMER,2*MG_403_MONOMER,10*MG_404_MONOMER,1*MG_405_MONOMER
+MG_407_DIMER	enolase	MG_407				enolase				2*MG_407_MONOMER
+MG_409_DIMER	phosphate transport system regulatory protein PhoU, putative	MG_409				phosphate transport system regulatory protein PhoU, putative				2*MG_409_MONOMER
+MG_410_411_412_PENTAMER	phosphate ABC transporter	MG_410	MG_411	MG_412		phosphate ABC transporter, ATP-binding protein	phosphate ABC transporter, permease protein PstA	phosphate ABC transporter, substrate-binding protein		2*MG_410_MONOMER,2*MG_411_MONOMER,1*MG_412_MONOMER
+MG_425_DIMER	ATP-dependent RNA helicase	MG_425				ATP-dependent RNA helicase				2*MG_425_MONOMER
+MG_427_DIMER	osmotically inducible peroxidase	MG_427				osmotically inducible peroxidase				2*MG_427_MONOMER
+MG_427_DIMER_ox	oxidized osmotically inducible peroxidase	MG_427				osmotically inducible peroxidase				1*MG_427_DIMER
+MG_428_DIMER	LuxR bacterial regulatory protein, putative	MG_428				LuxR bacterial regulatory protein, putative				2*MG_428_MONOMER
+MG_431_DIMER	triosephosphate isomerase	MG_431				triosephosphate isomerase				2*MG_431_MONOMER
+MG_433_DIMER	translation elongation factor Ts	MG_433				translation elongation factor Ts				2*MG_433_MONOMER
+MG_434_HEXAMER	uridylate kinase	MG_434				uridylate kinase				6*MG_434_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	MG_437				phosphatidate cytidylyltransferase				2*MG_437_MONOMER
+MG_445_DIMER	tRNA (guanine-N1)-methyltransferase	MG_445				tRNA (guanine-N1)-methyltransferase				2*MG_445_MONOMER
+MG_451_DIMER	translation elongation factor Tu	MG_451				translation elongation factor Tu				2*MG_451_MONOMER
+MG_453_TETRAMER	UTP-glucose-1-phosphate uridylyltransferase	MG_453				UTP-glucose-1-phosphate uridylyltransferase				4*MG_453_MONOMER
+MG_454_DIMER	thiol-dependent peroxidase	MG_454				thiol-dependent peroxidase				2*MG_454_MONOMER
+MG_454_DIMER_ox	oxidized thiol-dependent peroxidase	MG_454				thiol-dependent peroxidase				1*MG_454_DIMER
+MG_455_DIMER	tyrosyl-tRNA synthetase	MG_455				tyrosyl-tRNA synthetase				2*MG_455_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	MG_457				ATP-dependent metalloprotease FtsH				6*MG_457_MONOMER
+MG_458_TETRAMER	hypoxanthine phosphoribosyltransferase	MG_458				hypoxanthine phosphoribosyltransferase				4*MG_458_MONOMER
+MG_460_TETRAMER	L-lactate dehydrogenase/malate dehydrogenase	MG_460				L-lactate dehydrogenase/malate dehydrogenase				4*MG_460_MONOMER
+MG_467_468_526_TETRAMER	salivaricin A ABC transporter	MG_467	MG_468	MG_526		salivaricin A ABC transporter, ATP-binding protein	salivaricin A ABC transporter, permease protein	salivaricin A ABC transporter, ATP-binding protein		1*MG_467_MONOMER,2*MG_468_MONOMER,1*MG_526_MONOMER
+MG_469_1MER_ADP	DnaA-ADP	MG_469				chromosomal replication initiator protein DnaA				1*ADP,1*MG_469_MONOMER
+MG_469_1MER_ATP	DnaA-ATP	MG_469				chromosomal replication initiator protein DnaA				1*ATP,1*MG_469_MONOMER
+MG_469_2MER_1ATP_ADP	DnaA 2mer-(1)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_1MER_ATP
+MG_469_2MER_ATP	DnaA-ATP 2mer	MG_469				chromosomal replication initiator protein DnaA				2*MG_469_1MER_ATP
+MG_469_3MER_2ATP_ADP	DnaA 3mer-(2)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_2MER_ATP
+MG_469_3MER_ATP	DnaA-ATP 3mer	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ATP,1*MG_469_2MER_ATP
+MG_469_4MER_3ATP_ADP	DnaA 4mer-(3)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_3MER_ATP
+MG_469_4MER_ATP	DnaA-ATP 4mer	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ATP,1*MG_469_3MER_ATP
+MG_469_5MER_4ATP_ADP	DnaA 5mer-(4)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_4MER_ATP
+MG_469_5MER_ATP	DnaA-ATP 5mer	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ATP,1*MG_469_4MER_ATP
+MG_469_6MER_5ATP_ADP	DnaA 6mer-(5)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_5MER_ATP
+MG_469_6MER_ATP	DnaA-ATP 6mer	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ATP,1*MG_469_5MER_ATP
+MG_469_7MER_6ATP_ADP	DnaA 7mer-(6)ATP-(1)ADP	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ADP,1*MG_469_6MER_ATP
+MG_469_7MER_ATP	DnaA-ATP 7mer	MG_469				chromosomal replication initiator protein DnaA				1*MG_469_1MER_ATP,1*MG_469_6MER_ATP
+MG_482_DIMER	holo-(acyl-carrier-protein) synthase	MG_482				holo-(acyl-carrier-protein) synthase				2*MG_482_MONOMER
+REPLISOME	Replisome	MG_001	MG_250	MG_031	MG_261	DNA polymerase III, beta subunit	DNA primase	DNA polymerase III, alpha subunit, Gram-positive type	DNA polymerase III, alpha subunit	2*DNA_POLYMERASE_CORE,1*DNA_POLYMERASE_GAMMA_COMPLEX,4*MG_001_MONOMER,1*MG_094_HEXAMER,1*MG_250_MONOMER
+RIBOSOME_30S	30S ribosomal subunit	MGrrnA16S	MG_070	MG_087	MG_088	16S ribosomal rRNA	ribosomal protein S2	ribosomal protein S12	ribosomal protein S7	1*MGrrnA16S,1*MG_070_MONOMER,1*MG_087_MONOMER,1*MG_088_MONOMER,1*MG_090_MONOMER,1*MG_092_MONOMER,1*MG_150_MONOMER,1*MG_155_MONOMER,1*MG_157_MONOMER,1*MG_160_MONOMER,1*MG_164_MONOMER,1*MG_165_MONOMER,1*MG_168_MONOMER,1*MG_175_MONOMER,1*MG_176_MONOMER,1*MG_311_MONOMER,1*MG_417_MONOMER,1*MG_424_MONOMER,1*MG_446_MONOMER,1*MG_481_MONOMER,1*MG_522_MONOMER
+RIBOSOME_30S_IF3	30S ribosomal subunit - translation initiation factor IF-3 complex	MGrrnA16S	MG_196	MG_070	MG_087	16S ribosomal rRNA	translation initiation factor IF-3	ribosomal protein S2	ribosomal protein S12	1*MG_196_MONOMER,1*RIBOSOME_30S
+RIBOSOME_50S	50S ribosomal subunit	MGrrnA23S	MGrrnA5S	MG_081	MG_082	23S ribosomal rRNA	5S ribosomal rRNA	ribosomal protein L11	ribosomal protein L1	1*MGrrnA23S,1*MGrrnA5S,1*MG_081_MONOMER,1*MG_082_MONOMER,1*MG_093_MONOMER,1*MG_151_MONOMER,1*MG_152_MONOMER,1*MG_153_MONOMER,1*MG_154_MONOMER,1*MG_156_MONOMER,1*MG_158_MONOMER,1*MG_159_MONOMER,1*MG_161_MONOMER,1*MG_162_MONOMER,1*MG_163_MONOMER,1*MG_166_MONOMER,1*MG_167_MONOMER,1*MG_169_MONOMER,1*MG_174_MONOMER,1*MG_178_MONOMER,1*MG_197_MONOMER,1*MG_198_MONOMER,1*MG_232_MONOMER,1*MG_234_MONOMER,1*MG_257_MONOMER,1*MG_325_MONOMER,1*MG_361_MONOMER,1*MG_362_MONOMER,1*MG_363_MONOMER,1*MG_418_MONOMER,1*MG_426_MONOMER,1*MG_444_MONOMER,1*MG_466_MONOMER,1*MG_473_MONOMER
+RIBOSOME_70S	70S ribosome	MGrrnA16S	MGrrnA23S	MGrrnA5S	MG_070	16S ribosomal rRNA	23S ribosomal rRNA	5S ribosomal rRNA	ribosomal protein S2	1*RIBOSOME_30S,1*RIBOSOME_50S
+RNA_POLYMERASE	DNA-directed RNA polymerase	MG_022	MG_177	MG_340	MG_341	DNA-directed RNA polymerase, delta subunit	DNA-directed RNA polymerase, alpha subunit	DNA-directed RNA polymerase, beta subunit	DNA-directed RNA polymerase, beta subunit	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+RNA_POLYMERASE_HOLOENZYME	DNA-directed RNA polymerase holoenzyme	MG_249	MG_022	MG_177	MG_340	RNA polymerase sigma factor RpoD	DNA-directed RNA polymerase, delta subunit	DNA-directed RNA polymerase, alpha subunit	DNA-directed RNA polymerase, beta subunit	1*MG_249_MONOMER,1*RNA_POLYMERASE

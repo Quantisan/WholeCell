@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomePositionHistogram</title>
+  <meta name="keywords" content="ChromosomePositionHistogram">
+  <meta name="description" content="ChromosomePositionHistogram">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; ChromosomePositionHistogram.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomePositionHistogram
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomePositionHistogram</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> ChromosomePositionHistogram
+ NOTE: Histograms for RNA Polymerase
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Created: 8/18/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomePositionHistogram.html" class="code" title="">ChromosomePositionHistogram</a>	ChromosomePositionHistogram</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomePositionHistogram.html" class="code" title="">ChromosomePositionHistogram</a>	ChromosomePositionHistogram</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(simDir, fileName)</a></li><li><a href="#_sub2" class="code">function [cDensityMatrix, mDensityMatrix] = makeDensityMatrix(states, boundIndices, simulation)</a></li><li><a href="#_sub3" class="code">function plotRnaPolymeraseDensity(sim, states, figHandle)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% ChromosomePositionHistogram</span>
+0002 <span class="comment">% NOTE: Histograms for RNA Polymerase</span>
+0003 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Created: 8/18/2011</span>
+0006 classdef <a href="ChromosomePositionHistogram.html" class="code" title="">ChromosomePositionHistogram</a>
+0007     properties (Constant)
+0008         boundIndices = struct( <span class="keyword">...</span>
+0009             <span class="string">'complex'</span>, {{<span class="keyword">...</span>
+0010                 82, <span class="keyword">...</span><span class="comment">                                             % SMC</span>
+0011                 50, <span class="keyword">...</span><span class="comment">                                             % Helicase</span>
+0012                 [180, 181, 183, 185, 187, 189, 191, 193], <span class="keyword">...</span><span class="comment">       % DnaA</span>
+0013                 1, <span class="keyword">...</span><span class="comment">                                              % Gyrase</span>
+0014                 78, <span class="keyword">...</span><span class="comment">                                             % Topo IV</span>
+0015                 165, <span class="keyword">...</span><span class="comment">                                            % LuxR</span>
+0016                 }}, <span class="keyword">...</span>
+0017             <span class="string">'monomer'</span>, {{
+0018                 101, <span class="keyword">...</span><span class="comment">                                            % HTH regulator</span>
+0019                 242, <span class="keyword">...</span><span class="comment">                                            % Ferric uptake repressor</span>
+0020                 }}<span class="keyword">...</span>
+0021             );
+0022         boundIndicesNames = struct( <span class="keyword">...</span>
+0023             <span class="string">'complex'</span>, {{<span class="keyword">...</span>
+0024                 <span class="string">'SMC'</span>, <span class="keyword">...</span>
+0025                 <span class="string">'Helicase'</span>, <span class="keyword">...</span>
+0026                 <span class="string">'DnaA'</span>, <span class="keyword">...</span>
+0027                 <span class="string">'Gyrase'</span>, <span class="keyword">...</span>
+0028                 <span class="string">'Topo IV'</span>, <span class="keyword">...</span>
+0029                 <span class="string">'LuxR'</span>
+0030                 }}, <span class="keyword">...</span>
+0031             <span class="string">'monomer'</span>, {{
+0032                 <span class="string">'HTH regulator'</span>, <span class="keyword">...</span>
+0033                 <span class="string">'Ferric uptake\nrepressor'</span>, <span class="keyword">...</span>
+0034                 }}<span class="keyword">...</span>
+0035             );
+0036     <span class="keyword">end</span>
+0037     
+0038     methods (Static = true)
+0039         <a name="_sub0" href="#_subfunctions" class="code">function run(simDir, fileName)</a>
+0040             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0041             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0042             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0043             import edu.stanford.covert.cell.sim.analysis.ChromosomePositionHistogram;
+0044             
+0045             <span class="comment">%% options</span>
+0046             <span class="keyword">if</span> nargin &lt; 1 || isempty(simDir)
+0047                 simDir = SimulationDiskUtil.getLatestSimulation();
+0048             <span class="keyword">end</span>
+0049             
+0050             [simDir, ~, sim] = SimulationDiskUtil.getSimulation(simDir);
+0051             c = sim.state(<span class="string">'Chromosome'</span>);
+0052             
+0053             <span class="comment">%% get data</span>
+0054             stateNames = {
+0055                 <span class="string">'ProteinComplex'</span> <span class="string">'counts'</span>
+0056                 <span class="string">'Chromosome'</span> <span class="string">'complexBoundSites'</span>
+0057                 <span class="string">'Chromosome'</span> <span class="string">'monomerBoundSites'</span>
+0058                 <span class="string">'RNAPolymerase'</span> <span class="string">'positionStrands'</span>
+0059                 <span class="string">'RNAPolymerase'</span> <span class="string">'states'</span>
+0060                 <span class="string">'Time'</span> <span class="string">'values'</span>};
+0061             states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0062             
+0063             cDensityMatrix = ChromosomePositionHistogram.makeDensityMatrix(states, ChromosomePositionHistogram.boundIndices, sim);
+0064             
+0065             <span class="comment">%% figure 1</span>
+0066             [~, figHandle1] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0067             clf(figHandle1);
+0068             nPlots = numel(ChromosomePositionHistogram.boundIndices.complex);
+0069             [axesHandles, xAxesHandle] = PlotUtil.multiElementPlot(<span class="keyword">...</span>
+0070                 figHandle1, 3.5 * ones(nPlots, 1), [1 c.sequenceLen], <span class="keyword">...</span>
+0071                 struct(<span class="keyword">...</span>
+0072                 <span class="string">'titleStr'</span>, <span class="string">'Protein Density on Chromosome 1'</span>, <span class="keyword">...</span>
+0073                 <span class="string">'xlabelStr'</span>, <span class="string">'Position on Chromosome 1'</span>));
+0074             set(xAxesHandle, <span class="string">'XTick'</span>, [1 c.terCPosition c.sequenceLen], <span class="string">'XTickLabel'</span>, {<span class="string">'oriC'</span>, <span class="string">'terC'</span>, <span class="string">'oriC'</span>});
+0075             
+0076             <span class="keyword">for</span> i = 1:size(cDensityMatrix, 2)
+0077                 PlotUtil.plotLine(axesHandles(i), 1:size(cDensityMatrix, 1), cDensityMatrix(:, i), false, true, false);
+0078                 ylabel(axesHandles(i), {ChromosomePositionHistogram.boundIndicesNames.complex{i} <span class="string">'(Counts)'</span>});
+0079             <span class="keyword">end</span>
+0080             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(fileName)
+0081                 saveas(figHandle1, sprintf(<span class="string">'%s-1.pdf'</span>, fileName));
+0082                 close(figHandle1);
+0083             <span class="keyword">end</span>
+0084             
+0085             <span class="comment">%% figure 2</span>
+0086             [~, figHandle2] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0087             ChromosomePositionHistogram.plotRnaPolymeraseDensity(sim, states, figHandle2);
+0088             
+0089             <span class="keyword">if</span> exist(<span class="string">'fileName'</span>, <span class="string">'var'</span>) &amp;&amp; ~isempty(fileName)
+0090                 saveas(figHandle2, sprintf(<span class="string">'%s-2.pdf'</span>, fileName));
+0091                 close(figHandle2);
+0092             <span class="keyword">end</span>
+0093         <span class="keyword">end</span>
+0094     <span class="keyword">end</span>
+0095     
+0096     <span class="comment">%multiple simulations</span>
+0097     methods (Static = true)
+0098         
+0099         <span class="comment">% TODO: Handle cases where we don't have one of monomers or complexes</span>
+0100         <a name="_sub1" href="#_subfunctions" class="code">function [cDensityMatrix, mDensityMatrix] = makeDensityMatrix(states, boundIndices, simulation)</a>
+0101             complexIdxs = boundIndices.complex;
+0102             monomerIdxs = boundIndices.monomer;
+0103             
+0104             cbs = states.Chromosome.complexBoundSites;
+0105             mbs = states.Chromosome.monomerBoundSites;
+0106             
+0107             ch = simulation.state(<span class="string">'Chromosome'</span>);
+0108             
+0109             cDensityMatrix = zeros(size(cbs, 1), numel(complexIdxs));
+0110             <span class="keyword">for</span> i = 1:numel(complexIdxs)
+0111                 ftpt = ones(ch.complexDNAFootprints(complexIdxs{i}(1)), 1);
+0112                 <span class="keyword">for</span> j = 1:numel(complexIdxs{i})
+0113                     complexIdx = complexIdxs{i}(j);
+0114                     cDensityMatrix(:, i) = cDensityMatrix(:, i) + <span class="keyword">...</span>
+0115                         cconv(<span class="keyword">...</span>
+0116                         full(sum(sum(cbs(:, 1:2, :) == complexIdx, 3), 2)), <span class="keyword">...</span>
+0117                         ftpt, <span class="keyword">...</span>
+0118                         size(cDensityMatrix, 1) <span class="keyword">...</span>
+0119                         );
+0120                 <span class="keyword">end</span>
+0121             <span class="keyword">end</span>
+0122             cDensityMatrix = cDensityMatrix / size(cbs, 3);
+0123             
+0124             mDensityMatrix = zeros(size(mbs, 1), numel(monomerIdxs));
+0125             <span class="keyword">for</span> i = 1:numel(monomerIdxs)
+0126                 ftpt = ones(ch.monomerDNAFootprints(monomerIdxs{i}(1)), 1);
+0127                 <span class="keyword">for</span> j = 1:numel(monomerIdxs{i})
+0128                     monomerIdx = monomerIdxs{i}(j);
+0129                     mDensityMatrix(:, i) = mDensityMatrix(:, i) + <span class="keyword">...</span>
+0130                         cconv(<span class="keyword">...</span>
+0131                         full(sum(sum(mbs(:, 1:2, :) == monomerIdx, 3), 2)), <span class="keyword">...</span>
+0132                         ftpt, <span class="keyword">...</span>
+0133                         size(mDensityMatrix, 1) <span class="keyword">...</span>
+0134                         );
+0135                 <span class="keyword">end</span>
+0136             <span class="keyword">end</span>
+0137             mDensityMatrix = mDensityMatrix / size(mbs, 3);
+0138             
+0139             <span class="comment">% Hack to deal with rounding issues that lead to small</span>
+0140             <span class="comment">% negative numbers</span>
+0141             cDensityMatrix = max(0, cDensityMatrix);
+0142             mDensityMatrix = max(0, mDensityMatrix);
+0143         <span class="keyword">end</span>
+0144         
+0145         <a name="_sub2" href="#_subfunctions" class="code">function plotRnaPolymeraseDensity(sim, states, figHandle)</a>
+0146             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0147             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0148             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0149             import edu.stanford.covert.util.CircularSparseMat;
+0150             
+0151             c = sim.state(<span class="string">'Chromosome'</span>);
+0152             pol = sim.state(<span class="string">'RNAPolymerase'</span>);
+0153             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0154             
+0155             nTimePoints = size(states.RNAPolymerase.positionStrands, 3);
+0156             nRnaPol = size(states.RNAPolymerase.positionStrands, 1);
+0157             polStates = reshape(states.RNAPolymerase.states, [nRnaPol * nTimePoints 1]);
+0158             posStrndTimes = reshape(permute([states.RNAPolymerase.positionStrands repmat(permute(1:nTimePoints, [1 3 2]), [nRnaPol 1])], [1 3 2]), [nRnaPol * nTimePoints 3]);
+0159             
+0160             polStates = polStates(posStrndTimes(:, 1) ~= 0, :);
+0161             posStrndTimes = posStrndTimes(posStrndTimes(:, 1) ~= 0, :);
+0162             
+0163             <span class="comment">% Get rid of strands 3 and 4 (i.e., only look at Chromosome 1)</span>
+0164             polStates = polStates(posStrndTimes(:, 2) &lt;= 2, :);
+0165             posStrndTimes = posStrndTimes(posStrndTimes(:, 2) &lt;= 2, :);
+0166             
+0167             boundSites = CircularSparseMat(posStrndTimes, polStates, [c.sequenceLen 4 nTimePoints], 1);
+0168             
+0169             activeDensity = cconv(<span class="keyword">...</span>
+0170                 full(sum(sum(boundSites &gt;= pol.activelyTranscribingValue, 3), 2)), <span class="keyword">...</span>
+0171                 ones(c.complexDNAFootprints(pc.getIndexs(<span class="string">'RNA_POLYMERASE'</span>)), 1), <span class="keyword">...</span>
+0172                 c.sequenceLen) / nTimePoints;
+0173             nonSpecBoundDensity = cconv(<span class="keyword">...</span>
+0174                 full(sum(sum(boundSites == pol.nonSpecificallyBoundValue, 3), 2)), <span class="keyword">...</span>
+0175                 ones(c.complexDNAFootprints(pc.getIndexs(<span class="string">'RNA_POLYMERASE'</span>)), 1), <span class="keyword">...</span>
+0176                 c.sequenceLen) / nTimePoints;
+0177             specBoundDensity = cconv(<span class="keyword">...</span>
+0178                 full(sum(sum(boundSites == pol.specificallyBoundValue, 3), 2)), <span class="keyword">...</span>
+0179                 ones(c.complexDNAFootprints(pc.getIndexs(<span class="string">'RNA_POLYMERASE'</span>)), 1), <span class="keyword">...</span>
+0180                 c.sequenceLen) / nTimePoints;
+0181             
+0182             <span class="comment">% Hack to deal with rounding issues that lead to small</span>
+0183             <span class="comment">% negative numbers</span>
+0184             activeDensity = max(0, activeDensity);
+0185             nonSpecBoundDensity = max(0, nonSpecBoundDensity);
+0186             specBoundDensity = max(0, specBoundDensity);
+0187             
+0188             <span class="comment">%layout axes</span>
+0189             clf(figHandle);
+0190             [axesHandles, xAxesHandle] = PlotUtil.multiElementPlot(figHandle, 8 * ones(3, 1), [1 c.sequenceLen], struct( <span class="keyword">...</span>
+0191                 <span class="string">'titleStr'</span>, <span class="string">'RNA Polymerase Density on Chromosome 1'</span>, <span class="keyword">...</span>
+0192                 <span class="string">'xlabelStr'</span>, <span class="string">'Position on Chromosome 1'</span>));
+0193             set(xAxesHandle, <span class="string">'XTick'</span>, [1 c.terCPosition c.sequenceLen], <span class="string">'XTickLabel'</span>, {<span class="string">'oriC'</span>, <span class="string">'terC'</span>, <span class="string">'oriC'</span>});
+0194             
+0195             <span class="comment">%plot data</span>
+0196             PlotUtil.plotLine(axesHandles(1), 1:c.sequenceLen, activeDensity, false, true, false);
+0197             ylabel(axesHandles(1), <span class="string">'Active'</span>);
+0198             
+0199             PlotUtil.plotLine(axesHandles(2), 1:c.sequenceLen, specBoundDensity, false, true, false);
+0200             ylabel(axesHandles(2), {<span class="string">'Specifically'</span> <span class="string">'Bound'</span>});
+0201             
+0202             PlotUtil.plotLine(axesHandles(3), 1:c.sequenceLen, nonSpecBoundDensity, false, true, false);
+0203             ylabel(axesHandles(3), {<span class="string">'Non-'</span> <span class="string">'Specifically'</span> <span class="string">'Bound'</span>});
+0204             
+0205             <span class="comment">% Format Y-axis</span>
+0206             PlotUtil.alignYAxesLabels(axesHandles);
+0207             PlotUtil.offsetYAxes(axesHandles, 0.015);
+0208         <span class="keyword">end</span>
+0209     <span class="keyword">end</span>
+0210 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

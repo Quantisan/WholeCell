@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeProcessAspect</title>
+  <meta name="keywords" content="ChromosomeProcessAspect">
+  <meta name="description" content="ChromosomeProcessAspect">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+sim</a> &gt; ChromosomeProcessAspect.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeProcessAspect
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomeProcessAspect</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ChromosomeProcessAspect
+ Aspect class which provides processes with a handle to the chromosome state, and
+ which provides some convenience methods for the process to use to change or
+ query chromosome state.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 10/9/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeProcessAspect.html" class="code" title="">ChromosomeProcessAspect</a>	ChromosomeProcessAspect</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeProcessAspect.html" class="code" title="">ChromosomeProcessAspect</a>	ChromosomeProcessAspect</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, ~, ~)</a></li><li><a href="#_sub3" class="code">function [nBound, posStrnds] = bindProteinToChromosomeStochastically(this,</a></li><li><a href="#_sub4" class="code">function weights = calcRegionWeights(lens)</a></li><li><a href="#_sub5" class="code">function position = calcBindingPosition(randReal, len)</a></li><li><a href="#_sub6" class="code">function [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegions(rgnPosStrnds, rgnLens, rgnProbs, rgnIdx, offset)</a></li><li><a href="#_sub7" class="code">function [tfs, idxs, positionsStrands, maxBindings, processivityLengths] = bindProteinToChromosome(this,</a></li><li><a href="#_sub8" class="code">function modifyProteinOnChromosome(this, positionsStrands, newProteinIndexs)</a></li><li><a href="#_sub9" class="code">function positionsStrands = releaseProteinFromChromosome(</a></li><li><a href="#_sub10" class="code">function releasedProteins = releaseProteinFromSites(this, positionsStrands,</a></li><li><a href="#_sub11" class="code">function result = isDnaBound(this, positionStrands, enzymeIndexs)</a></li><li><a href="#_sub12" class="code">function positionsStrands = findProteinInRegion(this,</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ChromosomeProcessAspect</span>
+0002 <span class="comment">% Aspect class which provides processes with a handle to the chromosome state, and</span>
+0003 <span class="comment">% which provides some convenience methods for the process to use to change or</span>
+0004 <span class="comment">% query chromosome state.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0007 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0008 <span class="comment">% Last updated: 10/9/2010</span>
+0009 classdef <a href="ChromosomeProcessAspect.html" class="code" title="">ChromosomeProcessAspect</a> &lt; handle
+0010     <span class="comment">%constants</span>
+0011     properties
+0012         enzymeDNAFootprints         <span class="comment">%DNA footprints of enzymes (nt)</span>
+0013         enzymeDNAFootprints3Prime   <span class="comment">%DNA footprints of enzymes, 3' to center base (nt)</span>
+0014         enzymeDNAFootprints5Prime   <span class="comment">%DNA footprints of enzymes, 5' to center base (nt)</span>
+0015     <span class="keyword">end</span>
+0016     
+0017     <span class="comment">%global state (stored locally for convenience)</span>
+0018     properties
+0019         chromosome <span class="comment">%instance of Chromosome</span>
+0020     <span class="keyword">end</span>
+0021     
+0022     methods
+0023         <span class="comment">%retrieve references to state objects from simulation</span>
+0024         <a name="_sub0" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0025             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0026             this.states = [this.states; {this.chromosome}];
+0027         <span class="keyword">end</span>
+0028     <span class="keyword">end</span>
+0029     
+0030     methods
+0031         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, ~, ~)</a>
+0032             c = this.chromosome;
+0033             
+0034             <span class="comment">%DNA footprints</span>
+0035             this.enzymeDNAFootprints = zeros(size(this.enzymeWholeCellModelIDs));
+0036             this.enzymeDNAFootprints(this.enzymeMonomerLocalIndexs) = c.monomerDNAFootprints(this.enzymeMonomerGlobalIndexs);
+0037             this.enzymeDNAFootprints(this.enzymeComplexLocalIndexs) = c.complexDNAFootprints(this.enzymeComplexGlobalIndexs);
+0038             [this.enzymeDNAFootprints3Prime, this.enzymeDNAFootprints5Prime] = c.calculateFootprintOverhangs(this.enzymeDNAFootprints);
+0039         <span class="keyword">end</span>
+0040     <span class="keyword">end</span>
+0041     
+0042     methods
+0043         <span class="comment">%this.enzymeMonomerLocalIndexs must be sorted</span>
+0044         <a name="_sub2" href="#_subfunctions" class="code">function [nBound, posStrnds] = bindProteinToChromosomeStochastically(this,</a><span class="keyword">...</span>
+0045                 enzymeIndex, nProteins, positionsStrands, lengths,<span class="keyword">...</span>
+0046                 calcRegionWeightsFun, calcBindingPositionFun, calcNewRegionsFun, <span class="keyword">...</span>
+0047                 checkRegionSupercoiled)
+0048             <span class="comment">%% initialize output</span>
+0049             nBound = 0;
+0050             
+0051             <span class="comment">%% process arguments, supply optional arguments</span>
+0052             <span class="keyword">if</span> nargin &lt; 3 || isempty(nProteins)
+0053                 nProteins = this.enzymes(enzymeIndex);
+0054             <span class="keyword">end</span>
+0055             <span class="keyword">if</span> nProteins == 0
+0056                 posStrnds = zeros(0,2);
+0057                 <span class="keyword">return</span>;
+0058             <span class="keyword">end</span>
+0059             
+0060             c = this.chromosome;
+0061             footprint = this.enzymeDNAFootprints(enzymeIndex);
+0062             <span class="keyword">if</span> nargin &lt; 4 || isscalar(positionsStrands) &amp;&amp; isnan(positionsStrands)
+0063                 [positionsStrands, lengths] = find(c.polymerizedRegions);
+0064             <span class="keyword">end</span>
+0065             <span class="keyword">if</span> nargin &lt; 6 || isempty(calcRegionWeightsFun)
+0066                 calcRegionWeightsFun = @<a href="#_sub4" class="code" title="subfunction weights = calcRegionWeights(lens)">calcRegionWeights</a>;
+0067             <span class="keyword">end</span>
+0068             <span class="keyword">if</span> nargin &lt; 7 || isempty(calcBindingPositionFun)
+0069                 calcBindingPositionFun = @<a href="#_sub5" class="code" title="subfunction position = calcBindingPosition(randReal, len)">calcBindingPosition</a>;
+0070             <span class="keyword">end</span>
+0071             <span class="keyword">if</span> nargin &lt; 8 || isempty(calcNewRegionsFun)
+0072                 calcNewRegionsFun = @<a href="#_sub6" class="code" title="subfunction [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegions(rgnPosStrnds, rgnLens, rgnProbs, rgnIdx, offset)">calcNewRegions</a>;
+0073             <span class="keyword">end</span>
+0074             <span class="keyword">if</span> nargin &lt; 9
+0075                 checkRegionSupercoiled = false;
+0076             <span class="keyword">end</span>
+0077             
+0078             <span class="comment">%% find accessible regions</span>
+0079             tf = ismembc(enzymeIndex, this.enzymeMonomerLocalIndexs);
+0080             [rgnPosStrnds, rgnLens] = c.getAccessibleRegions(<span class="keyword">...</span>
+0081                 this.enzymeGlobalIndexs(enzymeIndex( tf, 1), 1), <span class="keyword">...</span>
+0082                 this.enzymeGlobalIndexs(enzymeIndex(~tf, 1), 1));
+0083             [rgnPosStrnds, rgnLens] = c.intersectRegions(<span class="keyword">...</span>
+0084                 rgnPosStrnds, rgnLens, positionsStrands, lengths);
+0085             
+0086             <span class="comment">%% compute probability of binding each region</span>
+0087             rgnProbs = calcRegionWeightsFun(rgnLens);
+0088             
+0089             <span class="comment">%% randomly select regions to bind</span>
+0090             posStrnds = zeros(nProteins, 2);
+0091             nBound = 0;
+0092             <span class="keyword">for</span> i = 1:nProteins
+0093                 <span class="keyword">if</span> ~any(rgnProbs); <span class="keyword">break</span>; <span class="keyword">end</span>
+0094                 
+0095                 <span class="comment">%pick a region to bind</span>
+0096                 rgnIdx = this.randStream.randsample(numel(rgnProbs), 1, true, rgnProbs);
+0097                 
+0098                 <span class="comment">%pick a position within region to bind</span>
+0099                 offset = calcBindingPositionFun(this.randStream.rand, rgnLens(rgnIdx)) - 1;
+0100                 
+0101                 <span class="comment">%store selected position and strand</span>
+0102                 posStrnds(i, :) = rgnPosStrnds(rgnIdx,:) + [offset 0];
+0103                 
+0104                 <span class="comment">%split region about new protein position</span>
+0105                 [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegionsFun(rgnPosStrnds, rgnLens, rgnProbs, rgnIdx, offset);
+0106                 
+0107                 nBound = nBound + 1;
+0108             <span class="keyword">end</span>
+0109             
+0110             posStrnds = posStrnds(1:nBound, :);
+0111             <span class="keyword">if</span> nargin &lt; 4
+0112                 posStrnds(:, 1) = mod(posStrnds(:, 1) - 1, c.sequenceLen) + 1;
+0113             <span class="keyword">end</span>
+0114             
+0115             <span class="keyword">if</span> nBound == 0
+0116                 <span class="keyword">return</span>;
+0117             <span class="keyword">end</span>
+0118             
+0119             <span class="comment">%% bind to positions</span>
+0120             tmpMonomerBoundSites = c.monomerBoundSites;
+0121             tmpComplexBoundSites = c.complexBoundSites;
+0122             <span class="keyword">if</span> ~all(this.bindProteinToChromosome(posStrnds, enzymeIndex, nBound, [], [], false, 1, false, [], checkRegionSupercoiled))
+0123                 <span class="keyword">if</span> isscalar(lengths)
+0124                     lengths = lengths(ones(size(positionsStrands, 1), 1));
+0125                 <span class="keyword">end</span>
+0126                 
+0127                 msg = [];
+0128                 msg = [msg sprintf(<span class="string">'Region should be accessible\n'</span>)];
+0129                 
+0130                 msg = [msg sprintf(<span class="string">'\tEnzyme: %s, index = %d, nProteins = %d, nBound = %d\n\n'</span>, this.enzymeWholeCellModelIDs{enzymeIndex}, enzymeIndex, nProteins, nBound)];
+0131                 
+0132                 msg = [msg sprintf(<span class="string">'\tpositionStrands\n'</span>)];
+0133                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Length'</span>)];
+0134                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======'</span>)];
+0135                 <span class="keyword">for</span> i = 1:size(positionsStrands, 1)
+0136                     msg = [msg sprintf(<span class="string">'\t%8d %6d %6d\n'</span>, positionsStrands(i, 1), positionsStrands(i, 2), lengths(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0137                 <span class="keyword">end</span>
+0138                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0139                 
+0140                 msg = [msg sprintf(<span class="string">'\tposStrnds\n'</span>)];
+0141                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>)];
+0142                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>)];
+0143                 <span class="keyword">for</span> i = 1:size(posStrnds, 1)
+0144                     msg = [msg sprintf(<span class="string">'\t%8d %6d\n'</span>, posStrnds(i, 1), posStrnds(i, 2))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0145                 <span class="keyword">end</span>
+0146                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0147                 
+0148                 msg = [msg sprintf(<span class="string">'\tRegion Weights Function\n\t%s\n\n'</span>, func2str(calcRegionWeightsFun))];
+0149                 msg = [msg sprintf(<span class="string">'\tBinding Position Function\n\t%s\n\n'</span>, func2str(calcBindingPositionFun))];
+0150                 msg = [msg sprintf(<span class="string">'\tNew Region Function\n\t%s\n\n'</span>, func2str(calcNewRegionsFun))];
+0151                 msg = [msg sprintf(<span class="string">'\tCheck region supercoiled: %d\n\n'</span>, checkRegionSupercoiled)];
+0152                 
+0153                 msg = [msg sprintf(<span class="string">'\tpolymerizedRegions\n'</span>)];
+0154                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Length'</span>)];
+0155                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======'</span>)];
+0156                 [subs, vals] = find(c.polymerizedRegions);
+0157                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0158                     msg = [msg sprintf(<span class="string">'\t%8d %6d %6d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0159                 <span class="keyword">end</span>
+0160                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0161                 
+0162                 msg = [msg sprintf(<span class="string">'\tlinkingNumbers\n'</span>)];
+0163                 msg = [msg sprintf(<span class="string">'\t%8s %6s %14s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Linking Number'</span>)];
+0164                 msg = [msg sprintf(<span class="string">'\t%8s %6s %14s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'=============='</span>)];
+0165                 [subs, vals] = find(c.linkingNumbers);
+0166                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0167                     msg = [msg sprintf(<span class="string">'\t%8d %6d %14.4f\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0168                 <span class="keyword">end</span>
+0169                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0170                 
+0171                 msg = [msg sprintf(<span class="string">'\tmonomerBoundSites\n'</span>)];
+0172                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Monomer'</span>)];
+0173                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0174                 [subs, vals] = find(tmpMonomerBoundSites);
+0175                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0176                     msg = [msg sprintf(<span class="string">'\t%8d %6d %6d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0177                 <span class="keyword">end</span>
+0178                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0179                 
+0180                 msg = [msg sprintf(<span class="string">'\tcomplexBoundSites\n'</span>)];
+0181                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Complex'</span>)];
+0182                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0183                 [subs, vals] = find(tmpComplexBoundSites);
+0184                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0185                     msg = [msg sprintf(<span class="string">'\t%8d %6d %6d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0186                 <span class="keyword">end</span>
+0187                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0188                 
+0189                 msg = [msg sprintf(<span class="string">'\tdamagedSites\n'</span>)];
+0190                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Damage'</span>)];
+0191                 msg = [msg sprintf(<span class="string">'\t%8s %6s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======'</span>)];
+0192                 [subs, vals] = find(c.damagedSites);
+0193                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0194                     msg = [msg sprintf(<span class="string">'\t%8d %6d %6d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0195                 <span class="keyword">end</span>
+0196                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0197                 
+0198                 [subs, vals] = find(c.monomerBoundSites - tmpMonomerBoundSites);
+0199                 msg = [msg sprintf(<span class="string">'\tBinding monomers\n'</span>)];
+0200                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Monomer'</span>)];
+0201                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0202                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0203                     <span class="keyword">if</span> vals(i) &lt; 0
+0204                         <span class="keyword">break</span>;
+0205                     <span class="keyword">end</span>
+0206                     msg = [msg sprintf(<span class="string">'\t%8d %6d %7d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0207                 <span class="keyword">end</span>
+0208                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0209                 <span class="keyword">if</span> any(this.enzymeMonomerGlobalIndexs == enzymeIndex)
+0210                     subs2 = posStrnds(c.monomerBoundSites(posStrnds) ~= this.enzymeGlobalIndexs(enzymeIndex), :);
+0211                 <span class="keyword">else</span>
+0212                     subs2 = zeros(0, 2);
+0213                 <span class="keyword">end</span>
+0214                 msg = [msg sprintf(<span class="string">'\tNot binding monomers\n'</span>)];
+0215                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>)];
+0216                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>)];
+0217                 <span class="keyword">for</span> i = 1:size(subs2, 1)
+0218                     msg = [msg sprintf(<span class="string">'\t%8d %6d\n'</span>, subs2(i, 1), subs2(i, 2))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0219                 <span class="keyword">end</span>
+0220                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0221                 msg = [msg sprintf(<span class="string">'\tUnbinding monomers\n'</span>)];
+0222                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Monomer'</span>)];
+0223                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0224                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0225                     <span class="keyword">if</span> vals(i) &gt; 0
+0226                         <span class="keyword">break</span>;
+0227                     <span class="keyword">end</span>
+0228                     msg = [msg sprintf(<span class="string">'\t%8d %6d %7d\n'</span>, subs(i, 1), subs(i, 2), -vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0229                 <span class="keyword">end</span>
+0230                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0231                 
+0232                 [subs, vals] = find(c.complexBoundSites - tmpComplexBoundSites);
+0233                 msg = [msg sprintf(<span class="string">'\tBinding complexes\n'</span>)];
+0234                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Complex'</span>)];
+0235                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0236                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0237                     <span class="keyword">if</span> vals(i) &lt; 0
+0238                         <span class="keyword">break</span>;
+0239                     <span class="keyword">end</span>
+0240                     msg = [msg sprintf(<span class="string">'\t%8d %6d %7d\n'</span>, subs(i, 1), subs(i, 2), vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0241                 <span class="keyword">end</span>
+0242                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0243                 <span class="keyword">if</span> any(this.enzymeComplexGlobalIndexs == enzymeIndex)
+0244                     subs2 = posStrnds(c.complexBoundSites(posStrnds) ~= this.enzymeGlobalIndexs(enzymeIndex), :);
+0245                 <span class="keyword">else</span>
+0246                     subs2 = zeros(0, 2);
+0247                 <span class="keyword">end</span>
+0248                 msg = [msg sprintf(<span class="string">'\tNot binding complexes\n'</span>)];
+0249                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>)];
+0250                 msg = [msg sprintf(<span class="string">'\t%8s %6s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>)];
+0251                 <span class="keyword">for</span> i = 1:size(subs2, 1)
+0252                     msg = [msg sprintf(<span class="string">'\t%8d %6d\n'</span>, subs2(i, 1), subs2(i, 2))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0253                 <span class="keyword">end</span>
+0254                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0255                 msg = [msg sprintf(<span class="string">'\tUnbinding complexes\n'</span>)];
+0256                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'Position'</span>, <span class="string">'Strand'</span>, <span class="string">'Complex'</span>)];
+0257                 msg = [msg sprintf(<span class="string">'\t%8s %6s %7s\n'</span>, <span class="string">'========'</span>, <span class="string">'======'</span>, <span class="string">'======='</span>)];
+0258                 <span class="keyword">for</span> i = 1:size(subs, 1)
+0259                     <span class="keyword">if</span> vals(i) &gt; 0
+0260                         <span class="keyword">break</span>;
+0261                     <span class="keyword">end</span>
+0262                     msg = [msg sprintf(<span class="string">'\t%8d %6d %7d\n'</span>, subs(i, 1), subs(i, 2), -vals(i))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0263                 <span class="keyword">end</span>
+0264                 msg = [msg sprintf(<span class="string">'\n'</span>)];
+0265                 
+0266                 throw(MException(<span class="string">'ChromosomeProcessAspect:bindProteinToChromosomeStochastically'</span>, msg));
+0267             <span class="keyword">end</span>
+0268             
+0269             <a name="_sub3" href="#_subfunctions" class="code">function weights = calcRegionWeights(lens)</a>
+0270                 weights = max(0, lens - footprint + 1);
+0271             <span class="keyword">end</span>
+0272             
+0273             <a name="_sub4" href="#_subfunctions" class="code">function position = calcBindingPosition(randReal, len)</a>
+0274                 position = ceil(randReal * (len - footprint + 1));
+0275             <span class="keyword">end</span>
+0276             
+0277             <a name="_sub5" href="#_subfunctions" class="code">function [rgnPosStrnds, rgnLens, rgnProbs] = calcNewRegions(rgnPosStrnds, rgnLens, rgnProbs, rgnIdx, offset)</a>
+0278                 rgnPosStrnds(end + 1, :) = [
+0279                     rgnPosStrnds(rgnIdx, 1) + offset + footprint, rgnPosStrnds(rgnIdx, 2)];
+0280                 rgnLens(end + 1) = rgnLens(rgnIdx) - offset - footprint;
+0281                 rgnLens(rgnIdx) = offset;
+0282                 rgnProbs([rgnIdx end+1]) = calcRegionWeightsFun(rgnLens([rgnIdx end]));
+0283             <span class="keyword">end</span>
+0284         <span class="keyword">end</span>
+0285         
+0286         <a name="_sub6" href="#_subfunctions" class="code">function [tfs, idxs, positionsStrands, maxBindings, processivityLengths] = bindProteinToChromosome(this, </a><span class="keyword">...</span>
+0287                 positionsStrands, proteinIndexs, maxBindings, weights, <span class="keyword">...</span>
+0288                 isBindingStable, isPositionsStrandFootprintCentroid, <span class="keyword">...</span>
+0289                 processivityLengths, isBindingProcessive, <span class="keyword">...</span>
+0290                 ignoreDamageFilter, checkRegionSupercoiled)
+0291             
+0292             <span class="comment">%process options</span>
+0293             <span class="keyword">if</span> nargin &lt; 4 || isempty(maxBindings)
+0294                 maxBindings = size(positionsStrands, 1);
+0295             <span class="keyword">else</span>
+0296                 maxBindings = min(maxBindings, size(positionsStrands, 1));
+0297             <span class="keyword">end</span>
+0298             <span class="keyword">if</span> maxBindings == 0
+0299                 tfs = false(0, 1);
+0300                 idxs = zeros(0, 1);
+0301                 positionsStrands = zeros(0, 2);
+0302                 processivityLengths = zeros(0, 1);
+0303                 <span class="keyword">return</span>;
+0304             <span class="keyword">end</span>
+0305             
+0306             <span class="keyword">if</span> islogical(proteinIndexs)
+0307                 proteinIndexs = find(proteinIndexs);
+0308             <span class="keyword">end</span>
+0309             <span class="keyword">if</span> nargin &lt; 5 || isempty(weights)
+0310                 weights = ones(size(positionsStrands, 1), 1);
+0311             <span class="keyword">end</span>
+0312             <span class="keyword">if</span> nargin &lt; 6 || isempty(isBindingStable)
+0313                 isBindingStable = true;
+0314             <span class="keyword">end</span>
+0315             <span class="keyword">if</span> nargin &lt; 7 || isempty(isPositionsStrandFootprintCentroid)
+0316                 isPositionsStrandFootprintCentroid = true;
+0317             <span class="keyword">end</span>
+0318             <span class="keyword">if</span> nargin &lt; 8 || isempty(processivityLengths)
+0319                 processivityLengths = 1;
+0320             <span class="keyword">end</span>
+0321             <span class="keyword">if</span> nargin &lt; 9 || isempty(isBindingProcessive)
+0322                 isBindingProcessive = false;
+0323             <span class="keyword">end</span>
+0324             <span class="keyword">if</span> nargin &lt; 10
+0325                 ignoreDamageFilter = [];
+0326             <span class="keyword">end</span>
+0327             <span class="keyword">if</span> nargin &lt; 11
+0328                 checkRegionSupercoiled = false;
+0329             <span class="keyword">end</span>
+0330             
+0331             <span class="comment">%get protein global indexs</span>
+0332             <span class="keyword">if</span> isscalar(proteinIndexs)
+0333                 monomerGblIndexs = this.enzymeMonomerGlobalIndexs(this.enzymeMonomerLocalIndexs == proteinIndexs);
+0334                 complexGblIndexs = this.enzymeComplexGlobalIndexs(this.enzymeComplexLocalIndexs == proteinIndexs);
+0335             <span class="keyword">else</span>
+0336                 monomerGblIndexs = this.enzymeMonomerGlobalIndexs(ismember(this.enzymeMonomerLocalIndexs, proteinIndexs));
+0337                 complexGblIndexs = this.enzymeComplexGlobalIndexs(ismember(this.enzymeComplexLocalIndexs, proteinIndexs));
+0338             <span class="keyword">end</span>
+0339             
+0340             <span class="comment">%bind protein to accessible sites</span>
+0341             [releasedMonomers, releasedComplexs, sideEffects, tfs, idxs, positionsStrands, processivityLengths] = <span class="keyword">...</span>
+0342                 this.chromosome.setSiteProteinBound(<span class="keyword">...</span>
+0343                 positionsStrands, maxBindings, weights, <span class="keyword">...</span>
+0344                 monomerGblIndexs, complexGblIndexs, <span class="keyword">...</span>
+0345                 this.enzymeMonomerGlobalIndexs, this.enzymeComplexGlobalIndexs, <span class="keyword">...</span>
+0346                 isBindingStable, isPositionsStrandFootprintCentroid, processivityLengths, isBindingProcessive, ignoreDamageFilter, checkRegionSupercoiled);
+0347             maxBindings = numel(idxs);
+0348             
+0349             this.boundEnzymes(this.enzymeMonomerLocalIndexs) = this.boundEnzymes(this.enzymeMonomerLocalIndexs) - releasedMonomers;
+0350             this.boundEnzymes(this.enzymeComplexLocalIndexs) = this.boundEnzymes(this.enzymeComplexLocalIndexs) - releasedComplexs;
+0351             this.enzymes(this.enzymeMonomerLocalIndexs)      = this.enzymes(this.enzymeMonomerLocalIndexs)      + releasedMonomers;
+0352             this.enzymes(this.enzymeComplexLocalIndexs)      = this.enzymes(this.enzymeComplexLocalIndexs)      + releasedComplexs;
+0353             
+0354             <span class="comment">%side effects</span>
+0355             this.simulationStateSideEffects = [this.simulationStateSideEffects; sideEffects];
+0356         <span class="keyword">end</span>
+0357         
+0358         <a name="_sub7" href="#_subfunctions" class="code">function modifyProteinOnChromosome(this, positionsStrands, newProteinIndexs)</a>
+0359             <span class="keyword">if</span> isempty(positionsStrands)
+0360                 <span class="keyword">return</span>;
+0361             <span class="keyword">end</span>
+0362             
+0363             <span class="keyword">if</span> isscalar(newProteinIndexs)
+0364                 newMonomerIndexs = this.enzymeMonomerGlobalIndexs(newProteinIndexs == this.enzymeMonomerLocalIndexs);
+0365                 <span class="keyword">if</span> isempty(newMonomerIndexs)
+0366                     newMonomerIndexs = 0;
+0367                     newComplexIndexs = this.enzymeComplexGlobalIndexs(newProteinIndexs == this.enzymeComplexLocalIndexs);
+0368                 <span class="keyword">else</span>
+0369                     newComplexIndexs = 0;
+0370                 <span class="keyword">end</span>
+0371             <span class="keyword">else</span>
+0372                 newMonomerIndexs = zeros(size(positionsStrands, 1), 1);
+0373                 [tfs, idxs] = ismember(newProteinIndexs, this.enzymeMonomerLocalIndexs);
+0374                 newMonomerIndexs(tfs) = this.enzymeMonomerGlobalIndexs(idxs(tfs));
+0375                 
+0376                 newComplexIndexs = zeros(size(positionsStrands, 1), 1);
+0377                 [tfs, idxs] = ismember(newProteinIndexs, this.enzymeComplexLocalIndexs);
+0378                 newComplexIndexs(tfs) = this.enzymeComplexGlobalIndexs(idxs(tfs));
+0379             <span class="keyword">end</span>
+0380             
+0381             [releasedMonomers, releasedComplexs, sideEffects] = <span class="keyword">...</span>
+0382                 this.chromosome.modifyBoundProtein(positionsStrands, <span class="keyword">...</span>
+0383                 newMonomerIndexs, newComplexIndexs, <span class="keyword">...</span>
+0384                 this.enzymeMonomerGlobalIndexs, this.enzymeComplexGlobalIndexs);
+0385             this.simulationStateSideEffects = [this.simulationStateSideEffects; sideEffects];
+0386             
+0387             this.boundEnzymes(this.enzymeMonomerLocalIndexs) = this.boundEnzymes(this.enzymeMonomerLocalIndexs) - releasedMonomers;
+0388             this.boundEnzymes(this.enzymeComplexLocalIndexs) = this.boundEnzymes(this.enzymeComplexLocalIndexs) - releasedComplexs;
+0389             this.enzymes(this.enzymeMonomerLocalIndexs)      = this.enzymes(this.enzymeMonomerLocalIndexs)      + releasedMonomers;
+0390             this.enzymes(this.enzymeComplexLocalIndexs)      = this.enzymes(this.enzymeComplexLocalIndexs)      + releasedComplexs;
+0391         <span class="keyword">end</span>
+0392         
+0393         <a name="_sub8" href="#_subfunctions" class="code">function positionsStrands = releaseProteinFromChromosome(</a><span class="keyword">...</span>
+0394                 this, proteinLclIdx, rate, protectedPositionsStrands, protectedLengths)
+0395             <span class="comment">%process arguments</span>
+0396             <span class="keyword">if</span> isempty(proteinLclIdx) || rate == 0
+0397                 positionsStrands = zeros(0, 2);
+0398                 <span class="keyword">return</span>;
+0399             <span class="keyword">end</span>
+0400             
+0401             <span class="comment">%global index of protein</span>
+0402             <span class="keyword">if</span> any(this.enzymeMonomerLocalIndexs == proteinLclIdx)
+0403                 monomerGblIdx = this.enzymeGlobalIndexs(proteinLclIdx);
+0404                 complexGblIdx = [];
+0405             <span class="keyword">else</span>
+0406                 monomerGblIdx = [];
+0407                 complexGblIdx = this.enzymeGlobalIndexs(proteinLclIdx);
+0408             <span class="keyword">end</span>
+0409             
+0410             <span class="comment">%release protein from chromosome</span>
+0411             positionsStrands = this.chromosome.stochasticallySetProteinUnbound(monomerGblIdx, complexGblIdx, rate * this.stepSizeSec, <span class="keyword">...</span>
+0412                 protectedPositionsStrands, protectedLengths, false, false);
+0413             nReleasedProteins = size(positionsStrands, 1);
+0414             <span class="keyword">if</span> nReleasedProteins == 0
+0415                 <span class="keyword">return</span>;
+0416             <span class="keyword">end</span>
+0417             
+0418             this.enzymes(proteinLclIdx)      = this.enzymes(proteinLclIdx)      + nReleasedProteins;
+0419             this.boundEnzymes(proteinLclIdx) = this.boundEnzymes(proteinLclIdx) - nReleasedProteins;
+0420         <span class="keyword">end</span>
+0421         
+0422         <a name="_sub9" href="#_subfunctions" class="code">function releasedProteins = releaseProteinFromSites(this, positionsStrands, </a><span class="keyword">...</span>
+0423                 bothStrands, proteinLclIdx, isPositionsStrandFootprintCentroid, <span class="keyword">...</span>
+0424                 suspendExternalStateUpdating)
+0425             releasedProteins = zeros(size(this.enzymes));
+0426             <span class="keyword">if</span> isempty(positionsStrands)
+0427                 <span class="keyword">return</span>;
+0428             <span class="keyword">end</span>
+0429             
+0430             <span class="keyword">if</span> nargin &lt; 3 || isempty(bothStrands)
+0431                 bothStrands = true;
+0432             <span class="keyword">end</span>
+0433             
+0434             <span class="keyword">if</span> nargin &lt; 5
+0435                 isPositionsStrandFootprintCentroid = true;
+0436             <span class="keyword">end</span>
+0437             
+0438             <span class="keyword">if</span> nargin &gt;= 4 &amp;&amp; isPositionsStrandFootprintCentroid
+0439                 positionsStrands(isodd(positionsStrands(:, 2)), 1) = <span class="keyword">...</span>
+0440                     positionsStrands(isodd(positionsStrands(:, 2)), 1) - <span class="keyword">...</span>
+0441                     this.enzymeDNAFootprints5Prime(proteinLclIdx);
+0442                 positionsStrands(iseven(positionsStrands(:, 2)), 1) = <span class="keyword">...</span>
+0443                     positionsStrands(iseven(positionsStrands(:, 2)), 1) - <span class="keyword">...</span>
+0444                     this.enzymeDNAFootprints3Prime(proteinLclIdx);
+0445             <span class="keyword">end</span>
+0446             
+0447             <span class="keyword">if</span> nargin &lt; 6
+0448                 suspendExternalStateUpdating = false;
+0449             <span class="keyword">end</span>
+0450             
+0451             [releasedMonomers, releasedComplexs, sideEffects] = <span class="keyword">...</span>
+0452                 this.chromosome.setRegionProteinUnbound(positionsStrands, 1, <span class="keyword">...</span>
+0453                 this.enzymeMonomerGlobalIndexs, this.enzymeComplexGlobalIndexs, <span class="keyword">...</span>
+0454                 bothStrands, bothStrands, suspendExternalStateUpdating, false);
+0455             
+0456             <span class="keyword">if</span> any(releasedMonomers)
+0457                 this.boundEnzymes(this.enzymeMonomerLocalIndexs) = this.boundEnzymes(this.enzymeMonomerLocalIndexs) - releasedMonomers;
+0458                 this.enzymes(this.enzymeMonomerLocalIndexs)      = this.enzymes(this.enzymeMonomerLocalIndexs)      + releasedMonomers;
+0459                 releasedProteins(this.enzymeMonomerLocalIndexs)  = releasedMonomers;
+0460             <span class="keyword">end</span>
+0461             
+0462             <span class="keyword">if</span> any(releasedComplexs)
+0463                 this.boundEnzymes(this.enzymeComplexLocalIndexs) = this.boundEnzymes(this.enzymeComplexLocalIndexs) - releasedComplexs;
+0464                 this.enzymes(this.enzymeComplexLocalIndexs)      = this.enzymes(this.enzymeComplexLocalIndexs)      + releasedComplexs;
+0465                 releasedProteins(this.enzymeComplexLocalIndexs)  = releasedComplexs;
+0466             <span class="keyword">end</span>
+0467             
+0468             <span class="comment">%side effects</span>
+0469             <span class="keyword">if</span> numel(sideEffects) &gt; 0
+0470                 <span class="keyword">if</span> numel(this.simulationStateSideEffects) == 0
+0471                     this.simulationStateSideEffects = sideEffects;
+0472                 <span class="keyword">else</span>
+0473                     this.simulationStateSideEffects = [this.simulationStateSideEffects; sideEffects];
+0474                 <span class="keyword">end</span>
+0475             <span class="keyword">end</span>
+0476         <span class="keyword">end</span>
+0477         
+0478         <span class="comment">%Returns true/false whether or not each position and strands is bound by</span>
+0479         <span class="comment">%the input enzyme.</span>
+0480         <span class="comment">%</span>
+0481         <span class="comment">%Note: this.enzymeMonomerLocalIndexs must be sorted</span>
+0482         <a name="_sub10" href="#_subfunctions" class="code">function result = isDnaBound(this, positionStrands, enzymeIndexs)</a>
+0483             <span class="keyword">if</span> isempty(positionStrands)
+0484                 result = false(0, 1);
+0485                 <span class="keyword">return</span>;
+0486             <span class="keyword">end</span>
+0487             
+0488             c = this.chromosome;
+0489             
+0490             result = true(size(positionStrands, 1), 1);
+0491             
+0492             tmpTfs = ismembc(enzymeIndexs, this.enzymeMonomerLocalIndexs);
+0493             
+0494             [posStrnds, proteins] = find(c.monomerBoundSites);
+0495             result(tmpTfs) = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+0496                 [positionStrands(tmpTfs, :) this.enzymeGlobalIndexs(enzymeIndexs(tmpTfs, 1), 1)], [posStrnds proteins], [c.sequenceLen c.nCompartments numel(c.monomerDNAFootprints)]);
+0497             
+0498             [posStrnds, proteins] = find(c.complexBoundSites);
+0499             result(~tmpTfs) = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+0500                 [positionStrands(~tmpTfs, :) this.enzymeGlobalIndexs(enzymeIndexs(~tmpTfs, 1), 1)], [posStrnds proteins], [c.sequenceLen c.nCompartments numel(c.complexDNAFootprints)]);
+0501         <span class="keyword">end</span>
+0502         
+0503         <a name="_sub11" href="#_subfunctions" class="code">function positionsStrands = findProteinInRegion(this, </a><span class="keyword">...</span>
+0504                 position, strand, regionLength, enzymeIndex)
+0505             <span class="keyword">if</span> regionLength == 0
+0506                 positionsStrands = zeros(0, 2);
+0507                 <span class="keyword">return</span>;
+0508             <span class="keyword">end</span>
+0509             
+0510             <span class="keyword">if</span> any(this.enzymeMonomerLocalIndexs == enzymeIndex)
+0511                 enzymeGblIdx = this.enzymeGlobalIndexs(enzymeIndex);
+0512                 [positionsStrands, proteins] = find(this.chromosome.monomerBoundSites);
+0513             <span class="keyword">else</span>
+0514                 enzymeGblIdx = this.enzymeGlobalIndexs(enzymeIndex);
+0515                 [positionsStrands, proteins] = find(this.chromosome.complexBoundSites);
+0516             <span class="keyword">end</span>
+0517             
+0518             filter = proteins == enzymeGblIdx;
+0519             filter(filter) = positionsStrands(filter, 2) == strand;
+0520             filter(filter) = positionsStrands(filter, 1) &gt;= position;
+0521             filter(filter) = positionsStrands(filter, 1) &lt; position + regionLength;
+0522             
+0523             positionsStrands = positionsStrands(filter, :);
+0524         <span class="keyword">end</span>
+0525     <span class="keyword">end</span>
+0526 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

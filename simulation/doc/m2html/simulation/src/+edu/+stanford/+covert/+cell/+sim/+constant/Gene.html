@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Gene</title>
+  <meta name="keywords" content="Gene">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+constant</a> &gt; Gene.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+constant&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Gene
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Gene.html" class="code" title="">Gene</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Gene.html" class="code" title="">Gene</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Gene()</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, ~)</a></li><li><a href="#_sub3" class="code">function value = getIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub4" class="code">function value = getIndexsByPosition(this, pos)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="Gene.html" class="code" title="">Gene</a> &lt; handle
+0002     <span class="comment">%indices of cellular constituents</span>
+0003     properties (SetAccess = private)
+0004         wholeCellModelIDs     <span class="comment">%Whole Cell model IDs</span>
+0005         names                 <span class="comment">%names</span>
+0006         startCoordinates      <span class="comment">%start coordinates</span>
+0007         lengths               <span class="comment">%lengths</span>
+0008         strands               <span class="comment">%strands</span>
+0009         essential             <span class="comment">%is gene essential (Y=&gt;yes, N=&gt;no, M=&gt;maybe)</span>
+0010         
+0011         mRNAIndexs            <span class="comment">%mRNA genes within geneWholeCellModelIDs</span>
+0012         rRNAIndexs            <span class="comment">%rRNA genes within geneWholeCellModelIDs</span>
+0013         sRNAIndexs            <span class="comment">%sRNA genes within geneWholeCellModelIDs</span>
+0014         tRNAIndexs            <span class="comment">%tRNA genes within geneWholeCellModelIDs</span>
+0015         ribosomalRRNAIndexs   <span class="comment">%ribosomal RNA genes within geneWholeCellModelIDs</span>
+0016     <span class="keyword">end</span>
+0017     
+0018     methods
+0019         <a name="_sub0" href="#_subfunctions" class="code">function this = Gene()</a>
+0020         <span class="keyword">end</span>
+0021         
+0022         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, ~)</a>
+0023             this.wholeCellModelIDs   = {knowledgeBase.genes.wholeCellModelID}';
+0024             this.names               = {knowledgeBase.genes.name}';
+0025             this.startCoordinates    = [knowledgeBase.genes.startCoordinate]';
+0026             this.lengths             = [knowledgeBase.genes.sequenceLength]';
+0027             this.strands             = 2-[knowledgeBase.genes.direction]';
+0028             this.essential           = {knowledgeBase.genes.essential}';
+0029             
+0030             this.mRNAIndexs          = double([knowledgeBase.mRNAGenes.idx])';
+0031             this.rRNAIndexs          = double([knowledgeBase.rRNAGenes.idx])';
+0032             this.sRNAIndexs          = double([knowledgeBase.sRNAGenes.idx])';
+0033             this.tRNAIndexs          = double([knowledgeBase.tRNAGenes.idx])';
+0034             this.ribosomalRRNAIndexs = double(knowledgeBase.ribosomalRRNAIndexs);
+0035         <span class="keyword">end</span>
+0036     <span class="keyword">end</span>
+0037     
+0038     <span class="comment">%helper functions</span>
+0039     methods
+0040         <a name="_sub2" href="#_subfunctions" class="code">function value = getIndexs(this, wholeCellModelIDs)</a>
+0041             [~, value] = ismember(wholeCellModelIDs, this.wholeCellModelIDs);
+0042         <span class="keyword">end</span>
+0043         
+0044         <a name="_sub3" href="#_subfunctions" class="code">function value = getIndexsByPosition(this, pos)</a>
+0045             value = find(<span class="keyword">...</span>
+0046                 pos &gt;= this.startCoordinates &amp; <span class="keyword">...</span>
+0047                 pos &lt;= this.startCoordinates + this.lengths - 1 <span class="keyword">...</span>
+0048                 , 1);
+0049         <span class="keyword">end</span>
+0050     <span class="keyword">end</span>
+0051 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

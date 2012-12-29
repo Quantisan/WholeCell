@@ -1,0 +1,18 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  CellState -> CellState;
+  ChromosomeProcessAspect -> ChromosomeProcessAspect;
+  MoleculeCountState -> MoleculeCountState;
+  Process -> Process;
+  ReactionProcess -> ReactionProcess;
+  SimulationStateSideEffect -> SimulationStateSideEffect;
+  SimulationStateSideEffectItem -> SimulationStateSideEffectItem;
+
+  CellState [URL="CellState.html"];
+  ChromosomeProcessAspect [URL="ChromosomeProcessAspect.html"];
+  MoleculeCountState [URL="MoleculeCountState.html"];
+  Process [URL="Process.html"];
+  ReactionProcess [URL="ReactionProcess.html"];
+  SimulationStateSideEffect [URL="SimulationStateSideEffect.html"];
+  SimulationStateSideEffectItem [URL="SimulationStateSideEffectItem.html"];
+}

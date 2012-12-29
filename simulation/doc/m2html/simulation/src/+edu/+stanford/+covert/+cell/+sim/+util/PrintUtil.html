@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of PrintUtil</title>
+  <meta name="keywords" content="PrintUtil">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; PrintUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>PrintUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PrintUtil.html" class="code" title="">PrintUtil</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="PrintUtil.html" class="code" title="">PrintUtil</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function printToStdIO(content, colLabels, options)</a></li><li><a href="#_sub2" class="code">function printToFile(content, colLabels, fileName, varargin)</a></li><li><a href="#_sub3" class="code">function printToExcel(content, colLabels, fileName, sheet, options)</a></li><li><a href="#_sub4" class="code">function colWidths = calcColWidths(content, colLabels)</a></li><li><a href="#_sub5" class="code">function content = applyIndentation(content, indentation)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="PrintUtil.html" class="code" title="">PrintUtil</a>
+0002     <span class="comment">%print a cell array to various places</span>
+0003     methods (Static)                    
+0004         <a name="_sub0" href="#_subfunctions" class="code">function printToStdIO(content, colLabels, options)</a>
+0005             <span class="keyword">if</span> exist(<span class="string">'options'</span>, <span class="string">'var'</span>) &amp;&amp; isstruct(options) &amp;&amp; isfield(options, <span class="string">'indentation'</span>)
+0006                 content = edu.stanford.covert.cell.sim.util.PrintUtil.applyIndentation(content, options.indentation);
+0007             <span class="keyword">end</span>
+0008             
+0009             <span class="comment">%write file</span>
+0010             colWidths = edu.stanford.covert.cell.sim.util.PrintUtil.calcColWidths(content, colLabels);
+0011             colTerminators = [repmat({<span class="string">'\t'</span>}, 1, numel(colLabels)-1) <span class="string">'\n'</span>];
+0012             
+0013             <span class="keyword">for</span> j = 1:numel(colLabels)
+0014                 fprintf([<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], colLabels{j});
+0015             <span class="keyword">end</span>
+0016             <span class="keyword">for</span> j = 1:numel(colLabels)
+0017                 fprintf([<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], repmat(<span class="string">'='</span>, 1, colWidths(j)));
+0018             <span class="keyword">end</span>
+0019             
+0020             <span class="keyword">for</span> i = 1:size(content, 1)
+0021                 <span class="keyword">for</span> j = 1:numel(colLabels)
+0022                     <span class="keyword">if</span> isempty(content{i,j})
+0023                         fprintf([<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], content{i,j});
+0024                     <span class="keyword">elseif</span> isnumeric(content{i,j})
+0025                         <span class="keyword">if</span> ceil(content{i,j}) == content{i,j}
+0026                             fprintf([<span class="string">'%'</span> num2str(colWidths(j)) <span class="string">'d'</span> colTerminators{j}], content{i,j});
+0027                         <span class="keyword">else</span>
+0028                             <span class="keyword">if</span> ispc
+0029                                 fprintf([<span class="string">'%.'</span> num2str(colWidths(j)-2-5) <span class="string">'e'</span> colTerminators{j}], content{i,j});
+0030                             <span class="keyword">else</span>
+0031                                 fprintf([<span class="string">'%.'</span> num2str(colWidths(j)-2-4) <span class="string">'e'</span> colTerminators{j}], content{i,j});
+0032                             <span class="keyword">end</span>
+0033                         <span class="keyword">end</span>
+0034                     <span class="keyword">elseif</span> islogical(content{i,j})
+0035                         fprintf([<span class="string">'%'</span> num2str(colWidths(j)) <span class="string">'d'</span> colTerminators{j}], content{i,j});
+0036                     <span class="keyword">elseif</span> ischar(content{i,j})
+0037                         fprintf([<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], content{i,j});
+0038                     <span class="keyword">else</span>
+0039                         throw(MException(<span class="string">'PrintUtil:error'</span>, <span class="string">'unsupported type %s'</span>, class(content{i,j})));
+0040                     <span class="keyword">end</span>
+0041                 <span class="keyword">end</span>
+0042             <span class="keyword">end</span>
+0043             
+0044             fprintf(<span class="string">'\n'</span>);
+0045         <span class="keyword">end</span>
+0046         
+0047         <a name="_sub1" href="#_subfunctions" class="code">function printToFile(content, colLabels, fileName, varargin)</a>
+0048             <span class="comment">%open file</span>
+0049             <span class="keyword">if</span> ismember(fileName(find(fileName == <span class="string">'.'</span>, 1, <span class="string">'last'</span>)+1 : end), {<span class="string">'xls'</span>,<span class="string">'xlsx'</span>})
+0050                 <span class="keyword">if</span> ispc
+0051                     edu.stanford.covert.cell.sim.util.PrintUtil.printToExcel(content, colLabels, fileName, varargin{:});
+0052                     <span class="keyword">return</span>;
+0053                 <span class="keyword">else</span>
+0054                     warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Excel not available, saving in csv format'</span>);
+0055                 <span class="keyword">end</span>
+0056             <span class="keyword">end</span>
+0057             fid = fopen(fileName, <span class="string">'w'</span>);
+0058             
+0059             <span class="comment">%write file</span>
+0060             colWidths = edu.stanford.covert.cell.sim.util.PrintUtil.calcColWidths(content, colLabels);
+0061             colTerminators = [repmat({<span class="string">'\t'</span>}, 1, numel(colLabels)-1) <span class="string">'\n'</span>];
+0062             
+0063             <span class="keyword">for</span> j = 1:numel(colLabels)
+0064                 fprintf(fid, [<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], colLabels{j});
+0065             <span class="keyword">end</span>
+0066             
+0067             <span class="keyword">for</span> i = 1:size(content, 1)
+0068                 <span class="keyword">for</span> j = 1:numel(colLabels)
+0069                     <span class="keyword">if</span> isempty(content{i,j})
+0070                         fprintf(fid, [<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], content{i,j});
+0071                     <span class="keyword">elseif</span> isnumeric(content{i,j})
+0072                         <span class="keyword">if</span> ispc
+0073                             fprintf(fid, [<span class="string">'%.'</span> num2str(colWidths(j)-2-5) <span class="string">'e'</span> colTerminators{j}], content{i,j});
+0074                         <span class="keyword">else</span>
+0075                             fprintf(fid, [<span class="string">'%.'</span> num2str(colWidths(j)-2-4) <span class="string">'e'</span> colTerminators{j}], content{i,j});
+0076                         <span class="keyword">end</span>                        
+0077                     <span class="keyword">elseif</span> islogical(content{i,j})
+0078                         fprintf(fid, [<span class="string">'%'</span> num2str(colWidths(j)) <span class="string">'d'</span> colTerminators{j}], content{i,j});
+0079                     <span class="keyword">elseif</span> ischar(content{i,j})
+0080                         fprintf(fid, [<span class="string">'%-'</span> num2str(colWidths(j)) <span class="string">'s'</span> colTerminators{j}], content{i,j});
+0081                     <span class="keyword">else</span>
+0082                         throw(MException(<span class="string">'PrintUtil:error'</span>, <span class="string">'unsupported type %s'</span>, class(content{i,j})));
+0083                     <span class="keyword">end</span>
+0084                 <span class="keyword">end</span>
+0085             <span class="keyword">end</span>
+0086             
+0087             <span class="comment">%close file</span>
+0088             fclose(fid);
+0089         <span class="keyword">end</span>
+0090         
+0091         <a name="_sub2" href="#_subfunctions" class="code">function printToExcel(content, colLabels, fileName, sheet, options)</a>
+0092             <span class="keyword">if</span> exist(<span class="string">'options'</span>, <span class="string">'var'</span>) &amp;&amp; isstruct(options) &amp;&amp; isfield(options, <span class="string">'indentation'</span>)
+0093                 content = edu.stanford.covert.cell.sim.util.PrintUtil.applyIndentation(content, options.indentation);
+0094             <span class="keyword">end</span>
+0095             <span class="keyword">if</span> exist(<span class="string">'sheet'</span>, <span class="string">'var'</span>)
+0096                 xlswrite(fileName, [colLabels; content], sheet);
+0097             <span class="keyword">else</span>
+0098                 xlswrite(fileName, [colLabels; content]);
+0099             <span class="keyword">end</span>
+0100         <span class="keyword">end</span>
+0101         
+0102         <a name="_sub3" href="#_subfunctions" class="code">function colWidths = calcColWidths(content, colLabels)</a>
+0103             elWidths = zeros(size(content));
+0104             <span class="keyword">for</span> i = 1:size(content, 1)
+0105                 <span class="keyword">for</span> j = 1:size(content, 2)
+0106                     <span class="keyword">if</span> isnumeric(content{i,j})
+0107                         elWidths(i,j) = max(9, length(num2str(content{i,j})));
+0108                     <span class="keyword">elseif</span> islogical(content{i,j})
+0109                         elWidths(i,j) = 1;
+0110                     <span class="keyword">elseif</span> ischar(content{i,j})
+0111                         elWidths(i,j) = length(content{i,j});
+0112                     <span class="keyword">else</span>
+0113                         throw(MException(<span class="string">'PrintUtil:error'</span>, <span class="string">'unsupported type %s'</span>, class(content{i,j})));
+0114                     <span class="keyword">end</span>
+0115                 <span class="keyword">end</span>
+0116             <span class="keyword">end</span>            
+0117             colWidths = max([elWidths; cellfun(@length, colLabels)], [], 1);
+0118         <span class="keyword">end</span>
+0119         
+0120         <a name="_sub4" href="#_subfunctions" class="code">function content = applyIndentation(content, indentation)</a>
+0121             content(:, 1) = cellfun(@(content, indentation) [repmat(<span class="string">'    '</span>, 1, indentation) content], content(:,1), num2cell(indentation), <span class="string">'UniformOutput'</span>, false);
+0122         <span class="keyword">end</span>
+0123     <span class="keyword">end</span>
+0124 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

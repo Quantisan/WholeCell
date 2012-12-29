@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinComplex</title>
+  <meta name="keywords" content="ProteinComplex">
+  <meta name="description" content="ProteinComplex">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; ProteinComplex.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinComplex
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ProteinComplex</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ProteinComplex
+- nascent
+- mature
+- bound
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinComplex.html" class="code" title="">ProteinComplex</a>	ProteinComplex</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinComplex.html" class="code" title="">ProteinComplex</a>	ProteinComplex</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinComplex(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function notUpdatingProteins = updateExternalState(this, deltaProteins, proteinIsDegraded)</a></li><li><a href="#_sub5" class="code">function value = getIndexs(this, wholeCellModelIDs)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ProteinComplex</span>
+0002 <span class="comment">%- nascent</span>
+0003 <span class="comment">%- mature</span>
+0004 <span class="comment">%- bound</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0007 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0008 <span class="comment">% Last Updated: 1/5/2011</span>
+0009 classdef <a href="ProteinComplex.html" class="code" title="">ProteinComplex</a> &lt; edu.stanford.covert.cell.sim.MoleculeCountState
+0010     
+0011     properties (Constant)
+0012         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0013             <span class="string">'verbosity'</span>
+0014             <span class="string">'seed'</span>
+0015             };
+0016         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0017             <span class="string">'molecularWeights'</span>
+0018             <span class="string">'baseCounts'</span>
+0019             <span class="string">'lengths'</span>
+0020             <span class="string">'halfLives'</span>
+0021             <span class="string">'compartments'</span>
+0022             <span class="string">'proteinComplexComposition'</span>
+0023             <span class="string">'minimumAverageExpression'</span>
+0024             };
+0025         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0026         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0027             <span class="string">'counts'</span>
+0028             };
+0029         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0030     <span class="keyword">end</span>
+0031     
+0032     <span class="comment">%indices</span>
+0033     properties
+0034         nascentIndexs           <span class="comment">%index within complexs</span>
+0035         matureIndexs            <span class="comment">%index within complexs</span>
+0036         inactivatedIndexs       <span class="comment">%index within complexs</span>
+0037         boundIndexs             <span class="comment">%index within complexs</span>
+0038         misfoldedIndexs         <span class="comment">%index within complexs</span>
+0039         damagedIndexs           <span class="comment">%index within complexs</span>
+0040         
+0041         ribosome30SIndexs       <span class="comment">%index within matureIndexs</span>
+0042         ribosome50SIndexs       <span class="comment">%index within matureIndexs</span>
+0043         ribosome70SIndexs       <span class="comment">%index within matureIndexs</span>
+0044         translationFactorIndexs <span class="comment">%index within matureIndexs</span>
+0045         ftsZGTPIndexs           <span class="comment">%index within matureIndexs</span>
+0046         ftsZGDPIndexs           <span class="comment">%index within matureIndexs</span>
+0047         rnaPolymeraseIndexs     <span class="comment">%index within matureIndexs</span>
+0048         replisomeIndexs         <span class="comment">%index within matureIndexs</span>
+0049         dnaPolymeraseIndexs     <span class="comment">%index within matureIndexs</span>
+0050         dnaAPolymerIndexs       <span class="comment">%index within matureIndexs</span>
+0051     <span class="keyword">end</span>
+0052     
+0053     properties
+0054         proteinComplexComposition <span class="comment">%protein complex composition (monomers X complexes X compartments)</span>
+0055         formationProcesses        <span class="comment">%indices of proceses where each complex is formed</span>
+0056         minimumAverageExpression  <span class="comment">%minimum average expression</span>
+0057     <span class="keyword">end</span>
+0058     
+0059     <span class="comment">%references to objects</span>
+0060     properties
+0061         chromosome
+0062         rnaPolymerase
+0063         ribosome
+0064         ftsZRing
+0065     <span class="keyword">end</span>
+0066     
+0067     <span class="comment">%constructor</span>
+0068     methods
+0069         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinComplex(wholeCellModelID, name)</a>
+0070             this = this@edu.stanford.covert.cell.sim.MoleculeCountState(wholeCellModelID, name);
+0071         <span class="keyword">end</span>
+0072     <span class="keyword">end</span>
+0073     
+0074     methods
+0075         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0076             this.storeObjectReferences@edu.stanford.covert.cell.sim.MoleculeCountState(simulation);            
+0077             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0078             this.rnaPolymerase = simulation.state(<span class="string">'RNAPolymerase'</span>);
+0079             this.ribosome = simulation.state(<span class="string">'Ribosome'</span>);
+0080             this.ftsZRing = simulation.state(<span class="string">'FtsZRing'</span>);
+0081         <span class="keyword">end</span>
+0082     <span class="keyword">end</span>
+0083     
+0084     methods
+0085         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0086             this.initializeConstants@edu.stanford.covert.cell.sim.MoleculeCountState(knowledgeBase, simulation);
+0087             
+0088             numComplexs = knowledgeBase.numProteinComplexs;
+0089             
+0090             this.nascentIndexs     = (1:numComplexs)';
+0091             this.matureIndexs      = (1:numComplexs)' + this.nascentIndexs(end);
+0092             this.inactivatedIndexs = (1:numComplexs)' + this.matureIndexs(end);
+0093             this.boundIndexs       = (1:numComplexs)' + this.inactivatedIndexs(end);
+0094             this.misfoldedIndexs   = (1:numComplexs)' + this.boundIndexs(end);
+0095             this.damagedIndexs     = (1:numComplexs)' + this.misfoldedIndexs(end);
+0096             
+0097             this.wholeCellModelIDs = repmat({knowledgeBase.proteinComplexs.wholeCellModelID}', 6, 1);
+0098             this.names = repmat({knowledgeBase.proteinComplexs.name}', 6, 1);
+0099             this.baseCounts = [
+0100                 reshape([knowledgeBase.proteinComplexs.baseCount], [], numComplexs)';
+0101                 repmat(reshape([knowledgeBase.proteinComplexs.matureBaseCount], [], numComplexs)', 5, 1)];
+0102             this.molecularWeights = [<span class="keyword">...</span>
+0103                 knowledgeBase.proteinComplexs.molecularWeight  <span class="keyword">...</span>
+0104                 repmat([knowledgeBase.proteinComplexs.matureMolecularWeight], 1, 5)]';
+0105             this.compartments = double(repmat(knowledgeBase.proteinComplexCompartments, 6, 1));
+0106             this.halfLives = [<span class="keyword">...</span>
+0107                 knowledgeBase.proteinComplexs.halfLife  <span class="keyword">...</span>
+0108                 repmat([knowledgeBase.proteinComplexs.matureHalfLife], 1, 3) <span class="keyword">...</span>
+0109                 zeros(1, knowledgeBase.numProteinComplexs) <span class="keyword">...</span>
+0110                 zeros(1, knowledgeBase.numProteinComplexs)]';
+0111             
+0112             this.proteinComplexComposition = knowledgeBase.proteinComplexAllRNAComposition;
+0113             this.proteinComplexComposition([knowledgeBase.mRNAGenes.idx], :, :) = knowledgeBase.proteinComplexAllMonomerComposition;
+0114             
+0115             tmp = [knowledgeBase.proteinComplexs.complexFormationProcess];
+0116             this.formationProcesses = repmat([tmp.idx]', 6, 1);
+0117             
+0118             this.halfLives(~ismember(this.compartments, [this.compartment.cytosolIndexs; this.compartment.terminalOrganelleCytosolIndexs])) = Inf;
+0119             
+0120             this.ribosome30SIndexs = this.getIndexs(<span class="string">'RIBOSOME_30S'</span>);
+0121             this.ribosome50SIndexs = this.getIndexs(<span class="string">'RIBOSOME_50S'</span>);
+0122             this.ribosome70SIndexs = this.getIndexs(<span class="string">'RIBOSOME_70S'</span>);
+0123             this.translationFactorIndexs = this.getIndexs({
+0124                 <span class="string">'MG_089_DIMER'</span>
+0125                 <span class="string">'MG_433_DIMER'</span>
+0126                 <span class="string">'MG_451_DIMER'</span>
+0127                 });
+0128             this.ftsZGTPIndexs = this.getIndexs(<span class="string">'MG_224_9MER_GTP'</span>);
+0129             this.ftsZGDPIndexs = this.getIndexs(<span class="string">'MG_224_9MER_GDP'</span>);
+0130             this.rnaPolymeraseIndexs = this.getIndexs({
+0131                 <span class="string">'RNA_POLYMERASE'</span>
+0132                 <span class="string">'RNA_POLYMERASE_HOLOENZYME'</span>
+0133                 });
+0134             this.replisomeIndexs = this.getIndexs({
+0135                 <span class="string">'MG_094_HEXAMER'</span>
+0136                 <span class="string">'DNA_POLYMERASE_2CORE_BETA_CLAMP_GAMMA_COMPLEX_PRIMASE'</span>
+0137                 <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_GAMMA_COMPLEX'</span>
+0138                 <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_PRIMASE'</span>
+0139                 });
+0140             this.dnaPolymeraseIndexs = this.getIndexs({
+0141                 <span class="string">'DNA_POLYMERASE_2CORE_BETA_CLAMP_GAMMA_COMPLEX_PRIMASE'</span>
+0142                 <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_GAMMA_COMPLEX'</span>
+0143                 <span class="string">'DNA_POLYMERASE_CORE_BETA_CLAMP_PRIMASE'</span>
+0144                 });
+0145             this.dnaAPolymerIndexs = this.getIndexs({
+0146                 <span class="string">'MG_469_2MER_1ATP_ADP'</span> <span class="comment">%DnaA 2mer-(1)ATP-(1)ADP</span>
+0147                 <span class="string">'MG_469_2MER_ATP'</span>      <span class="comment">%DnaA-ATP 2mer</span>
+0148                 <span class="string">'MG_469_3MER_2ATP_ADP'</span> <span class="comment">%DnaA 3mer-(2)ATP-(1)ADP</span>
+0149                 <span class="string">'MG_469_3MER_ATP'</span>      <span class="comment">%DnaA-ATP 3mer</span>
+0150                 <span class="string">'MG_469_4MER_3ATP_ADP'</span> <span class="comment">%DnaA 4mer-(3)ATP-(1)ADP</span>
+0151                 <span class="string">'MG_469_4MER_ATP'</span>      <span class="comment">%DnaA-ATP 4mer</span>
+0152                 <span class="string">'MG_469_5MER_4ATP_ADP'</span> <span class="comment">%DnaA 5mer-(4)ATP-(1)ADP</span>
+0153                 <span class="string">'MG_469_5MER_ATP'</span>      <span class="comment">%DnaA-ATP 5mer</span>
+0154                 <span class="string">'MG_469_6MER_5ATP_ADP'</span> <span class="comment">%DnaA 6mer-(5)ATP-(1)ADP</span>
+0155                 <span class="string">'MG_469_6MER_ATP'</span>      <span class="comment">%DnaA-ATP 6mer</span>
+0156                 <span class="string">'MG_469_7MER_6ATP_ADP'</span> <span class="comment">%DnaA 7mer-(6)ATP-(1)ADP</span>
+0157                 <span class="string">'MG_469_7MER_ATP'</span>      <span class="comment">%DnaA-ATP 7mer</span>
+0158                 });
+0159         <span class="keyword">end</span>
+0160     <span class="keyword">end</span>
+0161             
+0162     methods
+0163         <a name="_sub3" href="#_subfunctions" class="code">function notUpdatingProteins = updateExternalState(this, deltaProteins, proteinIsDegraded)</a>
+0164             c = this.chromosome;
+0165             
+0166             notUpdatingProteins = zeros(size(deltaProteins));
+0167             deltaFreeProteins = deltaProteins(this.matureIndexs, this.compartment.cytosolIndexs);
+0168             deltaBoundProteins = deltaProteins(this.boundIndexs, this.compartment.cytosolIndexs);
+0169             
+0170             <span class="comment">%update ribosome state</span>
+0171             this.ribosome.releaseRibosome(-deltaBoundProteins(this.ribosome70SIndexs), 0, 0);
+0172             deltaBoundProteins(this.ribosome70SIndexs) = 0;
+0173             
+0174             <span class="comment">%update bound translation elongation factors</span>
+0175             deltaBoundProteins(this.translationFactorIndexs) = 0;
+0176             
+0177             <span class="comment">%update bound FtsZ state</span>
+0178             notUpdatingProteins(this.boundIndexs([this.ftsZGTPIndexs; this.ftsZGDPIndexs]), this.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0179                 this.ftsZRing.releaseFtsZ(-deltaBoundProteins([this.ftsZGTPIndexs; this.ftsZGDPIndexs]));
+0180             deltaBoundProteins(this.ftsZGTPIndexs) = 0;
+0181             deltaBoundProteins(this.ftsZGDPIndexs) = 0;
+0182             
+0183             <span class="comment">%prevent changes to bound DnaA complexes to that replication</span>
+0184             <span class="comment">%initiation not disrupted</span>
+0185             <span class="keyword">if</span> any(deltaBoundProteins(this.dnaAPolymerIndexs) &lt; 0)
+0186                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'DnaA complex not decayed'</span>);
+0187                 notUpdatingProteins(this.boundIndexs(this.dnaAPolymerIndexs), this.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0188                     -deltaBoundProteins(this.dnaAPolymerIndexs);
+0189                 deltaBoundProteins(this.dnaAPolymerIndexs) = 0;
+0190             <span class="keyword">end</span>
+0191             
+0192             <span class="comment">%prevent changes to bound DNA polymerase so that replication</span>
+0193             <span class="comment">%not disrupted; issue warning</span>
+0194             <span class="keyword">if</span> any(deltaBoundProteins(this.replisomeIndexs) &lt; 0)
+0195                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'DNA polymerase not decayed'</span>);
+0196                 notUpdatingProteins(this.boundIndexs(this.replisomeIndexs), this.compartment.cytosolIndexs) = <span class="keyword">...</span>
+0197                     -deltaBoundProteins(this.replisomeIndexs);
+0198                 deltaBoundProteins(this.replisomeIndexs) = 0;
+0199             <span class="keyword">end</span>
+0200             
+0201             <span class="comment">%update chromosomally bound proteins</span>
+0202             idxs = find(deltaBoundProteins &lt; 0);
+0203             [posStrnds, proteins] = find(c.complexBoundSites);
+0204             
+0205             chrReleasePosStrnds = zeros(0, 2);
+0206             <span class="keyword">for</span> i = 1:numel(idxs)
+0207                 <span class="keyword">if</span> sum(proteins == idxs(i)) &lt; -deltaBoundProteins(idxs(i))
+0208                     throw(MException(<span class="string">'ProteinComplex:error'</span>, <span class="string">'Error updating external state'</span>))
+0209                 <span class="keyword">end</span>
+0210                 chrReleasePosStrnds = [
+0211                     chrReleasePosStrnds;
+0212                     this.randStream.randomlySelectNRows(posStrnds(proteins == idxs(i), :), -deltaBoundProteins(idxs(i)))
+0213                     ]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0214             <span class="keyword">end</span>
+0215             
+0216             [~, releasedComplexs] = c.setRegionProteinUnbound(<span class="keyword">...</span>
+0217                 chrReleasePosStrnds, 1, [], idxs, <span class="keyword">...</span>
+0218                 false, false, false, proteinIsDegraded);
+0219             <span class="keyword">if</span> ~isequal(-deltaBoundProteins(idxs), releasedComplexs)
+0220                 throw(MException(<span class="string">'ProteinComplex:error'</span>, <span class="string">'Chromosomally bound proteins impropely released'</span>));
+0221             <span class="keyword">end</span>
+0222             
+0223             <span class="comment">%update free RNA polymerase</span>
+0224             <span class="keyword">if</span> deltaFreeProteins(this.rnaPolymeraseIndexs(1)) &amp;&amp; proteinIsDegraded
+0225                 this.rnaPolymerase.degradeFreePolymerase(-deltaFreeProteins(this.rnaPolymeraseIndexs(1)));
+0226             <span class="keyword">end</span>
+0227         <span class="keyword">end</span>
+0228     <span class="keyword">end</span>
+0229     
+0230     <span class="comment">%helper methods</span>
+0231     methods
+0232         <a name="_sub4" href="#_subfunctions" class="code">function value = getIndexs(this, wholeCellModelIDs)</a>
+0233             [~, value] = ismember(wholeCellModelIDs, this.wholeCellModelIDs(this.matureIndexs));
+0234         <span class="keyword">end</span>
+0235     <span class="keyword">end</span>
+0236 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

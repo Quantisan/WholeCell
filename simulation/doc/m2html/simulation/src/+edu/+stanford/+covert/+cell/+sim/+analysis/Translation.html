@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Translation</title>
+  <meta name="keywords" content="Translation">
+  <meta name="description" content="Translation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Translation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Translation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Translation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Translation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Translation.html" class="code" title="">Translation</a>	Translation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Translation.html" class="code" title="">Translation</a>	Translation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function plotRibosome_State_Occupancies(sim, axesHandle, time, ~)</a></li><li><a href="#_sub2" class="code">function plotRibosomes(sim, axesHandle, time, ~)</a></li><li><a href="#_sub3" class="code">function plotRibosome_States(sim, axesHandle, time, ~)</a></li><li><a href="#_sub4" class="code">function plotRibosome_Bound_Genes(sim, axesHandle, time, ~)</a></li><li><a href="#_sub5" class="code">function plotBound_Translation_Factors(sim, axesHandle, time, ~)</a></li><li><a href="#_sub6" class="code">function plotAAs(sim, axesHandle, time, ~)</a></li><li><a href="#_sub7" class="code">function plottRNA_Synthetases(sim, axesHandle, time, ~)</a></li><li><a href="#_sub8" class="code">function plottRNA_Transferases(sim, axesHandle, time, ~)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Translation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 8/6/2011</span>
+0006 classdef <a href="Translation.html" class="code" title="">Translation</a>
+0007     <span class="comment">%plotting</span>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function plotRibosome_State_Occupancies(sim, axesHandle, time, ~)</a>
+0010             s = sim.state(<span class="string">'Ribosome'</span>);
+0011             
+0012             plotHandles = plot(axesHandle, time / 3600, permute(s.stateOccupancies, [3 1 2]));
+0013             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>,8);
+0014             ylabel(axesHandle, <span class="string">'Occupancy'</span>, <span class="string">'fontSize'</span>,8);
+0015             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0016             
+0017             labels = cell(3, 1);
+0018             labels{s.activeIndex} = <span class="string">'Active'</span>;
+0019             labels{s.notExistIndex} = <span class="string">'Not Exist'</span>;
+0020             labels{s.stalledIndex} = <span class="string">'Stalled'</span>;
+0021             legend(plotHandles, labels);
+0022         <span class="keyword">end</span>
+0023         
+0024         <a name="_sub1" href="#_subfunctions" class="code">function plotRibosomes(sim, axesHandle, time, ~)</a>
+0025             s = sim.state(<span class="string">'Ribosome'</span>);
+0026             
+0027             ribosomeGenomeStates = zeros(size(s.states));
+0028             <span class="keyword">for</span> i = 1:size(s.states, 1)
+0029                 <span class="keyword">for</span> k = 1:size(s.states, 3)
+0030                     <span class="keyword">if</span> s.states(i, 1, k) == s.activeValue
+0031                         <span class="keyword">if</span> s.gene.strands(s.boundMRNAs(i, 1, k)) == 1
+0032                             ribosomeGenomeStates(i, 1, k) = <span class="keyword">...</span>
+0033                                 s.gene.startCoordinates(s.boundMRNAs(i, 1, k)) + <span class="keyword">...</span>
+0034                                 s.polypeptide.nascentMonomerLengths(i, 1, k);
+0035                         <span class="keyword">else</span>
+0036                             ribosomeGenomeStates(i, 1, k) = <span class="keyword">...</span>
+0037                                 s.gene.startCoordinates(s.boundMRNAs(i, 1, k)) + <span class="keyword">...</span>
+0038                                 s.gene.lengths(s.boundMRNAs(i, 1, k)) - 1 - <span class="keyword">...</span>
+0039                                 s.polypeptide.nascentMonomerLengths(i, 1, k);
+0040                         <span class="keyword">end</span>
+0041                     <span class="keyword">end</span>
+0042                 <span class="keyword">end</span>
+0043             <span class="keyword">end</span>
+0044             
+0045             plot(axesHandle, time/3600, permute(ribosomeGenomeStates,[3 1 2]), <span class="string">'.'</span>);
+0046             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0047             ylabel(axesHandle,<span class="string">'Genome Coordinate'</span>,<span class="string">'fontSize'</span>,8);
+0048             xlim(axesHandle, [0 max(1, time(end))]/3600);
+0049             ylim(axesHandle, [s.stalledValue-1 s.chromosome.sequenceLen + 1]);
+0050         <span class="keyword">end</span>
+0051         
+0052         <a name="_sub2" href="#_subfunctions" class="code">function plotRibosome_States(sim, axesHandle, time, ~)</a>
+0053             import edu.stanford.covert.util.ConstantUtil;
+0054             
+0055             s = sim.state(<span class="string">'Ribosome'</span>);
+0056             
+0057             colors = zeros([size(s.states) 3]);
+0058             <span class="keyword">for</span> i = 1:size(s.states, 1)
+0059                 <span class="keyword">for</span> k = 1:size(s.states, 3)
+0060                     <span class="keyword">switch</span> s.states(i, 1, k)
+0061                         <span class="keyword">case</span> s.activeValue
+0062                             colors(i, 1, k, 2) = s.polypeptide.nascentMonomerLengths(i, 1, k) / s.polypeptide.monomerLengths(s.boundMRNAs(i, 1, k));
+0063                         <span class="keyword">case</span> s.stalledValue
+0064                             colors(i, 1, k, 1) = s.polypeptide.proteolysisTagLengths(i, 1, k) / s.proteolysisTagLength;
+0065                         <span class="keyword">case</span> s.notExistValue
+0066                             colors(i, 1, k, 3) = 1;
+0067                     <span class="keyword">end</span>
+0068                 <span class="keyword">end</span>
+0069             <span class="keyword">end</span>
+0070             
+0071             colors = reshape(colors, [], size(s.states, 3), 3);
+0072             image(colors, <span class="string">'Parent'</span>, axesHandle);
+0073             
+0074             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0075             ylabel(axesHandle, <span class="string">'Ribosome'</span>, <span class="string">'fontSize'</span>, 8);
+0076             
+0077             xTick = get(axesHandle, <span class="string">'XTick'</span>);
+0078             xTickLabel = round((xTick - 0.5) * max(time) / ConstantUtil.secondsPerHour / max(xTick));
+0079             set(axesHandle, <span class="string">'XTickLabel'</span>, xTickLabel);
+0080         <span class="keyword">end</span>
+0081         
+0082         <a name="_sub3" href="#_subfunctions" class="code">function plotRibosome_Bound_Genes(sim, axesHandle, time, ~)</a>
+0083             import edu.stanford.covert.util.ConstantUtil;
+0084             
+0085             s = sim.state(<span class="string">'Ribosome'</span>);
+0086             
+0087             boundGenes = zeros(length(s.gene.wholeCellModelIDs), 1, length(time));
+0088             <span class="keyword">for</span> i = 1:size(s.boundMRNAs, 1)
+0089                 <span class="keyword">for</span> k = 1:size(s.boundMRNAs, 3)
+0090                     <span class="keyword">if</span> s.boundMRNAs(i, 1, k) &lt;= 0
+0091                         <span class="keyword">continue</span>;
+0092                     <span class="keyword">end</span>
+0093                     boundGenes(s.boundMRNAs(i,1,k), 1, k) = <span class="keyword">...</span>
+0094                         boundGenes(s.boundMRNAs(i, 1, k), 1, k) + 1;
+0095                 <span class="keyword">end</span>
+0096             <span class="keyword">end</span>
+0097             
+0098             boundGenes = permute(boundGenes, [1 3 2]);
+0099             colors = repmat(boundGenes / (max(max(boundGenes))), [1 1 3]);
+0100             
+0101             image(colors, <span class="string">'Parent'</span>, axesHandle);
+0102             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>,8);
+0103             ylabel(axesHandle, <span class="string">'Gene'</span>, <span class="string">'fontSize'</span>,8);
+0104             
+0105             xTick = get(axesHandle, <span class="string">'XTick'</span>);
+0106             xTickLabel = round((xTick - 0.5) * max(time) / ConstantUtil.secondsPerHour / max(xTick));
+0107             set(axesHandle, <span class="string">'XTickLabel'</span>, xTickLabel);
+0108         <span class="keyword">end</span>
+0109         
+0110         <a name="_sub4" href="#_subfunctions" class="code">function plotBound_Translation_Factors(sim, axesHandle, time, ~)</a>
+0111             p = sim.process(<span class="string">'Translation'</span>);
+0112             
+0113             translationFactors      = p.enzymes(p.enzymeIndexs_translationFactors, :, :);
+0114             boundTranslationFactors = p.boundEnzymes(p.enzymeIndexs_translationFactors, :, :);
+0115             
+0116             plotHandles = plot(axesHandle, time / 3600, permute(boundTranslationFactors ./ (translationFactors + boundTranslationFactors), [3 1 2]));
+0117             legend(plotHandles, p.enzymeNames(p.enzymeIndexs_translationFactors));
+0118             xlabel(axesHandle, <span class="string">'Time (h)'</span>, <span class="string">'fontSize'</span>, 8);
+0119             ylabel(axesHandle, <span class="string">'Fraction Bound'</span>, <span class="string">'fontSize'</span>, 8);
+0120             xlim(axesHandle, [0 max(1, time(end))] / 3600);
+0121             ylim(axesHandle, [0 1]);
+0122         <span class="keyword">end</span>
+0123         
+0124         <a name="_sub5" href="#_subfunctions" class="code">function plotAAs(sim, axesHandle, time, ~)</a>
+0125             p = sim.process(<span class="string">'tRNAAminoacylation'</span>);
+0126             
+0127             plotHandles = plot(axesHandle,time/3600, permute(p.substrates(p.substrateIndexs_aminoAcids,:,:),[3 1 2]));
+0128             legend(plotHandles, p.substrateWholeCellModelIDs(p.substrateIndexs_aminoAcids));
+0129             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0130             ylabel(axesHandle,<span class="string">'AAs'</span>,<span class="string">'fontSize'</span>,8);
+0131             xlim(axesHandle,[0 max(1, time(end))]/3600);
+0132         <span class="keyword">end</span>
+0133         
+0134         <a name="_sub6" href="#_subfunctions" class="code">function plottRNA_Synthetases(sim, axesHandle, time, ~)</a>
+0135             p = sim.process(<span class="string">'tRNAAminoacylation'</span>);
+0136             
+0137             plotHandles = plot(axesHandle, time/3600, permute(p.tRNASynthetases,[3 1 2]));
+0138             legend(plotHandles, p.enzymeNames(p.enzymeIndexs_tRNASynthetases));
+0139             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0140             ylabel(axesHandle,<span class="string">'Complexs'</span>,<span class="string">'fontSize'</span>,8);
+0141             xlim(axesHandle,[0 max(1, time(end))]/3600);
+0142         <span class="keyword">end</span>
+0143         
+0144         <a name="_sub7" href="#_subfunctions" class="code">function plottRNA_Transferases(sim, axesHandle, time, ~)</a>
+0145             p = sim.process(<span class="string">'tRNAAminoacylation'</span>);
+0146             
+0147             plotHandles = plot(axesHandle,time/3600, permute(p.tRNATransferases,[3 1 2]));
+0148             legend(plotHandles, p.enzymeNames(p.enzymeIndexs_tRNATransferases));
+0149             xlabel(axesHandle,<span class="string">'Time (h)'</span>,<span class="string">'fontSize'</span>,8);
+0150             ylabel(axesHandle,<span class="string">'Complexs'</span>,<span class="string">'fontSize'</span>,8);
+0151             xlim(axesHandle,[0 max(1, time(end))]/3600);
+0152         <span class="keyword">end</span>
+0153     <span class="keyword">end</span>
+0154 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

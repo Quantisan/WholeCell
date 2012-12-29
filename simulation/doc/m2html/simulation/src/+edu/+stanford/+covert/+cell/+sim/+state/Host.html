@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Host</title>
+  <meta name="keywords" content="Host">
+  <meta name="description" content="Host">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Host.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Host
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Host</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Host
+
+ @wholeCellModelID State_Host
+ @name             Host
+ @description
+   This class reports qualitative metrics regarding the ability of M.
+   genitalium to interact with host human urogenital tract epithelial
+   cells:
+   - ability of M. genitalium to adhere to the urogenital epithelium,
+     which requires adhesins and a functional terminal organelle
+   - ability of M. genitalium lipoproteins to interact with host TLR
+     receptors 1, 2, and 6
+
+   References
+   ==========
+   See HostInteraction process.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/25/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Host.html" class="code" title="">Host</a>	Host</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Host.html" class="code" title="">Host</a>	Host</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Host(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub3" class="code">function initialize(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Host</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_Host</span>
+0004 <span class="comment">% @name             Host</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   This class reports qualitative metrics regarding the ability of M.</span>
+0007 <span class="comment">%   genitalium to interact with host human urogenital tract epithelial</span>
+0008 <span class="comment">%   cells:</span>
+0009 <span class="comment">%   - ability of M. genitalium to adhere to the urogenital epithelium,</span>
+0010 <span class="comment">%     which requires adhesins and a functional terminal organelle</span>
+0011 <span class="comment">%   - ability of M. genitalium lipoproteins to interact with host TLR</span>
+0012 <span class="comment">%     receptors 1, 2, and 6</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%   References</span>
+0015 <span class="comment">%   ==========</span>
+0016 <span class="comment">%   See HostInteraction process.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0019 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0020 <span class="comment">% Last updated: 5/25/2011</span>
+0021 classdef <a href="Host.html" class="code" title="">Host</a> &lt; edu.stanford.covert.cell.sim.CellState
+0022     <span class="comment">%property annotations</span>
+0023     properties (Constant)
+0024         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0025             <span class="string">'verbosity'</span>;
+0026             <span class="string">'seed'</span>;
+0027             };
+0028         fixedConstantNames      = {}; <span class="comment">%names of process properties that are considered fixed constants</span>
+0029         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0030         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0031             <span class="string">'isBacteriumAdherent'</span>
+0032             <span class="string">'isTLRActivated'</span>
+0033             <span class="string">'isNFkBActivated'</span>
+0034             <span class="string">'isInflammatoryResponseActivated'</span>
+0035             };
+0036         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0037     <span class="keyword">end</span>
+0038     
+0039     properties (Constant = true)
+0040         nTLRs = 3;
+0041         tlrIDs = {
+0042             <span class="string">'TLR1'</span>
+0043             <span class="string">'TLR2'</span>
+0044             <span class="string">'TLR6'</span>
+0045             };
+0046         tlrIndexs_1 = 1;
+0047         tlrIndexs_2 = 2;
+0048         tlrIndexs_6 = 3;
+0049     <span class="keyword">end</span>
+0050     
+0051     <span class="comment">%state</span>
+0052     properties
+0053         isBacteriumAdherent             <span class="comment">%true/false indicating whether or not cell can adhere</span>
+0054         isTLRActivated                  <span class="comment">%true/false indicating the state of TLRs 1, 2, and 6 activated</span>
+0055         isNFkBActivated                 <span class="comment">%true/false indicating the state of NF-kB</span>
+0056         isInflammatoryResponseActivated <span class="comment">%true/false indicating the state of the inflammatory response</span>
+0057     <span class="keyword">end</span>
+0058     
+0059     properties (Constant)
+0060         dryWeight = 0; <span class="comment">%dry weight of this class' state properties</span>
+0061     <span class="keyword">end</span>
+0062     
+0063     <span class="comment">%constructor</span>
+0064     methods
+0065         <a name="_sub0" href="#_subfunctions" class="code">function this = Host(wholeCellModelID, name)</a>
+0066             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0067         <span class="keyword">end</span>
+0068     <span class="keyword">end</span>
+0069     
+0070     <span class="comment">%allocate memory for state</span>
+0071     methods
+0072         <a name="_sub1" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0073             this.isBacteriumAdherent = false(1, 1, numTimePoints);
+0074             this.isTLRActivated = false(this.nTLRs, 1, numTimePoints);
+0075         <span class="keyword">end</span>
+0076     <span class="keyword">end</span>
+0077     
+0078     <span class="comment">%initialization</span>
+0079     methods
+0080         <span class="comment">%state initialized by host interaction process</span>
+0081         <a name="_sub2" href="#_subfunctions" class="code">function initialize(this)</a>
+0082         <span class="keyword">end</span>
+0083     <span class="keyword">end</span>
+0084 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

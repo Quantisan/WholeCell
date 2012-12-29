@@ -1,0 +1,498 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: pathways.dat
+# Date and time generated: March 29, 2012, 18:01:34
+#
+UNIQUE-ID - ACETATEUTIL_PWY
+TYPES - Pathway
+COMMON-NAME - acetate utilization and formation
+//
+UNIQUE-ID - ALA_ASP_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Alanine and Aspartate Metabolism
+REACTION-LIST - ATPHs_ProteinTranslocation_SecA
+REACTION-LIST - GlyA2
+//
+UNIQUE-ID - ALT_CARBON_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Alternate Carbon Metabolism
+REACTION-LIST - CpsG
+REACTION-LIST - DeoC
+REACTION-LIST - DhaK
+REACTION-LIST - FruK1
+REACTION-LIST - FruK2
+REACTION-LIST - GalE
+REACTION-LIST - GlpK
+REACTION-LIST - Pgm
+//
+UNIQUE-ID - ANAEROFRUCAT_PWY
+TYPES - Pathway
+COMMON-NAME - homolactic fermentation
+//
+UNIQUE-ID - ANAPLEROTIC_REACTIONS
+TYPES - Pathway
+COMMON-NAME - Anaplerotic Reactions
+REACTION-LIST - Ppa
+REACTION-LIST - Ppc
+//
+UNIQUE-ID - ARG_PRO_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Arginine and Proline Metabolism
+REACTION-LIST - AcpS
+REACTION-LIST - ArgF
+//
+UNIQUE-ID - CITRIC_ACID_CYCLE
+TYPES - Pathway
+COMMON-NAME - Citric Acid Cycle
+REACTION-LIST - Mdh
+//
+UNIQUE-ID - COA_PWY
+TYPES - Pathway
+COMMON-NAME - coenzyme A biosynthesis
+//
+UNIQUE-ID - CODH_PWY
+TYPES - Pathway
+COMMON-NAME - reductive acetyl coenzyme A pathway
+//
+UNIQUE-ID - COFACTOR_PROSTHETIC_BIOSYNTHESIS
+TYPES - Pathway
+COMMON-NAME - Cofactor and Prosthetic Group Biosynthesis
+REACTION-LIST - CoaE
+REACTION-LIST - DhfR1
+REACTION-LIST - Fre1
+REACTION-LIST - Fre2
+REACTION-LIST - Fre3
+REACTION-LIST - Fre4
+REACTION-LIST - Fre5
+REACTION-LIST - Fre6
+REACTION-LIST - GlyA1
+REACTION-LIST - HemG
+REACTION-LIST - NadE
+REACTION-LIST - NadK
+REACTION-LIST - NADR1
+REACTION-LIST - PncB
+REACTION-LIST - RibF1
+REACTION-LIST - RibF2
+REACTION-LIST - ThiL
+REACTION-LIST - Tmk
+//
+UNIQUE-ID - DENOVOPURINE2_PWY
+TYPES - Pathway
+COMMON-NAME - purine nucleotides <i>de novo</i> biosynthesis I
+//
+UNIQUE-ID - DRIBOPMET_PWY
+TYPES - Pathway
+COMMON-NAME - (deoxy)ribose phosphate degradation
+//
+UNIQUE-ID - ENVELOPE_BIOSYNTHESIS
+TYPES - Pathway
+COMMON-NAME - Cell Envelope Biosynthesis
+REACTION-LIST - Aas1
+REACTION-LIST - Aas2
+REACTION-LIST - Aas3
+REACTION-LIST - Aas4
+REACTION-LIST - Aas5
+REACTION-LIST - Aas6
+REACTION-LIST - Aas7
+REACTION-LIST - GalU1
+REACTION-LIST - Glf
+//
+UNIQUE-ID - FERMENTATION_PWY
+TYPES - Pathway
+COMMON-NAME - mixed acid fermentation
+//
+UNIQUE-ID - FOLATE_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Folate Metabolism
+REACTION-LIST - FolD1
+REACTION-LIST - FolD2
+REACTION-LIST - FthC
+REACTION-LIST - FTHFS
+REACTION-LIST - MetF
+//
+UNIQUE-ID - GALACTMETAB_PWY
+TYPES - Pathway
+COMMON-NAME - UDP-galactose biosynthesis (salvage pathway from galactose using UDP-glucose)
+//
+UNIQUE-ID - GLYCEROPHOSPHOLIPID_METBOLISM
+TYPES - Pathway
+COMMON-NAME - Glycerophospholipid Metabolism
+REACTION-LIST - CdsA1
+REACTION-LIST - CdsA2
+REACTION-LIST - CdsA3
+REACTION-LIST - CdsA4
+REACTION-LIST - CdsA5
+REACTION-LIST - CdsA6
+REACTION-LIST - CdsA7
+REACTION-LIST - Cls1
+REACTION-LIST - Cls2
+REACTION-LIST - Cls3
+REACTION-LIST - GlpQ1
+REACTION-LIST - GlpQ2
+REACTION-LIST - GlpQ3
+REACTION-LIST - GlpQ4
+REACTION-LIST - GlpQ5
+REACTION-LIST - MG385r1
+REACTION-LIST - MG385r2
+REACTION-LIST - MG385r3
+REACTION-LIST - MG385r4
+REACTION-LIST - MG385r5
+REACTION-LIST - PgpA1
+REACTION-LIST - PgpA2
+REACTION-LIST - PgpA3
+REACTION-LIST - PgsA1
+REACTION-LIST - PgsA2
+REACTION-LIST - PgsA3
+REACTION-LIST - PlsC1
+REACTION-LIST - PlsC2
+REACTION-LIST - PlsC3
+REACTION-LIST - PlsC4
+REACTION-LIST - PlsC5
+REACTION-LIST - PlsC6
+REACTION-LIST - PlsC7
+REACTION-LIST - PlsX1
+REACTION-LIST - PlsX2
+REACTION-LIST - PlsX3
+REACTION-LIST - PlsX4
+REACTION-LIST - PlsX5
+REACTION-LIST - PlsX6
+REACTION-LIST - PlsX7
+//
+UNIQUE-ID - GLYCLEAV_PWY
+TYPES - Pathway
+COMMON-NAME - glycine cleavage complex
+//
+UNIQUE-ID - GLYCOLYSIS
+TYPES - Pathway
+COMMON-NAME - Glycolysis/Gluconeogenesis
+REACTION-LIST - AceE
+REACTION-LIST - Eno
+REACTION-LIST - Fba
+REACTION-LIST - GapA
+REACTION-LIST - GpmA
+REACTION-LIST - PfkA1
+REACTION-LIST - PfkA2
+REACTION-LIST - PfkA3
+REACTION-LIST - PfkA4
+REACTION-LIST - PfkA5
+REACTION-LIST - Pgi
+REACTION-LIST - Pgk1
+REACTION-LIST - Pgk2
+REACTION-LIST - Pgk3
+REACTION-LIST - Pgk4
+REACTION-LIST - Pgk5
+REACTION-LIST - Pyk_ADP
+REACTION-LIST - Pyk_CDP
+REACTION-LIST - Pyk_DADP
+REACTION-LIST - Pyk_DCDP
+REACTION-LIST - Pyk_DGDP
+REACTION-LIST - Pyk_DTDP
+REACTION-LIST - Pyk_DUDP
+REACTION-LIST - Pyk_GDP
+REACTION-LIST - Pyk_IDP
+REACTION-LIST - Pyk_TDP
+REACTION-LIST - Pyk_UDP
+REACTION-LIST - TpiA
+//
+UNIQUE-ID - GLYSYN_PWY
+TYPES - Pathway
+COMMON-NAME - glycine biosynthesis I
+//
+UNIQUE-ID - GLY_SER_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Glycine and Serine Metabolism
+REACTION-LIST - GlyA3
+//
+UNIQUE-ID - HISTIDINE_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Histidine Metabolism
+REACTION-LIST - PrsA
+//
+UNIQUE-ID - NADPHOS_DEPHOS_PWY
+TYPES - Pathway
+COMMON-NAME - NAD phosphorylation and dephosphorylation
+//
+UNIQUE-ID - NAD_BIOSYNTHESIS_II
+TYPES - Pathway
+COMMON-NAME - NAD salvage pathway II
+//
+UNIQUE-ID - NAD_BIOSYNTHESIS_III
+TYPES - Pathway
+COMMON-NAME - NAD biosynthesis III
+//
+UNIQUE-ID - NONOXIPENT_PWY
+TYPES - Pathway
+COMMON-NAME - pentose phosphate pathway (non-oxidative branch)
+REACTION-LIST - Rpe
+REACTION-LIST - RpiB
+REACTION-LIST - TalA
+REACTION-LIST - Tkt1
+REACTION-LIST - Tkt2
+//
+UNIQUE-ID - OXIDATIVE_PHOSPHORYLATION
+TYPES - Pathway
+COMMON-NAME - Oxidative Phosphorylation
+REACTION-LIST - AtpA
+REACTION-LIST - TrxB
+//
+UNIQUE-ID - P122_PWY
+TYPES - Pathway
+COMMON-NAME - heterolactic fermentation I
+//
+UNIQUE-ID - P142_PWY
+TYPES - Pathway
+COMMON-NAME - pyruvate fermentation to acetate I
+//
+UNIQUE-ID - P1_PWY
+TYPES - Pathway
+COMMON-NAME - salvage pathways of purine and pyrimidine nucleotides
+REACTION-LIST - Adk1
+REACTION-LIST - Adk2
+REACTION-LIST - Adk3
+REACTION-LIST - Adk4
+REACTION-LIST - Apt
+REACTION-LIST - Cdd1
+REACTION-LIST - Cdd2
+REACTION-LIST - CmkA1
+REACTION-LIST - CmkA2
+REACTION-LIST - CmkB3
+REACTION-LIST - Dck
+REACTION-LIST - DeoD1
+REACTION-LIST - DeoD2
+REACTION-LIST - DeoD3
+REACTION-LIST - DeoD4
+REACTION-LIST - DeoD5
+REACTION-LIST - DeoD6
+REACTION-LIST - DeoD7
+REACTION-LIST - DeoD8
+REACTION-LIST - Gmk1
+REACTION-LIST - Gmk2
+REACTION-LIST - Gmk3
+REACTION-LIST - Gmk4
+REACTION-LIST - Hpt1
+REACTION-LIST - Hpt2
+REACTION-LIST - NADR2
+REACTION-LIST - NrdEF_ADP
+REACTION-LIST - NrdEF_CDP
+REACTION-LIST - NrdEF_GDP
+REACTION-LIST - NrdEF_UDP
+REACTION-LIST - Pdp1
+REACTION-LIST - Pdp2
+REACTION-LIST - Pdp3
+REACTION-LIST - Tdk1
+REACTION-LIST - Tdk2
+REACTION-LIST - ThyA
+REACTION-LIST - Udk1
+REACTION-LIST - Udk2
+REACTION-LIST - Upp
+REACTION-LIST - UshA_AMP
+REACTION-LIST - UshA_dCMP
+REACTION-LIST - UshA_dTMP
+REACTION-LIST - UshA_dUMP
+REACTION-LIST - UshA_GMP
+REACTION-LIST - UshA_IMP
+REACTION-LIST - YicP
+//
+UNIQUE-ID - P21_PWY
+TYPES - Pathway
+COMMON-NAME - pentose phosphate pathway (partial)
+//
+UNIQUE-ID - P41_PWY
+TYPES - Pathway
+COMMON-NAME - pyruvate fermentation to acetate and lactate I
+//
+UNIQUE-ID - P61_PWY
+TYPES - Pathway
+COMMON-NAME - UDP-glucose conversion
+//
+UNIQUE-ID - PHOSLIPSYN_PWY
+TYPES - Pathway
+COMMON-NAME - phospholipid biosynthesis I
+//
+UNIQUE-ID - PPGPPMET_PWY
+TYPES - Pathway
+COMMON-NAME - ppGpp biosynthesis
+//
+UNIQUE-ID - PWY0_163
+TYPES - Pathway
+COMMON-NAME - salvage pathways of pyrimidine ribonucleotides
+//
+UNIQUE-ID - PWY0_166
+TYPES - Pathway
+COMMON-NAME - de novo biosynthesis of pyrimidine deoxyribonucleotides
+//
+UNIQUE-ID - PWY0_181
+TYPES - Pathway
+COMMON-NAME - salvage pathways of pyrimidine deoxyribonucleotides
+//
+UNIQUE-ID - PWY0_381
+TYPES - Pathway
+COMMON-NAME - glycerol degradation I
+//
+UNIQUE-ID - PWY0_662
+TYPES - Pathway
+COMMON-NAME - PRPP biosynthesis I
+//
+UNIQUE-ID - PWY0_901
+TYPES - Pathway
+COMMON-NAME - selenocysteine biosynthesis
+//
+UNIQUE-ID - PWY_1622
+TYPES - Pathway
+COMMON-NAME - formaldehyde assimilation I (serine pathway)
+//
+UNIQUE-ID - PWY_1861
+TYPES - Pathway
+COMMON-NAME - formaldehyde assimilation II (RuMP Cycle)
+//
+UNIQUE-ID - PWY_2201
+TYPES - Pathway
+COMMON-NAME - folate transformations
+//
+UNIQUE-ID - PWY_3742
+TYPES - Pathway
+COMMON-NAME - tetrahydrofolate biosynthesis II
+//
+UNIQUE-ID - PWY_3841
+TYPES - Pathway
+COMMON-NAME - formylTHF biosynthesis II
+//
+UNIQUE-ID - PWY_4261
+TYPES - Pathway
+COMMON-NAME - glycerol degradation IV
+//
+UNIQUE-ID - PWY_5046
+TYPES - Pathway
+COMMON-NAME - branched-chain &alpha;-keto acid dehydrogenase complex
+//
+UNIQUE-ID - PWY_5083
+TYPES - Pathway
+COMMON-NAME - NAD/NADH phosphorylation and dephosphorylation
+//
+UNIQUE-ID - PWY_5084
+TYPES - Pathway
+COMMON-NAME - 2-keto glutarate dehydrogenase complex
+//
+UNIQUE-ID - PWY_5481
+TYPES - Pathway
+COMMON-NAME - pyruvate fermentation to lactate
+//
+UNIQUE-ID - PWY_5482
+TYPES - Pathway
+COMMON-NAME - pyruvate fermentation to acetate II
+//
+UNIQUE-ID - PWY_5485
+TYPES - Pathway
+COMMON-NAME - pyruvate fermentation to acetate IV
+//
+UNIQUE-ID - PWY_5497
+TYPES - Pathway
+COMMON-NAME - purine degradation II (anaerobic)
+//
+UNIQUE-ID - PYRUVATE_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Pyruvate Metabolism
+REACTION-LIST - AckA
+REACTION-LIST - LdhA
+REACTION-LIST - Pta
+//
+UNIQUE-ID - PYRUVDEHYD_PWY
+TYPES - Pathway
+COMMON-NAME - pyruvate dehydrogenase complex
+//
+UNIQUE-ID - RIBOSYN2_PWY
+TYPES - Pathway
+COMMON-NAME - flavin biosynthesis
+//
+UNIQUE-ID - SAM_PWY
+TYPES - Pathway
+COMMON-NAME - S-adenosylmethionine biosynthesis
+//
+UNIQUE-ID - THIOREDOX_PWY
+TYPES - Pathway
+COMMON-NAME - thioredoxin pathway
+//
+UNIQUE-ID - THR_LYS_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Threonine and Lysine Metabolism
+REACTION-LIST - GlyA4
+//
+UNIQUE-ID - TRANS_INNER
+TYPES - Pathway
+COMMON-NAME - Transport, Inner Membrane
+REACTION-LIST - TX_ACUP
+REACTION-LIST - TX_FRUPTS
+REACTION-LIST - TX_GLCPTS
+REACTION-LIST - TX_GLNHPQ
+REACTION-LIST - TX_OppB_Ala
+REACTION-LIST - TX_OppB_Arg
+REACTION-LIST - TX_OppB_Asn
+REACTION-LIST - TX_OppB_Asp
+REACTION-LIST - TX_OppB_Cys
+REACTION-LIST - TX_OppB_Gln
+REACTION-LIST - TX_OppB_Glu
+REACTION-LIST - TX_OppB_Gly
+REACTION-LIST - TX_OppB_His
+REACTION-LIST - TX_OppB_Ile
+REACTION-LIST - TX_OppB_Leu
+REACTION-LIST - TX_OppB_Lys
+REACTION-LIST - TX_OppB_Met
+REACTION-LIST - TX_OppB_Phe
+REACTION-LIST - TX_OppB_Pro
+REACTION-LIST - TX_OppB_Ser
+REACTION-LIST - TX_OppB_Thr
+REACTION-LIST - TX_OppB_Trp
+REACTION-LIST - TX_OppB_Tyr
+REACTION-LIST - TX_OppB_Val
+REACTION-LIST - TX_PHNT
+REACTION-LIST - TX_RIBUP
+REACTION-LIST - TX_SPMDUP1
+REACTION-LIST - TX_SPRDUP2
+REACTION-LIST - TX_UHPT1
+REACTION-LIST - TX_UHPT2
+REACTION-LIST - TX_UHPT3
+//
+UNIQUE-ID - TRANS_INORG_ION
+TYPES - Pathway
+COMMON-NAME - Inorganic Ion Transport and Metabolism
+REACTION-LIST - TX_NAUP2
+REACTION-LIST - TX_PIUP1
+REACTION-LIST - TX_TRK
+//
+UNIQUE-ID - TRANS_OUTER
+TYPES - Pathway
+COMMON-NAME - Transport, Outer Membrane
+//
+UNIQUE-ID - TRANS_OUTER_PORIN
+TYPES - Pathway
+COMMON-NAME - Transport, Outer Membrane Porin
+REACTION-LIST - TX_GLUP
+//
+UNIQUE-ID - TRNA_CHARGING_PWY
+TYPES - Pathway
+COMMON-NAME - tRNA charging pathway
+//
+UNIQUE-ID - TYR_TRP_PHE_METABOLISM
+TYPES - Pathway
+COMMON-NAME - Tyrosine, Tryptophan, and Phenylalanine Metabolism
+REACTION-LIST - AspC2
+REACTION-LIST - AspC3
+//

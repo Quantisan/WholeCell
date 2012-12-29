@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CircularSparseMat</title>
+  <meta name="keywords" content="CircularSparseMat">
+  <meta name="description" content="CircularSparseMat">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; CircularSparseMat.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CircularSparseMat
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>CircularSparseMat</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> CircularSparseMat
+   Multidimensional circular sparse matrix. Builds on SparseMat adding circular
+   wrapping of indices
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/18/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="CircularSparseMat.html" class="code" title="">CircularSparseMat</a>	CircularSparseMat</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="CircularSparseMat.html" class="code" title="">CircularSparseMat</a>	CircularSparseMat</li><li><a href="SparseMat.html" class="code" title="">SparseMat</a>	SparseMat</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CircularSparseMat(varargin)</a></li><li><a href="#_sub2" class="code">function this = normalize(this, reSize, reFind, reSort, oldDims)</a></li><li><a href="#_sub3" class="code">function value = isDimCircular(this, dim)</a></li><li><a href="#_sub4" class="code">function tf = isequal(A, B)</a></li><li><a href="#_sub5" class="code">function C = tprod(A, B, Aid, Bid)</a></li><li><a href="#_sub6" class="code">function this = subsasgn(this, s, rhs)</a></li><li><a href="#_sub7" class="code">function value = subsref(this, s)</a></li><li><a href="#_sub8" class="code">function display(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% CircularSparseMat</span>
+0002 <span class="comment">%   Multidimensional circular sparse matrix. Builds on SparseMat adding circular</span>
+0003 <span class="comment">%   wrapping of indices</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Author: Jonathan Karr</span>
+0006 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0007 <span class="comment">% Last updated: 7/18/2010</span>
+0008 classdef <a href="CircularSparseMat.html" class="code" title="">CircularSparseMat</a> &lt; edu.stanford.covert.util.SparseMat
+0009     properties (SetAccess=protected)
+0010         circularDims
+0011     <span class="keyword">end</span>
+0012     
+0013     <span class="comment">%constructor</span>
+0014     methods
+0015         <span class="comment">%five ways to instatiate:</span>
+0016         <span class="comment">%(1) x = CircularSparseMat()</span>
+0017         <span class="comment">%    Creates an empty sparse matrix of size 0x2 with no dimensions</span>
+0018         <span class="comment">%    wrapping</span>
+0019         <span class="comment">%</span>
+0020         <span class="comment">%(2) x = CircularSparseMat(mat)</span>
+0021         <span class="comment">%    Casts matrix mat to sparse matrix with no dimensions wrapping</span>
+0022         <span class="comment">%</span>
+0023         <span class="comment">%(3) x = CircularSparseMat(mat, circularDims)</span>
+0024         <span class="comment">%    Casts matrix mat to sparse matrix with selected dimensions wrapping</span>
+0025         <span class="comment">%</span>
+0026         <span class="comment">%(4) x = CircularSparseMat(subs, vals, sz)</span>
+0027         <span class="comment">%    Creates sparse matrix with size sz and non-zeros with subscripts</span>
+0028         <span class="comment">%    subs and values vals with no dimensions wrapping</span>
+0029         <span class="comment">%</span>
+0030         <span class="comment">%(5) x = CircularSparseMat(subs, vals, sz, circularDims)</span>
+0031         <span class="comment">%    Creates sparse matrix with size sz and non-zeros with subscripts</span>
+0032         <span class="comment">%    subs and values vals with selected dimensions wrapping</span>
+0033         <a name="_sub0" href="#_subfunctions" class="code">function this = CircularSparseMat(varargin)</a>
+0034             import edu.stanford.covert.util.CircularSparseMat;
+0035             
+0036             <span class="keyword">switch</span> nargin
+0037                 <span class="keyword">case</span> 4, supervarargin = varargin(1:3);
+0038                     circDims = varargin{end};
+0039                     
+0040                     subs = varargin{1};
+0041                     siz  = varargin{3};
+0042                     <span class="keyword">if</span> ~isempty(subs)
+0043                         <span class="keyword">for</span> i = 1:numel(circDims)
+0044                             subs(:, circDims(i)) = mod(subs(:, circDims(i)) - 1, siz(circDims(i))) + 1;
+0045                         <span class="keyword">end</span>
+0046                         supervarargin{1} = subs;
+0047                     <span class="keyword">end</span>
+0048                 <span class="keyword">case</span> 0,
+0049                 <span class="keyword">case</span> 1, supervarargin = varargin(1);
+0050                     circDims = varargin{1}.circularDims;
+0051                 <span class="keyword">case</span> 2, supervarargin = varargin(1);
+0052                     circDims = varargin{end};
+0053                 <span class="keyword">case</span> 3, supervarargin = varargin(1:3);
+0054                     circDims = zeros(1,0);
+0055                 <span class="keyword">otherwise</span>
+0056                     throw(MException(<span class="string">'CircularSparseMat:error'</span>,<span class="string">'no constructor matches the calling signature'</span>));
+0057             <span class="keyword">end</span>
+0058             
+0059             this = this@edu.stanford.covert.util.SparseMat(supervarargin{:});
+0060             
+0061             validateattributes(circDims, {<span class="string">'numeric'</span>}, {<span class="string">'positive'</span>, <span class="string">'real'</span>, <span class="string">'integer'</span>, <span class="string">'&lt;='</span>, this.ndims});
+0062             <span class="keyword">if</span> numel(circDims) &gt; 1 &amp;&amp; ~all(diff(sort(circDims)))
+0063                 throw(MException(<span class="string">'CircularSparseMat:invalidDimensions'</span>, <span class="string">'circularDims must be positive real intergers in the range 1..ndims(this)'</span>));
+0064             <span class="keyword">end</span>
+0065             
+0066             <span class="keyword">if</span> numel(circDims) == 1
+0067                 this.circularDims = circDims;
+0068             <span class="keyword">else</span>
+0069                 this.circularDims = sort(circDims);
+0070             <span class="keyword">end</span>
+0071         <span class="keyword">end</span>
+0072         
+0073         <a name="_sub1" href="#_subfunctions" class="code">function this = normalize(this, reSize, reFind, reSort, oldDims)</a>
+0074             this = this.normalize@edu.stanford.covert.util.SparseMat(reSize, reFind, reSort, oldDims);
+0075             
+0076             <span class="comment">%inlined is ismember optimized for small number of circular dimensions</span>
+0077             <span class="keyword">if</span> isscalar(this.circularDims)
+0078                 this.circularDims = find(oldDims == this.circularDims);
+0079             <span class="keyword">else</span>
+0080                 tfs = false(size(oldDims));
+0081                 <span class="keyword">for</span> i = 1:numel(oldDims)
+0082                     tfs(i) = any(this.circularDims == oldDims(i));
+0083                 <span class="keyword">end</span>
+0084                 this.circularDims = find(tfs);
+0085             <span class="keyword">end</span>
+0086         <span class="keyword">end</span>
+0087         
+0088         <a name="_sub2" href="#_subfunctions" class="code">function value = isDimCircular(this, dim)</a>
+0089             value = any(this.circularDims == dim);
+0090         <span class="keyword">end</span>
+0091         
+0092         <a name="_sub3" href="#_subfunctions" class="code">function tf = isequal(A, B)</a>
+0093             tf = <a href="#_sub4" class="code" title="subfunction tf = isequal(A, B)">isequal</a>@edu.stanford.covert.util.SparseMat(A, B) &amp;&amp; <span class="keyword">...</span>
+0094                 <a href="#_sub4" class="code" title="subfunction tf = isequal(A, B)">isequal</a>(A.circularDims, B.circularDims);
+0095         <span class="keyword">end</span>
+0096         
+0097         <a name="_sub4" href="#_subfunctions" class="code">function C = tprod(A, B, Aid, Bid)</a>
+0098             Aod = setdiff(1:A.ndims, Aid);
+0099             Bod = setdiff(1:B.ndims, Bid);
+0100             
+0101             circDims = [];
+0102             <span class="keyword">if</span> isa(<span class="string">'CircularSparseMat'</span>,A)
+0103                 [tfs, idxs] = ismember(A.circularDims, Aod);
+0104                 circDims = idxs(tfs);
+0105             <span class="keyword">end</span>
+0106             <span class="keyword">if</span> isa(<span class="string">'CircularSparseMat'</span>,A)
+0107                 [tfs, idxs] = ismember(B.circularDims, Bod);
+0108                 circDims = [circDims idxs(tfs)+numel(Aod)];
+0109             <span class="keyword">end</span>
+0110             
+0111             C = <a href="#_sub5" class="code" title="subfunction C = tprod(A, B, Aid, Bid)">tprod</a>@edu.stanford.covert.util.SparseMat(A, B);
+0112             C.circularDims = circDims;
+0113         <span class="keyword">end</span>
+0114         
+0115         <a name="_sub5" href="#_subfunctions" class="code">function this = subsasgn(this, s, rhs)</a>
+0116             <span class="comment">%Case 1: Dot reference to properties</span>
+0117             <span class="keyword">if</span> strcmp(s.type,<span class="string">'.'</span>) || strcmp(s.type, <span class="string">'{}'</span>)
+0118                 this = this.subsasgn@edu.stanford.covert.util.SparseMat(s, rhs);
+0119                 <span class="keyword">return</span>;
+0120             <span class="keyword">end</span>
+0121             
+0122             <span class="keyword">if</span> numel(s.subs)==1
+0123                 <span class="comment">%Case 2: Subscripts of elements</span>
+0124                 subs = s.subs{1};
+0125                 
+0126                 <span class="keyword">if</span> size(subs,2) ~= this.ndims
+0127                     throw(MException(<span class="string">'SparseMat:invalidDimensions'</span>,<span class="string">'Subscripts must have number of columns equal to dimensions of matrix.'</span>));
+0128                 <span class="keyword">end</span>
+0129                 <span class="keyword">for</span> i=1:numel(this.circularDims)
+0130                     subs(:,this.circularDims(i)) = mod(subs(:,this.circularDims(i))-1, this.siz(this.circularDims(i)))+1;
+0131                 <span class="keyword">end</span>
+0132                 
+0133                 s.subs{1}=subs;
+0134             <span class="keyword">else</span>
+0135                 <span class="comment">%Case 3: Subscripts ranges</span>
+0136                 <span class="keyword">for</span> i=1:numel(this.circularDims)
+0137                     <span class="keyword">if</span> this.circularDims(i) &gt; numel(s.subs)
+0138                         <span class="keyword">break</span>;
+0139                     <span class="keyword">end</span>
+0140                     
+0141                     subs = s.subs{this.circularDims(i)};
+0142                     
+0143                     <span class="keyword">if</span> isnumeric(subs)
+0144                         subs = mod(subs-1, this.siz(this.circularDims(i)))+1;
+0145                     <span class="keyword">end</span>
+0146                     
+0147                     s.subs{this.circularDims(i)} = subs;
+0148                 <span class="keyword">end</span>
+0149             <span class="keyword">end</span>
+0150             
+0151             this = this.subsasgn@edu.stanford.covert.util.SparseMat(s, rhs);
+0152         <span class="keyword">end</span>
+0153         
+0154         <a name="_sub6" href="#_subfunctions" class="code">function value = subsref(this, s)</a>
+0155             <span class="comment">%Case 1: Dot reference to properties</span>
+0156             <span class="keyword">if</span> strcmp(s.type,<span class="string">'.'</span>) || strcmp(s.type, <span class="string">'{}'</span>)
+0157                 value = this.subsref@edu.stanford.covert.util.SparseMat(s);
+0158                 <span class="keyword">return</span>;
+0159             <span class="keyword">end</span>
+0160             
+0161             <span class="keyword">if</span> numel(s.subs)==1
+0162                 <span class="comment">%Case 2: Subscripts of elements</span>
+0163                 subs = s.subs{1};
+0164                 
+0165                 <span class="keyword">if</span> size(subs,2) ~= this.ndims
+0166                     throw(MException(<span class="string">'SparseMat:invalidDimensions'</span>,<span class="string">'Subscripts must have number of columns equal to dimensions of matrix.'</span>));
+0167                 <span class="keyword">end</span>
+0168                 <span class="keyword">for</span> i=1:numel(this.circularDims)
+0169                     subs(:,this.circularDims(i)) = mod(subs(:,this.circularDims(i))-1, this.siz(this.circularDims(i)))+1;
+0170                 <span class="keyword">end</span>
+0171                 
+0172                 s.subs{1}=subs;
+0173             <span class="keyword">else</span>
+0174                 <span class="comment">%Case 3: Subscripts ranges</span>
+0175                 <span class="keyword">for</span> i=1:numel(this.circularDims)
+0176                     <span class="keyword">if</span> this.circularDims(i) &gt; numel(s.subs)
+0177                         <span class="keyword">break</span>;
+0178                     <span class="keyword">end</span>
+0179                     
+0180                     subs = s.subs{this.circularDims(i)};
+0181                     
+0182                     <span class="keyword">if</span> isnumeric(subs)
+0183                         subs = mod(subs-1, this.siz(this.circularDims(i)))+1;
+0184                     <span class="keyword">end</span>
+0185                     
+0186                     s.subs{this.circularDims(i)} = subs;
+0187                 <span class="keyword">end</span>
+0188             <span class="keyword">end</span>
+0189             
+0190             value = this.subsref@edu.stanford.covert.util.SparseMat(s);
+0191         <span class="keyword">end</span>
+0192         
+0193         <a name="_sub7" href="#_subfunctions" class="code">function display(this)</a>
+0194             <span class="keyword">if</span> isempty(this.circularDims)
+0195                 circDims = <span class="string">'no circular dimensions'</span>;
+0196             <span class="keyword">else</span>
+0197                 circDims = sprintf(<span class="string">'circular dimensions {%d'</span>, this.circularDims(1));
+0198                 <span class="keyword">if</span> numel(this.circularDims)&gt;1
+0199                     circDims = [circDims sprintf(<span class="string">',%d'</span>, this.circularDims(2:end))];
+0200                 <span class="keyword">end</span>
+0201                 circDims = [circDims <span class="string">'}'</span>];
+0202             <span class="keyword">end</span>
+0203             
+0204             fprintf(<span class="string">'%d'</span>,this.siz(1));
+0205             fprintf(<span class="string">'x%d'</span>,this.siz(2:end));
+0206             fprintf(<span class="string">' %s of type %s with %s and %d non-zeros\n'</span>, <span class="keyword">...</span>
+0207                 class(this), valueClass(this), circDims, this.nnz);
+0208             <span class="keyword">for</span> i=1:this.nnz
+0209                 fprintf(<span class="string">'(%d'</span>,this.subs(i,1));
+0210                 fprintf(<span class="string">',%d'</span>,this.subs(i,2:end));
+0211                 fprintf(<span class="string">')\t\t%.4f\n'</span>,this.vals(i));
+0212             <span class="keyword">end</span>
+0213         <span class="keyword">end</span>
+0214     <span class="keyword">end</span>
+0215 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

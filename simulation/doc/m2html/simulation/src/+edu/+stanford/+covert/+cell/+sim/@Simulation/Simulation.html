@@ -1,0 +1,687 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Simulation</title>
+  <meta name="keywords" content="Simulation">
+  <meta name="description" content="Whole cell simulation class.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">@Simulation</a> &gt; Simulation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/@Simulation&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Simulation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Whole cell simulation class.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Whole cell simulation class.
+ - Runs simulations
+ - Downsamples simulations
+ - Stores and loads simulation to/from local disk or a database
+ - Simulations are stored both on local disk and in the database with the
+   meta data, parameters, and time courses list below. Several dependent
+   time courses are also stored in the database.
+ - Opens simulations in dashboard
+
+ Options
+ - lengthSec
+ - stepSizeSec
+ - verbosity
+ - seed
+ - geneticKnockouts
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/7/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Simulation.html" class="code" title="">Simulation</a>	Whole cell simulation class.</li><li><a href="evolveState.html" class="code" title="function [this, requirements, allocations, usages] = evolveState(this)">evolveState</a>	Evolves state of organism:</li><li><a href="initializeConstants.html" class="code" title="function this = initializeConstants(this, knowledgeBase)">initializeConstants</a>	Cache various properties of knowledgeBase</li><li><a href="initializeState.html" class="code" title="function this = initializeState(this)">initializeState</a>	Initialize state of organism to expectation values.</li><li><a href="run.html" class="code" title="function [this, loggers] = run(this, loggers)">run</a>	Runs the simulation, and optionally logs results. loggers is a cell array of</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Simulation.html" class="code" title="">Simulation</a>	Whole cell simulation class.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Simulation(kbStates, kbProcesses)</a></li><li><a href="#_sub2" class="code">function state = state(this, wholeCellModelID)</a></li><li><a href="#_sub3" class="code">function process = process(this, wholeCellModelID)</a></li><li><a href="#_sub4" class="code">function i = stateIndex(this, wholeCellModelID)</a></li><li><a href="#_sub5" class="code">function i = processIndex(this, wholeCellModelID)</a></li><li><a href="#_sub6" class="code">function result = stateWholeCellModelIDs(this)</a></li><li><a href="#_sub7" class="code">function result = processWholeCellModelIDs(this)</a></li><li><a href="#_sub8" class="code">function this = applyOptions(this, varargin)</a></li><li><a href="#_sub9" class="code">function this = applyParameters(this, parameters)</a></li><li><a href="#_sub10" class="code">function this = applyPerturbations(this)</a></li><li><a href="#_sub11" class="code">function applyPerturbationsToConstants(this)</a></li><li><a href="#_sub12" class="code">function applyPerturbationsToState(this)</a></li><li><a href="#_sub13" class="code">function this = applyFittedConstants(this, value)</a></li><li><a href="#_sub14" class="code">function this = applyRandStreamStates(this, value)</a></li><li><a href="#_sub15" class="code">function this = applyTimeCourses(this, value)</a></li><li><a href="#_sub16" class="code">function this = seedRandStream(this)</a></li><li><a href="#_sub17" class="code">function value = getOptions(this)</a></li><li><a href="#_sub18" class="code">function value = getParameters(this)</a></li><li><a href="#_sub19" class="code">function value = getFittedConstants(this)</a></li><li><a href="#_sub20" class="code">function value = getFixedConstants(this)</a></li><li><a href="#_sub21" class="code">function value = getTimeCourses(this)</a></li><li><a href="#_sub22" class="code">function value = getRandStreamStates(this)</a></li><li><a href="#_sub23" class="code">function value = getNumSteps(this)</a></li><li><a href="#_sub24" class="code">function this = allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub25" class="code">function this = constructStates(this, stateWholeCellModelIDs)</a></li><li><a href="#_sub26" class="code">function this = constructProcesses(this, processWholeCellModelIDs)</a></li><li><a href="#_sub27" class="code">function [processes, indexs] = createProcessOrdering(this, completeOrdering)</a></li><li><a href="#_sub28" class="code">function result = buildNameIndex(~, names)</a></li><li><a href="#_sub29" class="code">function value = getAsStruct(this, field, fields, statesFlag, processesFlag)</a></li><li><a href="#_sub30" class="code">function this = setFromStruct(this, value, field, fields)</a></li><li><a href="#_sub31" class="code">function value = getForTest(this, propName)</a></li><li><a href="#_sub32" class="code">function this = setForTest(this, propName, value)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Whole cell simulation class.</span>
+0002 <span class="comment">% - Runs simulations</span>
+0003 <span class="comment">% - Downsamples simulations</span>
+0004 <span class="comment">% - Stores and loads simulation to/from local disk or a database</span>
+0005 <span class="comment">% - Simulations are stored both on local disk and in the database with the</span>
+0006 <span class="comment">%   meta data, parameters, and time courses list below. Several dependent</span>
+0007 <span class="comment">%   time courses are also stored in the database.</span>
+0008 <span class="comment">% - Opens simulations in dashboard</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Options</span>
+0011 <span class="comment">% - lengthSec</span>
+0012 <span class="comment">% - stepSizeSec</span>
+0013 <span class="comment">% - verbosity</span>
+0014 <span class="comment">% - seed</span>
+0015 <span class="comment">% - geneticKnockouts</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0018 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0019 <span class="comment">% Last Updated: 9/7/2010</span>
+0020 classdef <a href="Simulation.html" class="code" title="">Simulation</a> &lt; handle
+0021     properties (Constant)
+0022         optionNames = {
+0023             <span class="string">'lengthSec'</span>
+0024             <span class="string">'stepSizeSec'</span>
+0025             <span class="string">'verbosity'</span>
+0026             <span class="string">'seed'</span>
+0027             <span class="string">'macromoleculeStateInitialization'</span>
+0028             <span class="string">'geneticKnockouts'</span>
+0029             <span class="string">'stimulus'</span>
+0030             <span class="string">'media'</span>
+0031             };
+0032     <span class="keyword">end</span>
+0033     
+0034     properties (SetAccess = private)
+0035         compartment             <span class="comment">%compartments</span>
+0036         gene                    <span class="comment">%indices of genes</span>
+0037         
+0038         stateMetadata           <span class="comment">%all state IDs, classes, names, etc.</span>
+0039         states                  <span class="comment">%cell array of states in alphabetical order</span>
+0040         state_time              <span class="comment">%reference to time state</span>
+0041         state_metabolite        <span class="comment">%reference to metabolite state</span>
+0042         state_stimulus          <span class="comment">%reference to stimulus state</span>
+0043         
+0044         processMetadata         <span class="comment">%all process IDs, classes, names, etc.</span>
+0045         processes               <span class="comment">%cell array of processes in alphabetical order</span>
+0046         processInitOrderIndexs  <span class="comment">%indices of processes in initialization order</span>
+0047         processEvalOrderIndexs  <span class="comment">%indices of processes in state evolution order</span>
+0048         processesInInitOrder    <span class="comment">%processes in initialization order</span>
+0049         processesInEvalOrder    <span class="comment">%processes in state evolution order</span>
+0050         processIndex_translation        <span class="comment">%index of translation process</span>
+0051         processIndex_tRNAAminoacylation <span class="comment">%index of tRNA aminoacylation process</span>
+0052     <span class="keyword">end</span>
+0053     
+0054     properties (Access = private)
+0055         randStream              <span class="comment">%random number stream</span>
+0056     <span class="keyword">end</span>
+0057     
+0058     <span class="comment">%options. Use applyOptions(name1, value1, ...) to change one or more</span>
+0059     <span class="comment">%options before a run.</span>
+0060     properties (SetAccess = private)
+0061         lengthSec   = 50000; <span class="comment">%length of simulation (s); ~1.5x 9 h doubling time</span>
+0062         stepSizeSec = 1;     <span class="comment">%time scale of simulation (s)</span>
+0063         verbosity   = 1;     <span class="comment">%0 = no output, 5 = maximum output</span>
+0064         seed        = [];    <span class="comment">%set to any number for reproducible random streams</span>
+0065         macromoleculeStateInitialization = <span class="string">'multinomial'</span>;  <span class="comment">%Toggles how inital state is calculated; see initializeState</span>
+0066         
+0067         geneticKnockouts = {}; <span class="comment">%Whole Cell Model IDs of genes to be knocked out</span>
+0068         stimulus         = []; <span class="comment">%stimulus set values</span>
+0069         media            = []; <span class="comment">%media set values</span>
+0070     <span class="keyword">end</span>
+0071         
+0072     methods
+0073         <a name="_sub0" href="#_subfunctions" class="code">function this = Simulation(kbStates, kbProcesses)</a>
+0074             <span class="comment">%construct components</span>
+0075             this.randStream = edu.stanford.covert.util.RandStream(<span class="string">'mcg16807'</span>);
+0076             
+0077             <span class="comment">%construct constants</span>
+0078             this.compartment = edu.stanford.covert.cell.sim.constant.Compartment();
+0079             this.gene = edu.stanford.covert.cell.sim.constant.Gene();
+0080             
+0081             <span class="comment">%construct states</span>
+0082             this.states = {};
+0083             <span class="keyword">if</span> exist(<span class="string">'kbStates'</span>, <span class="string">'var'</span>)
+0084                 sMetadata.wholeCellModelIDs = {kbStates.wholeCellModelID}';
+0085                 sMetadata.names             = {kbStates.name}';
+0086                 sMetadata.classes           = {kbStates.class}';
+0087                 
+0088                 this.stateMetadata = sMetadata;
+0089                 this.stateMetadata.indexs = <span class="keyword">...</span>
+0090                     this.buildNameIndex(sMetadata.wholeCellModelIDs);
+0091                 this.constructStates(sMetadata.wholeCellModelIDs);
+0092             <span class="keyword">end</span>
+0093             
+0094             <span class="comment">%construct processes</span>
+0095             this.processes = {};
+0096             <span class="keyword">if</span> exist(<span class="string">'kbProcesses'</span>, <span class="string">'var'</span>)
+0097                 mMetadata.wholeCellModelIDs = {kbProcesses.wholeCellModelID}';
+0098                 mMetadata.names             = {kbProcesses.name}';
+0099                 mMetadata.classes           = {kbProcesses.class}';
+0100                 mMetadata.initOrder         = [kbProcesses.initializationOrder]';
+0101                 mMetadata.evalOrder         = [kbProcesses.evaluationOrder]';
+0102                 
+0103                 this.processMetadata = mMetadata;
+0104                 this.processMetadata.indexs = <span class="keyword">...</span>
+0105                     this.buildNameIndex(mMetadata.wholeCellModelIDs);
+0106                 
+0107                 this.constructProcesses(mMetadata.wholeCellModelIDs);
+0108             <span class="keyword">end</span>
+0109             
+0110             <span class="comment">%link processes-states</span>
+0111             <span class="keyword">for</span> i = 1:numel(this.states)
+0112                 this.states{i}.storeObjectReferences(this);
+0113             <span class="keyword">end</span>
+0114             
+0115             <span class="comment">%link processes-states</span>
+0116             <span class="keyword">for</span> i = 1:numel(this.processes)
+0117                 this.processes{i}.storeObjectReferences(this);
+0118             <span class="keyword">end</span>
+0119         <span class="keyword">end</span>
+0120     <span class="keyword">end</span>
+0121     
+0122     methods
+0123         <a name="_sub1" href="#_subfunctions" class="code">function state = state(this, wholeCellModelID)</a>
+0124             i = this.stateIndex(wholeCellModelID);
+0125             <span class="keyword">if</span> i
+0126                 <a href="#_sub2" class="code" title="subfunction state = state(this, wholeCellModelID)">state</a> = this.states{i};
+0127             <span class="keyword">else</span>
+0128                 <a href="#_sub2" class="code" title="subfunction state = state(this, wholeCellModelID)">state</a> = [];
+0129             <span class="keyword">end</span>
+0130         <span class="keyword">end</span>
+0131         
+0132         <a name="_sub2" href="#_subfunctions" class="code">function process = process(this, wholeCellModelID)</a>
+0133             i = this.processIndex(wholeCellModelID);
+0134             <span class="keyword">if</span> i
+0135                 <a href="#_sub3" class="code" title="subfunction process = process(this, wholeCellModelID)">process</a> = this.processes{i};
+0136             <span class="keyword">else</span>
+0137                 <a href="#_sub3" class="code" title="subfunction process = process(this, wholeCellModelID)">process</a> = [];
+0138             <span class="keyword">end</span>
+0139         <span class="keyword">end</span>
+0140         
+0141         <a name="_sub3" href="#_subfunctions" class="code">function i = stateIndex(this, wholeCellModelID)</a>
+0142             [~, i] = ismember(wholeCellModelID, this.stateWholeCellModelIDs);
+0143             <span class="keyword">if</span> i == 0
+0144                 [~, i] = ismember([<span class="string">'State_'</span> wholeCellModelID], this.stateWholeCellModelIDs);
+0145             <span class="keyword">end</span>
+0146         <span class="keyword">end</span>
+0147         
+0148         <a name="_sub4" href="#_subfunctions" class="code">function i = processIndex(this, wholeCellModelID)</a>
+0149             [~,i] = ismember(wholeCellModelID, this.processWholeCellModelIDs);
+0150             <span class="keyword">if</span> i == 0
+0151                 [~, i] = ismember([<span class="string">'Process_'</span> wholeCellModelID], this.processWholeCellModelIDs);
+0152             <span class="keyword">end</span>
+0153         <span class="keyword">end</span>
+0154         
+0155         <a name="_sub5" href="#_subfunctions" class="code">function result = stateWholeCellModelIDs(this)</a>
+0156             result = cellfun(@(s) s.wholeCellModelID, this.states, <span class="string">'UniformOutput'</span>, false);
+0157         <span class="keyword">end</span>
+0158         
+0159         <a name="_sub6" href="#_subfunctions" class="code">function result = processWholeCellModelIDs(this)</a>
+0160             result = cellfun(@(m) m.wholeCellModelID, this.processes, <span class="string">'UniformOutput'</span>, false);
+0161         <span class="keyword">end</span>
+0162         
+0163         <a name="_sub7" href="#_subfunctions" class="code">function this = applyOptions(this, varargin)</a>
+0164             <span class="keyword">if</span> nargin &gt;= 2 &amp;&amp; isstruct(varargin{1})
+0165                 options = varargin{1};
+0166             <span class="keyword">else</span>
+0167                 options = cell2struct(varargin(2:2:end), varargin(1:2:end-1), 2);
+0168             <span class="keyword">end</span>
+0169             this.setFromStruct(options, <span class="string">'options'</span>, this.optionNames);
+0170             <span class="keyword">if</span> mod(this.lengthSec, this.stepSizeSec)
+0171                 throw(MException(<span class="string">'Simulation:error'</span>,<span class="keyword">...</span>
+0172                     sprintf(<span class="string">'Simulation length (%d) must be a multiple of step size (%d)'</span>,<span class="keyword">...</span>
+0173                     this.lengthSec, this.stepSizeSec)));
+0174             <span class="keyword">end</span>
+0175         <span class="keyword">end</span>
+0176         
+0177         <a name="_sub8" href="#_subfunctions" class="code">function this = applyParameters(this, parameters)</a>
+0178             this.setFromStruct(parameters, <span class="string">'parameters'</span>, {});
+0179         <span class="keyword">end</span>
+0180         
+0181         <span class="comment">%apply perturbations</span>
+0182         <span class="comment">%- genetic: adjust constants so that effectively the genes'</span>
+0183         <span class="comment">%  products won't be expressed. This is done by setting the gene</span>
+0184         <span class="comment">%  products' decay rates to be very high</span>
+0185         <a name="_sub9" href="#_subfunctions" class="code">function this = applyPerturbations(this)</a>
+0186             <span class="comment">%modify constants</span>
+0187             this.applyPerturbationsToConstants();
+0188             
+0189             <span class="comment">%modify initial conditions</span>
+0190             this.applyPerturbationsToState()
+0191         <span class="keyword">end</span>
+0192         
+0193         <a name="_sub10" href="#_subfunctions" class="code">function applyPerturbationsToConstants(this)</a>
+0194             <span class="comment">%% genetic knockouts</span>
+0195             <span class="comment">%references</span>
+0196             g = this.gene;
+0197             r = this.state(<span class="string">'Rna'</span>);
+0198             m = this.state(<span class="string">'ProteinMonomer'</span>);
+0199             c = this.state(<span class="string">'ProteinComplex'</span>);
+0200             
+0201             <span class="comment">%indices</span>
+0202             [~, geneIdxs] = ismember(this.geneticKnockouts, this.gene.wholeCellModelIDs);
+0203             <span class="keyword">if</span> ~all(geneIdxs)
+0204                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'undefined genes'</span>));
+0205             <span class="keyword">end</span>
+0206             matureRNAIdxs = find(any(r.matureRNAGeneComposition(geneIdxs(~ismember(geneIdxs, g.mRNAIndexs)), :), 1));
+0207             monIdxs = find(ismember(this.gene.mRNAIndexs, geneIdxs));
+0208             cpxIdxs = find(any(any(c.proteinComplexComposition(geneIdxs, :, :), 3), 1));
+0209             
+0210             <span class="comment">%set constants to that effectively the knocked out genes aren't</span>
+0211             <span class="comment">%expressed. More specifically we allow genes to be expressed,</span>
+0212             <span class="comment">%but then decay their gene products quickly.</span>
+0213             decayRate = 1e6;
+0214             
+0215             r.decayRates(r.processedIndexs(matureRNAIdxs), :)     = decayRate;
+0216             r.decayRates(r.matureIndexs(matureRNAIdxs), :)        = decayRate;
+0217             r.decayRates(r.boundIndexs(matureRNAIdxs), :)         = decayRate;
+0218             r.decayRates(r.misfoldedIndexs(matureRNAIdxs), :)     = decayRate;
+0219             r.decayRates(r.damagedIndexs(matureRNAIdxs), :)       = decayRate;
+0220             r.decayRates(r.aminoacylatedIndexs(matureRNAIdxs), :) = decayRate;
+0221             
+0222             m.decayRates(m.nascentIndexs(monIdxs), :)             = decayRate;
+0223             m.decayRates(m.signalSequenceIndexs(monIdxs), :)      = decayRate;
+0224             m.decayRates(m.processedIIndexs(monIdxs), :)          = decayRate;
+0225             m.decayRates(m.processedIIIndexs(monIdxs), :)         = decayRate;
+0226             m.decayRates(m.foldedIndexs(monIdxs), :)              = decayRate;
+0227             m.decayRates(m.matureIndexs(monIdxs), :)              = decayRate;
+0228             m.decayRates(m.inactivatedIndexs(monIdxs), :)         = decayRate;
+0229             m.decayRates(m.boundIndexs(monIdxs), :)               = decayRate;
+0230             m.decayRates(m.misfoldedIndexs(monIdxs), :)           = decayRate;
+0231             m.decayRates(m.damagedIndexs(monIdxs), :)             = decayRate;
+0232             
+0233             c.decayRates(c.nascentIndexs(cpxIdxs), :)             = decayRate;
+0234             c.decayRates(c.matureIndexs(cpxIdxs), :)              = decayRate;
+0235             c.decayRates(c.inactivatedIndexs(cpxIdxs), :)         = decayRate;
+0236             c.decayRates(c.boundIndexs(cpxIdxs), :)               = decayRate;
+0237             c.decayRates(c.misfoldedIndexs(cpxIdxs), :)           = decayRate;
+0238             c.decayRates(c.damagedIndexs(cpxIdxs), :)             = decayRate;
+0239         <span class="keyword">end</span>
+0240         
+0241         <a name="_sub11" href="#_subfunctions" class="code">function applyPerturbationsToState(this)</a>
+0242             import edu.stanford.covert.cell.sim.constant.Condition;
+0243             
+0244             <span class="comment">%% genetic knockouts</span>
+0245             <span class="comment">%references</span>
+0246             g = this.gene;
+0247             r = this.state(<span class="string">'Rna'</span>);
+0248             m = this.state(<span class="string">'ProteinMonomer'</span>);
+0249             c = this.state(<span class="string">'ProteinComplex'</span>);
+0250             
+0251             <span class="comment">%indices</span>
+0252             [~, geneIdxs] = ismember(this.geneticKnockouts, this.gene.wholeCellModelIDs);
+0253             <span class="keyword">if</span> ~all(geneIdxs)
+0254                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'undefined genes'</span>));
+0255             <span class="keyword">end</span>
+0256             matureRNAIdxs = find(any(r.matureRNAGeneComposition(geneIdxs(~ismember(geneIdxs, g.mRNAIndexs)), :), 1));
+0257             monIdxs = find(ismember(this.gene.mRNAIndexs, geneIdxs));
+0258             cpxIdxs = find(any(any(c.proteinComplexComposition(geneIdxs, :, :), 3), 1));
+0259             
+0260             <span class="comment">%modify initial conditions:</span>
+0261             <span class="comment">%- set RNAs, protein counts to zero</span>
+0262             <span class="comment">%- synchronize molecule counts with other states</span>
+0263             <span class="comment">%  - Chromosome: bound proteins</span>
+0264             <span class="comment">%  - RNA polmyerase, transcript: No active transcription</span>
+0265             <span class="comment">%  - Ribosome, polypeptide: No active translation</span>
+0266             <span class="comment">%  - FtsZ ring: No formed ring</span>
+0267             initRNACounts = r.counts;
+0268             r.counts(r.processedIndexs(matureRNAIdxs), :)     = 0;
+0269             r.counts(r.matureIndexs(matureRNAIdxs), :)        = 0;
+0270             r.counts(r.boundIndexs(matureRNAIdxs), :)         = 0;
+0271             r.counts(r.misfoldedIndexs(matureRNAIdxs), :)     = 0;
+0272             r.counts(r.damagedIndexs(matureRNAIdxs), :)       = 0;
+0273             r.counts(r.aminoacylatedIndexs(matureRNAIdxs), :) = 0;
+0274             <span class="keyword">if</span> any(any(r.updateExternalState(-(initRNACounts - r.counts), true)))
+0275                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Unable to properly knockout gene'</span>));
+0276             <span class="keyword">end</span>
+0277             
+0278             initMonCounts = m.counts;
+0279             m.counts(m.nascentIndexs(monIdxs), :)        = 0;
+0280             m.counts(m.signalSequenceIndexs(monIdxs), :) = 0;
+0281             m.counts(m.processedIIndexs(monIdxs), :)     = 0;
+0282             m.counts(m.processedIIIndexs(monIdxs), :)    = 0;
+0283             m.counts(m.foldedIndexs(monIdxs), :)         = 0;
+0284             m.counts(m.matureIndexs(monIdxs), :)         = 0;
+0285             m.counts(m.inactivatedIndexs(monIdxs), :)    = 0;
+0286             m.counts(m.boundIndexs(monIdxs), :)          = 0;
+0287             m.counts(m.misfoldedIndexs(monIdxs), :)      = 0;
+0288             m.counts(m.damagedIndexs(monIdxs), :)        = 0;
+0289             <span class="keyword">if</span> any(any(m.updateExternalState(-(initMonCounts - m.counts), true)))
+0290                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Unable to properly knockout gene'</span>));
+0291             <span class="keyword">end</span>
+0292             
+0293             initCpxCounts = c.counts;
+0294             c.counts(c.nascentIndexs(cpxIdxs), :)     = 0;
+0295             c.counts(c.matureIndexs(cpxIdxs), :)      = 0;
+0296             c.counts(c.inactivatedIndexs(cpxIdxs), :) = 0;
+0297             c.counts(c.boundIndexs(cpxIdxs), :)       = 0;
+0298             c.counts(c.misfoldedIndexs(cpxIdxs), :)   = 0;
+0299             c.counts(c.damagedIndexs(cpxIdxs), :)     = 0;
+0300             <span class="keyword">if</span> any(any(c.updateExternalState(-(initCpxCounts - c.counts), true)))
+0301                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Unable to properly knockout gene'</span>));
+0302             <span class="keyword">end</span>
+0303             
+0304             <span class="comment">%% stimulus</span>
+0305             stim = this.state(<span class="string">'Stimulus'</span>);
+0306             newVals = this.stimulus;
+0307             vals = stim.setValues;
+0308             tfs = true(size(vals, 1), 1);
+0309             <span class="keyword">for</span> i = 1:size(newVals, 1)
+0310                 tfs = tfs &amp; ~any(<span class="keyword">...</span>
+0311                     ismember(vals(:, Condition.objectCompartmentIndexs), newVals(:, Condition.objectCompartmentIndexs)) &amp; <span class="keyword">...</span>
+0312                     ((vals(:, Condition.initialTimeIndexs) &gt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0313                     vals(:, Condition.initialTimeIndexs) &lt;= newVals(:, Condition.finalTimeIndexs)) | <span class="keyword">...</span>
+0314                     (vals(:, Condition.finalTimeIndexs) &gt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0315                     vals(:, Condition.finalTimeIndexs) &lt;= newVals(:, Condition.finalTimeIndexs)) | <span class="keyword">...</span>
+0316                     (vals(:, Condition.finalTimeIndexs) &lt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0317                     vals(:, Condition.finalTimeIndexs) &gt;= newVals(:, Condition.finalTimeIndexs))));
+0318             <span class="keyword">end</span>
+0319             stim.setValues = [vals(tfs, :); newVals];
+0320             
+0321             <span class="comment">%% media</span>
+0322             m = this.state(<span class="string">'Metabolite'</span>);
+0323             newVals = this.media;
+0324             vals = m.setCounts;
+0325             tfs = true(size(vals, 1), 1);
+0326             <span class="keyword">for</span> i = 1:size(newVals, 1)
+0327                 tfs = tfs &amp; ~any(<span class="keyword">...</span>
+0328                     ismember(vals(:, Condition.objectCompartmentIndexs), newVals(:, Condition.objectCompartmentIndexs)) &amp; <span class="keyword">...</span>
+0329                     ((vals(:, Condition.initialTimeIndexs) &gt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0330                     vals(:, Condition.initialTimeIndexs) &lt;= newVals(:, Condition.finalTimeIndexs)) | <span class="keyword">...</span>
+0331                     (vals(:, Condition.finalTimeIndexs) &gt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0332                     vals(:, Condition.finalTimeIndexs) &lt;= newVals(:, Condition.finalTimeIndexs)) | <span class="keyword">...</span>
+0333                     (vals(:, Condition.finalTimeIndexs) &lt;= newVals(:, Condition.initialTimeIndexs) &amp; <span class="keyword">...</span>
+0334                     vals(:, Condition.finalTimeIndexs) &gt;= newVals(:, Condition.finalTimeIndexs))));
+0335             <span class="keyword">end</span>
+0336             m.setCounts = [vals(tfs, :); newVals];
+0337         <span class="keyword">end</span>
+0338         
+0339         <a name="_sub12" href="#_subfunctions" class="code">function this = applyFittedConstants(this, value)</a>
+0340             this.setFromStruct(value, <span class="string">'fittedConstants'</span>, {});
+0341         <span class="keyword">end</span>
+0342         
+0343         <a name="_sub13" href="#_subfunctions" class="code">function this = applyRandStreamStates(this, value)</a>
+0344             <span class="keyword">if</span> size(value.simulation(:, 1), 2) &gt; 1
+0345                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Applying first rand stream state'</span>);
+0346             <span class="keyword">end</span>
+0347             
+0348             this.randStream.state = value.simulation(:, 1);
+0349             <span class="keyword">for</span> i = 1:numel(this.states)
+0350                 o = this.states{i};
+0351                 o.randStream.state = value.states.(o.wholeCellModelID(7:end))(:, 1);
+0352             <span class="keyword">end</span>
+0353             <span class="keyword">for</span> i = 1:numel(this.processes)
+0354                 o = this.processes{i};
+0355                 o.randStream.state = value.processes.(o.wholeCellModelID(9:end))(:, 1);
+0356             <span class="keyword">end</span>
+0357         <span class="keyword">end</span>
+0358         
+0359         <a name="_sub14" href="#_subfunctions" class="code">function this = applyTimeCourses(this, value)</a>
+0360             this.setFromStruct(value, <span class="string">'timeCourses'</span>, {});
+0361         <span class="keyword">end</span>
+0362         
+0363         <a name="_sub15" href="#_subfunctions" class="code">function this = seedRandStream(this)</a>
+0364             <span class="comment">%pick a seed</span>
+0365             <span class="keyword">if</span> isempty(this.seed)
+0366                 this.seed = round(mod(now, 1) * 1e7);
+0367             <span class="keyword">end</span>
+0368             
+0369             <span class="comment">%seed default stream</span>
+0370             defaultStream = RandStream.getDefaultStream();
+0371             defaultStream.reset(1);
+0372             
+0373             <span class="comment">%seed private stream</span>
+0374             this.randStream.reset(this.seed)
+0375             
+0376             <span class="comment">%seed state private streams</span>
+0377             <span class="keyword">for</span> i = 1:length(this.states)
+0378                 o = this.states{i};
+0379                 o.seed = this.seed;
+0380                 o.seedRandStream();
+0381             <span class="keyword">end</span>
+0382             
+0383             <span class="comment">%seed process private streams</span>
+0384             <span class="keyword">for</span> i = 1:length(this.processes)
+0385                 o = this.processes{i};
+0386                 o.seed = this.seed;
+0387                 o.seedRandStream();
+0388             <span class="keyword">end</span>
+0389         <span class="keyword">end</span>
+0390         
+0391         <a name="_sub16" href="#_subfunctions" class="code">function value = getOptions(this)</a>
+0392             value = this.getAsStruct(<span class="string">'options'</span>, this.optionNames);
+0393         <span class="keyword">end</span>
+0394         
+0395         <a name="_sub17" href="#_subfunctions" class="code">function value = getParameters(this)</a>
+0396             value = this.getAsStruct(<span class="string">'parameters'</span>, {});
+0397         <span class="keyword">end</span>
+0398         
+0399         <a name="_sub18" href="#_subfunctions" class="code">function value = getFittedConstants(this)</a>
+0400             value = this.getAsStruct(<span class="string">'fittedConstants'</span>, {});
+0401         <span class="keyword">end</span>
+0402         
+0403         <a name="_sub19" href="#_subfunctions" class="code">function value = getFixedConstants(this)</a>
+0404             value = this.getAsStruct(<span class="string">'fixedConstants'</span>, {});
+0405         <span class="keyword">end</span>
+0406         
+0407         <a name="_sub20" href="#_subfunctions" class="code">function value = getTimeCourses(this)</a>
+0408             value = this.getAsStruct(<span class="string">'timeCourses'</span>, {}, true, false);
+0409         <span class="keyword">end</span>
+0410         
+0411         <a name="_sub21" href="#_subfunctions" class="code">function value = getRandStreamStates(this)</a>
+0412             value = struct(<span class="string">'simulation'</span>, [], <span class="string">'states'</span>, struct(), <span class="string">'processes'</span>, struct());
+0413             value.simulation = this.randStream.state;
+0414             <span class="keyword">for</span> i = 1:numel(this.states)
+0415                 o = this.states{i};
+0416                 value.states.(o.wholeCellModelID(7:end)) = o.randStream.state;
+0417             <span class="keyword">end</span>
+0418             <span class="keyword">for</span> i = 1:numel(this.processes)
+0419                 o = this.processes{i};
+0420                 value.processes.(o.wholeCellModelID(9:end)) = o.randStream.state;
+0421             <span class="keyword">end</span>
+0422         <span class="keyword">end</span>
+0423         
+0424         <span class="comment">%number of simulation steps</span>
+0425         <a name="_sub22" href="#_subfunctions" class="code">function value = getNumSteps(this)</a>
+0426             value = this.lengthSec / this.stepSizeSec;
+0427         <span class="keyword">end</span>
+0428         
+0429         <span class="comment">% Allocate arrays to store values of physical properties over course of</span>
+0430         <span class="comment">% simulation. Each of these arrays has one column.</span>
+0431         <a name="_sub23" href="#_subfunctions" class="code">function this = allocateMemoryForState(this, numTimePoints)</a>
+0432             <span class="comment">%states</span>
+0433             <span class="keyword">for</span> i = 1:numel(this.states)
+0434                 this.states{i}.allocateMemory(numTimePoints);
+0435             <span class="keyword">end</span>
+0436             
+0437             <span class="comment">%processes</span>
+0438             <span class="keyword">for</span> i = 1:numel(this.processes)
+0439                 this.processes{i}.allocateMemoryForState(numTimePoints);
+0440             <span class="keyword">end</span>
+0441         <span class="keyword">end</span>
+0442     <span class="keyword">end</span>
+0443     
+0444     <span class="comment">%loading, allocation, initialization</span>
+0445     methods
+0446         this = <a href="initializeConstants.html" class="code" title="function this = initializeConstants(this, knowledgeBase)">initializeConstants</a>(this, knowledgeBase)
+0447         this = <a href="initializeState.html" class="code" title="function this = initializeState(this)">initializeState</a>(this)
+0448         this = <a href="run.html" class="code" title="function [this, loggers] = run(this, loggers)">run</a>(this, outputDirectory)
+0449         [this, requirements, allocations, usages] = <a href="evolveState.html" class="code" title="function [this, requirements, allocations, usages] = evolveState(this)">evolveState</a>(this, outputDirectory)
+0450     <span class="keyword">end</span>
+0451     
+0452     <span class="comment">%protected helper methods</span>
+0453     methods (Access = protected)
+0454         <a name="_sub24" href="#_subfunctions" class="code">function this = constructStates(this, stateWholeCellModelIDs)</a>
+0455             <span class="keyword">if</span> ~exist(<span class="string">'stateWholeCellModelIDs'</span>, <span class="string">'var'</span>)
+0456                 <a href="#_sub6" class="code" title="subfunction result = stateWholeCellModelIDs(this)">stateWholeCellModelIDs</a> = this.stateMetadata.wholeCellModelIDs;
+0457             <span class="keyword">end</span>
+0458             
+0459             this.states = cell(numel(<a href="#_sub6" class="code" title="subfunction result = stateWholeCellModelIDs(this)">stateWholeCellModelIDs</a>), 1);
+0460             [~, map1] = ismember(<a href="#_sub6" class="code" title="subfunction result = stateWholeCellModelIDs(this)">stateWholeCellModelIDs</a>, this.stateMetadata.wholeCellModelIDs);
+0461             [~, map2] = ismember(cellfun(@(x) [<span class="string">'State_'</span> x], <a href="#_sub6" class="code" title="subfunction result = stateWholeCellModelIDs(this)">stateWholeCellModelIDs</a>, <span class="string">'UniformOutput'</span>, false), this.stateMetadata.wholeCellModelIDs);
+0462             map = map1 + map2;
+0463             
+0464             <span class="comment">%construct states</span>
+0465             <span class="keyword">for</span> i = 1:numel(<a href="#_sub6" class="code" title="subfunction result = stateWholeCellModelIDs(this)">stateWholeCellModelIDs</a>)
+0466                 constructor = str2func(<span class="keyword">...</span>
+0467                     [<span class="string">'edu.stanford.covert.cell.sim.state.'</span> this.stateMetadata.classes{map(i)}]);
+0468                 this.states{i} = constructor(<span class="keyword">...</span>
+0469                     this.stateMetadata.wholeCellModelIDs{map(i)}, this.stateMetadata.names{map(i)});
+0470             <span class="keyword">end</span>
+0471             
+0472             <span class="comment">%construct references to states</span>
+0473             this.state_time       = this.state(<span class="string">'Time'</span>);
+0474             this.state_metabolite = this.state(<span class="string">'Metabolite'</span>);
+0475             this.state_stimulus   = this.state(<span class="string">'Stimulus'</span>);
+0476         <span class="keyword">end</span>
+0477         
+0478         <a name="_sub25" href="#_subfunctions" class="code">function this = constructProcesses(this, processWholeCellModelIDs)</a>
+0479             <span class="keyword">if</span> ~exist(<span class="string">'processWholeCellModelIDs'</span>, <span class="string">'var'</span>)
+0480                 <a href="#_sub7" class="code" title="subfunction result = processWholeCellModelIDs(this)">processWholeCellModelIDs</a> = this.processMetadata.wholeCellModelIDs;
+0481             <span class="keyword">end</span>
+0482             
+0483             [~, map1] = ismember(<a href="#_sub7" class="code" title="subfunction result = processWholeCellModelIDs(this)">processWholeCellModelIDs</a>, this.processMetadata.wholeCellModelIDs);
+0484             [~, map2] = ismember(cellfun(@(x) [<span class="string">'Process_'</span> x], <a href="#_sub7" class="code" title="subfunction result = processWholeCellModelIDs(this)">processWholeCellModelIDs</a>, <span class="string">'UniformOutput'</span>, false), this.processMetadata.wholeCellModelIDs);
+0485             map = map1 + map2;
+0486             
+0487             <span class="keyword">if</span> ~isempty(map)
+0488                 this.processes{length(map),1} = [];
+0489                 <span class="keyword">for</span> i = 1:length(map)
+0490                     constructor = str2func(<span class="keyword">...</span>
+0491                         [<span class="string">'edu.stanford.covert.cell.sim.process.'</span> this.processMetadata.classes{map(i)}]);
+0492                     this.processes{i} = constructor(<span class="keyword">...</span>
+0493                         this.processMetadata.wholeCellModelIDs{map(i)}, this.processMetadata.names{map(i)});
+0494                 <span class="keyword">end</span>
+0495             <span class="keyword">else</span>
+0496                 this.processes(:) = [];
+0497             <span class="keyword">end</span>
+0498             
+0499             [this.processesInInitOrder, this.processInitOrderIndexs] = this.createProcessOrdering(this.processMetadata.initOrder);
+0500             [this.processesInEvalOrder, this.processEvalOrderIndexs] = this.createProcessOrdering(this.processMetadata.evalOrder);
+0501             
+0502             this.processIndex_translation = this.processIndex(<span class="string">'Translation'</span>);
+0503             this.processIndex_tRNAAminoacylation = this.processIndex(<span class="string">'tRNAAminoacylation'</span>);
+0504         <span class="keyword">end</span>
+0505         
+0506         <a name="_sub26" href="#_subfunctions" class="code">function [processes, indexs] = createProcessOrdering(this, completeOrdering)</a>
+0507             ids = this.processWholeCellModelIDs;
+0508             [~,order] = sort(completeOrdering);
+0509             indexs = zeros(length(this.processes),1,<span class="string">'int8'</span>);
+0510             j = 1;
+0511             <span class="keyword">for</span> i = 1:length(order)
+0512                 <span class="keyword">if</span> completeOrdering(order(i))
+0513                     [~,k] = ismember(this.processMetadata.wholeCellModelIDs(order(i)), ids);
+0514                     <span class="keyword">if</span> k
+0515                         indexs(j) = k;
+0516                         j = j + 1;
+0517                     <span class="keyword">end</span>
+0518                 <span class="keyword">end</span>
+0519             <span class="keyword">end</span>
+0520             indexs = indexs(1:j-1);
+0521             
+0522             processes = this.processes(indexs);
+0523         <span class="keyword">end</span>
+0524         
+0525         <a name="_sub27" href="#_subfunctions" class="code">function result = buildNameIndex(~, names)</a>
+0526             result = struct;
+0527             <span class="keyword">for</span> i = 1:length(names)
+0528                 result.(names{i}) = i;
+0529             <span class="keyword">end</span>
+0530         <span class="keyword">end</span>
+0531         
+0532         <a name="_sub28" href="#_subfunctions" class="code">function value = getAsStruct(this, field, fields, statesFlag, processesFlag)</a>
+0533             <span class="keyword">if</span> nargin &lt; 4
+0534                 statesFlag = true;
+0535             <span class="keyword">end</span>
+0536             <span class="keyword">if</span> nargin &lt; 5
+0537                 processesFlag = true;
+0538             <span class="keyword">end</span>
+0539             
+0540             value = struct();
+0541             <span class="keyword">if</span> statesFlag
+0542                 value.states = struct;
+0543             <span class="keyword">end</span>
+0544             <span class="keyword">if</span> processesFlag
+0545                 value.processes = struct;
+0546             <span class="keyword">end</span>
+0547             
+0548             propertyNames = fieldnames(this);
+0549             <span class="keyword">for</span> i = 1:length(fields)
+0550                 <span class="keyword">if</span> ismember(fields{i}, propertyNames)
+0551                     value.(fields{i}) = this.(fields{i});
+0552                 <span class="keyword">end</span>
+0553             <span class="keyword">end</span>
+0554             
+0555             <span class="keyword">if</span> statesFlag
+0556                 <span class="keyword">for</span> i = 1:length(this.states)
+0557                     id = strrep(this.states{i}.wholeCellModelID, <span class="string">'State_'</span>, <span class="string">''</span>);
+0558                     value.states.(id) = struct;
+0559                     mValue = this.states{i}.([<span class="string">'get'</span> upper(field(1)) field(2:end)]);
+0560                     <span class="keyword">if</span> ~isempty(fieldnames(mValue))
+0561                         value.states.(id) = mValue;
+0562                     <span class="keyword">end</span>
+0563                 <span class="keyword">end</span>
+0564             <span class="keyword">end</span>
+0565             
+0566             <span class="keyword">if</span> processesFlag
+0567                 <span class="keyword">for</span> i = 1:length(this.processes)
+0568                     id = strrep(this.processes{i}.wholeCellModelID, <span class="string">'Process_'</span>, <span class="string">''</span>);
+0569                     value.processes.(id) = struct;
+0570                     mValue = this.processes{i}.([<span class="string">'get'</span> upper(field(1)) field(2:end)]);
+0571                     <span class="keyword">if</span> ~isempty(fieldnames(mValue))
+0572                         value.processes.(id) = mValue;
+0573                     <span class="keyword">end</span>
+0574                 <span class="keyword">end</span>
+0575             <span class="keyword">end</span>
+0576         <span class="keyword">end</span>
+0577         
+0578         <a name="_sub29" href="#_subfunctions" class="code">function this = setFromStruct(this, value, field, fields)</a>
+0579             propertyNames = fieldnames(this);
+0580             <span class="keyword">for</span> i = 1:length(fields)
+0581                 <span class="keyword">if</span> isfield(value, fields{i}) &amp;&amp; ismember(fields{i}, propertyNames)
+0582                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0583                         this.(fields{i}) = value.(fields{i});
+0584                     <span class="keyword">end</span>
+0585                 <span class="keyword">end</span>
+0586             <span class="keyword">end</span>
+0587             
+0588             <span class="keyword">if</span> isfield(value, <span class="string">'states'</span>)
+0589                 <span class="keyword">for</span> i = 1:length(this.states)
+0590                     <a href="#_sub2" class="code" title="subfunction state = state(this, wholeCellModelID)">state</a> = this.states{i};
+0591                     id = strrep(state.wholeCellModelID, <span class="string">'State_'</span>, <span class="string">''</span>);
+0592                     <span class="keyword">if</span> isfield(value.states, id)
+0593                         state.([<span class="string">'set'</span> upper(field(1)) field(2:end)])(value.states.(id));
+0594                     <span class="keyword">end</span>
+0595                 <span class="keyword">end</span>
+0596             <span class="keyword">end</span>
+0597             
+0598             <span class="keyword">if</span> isfield(value, <span class="string">'processes'</span>)
+0599                 <span class="keyword">for</span> i = 1:length(this.processes)
+0600                     <a href="#_sub3" class="code" title="subfunction process = process(this, wholeCellModelID)">process</a> = this.processes{i};
+0601                     id =  strrep(process.wholeCellModelID, <span class="string">'Process_'</span>, <span class="string">''</span>);
+0602                     <span class="keyword">if</span> isfield(value.processes, id)
+0603                         process.([<span class="string">'set'</span> upper(field(1)) field(2:end)])(value.processes.(id));
+0604                     <span class="keyword">end</span>
+0605                 <span class="keyword">end</span>
+0606             <span class="keyword">end</span>
+0607         <span class="keyword">end</span>
+0608     <span class="keyword">end</span>
+0609     
+0610     <span class="comment">%helper methods for testing</span>
+0611     methods
+0612         <a name="_sub30" href="#_subfunctions" class="code">function value = getForTest(this, propName)</a>
+0613             value = this.(propName);
+0614         <span class="keyword">end</span>
+0615         
+0616         <a name="_sub31" href="#_subfunctions" class="code">function this = setForTest(this, propName, value)</a>
+0617             this.(propName) = value;
+0618         <span class="keyword">end</span>
+0619     <span class="keyword">end</span>
+0620 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

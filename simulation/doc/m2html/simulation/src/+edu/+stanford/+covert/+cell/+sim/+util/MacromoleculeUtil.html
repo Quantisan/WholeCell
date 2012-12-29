@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of MacromoleculeUtil</title>
+  <meta name="keywords" content="MacromoleculeUtil">
+  <meta name="description" content="MacromoleculeUtil">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; MacromoleculeUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>MacromoleculeUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>MacromoleculeUtil</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MacromoleculeUtil
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Derek Macklin, macklin@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 6/28/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="MacromoleculeUtil.html" class="code" title="">MacromoleculeUtil</a>	MacromoleculeUtil</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="MacromoleculeUtil.html" class="code" title="">MacromoleculeUtil</a>	MacromoleculeUtil</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [idx, compIdx, id, name, type,</a></li><li><a href="#_sub2" class="code">function [cnts,</a></li><li><a href="#_sub3" class="code">function value = extractCopyNumberTimeCourse(chr, polRgns, startCoordinates, strands, lengths)</a></li><li><a href="#_sub4" class="code">function value = extractCountTimeCourse(timeCourse, idxs, compIdxs)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%MacromoleculeUtil</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 6/28/2011</span>
+0007 classdef <a href="MacromoleculeUtil.html" class="code" title="">MacromoleculeUtil</a>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function [idx, compIdx, id, name, type, </a><span class="keyword">...</span>
+0010                 geneIdxs, geneCompIdxs, geneIds, geneNames, <span class="keyword">...</span>
+0011                 nascentRnaIdxs, nascentRnaCompIdxs, nascentRnaIds, nascentRnaNames, <span class="keyword">...</span>
+0012                 matureRnaIdxs, matureRnaCompIdxs, matureRnaIds, matureRnaNames, <span class="keyword">...</span>
+0013                 monomerIdxs, monomerCompIdxs, monomerIds, monomerNames, <span class="keyword">...</span>
+0014                 complexIdxs, complexCompIdxs, complexIds, complexNames] = <span class="keyword">...</span>
+0015                 getMacromoleculeIndexsIDsNames(id, sim)
+0016             
+0017             validateattributes(id, {<span class="string">'char'</span>}, {<span class="string">'row'</span>})
+0018             
+0019             comp = sim.compartment;
+0020             g = sim.gene;
+0021             rna = sim.state(<span class="string">'Rna'</span>);
+0022             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0023             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0024             
+0025             geneIdxs = g.getIndexs(id);
+0026             [~, nascentRnaIdxs] = ismember(id, rna.wholeCellModelIDs(rna.nascentIndexs));
+0027             matureRnaIdxs = rna.getIndexs(id);
+0028             monomerIdxs = pm.getIndexs(id);
+0029             complexIdxs = pc.getIndexs(id);
+0030             
+0031             <span class="keyword">if</span> geneIdxs
+0032                 type = <span class="string">'gene'</span>;
+0033                 idx = geneIdxs;
+0034                 compIdx = comp.cytosolIndexs;
+0035                 name = g.names{geneIdxs};
+0036                 
+0037                 nascentRnaIdxs = find(any(rna.nascentRNAGeneComposition(geneIdxs, :), 1));
+0038                 matureRnaIdxs = find(any(rna.matureRNAGeneComposition(geneIdxs, :), 1));
+0039                 monomerIdxs = find(g.mRNAIndexs == geneIdxs);
+0040                 complexIdxs = find(any(any(pc.proteinComplexComposition(g.mRNAIndexs(monomerIdxs), :, :), 3), 1));
+0041             <span class="keyword">elseif</span> nascentRnaIdxs
+0042                 type = <span class="string">'nascentRna'</span>;
+0043                 idx = nascentRnaIdxs;
+0044                 compIdx = comp.cytosolIndexs;
+0045                 name = rna.names{rna.nascentIndexs(nascentRnaIdxs)};
+0046                 
+0047                 geneIdxs = find(any(rna.nascentRNAGeneComposition(:, nascentRnaIdxs), 2));
+0048                 matureRnaIdxs = find(any(rna.nascentRNAMatureRNAComposition(:, nascentRnaIdxs), 2));
+0049                 monomerIdxs = find(any(rna.matureRNAGeneComposition(g.mRNAIndexs, matureRnaIdxs), 2));
+0050                 complexIdxs = find(any(any(pc.proteinComplexComposition(g.mRNAIndexs(monomerIdxs), :, :), 3), 1));
+0051             <span class="keyword">elseif</span> matureRnaIdxs
+0052                 type = <span class="string">'matureRna'</span>;
+0053                 idx = matureRnaIdxs;
+0054                 compIdx = comp.cytosolIndexs;
+0055                 name = rna.names{rna.matureIndexs(matureRnaIdxs)};
+0056                 
+0057                 geneIdxs = find(any(rna.matureRNAGeneComposition(:, matureRnaIdxs), 2));
+0058                 nascentRnaIdxs = find(any(rna.nascentRNAMatureRNAComposition(matureRnaIdxs, :), 1));
+0059                 monomerIdxs = find(any(rna.matureRNAGeneComposition(g.mRNAIndexs, matureRnaIdxs), 2));
+0060                 complexIdxs = find(any(any(pc.proteinComplexComposition(g.mRNAIndexs(monomerIdxs), :, :), 3), 1));
+0061             <span class="keyword">elseif</span> monomerIdxs
+0062                 type = <span class="string">'monomer'</span>;
+0063                 idx = monomerIdxs;
+0064                 compIdx = pm.compartments(pm.matureIndexs(monomerIdxs));
+0065                 name = pm.names{pm.matureIndexs(monomerIdxs)};
+0066                 
+0067                 geneIdxs = g.mRNAIndexs(monomerIdxs);
+0068                 matureRnaIdxs = find(any(rna.matureRNAGeneComposition(g.mRNAIndexs(monomerIdxs), :), 1));
+0069                 nascentRnaIdxs = find(any(rna.nascentRNAGeneComposition(g.mRNAIndexs(monomerIdxs), :), 1));
+0070                 complexIdxs = find(any(any(pc.proteinComplexComposition(g.mRNAIndexs(monomerIdxs), :, :), 3), 1));
+0071             <span class="keyword">elseif</span> complexIdxs
+0072                 type = <span class="string">'complex'</span>;
+0073                 idx = complexIdxs;
+0074                 compIdx = pc.compartments(pc.matureIndexs(complexIdxs));
+0075                 name = pc.names{pc.matureIndexs(complexIdxs)};
+0076                 
+0077                 monomerIdxs = find(any(any(pc.proteinComplexComposition(g.mRNAIndexs, complexIdxs, :), 3), 2));
+0078                 geneIdxs = g.mRNAIndexs(monomerIdxs);
+0079                 matureRnaIdxs = find(any(rna.matureRNAGeneComposition(g.mRNAIndexs(monomerIdxs), :), 1));
+0080                 nascentRnaIdxs = find(any(rna.nascentRNAGeneComposition(g.mRNAIndexs(monomerIdxs), :), 1));
+0081             <span class="keyword">else</span>
+0082                 idx = []; compIdx = []; id = []; name = []; type = [];
+0083                 geneIdxs = []; geneCompIdxs = []; geneIds = []; geneNames = [];
+0084                 nascentRnaIdxs = []; nascentRnaCompIdxs = []; nascentRnaIds = []; nascentRnaNames = [];
+0085                 matureRnaIdxs = []; matureRnaCompIdxs = []; matureRnaIds = []; matureRnaNames = [];
+0086                 monomerIdxs = []; monomerCompIdxs = []; monomerIds = []; monomerNames = [];
+0087                 complexIdxs = []; complexCompIdxs = []; complexIds = []; complexNames = [];
+0088                 <span class="keyword">return</span>;
+0089             <span class="keyword">end</span>
+0090             
+0091             geneCompIdxs = comp.cytosolIndexs(ones(size(geneIdxs)));
+0092             nascentRnaCompIdxs = comp.cytosolIndexs(ones(size(nascentRnaIdxs)));
+0093             matureRnaCompIdxs = comp.cytosolIndexs(ones(size(nascentRnaIdxs)));
+0094             monomerCompIdxs = pm.compartments(pm.matureIndexs(monomerIdxs));
+0095             complexCompIdxs = pc.compartments(pc.matureIndexs(complexIdxs));
+0096             
+0097             geneIds = g.wholeCellModelIDs(geneIdxs);
+0098             nascentRnaIds = rna.wholeCellModelIDs(rna.nascentIndexs(nascentRnaIdxs));
+0099             matureRnaIds = rna.wholeCellModelIDs(rna.matureIndexs(matureRnaIdxs));
+0100             monomerIds = pm.wholeCellModelIDs(pm.matureIndexs(monomerIdxs));
+0101             complexIds = pc.wholeCellModelIDs(pc.matureIndexs(complexIdxs));
+0102             
+0103             geneNames = g.names(geneIdxs);
+0104             nascentRnaNames = rna.names(rna.nascentIndexs(nascentRnaIdxs));
+0105             matureRnaNames = rna.names(rna.matureIndexs(matureRnaIdxs));
+0106             monomerNames = pm.names(pm.matureIndexs(monomerIdxs));
+0107             complexNames = pc.names(pc.matureIndexs(complexIdxs));
+0108         <span class="keyword">end</span>
+0109         
+0110         <a name="_sub1" href="#_subfunctions" class="code">function [cnts, </a><span class="keyword">...</span>
+0111                 geneCnts, <span class="keyword">...</span>
+0112                 nascentRnaCnts, processedRnaCnts, matureRnaCnts, boundRnaCnts, misfoldedRnaCnts, damagedRnaCnts, aminoacylatedRnaCnts, <span class="keyword">...</span>
+0113                 nascentMonCnts, processedIMonCnts, translocatedMonCnts, processedIIMonCnts, foldedMonCnts, matureMonCnts, inactivatedMonCnts, boundMonCnts, misfoldedMonCnts, damagedMonCnts, <span class="keyword">...</span>
+0114                 nascentCpxCnts, matureCpxCnts, inactivatedCpxCnts, boundCpxCnts, misfoldedCpxCnts, damagedCpxCnts, <span class="keyword">...</span>
+0115                 rnaPolTUs, rnaPolPosStrnds, ribMRNAs, ribPos] = <span class="keyword">...</span>
+0116                 getMacromoleculeCounts(id, sim, simDir)
+0117             import edu.stanford.covert.cell.sim.state.RNAPolymerase;
+0118             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0119             import edu.stanford.covert.cell.sim.util.MacromoleculeUtil;
+0120             
+0121             [idx, compIdx, ~, ~, type, <span class="keyword">...</span>
+0122                 geneIdxs, ~, ~, ~, <span class="keyword">...</span>
+0123                 nascentRnaIdxs, nascentRnaCompIdxs, ~, ~, <span class="keyword">...</span>
+0124                 matureRnaIdxs, matureRnaCompIdxs, ~, ~, <span class="keyword">...</span>
+0125                 monIdxs, monCompIdxs, ~, ~, <span class="keyword">...</span>
+0126                 cpxIdxs, cpxCompIdxs, ~, ~] = <span class="keyword">...</span>
+0127                 MacromoleculeUtil.getMacromoleculeIndexsIDsNames(id, sim);
+0128             
+0129             g = sim.gene;
+0130             comp = sim.compartment;
+0131             chr = sim.state(<span class="string">'Chromosome'</span>);
+0132             rna = sim.state(<span class="string">'Rna'</span>);
+0133             mon = sim.state(<span class="string">'ProteinMonomer'</span>);
+0134             cpx = sim.state(<span class="string">'ProteinComplex'</span>);
+0135             
+0136             stateNames = {
+0137                 <span class="string">'Time'</span>               <span class="string">'values'</span>
+0138                 <span class="string">'Chromosome'</span>         <span class="string">'polymerizedRegions'</span>
+0139                 <span class="string">'Rna'</span>                <span class="string">'counts'</span>
+0140                 <span class="string">'ProteinMonomer'</span>     <span class="string">'counts'</span>
+0141                 <span class="string">'ProteinComplex'</span>     <span class="string">'counts'</span>
+0142                 };
+0143             states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0144             times = permute(states.Time.values, [1 3 2]);
+0145             polRgns = states.Chromosome.polymerizedRegions;
+0146             rnaCnts = states.Rna.counts;
+0147             monCnts = states.ProteinMonomer.counts;
+0148             cpxCnts = states.ProteinComplex.counts;
+0149             
+0150             <span class="keyword">switch</span> type
+0151                 <span class="keyword">case</span> <span class="string">'gene'</span>
+0152                     cnts = MacromoleculeUtil.extractCopyNumberTimeCourse(chr, polRgns, g.startCoordinates(idx), g.strands(idx), g.lengths(idx));
+0153                 <span class="keyword">case</span> <span class="string">'nascentRna'</span>
+0154                     cnts = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.processedIndexs(idx), compIdx);
+0155                 <span class="keyword">case</span> <span class="string">'matureRna'</span>
+0156                     cnts = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.matureIndexs(idx), compIdx);
+0157                 <span class="keyword">case</span> <span class="string">'monomer'</span>
+0158                     cnts = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.matureIndexs(idx), compIdx);
+0159                 <span class="keyword">case</span> <span class="string">'complex'</span>
+0160                     cnts = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.matureIndexs(idx), compIdx);
+0161             <span class="keyword">end</span>
+0162             
+0163             <span class="keyword">if</span> nargout == 1
+0164                 <span class="keyword">return</span>;
+0165             <span class="keyword">end</span>
+0166             
+0167             geneCnts = MacromoleculeUtil.extractCopyNumberTimeCourse(chr, polRgns, g.startCoordinates(geneIdxs), g.strands(geneIdxs), g.lengths(geneIdxs));
+0168             
+0169             nascentRnaCnts       = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.nascentIndexs(nascentRnaIdxs),      nascentRnaCompIdxs);
+0170             processedRnaCnts     = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.processedIndexs(matureRnaIdxs),     matureRnaCompIdxs);
+0171             matureRnaCnts        = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.matureIndexs(matureRnaIdxs),        matureRnaCompIdxs);
+0172             boundRnaCnts         = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.boundIndexs(matureRnaIdxs),         matureRnaCompIdxs);
+0173             misfoldedRnaCnts     = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.misfoldedIndexs(matureRnaIdxs),     matureRnaCompIdxs);
+0174             damagedRnaCnts       = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.damagedIndexs(matureRnaIdxs),       matureRnaCompIdxs);
+0175             aminoacylatedRnaCnts = MacromoleculeUtil.extractCountTimeCourse(rnaCnts, rna.aminoacylatedIndexs(matureRnaIdxs), matureRnaCompIdxs);
+0176             
+0177             nascentMonCnts       = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.nascentIndexs(monIdxs),     comp.cytosolIndexs(ones(size(monIdxs))));
+0178             processedIMonCnts    = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.processedIIndexs(monIdxs),  comp.cytosolIndexs(ones(size(monIdxs))));
+0179             translocatedMonCnts  = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.processedIIndexs(monIdxs),  monCompIdxs);
+0180             processedIIMonCnts   = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.processedIIIndexs(monIdxs), monCompIdxs);
+0181             foldedMonCnts        = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.foldedIndexs(monIdxs),      monCompIdxs);
+0182             matureMonCnts        = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.matureIndexs(monIdxs),      monCompIdxs);
+0183             inactivatedMonCnts   = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.inactivatedIndexs(monIdxs), monCompIdxs);
+0184             boundMonCnts         = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.boundIndexs(monIdxs),       monCompIdxs);
+0185             misfoldedMonCnts     = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.misfoldedIndexs(monIdxs),   monCompIdxs);
+0186             damagedMonCnts       = MacromoleculeUtil.extractCountTimeCourse(monCnts, mon.damagedIndexs(monIdxs),     monCompIdxs);
+0187             
+0188             nascentCpxCnts       = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.nascentIndexs(cpxIdxs),     cpxCompIdxs);
+0189             matureCpxCnts        = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.matureIndexs(cpxIdxs),      cpxCompIdxs);
+0190             inactivatedCpxCnts   = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.inactivatedIndexs(cpxIdxs), cpxCompIdxs);
+0191             boundCpxCnts         = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.boundIndexs(cpxIdxs),       cpxCompIdxs);
+0192             misfoldedCpxCnts     = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.misfoldedIndexs(cpxIdxs),   cpxCompIdxs);
+0193             damagedCpxCnts       = MacromoleculeUtil.extractCountTimeCourse(cpxCnts, cpx.damagedIndexs(cpxIdxs),     cpxCompIdxs);
+0194             
+0195             <span class="keyword">if</span> nargout &gt;= 26
+0196                 stateNames = {
+0197                     <span class="string">'RNAPolymerase'</span>      <span class="string">'states'</span>
+0198                     <span class="string">'RNAPolymerase'</span>      <span class="string">'positionStrands'</span>
+0199                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptionUnits'</span>
+0200                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptProgress'</span>
+0201                     <span class="string">'Transcript'</span>         <span class="string">'boundTranscriptChromosome'</span>
+0202                     };
+0203                 states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);                                
+0204                 polStates = permute(states.RNAPolymerase.states, [1 3 2]);
+0205                 pos = permute(states.RNAPolymerase.positionStrands(:, 1, :), [1 3 2]);
+0206                 strnds = permute(states.RNAPolymerase.positionStrands(:, 2, :), [1 3 2]);
+0207                 tus = permute(states.Transcript.boundTranscriptionUnits, [1 3 2]);
+0208                 lens = permute(states.Transcript.boundTranscriptProgress, [1 3 2]);
+0209                 chrs = permute(states.Transcript.boundTranscriptChromosome, [1 3 2]);
+0210                 
+0211                 rnaPolTUs = zeros(0, 3);
+0212                 rnaPolPosStrnds = cell(0, 1);
+0213                 <span class="keyword">for</span> i = 1:numel(nascentRnaIdxs)
+0214                     <span class="keyword">for</span> j = 1:size(tus, 1)
+0215                         <span class="keyword">for</span> k = 1:2
+0216                             startIdxs = find(<span class="keyword">...</span>
+0217                                 tus(j, :) == nascentRnaIdxs(i) &amp; <span class="keyword">...</span>
+0218                                 chrs(j, :) == k &amp; <span class="keyword">...</span>
+0219                                 polStates(j, :) == RNAPolymerase.specificallyBoundValue &amp; <span class="keyword">...</span>
+0220                                 [true <span class="keyword">...</span>
+0221                                 tus(j, 1:end-1)~=nascentRnaIdxs(i) | <span class="keyword">...</span>
+0222                                 chrs(j, 1:end-1)~=k | <span class="keyword">...</span>
+0223                                 polStates(j, 1:end-1) ~= RNAPolymerase.specificallyBoundValue<span class="keyword">...</span>
+0224                                 ]);
+0225                             endIdxs = find(<span class="keyword">...</span>
+0226                                 tus(j, :) == nascentRnaIdxs(i) &amp; <span class="keyword">...</span>
+0227                                 chrs(j, :) == k &amp; <span class="keyword">...</span>
+0228                                 [tus(j, 2:end) ~= nascentRnaIdxs(i) | <span class="keyword">...</span>
+0229                                 chrs(j, 2:end) ~= k <span class="keyword">...</span>
+0230                                 true]);
+0231                             
+0232                             <span class="keyword">for</span> l = 1:numel(startIdxs)
+0233                                 rnaPolTUs = [rnaPolTUs; nascentRnaIdxs(i) k strnds(j, startIdxs(l))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0234                                 rnaPolPosStrnds = [rnaPolPosStrnds;
+0235                                     {[times(startIdxs(l):endIdxs(l)) 
+0236                                     lens(j, startIdxs(l):endIdxs(l))
+0237                                     pos(j, startIdxs(l):endIdxs(l))]}]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0238                             <span class="keyword">end</span>
+0239                         <span class="keyword">end</span>
+0240                     <span class="keyword">end</span>
+0241                 <span class="keyword">end</span>
+0242             <span class="keyword">end</span>
+0243             
+0244             <span class="keyword">if</span> nargout &gt;= 28
+0245                 stateNames = {
+0246                     <span class="string">'Polypeptide'</span>        <span class="string">'boundMRNAs'</span>
+0247                     <span class="string">'Polypeptide'</span>        <span class="string">'nascentMonomerLengths'</span>
+0248                     };
+0249                 states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0250                 mrnas = permute(states.Polypeptide.boundMRNAs, [1 3 2]);
+0251                 lens = permute(states.Polypeptide.nascentMonomerLengths, [1 3 2]);
+0252                 
+0253                 ribMRNAs = zeros(0, 1);
+0254                 ribPos = cell(0, 1);
+0255                 <span class="keyword">for</span> i = 1:numel(monIdxs)
+0256                     <span class="keyword">for</span> j = 1:size(mrnas, 1)
+0257                         startIdxs = find(<span class="keyword">...</span>
+0258                             mrnas(j, :) == monIdxs(i) &amp; <span class="keyword">...</span>
+0259                             [true mrnas(j, 1:end-1) ~= monIdxs(i)]);
+0260                         endIdxs = find(<span class="keyword">...</span>
+0261                             mrnas(j, :) == monIdxs(i) &amp; <span class="keyword">...</span>
+0262                             [mrnas(j, 2:end) ~= monIdxs(i) true]);
+0263                         
+0264                         <span class="keyword">for</span> l = 1:numel(startIdxs)
+0265                             ribMRNAs = [ribMRNAs; monIdxs(i)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0266                             ribPos = [ribPos;
+0267                                 {[times(startIdxs(l):endIdxs(l)); lens(j, startIdxs(l):endIdxs(l))]}]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0268                         <span class="keyword">end</span>
+0269                     <span class="keyword">end</span>
+0270                 <span class="keyword">end</span>
+0271             <span class="keyword">end</span>
+0272         <span class="keyword">end</span>
+0273     <span class="keyword">end</span>
+0274     
+0275     methods (Static = true)
+0276         <a name="_sub2" href="#_subfunctions" class="code">function value = extractCopyNumberTimeCourse(chr, polRgns, startCoordinates, strands, lengths)</a>
+0277             numTimePoints = size(polRgns, 3);
+0278             times = 1:numTimePoints;
+0279             
+0280             posStrndTimes = [
+0281                 reshape(startCoordinates(:, ones(numTimePoints, 1)), [], 1)  reshape(strands(:, ones(numTimePoints, 1)),   [], 1)  reshape(times(ones(size(strands)), :), [], 1)
+0282                 reshape(startCoordinates(:, ones(numTimePoints, 1)), [], 1)  reshape(strands(:, ones(numTimePoints, 1))+2, [], 1)  reshape(times(ones(size(strands)), :), [], 1)
+0283                 ];
+0284             lens = [
+0285                 reshape(lengths(:, ones(numTimePoints, 1)), [], 1)
+0286                 reshape(lengths(:, ones(numTimePoints, 1)), [], 1)
+0287                 ];
+0288             value = sum(reshape(reshape(chr.isRegionPolymerized(posStrndTimes, lens, false, false, false, polRgns), [], 2), [numel(strands) numTimePoints 2]), 3);
+0289         <span class="keyword">end</span>
+0290         
+0291         <a name="_sub3" href="#_subfunctions" class="code">function value = extractCountTimeCourse(timeCourse, idxs, compIdxs)</a>
+0292             numTimePoints = size(timeCourse, 3);
+0293             times = 1:numTimePoints;
+0294             compIdxs = compIdxs(:);
+0295             
+0296             <span class="keyword">if</span> isa(timeCourse, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0297                 value = reshape(timeCourse([<span class="keyword">...</span>
+0298                     reshape(idxs(:, ones(numTimePoints, 1)), [], 1) <span class="keyword">...</span>
+0299                     reshape(compIdxs(:, ones(numTimePoints, 1)), [], 1) <span class="keyword">...</span>
+0300                     reshape(times(ones(size(idxs)), :), [], 1) <span class="keyword">...</span>
+0301                     ]), [], numTimePoints);
+0302             <span class="keyword">else</span>
+0303                 value = timeCourse(sub2ind(<span class="keyword">...</span>
+0304                     size(timeCourse), <span class="keyword">...</span>
+0305                     idxs(:, ones(numTimePoints, 1)), <span class="keyword">...</span>
+0306                     compIdxs(:, ones(numTimePoints, 1)), <span class="keyword">...</span>
+0307                     times(ones(size(idxs)), :) <span class="keyword">...</span>
+0308                     ));
+0309             <span class="keyword">end</span>
+0310         <span class="keyword">end</span>
+0311     <span class="keyword">end</span>
+0312 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

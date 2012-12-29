@@ -1,0 +1,918 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinComplex</title>
+  <meta name="keywords" content="ProteinComplex">
+  <meta name="description" content="Defines a protein complex">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; ProteinComplex.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinComplex
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a protein complex</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a protein complex
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ProteinComplex.html" class="code" title="">ProteinComplex</a>	Defines a protein complex</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ProteinComplex.html" class="code" title="">ProteinComplex</a>	Defines a protein complex</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinComplex(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function value = get.empiricalFormula(this)</a></li><li><a href="#_sub4" class="code">function value = get.smiles(this)</a></li><li><a href="#_sub5" class="code">function value = get.charge(this)</a></li><li><a href="#_sub6" class="code">function value = get.pKa(this)</a></li><li><a href="#_sub7" class="code">function value = get.halfLife(this)</a></li><li><a href="#_sub8" class="code">function value = get.matureHalfLife(this)</a></li><li><a href="#_sub9" class="code">function value = get.rnaComposition(this)</a></li><li><a href="#_sub10" class="code">function value = rnaComposition_Helper(this)</a></li><li><a href="#_sub11" class="code">function value = get.proteinMonomerComposition(this)</a></li><li><a href="#_sub12" class="code">function value = proteinMonomerComposition_Helper(this)</a></li><li><a href="#_sub13" class="code">function value = get.molecularWeight(this)</a></li><li><a href="#_sub14" class="code">function value = get.matureMolecularWeight(this)</a></li><li><a href="#_sub15" class="code">function value = get.density(this)</a></li><li><a href="#_sub16" class="code">function value = get.volume(this)</a></li><li><a href="#_sub17" class="code">function value = get.pI(this)</a></li><li><a href="#_sub18" class="code">function value = get.extinctionCoefficient(this)</a></li><li><a href="#_sub19" class="code">function value = get.absorbanceFactor(this)</a></li><li><a href="#_sub20" class="code">function value = get.negAA(this)</a></li><li><a href="#_sub21" class="code">function value = get.posAA(this)</a></li><li><a href="#_sub22" class="code">function value = get.instabilityIndex(this)</a></li><li><a href="#_sub23" class="code">function value = get.stable(this)</a></li><li><a href="#_sub24" class="code">function value = get.aliphaticIndex(this)</a></li><li><a href="#_sub25" class="code">function value = get.gravy(this)</a></li><li><a href="#_sub26" class="code">function value = get.baseCount(this)</a></li><li><a href="#_sub27" class="code">function value = get.matureBaseCount(this)</a></li><li><a href="#_sub28" class="code">function value = get.cumulativeBaseCount(this)</a></li><li><a href="#_sub29" class="code">function value = get.tRNACount(this)</a></li><li><a href="#_sub30" class="code">function value = get.decayReaction(this)</a></li><li><a href="#_sub31" class="code">function value = decayReaction_Helper(this)</a></li><li><a href="#_sub32" class="code">function value = get.matureDecayReaction(this)</a></li><li><a href="#_sub33" class="code">function value = get.numDistinctSubunits(this)</a></li><li><a href="#_sub34" class="code">function value = get.numSubunits(this)</a></li><li><a href="#_sub35" class="code">function value = get.numNucleicAcids(this)</a></li><li><a href="#_sub36" class="code">function value = computeNumNucleicAcids(this)</a></li><li><a href="#_sub37" class="code">function value = get.numAminoAcids(this)</a></li><li><a href="#_sub38" class="code">function value = computeNumAminoAcids(this)</a></li><li><a href="#_sub39" class="code">function value = get.numRNASubunits(this)</a></li><li><a href="#_sub40" class="code">function value = computeNumRNASubunits(this)</a></li><li><a href="#_sub41" class="code">function value = get.numProteinMonomerSubunits(this)</a></li><li><a href="#_sub42" class="code">function value = computeNumProteinMonomerSubunits(this)</a></li><li><a href="#_sub43" class="code">function value = meanSubunitPropertyValue(this, property, average)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a protein complex</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="ProteinComplex.html" class="code" title="">ProteinComplex</a> &lt; edu.stanford.covert.cell.kb.PhysicalObject &amp; edu.stanford.covert.cell.kb.Protein
+0007     properties
+0008         prostheticGroups            = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0009         prostheticGroupCompartments = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0010         prostheticGroupCoefficients = [];
+0011 
+0012         chaperoneSubstrates         = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0013         chaperoneCompartments       = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0014         chaperoneCoefficients       = [];
+0015         
+0016         metabolites                 = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0017         metaboliteCompartments      = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0018         metaboliteCoefficients      = [];
+0019 
+0020         rnas                        = edu.stanford.covert.cell.kb.Gene.empty(0,0);
+0021         rnaCompartments             = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0022         rnaCoefficients             = [];
+0023 
+0024         proteinMonomers             = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0025         proteinMonomerCompartments  = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0026         proteinMonomerCoefficients  = [];
+0027 
+0028         proteinComplexs             = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0029         proteinComplexCompartments  = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0030         proteinComplexCoefficients  = [];
+0031 
+0032         stableModificationReactions = edu.stanford.covert.cell.kb.Reaction.empty(0,0);
+0033 
+0034         regulatedTranscriptionUnits = edu.stanford.covert.cell.kb.TranscriptionUnit.empty(0,0);
+0035 
+0036         compartment                 = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0037 
+0038         stimuliRegulators           = edu.stanford.covert.cell.kb.Stimuli.empty(0,0);
+0039         metaboliteRegulators        = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0040         proteinMonomerRegulators    = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0041         proteinComplexRegulators    = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0042 
+0043         regulatedProteinMonomers    = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0044         regulatedProteinComplexs    = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0045 
+0046         parameters                  = edu.stanford.covert.cell.kb.Parameter.empty(0,0);
+0047 
+0048         complexFormationProcess      = edu.stanford.covert.cell.kb.Process.empty(0,0); <span class="comment">%process where complex is formed</span>
+0049     <span class="keyword">end</span>
+0050 
+0051     properties (SetAccess = protected)
+0052         empiricalFormula
+0053         smiles
+0054         charge
+0055         pKa
+0056         halfLife
+0057         activationRule
+0058         disulfideBondMonomers = cell(0,1);
+0059         disulfideBondCysteines = zeros(0,2);
+0060     <span class="keyword">end</span>
+0061 
+0062     <span class="comment">%computed properties</span>
+0063     properties (SetAccess = protected)
+0064         rnaComposition
+0065         proteinMonomerComposition
+0066 
+0067         molecularWeight
+0068         density
+0069         volume
+0070         pI
+0071         extinctionCoefficient
+0072         absorbanceFactor
+0073 
+0074         negAA
+0075         posAA
+0076         instabilityIndex
+0077         stable
+0078         aliphaticIndex
+0079         gravy
+0080 
+0081         baseCount
+0082         cumulativeBaseCount
+0083         decayReaction
+0084         tRNACount
+0085 
+0086         matureBaseCount
+0087         matureMolecularWeight
+0088         matureHalfLife
+0089         matureDecayReaction
+0090 
+0091         numDistinctSubunits
+0092         numSubunits
+0093 
+0094         numNucleicAcids
+0095         numAminoAcids
+0096         numRNASubunits
+0097         numProteinMonomerSubunits
+0098     <span class="keyword">end</span>
+0099 
+0100     methods
+0101         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinComplex(knowledgeBase, wid, wholeCellModelID, name,</a><span class="keyword">...</span>
+0102                 dnaFootprint, dnaFootprintBindingStrandedness, dnaFootprintRegionStrandedness, molecularInteraction, chemicalRegulation, <span class="keyword">...</span>
+0103                 subsystem, generalClassification, proteaseClassification, <span class="keyword">...</span>
+0104                 transporterClassification, <span class="keyword">...</span>
+0105                 activationRule,<span class="keyword">...</span>
+0106                 disulfideBonds,<span class="keyword">...</span>
+0107                 comments, crossReferences)
+0108 
+0109             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0110 
+0111             this = edu.stanford.covert.cell.kb.ProteinComplex.empty(size(wid,1),0);
+0112             this(size(wid,1),1) = edu.stanford.covert.cell.kb.ProteinComplex;
+0113             <span class="keyword">for</span> i = 1:size(wid,1)
+0114                 this(i,1).idx = i;
+0115                 this(i,1).knowledgeBase = knowledgeBase;
+0116                 this(i,1).wid = wid(i);
+0117                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0118                 this(i,1).name = name{i};
+0119                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0120                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0121                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0122                         this(i,1).crossReferences = crossReferences(i);
+0123                     <span class="keyword">else</span>
+0124                         this(i,1).crossReferences = struct;
+0125                         fields = fieldnames(crossReferences);
+0126                         <span class="keyword">for</span> j = 1:size(fields,1)
+0127                             values = crossReferences.(fields{j});
+0128                             this(i,1).crossReferences.(fields{j}) = values(i);
+0129                         <span class="keyword">end</span>
+0130                     <span class="keyword">end</span>
+0131                 <span class="keyword">end</span>
+0132 
+0133                 this(i,1).dnaFootprint = dnaFootprint(i);
+0134                 this(i,1).dnaFootprintBindingStrandedness = dnaFootprintBindingStrandedness{i};
+0135                 this(i,1).dnaFootprintRegionStrandedness = dnaFootprintRegionStrandedness{i};
+0136                 this(i,1).molecularInteraction = molecularInteraction{i};
+0137                 this(i,1).chemicalRegulation = chemicalRegulation{i};
+0138                 this(i,1).subsystem = subsystem{i};
+0139                 this(i,1).generalClassification = generalClassification{i};
+0140                 this(i,1).proteaseClassification = proteaseClassification{i};
+0141                 this(i,1).transporterClassification = transporterClassification{i};
+0142                 this(i,1).activationRule = activationRule{i};
+0143                 
+0144                 <span class="keyword">if</span> disulfideBonds{i}
+0145                     disulfideBondsArr = strsplit(<span class="string">';'</span>,disulfideBonds{i});
+0146                     
+0147                     this(i,1).disulfideBondMonomers = cell(length(disulfideBondsArr),1);
+0148                     this(i,1).disulfideBondCysteines = zeros(length(disulfideBondsArr),2);
+0149                     <span class="keyword">for</span> j = 1:length(disulfideBondsArr)
+0150                         tmp = strsplit(<span class="string">': '</span>,disulfideBondsArr{j});
+0151                         this(i,1).disulfideBondMonomers{j,1} = tmp{1};
+0152                         tmp = strsplit(<span class="string">'-'</span>,tmp{2});
+0153                         this(i,1).disulfideBondCysteines(j,:) = [str2double(tmp{1}(2:end)) str2double(tmp{2}(2:end))];
+0154                     <span class="keyword">end</span>
+0155                 <span class="keyword">end</span>
+0156             <span class="keyword">end</span>
+0157         <span class="keyword">end</span>
+0158 
+0159         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0160             <span class="keyword">for</span> i = 1:numel(this)
+0161                 this(i).prostheticGroups            = [];
+0162                 this(i).prostheticGroupCompartments = [];
+0163                 this(i).prostheticGroupCoefficients = [];
+0164 
+0165                 this(i).chaperoneSubstrates         = [];
+0166                 this(i).chaperoneCompartments       = [];
+0167                 this(i).chaperoneCoefficients       = [];
+0168 
+0169                 this(i).metabolites                 = [];
+0170                 this(i).metaboliteCompartments      = [];
+0171                 this(i).metaboliteCoefficients      = [];
+0172                
+0173                 this(i).rnas                        = [];
+0174                 this(i).rnaCompartments             = [];
+0175                 this(i).rnaCoefficients             = [];
+0176 
+0177                 this(i).proteinMonomers             = [];
+0178                 this(i).proteinMonomerCompartments  = [];
+0179                 this(i).proteinMonomerCoefficients  = [];
+0180 
+0181                 this(i).proteinComplexs             = [];
+0182                 this(i).proteinComplexCompartments  = [];
+0183                 this(i).proteinComplexCoefficients  = [];
+0184 
+0185                 this(i).stableModificationReactions = [];
+0186 
+0187                 this(i).regulatedTranscriptionUnits = [];
+0188 
+0189                 this(i).compartment                 = [];
+0190 
+0191                 this(i).stimuliRegulators           = [];
+0192                 this(i).metaboliteRegulators        = [];
+0193                 this(i).proteinMonomerRegulators    = [];
+0194                 this(i).proteinComplexRegulators    = [];
+0195 
+0196                 this(i).regulatedProteinMonomers    = [];
+0197                 this(i).regulatedProteinComplexs    = [];
+0198 
+0199                 this(i).parameters                  = [];
+0200 
+0201                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.PhysicalObject(this(i));
+0202                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.Protein(this(i));
+0203             <span class="keyword">end</span>
+0204         <span class="keyword">end</span>
+0205 
+0206         <a name="_sub2" href="#_subfunctions" class="code">function value = get.empiricalFormula(this)</a>
+0207             throw(MException(<span class="string">'ProteinComplex:error'</span>,<span class="string">'property is not defined'</span>));
+0208         <span class="keyword">end</span>
+0209 
+0210         <a name="_sub3" href="#_subfunctions" class="code">function value = get.smiles(this)</a>
+0211             throw(MException(<span class="string">'ProteinComplex:error'</span>,<span class="string">'property is not defined'</span>));
+0212         <span class="keyword">end</span>
+0213 
+0214         <a name="_sub4" href="#_subfunctions" class="code">function value = get.charge(this)</a>
+0215             throw(MException(<span class="string">'ProteinComplex:error'</span>,<span class="string">'property is not defined'</span>));
+0216         <span class="keyword">end</span>
+0217 
+0218         <a name="_sub5" href="#_subfunctions" class="code">function value = get.pKa(this)</a>
+0219             throw(MException(<span class="string">'ProteinComplex:error'</span>,<span class="string">'property is not defined'</span>));
+0220         <span class="keyword">end</span>
+0221 
+0222         <a name="_sub6" href="#_subfunctions" class="code">function value = get.halfLife(this)</a>
+0223             <span class="comment">%retrieve</span>
+0224             <span class="keyword">if</span> ~isempty(this.halfLife)
+0225                 value = this.halfLife;
+0226                 <span class="keyword">return</span>;
+0227             <span class="keyword">end</span>
+0228             
+0229             <span class="comment">%calculate</span>
+0230             <span class="comment">%rnaHalfLives = zeros(1,length(this.rnas));</span>
+0231             <span class="comment">%for i = 1:length(this.rnas)</span>
+0232             <span class="comment">%    rnaHalfLives(i) = this.rnas(i).halfLife;</span>
+0233             <span class="comment">%end</span>
+0234 
+0235             monomerHalfLives = zeros(1,length(this.proteinMonomers));
+0236             <span class="keyword">for</span> i = 1:length(this.proteinMonomers)
+0237                 monomerHalfLives(i) = this.proteinMonomers(i).matureSequenceHalfLife;
+0238             <span class="keyword">end</span>
+0239 
+0240             complexHalfLives = zeros(1,length(this.proteinComplexs));
+0241             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0242                 complexHalfLives(i) = this.proteinComplexs(i).matureHalfLife;
+0243             <span class="keyword">end</span>
+0244 
+0245             halfLives = [monomerHalfLives complexHalfLives];
+0246             coefficients = [this.proteinMonomerCoefficients; this.proteinComplexCoefficients];
+0247 
+0248             <span class="keyword">if</span> ~isempty(coefficients)
+0249                 value = halfLives * coefficients / sum(coefficients);
+0250             <span class="keyword">else</span>
+0251                 value = Inf;
+0252             <span class="keyword">end</span>
+0253             
+0254             <span class="comment">%store</span>
+0255             this.halfLife = value;
+0256         <span class="keyword">end</span>
+0257 
+0258         <a name="_sub7" href="#_subfunctions" class="code">function value = get.matureHalfLife(this)</a>
+0259             <span class="comment">%retrieve</span>
+0260             <span class="keyword">if</span> ~isempty(this.matureHalfLife)
+0261                 value = this.matureHalfLife;
+0262                 <span class="keyword">return</span>;
+0263             <span class="keyword">end</span>
+0264             
+0265             <span class="comment">%calculate</span>
+0266             value = this.halfLife;
+0267             
+0268             <span class="comment">%store</span>
+0269             this.matureHalfLife = value;
+0270         <span class="keyword">end</span>
+0271 
+0272         <span class="comment">%leave on composition tree</span>
+0273         <a name="_sub8" href="#_subfunctions" class="code">function value = get.rnaComposition(this)</a>
+0274             <span class="comment">%retrieve</span>
+0275             <span class="keyword">if</span> ~isempty(this.rnaComposition)
+0276                 value = this.rnaComposition;
+0277                 <span class="keyword">return</span>;
+0278             <span class="keyword">end</span>
+0279             
+0280             <span class="comment">%calculate</span>
+0281             value = this.rnaComposition_Helper();
+0282             
+0283             <span class="comment">%store</span>
+0284             this.rnaComposition = value;
+0285         <span class="keyword">end</span>
+0286 
+0287         <span class="comment">%helper method because MATLAB won't let you call another objects</span>
+0288         <span class="comment">%get.rnaComposition method from within get.rnaComposition</span>
+0289         <a name="_sub9" href="#_subfunctions" class="code">function value = rnaComposition_Helper(this)</a>
+0290             value = zeros(1, this.knowledgeBase.numGenes, this.knowledgeBase.numCompartments);
+0291 
+0292             <span class="keyword">if</span> ~isempty(this.rnas)
+0293                 value(sub2ind(size(value),<span class="keyword">...</span>
+0294                     ones(1, numel(this.rnas)),<span class="keyword">...</span>
+0295                     double([this.rnas.idx]),<span class="keyword">...</span>
+0296                     double([this.rnaCompartments.idx]))) = <span class="keyword">...</span>
+0297                     this.rnaCoefficients;
+0298             <span class="keyword">end</span>
+0299 
+0300             <span class="keyword">if</span> ~isempty(this.proteinComplexs)
+0301                 value = value + <span class="keyword">...</span>
+0302                     sum(permute(reshape([this.proteinComplexs.rnaComposition],this.knowledgeBase.numGenes, [], this.knowledgeBase.numCompartments),[2 1 3]) .* <span class="keyword">...</span>
+0303                     repmat(this.proteinComplexCoefficients, [1 this.knowledgeBase.numGenes this.knowledgeBase.numCompartments]),1);
+0304             <span class="keyword">end</span>
+0305         <span class="keyword">end</span>
+0306 
+0307         <span class="comment">%leave on composition tree</span>
+0308         <a name="_sub10" href="#_subfunctions" class="code">function value = get.proteinMonomerComposition(this)</a>
+0309             <span class="comment">%retrieve</span>
+0310             <span class="keyword">if</span> ~isempty(this.proteinMonomerComposition)
+0311                 value = this.proteinMonomerComposition;
+0312                 <span class="keyword">return</span>;
+0313             <span class="keyword">end</span>
+0314             
+0315             <span class="comment">%calculate</span>
+0316             value = this.proteinMonomerComposition_Helper();
+0317             
+0318             <span class="comment">%store</span>
+0319             this.proteinMonomerComposition = value;
+0320         <span class="keyword">end</span>
+0321 
+0322         <span class="comment">%helper method because MATLAB won't let you call another objects</span>
+0323         <span class="comment">%get.proteinMonomerComposition method from within</span>
+0324         <span class="comment">%get.proteinMonomerComposition</span>
+0325         <a name="_sub11" href="#_subfunctions" class="code">function value = proteinMonomerComposition_Helper(this)</a>
+0326             value = zeros(1, this.knowledgeBase.numProteinMonomers, this.knowledgeBase.numCompartments);
+0327 
+0328             <span class="keyword">if</span> ~isempty(this.proteinMonomers)
+0329                 value(sub2ind(size(value),<span class="keyword">...</span>
+0330                     ones(1, numel(this.proteinMonomers)),<span class="keyword">...</span>
+0331                     double([this.proteinMonomers.idx]),<span class="keyword">...</span>
+0332                     double([this.proteinMonomerCompartments.idx]))) = <span class="keyword">...</span>
+0333                     this.proteinMonomerCoefficients;
+0334             <span class="keyword">end</span>
+0335 
+0336             <span class="keyword">if</span> ~isempty(this.proteinComplexs)
+0337                 value = value + <span class="keyword">...</span>
+0338                     sum(permute(reshape([this.proteinComplexs.proteinMonomerComposition],this.knowledgeBase.numProteinMonomers, [], this.knowledgeBase.numCompartments),[2 1 3]) .* <span class="keyword">...</span>
+0339                     repmat(this.proteinComplexCoefficients, [1 this.knowledgeBase.numProteinMonomers this.knowledgeBase.numCompartments]),1);
+0340             <span class="keyword">end</span>
+0341         <span class="keyword">end</span>
+0342 
+0343         <a name="_sub12" href="#_subfunctions" class="code">function value = get.molecularWeight(this)</a>
+0344             <span class="comment">%retrieve</span>
+0345             <span class="keyword">if</span> ~isempty(this.molecularWeight)
+0346                 value = this.molecularWeight;
+0347                 <span class="keyword">return</span>;
+0348             <span class="keyword">end</span>
+0349             
+0350             <span class="comment">%calculate</span>
+0351             metaboliteMolecularWeights = [this.metabolites.molecularWeight];
+0352             
+0353             rnaMolecularWeights = zeros(1, length(this.rnas));
+0354             <span class="keyword">for</span> i = 1:length(this.rnas)
+0355                 rnaMolecularWeights(i) = this.rnas(i).matureMolecularWeight;
+0356             <span class="keyword">end</span>
+0357 
+0358             monomerMolecularWeights = zeros(1, length(this.proteinMonomers));
+0359             <span class="keyword">for</span> i = 1:length(this.proteinMonomers)
+0360                 monomerMolecularWeights(i) = this.proteinMonomers(i).matureSequenceMolecularWeight;
+0361             <span class="keyword">end</span>
+0362 
+0363             complexMolecularWeights = zeros(1, length(this.proteinComplexs));
+0364             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0365                 complexMolecularWeights(i) = this.proteinComplexs(i).matureMolecularWeight;
+0366             <span class="keyword">end</span>
+0367 
+0368             molecularWeights = [metaboliteMolecularWeights rnaMolecularWeights monomerMolecularWeights complexMolecularWeights];
+0369             coefficients = [this.metaboliteCoefficients; this.rnaCoefficients; this.proteinMonomerCoefficients; this.proteinComplexCoefficients];
+0370 
+0371             <span class="keyword">if</span> ~isempty(coefficients)
+0372                 value = molecularWeights * coefficients;
+0373             <span class="keyword">else</span>
+0374                 value = 0;
+0375             <span class="keyword">end</span>
+0376             
+0377             <span class="comment">%store</span>
+0378             this.molecularWeight = value;
+0379         <span class="keyword">end</span>
+0380 
+0381         <a name="_sub13" href="#_subfunctions" class="code">function value = get.matureMolecularWeight(this)</a>
+0382             <span class="comment">%retrieve</span>
+0383             <span class="keyword">if</span> ~isempty(this.matureMolecularWeight)
+0384                 value = this.matureMolecularWeight;
+0385                 <span class="keyword">return</span>;
+0386             <span class="keyword">end</span>
+0387             
+0388             <span class="comment">%calculate</span>
+0389             value = this.molecularWeight;
+0390             <span class="keyword">if</span> ~isempty(this.prostheticGroups)
+0391                 value = value + [this.prostheticGroups.molecularWeight] * <span class="keyword">...</span>
+0392                     max(1, this.prostheticGroupCoefficients');
+0393             <span class="keyword">end</span>
+0394             
+0395             <span class="comment">%store</span>
+0396             this.matureMolecularWeight = value;
+0397         <span class="keyword">end</span>
+0398 
+0399         <a name="_sub14" href="#_subfunctions" class="code">function value = get.density(this)</a>
+0400             <span class="comment">%retrieve</span>
+0401             <span class="keyword">if</span> ~isempty(this.density)
+0402                 value = this.density;
+0403                 <span class="keyword">return</span>;
+0404             <span class="keyword">end</span>
+0405             
+0406             <span class="comment">%calculate</span>
+0407             value = 1.35;
+0408             
+0409             <span class="comment">%store</span>
+0410             this.density = value;
+0411         <span class="keyword">end</span>
+0412 
+0413         <a name="_sub15" href="#_subfunctions" class="code">function value = get.volume(this)</a>
+0414             <span class="comment">%retrieve</span>
+0415             <span class="keyword">if</span> ~isempty(this.volume)
+0416                 value = this.volume;
+0417                 <span class="keyword">return</span>;
+0418             <span class="keyword">end</span>
+0419             
+0420             <span class="comment">%calculate</span>
+0421             value = this.molecularWeight / this.density;
+0422             
+0423             <span class="comment">%store</span>
+0424             this.volume = value;
+0425         <span class="keyword">end</span>
+0426 
+0427         <a name="_sub16" href="#_subfunctions" class="code">function value = get.pI(this)</a>
+0428             <span class="comment">%retrieve</span>
+0429             <span class="keyword">if</span> ~isempty(this.pI)
+0430                 value = this.pI;
+0431                 <span class="keyword">return</span>;
+0432             <span class="keyword">end</span>
+0433             
+0434             <span class="comment">%calculate</span>
+0435             value = this.meanSubunitPropertyValue(<span class="string">'pI'</span>, true);
+0436             
+0437             <span class="comment">%store</span>
+0438             this.pI = value;
+0439         <span class="keyword">end</span>
+0440 
+0441         <a name="_sub17" href="#_subfunctions" class="code">function value = get.extinctionCoefficient(this)</a>
+0442             <span class="comment">%retrieve</span>
+0443             <span class="keyword">if</span> ~isempty(this.extinctionCoefficient)
+0444                 value = this.extinctionCoefficient;
+0445                 <span class="keyword">return</span>;
+0446             <span class="keyword">end</span>
+0447             
+0448             <span class="comment">%calculate</span>
+0449             value = this.meanSubunitPropertyValue(<span class="string">'extinctionCoefficient'</span>, true);
+0450             
+0451             <span class="comment">%store</span>
+0452             this.extinctionCoefficient = value;
+0453         <span class="keyword">end</span>
+0454 
+0455         <a name="_sub18" href="#_subfunctions" class="code">function value = get.absorbanceFactor(this)</a>
+0456             <span class="comment">%retrieve</span>
+0457             <span class="keyword">if</span> ~isempty(this.absorbanceFactor)
+0458                 value = this.absorbanceFactor;
+0459                 <span class="keyword">return</span>;
+0460             <span class="keyword">end</span>
+0461             
+0462             <span class="comment">%calculate</span>
+0463             value = this.extinctionCoefficient/this.molecularWeight;
+0464             
+0465             <span class="comment">%store</span>
+0466             this.absorbanceFactor = value;
+0467         <span class="keyword">end</span>
+0468 
+0469         <a name="_sub19" href="#_subfunctions" class="code">function value = get.negAA(this)</a>
+0470             <span class="comment">%retrieve</span>
+0471             <span class="keyword">if</span> ~isempty(this.negAA)
+0472                 value = this.negAA;
+0473                 <span class="keyword">return</span>;
+0474             <span class="keyword">end</span>
+0475             
+0476             <span class="comment">%calculate</span>
+0477             value = this.meanSubunitPropertyValue(<span class="string">'negAA'</span>, false);
+0478             
+0479             <span class="comment">%store</span>
+0480             this.negAA = value;
+0481         <span class="keyword">end</span>
+0482 
+0483         <a name="_sub20" href="#_subfunctions" class="code">function value = get.posAA(this)</a>
+0484             <span class="comment">%retrieve</span>
+0485             <span class="keyword">if</span> ~isempty(this.posAA)
+0486                 value = this.posAA;
+0487                 <span class="keyword">return</span>;
+0488             <span class="keyword">end</span>
+0489             
+0490             <span class="comment">%calculate</span>
+0491             value = this.meanSubunitPropertyValue(<span class="string">'posAA'</span>, false);
+0492             
+0493             <span class="comment">%store</span>
+0494             this.posAA = value;
+0495         <span class="keyword">end</span>
+0496 
+0497         <span class="comment">%Instability index (II)</span>
+0498         <a name="_sub21" href="#_subfunctions" class="code">function value = get.instabilityIndex(this)</a>
+0499             <span class="comment">%retrieve</span>
+0500             <span class="keyword">if</span> ~isempty(this.instabilityIndex)
+0501                 value = this.instabilityIndex;
+0502                 <span class="keyword">return</span>;
+0503             <span class="keyword">end</span>
+0504             
+0505             <span class="comment">%calculate</span>
+0506             value = this.meanSubunitPropertyValue(<span class="string">'instabilityIndex'</span>, true);
+0507             
+0508             <span class="comment">%store</span>
+0509             this.instabilityIndex = value;
+0510         <span class="keyword">end</span>
+0511 
+0512         <a name="_sub22" href="#_subfunctions" class="code">function value = get.stable(this)</a>
+0513             <span class="comment">%retrieve</span>
+0514             <span class="keyword">if</span> ~isempty(this.stable)
+0515                 value = this.stable;
+0516                 <span class="keyword">return</span>;
+0517             <span class="keyword">end</span>
+0518             
+0519             <span class="comment">%calculate</span>
+0520             value = (this.instabilityIndex&lt;40);
+0521             
+0522             <span class="comment">%store</span>
+0523             this.stable = value;
+0524         <span class="keyword">end</span>
+0525 
+0526         <span class="comment">%Aliphatic index</span>
+0527         <a name="_sub23" href="#_subfunctions" class="code">function value = get.aliphaticIndex(this)</a>
+0528             <span class="comment">%retrieve</span>
+0529             <span class="keyword">if</span> ~isempty(this.aliphaticIndex)
+0530                 value = this.aliphaticIndex;
+0531                 <span class="keyword">return</span>;
+0532             <span class="keyword">end</span>
+0533             
+0534             <span class="comment">%calculate</span>
+0535             value = this.meanSubunitPropertyValue(<span class="string">'aliphaticIndex'</span>, true);
+0536             
+0537             <span class="comment">%store</span>
+0538             this.aliphaticIndex = value;
+0539         <span class="keyword">end</span>
+0540 
+0541         <span class="comment">%GRAVY (Grand Average of Hydropathy)</span>
+0542         <a name="_sub24" href="#_subfunctions" class="code">function value = get.gravy(this)</a>
+0543             <span class="comment">%retrieve</span>
+0544             <span class="keyword">if</span> ~isempty(this.gravy)
+0545                 value = this.gravy;
+0546                 <span class="keyword">return</span>;
+0547             <span class="keyword">end</span>
+0548             
+0549             <span class="comment">%calculate</span>
+0550             value = this.meanSubunitPropertyValue(<span class="string">'gravy'</span>, true);
+0551             
+0552             <span class="comment">%store</span>
+0553             this.gravy = value;
+0554         <span class="keyword">end</span>
+0555 
+0556         <span class="comment">%base count (numbers of amino acids)</span>
+0557         <a name="_sub25" href="#_subfunctions" class="code">function value = get.baseCount(this)   </a>
+0558             <span class="comment">%retrieve</span>
+0559             <span class="keyword">if</span> ~isempty(this.baseCount)
+0560                 value = this.baseCount;
+0561                 <span class="keyword">return</span>;
+0562             <span class="keyword">end</span>
+0563             
+0564             <span class="comment">%calculate</span>
+0565             rnaBaseCounts = zeros(length(this.rnas), this.knowledgeBase.numMetabolites);
+0566             <span class="keyword">for</span> i = 1:length(this.rnas)
+0567                 rnaBaseCounts(i, :) = this.rnas(i).matureBaseCount;
+0568             <span class="keyword">end</span>
+0569 
+0570             monomerBaseCounts = zeros(length(this.proteinMonomers), this.knowledgeBase.numMetabolites);
+0571             <span class="keyword">for</span> i = 1:length(this.proteinMonomers)
+0572                 monomerBaseCounts(i, :) = this.proteinMonomers(i).matureSequenceBaseCount;
+0573             <span class="keyword">end</span>
+0574 
+0575             complexBaseCounts = zeros(length(this.proteinComplexs), this.knowledgeBase.numMetabolites);
+0576             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0577                 complexBaseCounts(i, :) = this.proteinComplexs(i).matureBaseCount;
+0578             <span class="keyword">end</span>
+0579 
+0580             baseCounts = [rnaBaseCounts; monomerBaseCounts; complexBaseCounts];
+0581             coefficients = [this.rnaCoefficients; this.proteinMonomerCoefficients; this.proteinComplexCoefficients];
+0582 
+0583             <span class="keyword">if</span> ~isempty(coefficients)
+0584                 value = coefficients' * baseCounts;
+0585             <span class="keyword">else</span>
+0586                 value = zeros(1, this.knowledgeBase.numMetabolites);
+0587             <span class="keyword">end</span>
+0588             
+0589             <span class="keyword">if</span> ~isempty(this.metabolites)
+0590                 value([this.metabolites.idx]) = <span class="keyword">...</span>
+0591                     value([this.metabolites.idx]) + <span class="keyword">...</span>
+0592                     this.metaboliteCoefficients';
+0593             <span class="keyword">end</span>
+0594             
+0595             <span class="comment">%store</span>
+0596             this.baseCount = value;
+0597         <span class="keyword">end</span>
+0598 
+0599         <a name="_sub26" href="#_subfunctions" class="code">function value = get.matureBaseCount(this)</a>
+0600             <span class="comment">%retrieve</span>
+0601             <span class="keyword">if</span> ~isempty(this.matureBaseCount)
+0602                 value = this.matureBaseCount;
+0603                 <span class="keyword">return</span>;
+0604             <span class="keyword">end</span>
+0605             
+0606             <span class="comment">%calculate</span>
+0607             value = this.baseCount;
+0608             <span class="keyword">if</span> ~isempty(this.prostheticGroups)
+0609                 value([this.prostheticGroups.idx]) = <span class="keyword">...</span>
+0610                     value([this.prostheticGroups.idx]) + <span class="keyword">...</span>
+0611                     max(1, this.prostheticGroupCoefficients);
+0612             <span class="keyword">end</span>
+0613             
+0614             <span class="comment">%store</span>
+0615             this.matureBaseCount = value;
+0616         <span class="keyword">end</span>
+0617 
+0618         <span class="comment">%base count (numbers of amino acids)</span>
+0619         <a name="_sub27" href="#_subfunctions" class="code">function value = get.cumulativeBaseCount(this)</a>
+0620             throw(MException(<span class="string">'ProteinComplex:error'</span>,<span class="string">'property is not defined'</span>));
+0621         <span class="keyword">end</span>
+0622 
+0623         <span class="comment">%codon count</span>
+0624         <a name="_sub28" href="#_subfunctions" class="code">function value = get.tRNACount(this)</a>
+0625             <span class="comment">%retrieve</span>
+0626             <span class="keyword">if</span> ~isempty(this.tRNACount)
+0627                 value = this.tRNACount;
+0628                 <span class="keyword">return</span>;
+0629             <span class="keyword">end</span>
+0630             
+0631             <span class="comment">%calculate</span>
+0632             monomerTRNACounts = zeros(length(this.proteinMonomers),this.knowledgeBase.numMetabolites);
+0633             <span class="keyword">for</span> i = 1:length(this.proteinMonomers)
+0634                 <span class="keyword">switch</span> this.proteinMonomers(i).gene.type
+0635                     <span class="keyword">case</span> <span class="string">'mRNA'</span>, monomerTRNACounts(i,:) = this.proteinMonomers(i).matureSequenceBaseCount;
+0636                 <span class="keyword">end</span>
+0637             <span class="keyword">end</span>
+0638 
+0639             complexTRNACounts = zeros(length(this.proteinComplexs),this.knowledgeBase.numMetabolites);
+0640             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0641                 complexTRNACounts(i,:) = this.proteinComplexs.matureBaseCount;
+0642             <span class="keyword">end</span>
+0643 
+0644             TRNACounts = [monomerTRNACounts;complexTRNACounts];
+0645             coefficients = [this.proteinMonomerCoefficients;this.proteinComplexCoefficients];
+0646 
+0647             <span class="keyword">if</span> ~isempty(coefficients)
+0648                 value = coefficients'*TRNACounts;
+0649             <span class="keyword">else</span>
+0650                 value = zeros(1,this.knowledgeBase.numMetabolites);
+0651             <span class="keyword">end</span>
+0652             
+0653             <span class="comment">%store</span>
+0654             this.tRNACount = value;
+0655         <span class="keyword">end</span>
+0656 
+0657         <a name="_sub29" href="#_subfunctions" class="code">function value = get.decayReaction(this)</a>
+0658             <span class="comment">%retrieve</span>
+0659             <span class="keyword">if</span> ~isempty(this.decayReaction)
+0660                 value = this.decayReaction;
+0661                 <span class="keyword">return</span>;
+0662             <span class="keyword">end</span>
+0663             
+0664             <span class="comment">%calculate</span>
+0665             value = this.decayReaction_Helper();
+0666             
+0667             <span class="comment">%store</span>
+0668             this.decayReaction = value;
+0669         <span class="keyword">end</span>
+0670         
+0671         <a name="_sub30" href="#_subfunctions" class="code">function value = decayReaction_Helper(this)</a>
+0672             value = zeros(1, this.knowledgeBase.numMetabolites);
+0673             
+0674             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0675                 value = value + this.proteinComplexCoefficients(i) * this.proteinComplexs(i).decayReaction;
+0676             <span class="keyword">end</span>
+0677             
+0678             <span class="keyword">if</span> ~isempty(this.metabolites)
+0679                 value([this.metabolites.idx]) =   <span class="keyword">...</span>
+0680                     + value([this.metabolites.idx]) <span class="keyword">...</span>
+0681                     + this.metaboliteCoefficients';
+0682             <span class="keyword">end</span>
+0683         <span class="keyword">end</span>
+0684 
+0685         <a name="_sub31" href="#_subfunctions" class="code">function value = get.matureDecayReaction(this)</a>
+0686             <span class="comment">%retrieve</span>
+0687             <span class="keyword">if</span> ~isempty(this.matureDecayReaction)
+0688                 value = this.matureDecayReaction;
+0689                 <span class="keyword">return</span>;
+0690             <span class="keyword">end</span>
+0691             
+0692             <span class="comment">%calculate</span>
+0693             value = this.decayReaction;
+0694             <span class="keyword">if</span> ~isempty(this.prostheticGroups)
+0695                 value([this.prostheticGroups.idx]) = <span class="keyword">...</span>
+0696                     + value([this.prostheticGroups.idx]) <span class="keyword">...</span>
+0697                     + max(1, this.prostheticGroupCoefficients);
+0698             <span class="keyword">end</span>
+0699             
+0700             <span class="comment">%store</span>
+0701             this.matureDecayReaction = value;
+0702         <span class="keyword">end</span>
+0703 
+0704         <span class="comment">%number of distinct subunits</span>
+0705         <a name="_sub32" href="#_subfunctions" class="code">function value = get.numDistinctSubunits(this)</a>
+0706             <span class="comment">%retrieve</span>
+0707             <span class="keyword">if</span> ~isempty(this.numDistinctSubunits)
+0708                 value = this.numDistinctSubunits;
+0709                 <span class="keyword">return</span>;
+0710             <span class="keyword">end</span>
+0711             
+0712             <span class="comment">%calculate</span>
+0713             value = length(this.rnas)+length(this.proteinMonomers)+length(this.proteinComplexs);
+0714             
+0715             <span class="comment">%store</span>
+0716             this.numDistinctSubunits = value;
+0717         <span class="keyword">end</span>
+0718 
+0719         <span class="comment">%number of subunits</span>
+0720         <a name="_sub33" href="#_subfunctions" class="code">function value = get.numSubunits(this)</a>
+0721             <span class="comment">%retrieve</span>
+0722             <span class="keyword">if</span> ~isempty(this.numSubunits)
+0723                 value = this.numSubunits;
+0724                 <span class="keyword">return</span>;
+0725             <span class="keyword">end</span>
+0726             
+0727             <span class="comment">%calculate</span>
+0728             value = sum([this.proteinMonomerCoefficients;this.proteinComplexCoefficients]);
+0729             <span class="keyword">if</span> ~isempty(value)
+0730                 value = 0;
+0731             <span class="keyword">end</span>
+0732             
+0733             <span class="comment">%store</span>
+0734             this.numSubunits = value;
+0735         <span class="keyword">end</span>
+0736 
+0737         <a name="_sub34" href="#_subfunctions" class="code">function value = get.numNucleicAcids(this)</a>
+0738             <span class="comment">%retrieve</span>
+0739             <span class="keyword">if</span> ~isempty(this.numNucleicAcids)
+0740                 value = this.numNucleicAcids;
+0741                 <span class="keyword">return</span>;
+0742             <span class="keyword">end</span>            
+0743             
+0744             <span class="comment">%calculate</span>
+0745            value = this.computeNumNucleicAcids();
+0746            
+0747            <span class="comment">%store</span>
+0748             this.numNucleicAcids = value;
+0749         <span class="keyword">end</span>
+0750 
+0751         <a name="_sub35" href="#_subfunctions" class="code">function value = computeNumNucleicAcids(this)</a>
+0752             value = 0;
+0753 
+0754             <span class="keyword">for</span> i = 1:length(this.rnas)
+0755                 value = value + this.rnas(i).sequenceLength * this.rnaCoefficients(i);
+0756             <span class="keyword">end</span>
+0757 
+0758             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0759                 value = value + this.proteinComplexs(i).computeNumNucleicAcids() * this.proteinComplexCoefficients(i);
+0760             <span class="keyword">end</span>
+0761         <span class="keyword">end</span>
+0762 
+0763         <a name="_sub36" href="#_subfunctions" class="code">function value = get.numAminoAcids(this)</a>
+0764             <span class="comment">%retrieve</span>
+0765             <span class="keyword">if</span> ~isempty(this.numAminoAcids)
+0766                 value = this.numAminoAcids;
+0767                 <span class="keyword">return</span>;
+0768             <span class="keyword">end</span>
+0769             
+0770             <span class="comment">%calculate</span>
+0771             value = this.computeNumAminoAcids();
+0772             
+0773             <span class="comment">%store</span>
+0774             this.numAminoAcids = value;
+0775         <span class="keyword">end</span>
+0776 
+0777         <a name="_sub37" href="#_subfunctions" class="code">function value = computeNumAminoAcids(this)</a>
+0778             value = 0;
+0779 
+0780             <span class="keyword">for</span> i = 1:length(this.proteinMonomers)
+0781                 value = value + this.proteinMonomers(i).matureSequenceLength * this.proteinMonomerCoefficients(i);
+0782             <span class="keyword">end</span>
+0783 
+0784             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0785                 value = value + this.proteinComplexs(i).computeNumAminoAcids() * this.proteinComplexCoefficients(i);
+0786             <span class="keyword">end</span>
+0787         <span class="keyword">end</span>
+0788 
+0789         <a name="_sub38" href="#_subfunctions" class="code">function value = get.numRNASubunits(this)</a>
+0790             <span class="comment">%retrieve</span>
+0791             <span class="keyword">if</span> ~isempty(this.numRNASubunits)
+0792                 value = this.numRNASubunits;
+0793                 <span class="keyword">return</span>;
+0794             <span class="keyword">end</span>
+0795             
+0796             <span class="comment">%calculate</span>
+0797             value = this.computeNumRNASubunits();
+0798             
+0799             <span class="comment">%store</span>
+0800             this.numRNASubunits = value;
+0801         <span class="keyword">end</span>
+0802 
+0803         <a name="_sub39" href="#_subfunctions" class="code">function value = computeNumRNASubunits(this)</a>
+0804             value = sum(this.rnaCoefficients);
+0805 
+0806             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0807                 value = value + this.proteinComplexs(i).computeNumRNASubunits() * this.proteinComplexCoefficients(i);
+0808             <span class="keyword">end</span>
+0809         <span class="keyword">end</span>
+0810 
+0811         <a name="_sub40" href="#_subfunctions" class="code">function value = get.numProteinMonomerSubunits(this)</a>
+0812             <span class="comment">%retrieve</span>
+0813             <span class="keyword">if</span> ~isempty(this.numProteinMonomerSubunits)
+0814                 value = this.numProteinMonomerSubunits;
+0815                 <span class="keyword">return</span>;
+0816             <span class="keyword">end</span>
+0817             
+0818             <span class="comment">%calculate</span>
+0819             value = this.computeNumProteinMonomerSubunits();
+0820             
+0821             <span class="comment">%store</span>
+0822             this.numProteinMonomerSubunits = value;
+0823         <span class="keyword">end</span>
+0824 
+0825         <a name="_sub41" href="#_subfunctions" class="code">function value = computeNumProteinMonomerSubunits(this)</a>
+0826             value = sum(this.proteinMonomerCoefficients);
+0827 
+0828             <span class="keyword">for</span> i = 1:length(this.proteinComplexs)
+0829                 value = value + this.proteinComplexs(i).computeNumProteinMonomerSubunits() * this.proteinComplexCoefficients(i);
+0830             <span class="keyword">end</span>
+0831         <span class="keyword">end</span>
+0832 
+0833         <span class="comment">%average/sum property value over subunits</span>
+0834         <a name="_sub42" href="#_subfunctions" class="code">function value = meanSubunitPropertyValue(this, property, average)</a>
+0835             values = [];
+0836 
+0837             <span class="keyword">if</span> ~isempty(this.rnas)
+0838                 values = [values this.rnas.(property)];
+0839             <span class="keyword">end</span>
+0840 
+0841             <span class="keyword">if</span> ~isempty(this.proteinMonomers)
+0842                 values = [values this.proteinMonomers.(property)];
+0843             <span class="keyword">end</span>
+0844 
+0845             <span class="keyword">if</span> ~isempty(this.proteinComplexs)
+0846                 values = [values this.proteinComplexs.(property)];
+0847             <span class="keyword">end</span>
+0848 
+0849             coefficients = [this.rnaCoefficients;this.proteinMonomerCoefficients;this.proteinComplexCoefficients];
+0850             <span class="keyword">if</span> ~isempty(coefficients)
+0851                 <span class="keyword">if</span> average
+0852                     value = values*coefficients/sum(coefficients);
+0853                 <span class="keyword">else</span>
+0854                     value = values*coefficients;
+0855                 <span class="keyword">end</span>
+0856             <span class="keyword">else</span>
+0857                 <span class="keyword">if</span> average
+0858                     value = NaN;
+0859                 <span class="keyword">else</span>
+0860                     value = 0;
+0861                 <span class="keyword">end</span>
+0862             <span class="keyword">end</span>
+0863         <span class="keyword">end</span>
+0864     <span class="keyword">end</span>
+0865 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

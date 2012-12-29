@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ssRNA</title>
+  <meta name="keywords" content="ssRNA">
+  <meta name="description" content="Defines a ssRNA polymer. Base class for">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; ssRNA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ssRNA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a ssRNA polymer. Base class for</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a ssRNA polymer. Base class for
+ - mRNA
+ - rRNA
+ - tRNA
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford
+ University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ssRNA.html" class="code" title="">ssRNA</a>	Defines a ssRNA polymer. Base class for</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ssRNA.html" class="code" title="">ssRNA</a>	Defines a ssRNA polymer. Base class for</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ssRNA(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function value = get.empiricalFormula(~)</a></li><li><a href="#_sub3" class="code">function value = get.smiles(~)</a></li><li><a href="#_sub4" class="code">function value = get.charge(~)</a></li><li><a href="#_sub5" class="code">function value = get.pKa(~)</a></li><li><a href="#_sub6" class="code">function value = get.baseCount(this)</a></li><li><a href="#_sub7" class="code">function value = get.cumulativeBaseCount(this)</a></li><li><a href="#_sub8" class="code">function value = get.decayReaction(this)</a></li><li><a href="#_sub9" class="code">function value = get.molecularWeight(this)</a></li><li><a href="#_sub10" class="code">function value = get.density(~)</a></li><li><a href="#_sub11" class="code">function value = get.volume(~)</a></li><li><a href="#_sub12" class="code">function value = get.extinctionCoefficient(this)</a></li><li><a href="#_sub13" class="code">function value = get.absorbanceFactor(this)</a></li><li><a href="#_sub14" class="code">function value = computeBaseCount(sequence, numMetabolites, nmpIndexs)</a></li><li><a href="#_sub15" class="code">function value = computeDecayReaction(baseCount, sequenceLength, sequenceTopology, waterIndexs, hydrogenIndexs)</a></li><li><a href="#_sub16" class="code">function value = calculateMolecularWeight(sequence, sequenceLength, sequenceTopology, nmpMolecularWeights)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a ssRNA polymer. Base class for</span>
+0002 <span class="comment">% - mRNA</span>
+0003 <span class="comment">% - rRNA</span>
+0004 <span class="comment">% - tRNA</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Jonathan Karr</span>
+0007 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford</span>
+0008 <span class="comment">% University</span>
+0009 <span class="comment">% Last updated: 5/7/2009</span>
+0010 classdef <a href="ssRNA.html" class="code" title="">ssRNA</a> &lt; edu.stanford.covert.cell.kb.NucleicAcid
+0011     properties (SetAccess = protected)
+0012         empiricalFormula
+0013         smiles
+0014         charge
+0015         pKa
+0016     <span class="keyword">end</span>
+0017     
+0018     <span class="comment">%computed properties</span>
+0019     properties (SetAccess = protected)
+0020         baseCount
+0021         cumulativeBaseCount
+0022         decayReaction
+0023         molecularWeight
+0024         density
+0025         volume
+0026         extinctionCoefficient
+0027         absorbanceFactor
+0028     <span class="keyword">end</span>
+0029     
+0030     properties (Constant = true)
+0031         singleExtinction = [15400 7200 11500 9900];
+0032         pairwiseExtinction = [
+0033             27400 21000 25000 24000;
+0034             21000 14200 17800 16200;
+0035             25200 17400 21600 21200;
+0036             24600 17200 20000 19600];
+0037     <span class="keyword">end</span>
+0038     
+0039     methods
+0040         <a name="_sub0" href="#_subfunctions" class="code">function this = ssRNA(knowledgeBase, wid, wholeCellModelID, name, </a><span class="keyword">...</span>
+0041                 sequence, <span class="keyword">...</span>
+0042                 comments, crossReferences)
+0043             
+0044             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0045             
+0046             this = edu.stanford.covert.cell.kb.ssRNA.empty(size(wid,1),0);
+0047             this(size(wid,1),1) = edu.stanford.covert.cell.kb.ssRNA;
+0048             <span class="keyword">for</span> i = 1:size(wid,1)
+0049                 this(i,1).idx = i;
+0050                 this(i,1).knowledgeBase = knowledgeBase;
+0051                 this(i,1).wid = wid(i);
+0052                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0053                 this(i,1).name = name{i};
+0054                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0055                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0056                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0057                         this(i,1).crossReferences = crossReferences(i);
+0058                     <span class="keyword">else</span>
+0059                         this(i,1).crossReferences = struct;
+0060                         fields = fieldnames(crossReferences);
+0061                         <span class="keyword">for</span> j = 1:size(fields,1)
+0062                             values = crossReferences.(fields{j});
+0063                             this(i,1).crossReferences.(fields{j}) = values(i);
+0064                         <span class="keyword">end</span>
+0065                     <span class="keyword">end</span>
+0066                 <span class="keyword">end</span>
+0067                 
+0068                 this(i,1).sequence = sequence(i);
+0069             <span class="keyword">end</span>
+0070         <span class="keyword">end</span>
+0071         
+0072         <a name="_sub1" href="#_subfunctions" class="code">function value = get.empiricalFormula(~)</a>
+0073             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0074         <span class="keyword">end</span>
+0075         
+0076         <a name="_sub2" href="#_subfunctions" class="code">function value = get.smiles(~)</a>
+0077             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0078         <span class="keyword">end</span>
+0079         
+0080         <a name="_sub3" href="#_subfunctions" class="code">function value = get.charge(~)</a>
+0081             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0082         <span class="keyword">end</span>
+0083         
+0084         <a name="_sub4" href="#_subfunctions" class="code">function value = get.pKa(~)</a>
+0085             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0086         <span class="keyword">end</span>
+0087         
+0088         <a name="_sub5" href="#_subfunctions" class="code">function value = get.baseCount(this)</a>
+0089             <span class="comment">%retrieve</span>
+0090             <span class="keyword">if</span> ~isempty(this.baseCount)
+0091                 value = this.baseCount;
+0092                 <span class="keyword">return</span>;
+0093             <span class="keyword">end</span>
+0094             
+0095             <span class="comment">%calculate</span>
+0096             value = this.computeBaseCount(this.sequence, <span class="keyword">...</span>
+0097                 this.knowledgeBase.numMetabolites, this.knowledgeBase.nmpIndexs);
+0098             
+0099             <span class="comment">%store</span>
+0100             this.baseCount = value;
+0101         <span class="keyword">end</span>
+0102         
+0103         <a name="_sub6" href="#_subfunctions" class="code">function value = get.cumulativeBaseCount(this)</a>
+0104             <span class="comment">%retrieve</span>
+0105             <span class="keyword">if</span> ~isempty(this.cumulativeBaseCount)
+0106                 value = this.cumulativeBaseCount;
+0107                 <span class="keyword">return</span>;
+0108             <span class="keyword">end</span>
+0109             
+0110             <span class="comment">%calculate</span>
+0111             sequence = this.sequence';
+0112             value = zeros(length(sequence),this.knowledgeBase.numMetabolites);
+0113             value(:,this.knowledgeBase.nmpIndexs) = [<span class="keyword">...</span>
+0114                 sequence == <span class="string">'A'</span> <span class="keyword">...</span>
+0115                 sequence == <span class="string">'C'</span> <span class="keyword">...</span>
+0116                 sequence == <span class="string">'G'</span> <span class="keyword">...</span>
+0117                 sequence == <span class="string">'U'</span>];
+0118             
+0119             value = cumsum(value,2);
+0120             
+0121             <span class="comment">%store</span>
+0122             this.cumulativeBaseCount = value;
+0123         <span class="keyword">end</span>
+0124         
+0125         <a name="_sub7" href="#_subfunctions" class="code">function value = get.decayReaction(this)</a>
+0126             <span class="comment">%retrieve</span>
+0127             <span class="keyword">if</span> ~isempty(this.decayReaction)
+0128                 value = this.decayReaction;
+0129                 <span class="keyword">return</span>;
+0130             <span class="keyword">end</span>
+0131             
+0132             <span class="comment">%calculate</span>
+0133             value = this.computeDecayReaction(this.baseCount, <span class="keyword">...</span>
+0134                 this.sequenceLength, this.sequenceTopology, <span class="keyword">...</span>
+0135                 this.knowledgeBase.waterIndexs, this.knowledgeBase.hydrogenIndexs);
+0136             
+0137             <span class="comment">%store</span>
+0138             this.decayReaction = value;
+0139         <span class="keyword">end</span>
+0140                 
+0141         <a name="_sub8" href="#_subfunctions" class="code">function value = get.molecularWeight(this)</a>
+0142             <span class="comment">%retrieve</span>
+0143             <span class="keyword">if</span> ~isempty(this.molecularWeight)
+0144                 value = this.molecularWeight;
+0145                 <span class="keyword">return</span>;
+0146             <span class="keyword">end</span>
+0147             
+0148             <span class="comment">%calculate</span>
+0149             value = this.calculateMolecularWeight(<span class="keyword">...</span>
+0150                 this.sequence, this.sequenceLength, this.sequenceTopology, <span class="keyword">...</span>
+0151                 this.knowledgeBase.metaboliteMolecularWeights(this.knowledgeBase.nmpIndexs));
+0152             
+0153             <span class="comment">%store</span>
+0154             this.molecularWeight = value;
+0155         <span class="keyword">end</span>
+0156         
+0157         <a name="_sub9" href="#_subfunctions" class="code">function value = get.density(~)</a>
+0158             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0159         <span class="keyword">end</span>
+0160         
+0161         <a name="_sub10" href="#_subfunctions" class="code">function value = get.volume(~)</a>
+0162             throw(MException(<span class="string">'ssRNA:error'</span>, <span class="string">'property is not defined'</span>));
+0163         <span class="keyword">end</span>
+0164         
+0165         <span class="comment">%Extinction (absorption) coefficients at 260nm</span>
+0166         <span class="comment">%http://www.owczarzy.net/extinct.htm</span>
+0167         <a name="_sub11" href="#_subfunctions" class="code">function value = get.extinctionCoefficient(this)</a>
+0168             <span class="comment">%retrieve</span>
+0169             <span class="keyword">if</span> ~isempty(this.extinctionCoefficient)
+0170                 value = this.extinctionCoefficient;
+0171                 <span class="keyword">return</span>;
+0172             <span class="keyword">end</span>
+0173             
+0174             <span class="comment">%calculate</span>
+0175             sequence = this.sequence;
+0176             idx2 = nt2int(sequence(1), <span class="string">'Alphabet'</span>, <span class="string">'RNA'</span>);
+0177             value = 0;
+0178             <span class="keyword">for</span> i = 1:length(sequence)-1
+0179                 idx1 = idx2;
+0180                 idx2 = n2int(sequence(2), <span class="string">'Alphabet'</span>, <span class="string">'RNA'</span>);
+0181                 <span class="keyword">if</span> idx1 &gt; 4 || idx2 &gt; 4; <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0182                 value = value + this.pairwiseExtinction(idx1, idx2) - this.singleExtinction(idx2);
+0183             <span class="keyword">end</span>
+0184             value = value + this.singleExtinction(idx2);
+0185             
+0186             <span class="comment">%store</span>
+0187             this.extinctionCoefficient = value;
+0188         <span class="keyword">end</span>
+0189         
+0190         <span class="comment">%absorbance factor (mmol^-1)</span>
+0191         <a name="_sub12" href="#_subfunctions" class="code">function value = get.absorbanceFactor(this)</a>
+0192             <span class="comment">%retrieve</span>
+0193             <span class="keyword">if</span> ~isempty(this.absorbanceFactor)
+0194                 value = this.absorbanceFactor;
+0195                 <span class="keyword">return</span>;
+0196             <span class="keyword">end</span>
+0197             
+0198             <span class="comment">%calculate</span>
+0199             value = 1 / this.extinctionCoefficient;
+0200             
+0201             <span class="comment">%store</span>
+0202             this.absorbanceFactor = value;
+0203         <span class="keyword">end</span>
+0204     <span class="keyword">end</span>
+0205     
+0206     methods (Static = true)
+0207         <a name="_sub13" href="#_subfunctions" class="code">function value = computeBaseCount(sequence, numMetabolites, nmpIndexs)</a>
+0208             value = zeros(1, numMetabolites);
+0209             value(nmpIndexs) = [<span class="keyword">...</span>
+0210                 sum(<span class="string">'A'</span> == sequence) <span class="keyword">...</span>
+0211                 sum(<span class="string">'C'</span> == sequence) <span class="keyword">...</span>
+0212                 sum(<span class="string">'G'</span> == sequence) <span class="keyword">...</span>
+0213                 sum(<span class="string">'U'</span> == sequence)];
+0214         <span class="keyword">end</span>
+0215         
+0216         <a name="_sub14" href="#_subfunctions" class="code">function value = computeDecayReaction(baseCount, sequenceLength, sequenceTopology, waterIndexs, hydrogenIndexs)</a>
+0217             value = baseCount;
+0218             value(waterIndexs)    = value(waterIndexs)    - max(0, sequenceLength - strcmp(sequenceTopology, <span class="string">'linear'</span>));
+0219             value(hydrogenIndexs) = value(hydrogenIndexs) + max(0, sequenceLength - strcmp(sequenceTopology, <span class="string">'linear'</span>));
+0220         <span class="keyword">end</span>
+0221         
+0222         <span class="comment">%http://www.ambion.com/techlib/append/na_mw_tables.html</span>
+0223         <a name="_sub15" href="#_subfunctions" class="code">function value = calculateMolecularWeight(sequence, sequenceLength, sequenceTopology, nmpMolecularWeights)</a>
+0224             <span class="comment">% import classes</span>
+0225             import edu.stanford.covert.util.ConstantUtil;
+0226             
+0227             molecularWeightHO = ConstantUtil.elements.H + ConstantUtil.elements.O;
+0228             
+0229             nmpCount = [<span class="keyword">...</span>
+0230                 sum(<span class="string">'A'</span> == sequence) <span class="keyword">...</span>
+0231                 sum(<span class="string">'C'</span> == sequence) <span class="keyword">...</span>
+0232                 sum(<span class="string">'G'</span> == sequence) <span class="keyword">...</span>
+0233                 sum(<span class="string">'U'</span> == sequence)];
+0234             
+0235             value = nmpCount * nmpMolecularWeights - molecularWeightHO  * <span class="keyword">...</span>
+0236                 max(0, sequenceLength - strcmp(sequenceTopology, <span class="string">'linear'</span>));
+0237         <span class="keyword">end</span>
+0238     <span class="keyword">end</span>
+0239 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

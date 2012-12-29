@@ -1,0 +1,1885 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of FitConstants</title>
+  <meta name="keywords" content="FitConstants">
+  <meta name="description" content="FitConstants">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; FitConstants.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>FitConstants
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>FitConstants</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FitConstants
+
+ Introduction
+ ================================================
+ This class is the last stage in fitting the simulation. The purpose of
+ this class is to resolve conflicts among the experimental data separately
+ used to parameterize each of the processes, as well as to calculate the
+ biomass composition / production used to parameterize the flux-balance
+ analysis (FBA) metabolic model. Furthermore, the goal of this class is to
+ resolve these conflicts in a way which keeps the values of the parameters
+ as close to their experimental observed values as possible.
+
+ Fitting workflow
+ ================================================
+ This class is the last, of several stages, of simulation fitting:
+ 1. Collect parameter values from literature and databases
+ 2. Fit free parameters over individual processes
+    - Fit chromosome condensation parameters to recapitulate observed
+      average SMC spacing
+    - Fit repliciation initiation cooperativity constants to
+      recapitulate desired repliciation initiation duration (observed
+      cell cycle length - calculated replication duration - simulation
+      cytokinesis duration)
+ 3. Fit free parameters over groups of processes
+ 4. Fit dry weight fractions to accomodate a full chromosome
+    replicated by the end of the replication phase (which is before the
+    end of the cytokinesis phase)
+    - Increase DNA dry weight fraction
+    - Decrease all other dry weight fractions
+ 5. Fit parameters over entire model. Find set of parameter values
+    closest to their experimentally measured values which satisfy
+    several joint parameter constraints. Until convergence,
+    - Calculate biomass composition, production, and unaccounted enegry
+      consumption (&quot;dark enegry&quot;)
+    - Calculate constraints using chosen geneExpressionRobustness
+    - Satisfy constriants heuristically
+    - Solve non-linear constrained optimization problem
+
+ Remaining unconstrained free parameters
+ ================================================
+ The fitting work flow identifies and/or adjusts the value of every
+ parameter in the simulation with 5 exceptions:
+ - proteinMisfoldingRate
+ - tmRNABindingProbability
+ - geneExpressionRobustness
+ - initialFractionNTPsInRNAs
+ - initialFractionAAsInMonomers
+
+ These are the only truly free parameters across the entire simulation.
+
+ Parameter conflict resolution
+ ================================================
+ In particular, the goal of this class is to resolve conflicts among
+ several pieces of experimental data, and to do so in a least squares
+ sense:
+ - gene expression
+ - protein expression
+ - RNA weight fractions
+ - NMP composition
+ - AA composition
+ - gene sequences
+ - protein sequences
+ - transcription unit structure
+ - RNA half lives
+ - tRNA synthetase, transferase rates
+ - RNA polymerase elongation rate
+ - Ribosome elongation rate
+ - RNA polymerase state expectations
+ - cell cycle length
+ - cell cycle phase lengths
+ - genetic code
+ - protein complex composition
+ - enzyme kinetics (enzymeBounds)
+ - transport rates (reactionBounds)
+
+ Stated more formally, the goal of this class is to the identify the set
+ of gene expression, NMP composition, AA composition, RNA weight
+ fractions, and RNA decay rates which satisfy several linear and
+ non-linear constraints and minimze their sum of squares deviation from
+ their experimentally observed values. Stated mathmetatically,
+
+ Minimize
+   ||W*(z - experimentalZ)||_2 =
+   z'*W*W*z - 2*z'*W*W*experimentalZ + experimentalZ'*W*W*experimentalZ
+
+           (rnaExpression)
+ Where z = (nmpComposition)
+           (aaComposition)
+           (rnaWeightFractions)
+           (rnaDecayRates)
+
+ Subject to:
+ - normalization                                            ones * rnaExp  = 1
+                                                           ones * nmpComp  = 1
+                                                            ones * aaComp  = 1
+                                                        ones * rnaWtFracs  = 1
+ - RNA type distribution                                          mRNAExp  = I_mRNA * rnaExp
+                                                                  rRNAExp  = I_rRNA * rnaExp
+                                                                  sRNAExp  = I_sRNA * rnaExp
+                                                                  tRNAExp  = I_tRNA * rnaExp
+                                      mRNAMWs * mRNAExp / rnaMWs * rnaExp  = rnaWtFracs(mRNAWtFracIdxs)
+                                      rrnaMWs * rRNAExp / rnaMWs * rnaExp  = rnaWtFracs(rRNAWtFracIdxs)
+                                      srnaMWs * sRNAExp / rnaMWs * rnaExp  = rnaWtFracs(sRNAWtFracIdxs)
+                                      trnaMWs * tRNAExp / rnaMWs * rnaExp  = rnaWtFracs(tRNAWtFracIdxs)
+ - Monomer expression                                              monExp  = matureRNAGeneComp(mRNAIdxs, :) * rnaExp /
+                                                                             (ones * matureRNAGeneComp(mRNAGeneIdxs, :) * rnaExp)
+ - NMP Composition                rnaBaseCnts * rnaExp / rnaLens * rnaExp  = nmpComp
+ - AA Composition                   monAACnts * monExp / monLens * monExp  = aaComp
+ - Doubling lower bounds                                     ribosome exp &gt;= min exp for protein doubling
+                                                       RNA polymerase exp &gt;= min exp for RNA doubling
+                                                 transcription factor exp &gt;= min exp for RNA doubling
+                                                   translation factor exp &gt;= min exp for protein doubling
+                                                                 tRNA exp &gt;= min exp for protein doubling
+                                                      tRNA synthetase exp &gt;= min exp for protein doubling
+                                                                         ...
+ - FtsZ expression: held to value used to calculate cytokinesis duration
+ - DnaA expression: held to value used to fit replication initiation
+   duration
+ - Topoisomerase I / gyrase expression: constrained to produce observed
+   steady-state superhelical density
+
+ That is we pose the problem as one of non-linear constrianed
+ optimization, and use the MATLAB fmincon routine to identify the optimal
+ parameter set, z. Linear constraints are implemented as pairs of
+ matrices, A, and right-hand sides representing equality and inequality
+ constriants. Dependent linear constraints are automatically removed.
+ Non-linear constraints are implemented as class methods, are calculated
+ in part using the calcResourceRequirements_LifeCycle methods of the
+ processes through the calcResourceRequirements method of this class.
+
+ However, because fmincon has troubling identifying solutions
+ which satisfy all of the non-linear constraints, before executing fmincon
+ we first hueristically identify a consistent set of parameter values:
+ - transcription unit expression &lt;- average expression of genes in
+   transcription unit; RNA weight fractions ./ RNA fraction
+   molecular weights
+ - transcription unit decay rate &lt;- average decay rate of genes in
+   transcription unit
+ - NMP composition &lt;- transcription unit sequences *
+   transcription unit expression
+ - AA composition &lt;- protein monomer sequences *
+   transcription unit composition(mRNAs, :) * transcription unit
+   expression
+
+ The initial heuristic procedure modifies RNA expression, NMP and AA
+ composition, and rRNA half lives. The initial heuristic procedure doesn't
+ modify RNA weight fractions or m/s/tRNA half lives.
+
+ Biomass composition, production calculation
+ ================================================
+ During, and following fitting we calculated the biomass composition,
+ production, byproduct secretion, and unaccounted energy consumption. See
+ documentation above calcResourceRequirements method for units and
+ normalization conditions. Biomass production - byproducts forms the FBA
+ objective. Biomass composition is used by to initialize the cell prior to
+ simulation.
+
+ Assumptions
+ ================================================
+ - uniform protein half lives
+ - RNA half lives are for free species
+ - RNA expression includes free and bound RNA species
+ - bound RNA, protein (eg. by RNA polymerase, DNA) has same half life
+   as free RNA, protein
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 3/22/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FitConstants.html" class="code" title="">FitConstants</a>	FitConstants</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="FitConstants.html" class="code" title="">FitConstants</a>	FitConstants</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = FitConstants(sim, options)</a></li><li><a href="#_sub2" class="code">function this = run(this)</a></li><li><a href="#_sub3" class="code">function paramVec = initializeFittedConstants(this)</a></li><li><a href="#_sub4" class="code">function unscaledParamVec = fitAnalytically(this, unscaledParamVec0)</a></li><li><a href="#_sub5" class="code">function [val, gradient, hessian] = objFunc(~, paramVec, paramVec0, H)</a></li><li><a href="#_sub6" class="code">function [Aineq, bineq, Aeq, beq] = linConstraintFunc(this, paramVec)</a></li><li><a href="#_sub7" class="code">function [c, ceq, gradientC, gradientCeq] = nlinConstraintFunc(this, paramVec)</a></li><li><a href="#_sub8" class="code">function hessian = hessFunc(this, ~, lambda, H)</a></li><li><a href="#_sub9" class="code">function W = hessMultFunc(~, Hinfo, Y)</a></li><li><a href="#_sub10" class="code">function paramVec = fitHeuristically(this, paramVec)</a></li><li><a href="#_sub11" class="code">function [lclBmComp, lclBmProd, lclByProd, unaccECons, minRNAExp, minMonExp, maxRNAExp, maxMonExp] =</a></li><li><a href="#_sub12" class="code">function [freeRnas, freeMons, freeCpxs,</a></li><li><a href="#_sub13" class="code">function exp = calcResourceRequirementsRobustness(~, exp, robustness, minExp)</a></li><li><a href="#_sub14" class="code">function [rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates,</a></li><li><a href="#_sub15" class="code">function vec = constructParameterVector(this,</a></li><li><a href="#_sub16" class="code">function paramVec = constructParameterVectorFromSimulation(this)</a></li><li><a href="#_sub17" class="code">function applyParameterVectorToSimulation(this, paramVec)</a></li><li><a href="#_sub18" class="code">function baseCounts = getRnaNMPCounts(this)</a></li><li><a href="#_sub19" class="code">function aaCounts = getMonomerAACounts(this)</a></li><li><a href="#_sub20" class="code">function value = calcEffectiveMeanTranscriptionUnitCopyNumbers(this)</a></li><li><a href="#_sub21" class="code">function tuConstraints = formulateTranscriptionUnitConstraints(this)</a></li><li><a href="#_sub22" class="code">function rnaWts = formulateRnaWtFractionConstraints(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%FitConstants</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Introduction</span>
+0004 <span class="comment">% ================================================</span>
+0005 <span class="comment">% This class is the last stage in fitting the simulation. The purpose of</span>
+0006 <span class="comment">% this class is to resolve conflicts among the experimental data separately</span>
+0007 <span class="comment">% used to parameterize each of the processes, as well as to calculate the</span>
+0008 <span class="comment">% biomass composition / production used to parameterize the flux-balance</span>
+0009 <span class="comment">% analysis (FBA) metabolic model. Furthermore, the goal of this class is to</span>
+0010 <span class="comment">% resolve these conflicts in a way which keeps the values of the parameters</span>
+0011 <span class="comment">% as close to their experimental observed values as possible.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Fitting workflow</span>
+0014 <span class="comment">% ================================================</span>
+0015 <span class="comment">% This class is the last, of several stages, of simulation fitting:</span>
+0016 <span class="comment">% 1. Collect parameter values from literature and databases</span>
+0017 <span class="comment">% 2. Fit free parameters over individual processes</span>
+0018 <span class="comment">%    - Fit chromosome condensation parameters to recapitulate observed</span>
+0019 <span class="comment">%      average SMC spacing</span>
+0020 <span class="comment">%    - Fit repliciation initiation cooperativity constants to</span>
+0021 <span class="comment">%      recapitulate desired repliciation initiation duration (observed</span>
+0022 <span class="comment">%      cell cycle length - calculated replication duration - simulation</span>
+0023 <span class="comment">%      cytokinesis duration)</span>
+0024 <span class="comment">% 3. Fit free parameters over groups of processes</span>
+0025 <span class="comment">% 4. Fit dry weight fractions to accomodate a full chromosome</span>
+0026 <span class="comment">%    replicated by the end of the replication phase (which is before the</span>
+0027 <span class="comment">%    end of the cytokinesis phase)</span>
+0028 <span class="comment">%    - Increase DNA dry weight fraction</span>
+0029 <span class="comment">%    - Decrease all other dry weight fractions</span>
+0030 <span class="comment">% 5. Fit parameters over entire model. Find set of parameter values</span>
+0031 <span class="comment">%    closest to their experimentally measured values which satisfy</span>
+0032 <span class="comment">%    several joint parameter constraints. Until convergence,</span>
+0033 <span class="comment">%    - Calculate biomass composition, production, and unaccounted enegry</span>
+0034 <span class="comment">%      consumption (&quot;dark enegry&quot;)</span>
+0035 <span class="comment">%    - Calculate constraints using chosen geneExpressionRobustness</span>
+0036 <span class="comment">%    - Satisfy constriants heuristically</span>
+0037 <span class="comment">%    - Solve non-linear constrained optimization problem</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">% Remaining unconstrained free parameters</span>
+0040 <span class="comment">% ================================================</span>
+0041 <span class="comment">% The fitting work flow identifies and/or adjusts the value of every</span>
+0042 <span class="comment">% parameter in the simulation with 5 exceptions:</span>
+0043 <span class="comment">% - proteinMisfoldingRate</span>
+0044 <span class="comment">% - tmRNABindingProbability</span>
+0045 <span class="comment">% - geneExpressionRobustness</span>
+0046 <span class="comment">% - initialFractionNTPsInRNAs</span>
+0047 <span class="comment">% - initialFractionAAsInMonomers</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">% These are the only truly free parameters across the entire simulation.</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">% Parameter conflict resolution</span>
+0052 <span class="comment">% ================================================</span>
+0053 <span class="comment">% In particular, the goal of this class is to resolve conflicts among</span>
+0054 <span class="comment">% several pieces of experimental data, and to do so in a least squares</span>
+0055 <span class="comment">% sense:</span>
+0056 <span class="comment">% - gene expression</span>
+0057 <span class="comment">% - protein expression</span>
+0058 <span class="comment">% - RNA weight fractions</span>
+0059 <span class="comment">% - NMP composition</span>
+0060 <span class="comment">% - AA composition</span>
+0061 <span class="comment">% - gene sequences</span>
+0062 <span class="comment">% - protein sequences</span>
+0063 <span class="comment">% - transcription unit structure</span>
+0064 <span class="comment">% - RNA half lives</span>
+0065 <span class="comment">% - tRNA synthetase, transferase rates</span>
+0066 <span class="comment">% - RNA polymerase elongation rate</span>
+0067 <span class="comment">% - Ribosome elongation rate</span>
+0068 <span class="comment">% - RNA polymerase state expectations</span>
+0069 <span class="comment">% - cell cycle length</span>
+0070 <span class="comment">% - cell cycle phase lengths</span>
+0071 <span class="comment">% - genetic code</span>
+0072 <span class="comment">% - protein complex composition</span>
+0073 <span class="comment">% - enzyme kinetics (enzymeBounds)</span>
+0074 <span class="comment">% - transport rates (reactionBounds)</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">% Stated more formally, the goal of this class is to the identify the set</span>
+0077 <span class="comment">% of gene expression, NMP composition, AA composition, RNA weight</span>
+0078 <span class="comment">% fractions, and RNA decay rates which satisfy several linear and</span>
+0079 <span class="comment">% non-linear constraints and minimze their sum of squares deviation from</span>
+0080 <span class="comment">% their experimentally observed values. Stated mathmetatically,</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">% Minimize</span>
+0083 <span class="comment">%   ||W*(z - experimentalZ)||_2 =</span>
+0084 <span class="comment">%   z'*W*W*z - 2*z'*W*W*experimentalZ + experimentalZ'*W*W*experimentalZ</span>
+0085 <span class="comment">%</span>
+0086 <span class="comment">%           (rnaExpression)</span>
+0087 <span class="comment">% Where z = (nmpComposition)</span>
+0088 <span class="comment">%           (aaComposition)</span>
+0089 <span class="comment">%           (rnaWeightFractions)</span>
+0090 <span class="comment">%           (rnaDecayRates)</span>
+0091 <span class="comment">%</span>
+0092 <span class="comment">% Subject to:</span>
+0093 <span class="comment">% - normalization                                            ones * rnaExp  = 1</span>
+0094 <span class="comment">%                                                           ones * nmpComp  = 1</span>
+0095 <span class="comment">%                                                            ones * aaComp  = 1</span>
+0096 <span class="comment">%                                                        ones * rnaWtFracs  = 1</span>
+0097 <span class="comment">% - RNA type distribution                                          mRNAExp  = I_mRNA * rnaExp</span>
+0098 <span class="comment">%                                                                  rRNAExp  = I_rRNA * rnaExp</span>
+0099 <span class="comment">%                                                                  sRNAExp  = I_sRNA * rnaExp</span>
+0100 <span class="comment">%                                                                  tRNAExp  = I_tRNA * rnaExp</span>
+0101 <span class="comment">%                                      mRNAMWs * mRNAExp / rnaMWs * rnaExp  = rnaWtFracs(mRNAWtFracIdxs)</span>
+0102 <span class="comment">%                                      rrnaMWs * rRNAExp / rnaMWs * rnaExp  = rnaWtFracs(rRNAWtFracIdxs)</span>
+0103 <span class="comment">%                                      srnaMWs * sRNAExp / rnaMWs * rnaExp  = rnaWtFracs(sRNAWtFracIdxs)</span>
+0104 <span class="comment">%                                      trnaMWs * tRNAExp / rnaMWs * rnaExp  = rnaWtFracs(tRNAWtFracIdxs)</span>
+0105 <span class="comment">% - Monomer expression                                              monExp  = matureRNAGeneComp(mRNAIdxs, :) * rnaExp /</span>
+0106 <span class="comment">%                                                                             (ones * matureRNAGeneComp(mRNAGeneIdxs, :) * rnaExp)</span>
+0107 <span class="comment">% - NMP Composition                rnaBaseCnts * rnaExp / rnaLens * rnaExp  = nmpComp</span>
+0108 <span class="comment">% - AA Composition                   monAACnts * monExp / monLens * monExp  = aaComp</span>
+0109 <span class="comment">% - Doubling lower bounds                                     ribosome exp &gt;= min exp for protein doubling</span>
+0110 <span class="comment">%                                                       RNA polymerase exp &gt;= min exp for RNA doubling</span>
+0111 <span class="comment">%                                                 transcription factor exp &gt;= min exp for RNA doubling</span>
+0112 <span class="comment">%                                                   translation factor exp &gt;= min exp for protein doubling</span>
+0113 <span class="comment">%                                                                 tRNA exp &gt;= min exp for protein doubling</span>
+0114 <span class="comment">%                                                      tRNA synthetase exp &gt;= min exp for protein doubling</span>
+0115 <span class="comment">%                                                                         ...</span>
+0116 <span class="comment">% - FtsZ expression: held to value used to calculate cytokinesis duration</span>
+0117 <span class="comment">% - DnaA expression: held to value used to fit replication initiation</span>
+0118 <span class="comment">%   duration</span>
+0119 <span class="comment">% - Topoisomerase I / gyrase expression: constrained to produce observed</span>
+0120 <span class="comment">%   steady-state superhelical density</span>
+0121 <span class="comment">%</span>
+0122 <span class="comment">% That is we pose the problem as one of non-linear constrianed</span>
+0123 <span class="comment">% optimization, and use the MATLAB fmincon routine to identify the optimal</span>
+0124 <span class="comment">% parameter set, z. Linear constraints are implemented as pairs of</span>
+0125 <span class="comment">% matrices, A, and right-hand sides representing equality and inequality</span>
+0126 <span class="comment">% constriants. Dependent linear constraints are automatically removed.</span>
+0127 <span class="comment">% Non-linear constraints are implemented as class methods, are calculated</span>
+0128 <span class="comment">% in part using the calcResourceRequirements_LifeCycle methods of the</span>
+0129 <span class="comment">% processes through the calcResourceRequirements method of this class.</span>
+0130 <span class="comment">%</span>
+0131 <span class="comment">% However, because fmincon has troubling identifying solutions</span>
+0132 <span class="comment">% which satisfy all of the non-linear constraints, before executing fmincon</span>
+0133 <span class="comment">% we first hueristically identify a consistent set of parameter values:</span>
+0134 <span class="comment">% - transcription unit expression &lt;- average expression of genes in</span>
+0135 <span class="comment">%   transcription unit; RNA weight fractions ./ RNA fraction</span>
+0136 <span class="comment">%   molecular weights</span>
+0137 <span class="comment">% - transcription unit decay rate &lt;- average decay rate of genes in</span>
+0138 <span class="comment">%   transcription unit</span>
+0139 <span class="comment">% - NMP composition &lt;- transcription unit sequences *</span>
+0140 <span class="comment">%   transcription unit expression</span>
+0141 <span class="comment">% - AA composition &lt;- protein monomer sequences *</span>
+0142 <span class="comment">%   transcription unit composition(mRNAs, :) * transcription unit</span>
+0143 <span class="comment">%   expression</span>
+0144 <span class="comment">%</span>
+0145 <span class="comment">% The initial heuristic procedure modifies RNA expression, NMP and AA</span>
+0146 <span class="comment">% composition, and rRNA half lives. The initial heuristic procedure doesn't</span>
+0147 <span class="comment">% modify RNA weight fractions or m/s/tRNA half lives.</span>
+0148 <span class="comment">%</span>
+0149 <span class="comment">% Biomass composition, production calculation</span>
+0150 <span class="comment">% ================================================</span>
+0151 <span class="comment">% During, and following fitting we calculated the biomass composition,</span>
+0152 <span class="comment">% production, byproduct secretion, and unaccounted energy consumption. See</span>
+0153 <span class="comment">% documentation above calcResourceRequirements method for units and</span>
+0154 <span class="comment">% normalization conditions. Biomass production - byproducts forms the FBA</span>
+0155 <span class="comment">% objective. Biomass composition is used by to initialize the cell prior to</span>
+0156 <span class="comment">% simulation.</span>
+0157 <span class="comment">%</span>
+0158 <span class="comment">% Assumptions</span>
+0159 <span class="comment">% ================================================</span>
+0160 <span class="comment">% - uniform protein half lives</span>
+0161 <span class="comment">% - RNA half lives are for free species</span>
+0162 <span class="comment">% - RNA expression includes free and bound RNA species</span>
+0163 <span class="comment">% - bound RNA, protein (eg. by RNA polymerase, DNA) has same half life</span>
+0164 <span class="comment">%   as free RNA, protein</span>
+0165 <span class="comment">%</span>
+0166 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0167 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0168 <span class="comment">% Last updated: 3/22/2011</span>
+0169 classdef <a href="FitConstants.html" class="code" title="">FitConstants</a> &lt; handle
+0170     <span class="comment">%options</span>
+0171     properties
+0172         method = <span class="string">'heuristic'</span>;
+0173         verbosity = 0;
+0174         maxIter = 100;
+0175         tolerance = 2e-2;
+0176         fminconOptions = optimset(<span class="keyword">...</span>
+0177             <span class="string">'TolFun'</span>, 1e-3, <span class="keyword">...</span>
+0178             <span class="string">'TolCon'</span>, 1e-6, <span class="keyword">...</span>
+0179             <span class="string">'TolX'</span>, 1e-3, <span class="keyword">...</span>
+0180             <span class="string">'MaxTime'</span>, 10 * 60, <span class="keyword">...</span>
+0181             <span class="string">'MaxFunEvals'</span>, 1e6, <span class="keyword">...</span>
+0182             <span class="string">'ScaleProblem'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0183             <span class="string">'Algorithm'</span>, <span class="string">'interior-point'</span>, <span class="keyword">...</span>
+0184             <span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="keyword">...</span>
+0185             <span class="string">'GradConstr'</span>, <span class="string">'on'</span>, <span class="keyword">...</span>
+0186             <span class="string">'Hessian'</span>, <span class="string">'user-supplied'</span>, <span class="keyword">...</span>
+0187             <span class="string">'Display'</span>, <span class="string">'off'</span>);
+0188     <span class="keyword">end</span>
+0189     
+0190     <span class="comment">%references</span>
+0191     properties
+0192         simulation
+0193     <span class="keyword">end</span>
+0194     
+0195     <span class="comment">%counts</span>
+0196     properties
+0197         nGenes
+0198         nRNAs
+0199         nNMPs
+0200         nAAs
+0201         nRNAWtFracs
+0202         nVars
+0203     <span class="keyword">end</span>
+0204     
+0205     <span class="comment">%indices</span>
+0206     properties
+0207         rnaExpIdxs
+0208         nmpIdxs
+0209         aaIdxs
+0210         rnaDecayRateIdxs
+0211         rnaWtFracIdxs
+0212         
+0213         rnaIndex_dnaA
+0214         rnaIndex_ftsZ
+0215         
+0216         monomerIndex_gyrase
+0217         monomerIndex_topoisomeraseI
+0218         monomerIndex_DnaA
+0219         monomerIndex_FtsZ
+0220     <span class="keyword">end</span>
+0221     
+0222     <span class="comment">%constants</span>
+0223     properties
+0224         gryStoichiometry
+0225         dnaACnt
+0226         ftsZCnt
+0227     <span class="keyword">end</span>
+0228     
+0229     methods
+0230         <a name="_sub0" href="#_subfunctions" class="code">function this = FitConstants(sim, options)</a>
+0231             this.simulation = sim;
+0232             <span class="keyword">if</span> nargin &gt; 1
+0233                 <span class="keyword">if</span> isfield(options, <span class="string">'method'</span>), this.method = options.method; <span class="keyword">end</span>
+0234                 <span class="keyword">if</span> isfield(options, <span class="string">'verbosity'</span>), this.verbosity = options.verbosity; <span class="keyword">end</span>
+0235                 <span class="keyword">if</span> isfield(options, <span class="string">'maxIter'</span>), this.maxIter = options.maxIter; <span class="keyword">end</span>
+0236                 <span class="keyword">if</span> isfield(options, <span class="string">'tolerance'</span>), this.tolerance = options.tolerance; <span class="keyword">end</span>
+0237                 <span class="keyword">if</span> isfield(options, <span class="string">'fminconOptions'</span>), this.fminconOptions = options.fminconOptions; <span class="keyword">end</span>
+0238             <span class="keyword">end</span>
+0239             
+0240             <span class="comment">%references</span>
+0241             g = sim.gene;
+0242             mass = sim.state(<span class="string">'Mass'</span>);
+0243             m = sim.state(<span class="string">'Metabolite'</span>);
+0244             r = sim.state(<span class="string">'Rna'</span>);
+0245             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0246             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0247             geom = sim.state(<span class="string">'Geometry'</span>);
+0248             ring = sim.state(<span class="string">'FtsZRing'</span>);
+0249             time = sim.state(<span class="string">'Time'</span>);
+0250             
+0251             <span class="comment">%counts</span>
+0252             this.nGenes = length(g.wholeCellModelIDs);
+0253             this.nRNAs = length(r.matureIndexs);
+0254             this.nNMPs = length(m.nmpIndexs);
+0255             this.nAAs = length(m.aminoAcidIndexs);
+0256             this.nRNAWtFracs = 6;
+0257             this.nVars = this.nRNAs + this.nNMPs + this.nAAs + this.nRNAs + this.nRNAWtFracs;
+0258             
+0259             <span class="comment">%indices</span>
+0260             this.rnaExpIdxs       = 1:this.nRNAs;
+0261             this.nmpIdxs          = this.nRNAs + 1:this.nRNAs + this.nNMPs;
+0262             this.aaIdxs           = this.nRNAs + this.nNMPs + 1:this.nRNAs + this.nNMPs + this.nAAs;
+0263             this.rnaDecayRateIdxs = this.nRNAs + this.nNMPs + this.nAAs + 1:this.nRNAs + this.nNMPs + this.nAAs + this.nRNAs;
+0264             this.rnaWtFracIdxs    = this.nRNAs + this.nNMPs + this.nAAs + this.nRNAs + 1:this.nRNAs + this.nNMPs + this.nAAs + this.nRNAs + this.nRNAWtFracs;
+0265             
+0266             [~, this.monomerIndex_gyrase] = ismember({<span class="string">'MG_003_MONOMER'</span>, <span class="string">'MG_004_MONOMER'</span>}, pm.wholeCellModelIDs(pm.matureIndexs));
+0267             [~, this.monomerIndex_topoisomeraseI] = ismember({<span class="string">'MG_122_MONOMER'</span>}, pm.wholeCellModelIDs(pm.matureIndexs));
+0268             [~, this.monomerIndex_DnaA] = ismember({<span class="string">'MG_469_MONOMER'</span>}, pm.wholeCellModelIDs(pm.matureIndexs));
+0269             [~, this.monomerIndex_FtsZ] = ismember({<span class="string">'MG_224_MONOMER'</span>}, pm.wholeCellModelIDs(pm.matureIndexs));
+0270             
+0271             this.rnaIndex_dnaA = find(r.matureRNAGeneComposition(g.mRNAIndexs(this.monomerIndex_DnaA), :));
+0272             this.rnaIndex_ftsZ = find(r.matureRNAGeneComposition(g.mRNAIndexs(this.monomerIndex_FtsZ), :));
+0273             
+0274             <span class="comment">%stoichiometries</span>
+0275             this.gryStoichiometry = max(max(max(pc.proteinComplexComposition(g.mRNAIndexs(this.monomerIndex_gyrase), :, :))));
+0276             
+0277             <span class="comment">%fix DnaA copy number at value used in fitDuration method of</span>
+0278             <span class="comment">%the Replication initation unit test class to fit replication</span>
+0279             <span class="comment">%initiation duration</span>
+0280             this.dnaACnt = 54;
+0281             
+0282             <span class="comment">%fix FtsZ copy number at value used in Cytokinesis medium test</span>
+0283             <span class="comment">%to calculate cytokinesis duration</span>
+0284             numEdges = ring.calcNumEdges(<span class="keyword">...</span>
+0285                 geom.calculateWidth(mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) / geom.density), <span class="keyword">...</span>
+0286                 ring.filamentLengthInNm);
+0287             this.ftsZCnt = ceil(4.00 / exp(log(2) * (1 - time.cytokinesisDuration / time.cellCycleLength)) * <span class="keyword">...</span>
+0288                 numEdges * ring.numFtsZSubunitsPerFilament);
+0289         <span class="keyword">end</span>
+0290         
+0291         <a name="_sub1" href="#_subfunctions" class="code">function this = run(this)</a>
+0292             <span class="comment">%import classes</span>
+0293             import edu.stanford.covert.cell.sim.constant.Condition;
+0294             import edu.stanford.covert.util.ComputationUtil;
+0295             import edu.stanford.covert.util.ConstantUtil;
+0296             
+0297             <span class="comment">%references</span>
+0298             sim = this.simulation;
+0299             
+0300             <span class="comment">%toggle off warnings</span>
+0301             warningStatus = warning(<span class="string">'query'</span>, <span class="string">'WholeCell:warning'</span>);
+0302             warning(<span class="string">'off'</span>, <span class="string">'WholeCell:warning'</span>);
+0303             
+0304             <span class="comment">%seed random number generator</span>
+0305             seed = sim.seed;
+0306             stateSeeds = zeros(size(sim.states));
+0307             processSeeds = zeros(size(sim.processes));
+0308             sim.applyOptions(<span class="string">'seed'</span>, 0);
+0309             sim.seedRandStream();
+0310             <span class="keyword">for</span> i = 1:numel(sim.states)
+0311                 o = sim.states{i};
+0312                 stateSeeds(i) = o.seed;
+0313                 o.seed = 0;
+0314                 o.seedRandStream();
+0315             <span class="keyword">end</span>
+0316             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0317                 o = sim.processes{i};
+0318                 processSeeds(i) = o.seed;
+0319                 o.seed = 0;
+0320                 o.seedRandStream();
+0321             <span class="keyword">end</span>
+0322             
+0323             <span class="comment">%initialize fitted constants</span>
+0324             paramVec = this.initializeFittedConstants();
+0325             this.applyParameterVectorToSimulation(paramVec);
+0326             
+0327             <span class="comment">%fit constants (note: constants are applied to simulation</span>
+0328             <span class="comment">%in the execution of these methods since some of the process</span>
+0329             <span class="comment">%methods which are invoked depend on these parameters)</span>
+0330             <span class="keyword">switch</span> this.method
+0331                 <span class="keyword">case</span> <span class="string">'analytic'</span>,  paramVec = this.fitAnalytically(paramVec);
+0332                 <span class="keyword">case</span> <span class="string">'heuristic'</span>, paramVec = this.fitHeuristically(paramVec);
+0333                 <span class="keyword">otherwise</span>,        throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'unknown method %s'</span>, this.method));
+0334             <span class="keyword">end</span>
+0335             
+0336             <span class="comment">%apply fitted constants to simulation</span>
+0337             this.applyParameterVectorToSimulation(paramVec);
+0338             
+0339             <span class="comment">%reset seeds</span>
+0340             sim.applyOptions(<span class="string">'seed'</span>, seed);
+0341             sim.seedRandStream();
+0342             <span class="keyword">for</span> i = 1:numel(sim.states)
+0343                 o = sim.states{i};
+0344                 o.seed = stateSeeds(i);
+0345                 o.seedRandStream();
+0346             <span class="keyword">end</span>
+0347             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0348                 o = sim.processes{i};
+0349                 o.seed = processSeeds(i);
+0350                 o.seedRandStream();
+0351             <span class="keyword">end</span>
+0352             
+0353             <span class="comment">%reload warning state</span>
+0354             warning(warningStatus.state, <span class="string">'WholeCell:warning'</span>);
+0355         <span class="keyword">end</span>
+0356         
+0357         <span class="comment">% initial guess of parameter values</span>
+0358         <span class="comment">%- transcription unit expression: imputed, averaged gene expression</span>
+0359         <span class="comment">%- transcription unit decay rates: imputed, averaged gene decay rates</span>
+0360         <a name="_sub2" href="#_subfunctions" class="code">function paramVec = initializeFittedConstants(this)</a>
+0361             <span class="comment">%% import classes</span>
+0362             import edu.stanford.covert.util.ComputationUtil;
+0363             import edu.stanford.covert.util.ConstantUtil;
+0364             
+0365             <span class="comment">%% references</span>
+0366             sim = this.simulation;
+0367             t = sim.state(<span class="string">'Time'</span>);
+0368             m = sim.state(<span class="string">'Metabolite'</span>);
+0369             r = sim.state(<span class="string">'Rna'</span>);
+0370             mass = sim.state(<span class="string">'Mass'</span>);
+0371             mr = sim.state(<span class="string">'MetabolicReaction'</span>);
+0372             met = sim.process(<span class="string">'Metabolism'</span>);
+0373             
+0374             mr.growth0 = 1 / mass.timeAveragedCellWeight / t.cellCycleLength;
+0375             
+0376             <span class="comment">%% constants</span>
+0377             cIdx = sim.compartment.cytosolIndexs;
+0378             
+0379             <span class="comment">%% biomass composition, production, byproducts</span>
+0380             biomassComposition = m.experimentalBiomassComposition;
+0381             biomassProduction = max(0,  m.experimentalBiomassComposition);
+0382             byproducts        = max(0, -m.experimentalBiomassComposition);
+0383             
+0384             biomassProduction(m.ntpIndexs, :) = biomassComposition(m.ntpIndexs, :) + biomassComposition(m.nmpIndexs, :);
+0385             biomassProduction(m.nmpIndexs, :) = 0;
+0386             biomassProduction(m.dntpIndexs, :) = biomassComposition(m.dntpIndexs, :) + biomassComposition(m.dnmpIndexs, :);
+0387             biomassProduction(m.dnmpIndexs, :) = 0;
+0388             
+0389             unaccE = met.growthAssociatedMaintenance - sum(biomassProduction(m.ntpIndexs, cIdx));
+0390             biomassProduction(m.ntpIndexs(1), cIdx) = biomassProduction(m.ntpIndexs(1), cIdx) + unaccE;
+0391             biomassProduction(m.waterIndexs,  cIdx) = biomassProduction(m.waterIndexs,  cIdx) + unaccE;
+0392             byproducts(m.ndpIndexs(1),        cIdx) = byproducts(m.ndpIndexs(1),        cIdx) + unaccE;
+0393             byproducts(m.phosphateIndexs,     cIdx) = byproducts(m.phosphateIndexs,     cIdx) + unaccE;
+0394             byproducts(m.hydrogenIndexs,      cIdx) = byproducts(m.hydrogenIndexs,      cIdx) + unaccE;
+0395             
+0396             normalization = mass.cellInitialDryWeight * ConstantUtil.nAvogadro / <span class="keyword">...</span>
+0397                 (sum(biomassComposition, 2)' * m.molecularWeights);
+0398             biomassComposition = normalization * biomassComposition;
+0399             biomassProduction  = normalization * biomassProduction;
+0400             byproducts         = normalization * byproducts;
+0401             unaccE             = normalization * unaccE;
+0402             
+0403             waterComp = mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) * mass.fractionWetWeight  * <span class="keyword">...</span>
+0404                 ConstantUtil.nAvogadro / m.molecularWeights(m.waterIndexs);
+0405             biomassComposition(m.waterIndexs, cIdx) = biomassComposition(m.waterIndexs, cIdx) + waterComp;
+0406             biomassProduction(m.waterIndexs, cIdx) = biomassProduction(m.waterIndexs, cIdx) + waterComp;
+0407             
+0408             <span class="comment">%% expression</span>
+0409             geneExp = ComputationUtil.imputeMissingData(r.expectedGeneExpression(:, 1));
+0410             geneExp = geneExp / sum(geneExp);
+0411             
+0412             rnaExp  = ComputationUtil.invertCompositionMatrix(r.matureRNAGeneComposition) * geneExp;
+0413             rnaExp = rnaExp / sum(rnaExp);
+0414             
+0415             <span class="comment">%% decay rates</span>
+0416             matureRNAGeneComposition    = r.matureRNAGeneComposition;
+0417             invMatureRNAGeneComposition = ComputationUtil.invertCompositionMatrix(matureRNAGeneComposition);
+0418             expectedGeneDecayRates      = ComputationUtil.imputeMissingData(r.expectedGeneDecayRates);
+0419             rnaDecayRates               = invMatureRNAGeneComposition * expectedGeneDecayRates;
+0420             
+0421             <span class="comment">%% match expression, decay rates</span>
+0422             rnaExp = (r.nascentRNAMatureRNAComposition * <span class="keyword">...</span>
+0423                 ComputationUtil.invertCompositionMatrix(r.nascentRNAMatureRNAComposition) * <span class="keyword">...</span>
+0424                 (rnaExp .* (log(2) / t.cellCycleLength + rnaDecayRates))) ./ (log(2) / t.cellCycleLength + rnaDecayRates);
+0425             
+0426             <span class="comment">%% construct parameter vector</span>
+0427             paramVec = this.constructParameterVector(<span class="keyword">...</span>
+0428                 rnaExp, <span class="keyword">...</span>
+0429                 m.experimentalNMPComposition, <span class="keyword">...</span>
+0430                 m.experimentalAAComposition, <span class="keyword">...</span>
+0431                 r.expectedWeightFractions, <span class="keyword">...</span>
+0432                 rnaDecayRates, <span class="keyword">...</span>
+0433                 biomassComposition, biomassProduction, byproducts, <span class="keyword">...</span>
+0434                 0.5 * unaccE);
+0435         <span class="keyword">end</span>
+0436         
+0437         <a name="_sub3" href="#_subfunctions" class="code">function unscaledParamVec = fitAnalytically(this, unscaledParamVec0)</a>
+0438             import edu.stanford.covert.util.ComputationUtil;
+0439             
+0440             <span class="comment">%% 1. Use approximate solution as initial guess for optimization problem</span>
+0441             paramVec0 = unscaledParamVec0;
+0442             [~, ~, ~, ~, ~, paramVec0{1}(this.rnaExpIdxs)] = this.calcMacromolecularCounts(paramVec0);
+0443             
+0444             <span class="comment">%heuristic fit</span>
+0445             unscaledParamVec = this.fitHeuristically(unscaledParamVec0);
+0446             paramVec = unscaledParamVec;
+0447             [~, ~, ~, ~, ~, rnaCnts] = this.calcMacromolecularCounts(paramVec);
+0448             paramVec{1}(this.rnaExpIdxs) = rnaCnts;
+0449             
+0450             <span class="comment">%% 2. Setup optimization problem</span>
+0451             
+0452             <span class="comment">%objective</span>
+0453             <span class="comment">%1. Minimize change in parameters</span>
+0454             <span class="comment">%2. Weight transcription unit expression, NMP production, AA production equally</span>
+0455             W = ones(size(paramVec0{1}));
+0456             H = diag(W);
+0457             objFcn = @(paramVec) this.objFunc(paramVec, paramVec0{1}, H);
+0458             
+0459             <span class="comment">%equality constraints</span>
+0460             [Aineq, bineq, Aeq, beq] = this.linConstraintFunc(paramVec);
+0461             
+0462             <span class="comment">%simple bounds</span>
+0463             [~, ~, ~, ~, rnaCntLBs, ~, rnaCntUBs, ~] = this.calcResourceRequirements(unscaledParamVec);
+0464             
+0465             lb = 1e-12 * ones(size(paramVec{1})); <span class="comment">%don't use zero for lower bounds because zeros makes the problem ill conditioned</span>
+0466             ub = ones(size(paramVec{1}));
+0467             lb(this.rnaExpIdxs) = min(rnaCntLBs, rnaCnts);
+0468             ub(this.rnaExpIdxs) = max(rnaCntUBs, rnaCnts);
+0469             
+0470             <span class="comment">%% 3. Check that initial guess satisfies constraints and bounds</span>
+0471             <span class="keyword">if</span> ~all(Aineq * paramVec{1} &lt; bineq)
+0472                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Initial guess does not satisfy linear equality constraints'</span>));
+0473             <span class="keyword">end</span>
+0474             
+0475             <span class="keyword">if</span> max(abs(Aeq * paramVec{1} - beq)) &gt; 1e-10
+0476                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Initial guess does not satisfy linear equality constraints'</span>));
+0477             <span class="keyword">end</span>
+0478             
+0479             [cineq, ceq] = this.nlinConstraintFunc(paramVec{1});
+0480             <span class="keyword">if</span> any(cineq &gt; 0)
+0481                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Initial guess does not satisfy non-linear inequality constraints'</span>));
+0482             <span class="keyword">end</span>
+0483             <span class="keyword">if</span> max(abs(ceq)) &gt; 2e-8
+0484                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Initial guess does not satisfy non-linear equality constraints'</span>));
+0485             <span class="keyword">end</span>
+0486             
+0487             <span class="keyword">if</span> any(rnaCnts &lt; lb(this.rnaExpIdxs)) || any(rnaCnts &gt; ub(this.rnaExpIdxs))
+0488                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Initial guess does not satisfy simple bound constraints'</span>));
+0489             <span class="keyword">end</span>
+0490             
+0491             <span class="comment">%% 4. Solve optimization problem</span>
+0492             <span class="comment">%options</span>
+0493             fminconOpts = this.fminconOptions;
+0494             fminconOpts.TypicalX = paramVec0{1};
+0495             fminconOpts.HessFcn = @(paramVec, lambda) this.hessFunc(paramVec, lambda, H);
+0496             
+0497             <span class="comment">%solve</span>
+0498             [paramVec{1}, ~, exitFlag, output] = fmincon(<span class="keyword">...</span>
+0499                 objFcn, paramVec{1}, Aineq, bineq, Aeq, beq, lb, ub, @this.nlinConstraintFunc, fminconOpts);
+0500             <span class="keyword">if</span> ~strcmpi(fminconOpts.Display, <span class="string">'off'</span>)
+0501                 fprintf(<span class="string">'\n'</span>);
+0502             <span class="keyword">end</span>
+0503             <span class="keyword">if</span> exitFlag &lt;= 0
+0504                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Nonlinear programming error:\n%s'</span>, output.message));
+0505             <span class="keyword">end</span>
+0506             <span class="keyword">if</span> exitFlag &gt; 0
+0507                 warning(<span class="string">'WholeCell:warning'</span>, output.message);
+0508             <span class="keyword">end</span>
+0509             
+0510             <span class="comment">%% 5. Heuristic fit</span>
+0511             unscaledParamVec = paramVec;
+0512             unscaledParamVec{1}(this.rnaExpIdxs) = paramVec{1}(this.rnaExpIdxs) / sum(paramVec{1}(this.rnaExpIdxs));
+0513             unscaledParamVec = this.fitHeuristically(unscaledParamVec);
+0514         <span class="keyword">end</span>
+0515         
+0516         <a name="_sub4" href="#_subfunctions" class="code">function [val, gradient, hessian] = objFunc(~, paramVec, paramVec0, H)</a>
+0517             val = paramVec' * H * paramVec   -   2 * paramVec0' * H * paramVec;
+0518             
+0519             <span class="keyword">if</span> nargout &gt;= 2
+0520                 gradient = 2 * H * paramVec   -   2 * H * paramVec0;
+0521             <span class="keyword">end</span>
+0522             
+0523             <span class="keyword">if</span> nargout &gt;= 3
+0524                 hessian = 2 * H;
+0525             <span class="keyword">end</span>
+0526         <span class="keyword">end</span>
+0527         
+0528         <a name="_sub5" href="#_subfunctions" class="code">function [Aineq, bineq, Aeq, beq] = linConstraintFunc(this, paramVec)</a>
+0529             import edu.stanford.covert.util.ComputationUtil;
+0530             import edu.stanford.covert.util.ConstantUtil;
+0531             
+0532             sim = this.simulation;
+0533             g = sim.gene;
+0534             m = sim.state(<span class="string">'Mass'</span>);
+0535             r = sim.state(<span class="string">'Rna'</span>);
+0536             sc = sim.process(<span class="string">'DNASupercoiling'</span>);
+0537             
+0538             topTf = any(r.matureRNAGeneComposition(g.mRNAIndexs(this.monomerIndex_topoisomeraseI), :), 1);
+0539             gyrTf = any(r.matureRNAGeneComposition(g.mRNAIndexs(this.monomerIndex_gyrase), :), 1);
+0540             [rnaExp, ~, ~, rnaWtFracs, rnaDecayRates] = this.extractParameterVector(paramVec);
+0541             
+0542             <span class="comment">%% inequality constraints</span>
+0543             <span class="comment">%1. topoisomerase IV / gyrase</span>
+0544             <span class="comment">%   fit topoisomerase I and gyrase to achieve the observed</span>
+0545             <span class="comment">%   steady-state superhelical density of</span>
+0546             <span class="comment">%   chromosome.equilibriumSuperhelicalDensity. topoisomerase IV</span>
+0547             <span class="comment">%   doesn't contribute to the steady-state because it is</span>
+0548             <span class="comment">%   inactive at the observed steady-state superhelical density.</span>
+0549             Aineq = zeros(0, this.nVars);
+0550             bineq = zeros(0, 1);
+0551             
+0552             <span class="comment">%% equality constraints</span>
+0553             <span class="comment">%1. RNA expression normalized</span>
+0554             <span class="comment">%2. NMP composition normalized</span>
+0555             <span class="comment">%3. AA composition normalized</span>
+0556             <span class="comment">%4. RNA weight fractions normalized</span>
+0557             <span class="comment">%5. FtsZ expression equals value already used to fit</span>
+0558             <span class="comment">%   cytokinesis duration. Here we implement this approximately</span>
+0559             <span class="comment">%   as a linear constraint.</span>
+0560             <span class="comment">%6. DnaA expression equals value already used to fit</span>
+0561             <span class="comment">%   replication initiation duration. Here we implement this</span>
+0562             <span class="comment">%   approximately as a linear constraint.</span>
+0563             
+0564             <span class="comment">%initialize</span>
+0565             Aeq = zeros(7+numel(this.rnaWtFracIdxs), this.nVars);
+0566             beq = zeros(7+numel(this.rnaWtFracIdxs), 1);
+0567             
+0568             <span class="comment">%RNA expression = RNA weight</span>
+0569             Aeq(1, this.rnaExpIdxs) = r.molecularWeights(r.matureIndexs) / ConstantUtil.nAvogadro;
+0570             beq(1) = m.cellInitialDryWeight * m.dryWeightFractionRNA;
+0571             
+0572             <span class="comment">%NMP composition is normalized (relative NMP composition sums to 1)</span>
+0573             Aeq(2, this.nmpIdxs) = 1;
+0574             beq(2) = 1;
+0575             
+0576             <span class="comment">%AA composition is normalized (relative AA composition sums to 1)</span>
+0577             Aeq(3, this.aaIdxs) = 1;
+0578             beq(3) = 1;
+0579             
+0580             <span class="comment">%RNA weight fractions (mRNA, rRNA, sRNA, tRNA) are constrained</span>
+0581             Aeq(3+(1:numel(this.rnaWtFracIdxs)), this.rnaWtFracIdxs) = eye(numel(this.rnaWtFracIdxs));
+0582             beq(3+(1:numel(this.rnaWtFracIdxs))) = rnaWtFracs;
+0583             
+0584             <span class="comment">%individual RNA decay rates may be adjusted, but total decay</span>
+0585             <span class="comment">%rate is constrained, roughly equivalent to constraining the</span>
+0586             <span class="comment">%average RNA decay rate</span>
+0587             Aeq(end-3, this.rnaDecayRateIdxs) = 1;
+0588             beq(end-3) = sum(rnaDecayRates);
+0589             
+0590             <span class="comment">%DnaA expression is constrained to a particular value so that</span>
+0591             <span class="comment">%replication initiation duration doesn't need to be refit</span>
+0592             Aeq(end-2, this.rnaExpIdxs(this.rnaIndex_dnaA)) = 1;
+0593             beq(end-2) = rnaExp(this.rnaIndex_dnaA);
+0594             
+0595             <span class="comment">%FtsZ expression is constrained to a particular value so that</span>
+0596             <span class="comment">%cytokinesis duration doesn't need to be recalculated</span>
+0597             Aeq(end-1, this.rnaExpIdxs(this.rnaIndex_ftsZ)) = 1;
+0598             beq(end-1) = rnaExp(this.rnaIndex_ftsZ);
+0599             
+0600             <span class="comment">%net supercoiling activity is zero (topoisomerase I positive</span>
+0601             <span class="comment">%supercoiling activity is balanced by gyrase negative supercoiling activity)</span>
+0602             Aeq(<span class="keyword">end</span>, this.rnaExpIdxs(topTf)) = sc.topoIDeltaLK  * sc.topoIActivityRate;
+0603             Aeq(<span class="keyword">end</span>, this.rnaExpIdxs(gyrTf)) = sc.gyraseDeltaLK * sc.gyraseActivityRate / this.gryStoichiometry;
+0604             beq(end) = 0;
+0605             
+0606             <span class="comment">%remove dependent linear constraints</span>
+0607             [Aeq, beq] = ComputationUtil.calcIndependentLinearConstraints(Aeq, beq);
+0608         <span class="keyword">end</span>
+0609         
+0610         <a name="_sub6" href="#_subfunctions" class="code">function [c, ceq, gradientC, gradientCeq] = nlinConstraintFunc(this, paramVec)</a>
+0611             sim = this.simulation;
+0612             g = sim.gene;
+0613             t = sim.state(<span class="string">'Time'</span>);
+0614             r = sim.state(<span class="string">'Rna'</span>);
+0615             p = sim.state(<span class="string">'ProteinMonomer'</span>);
+0616             
+0617             rnaLens       = r.lengths(r.matureIndexs);
+0618             rnaBaseCounts = this.getRnaNMPCounts();
+0619             rnaMWs        = r.molecularWeights(r.matureIndexs);
+0620             monLens       = p.lengths(p.matureIndexs);
+0621             monAACounts   = this.getMonomerAACounts();
+0622             monDecayRates = p.decayRates(p.matureIndexs);
+0623             
+0624             matureRNAGeneComp = r.matureRNAGeneComposition;
+0625             
+0626             <span class="comment">%extract</span>
+0627             [rnaExp, nmpComp, aaComp, rnaWtFracs] = this.extractParameterVector(paramVec);
+0628             
+0629             rnaWts = this.formulateRnaWtFractionConstraints();
+0630             
+0631             <span class="comment">%inequality constraints and gradient</span>
+0632             c = [];
+0633             <span class="keyword">if</span> nargout &gt;= 3
+0634                 gradientC = [];
+0635             <span class="keyword">end</span>
+0636             
+0637             <span class="comment">%equality constraints</span>
+0638             <span class="comment">%1. RNA weight fractions / RNA expression</span>
+0639             <span class="comment">%2. RNA base counts, expresion / NMP composition</span>
+0640             <span class="comment">%3. Protein AA counts, expression / AA composition</span>
+0641             ceq = [
+0642                 (rnaWts - rnaWtFracs * rnaMWs') * rnaExp
+0643                 (rnaBaseCounts' - nmpComp * rnaLens') * rnaExp
+0644                 (monAACounts' - aaComp * monLens') * ((matureRNAGeneComp(g.mRNAIndexs, :) * rnaExp) ./ (log(2) / t.cellCycleLength + monDecayRates))
+0645                 ];
+0646             
+0647             <span class="comment">%equality constraints gradient</span>
+0648             <span class="keyword">if</span> nargout &gt;= 4
+0649                 gradientCeqRNAExp = [
+0650                     (rnaWts - rnaWtFracs * rnaMWs')
+0651                     (rnaBaseCounts' - nmpComp * rnaLens')
+0652                     (monAACounts' - aaComp * monLens') * (matureRNAGeneComp(g.mRNAIndexs, :) ./ repmat(log(2) / t.cellCycleLength + monDecayRates, 1, this.nRNAs))
+0653                     ]';
+0654                 
+0655                 gradientCeqNMPComp = [
+0656                     zeros(this.nRNAWtFracs, this.nNMPs)
+0657                     -eye(this.nNMPs) * (rnaLens' * rnaExp)
+0658                     zeros(this.nAAs, this.nNMPs)
+0659                     ]';
+0660                 
+0661                 gradientCeqAAComp = [
+0662                     zeros(this.nRNAWtFracs, this.nAAs)
+0663                     zeros(this.nNMPs, this.nAAs)
+0664                     -eye(this.nAAs) * (monLens' * ((matureRNAGeneComp(g.mRNAIndexs, :) * rnaExp) ./ (log(2) / t.cellCycleLength + monDecayRates)))
+0665                     ]';
+0666                 
+0667                 gradientCeqRNADecayRates = [
+0668                     zeros(this.nRNAWtFracs, this.nRNAs)
+0669                     zeros(this.nNMPs, this.nRNAs)
+0670                     zeros(this.nAAs, this.nRNAs)
+0671                     ]';
+0672                 
+0673                 gradientCeqRnaWtFracs = [
+0674                     -eye(this.nRNAWtFracs) * (rnaMWs' * rnaExp)
+0675                     zeros(this.nNMPs, this.nRNAWtFracs)
+0676                     zeros(this.nAAs, this.nRNAWtFracs)
+0677                     ]';
+0678                 
+0679                 gradientCeq = [
+0680                     gradientCeqRNAExp
+0681                     gradientCeqNMPComp
+0682                     gradientCeqAAComp
+0683                     gradientCeqRNADecayRates
+0684                     gradientCeqRnaWtFracs
+0685                     ];
+0686             <span class="keyword">end</span>
+0687         <span class="keyword">end</span>
+0688         
+0689         <span class="comment">%Hessian of non-linear objective function and constraints.</span>
+0690         <a name="_sub7" href="#_subfunctions" class="code">function hessian = hessFunc(this, ~, lambda, H)</a>
+0691             sim = this.simulation;
+0692             
+0693             g = sim.gene;
+0694             t = sim.state(<span class="string">'Time'</span>);
+0695             r = sim.state(<span class="string">'Rna'</span>);
+0696             p = sim.state(<span class="string">'ProteinMonomer'</span>);
+0697             
+0698             rnaLens = r.lengths(r.matureIndexs);
+0699             rnaMWs = r.molecularWeights(r.matureIndexs);
+0700             monLens  = p.lengths(p.matureIndexs);
+0701             monDecayRates = p.decayRates(p.matureIndexs);
+0702             
+0703             <span class="comment">%objective function</span>
+0704             hessian = 2 * H;
+0705             
+0706             <span class="comment">%RNA weight fractions</span>
+0707             <span class="keyword">for</span> i = 1:this.nRNAWtFracs
+0708                 tempHessian = zeros(size(hessian));
+0709                 tempHessian(this.rnaExpIdxs, this.rnaWtFracIdxs(i)) = -rnaMWs;
+0710                 tempHessian(this.rnaWtFracIdxs(i), this.rnaExpIdxs) = -rnaMWs;
+0711                 
+0712                 hessian = hessian + lambda.eqnonlin(i) * tempHessian;
+0713             <span class="keyword">end</span>
+0714             
+0715             <span class="comment">%NMPs</span>
+0716             <span class="keyword">for</span> i = 1:this.nNMPs
+0717                 tempHessian = zeros(size(hessian));
+0718                 tempHessian(this.rnaExpIdxs, this.nmpIdxs(i)) = -rnaLens;
+0719                 tempHessian(this.nmpIdxs(i), this.rnaExpIdxs) = -rnaLens;
+0720                 
+0721                 hessian = hessian + lambda.eqnonlin(i + this.nRNAWtFracs) * tempHessian;
+0722             <span class="keyword">end</span>
+0723             
+0724             <span class="comment">%AAs</span>
+0725             <span class="keyword">for</span> i = 1:this.nAAs
+0726                 tempHessian = zeros(size(hessian));
+0727                 tempHessian(this.rnaExpIdxs, this.aaIdxs(i)) = -(r.matureRNAGeneComposition(g.mRNAIndexs, :) <span class="keyword">...</span>
+0728                     ./ repmat(log(2) / t.cellCycleLength + monDecayRates, 1, this.nRNAs))' * monLens;
+0729                 tempHessian(this.aaIdxs(i), this.rnaExpIdxs) = -(r.matureRNAGeneComposition(g.mRNAIndexs, :) <span class="keyword">...</span>
+0730                     ./ repmat(log(2) / t.cellCycleLength + monDecayRates, 1, this.nRNAs))' * monLens;
+0731                 
+0732                 hessian = hessian + lambda.eqnonlin(i + this.nRNAWtFracs + this.nNMPs) * tempHessian;
+0733             <span class="keyword">end</span>
+0734         <span class="keyword">end</span>
+0735         
+0736         <a name="_sub8" href="#_subfunctions" class="code">function W = hessMultFunc(~, Hinfo, Y)</a>
+0737             W = Hinfo * Y;
+0738         <span class="keyword">end</span>
+0739         
+0740         <span class="comment">%Modifies RNA expression, NMP and AA composition, and rRNA half</span>
+0741         <span class="comment">%lives. Doesn't modify RNA weight fractions or m/s/tRNA half lives.</span>
+0742         <span class="comment">%Assumes uniform protein half lives.</span>
+0743         <a name="_sub9" href="#_subfunctions" class="code">function paramVec = fitHeuristically(this, paramVec)</a>
+0744             <span class="comment">%import classes</span>
+0745             import edu.stanford.covert.util.ComputationUtil;
+0746             import edu.stanford.covert.util.ConstantUtil;
+0747             
+0748             <span class="comment">%references</span>
+0749             sim = this.simulation;
+0750             g = sim.gene;
+0751             t = sim.state(<span class="string">'Time'</span>);
+0752             mass = sim.state(<span class="string">'Mass'</span>);
+0753             r = sim.state(<span class="string">'Rna'</span>);
+0754             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0755             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0756             sc = sim.process(<span class="string">'DNASupercoiling'</span>);
+0757             
+0758             <span class="comment">%constants</span>
+0759             rnaMWs = r.molecularWeights(r.matureIndexs) / ConstantUtil.nAvogadro;
+0760             monMWs = pm.molecularWeights(pm.matureIndexs) / ConstantUtil.nAvogadro;
+0761             matureRNAGeneComposition = r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs);
+0762             matureRNAGeneComposition(matureRNAGeneComposition == 0) = NaN;
+0763             
+0764             <span class="comment">%0. extract</span>
+0765             [rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates, <span class="keyword">...</span>
+0766                 biomassComposition, biomassProduction, byproducts, <span class="keyword">...</span>
+0767                 unaccountedEnergyConsumption] = <span class="keyword">...</span>
+0768                 this.extractParameterVector(paramVec);
+0769             
+0770             <span class="comment">%1. match half lives, expression</span>
+0771             rnaDecayRates(r.matureRRNAIndexs) = mean(rnaDecayRates(r.matureRRNAIndexs));
+0772             rnaExp = (r.nascentRNAMatureRNAComposition * <span class="keyword">...</span>
+0773                 ComputationUtil.invertCompositionMatrix(r.nascentRNAMatureRNAComposition) * <span class="keyword">...</span>
+0774                 (rnaExp .* (log(2) / t.cellCycleLength + rnaDecayRates))) ./ (log(2) / t.cellCycleLength + rnaDecayRates);
+0775             
+0776             <span class="comment">%2. match gene expression, weight fractions</span>
+0777             rnaCnt = zeros(size(r.matureIndexs));
+0778             rnaCnt(r.matureMRNAIndexs) = <span class="keyword">...</span>
+0779                 rnaExp(r.matureMRNAIndexs) * <span class="keyword">...</span>
+0780                 mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * <span class="keyword">...</span>
+0781                 rnaWtFracs(r.mRNAWeightFractionIndexs) / (rnaMWs(r.matureMRNAIndexs)' * rnaExp(r.matureMRNAIndexs));
+0782             rnaCnt(r.matureRRNAIndexs) = <span class="keyword">...</span>
+0783                 rnaExp(r.matureRRNAIndexs) * <span class="keyword">...</span>
+0784                 mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * <span class="keyword">...</span>
+0785                 sum(rnaWtFracs(r.rRNAWeightFractionIndexs)) / (rnaMWs(r.matureRRNAIndexs)' * rnaExp(r.matureRRNAIndexs));
+0786             rnaCnt(r.matureSRNAIndexs) = <span class="keyword">...</span>
+0787                 rnaExp(r.matureSRNAIndexs) * <span class="keyword">...</span>
+0788                 mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * <span class="keyword">...</span>
+0789                 rnaWtFracs(r.sRNAWeightFractionIndexs) / (rnaMWs(r.matureSRNAIndexs)' * rnaExp(r.matureSRNAIndexs));
+0790             rnaCnt(r.matureTRNAIndexs) = <span class="keyword">...</span>
+0791                 rnaExp(r.matureTRNAIndexs) * <span class="keyword">...</span>
+0792                 mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * <span class="keyword">...</span>
+0793                 rnaWtFracs(r.tRNAWeightFractionIndexs) / (rnaMWs(r.matureTRNAIndexs)' * rnaExp(r.matureTRNAIndexs));
+0794             
+0795             monCnt = (r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs) * rnaCnt(r.matureMRNAIndexs)) ./ <span class="keyword">...</span>
+0796                 (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0797             monCnt = mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein * monCnt / (monMWs' * monCnt);
+0798             
+0799             <span class="comment">%3. Find gene expression, RNA decay rates, RNA weight fractions,</span>
+0800             <span class="comment">%   nmp composition, aa composition which  satisfy gene expression lower bounds</span>
+0801             <span class="keyword">for</span> i = 1:this.maxIter
+0802                 <span class="comment">%print status</span>
+0803                 <span class="keyword">if</span> this.verbosity &gt; 0
+0804                     fprintf(<span class="string">'Heuristic Iter: %d ...'</span>, i);
+0805                 <span class="keyword">end</span>
+0806                 
+0807                 <span class="comment">%transcription unit expression bounds</span>
+0808                 rnaExp = rnaCnt / sum(rnaCnt);
+0809                 [biomassComposition, biomassProduction, byproducts, unaccountedEnergyConsumption, <span class="keyword">...</span>
+0810                     minRNACnt, minMonCnt, maxRNACnt, maxMonCnt] = <span class="keyword">...</span>
+0811                     this.calcResourceRequirements(this.constructParameterVector(<span class="keyword">...</span>
+0812                     rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates, biomassComposition, biomassProduction, byproducts, <span class="keyword">...</span>
+0813                     unaccountedEnergyConsumption));
+0814                 
+0815                 <span class="comment">%gryase/topoisomerase I equilibrium</span>
+0816                 maxSupercoilingActivity = max(<span class="keyword">...</span>
+0817                     max(monCnt(this.monomerIndex_topoisomeraseI), minMonCnt(this.monomerIndex_topoisomeraseI)) * (sc.topoIDeltaLK * sc.topoIActivityRate), <span class="keyword">...</span>
+0818                     min(max(monCnt(this.monomerIndex_gyrase), minMonCnt(this.monomerIndex_gyrase))) * (-sc.gyraseDeltaLK * sc.gyraseActivityRate) / this.gryStoichiometry);
+0819                 maxMonCnt(this.monomerIndex_topoisomeraseI) = maxSupercoilingActivity / (sc.topoIDeltaLK * sc.topoIActivityRate);
+0820                 maxMonCnt(this.monomerIndex_gyrase) = maxSupercoilingActivity / (-sc.gyraseDeltaLK * sc.gyraseActivityRate) * this.gryStoichiometry;
+0821                 minMonCnt(this.monomerIndex_topoisomeraseI) = maxMonCnt(this.monomerIndex_topoisomeraseI);
+0822                 minMonCnt(this.monomerIndex_gyrase) = maxMonCnt(this.monomerIndex_gyrase);
+0823                 
+0824                 <span class="comment">%stricter bounds</span>
+0825                 maxRNACnt = min(maxRNACnt, mass.cellInitialDryWeight * mass.dryWeightFractionRNA     ./ rnaMWs);
+0826                 maxMonCnt = min(maxMonCnt, mass.cellInitialDryWeight * mass.dryWeightFractionProtein ./ monMWs);
+0827                 
+0828                 <span class="comment">%check that upper and lower bounds don't conflict</span>
+0829                 <span class="keyword">if</span> any(minMonCnt ./ maxMonCnt &gt; 1 + this.tolerance)
+0830                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Minimum expression exceeds maximum expression'</span>));
+0831                 <span class="keyword">end</span>
+0832                 
+0833                 <span class="comment">%apply robustness</span>
+0834                 minRNACnt(r.matureRRNAIndexs) = this.calcResourceRequirementsRobustness(minRNACnt(r.matureRRNAIndexs), r.geneExpressionRobustness);
+0835                 minRNACnt(r.matureSRNAIndexs) = this.calcResourceRequirementsRobustness(minRNACnt(r.matureSRNAIndexs), r.geneExpressionRobustness);
+0836                 minRNACnt(r.matureTRNAIndexs) = max(r.minTRnaCnt, minRNACnt(r.matureTRNAIndexs));
+0837                 minRNACnt(r.matureTRNAIndexs) = this.calcResourceRequirementsRobustness(minRNACnt(r.matureTRNAIndexs), 2 * r.geneExpressionRobustness);
+0838                 minMonCnt(minMonCnt &gt; 0) = this.calcResourceRequirementsRobustness(minMonCnt(minMonCnt &gt; 0), r.geneExpressionRobustness, pm.minimumAverageExpression);
+0839                 minMonCnt = max(minMonCnt, max(sum(pc.proteinComplexComposition(g.mRNAIndexs, :, :), 3), [], 2) * pc.minimumAverageExpression);
+0840                 
+0841                 minRNACnt = min(minRNACnt, maxRNACnt);
+0842                 minMonCnt = min(minMonCnt, maxMonCnt);
+0843                 
+0844                 <span class="comment">%ribosomal proteins</span>
+0845                 minMonCnt = max(minMonCnt, sum(pc.proteinComplexComposition(g.mRNAIndexs, pc.ribosome70SIndexs, :), 3) * 200);
+0846                 
+0847                 <span class="comment">%DnaA, FtsZ</span>
+0848                 minMonCnt(this.monomerIndex_DnaA) = this.dnaACnt;
+0849                 minMonCnt(this.monomerIndex_FtsZ) = this.ftsZCnt;
+0850                 maxMonCnt(this.monomerIndex_DnaA) = this.dnaACnt;
+0851                 maxMonCnt(this.monomerIndex_FtsZ) = this.ftsZCnt;
+0852                 
+0853                 <span class="keyword">if</span> i &gt; 1 &amp;&amp; <span class="keyword">...</span>
+0854                         ~any((rnaCnt ./ minRNACnt) &lt; (1 - this.tolerance)) &amp;&amp; <span class="keyword">...</span>
+0855                         ~any((monCnt ./ minMonCnt) &lt; (1 - this.tolerance))
+0856                     <span class="keyword">if</span> this.verbosity &gt; 0
+0857                         fprintf(<span class="string">' converged.\n'</span>);
+0858                     <span class="keyword">end</span>
+0859                     <span class="keyword">break</span>;
+0860                 <span class="keyword">end</span>
+0861                 
+0862                 <span class="keyword">if</span> this.verbosity &gt; 0
+0863                     fprintf(<span class="string">' RNA constraint violations: %d, Protein constraint violations: %d.\n'</span>, <span class="keyword">...</span>
+0864                         sum((rnaCnt ./ minRNACnt) &lt; (1 - this.tolerance)), <span class="keyword">...</span>
+0865                         sum((monCnt ./ minMonCnt) &lt; (1 - this.tolerance)));
+0866                     
+0867                     <span class="keyword">if</span> this.verbosity &gt; 1
+0868                         ratio = rnaCnt ./ minRNACnt;
+0869                         idxs = find(ratio &lt; 1 - this.tolerance);
+0870                         <span class="keyword">for</span> j = 1:numel(idxs)
+0871                             fprintf(<span class="string">'\t%s\t%.3e\n'</span>, r.wholeCellModelIDs{r.matureIndexs(idxs(j))}, ratio(idxs(j)));
+0872                         <span class="keyword">end</span>
+0873                         
+0874                         ratio = monCnt ./ minMonCnt;
+0875                         idxs = find(ratio &lt; 1 - this.tolerance);
+0876                         <span class="keyword">for</span> j = 1:numel(idxs)
+0877                             fprintf(<span class="string">'\t%s\t%.3e\n'</span>, pm.wholeCellModelIDs{pm.matureIndexs(idxs(j))}(1:6), ratio(idxs(j)));
+0878                         <span class="keyword">end</span>
+0879                     <span class="keyword">end</span>
+0880                 <span class="keyword">end</span>
+0881                 
+0882                 <span class="comment">%monomers</span>
+0883                 adjMinMonCnt = (r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs) * <span class="keyword">...</span>
+0884                     max(matureRNAGeneComposition .* <span class="keyword">...</span>
+0885                     repmat(minMonCnt .* (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs)), 1, numel(r.matureMRNAIndexs)) , [], 1)') ./ <span class="keyword">...</span>
+0886                     (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0887                 adjMaxMonCnt = (r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs) * <span class="keyword">...</span>
+0888                     min(matureRNAGeneComposition .* <span class="keyword">...</span>
+0889                     repmat(maxMonCnt .* (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs)), 1, numel(r.matureMRNAIndexs)), [], 1)') ./ <span class="keyword">...</span>
+0890                     (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0891                 adjMaxMonCnt = max(adjMinMonCnt, adjMaxMonCnt);
+0892                 
+0893                 <span class="keyword">if</span> any(adjMinMonCnt &gt; adjMaxMonCnt) &amp;&amp; any(adjMinMonCnt ./ minMonCnt &lt; 1 - this.tolerance) &amp;&amp; any(adjMaxMonCnt ./ maxMonCnt &gt; 1 + this.tolerance)
+0894                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Cannot satisfy constriants'</span>));
+0895                 <span class="keyword">end</span>
+0896                 
+0897                 <span class="keyword">if</span> mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein &lt; adjMinMonCnt' * monMWs || <span class="keyword">...</span>
+0898                         mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein &gt; adjMaxMonCnt' * monMWs
+0899                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Minimum monomer expression greater than protein weight fraction'</span>))
+0900                 <span class="keyword">end</span>
+0901                 <span class="keyword">if</span> any(monCnt &lt; adjMinMonCnt)
+0902                     monCnt = adjMinMonCnt + <span class="keyword">...</span>
+0903                         max(0, monCnt - adjMinMonCnt) * <span class="keyword">...</span>
+0904                         (mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein - adjMinMonCnt' * monMWs) / (monMWs' * max(0, monCnt - adjMinMonCnt));
+0905                 <span class="keyword">end</span>
+0906                 <span class="keyword">if</span> any(monCnt &gt; adjMaxMonCnt)
+0907                     monCnt = adjMaxMonCnt - <span class="keyword">...</span>
+0908                         min(0, monCnt - adjMaxMonCnt) * <span class="keyword">...</span>
+0909                         (adjMaxMonCnt' * monMWs - mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein) / (monMWs' * min(0, monCnt - adjMaxMonCnt));
+0910                 <span class="keyword">end</span>
+0911                 
+0912                 <span class="comment">%mRNA</span>
+0913                 mrnaExp = ComputationUtil.invertCompositionMatrix(r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs)) * <span class="keyword">...</span>
+0914                     (monCnt .* (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs)));
+0915                 rnaCnt(r.matureMRNAIndexs) = mrnaExp * <span class="keyword">...</span>
+0916                     mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * <span class="keyword">...</span>
+0917                     rnaWtFracs(r.mRNAWeightFractionIndexs) / (rnaMWs(r.matureMRNAIndexs)' * mrnaExp);
+0918                 
+0919                 <span class="comment">%rRNA</span>
+0920                 <span class="keyword">if</span> any(minRNACnt(r.matureRRNAIndexs) &gt; rnaCnt(r.matureRRNAIndexs))
+0921                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Minimum rRNA expression greater than rRNA weight fraction'</span>));
+0922                 <span class="keyword">end</span>
+0923                 
+0924                 <span class="comment">%s/tRNA</span>
+0925                 <span class="comment">%TODO: handle maxRNACnt</span>
+0926                 minMatureSRNAProd = minRNACnt(r.matureSRNAIndexs) .* <span class="keyword">...</span>
+0927                     (log(2) / t.cellCycleLength + rnaDecayRates(r.matureSRNAIndexs));
+0928                 minMatureSRNACnt = <span class="keyword">...</span>
+0929                     (r.nascentRNAMatureRNAComposition(r.matureSRNAIndexs, :) * <span class="keyword">...</span>
+0930                     (max(r.nascentRNAMatureRNAComposition(r.matureSRNAIndexs, :) .* <span class="keyword">...</span>
+0931                     minMatureSRNAProd(:, ones(size(r.nascentRNAMatureRNAComposition, 2),1)), [], 1))') ./ <span class="keyword">...</span>
+0932                     (log(2) / t.cellCycleLength + rnaDecayRates(r.matureSRNAIndexs));
+0933                 matureSRNACnt = rnaCnt(r.matureSRNAIndexs);
+0934                 <span class="keyword">if</span> mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * rnaWtFracs(r.sRNAWeightFractionIndexs) &lt; minMatureSRNACnt' * rnaMWs(r.matureSRNAIndexs)
+0935                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Minimum sRNA expression greater than sRNA weight fraction'</span>))
+0936                 <span class="keyword">end</span>
+0937                 matureSRNACnt = minMatureSRNACnt + <span class="keyword">...</span>
+0938                     max(0, matureSRNACnt - minMatureSRNACnt) * <span class="keyword">...</span>
+0939                     (mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * rnaWtFracs(r.sRNAWeightFractionIndexs) - minMatureSRNACnt' * rnaMWs(r.matureSRNAIndexs)) / <span class="keyword">...</span>
+0940                     (rnaMWs(r.matureSRNAIndexs)' * max(0, matureSRNACnt - minMatureSRNACnt));
+0941                 rnaCnt(r.matureSRNAIndexs) = matureSRNACnt;
+0942                 
+0943                 minMatureTRNAProd = minRNACnt(r.matureTRNAIndexs) .* <span class="keyword">...</span>
+0944                     (log(2) / t.cellCycleLength + rnaDecayRates(r.matureTRNAIndexs));
+0945                 minMatureTRNACnt = <span class="keyword">...</span>
+0946                     (r.nascentRNAMatureRNAComposition(r.matureTRNAIndexs, :) * <span class="keyword">...</span>
+0947                     (max(r.nascentRNAMatureRNAComposition(r.matureTRNAIndexs, :) .* <span class="keyword">...</span>
+0948                     minMatureTRNAProd(:, ones(size(r.nascentRNAMatureRNAComposition, 2),1)), [], 1))') ./ <span class="keyword">...</span>
+0949                     (log(2) / t.cellCycleLength + rnaDecayRates(r.matureTRNAIndexs));
+0950                 matureTRNACnt = rnaCnt(r.matureTRNAIndexs);
+0951                 <span class="keyword">if</span> mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * rnaWtFracs(r.tRNAWeightFractionIndexs) &lt; minMatureTRNACnt' * rnaMWs(r.matureTRNAIndexs)
+0952                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Minimum tRNA expression greater than tRNA weight fraction'</span>))
+0953                 <span class="keyword">end</span>
+0954                 matureTRNACnt = minMatureTRNACnt + <span class="keyword">...</span>
+0955                     max(0, matureTRNACnt - minMatureTRNACnt) * <span class="keyword">...</span>
+0956                     (mass.cellInitialDryWeight * mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * rnaWtFracs(r.tRNAWeightFractionIndexs) - minMatureTRNACnt' * rnaMWs(r.matureTRNAIndexs)) / <span class="keyword">...</span>
+0957                     (rnaMWs(r.matureTRNAIndexs)' * max(0, matureTRNACnt - minMatureTRNACnt));
+0958                 rnaCnt(r.matureTRNAIndexs) = matureTRNACnt;
+0959                 
+0960                 <span class="comment">%NMP composition</span>
+0961                 nmpComp = this.getRnaNMPCounts()' * rnaCnt;
+0962                 nmpComp = nmpComp / sum(nmpComp);
+0963                 
+0964                 <span class="comment">%AA composition</span>
+0965                 aaComp = this.getMonomerAACounts()' * monCnt;
+0966                 aaComp = aaComp / sum(aaComp);
+0967                 
+0968                 <span class="comment">%calculate total monomers, and check within range</span>
+0969                 [~, ~, ~, ~, ~, ~, totMons] = this.calcMacromolecularCounts(<span class="keyword">...</span>
+0970                     this.constructParameterVector(rnaCnt / sum(rnaCnt), nmpComp, aaComp, rnaWtFracs, rnaDecayRates, <span class="keyword">...</span>
+0971                     biomassComposition, biomassProduction, byproducts, unaccountedEnergyConsumption));
+0972                 
+0973                 monExp = (r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs) * mrnaExp) ./ <span class="keyword">...</span>
+0974                     (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0975                 monCnt = monExp * mass.cellInitialDryWeight * mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein / (monExp' * monMWs);
+0976                 
+0977                 <span class="keyword">if</span> any(totMons ./ adjMaxMonCnt &gt; 1 + this.tolerance) || any(totMons ./ adjMinMonCnt &lt; 1 - this.tolerance)
+0978                     throw(MException(<span class="string">'FitConstants:error'</span>, <span class="string">'Expression doesn''t obey constraints'</span>))
+0979                 <span class="keyword">end</span>
+0980             <span class="keyword">end</span>
+0981             
+0982             <span class="keyword">if</span> i == this.maxIter
+0983                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Gene expression bounds cannot be satisfied'</span>));
+0984             <span class="keyword">end</span>
+0985             
+0986             <span class="comment">%commit</span>
+0987             paramVec = this.constructParameterVector(<span class="keyword">...</span>
+0988                 rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates, <span class="keyword">...</span>
+0989                 biomassComposition, biomassProduction, byproducts, unaccountedEnergyConsumption);
+0990         <span class="keyword">end</span>
+0991         
+0992         <span class="comment">%Calculates:</span>
+0993         <span class="comment">%Quantity              Units                                  Dimensions                     Normalization</span>
+0994         <span class="comment">%===================   ====================================   ============================   ===========================================================</span>
+0995         <span class="comment">%biomass composition   molecules / cell at life cycle start   nMetabolites x nCompartments           bmCmmp' * effMetMWs = cell mass at life cycle start</span>
+0996         <span class="comment">%biomass production    molecules / cell life cycle            nMetabolites x nCompartments   (bmProd - byProd)' * metMWs = cell mass at life cycle start</span>
+0997         <span class="comment">%by products           molecules / cell life cycle            nMetabolites x nCompartments   (bmProd - byProd)' * metMWs = cell mass at life cycle start</span>
+0998         <span class="comment">%</span>
+0999         <span class="comment">%Also calculates lower bounds on expression of key RNAs and</span>
+1000         <span class="comment">%proteins For each functional gene product unit (eg. complex,</span>
+1001         <span class="comment">%monomer, tRNA)</span>
+1002         <span class="comment">%  1. Calculate minimum number of functional units</span>
+1003         <span class="comment">%     needed per initial cell</span>
+1004         <span class="comment">%  2. Lookup stoichiometry of gene products (sRNA, tRNA, rRNA,</span>
+1005         <span class="comment">%     protein monomers) in functional unit</span>
+1006         <span class="comment">%  3. Calculate RNA and protein monomer expression necessary to</span>
+1007         <span class="comment">%     achieve number calculated in step (1).</span>
+1008         <a name="_sub10" href="#_subfunctions" class="code">function [lclBmComp, lclBmProd, lclByProd, unaccECons, minRNAExp, minMonExp, maxRNAExp, maxMonExp] = </a><span class="keyword">...</span>
+1009                 calcResourceRequirements(this, paramVec)
+1010             <span class="comment">%% import classes</span>
+1011             import edu.stanford.covert.cell.sim.util.MetaboliteUtil
+1012             import edu.stanford.covert.util.ComputationUtil;
+1013             import edu.stanford.covert.util.ConstantUtil;
+1014             
+1015             <span class="comment">%% references</span>
+1016             sim = this.simulation;
+1017             g = sim.gene;
+1018             mass = sim.state(<span class="string">'Mass'</span>);
+1019             t = sim.state(<span class="string">'Time'</span>);
+1020             geom = sim.state(<span class="string">'Geometry'</span>);
+1021             m = sim.state(<span class="string">'Metabolite'</span>);
+1022             c = sim.state(<span class="string">'Chromosome'</span>);
+1023             r = sim.state(<span class="string">'Rna'</span>);
+1024             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+1025             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+1026             mr = sim.state(<span class="string">'MetabolicReaction'</span>);
+1027             dnaDamage = sim.process(<span class="string">'DNADamage'</span>);
+1028             met = sim.process(<span class="string">'Metabolism'</span>);
+1029             
+1030             <span class="comment">%% store simulation constants</span>
+1031             paramVec0 = this.constructParameterVectorFromSimulation();
+1032             
+1033             <span class="comment">%% constants</span>
+1034             pcComp = sum(pc.proteinComplexComposition, 3);
+1035             [~, ~, ~, ~, rnaDecayRates] = this.extractParameterVector(paramVec);
+1036             
+1037             <span class="comment">%% initialize state</span>
+1038             this.applyParameterVectorToSimulation(paramVec);
+1039             initialGrowthFilterWidth = mr.initialGrowthFilterWidth;
+1040             mr.initialGrowthFilterWidth = Inf;
+1041             sim.initializeState();
+1042             mr.initialGrowthFilterWidth = initialGrowthFilterWidth;
+1043             
+1044             <span class="comment">%% Macromolecule counts</span>
+1045             [freeRnas, freeMons, freeCpxs, rnaInCpxs, monInCpxs, <span class="keyword">...</span>
+1046                 ~, ~, ~, rnaDecays, monDecays, cpxDecays, <span class="keyword">...</span>
+1047                 freeNTPs, freeAAs] = <span class="keyword">...</span>
+1048                 this.calcMacromolecularCounts(paramVec);
+1049             
+1050             <span class="comment">%% biomass composition</span>
+1051             bmComp = zeros(numel(m.wholeCellModelIDs), 1);
+1052             
+1053             <span class="comment">%water</span>
+1054             waterComp = mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) * mass.fractionWetWeight  * <span class="keyword">...</span>
+1055                 ConstantUtil.nAvogadro / m.molecularWeights(m.waterIndexs);
+1056             bmComp(m.waterIndexs) = waterComp;
+1057             
+1058             <span class="comment">%DNA</span>
+1059             <span class="keyword">if</span> mass.dryWeightFractionDNA
+1060                 dnmpComp = [getBaseCounts(c.sequence); nnz(c.damagedBases == m.m6ADIndexs)];
+1061                 dnmpComp(1) = dnmpComp(1) - nnz(c.damagedBases == m.m6ADIndexs);
+1062                 chrWt = dnmpComp' * (m.molecularWeights([m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})]) - <span class="keyword">...</span>
+1063                     ConstantUtil.elements.O - ConstantUtil.elements.H) / ConstantUtil.nAvogadro;
+1064                 bmComp([m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})]) = <span class="keyword">...</span>
+1065                     bmComp([m.dnmpIndexs; m.getIndexs({<span class="string">'m6dAMP'</span>})]) + <span class="keyword">...</span>
+1066                     dnmpComp * min(1, mass.dryWeightFractionDNA * mass.cellInitialDryWeight / chrWt);
+1067                 
+1068                 dnmpComp = getBaseCounts(c.sequence);
+1069                 bmComp(m.dntpIndexs) = bmComp(m.dntpIndexs) + <span class="keyword">...</span>
+1070                     dnmpComp * max(0, mass.dryWeightFractionDNA * mass.cellInitialDryWeight - chrWt) / <span class="keyword">...</span>
+1071                     (dnmpComp' * m.molecularWeights(m.dntpIndexs)) * ConstantUtil.nAvogadro;
+1072             <span class="keyword">end</span>
+1073             
+1074             <span class="comment">%RNAs + Protein</span>
+1075             macroComp = <span class="keyword">...</span>
+1076                 + r.baseCounts(r.matureIndexs, :)' * freeRnas <span class="keyword">...</span>
+1077                 + pm.baseCounts(pm.matureIndexs, :)' * freeMons <span class="keyword">...</span>
+1078                 + pc.baseCounts(pc.matureIndexs, :)' * freeCpxs;
+1079             bmComp = bmComp + macroComp;
+1080             
+1081             <span class="comment">%Small molecules -- lipids, polyamines, carbohydrates,</span>
+1082             <span class="comment">%vitamins, ions, nucleotides</span>
+1083             expBioCompMolFracs = m.experimentalBiomassCompositionMolFractions;
+1084             expBioCompMolFracs([m.diphosphateIndexs; m.phosphateIndexs; m.hydrogenIndexs], :) = 0;
+1085             
+1086             V = mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) / geom.density; <span class="comment">%volume (L)</span>
+1087             
+1088             smBmComp = zeros(numel(m.wholeCellModelIDs), 1);
+1089             smBmComp(m.ntpIndexs) = freeNTPs;
+1090             smBmComp(m.aminoAcidIndexs) = freeAAs;
+1091             smBmComp(m.lipidIndexs) = <span class="keyword">...</span>
+1092                 expBioCompMolFracs(m.lipidIndexs) * <span class="keyword">...</span>
+1093                 mass.dryWeightFractionLipid / (expBioCompMolFracs(m.lipidIndexs)' * m.molecularWeights(m.lipidIndexs)) * <span class="keyword">...</span>
+1094                 mass.cellInitialDryWeight * ConstantUtil.nAvogadro;
+1095             smBmComp(m.polyamineIndexs) = <span class="keyword">...</span>
+1096                 expBioCompMolFracs(m.polyamineIndexs) * <span class="keyword">...</span>
+1097                 mass.dryWeightFractionPolyamine / (expBioCompMolFracs(m.polyamineIndexs)' * m.molecularWeights(m.polyamineIndexs)) * <span class="keyword">...</span>
+1098                 mass.cellInitialDryWeight * ConstantUtil.nAvogadro;
+1099             smBmComp(m.carbohydrateIndexs) = <span class="keyword">...</span>
+1100                 expBioCompMolFracs(m.carbohydrateIndexs) * <span class="keyword">...</span>
+1101                 mass.dryWeightFractionCarbohydrate / (expBioCompMolFracs(m.carbohydrateIndexs)' * m.molecularWeights(m.carbohydrateIndexs)) * <span class="keyword">...</span>
+1102                 mass.cellInitialDryWeight * ConstantUtil.nAvogadro;
+1103             smBmComp(m.vitaminIndexs) = <span class="keyword">...</span>
+1104                 expBioCompMolFracs(m.vitaminIndexs) * <span class="keyword">...</span>
+1105                 mass.dryWeightFractionVitamin / (expBioCompMolFracs(m.vitaminIndexs)' * m.molecularWeights(m.vitaminIndexs)) * <span class="keyword">...</span>
+1106                 mass.cellInitialDryWeight * ConstantUtil.nAvogadro;
+1107             smBmComp(m.ionIndexs) = <span class="keyword">...</span>
+1108                 expBioCompMolFracs(m.ionIndexs) * <span class="keyword">...</span>
+1109                 mass.dryWeightFractionIon / (expBioCompMolFracs(m.ionIndexs)' * m.molecularWeights(m.ionIndexs)) * <span class="keyword">...</span>
+1110                 mass.cellInitialDryWeight * ConstantUtil.nAvogadro;
+1111             
+1112             <span class="keyword">if</span> mass.dryWeightFractionNucleotide &gt; 0
+1113                 nucComp = zeros(size(smBmComp));
+1114                 nucComp(m.ntpIndexs([1 3]))  = 1e-3 * ConstantUtil.nAvogadro * V * m.meanNTPConcentration;
+1115                 nucComp(m.ndpIndexs([1 3]))  = 1e-3 * ConstantUtil.nAvogadro * V * m.meanNDPConcentration;
+1116                 nucComp(m.nmpIndexs)         = 1e-3 * ConstantUtil.nAvogadro * V * m.meanNMPConcentration;
+1117                 nucComp(m.phosphateIndexs)   = sum(nucComp(m.ndpIndexs));
+1118                 nucComp(m.diphosphateIndexs) = sum(nucComp(m.nmpIndexs));
+1119                 nucComp(m.hydrogenIndexs)    = sum(nucComp(m.ndpIndexs)) + sum(nucComp(m.nmpIndexs));
+1120                 smBmComp = smBmComp + nucComp;
+1121                 
+1122                 assert(abs(mass.dryWeightFractionNucleotide * mass.cellInitialDryWeight - <span class="keyword">...</span>
+1123                     nucComp' * m.molecularWeights / ConstantUtil.nAvogadro) / <span class="keyword">...</span>
+1124                     (mass.dryWeightFractionNucleotide * mass.cellInitialDryWeight) &lt; 1e-2);
+1125             <span class="keyword">end</span>
+1126             
+1127             bmComp = bmComp + smBmComp;
+1128             
+1129             <span class="comment">%% Production, byproducts, minimum/maximum gene expression</span>
+1130             <span class="comment">%initialize</span>
+1131             bmProd = zeros(numel(m.wholeCellModelIDs), 1);
+1132             byProd = zeros(numel(m.wholeCellModelIDs), 1);
+1133             minRNAExp = zeros(size( r.matureIndexs));
+1134             minMonExp = zeros(size(pm.matureIndexs));
+1135             minCpxExp = zeros(size(pc.matureIndexs));
+1136             maxRNAExp = Inf(size( r.matureIndexs));
+1137             maxMonExp = Inf(size(pm.matureIndexs));
+1138             maxCpxExp = Inf(size(pc.matureIndexs));
+1139             m.processBiomassProduction = zeros(numel(m.wholeCellModelIDs), numel(sim.processes));
+1140             m.processByproduct = zeros(numel(m.wholeCellModelIDs), numel(sim.processes));
+1141             
+1142             <span class="comment">%constants</span>
+1143             constants = edu.stanford.covert.util.StructUtil.catstruct(<span class="keyword">...</span>
+1144                 sim.getFixedConstants(), sim.getFittedConstants());
+1145             constants.processes.DNADamage.substrateGlobalIndexs = dnaDamage.substrateGlobalIndexs;
+1146             constants.processes.DNADamage.substrateStimulusGlobalIndexs = dnaDamage.substrateStimulusGlobalIndexs;
+1147             constants.processes.DNADamage.substrateStimulusCompartmentIndexs = dnaDamage.substrateStimulusCompartmentIndexs;
+1148             constants.processes.DNADamage.substrateStimulusGlobalCompartmentIndexs = dnaDamage.substrateStimulusGlobalCompartmentIndexs;
+1149             constants.processes.DNADamage.substrateStimulusLocalIndexs = dnaDamage.substrateStimulusLocalIndexs;
+1150             
+1151             <span class="comment">%integrated state</span>
+1152             states = struct;
+1153             states.rnas0               = freeRnas;
+1154             states.rnas                = freeRnas * t.cellCycleLength / log(2);
+1155             states.rnaDecays           = rnaDecays;
+1156             states.rnaDecays0          = rnaDecays * log(2) / t.cellCycleLength;
+1157             states.rnaProductions      = freeRnas + rnaInCpxs + rnaDecays;
+1158             states.rnaProductions0     = (freeRnas + rnaInCpxs) * log(2) / t.cellCycleLength + (freeRnas .* rnaDecayRates);
+1159             states.rnaProductions0(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = <span class="keyword">...</span>
+1160                 states.rnaProductions0(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) + <span class="keyword">...</span>
+1161                 pcComp(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :) * (freeCpxs .* pc.decayRates(pc.matureIndexs));
+1162             
+1163             states.monomers0           = freeMons;
+1164             states.monomers            = freeMons * t.cellCycleLength / log(2);
+1165             states.monomerDecays       = monDecays;
+1166             states.monomerDecays0      = monDecays * log(2) / t.cellCycleLength;
+1167             states.monomerProductions  = freeMons + monInCpxs + monDecays;
+1168             states.monomerProductions0 = (freeMons + monInCpxs) * log(2) / t.cellCycleLength + (freeMons .* pm.decayRates(pm.matureIndexs));
+1169             states.monomerProductions0 = <span class="keyword">...</span>
+1170                 states.monomerProductions0 + <span class="keyword">...</span>
+1171                 pcComp(g.mRNAIndexs, :) * (freeCpxs .* pc.decayRates(pc.matureIndexs));
+1172             
+1173             states.complexs0           = freeCpxs;
+1174             states.complexs            = freeCpxs * t.cellCycleLength / log(2);
+1175             states.complexDecays       = cpxDecays;
+1176             states.complexDecays0      = cpxDecays * log(2) / t.cellCycleLength;
+1177             states.complexProductions  = freeCpxs + cpxDecays;
+1178             states.complexProductions0 = freeCpxs * log(2) / t.cellCycleLength + (freeCpxs .* pc.decayRates(pc.matureIndexs));
+1179             
+1180             <span class="comment">%processes</span>
+1181             <span class="keyword">for</span> i = 1:length(sim.processes)
+1182                 p = sim.processes{i};
+1183                 
+1184                 [tmpBiomassProd, tmpByproducts, tmpMinEnzExp, tmpMaxEnzExp] = p.calcResourceRequirements_LifeCycle(constants, states);
+1185                 
+1186                 gblIdxs = p.substrateMetaboliteGlobalIndexs(:, 1);
+1187                 lclIdxs = p.substrateMetaboliteLocalIndexs(:, 1);
+1188                 
+1189                 bmProd(gblIdxs) = bmProd(gblIdxs) + sum(tmpBiomassProd(lclIdxs, :), 2);
+1190                 byProd(gblIdxs) = byProd(gblIdxs) + sum(tmpByproducts(lclIdxs, :), 2);
+1191                 
+1192                 <span class="keyword">if</span> ~isempty(tmpBiomassProd) &amp;&amp; ~isempty(tmpByproducts)
+1193                     m.processBiomassProduction(gblIdxs, i) = tmpBiomassProd(lclIdxs, 1);
+1194                     m.processByproduct(gblIdxs, i) = tmpByproducts(lclIdxs, 1);
+1195                 <span class="keyword">end</span>
+1196                 
+1197                 <span class="keyword">if</span> ~isempty(p.enzymeRNALocalIndexs)
+1198                     minRNAExp(p.enzymeRNAGlobalIndexs(:, 1)) = max(minRNAExp(p.enzymeRNAGlobalIndexs(:, 1)), tmpMinEnzExp(p.enzymeRNALocalIndexs));
+1199                     maxRNAExp(p.enzymeRNAGlobalIndexs(:, 1)) = min(maxRNAExp(p.enzymeRNAGlobalIndexs(:, 1)), tmpMaxEnzExp(p.enzymeRNALocalIndexs));
+1200                 <span class="keyword">end</span>
+1201                 <span class="keyword">if</span> ~isempty(p.enzymeMonomerLocalIndexs)
+1202                     minMonExp(p.enzymeMonomerGlobalIndexs(:, 1)) = max(minMonExp(p.enzymeMonomerGlobalIndexs(:, 1)), tmpMinEnzExp(p.enzymeMonomerLocalIndexs));
+1203                     maxMonExp(p.enzymeMonomerGlobalIndexs(:, 1)) = min(maxMonExp(p.enzymeMonomerGlobalIndexs(:, 1)), tmpMaxEnzExp(p.enzymeMonomerLocalIndexs));
+1204                 <span class="keyword">end</span>
+1205                 <span class="keyword">if</span> ~isempty(p.enzymeComplexLocalIndexs)
+1206                     minCpxExp(p.enzymeComplexGlobalIndexs(:, 1)) = max(minCpxExp(p.enzymeComplexGlobalIndexs(:, 1)), tmpMinEnzExp(p.enzymeComplexLocalIndexs));
+1207                     maxCpxExp(p.enzymeComplexGlobalIndexs(:, 1)) = min(maxCpxExp(p.enzymeComplexGlobalIndexs(:, 1)), tmpMaxEnzExp(p.enzymeComplexLocalIndexs));
+1208                 <span class="keyword">end</span>
+1209             <span class="keyword">end</span>
+1210             
+1211             <span class="comment">%water</span>
+1212             bmProd(m.waterIndexs) = bmProd(m.waterIndexs) + waterComp;
+1213             
+1214             <span class="comment">%small molecules</span>
+1215             bmProd = bmProd + smBmComp;
+1216             
+1217             <span class="comment">%dark energy</span>
+1218             <span class="comment">%- energy known to be necessary for growth, but</span>
+1219             <span class="comment">%- unaccounted in model</span>
+1220             metProd = bmProd - byProd;
+1221             accountedEnergy = sum([
+1222                 + 2 * metProd([m.ntpIndexs; m.dntpIndexs])
+1223                 + 1 * metProd([m.ndpIndexs; m.dndpIndexs])
+1224                 + 0 * metProd([m.nmpIndexs; m.dnmpIndexs])
+1225                 + 1 * metProd([m.diphosphateIndexs])
+1226                 + 0 * metProd([m.phosphateIndexs])
+1227                 ]);
+1228             
+1229             unaccECons = met.growthAssociatedMaintenance * <span class="keyword">...</span>
+1230                 ConstantUtil.nAvogadro / 1000 * mass.cellInitialDryWeight <span class="keyword">...</span>
+1231                 - accountedEnergy;
+1232             
+1233             bmProd(m.atpIndexs)       = unaccECons + bmProd(m.atpIndexs);
+1234             bmProd(m.waterIndexs)     = unaccECons + bmProd(m.waterIndexs);
+1235             byProd(m.adpIndexs)       = unaccECons + byProd(m.adpIndexs);
+1236             byProd(m.phosphateIndexs) = unaccECons + byProd(m.phosphateIndexs);
+1237             byProd(m.hydrogenIndexs)  = unaccECons + byProd(m.hydrogenIndexs);
+1238             
+1239             <span class="comment">%% sort biomass composition, production, byproducts to correct compartments</span>
+1240             lclBmComp = MetaboliteUtil.localizeMetabolites(sim, bmComp);
+1241             lclBmProd = MetaboliteUtil.localizeMetabolites(sim, bmProd);
+1242             lclByProd = MetaboliteUtil.localizeMetabolites(sim, byProd);
+1243             
+1244             <span class="comment">%% monomers, complexs in metabolism as substrates</span>
+1245             monIdxs = met.substrateMonomerGlobalIndexs(:, 1);
+1246             cpxIdxs = met.substrateComplexGlobalIndexs(:, 1);
+1247             minMonExp(monIdxs) = max(minMonExp(monIdxs), 1);
+1248             minCpxExp(cpxIdxs) = max(minCpxExp(cpxIdxs), 1);
+1249             
+1250             <span class="comment">%% calculate minimum, maximum RNA, monomer expression</span>
+1251             monInCpxs1 = find(any(pcComp(g.mRNAIndexs, isfinite(minCpxExp)),2));
+1252             minRNAExp(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = max(<span class="keyword">...</span>
+1253                 minRNAExp(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)), <span class="keyword">...</span>
+1254                 pcComp(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :) * minCpxExp);
+1255             minMonExp(monInCpxs1) = max(<span class="keyword">...</span>
+1256                 minMonExp(monInCpxs1), <span class="keyword">...</span>
+1257                 pcComp(g.mRNAIndexs(monInCpxs1), isfinite(minCpxExp)) * minCpxExp(isfinite(minCpxExp)));
+1258             
+1259             monInCpxs2 = find(any(pcComp(g.mRNAIndexs, isfinite(maxCpxExp)),2));
+1260             maxRNAExp(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = min(<span class="keyword">...</span>
+1261                 maxRNAExp(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)), <span class="keyword">...</span>
+1262                 pcComp(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :) * maxCpxExp);
+1263             maxMonExp(monInCpxs2) = min(<span class="keyword">...</span>
+1264                 maxMonExp(monInCpxs2), <span class="keyword">...</span>
+1265                 pcComp(g.mRNAIndexs(monInCpxs2), isfinite(maxCpxExp)) * maxCpxExp(isfinite(maxCpxExp)));
+1266             
+1267             maxMonExp(union(monInCpxs1, monInCpxs2)) = max(<span class="keyword">...</span>
+1268                 minMonExp(union(monInCpxs1, monInCpxs2)),<span class="keyword">...</span>
+1269                 maxMonExp(union(monInCpxs1, monInCpxs2)));
+1270             
+1271             <span class="comment">%% Hold DnaA, FtsZ expression constant to avoid refitting</span>
+1272             minMonExp(this.monomerIndex_DnaA) = this.dnaACnt;
+1273             minMonExp(this.monomerIndex_FtsZ) = this.ftsZCnt;
+1274             
+1275             maxMonExp(this.monomerIndex_DnaA) = this.dnaACnt;
+1276             maxMonExp(this.monomerIndex_FtsZ) = this.ftsZCnt;
+1277             
+1278             <span class="comment">%% reset simulation constants</span>
+1279             this.applyParameterVectorToSimulation(paramVec0);
+1280         <span class="keyword">end</span>
+1281         
+1282         <a name="_sub11" href="#_subfunctions" class="code">function [freeRnas, freeMons, freeCpxs, </a><span class="keyword">...</span>
+1283                 rnaInCpxs, monInCpxs, <span class="keyword">...</span>
+1284                 totRnas, totMons, totCpxs, <span class="keyword">...</span>
+1285                 rnaDecays, monDecays, cpxDecays, freeNTPs, freeAAs] = <span class="keyword">...</span>
+1286                 calcMacromolecularCounts(this, paramVec)
+1287             import edu.stanford.covert.util.ComputationUtil;
+1288             import edu.stanford.covert.util.ConstantUtil;
+1289             
+1290             <span class="comment">%% references</span>
+1291             sim = this.simulation;
+1292             g = sim.gene;
+1293             t = sim.state(<span class="string">'Time'</span>);
+1294             mass = sim.state(<span class="string">'Mass'</span>);
+1295             m = sim.state(<span class="string">'Metabolite'</span>);
+1296             r = sim.state(<span class="string">'Rna'</span>);
+1297             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+1298             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+1299             
+1300             <span class="comment">%% constants</span>
+1301             pcComp = sum(pc.proteinComplexComposition, 3);
+1302             ignoreCpxIdxs = [
+1303                 find(pc.formationProcesses(pc.matureIndexs) == sim.processIndex(<span class="string">'Metabolism'</span>));
+1304                 pc.getIndexs({<span class="string">'RIBOSOME_30S'</span>; <span class="string">'RIBOSOME_30S_IF3'</span>; <span class="string">'RIBOSOME_50S'</span>; <span class="string">'RNA_POLYMERASE_HOLOENZYME'</span>})];
+1305             
+1306             <span class="comment">%% fitted constants</span>
+1307             [rnaExp, ~, ~, ~, rnaDecayRates] = this.extractParameterVector(paramVec);
+1308             
+1309             <span class="comment">%% expected numbers of macromolecules</span>
+1310             totRnas = mass.initialFractionNTPsInRNAs * mass.dryWeightFractionRNA * mass.cellInitialDryWeight * rnaExp / <span class="keyword">...</span>
+1311                 (rnaExp' * r.molecularWeights(r.matureIndexs) / ConstantUtil.nAvogadro);
+1312             freeNTPs = (1 - mass.initialFractionNTPsInRNAs) * mass.dryWeightFractionRNA * mass.cellInitialDryWeight * <span class="keyword">...</span>
+1313                 r.baseCounts(r.matureIndexs, m.nmpIndexs)' * rnaExp / <span class="keyword">...</span>
+1314                 ((r.baseCounts(r.matureIndexs, m.nmpIndexs)' * rnaExp)' * m.molecularWeights(m.ntpIndexs) / ConstantUtil.nAvogadro);
+1315             
+1316             monExp = (r.matureRNAGeneComposition(g.mRNAIndexs, :) * rnaExp) ./ <span class="keyword">...</span>
+1317                 (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+1318             totMons = mass.initialFractionAAsInMonomers * mass.dryWeightFractionProtein * mass.cellInitialDryWeight * <span class="keyword">...</span>
+1319                 monExp / (monExp' * pm.molecularWeights(pm.matureIndexs) / ConstantUtil.nAvogadro);
+1320             freeAAs = (1 - mass.initialFractionAAsInMonomers) * mass.dryWeightFractionProtein * mass.cellInitialDryWeight * <span class="keyword">...</span>
+1321                 pm.baseCounts(pm.matureIndexs, m.aminoAcidIndexs)' * monExp / <span class="keyword">...</span>
+1322                 ((pm.baseCounts(pm.matureIndexs, m.aminoAcidIndexs)' * monExp)' * m.molecularWeights(m.aminoAcidIndexs) / ConstantUtil.nAvogadro);
+1323             
+1324             subunits = zeros(size(g.wholeCellModelIDs));
+1325             subunits(g.mRNAIndexs) = totMons;
+1326             subunits(g.rRNAIndexs) = totRnas(r.matureRRNAIndexs);
+1327             subunits(g.sRNAIndexs) = totRnas(r.matureSRNAIndexs);
+1328             subunits(g.tRNAIndexs) = totRnas(r.matureTRNAIndexs);
+1329             totCpxs = min(repmat(subunits, 1, numel(pc.matureIndexs)) ./ pcComp, [], 1)';
+1330             totCpxs(ignoreCpxIdxs) = 0;
+1331             
+1332             [subs2Nets, cpxs2Nets, nets] = edu.stanford.covert.util.findNonInteractingRowsAndColumns(<span class="keyword">...</span>
+1333                 sum(pc.proteinComplexComposition, 3));
+1334             <span class="keyword">for</span> i = 1:numel(nets)
+1335                 <span class="keyword">if</span> size(nets{i}, 2) &lt;= 1
+1336                     <span class="keyword">continue</span>;
+1337                 <span class="keyword">end</span>
+1338                 
+1339                 tmpSubIdxs = find(subs2Nets == i);
+1340                 tmpCpxIdxs = find(cpxs2Nets == i);
+1341                 tmpPcComp = pcComp(tmpSubIdxs, tmpCpxIdxs);
+1342                 tmpSubs = subunits(tmpSubIdxs);
+1343                 tmpCpxs = zeros(size(tmpCpxIdxs));
+1344                 <span class="keyword">while</span> true
+1345                     <span class="keyword">if</span> all(sum(tmpCpxIdxs, 1) == sum(tmpCpxIdxs(:, 1)))
+1346                         tmpRates = prod(repmat(tmpSubs / mean(tmpSubs), 1, numel(tmpCpxIdxs)) .^ tmpPcComp, 1)';
+1347                     <span class="keyword">else</span>
+1348                         tmpRates = prod(repmat(tmpSubs / sum(totMons), 1, numel(tmpCpxIdxs)) .^ tmpPcComp, 1)';
+1349                     <span class="keyword">end</span>
+1350                     tmpRates(ismember(tmpCpxIdxs, ignoreCpxIdxs)) = 0;
+1351                     <span class="keyword">if</span> ~any(tmpRates) || max(min(repmat(tmpSubs, 1, numel(tmpCpxIdxs)) ./ tmpPcComp, [], 1)) &lt; 1e-3
+1352                         <span class="keyword">break</span>;
+1353                     <span class="keyword">end</span>
+1354                     tmpCpxs = tmpCpxs + tmpRates * min(tmpSubs ./ (tmpPcComp * tmpRates));
+1355                     tmpSubs = subunits(tmpSubIdxs) - tmpPcComp * tmpCpxs;
+1356                 <span class="keyword">end</span>
+1357                 totCpxs(tmpCpxIdxs) = tmpCpxs;
+1358             <span class="keyword">end</span>
+1359             
+1360             totCpxs(pc.getIndexs({<span class="string">'MG_213_214_298_6MER_ADP'</span>; <span class="string">'MG_213_214_298_6MER'</span>})) = <span class="keyword">...</span>
+1361                 + totCpxs(pc.getIndexs({<span class="string">'MG_213_214_298_6MER_ADP'</span>; <span class="string">'MG_213_214_298_6MER'</span>})) <span class="keyword">...</span>
+1362                 + [1; -1] * totCpxs(pc.getIndexs(<span class="string">'MG_213_214_298_6MER'</span>));
+1363             
+1364             idxs = [sim.process(<span class="string">'FtsZPolymerization'</span>).enzymeComplexGlobalIndexs; pc.getIndexs(<span class="string">'MG_224_9MER_GDP'</span>)];
+1365             idx = sim.process(<span class="string">'FtsZPolymerization'</span>).enzymeGlobalIndexs(sim.process(<span class="string">'FtsZPolymerization'</span>).enzymeIndexs_FtsZ_GTP);
+1366             totCpxs(idx) = sum(totCpxs(idxs));
+1367             totCpxs(setdiff(idxs, idx)) = 0;
+1368             
+1369             idxs = sim.process(<span class="string">'ReplicationInitiation'</span>).enzymeComplexGlobalIndexs;
+1370             idx = sim.process(<span class="string">'ReplicationInitiation'</span>).enzymeGlobalIndexs(sim.process(<span class="string">'ReplicationInitiation'</span>).enzymeIndexs_DnaA_1mer_ATP);
+1371             totCpxs(idx) = sum(totCpxs(idxs));
+1372             totCpxs(setdiff(idxs, idx)) = 0;
+1373             
+1374             <span class="comment">%RNA, monomers free / in complexes</span>
+1375             rnaInCpxs = zeros(size(r.matureIndexs));
+1376             rnaInCpxs(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = <span class="keyword">...</span>
+1377                 pcComp(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :) * totCpxs;
+1378             assert(all(totRnas - rnaInCpxs &gt; -1e-8));
+1379             freeRnas = max(0, totRnas - rnaInCpxs);
+1380             
+1381             monInCpxs = pcComp(g.mRNAIndexs, :) * totCpxs;
+1382             assert(all(totMons - monInCpxs &gt; -1e-8));
+1383             freeMons = max(0, totMons - monInCpxs);
+1384             
+1385             freeCpxs = totCpxs;
+1386             
+1387             f = max(0, <span class="keyword">...</span>
+1388                 (totRnas' * r.molecularWeights(r.matureIndexs) + totMons' * pm.molecularWeights(pm.matureIndexs)) / <span class="keyword">...</span>
+1389                 (freeRnas' * r.molecularWeights(r.matureIndexs) + freeMons' * pm.molecularWeights(pm.matureIndexs) + freeCpxs' * pc.molecularWeights(pc.matureIndexs)));
+1390             freeRnas = f * freeRnas;
+1391             freeMons = f * freeMons;
+1392             freeCpxs = f * freeCpxs;
+1393             rnaInCpxs = f * rnaInCpxs;
+1394             monInCpxs = f * monInCpxs;
+1395             totRnas = f * totRnas;
+1396             totMons = f * totMons;
+1397             totCpxs = f * totCpxs;
+1398             
+1399             <span class="comment">%decays</span>
+1400             cpxDecays = freeCpxs .* pc.decayRates(pc.matureIndexs) * t.cellCycleLength / log(2);
+1401             rnaDecays = freeRnas .* rnaDecayRates * t.cellCycleLength / log(2);
+1402             rnaDecays(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = <span class="keyword">...</span>
+1403                 rnaDecays(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) + <span class="keyword">...</span>
+1404                 pcComp(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :) * cpxDecays;
+1405             monDecays = freeMons .* pm.decayRates(pm.matureIndexs) * t.cellCycleLength / log(2) + <span class="keyword">...</span>
+1406                 pcComp(g.mRNAIndexs, :) * cpxDecays;
+1407         <span class="keyword">end</span>
+1408         
+1409         <span class="comment">%Robustness</span>
+1410         <span class="comment">%  Set lower bound on average expression equal to calculate</span>
+1411         <span class="comment">%  lowwer bound plus nSigma standard deviations so that</span>
+1412         <span class="comment">%  probability expression falls below calculated lower bound</span>
+1413         <span class="comment">%  (lb) is small (~5%).</span>
+1414         <span class="comment">%</span>
+1415         <span class="comment">%  Since distribution is approximately poisson, assume variance</span>
+1416         <span class="comment">%  approximately equal to mean. Solve for mean such that</span>
+1417         <span class="comment">%  probability that quantity falls less than lb is small (~5%).</span>
+1418         <span class="comment">%  That is solve for avg:</span>
+1419         <span class="comment">%     lb = avg - nSigma * sqrt(avg)</span>
+1420         <span class="comment">%    avg = lb + nSigma^2/2 + sqrt(1/4*(2*lb+nSigma^2)^2 - lb^2)</span>
+1421         <a name="_sub12" href="#_subfunctions" class="code">function exp = calcResourceRequirementsRobustness(~, exp, robustness, minExp)</a>
+1422             exp = exp + robustness^2/2 + sqrt(1/4*(2*exp + robustness^2).^2 - exp.^2);
+1423             
+1424             <span class="keyword">if</span> nargin &gt;= 4
+1425                 exp = max(exp, minExp);
+1426             <span class="keyword">end</span>
+1427         <span class="keyword">end</span>
+1428         
+1429         <a name="_sub13" href="#_subfunctions" class="code">function [rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates, </a><span class="keyword">...</span>
+1430                 biomassComposition, biomassProduction, byproducts, <span class="keyword">...</span>
+1431                 unaccountedEnergyConsumption] = <span class="keyword">...</span>
+1432                 extractParameterVector(this, vec)
+1433             <span class="keyword">if</span> nargout &lt;= 5 &amp;&amp; isnumeric(vec)
+1434                 vec = {vec, [], [], [], []};
+1435             <span class="keyword">end</span>
+1436             rnaExp        = vec{1}(this.rnaExpIdxs, 1);
+1437             nmpComp       = vec{1}(this.nmpIdxs, 1);
+1438             aaComp        = vec{1}(this.aaIdxs, 1);
+1439             rnaWtFracs    = vec{1}(this.rnaWtFracIdxs, 1);
+1440             rnaDecayRates = vec{1}(this.rnaDecayRateIdxs, 1);
+1441             biomassComposition = vec{2};
+1442             biomassProduction = vec{3};
+1443             byproducts = vec{4};
+1444             unaccountedEnergyConsumption = vec{5};
+1445         <span class="keyword">end</span>
+1446         
+1447         <a name="_sub14" href="#_subfunctions" class="code">function vec = constructParameterVector(this, </a><span class="keyword">...</span>
+1448                 rnaExp, nmpComp, aaComp, rnaWtFracs, rnaDecayRates, <span class="keyword">...</span>
+1449                 biomassComposition, biomassProduction, byproducts, unaccountedEnergyConsumption)
+1450             vec = cell(5, 1);
+1451             vec{1} = zeros(this.nVars, 1);
+1452             vec{1}(this.rnaExpIdxs, 1)       = rnaExp;
+1453             vec{1}(this.nmpIdxs, 1)          = nmpComp;
+1454             vec{1}(this.aaIdxs, 1)           = aaComp;
+1455             vec{1}(this.rnaWtFracIdxs, 1)    = rnaWtFracs;
+1456             vec{1}(this.rnaDecayRateIdxs, 1) = rnaDecayRates;
+1457             vec{2} = biomassComposition;
+1458             vec{3} = biomassProduction;
+1459             vec{4} = byproducts;
+1460             vec{5} = unaccountedEnergyConsumption;
+1461         <span class="keyword">end</span>
+1462         
+1463         <a name="_sub15" href="#_subfunctions" class="code">function paramVec = constructParameterVectorFromSimulation(this)</a>
+1464             <span class="comment">%references</span>
+1465             sim = this.simulation;
+1466             m = sim.state(<span class="string">'Metabolite'</span>);
+1467             r = sim.state(<span class="string">'Rna'</span>);
+1468             met = sim.process(<span class="string">'Metabolism'</span>);
+1469             
+1470             <span class="comment">%data</span>
+1471             paramVec = this.constructParameterVector(<span class="keyword">...</span>
+1472                 r.expression(r.matureIndexs), <span class="keyword">...</span>
+1473                 sum(m.biomassComposition(m.nmpIndexs, :), 2) / sum(sum(m.biomassComposition(m.nmpIndexs, :), 2)), <span class="keyword">...</span>
+1474                 sum(m.biomassComposition(m.aminoAcidIndexs, :), 2) / sum(sum(m.biomassComposition(m.aminoAcidIndexs, :), 2)), <span class="keyword">...</span>
+1475                 this.formulateRnaWtFractionConstraints * r.expression(r.matureIndexs) / sum(this.formulateRnaWtFractionConstraints * r.expression(r.matureIndexs)), <span class="keyword">...</span>
+1476                 r.decayRates(r.matureIndexs), <span class="keyword">...</span>
+1477                 m.biomassComposition, <span class="keyword">...</span>
+1478                 m.biomassProduction, <span class="keyword">...</span>
+1479                 m.byproducts, <span class="keyword">...</span>
+1480                 met.unaccountedEnergyConsumption);
+1481         <span class="keyword">end</span>
+1482         
+1483         <a name="_sub16" href="#_subfunctions" class="code">function applyParameterVectorToSimulation(this, paramVec)</a>
+1484             <span class="comment">%import classes</span>
+1485             import edu.stanford.covert.util.ComputationUtil;
+1486             
+1487             <span class="comment">%references</span>
+1488             sim = this.simulation;
+1489             g = sim.gene;
+1490             time = sim.state(<span class="string">'Time'</span>);
+1491             c = sim.state(<span class="string">'Chromosome'</span>);
+1492             m = sim.state(<span class="string">'Metabolite'</span>);
+1493             r = sim.state(<span class="string">'Rna'</span>);
+1494             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+1495             t = sim.process(<span class="string">'Transcription'</span>);
+1496             met = sim.process(<span class="string">'Metabolism'</span>);
+1497             tr = sim.process(<span class="string">'TranscriptionalRegulation'</span>);
+1498             sc = sim.process(<span class="string">'DNASupercoiling'</span>);
+1499             
+1500             <span class="comment">%data</span>
+1501             invNascentRNAMatureRNAComp = ComputationUtil.invertCompositionMatrix(r.nascentRNAMatureRNAComposition);
+1502             
+1503             <span class="comment">%extract</span>
+1504             [rnaExp, ~, ~, ~, rnaDecayRates, <span class="keyword">...</span>
+1505                 biomassComposition, biomassProduction, byproducts, <span class="keyword">...</span>
+1506                 unaccountedEnergyConsumption] = <span class="keyword">...</span>
+1507                 this.extractParameterVector(paramVec);
+1508             
+1509             <span class="comment">% allocate object space</span>
+1510             r.decayRates = zeros(numel(r.wholeCellModelIDs), 1);
+1511             r.expression = zeros(numel(r.wholeCellModelIDs), 1);
+1512             
+1513             <span class="comment">%RNA decay rates</span>
+1514             r.decayRates(r.nascentIndexs)       = invNascentRNAMatureRNAComp * rnaDecayRates;
+1515             r.decayRates(r.processedIndexs)     = rnaDecayRates;
+1516             r.decayRates(r.intergenicIndexs)    = realmax;
+1517             r.decayRates(r.matureIndexs)        = rnaDecayRates;
+1518             r.decayRates(r.boundIndexs)         = 0;
+1519             r.decayRates(r.misfoldedIndexs)     = rnaDecayRates;
+1520             r.decayRates(r.damagedIndexs)       = realmax;
+1521             r.decayRates(r.aminoacylatedIndexs) = rnaDecayRates;
+1522             
+1523             <span class="comment">%RNA expression</span>
+1524             r.expression(r.nascentIndexs)       = 0;
+1525             r.expression(r.processedIndexs)     = 0;
+1526             r.expression(r.intergenicIndexs)    = 0;
+1527             r.expression(r.matureIndexs)        = rnaExp;
+1528             r.expression(r.boundIndexs)         = 0;
+1529             r.expression(r.misfoldedIndexs)     = 0;
+1530             r.expression(r.damagedIndexs)       = 0;
+1531             r.expression(r.aminoacylatedIndexs) = 0;
+1532             
+1533             <span class="comment">%compute RNA polymerase binding probability from gene-wise expression and</span>
+1534             <span class="comment">%decay rates, and average across genes in each transcription unit</span>
+1535             t.transcriptionUnitBindingProbabilities = <span class="keyword">...</span>
+1536                 invNascentRNAMatureRNAComp * (rnaExp .* (log(2) / time.cellCycleLength + rnaDecayRates));
+1537             
+1538             <span class="comment">%Deconvolve from RNA polymerase binding probability effects of</span>
+1539             <span class="comment">%- active transcriptional regulators</span>
+1540             <span class="comment">%- supercoiling</span>
+1541             <span class="comment">%- transcription unit copy number variation over cell cycle</span>
+1542             <span class="keyword">if</span> ~isempty(c.polymerizedRegions) &amp;&amp; ~isempty(tr)
+1543                 tfFoldChange = tr.calcBindingProbabilityFoldChange(tr.bindTranscriptionFactors());
+1544             <span class="keyword">else</span>
+1545                 tfFoldChange = ones(size(c.transcriptionUnitStartCoordinates, 1), 2);
+1546             <span class="keyword">end</span>
+1547             <span class="keyword">if</span> ~isempty(sc)
+1548                 scProbFoldChange = sc.calcRNAPolymeraseBindingProbFoldChange([1 1], <span class="keyword">...</span>
+1549                     c.sequenceLen, <span class="keyword">...</span>
+1550                     c.sequenceLen / c.relaxedBasesPerTurn * (1 + c.equilibriumSuperhelicalDensity));
+1551             <span class="keyword">else</span>
+1552                 scProbFoldChange = ones(size(c.transcriptionUnitStartCoordinates, 1), 2);
+1553             <span class="keyword">end</span>
+1554             
+1555             t.transcriptionUnitBindingProbabilities = <span class="keyword">...</span>
+1556                 t.transcriptionUnitBindingProbabilities <span class="keyword">...</span>
+1557                 ./ tfFoldChange(:, 1) <span class="keyword">...</span>
+1558                 ./ scProbFoldChange(:, 1) <span class="keyword">...</span>
+1559                 ./ this.calcEffectiveMeanTranscriptionUnitCopyNumbers();
+1560             
+1561             <span class="comment">%normalize RNA polymerase binding probability</span>
+1562             t.transcriptionUnitBindingProbabilities = <span class="keyword">...</span>
+1563                 t.transcriptionUnitBindingProbabilities / <span class="keyword">...</span>
+1564                 sum(t.transcriptionUnitBindingProbabilities);
+1565             
+1566             <span class="comment">%update Metabolism process metabolismProduction and</span>
+1567             <span class="comment">%fbaReactionStoichiometryMatrix properties</span>
+1568             m.biomassComposition = biomassComposition;
+1569             m.biomassProduction  = biomassProduction;
+1570             m.byproducts         = byproducts;
+1571             met.formulateFBA(biomassProduction - byproducts, unaccountedEnergyConsumption);
+1572             
+1573             <span class="comment">%calculate RNA polymerase state transition probabilities</span>
+1574             [freeRnas, ~, freeCpxs, rnaInCpxs, ~, ~, ~, totCpxs] = this.calcMacromolecularCounts(paramVec);
+1575             rnaProds = (freeRnas + rnaInCpxs) * log(2) / time.cellCycleLength + (freeRnas .* rnaDecayRates);
+1576             rnaProds(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) = <span class="keyword">...</span>
+1577                 rnaProds(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)) + <span class="keyword">...</span>
+1578                 sum(pc.proteinComplexComposition(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :, :), 3) * (freeCpxs .* pc.decayRates(pc.matureIndexs));
+1579             ntpProd = (ComputationUtil.invertCompositionMatrix(r.nascentRNAMatureRNAComposition) * rnaProds)' * r.lengths(r.nascentIndexs);
+1580             
+1581             nPols = totCpxs(t.enzymeGlobalIndexs(t.enzymeIndexs_rnaPolymerase));
+1582             t.stateTransitionProbabilities = t.calcStateTransitionProbabilities(<span class="keyword">...</span>
+1583                 nPols, ntpProd, t.transcriptionUnitBindingProbabilities);
+1584         <span class="keyword">end</span>
+1585         
+1586         <a name="_sub17" href="#_subfunctions" class="code">function baseCounts = getRnaNMPCounts(this)</a>
+1587             sim = this.simulation;
+1588             m = sim.state(<span class="string">'Metabolite'</span>);
+1589             r = sim.state(<span class="string">'Rna'</span>);
+1590             baseCounts = r.baseCounts(r.processedIndexs, m.nmpIndexs);
+1591         <span class="keyword">end</span>
+1592         
+1593         <a name="_sub18" href="#_subfunctions" class="code">function aaCounts = getMonomerAACounts(this)</a>
+1594             sim = this.simulation;
+1595             m = sim.state(<span class="string">'Metabolite'</span>);
+1596             p = sim.state(<span class="string">'ProteinMonomer'</span>);
+1597             pmod = sim.process(<span class="string">'ProteinModification'</span>);
+1598             
+1599             aaCounts = p.baseCounts(p.processedIIIndexs, m.aminoAcidIndexs);
+1600             aaCounts(:, m.getIndexs(<span class="string">'CYS'</span>) == m.aminoAcidIndexs) = <span class="keyword">...</span>
+1601                 aaCounts(:, m.getIndexs(<span class="string">'CYS'</span>) == m.aminoAcidIndexs) + <span class="keyword">...</span>
+1602                 p.baseCounts(p.processedIIIndexs, m.getIndexs(<span class="string">'diacylglycerolCys'</span>));
+1603             [tfs, idxs] = ismember(pmod.substrateWholeCellModelIDs, m.wholeCellModelIDs(m.aminoAcidIndexs));
+1604             aaCounts(:, idxs(tfs)) = <span class="keyword">...</span>
+1605                 aaCounts(:, idxs(tfs)) + <span class="keyword">...</span>
+1606                 pmod.reactionModificationMatrix' * max(0, -pmod.reactionStoichiometryMatrix(tfs, :))';
+1607         <span class="keyword">end</span>
+1608         
+1609         <a name="_sub19" href="#_subfunctions" class="code">function value = calcEffectiveMeanTranscriptionUnitCopyNumbers(this)</a>
+1610             sim = this.simulation;
+1611             c = sim.state(<span class="string">'Chromosome'</span>);
+1612             time = sim.state(<span class="string">'Time'</span>);
+1613             
+1614             value = (<span class="keyword">...</span>
+1615                 + 1 * time.replicationInitiationDuration <span class="keyword">...</span>
+1616                 + (1 + abs(c.transcriptionUnitStartCoordinates + c.transcriptionUnitLengths - 1 - c.sequenceLen/2) / (c.sequenceLen/2)) * time.replicationDuration <span class="keyword">...</span>
+1617                 + 2 * time.cytokinesisDuration <span class="keyword">...</span>
+1618                 ) / time.cellCycleLength;
+1619             
+1620             iTU = sim.process(<span class="string">'Transcription'</span>).transcriptionUnitIndexs_DnaAR12345Boxes;
+1621             value(iTU) = value(iTU) - time.replicationInitiationDuration / time.cellCycleLength; <span class="comment">%REFINE this estimate based on simulations of replication initiation</span>
+1622         <span class="keyword">end</span>
+1623         
+1624         <a name="_sub20" href="#_subfunctions" class="code">function tuConstraints = formulateTranscriptionUnitConstraints(this)</a>
+1625             rnaGeneComp = this.simulation.state(<span class="string">'Rna'</span>).nascentRNAGeneComposition;
+1626             tuConstraints  = zeros(this.nGenes - this.nRNAs, this.nGenes);
+1627             k = 0;
+1628             <span class="keyword">for</span> j = 1:this.nRNAs
+1629                 iGene = find(rnaGeneComp(:, j));
+1630                 <span class="keyword">if</span> numel(iGene) &lt;= 1
+1631                     <span class="keyword">continue</span>;
+1632                 <span class="keyword">end</span>
+1633                 
+1634                 tuConstraints(k+1:k+length(iGene)-1, iGene(1)) = 1;
+1635                 tuConstraints((k+1:k+length(iGene)-1) + (iGene(2:end)-1) * nTUConstraints) = -1;
+1636                 k = k + length(iGene) - 1;
+1637             <span class="keyword">end</span>
+1638         <span class="keyword">end</span>
+1639         
+1640         <a name="_sub21" href="#_subfunctions" class="code">function rnaWts = formulateRnaWtFractionConstraints(this)</a>
+1641             sim = this.simulation;
+1642             r = sim.state(<span class="string">'Rna'</span>);
+1643             
+1644             rnaMWs = r.molecularWeights(r.matureIndexs);
+1645             
+1646             numRNAs   = length(r.matureIndexs);
+1647             numMRNAs  = length(r.matureMRNAIndexs);
+1648             numRRNAs  = length(r.matureRRNAIndexs);
+1649             numSRNAs  = length(r.matureSRNAIndexs);
+1650             numTRNAs  = length(r.matureTRNAIndexs);
+1651             
+1652             indicatorMRNA = zeros(numMRNAs, numRNAs);
+1653             indicatorSRNA = zeros(numSRNAs, numRNAs);
+1654             indicatorTRNA = zeros(numTRNAs, numRNAs);
+1655             indicatorRibosomalRRNA = zeros(numRRNAs, numRNAs);
+1656             indicatorMRNA((1:numMRNAs)' + (r.matureMRNAIndexs - 1) * numMRNAs) = 1;
+1657             indicatorSRNA((1:numSRNAs)' + (r.matureSRNAIndexs - 1) * numSRNAs) = 1;
+1658             indicatorTRNA((1:numTRNAs)' + (r.matureTRNAIndexs - 1) * numTRNAs) = 1;
+1659             indicatorRibosomalRRNA((1:numRRNAs)' + (r.matureRibosomalRRNAIndexs - 1) * numRRNAs) = 1;
+1660             
+1661             <span class="comment">%extract</span>
+1662             rnaWts = [
+1663                 rnaMWs(r.matureMRNAIndexs)'                * indicatorMRNA;
+1664                 diag(rnaMWs(r.matureRibosomalRRNAIndexs))  * indicatorRibosomalRRNA;
+1665                 rnaMWs(r.matureSRNAIndexs)'                * indicatorSRNA
+1666                 rnaMWs(r.matureTRNAIndexs)'                * indicatorTRNA];
+1667         <span class="keyword">end</span>
+1668     <span class="keyword">end</span>
+1669 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

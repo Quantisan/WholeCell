@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinMonomer</title>
+  <meta name="keywords" content="ProteinMonomer">
+  <meta name="description" content="ProteinMonomer">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; ProteinMonomer.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinMonomer
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ProteinMonomer</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ProteinMonomer
+- nascent
+- processed
+- folded
+- mature
+- bound
+
+Translation    NTPs-&gt;nascent
+Processing     nascent-&gt;processedI-&gt;processedII-&gt;folded-&gt;mature
+Modification   mature-&gt;mature
+Misfolding     mature-&gt;misfolded
+               inactivated-&gt;misfolded
+Refolding      misfolded-&gt;mature
+Activation     inactivated-&gt;mature
+Inactivation   mature-&gt;inactivated
+Damage         Damaged complex-&gt;damaged monomer
+Enzymatic Use  mature-&gt;bound
+               bound-&gt;mature (upon completion)
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a>	ProteinMonomer</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a>	ProteinMonomer</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinMonomer(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function notUpdatingProteins = updateExternalState(this, deltaProteins, proteinIsDegraded)</a></li><li><a href="#_sub5" class="code">function value = getIndexs(this, wholeCellModelIDs)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ProteinMonomer</span>
+0002 <span class="comment">%- nascent</span>
+0003 <span class="comment">%- processed</span>
+0004 <span class="comment">%- folded</span>
+0005 <span class="comment">%- mature</span>
+0006 <span class="comment">%- bound</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%Translation    NTPs-&gt;nascent</span>
+0009 <span class="comment">%Processing     nascent-&gt;processedI-&gt;processedII-&gt;folded-&gt;mature</span>
+0010 <span class="comment">%Modification   mature-&gt;mature</span>
+0011 <span class="comment">%Misfolding     mature-&gt;misfolded</span>
+0012 <span class="comment">%               inactivated-&gt;misfolded</span>
+0013 <span class="comment">%Refolding      misfolded-&gt;mature</span>
+0014 <span class="comment">%Activation     inactivated-&gt;mature</span>
+0015 <span class="comment">%Inactivation   mature-&gt;inactivated</span>
+0016 <span class="comment">%Damage         Damaged complex-&gt;damaged monomer</span>
+0017 <span class="comment">%Enzymatic Use  mature-&gt;bound</span>
+0018 <span class="comment">%               bound-&gt;mature (upon completion)</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0021 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0022 <span class="comment">% Last Updated: 1/5/2011</span>
+0023 classdef <a href="ProteinMonomer.html" class="code" title="">ProteinMonomer</a> &lt; edu.stanford.covert.cell.sim.MoleculeCountState
+0024     <span class="comment">%Constants</span>
+0025     properties (Constant)
+0026         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0027             <span class="string">'verbosity'</span>;
+0028             <span class="string">'seed'</span>;
+0029             };
+0030         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0031             <span class="string">'molecularWeights'</span>;
+0032             <span class="string">'baseCounts'</span>;
+0033             <span class="string">'lengths'</span>;
+0034             <span class="string">'halfLives'</span>;
+0035             <span class="string">'compartments'</span>
+0036             <span class="string">'minimumAverageExpression'</span>
+0037             <span class="string">'macromoleculeStateInitializationVariation'</span>
+0038             };
+0039         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0040         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0041             <span class="string">'counts'</span>
+0042             };
+0043         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0044     <span class="keyword">end</span>
+0045         
+0046     <span class="comment">%indices</span>
+0047     properties
+0048         nascentIndexs           <span class="comment">%index within monomers</span>
+0049         processedIIndexs        <span class="comment">%index within monomers</span>
+0050         processedIIIndexs       <span class="comment">%index within monomers</span>
+0051         signalSequenceIndexs    <span class="comment">%index within monomers</span>
+0052         foldedIndexs            <span class="comment">%index within monomers</span>
+0053         matureIndexs            <span class="comment">%index within monomers</span>
+0054         inactivatedIndexs       <span class="comment">%index within monomers</span>
+0055         boundIndexs             <span class="comment">%index within monomers</span>
+0056         misfoldedIndexs         <span class="comment">%index within monomers</span>
+0057         damagedIndexs           <span class="comment">%index within monomers</span>
+0058         
+0059         translationFactorIndexs <span class="comment">%index within matureIndexs</span>
+0060     <span class="keyword">end</span>
+0061     
+0062     <span class="comment">%constants</span>
+0063     properties
+0064         macromoleculeStateInitializationVariation          <span class="comment">%Toggles amount of variation in initial state; see intializeState</span>
+0065         minimumAverageExpression                           <span class="comment">%minimum average monomer expression</span>
+0066     <span class="keyword">end</span>
+0067     
+0068     <span class="comment">%references to objects</span>
+0069     properties
+0070         chromosome
+0071         ribosome
+0072     <span class="keyword">end</span>
+0073     
+0074     <span class="comment">%constructor</span>
+0075     methods
+0076         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinMonomer(wholeCellModelID, name)</a>
+0077             this = this@edu.stanford.covert.cell.sim.MoleculeCountState(wholeCellModelID, name);
+0078         <span class="keyword">end</span>
+0079     <span class="keyword">end</span>
+0080     
+0081     methods
+0082         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0083             this.storeObjectReferences@edu.stanford.covert.cell.sim.MoleculeCountState(simulation);
+0084             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0085             this.ribosome = simulation.state(<span class="string">'Ribosome'</span>);
+0086         <span class="keyword">end</span>
+0087     <span class="keyword">end</span>
+0088     
+0089     methods
+0090         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0091             this.initializeConstants@edu.stanford.covert.cell.sim.MoleculeCountState(knowledgeBase, simulation);
+0092             
+0093             numMonomers = knowledgeBase.numProteinMonomers;
+0094             
+0095             this.nascentIndexs        = (1:numMonomers)';
+0096             this.processedIIndexs     = (1:numMonomers)' + this.nascentIndexs(end);
+0097             this.processedIIIndexs    = (1:numMonomers)' + this.processedIIndexs(end);
+0098             this.signalSequenceIndexs = (1:numMonomers)' + this.processedIIIndexs(end);
+0099             this.foldedIndexs         = (1:numMonomers)' + this.signalSequenceIndexs(end);
+0100             this.matureIndexs         = (1:numMonomers)' + this.foldedIndexs(end);
+0101             this.inactivatedIndexs    = (1:numMonomers)' + this.matureIndexs(end);
+0102             this.boundIndexs          = (1:numMonomers)' + this.inactivatedIndexs(end);
+0103             this.misfoldedIndexs      = (1:numMonomers)' + this.boundIndexs(end);
+0104             this.damagedIndexs        = (1:numMonomers)' + this.misfoldedIndexs(end);
+0105             
+0106             this.wholeCellModelIDs = repmat({knowledgeBase.proteinMonomers.wholeCellModelID}', 10, 1);
+0107             this.names = repmat({knowledgeBase.proteinMonomers.name}', 10, 1);
+0108             this.molecularWeights = [<span class="keyword">...</span>
+0109                 knowledgeBase.proteinMonomers.molecularWeight <span class="keyword">...</span>
+0110                 knowledgeBase.proteinMonomers.processedISequenceMolecularWeight  <span class="keyword">...</span>
+0111                 knowledgeBase.proteinMonomers.processedIISequenceMolecularWeight  <span class="keyword">...</span>
+0112                 knowledgeBase.proteinMonomers.signalSequenceMolecularWeight <span class="keyword">...</span>
+0113                 knowledgeBase.proteinMonomers.foldedSequenceMolecularWeight <span class="keyword">...</span>
+0114                 repmat([knowledgeBase.proteinMonomers.matureSequenceMolecularWeight], 1, 5)]';
+0115             this.baseCounts = [
+0116                 reshape([knowledgeBase.proteinMonomers.baseCount],                      [], numMonomers)';
+0117                 reshape([knowledgeBase.proteinMonomers.processedISequenceBaseCount],    [], numMonomers)';
+0118                 reshape([knowledgeBase.proteinMonomers.processedIISequenceBaseCount],   [], numMonomers)';
+0119                 reshape([knowledgeBase.proteinMonomers.signalSequenceBaseCount],        [], numMonomers)';
+0120                 reshape([knowledgeBase.proteinMonomers.foldedSequenceBaseCount],        [], numMonomers)';
+0121                 repmat(reshape([knowledgeBase.proteinMonomers.matureSequenceBaseCount], [], numMonomers)', 5, 1)];
+0122             this.lengths = [<span class="keyword">...</span>
+0123                 knowledgeBase.proteinMonomers.sequenceLength  <span class="keyword">...</span>
+0124                 knowledgeBase.proteinMonomers.processedISequenceLength  <span class="keyword">...</span>
+0125                 knowledgeBase.proteinMonomers.processedIISequenceLength  <span class="keyword">...</span>
+0126                 knowledgeBase.proteinMonomers.signalSequenceLength  <span class="keyword">...</span>
+0127                 knowledgeBase.proteinMonomers.foldedSequenceLength  <span class="keyword">...</span>
+0128                 repmat([knowledgeBase.proteinMonomers.matureSequenceLength], 1, 5)]';
+0129             this.compartments = double(repmat(knowledgeBase.proteinMonomerCompartments, 10, 1));
+0130             this.compartments(this.signalSequenceIndexs) = this.compartment.cytosolIndexs;
+0131             this.halfLives = [<span class="keyword">...</span>
+0132                 knowledgeBase.proteinMonomers.halfLife <span class="keyword">...</span>
+0133                 knowledgeBase.proteinMonomers.processedISequenceHalfLife <span class="keyword">...</span>
+0134                 knowledgeBase.proteinMonomers.processedIISequenceHalfLife <span class="keyword">...</span>
+0135                 knowledgeBase.proteinMonomers.signalSequenceHalfLife <span class="keyword">...</span>
+0136                 knowledgeBase.proteinMonomers.foldedSequenceHalfLife <span class="keyword">...</span>
+0137                 repmat([knowledgeBase.proteinMonomers.matureSequenceHalfLife], 1, 3) <span class="keyword">...</span>
+0138                 zeros(1, numMonomers)  <span class="keyword">...</span>
+0139                 zeros(1, numMonomers)]';
+0140             
+0141             this.halfLives(~ismember(this.compartments, [this.compartment.cytosolIndexs; this.compartment.terminalOrganelleCytosolIndexs])) = Inf;
+0142             this.halfLives(this.signalSequenceIndexs) = 0;
+0143             
+0144             this.translationFactorIndexs = this.getIndexs(<span class="string">'MG_026_MONOMER'</span>);
+0145         <span class="keyword">end</span>
+0146     <span class="keyword">end</span>
+0147     
+0148     methods
+0149         <a name="_sub3" href="#_subfunctions" class="code">function notUpdatingProteins = updateExternalState(this, deltaProteins, proteinIsDegraded)</a>
+0150             c = this.chromosome;
+0151             
+0152             notUpdatingProteins = zeros(size(deltaProteins));
+0153             deltaBoundProteins = -deltaProteins(this.boundIndexs, this.compartment.cytosolIndexs);
+0154             
+0155             <span class="comment">%translation factors</span>
+0156             deltaBoundProteins(this.translationFactorIndexs) = 0;
+0157             
+0158             <span class="comment">%update chromosome state</span>
+0159             idxs = find(deltaBoundProteins);
+0160             [posStrnds, proteins] = find(c.monomerBoundSites);
+0161             
+0162             chrReleasePosStrnds = zeros(0, 2);
+0163             <span class="keyword">for</span> i = 1:numel(idxs)
+0164                 <span class="keyword">if</span> sum(proteins == idxs(i)) &lt; deltaBoundProteins(idxs(i))
+0165                     throw(MException(<span class="string">'ProteinMonomer:error'</span>, <span class="string">'Error updating external state'</span>))
+0166                 <span class="keyword">end</span>
+0167                 chrReleasePosStrnds = [
+0168                     chrReleasePosStrnds;
+0169                     this.randStream.randomlySelectNRows(posStrnds(proteins == idxs(i), :), deltaBoundProteins(idxs(i)))
+0170                     ]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0171             <span class="keyword">end</span>
+0172             
+0173             releasedMonomers = c.setRegionProteinUnbound(<span class="keyword">...</span>
+0174                 chrReleasePosStrnds, 1, idxs, [], <span class="keyword">...</span>
+0175                 false, false, false, proteinIsDegraded);
+0176             <span class="keyword">if</span> ~isequal(deltaBoundProteins(idxs), releasedMonomers)
+0177                 throw(MException(<span class="string">'ProteinMonomer:error'</span>, <span class="string">'Chromosomally bound proteins impropely released'</span>));
+0178             <span class="keyword">end</span>
+0179         <span class="keyword">end</span>
+0180     <span class="keyword">end</span>
+0181     
+0182     <span class="comment">%helper methods</span>
+0183     methods
+0184         <a name="_sub4" href="#_subfunctions" class="code">function value = getIndexs(this, wholeCellModelIDs)</a>
+0185             [~, value] = ismember(wholeCellModelIDs, this.wholeCellModelIDs(this.matureIndexs));
+0186         <span class="keyword">end</span>
+0187     <span class="keyword">end</span>
+0188 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

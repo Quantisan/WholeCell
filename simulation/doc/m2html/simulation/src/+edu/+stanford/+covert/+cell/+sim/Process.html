@@ -1,0 +1,1683 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Process</title>
+  <meta name="keywords" content="Process">
+  <meta name="description" content="Defines a simulation process interface:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+sim</a> &gt; Process.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Process
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a simulation process interface:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a simulation process interface:
+ - ID, name, index
+ - Flags for initialized
+ - Options
+ - Parameters
+ - Locally stored state -- stimuli, substrate, enzymes, bound enzymes
+   involved in process
+   - IDs
+   - names
+   - indices
+   - mass
+   - current value (during simulation)
+ - Effects of process on simulation biomass, metabolism production
+ - Minimum enzyme expression consistent with growth rate
+ - Contribution of process to initial state, time evolution of cell
+ - Resource requirements of process
+ - Independent random stream -- all generation of random numbers must
+   either be through method of randStream property, or the randomStream
+   property must be set to the default random stream prior to execution
+   and the default random stream reset after execution using
+   randStream.setDefault() and randStream.resetDefault()
+
+ Provides support for:
+ - Mapping network components -- stimuli, substrates, enzymes, to/from
+   simulation. Mapping is computed by initializeConstants and is used by
+   copyStateFromStimulation and copyToState
+ - Initializing process constants from knowledge base
+ - Retrieving/sending constrants to/from simulation
+ - Retrieving/sending state to/from simulation
+ - Computing gene composition of process enzymes
+
+ Intialization code is executed as follows in the simulation
+ initializeState method:
+   1. process.copyFromState()
+   2. process.initializeState()
+   3. process.copyToState()
+
+ Time evolution code is executed as follows in the simulation evolveState
+ method:
+   1. process.copyFromState()
+   2. process.evolveState()
+   3. process.copyToState()
+
+ Differences between handling of stimuli, substrates, enzymes, and
+ boundEnzymes:
+ - All are copied from the simulation by copyFromState prior to
+   initialize and evolve state
+ - Substrates are copied back to simulation by copyToState after
+   initialize and evolve state
+ - Stimuli are not copied back to simulation. That is the process cannot
+   edit the stimuli of the simulation
+
+ Dimensions of locally store state
+  - stimuli      length(stimuliWholeCellModelIDs)   x compartments x time
+  - substrates   length(substrateWholeCellModelIDs) x compartments x time
+  - enzymes      length(enzymeWholeCellModelIDs)    x compartments x time
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/14/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Process.html" class="code" title="">Process</a>	Defines a simulation process interface:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Process.html" class="code" title="">Process</a>	Defines a simulation process interface:</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Process(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function seedRandStream(this)</a></li><li><a href="#_sub3" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub4" class="code">function initializeConstants(this, knowledgeBase, simulation, options)</a></li><li><a href="#_sub5" class="code">function copyFromState(this)</a></li><li><a href="#_sub6" class="code">function stimuli = copyStimuliFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)</a></li><li><a href="#_sub7" class="code">function substrates = copySubstratesFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)</a></li><li><a href="#_sub8" class="code">function [enzymes, boundEnzymes] = copyEnzymesFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)</a></li><li><a href="#_sub9" class="code">function copyToState(this)</a></li><li><a href="#_sub10" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub11" class="code">function value = get.optionNames(this)</a></li><li><a href="#_sub12" class="code">function value = get.fixedConstantNames(this)</a></li><li><a href="#_sub13" class="code">function value = computeFixedConstantsNames(this)</a></li><li><a href="#_sub14" class="code">function value = get.fittedConstantNames(this)</a></li><li><a href="#_sub15" class="code">function value = computeFittedConstantsNames(this)</a></li><li><a href="#_sub16" class="code">function value = get.localStateNames(this)</a></li><li><a href="#_sub17" class="code">function value = computeLocalStateNames(this)</a></li><li><a href="#_sub18" class="code">function value = getOptions(this)</a></li><li><a href="#_sub19" class="code">function setOptions(this, value)</a></li><li><a href="#_sub20" class="code">function value = getParameters(this)</a></li><li><a href="#_sub21" class="code">function setParameters(this, value)</a></li><li><a href="#_sub22" class="code">function value = getFixedConstants(this)</a></li><li><a href="#_sub23" class="code">function setFixedConstants(this, value)</a></li><li><a href="#_sub24" class="code">function value = getFittedConstants(this)</a></li><li><a href="#_sub25" class="code">function setFittedConstants(this, value)</a></li><li><a href="#_sub26" class="code">function value = getAsStruct(this, fields)</a></li><li><a href="#_sub27" class="code">function setFromStruct(this, value, fields)</a></li><li><a href="#_sub28" class="code">function value = get.stimuliCompartments(this)</a></li><li><a href="#_sub29" class="code">function value = get.substrateCompartments(this)</a></li><li><a href="#_sub30" class="code">function value = get.enzymeCompartments(this)</a></li><li><a href="#_sub31" class="code">function value = getComponentCompartments(this, type, types)</a></li><li><a href="#_sub32" class="code">function value = get.dryWeight(this)</a></li><li><a href="#_sub33" class="code">function value = getDryWeight(this)</a></li><li><a href="#_sub34" class="code">function [</a></li><li><a href="#_sub35" class="code">function initializeConstants_overrideSubstrates(this, wholeCellModelIDs)</a></li><li><a href="#_sub36" class="code">function initializeConstants_overrideEnzymes(this, wholeCellModelIDs)</a></li><li><a href="#_sub37" class="code">function value = stimulusIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub38" class="code">function value = substrateIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub39" class="code">function value = enzymeIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub40" class="code">function value = componentIndexs(this, wholeCellModelIDs, type)</a></li><li><a href="#_sub41" class="code">function lclState = copyFromStateHelper(~, gblState, gblIdxs, cmpIdxs)</a></li><li><a href="#_sub42" class="code">function copyToStateHelper(this, state, statePropertyName, lclPropertyName, stateIdxs, cmpIdxs, lclIdxs)</a></li><li><a href="#_sub43" class="code">function scaledValues = scaleState(this, type, types, scale)</a></li><li><a href="#_sub44" class="code">function value = stimuliGeneComposition(this)</a></li><li><a href="#_sub45" class="code">function value = substrateGeneComposition(this)</a></li><li><a href="#_sub46" class="code">function value = enzymeGeneComposition(this)</a></li><li><a href="#_sub47" class="code">function value = componentGeneComposition(this, type, types)</a></li><li><a href="#_sub48" class="code">function i = substrateToMetabolite(this, i)</a></li><li><a href="#_sub49" class="code">function i = metaboliteToSubstrate(this, i)</a></li><li><a href="#_sub50" class="code">function i = enzymeToMonomer(this, i)</a></li><li><a href="#_sub51" class="code">function i = monomerToEnzyme(this, i)</a></li><li><a href="#_sub52" class="code">function i = enzymeToComplex(this, i)</a></li><li><a href="#_sub53" class="code">function i = complexToEnzyme(this, i)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a simulation process interface:</span>
+0002 <span class="comment">% - ID, name, index</span>
+0003 <span class="comment">% - Flags for initialized</span>
+0004 <span class="comment">% - Options</span>
+0005 <span class="comment">% - Parameters</span>
+0006 <span class="comment">% - Locally stored state -- stimuli, substrate, enzymes, bound enzymes</span>
+0007 <span class="comment">%   involved in process</span>
+0008 <span class="comment">%   - IDs</span>
+0009 <span class="comment">%   - names</span>
+0010 <span class="comment">%   - indices</span>
+0011 <span class="comment">%   - mass</span>
+0012 <span class="comment">%   - current value (during simulation)</span>
+0013 <span class="comment">% - Effects of process on simulation biomass, metabolism production</span>
+0014 <span class="comment">% - Minimum enzyme expression consistent with growth rate</span>
+0015 <span class="comment">% - Contribution of process to initial state, time evolution of cell</span>
+0016 <span class="comment">% - Resource requirements of process</span>
+0017 <span class="comment">% - Independent random stream -- all generation of random numbers must</span>
+0018 <span class="comment">%   either be through method of randStream property, or the randomStream</span>
+0019 <span class="comment">%   property must be set to the default random stream prior to execution</span>
+0020 <span class="comment">%   and the default random stream reset after execution using</span>
+0021 <span class="comment">%   randStream.setDefault() and randStream.resetDefault()</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% Provides support for:</span>
+0024 <span class="comment">% - Mapping network components -- stimuli, substrates, enzymes, to/from</span>
+0025 <span class="comment">%   simulation. Mapping is computed by initializeConstants and is used by</span>
+0026 <span class="comment">%   copyStateFromStimulation and copyToState</span>
+0027 <span class="comment">% - Initializing process constants from knowledge base</span>
+0028 <span class="comment">% - Retrieving/sending constrants to/from simulation</span>
+0029 <span class="comment">% - Retrieving/sending state to/from simulation</span>
+0030 <span class="comment">% - Computing gene composition of process enzymes</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">% Intialization code is executed as follows in the simulation</span>
+0033 <span class="comment">% initializeState method:</span>
+0034 <span class="comment">%   1. process.copyFromState()</span>
+0035 <span class="comment">%   2. process.initializeState()</span>
+0036 <span class="comment">%   3. process.copyToState()</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">% Time evolution code is executed as follows in the simulation evolveState</span>
+0039 <span class="comment">% method:</span>
+0040 <span class="comment">%   1. process.copyFromState()</span>
+0041 <span class="comment">%   2. process.evolveState()</span>
+0042 <span class="comment">%   3. process.copyToState()</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">% Differences between handling of stimuli, substrates, enzymes, and</span>
+0045 <span class="comment">% boundEnzymes:</span>
+0046 <span class="comment">% - All are copied from the simulation by copyFromState prior to</span>
+0047 <span class="comment">%   initialize and evolve state</span>
+0048 <span class="comment">% - Substrates are copied back to simulation by copyToState after</span>
+0049 <span class="comment">%   initialize and evolve state</span>
+0050 <span class="comment">% - Stimuli are not copied back to simulation. That is the process cannot</span>
+0051 <span class="comment">%   edit the stimuli of the simulation</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">% Dimensions of locally store state</span>
+0054 <span class="comment">%  - stimuli      length(stimuliWholeCellModelIDs)   x compartments x time</span>
+0055 <span class="comment">%  - substrates   length(substrateWholeCellModelIDs) x compartments x time</span>
+0056 <span class="comment">%  - enzymes      length(enzymeWholeCellModelIDs)    x compartments x time</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0059 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0060 <span class="comment">% Last updated: 7/14/2010</span>
+0061 classdef <a href="Process.html" class="code" title="">Process</a> &lt; handle
+0062     <span class="comment">%metadata</span>
+0063     properties
+0064         wholeCellModelID        <span class="comment">%Whole Cell Model ID of process</span>
+0065         name                    <span class="comment">%name of process</span>
+0066         initialized = false;    <span class="comment">%whether constants of process have been initialized</span>
+0067     <span class="keyword">end</span>
+0068 
+0069     properties (SetAccess = protected)
+0070         randStream              <span class="comment">%random number stream</span>
+0071     <span class="keyword">end</span>
+0072 
+0073     <span class="comment">%Property annotations -- subclasses should set these properties to</span>
+0074     <span class="comment">%cell arrays containing names of process properties</span>
+0075     properties (Abstract, Constant)
+0076         optionNames__           <span class="comment">%names of process properties that are considered options, and can be overridden through the simulation's option property setter</span>
+0077         fixedConstantNames__    <span class="comment">%names of process properties that are considered fixed constants</span>
+0078         fittedConstantNames__   <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0079         localStateNames__       <span class="comment">%names of process properties that are part of the simulation's state and owned either by the simulation, other processes, or other properties of this process; these properties will be stored to disk/database when the simulation is stored</span>
+0080     <span class="keyword">end</span>
+0081 
+0082     <span class="comment">%Public interface to the property annotations. Base process classes add</span>
+0083     <span class="comment">%properties that they define to the above private property annotations</span>
+0084     properties (Dependent, SetAccess = protected)
+0085         optionNames             <span class="comment">%names of process properties that are considered options, and can be overridden through the simulation's option property setter</span>
+0086         fixedConstantNames      <span class="comment">%names of process properties that are considered fixed constants</span>
+0087         fittedConstantNames     <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0088         localStateNames         <span class="comment">%names of process properties that are part of the simulation's state and owned either by the simulation, other processes, or other properties of this process; these properties will be stored to disk/database when the simulation is stored</span>
+0089     <span class="keyword">end</span>   
+0090 
+0091     <span class="comment">%options</span>
+0092     properties
+0093         stepSizeSec = 1;        <span class="comment">%time scale of simulation (seconds)</span>
+0094         verbosity   = 1;        <span class="comment">%0 = no output, 5 = maximum output</span>
+0095         seed        = [];       <span class="comment">%set to any number for reproducible random streams</span>
+0096     <span class="keyword">end</span>
+0097 
+0098     <span class="comment">%enumerations</span>
+0099     properties (Constant)
+0100     <span class="keyword">end</span>
+0101 
+0102     <span class="comment">%IDs</span>
+0103     <span class="comment">%Subclasses should set these properties to cell arrays containing the</span>
+0104     <span class="comment">%Whole Cell Model IDs of stimuli, metabolites, RNAs, and proteins which</span>
+0105     <span class="comment">%should be considered stimuli, substrates, or enzymes within the</span>
+0106     <span class="comment">%process. initializeConstants computes a mapping between the</span>
+0107     <span class="comment">%simulation's stimuli, metabolites, RNAs, and proteins properties and</span>
+0108     <span class="comment">%the stimuli, substrates, and enzymes properties of the process</span>
+0109     properties (Abstract)
+0110         stimuliWholeCellModelIDs     <span class="comment">%cell array of whole cell model IDs of stimuli, metabolites, RNAs, and proteins which should be considered stimuli within the process</span>
+0111         substrateWholeCellModelIDs   <span class="comment">%cell array of whole cell model IDs of stimuli, metabolites, RNAs, and proteins which should be considered substrates within the process</span>
+0112         enzymeWholeCellModelIDs      <span class="comment">%cell array of whole cell model IDs of stimuli, metabolites, RNAs, and proteins which should be considered enzymes within the process</span>
+0113     <span class="keyword">end</span>
+0114 
+0115     <span class="comment">%Names of stimuli, substrates, and enzymes. Set by the</span>
+0116     <span class="comment">%initializeConstants method</span>
+0117     properties
+0118         stimuliNames     <span class="comment">%cell array of stimuli names</span>
+0119         substrateNames   <span class="comment">%cell array of substrate names</span>
+0120         enzymeNames      <span class="comment">%cell array of enzyme names</span>
+0121     <span class="keyword">end</span>
+0122 
+0123     properties
+0124         parameterNames   <span class="comment">%Names of properties that are considered parameters in the knowledge base and can be overriden via simulation.applyParameters</span>
+0125         parameterIndexs  <span class="comment">%Names of properties that represent indices over parameter properties</span>
+0126     <span class="keyword">end</span>
+0127 
+0128     <span class="comment">%Indices which hold the mapping between the simulation's stimuli,</span>
+0129     <span class="comment">%metabolites, RNAs, and proteins properties and the stimuli,</span>
+0130     <span class="comment">%substrates, and enzymes properties of the process. These are set by the</span>
+0131     <span class="comment">%initializeConstants method from the cell arrays above.</span>
+0132     <span class="comment">%</span>
+0133     <span class="comment">%GlobalIndexs properties store the index of the component within the</span>
+0134     <span class="comment">%simulation's property. GlobalIndexs properties have size</span>
+0135     <span class="comment">%[numComponents of particular type within simulation (eg stimuli,</span>
+0136     <span class="comment">%metabolites, RNA, monomer, complex) X compartments].</span>
+0137     <span class="comment">%</span>
+0138     <span class="comment">%LocalIndexs properties store the index of the component within the</span>
+0139     <span class="comment">%processes property. LocalIndexs properties have size</span>
+0140     <span class="comment">%[numComponents of particular type within simulation (eg stimuli,</span>
+0141     <span class="comment">%metabolites, RNA, monomer, complex) X 1].</span>
+0142     <span class="comment">%</span>
+0143     <span class="comment">%CompartmentIndexs properties store the index of the component</span>
+0144     <span class="comment">%compartment within the simulation's property. CompartmentIndexs properties have size</span>
+0145     <span class="comment">%[numComponents of particular type within simulation (eg stimuli,</span>
+0146     <span class="comment">%metabolites, RNA, monomer, complex) X compartments]</span>
+0147     properties
+0148         stimulusStimulusLocalIndexs               = zeros(0,1);
+0149         stimulusStimulusGlobalIndexs              = zeros(0,1);
+0150         stimulusStimulusCompartmentIndexs         = zeros(0,1);
+0151         stimulusStimulusGlobalCompartmentIndexs   = zeros(0,1);
+0152         stimulusMetaboliteLocalIndexs             = zeros(0,1);
+0153         stimulusMetaboliteGlobalIndexs            = zeros(0,1);
+0154         stimulusMetaboliteCompartmentIndexs       = zeros(0,1);
+0155         stimulusMetaboliteGlobalCompartmentIndexs = zeros(0,1);
+0156         stimulusRNALocalIndexs                    = zeros(0,1);
+0157         stimulusRNAGlobalIndexs                   = zeros(0,1);
+0158         stimulusRNACompartmentIndexs              = zeros(0,1);
+0159         stimulusRNAGlobalCompartmentIndexs        = zeros(0,1);
+0160         stimulusMonomerLocalIndexs                = zeros(0,1);
+0161         stimulusMonomerGlobalIndexs               = zeros(0,1);
+0162         stimulusMonomerCompartmentIndexs          = zeros(0,1);
+0163         stimulusMonomerGlobalCompartmentIndexs    = zeros(0,1);
+0164         stimulusComplexLocalIndexs                = zeros(0,1);
+0165         stimulusComplexGlobalIndexs               = zeros(0,1);
+0166         stimulusComplexCompartmentIndexs          = zeros(0,1);
+0167         stimulusComplexGlobalCompartmentIndexs    = zeros(0,1);
+0168         stimulusGlobalIndexs                      = zeros(0,1);
+0169         
+0170         substrateStimulusLocalIndexs              = zeros(0,1);
+0171         substrateStimulusGlobalIndexs             = zeros(0,1);
+0172         substrateStimulusCompartmentIndexs        = zeros(0,1);
+0173         substrateStimulusGlobalCompartmentIndexs  = zeros(0,1);
+0174         substrateMetaboliteLocalIndexs            = zeros(0,1);
+0175         substrateMetaboliteGlobalIndexs           = zeros(0,1);
+0176         substrateMetaboliteCompartmentIndexs      = zeros(0,1);
+0177         substrateMetaboliteGlobalCompartmentIndexs= zeros(0,1);
+0178         substrateRNALocalIndexs                   = zeros(0,1);
+0179         substrateRNAGlobalIndexs                  = zeros(0,1);
+0180         substrateRNACompartmentIndexs             = zeros(0,1);
+0181         substrateRNAGlobalCompartmentIndexs       = zeros(0,1);
+0182         substrateMonomerLocalIndexs               = zeros(0,1);
+0183         substrateMonomerGlobalIndexs              = zeros(0,1);
+0184         substrateMonomerCompartmentIndexs         = zeros(0,1);
+0185         substrateMonomerGlobalCompartmentIndexs   = zeros(0,1);
+0186         substrateComplexLocalIndexs               = zeros(0,1);
+0187         substrateComplexGlobalIndexs              = zeros(0,1);
+0188         substrateComplexCompartmentIndexs         = zeros(0,1);
+0189         substrateComplexGlobalCompartmentIndexs   = zeros(0,1);
+0190         substrateGlobalIndexs                     = zeros(0,1);
+0191         
+0192         enzymeStimulusLocalIndexs                 = zeros(0,1);
+0193         enzymeStimulusGlobalIndexs                = zeros(0,1);
+0194         enzymeStimulusCompartmentIndexs           = zeros(0,1);
+0195         enzymeStimulusGlobalCompartmentIndexs     = zeros(0,1);
+0196         enzymeMetaboliteLocalIndexs               = zeros(0,1);
+0197         enzymeMetaboliteGlobalIndexs              = zeros(0,1);
+0198         enzymeMetaboliteCompartmentIndexs         = zeros(0,1);
+0199         enzymeMetaboliteGlobalCompartmentIndexs   = zeros(0,1);
+0200         enzymeRNALocalIndexs                      = zeros(0,1);
+0201         enzymeRNAGlobalIndexs                     = zeros(0,1);
+0202         enzymeRNACompartmentIndexs                = zeros(0,1);
+0203         enzymeRNAGlobalCompartmentIndexs          = zeros(0,1);
+0204         enzymeMonomerLocalIndexs                  = zeros(0,1);
+0205         enzymeMonomerGlobalIndexs                 = zeros(0,1);
+0206         enzymeMonomerCompartmentIndexs            = zeros(0,1);
+0207         enzymeMonomerGlobalCompartmentIndexs      = zeros(0,1);
+0208         enzymeComplexLocalIndexs                  = zeros(0,1);
+0209         enzymeComplexGlobalIndexs                 = zeros(0,1);
+0210         enzymeComplexCompartmentIndexs            = zeros(0,1);
+0211         enzymeComplexGlobalCompartmentIndexs      = zeros(0,1);
+0212         enzymeBoundRNAGlobalCompartmentIndexs     = zeros(0,1);
+0213         enzymeBoundMonomerGlobalCompartmentIndexs = zeros(0,1);
+0214         enzymeBoundComplexGlobalCompartmentIndexs = zeros(0,1);
+0215         enzymeGlobalIndexs                        = zeros(0,1);
+0216     <span class="keyword">end</span>
+0217 
+0218     <span class="comment">%Indices of the global compartments of stimuli, substrates, and</span>
+0219     <span class="comment">%enzymes. Computed by getter methods from the compartment indices in</span>
+0220     <span class="comment">%the above section. These properties have size [numComponents of particular type within process (eg stimuli,</span>
+0221     <span class="comment">%substrates, enzymes) X compartments]</span>
+0222     properties (Dependent)
+0223         stimuliCompartments
+0224         substrateCompartments
+0225         enzymeCompartments
+0226     <span class="keyword">end</span>
+0227 
+0228     <span class="comment">%constants</span>
+0229     properties
+0230         substrateMolecularWeights  <span class="comment">%molecular weights of substrates, set by initialize constants</span>
+0231         enzymeMolecularWeights     <span class="comment">%molecular weights of enzymes, set by initialize constants</span>
+0232     <span class="keyword">end</span>
+0233 
+0234     <span class="comment">%global state (stored locally for convenience)</span>
+0235     properties
+0236         compartment
+0237         gene
+0238         states
+0239     <span class="keyword">end</span>
+0240     
+0241     <span class="comment">%global state side effects (changes that simulation should make to parts of</span>
+0242     <span class="comment">%its state that the process doesn't know about/listen to/care about)</span>
+0243     properties
+0244         simulationStateSideEffects <span class="comment">%list of changes simulation should make to its state, SimulationStateSideEffect array</span>
+0245     <span class="keyword">end</span>
+0246 
+0247     <span class="comment">%local state copied from simulation</span>
+0248     properties
+0249         stimuli                   <span class="comment">%values of stimuli, updated before each evolveState call by copyFromState, size: [length(stimuliWholeCellModelIDs) X compartments X time]</span>
+0250         substrates                <span class="comment">%values of substrates available to all processes, updated before each evolveState call by copyFromState, size: [length(substrateWholeCellModelIDs) X compartments X time]</span>
+0251         enzymes                   <span class="comment">%values of enzymes, updated before each evolveState call by copyFromState, size: [length(enzymeWholeCellModelIDs) X compartments X time]</span>
+0252         boundEnzymes              <span class="comment">%values of boundEnzymes, updated before each evolveState call by copyFromState, size: [length(enzymeWholeCellModelIDs) X compartments X time]</span>
+0253     <span class="keyword">end</span>
+0254 
+0255     <span class="comment">%dependent local state (implemented as dependent property for convenience)</span>
+0256     properties (Dependent)
+0257         dryWeight            <span class="comment">%dry weight represented by state variables accessible to process including stimuli, substrates, and enzymes, subclasses may need to override the getDryWeight method which calculates this</span>
+0258     <span class="keyword">end</span>
+0259     
+0260     <span class="comment">%links to other parts of cell state</span>
+0261     properties
+0262         geometry
+0263         stimulus
+0264         metabolite
+0265         rna
+0266         monomer
+0267         complex
+0268     <span class="keyword">end</span>
+0269 
+0270     <span class="comment">%constructor</span>
+0271     methods
+0272         <span class="comment">%sets process meta data</span>
+0273         <a name="_sub0" href="#_subfunctions" class="code">function this = Process(wholeCellModelID, name)</a>
+0274             this.wholeCellModelID = wholeCellModelID;
+0275             this.name = name;
+0276             this.randStream = edu.stanford.covert.util.RandStream(<span class="string">'mcg16807'</span>);
+0277         <span class="keyword">end</span>
+0278     <span class="keyword">end</span>
+0279 
+0280     <span class="comment">%random numbers</span>
+0281     methods
+0282         <a name="_sub1" href="#_subfunctions" class="code">function seedRandStream(this)</a>
+0283             <span class="keyword">if</span> isempty(this.seed)
+0284                 this.seed = round(mod(now, 1) * 1e7);
+0285             <span class="keyword">end</span>
+0286             this.randStream.reset(this.seed);
+0287         <span class="keyword">end</span>
+0288     <span class="keyword">end</span>
+0289 
+0290     <span class="comment">%communication between process/simulation</span>
+0291     methods
+0292         <a name="_sub2" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0293             this.compartment = simulation.compartment;
+0294             this.gene = simulation.gene;
+0295             
+0296             this.geometry = simulation.state(<span class="string">'Geometry'</span>);
+0297             this.stimulus = simulation.state(<span class="string">'Stimulus'</span>);
+0298             this.metabolite = simulation.state(<span class="string">'Metabolite'</span>);
+0299             this.rna = simulation.state(<span class="string">'Rna'</span>);
+0300             this.monomer = simulation.state(<span class="string">'ProteinMonomer'</span>);
+0301             this.complex = simulation.state(<span class="string">'ProteinComplex'</span>);
+0302             this.states = {this.geometry; this.metabolite; this.rna; this.monomer; this.complex};
+0303         <span class="keyword">end</span>
+0304         
+0305         <span class="comment">%Initializes process's constants from knowledge base and simulation</span>
+0306         <span class="comment">%including</span>
+0307         <span class="comment">%- computes mapping between process's locally stored state (stimuli,</span>
+0308         <span class="comment">%  substrates, enzymes) and the simulation's state using the</span>
+0309         <span class="comment">%  stimiliWholeCellModelIDs, substrateWholeCellModelIDs, and</span>
+0310         <span class="comment">%  enzymeWholeCellModelIDs properties that subclasses must define</span>
+0311         <span class="comment">%- fetches molecular weights of substrates and enzymes from</span>
+0312         <span class="comment">%  simulation</span>
+0313         <span class="comment">%- set values of parameter properties of process</span>
+0314         <span class="comment">%- copies option values from simulation:</span>
+0315         <span class="comment">%  - stepSizeSec</span>
+0316         <span class="comment">%  - verbosity</span>
+0317         <span class="comment">%  - seed</span>
+0318         <span class="comment">%</span>
+0319         <span class="comment">%Sets initialized property to true</span>
+0320         <span class="comment">%</span>
+0321         <span class="comment">%By default sets the mapping between the process's locally stored</span>
+0322         <span class="comment">%state and the simulation state to only copy over 1 compartment for</span>
+0323         <span class="comment">%each component. Subclasses can set the retainStimuliCompartments,</span>
+0324         <span class="comment">%retainSubstrateCompartments, retainEnzymeCompartments options to</span>
+0325         <span class="comment">%true to setup the mapping to copy over all compartments of a</span>
+0326         <span class="comment">%component to the simulation's locally stored state.</span>
+0327         <a name="_sub3" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, options)</a>
+0328             <span class="comment">%default options</span>
+0329             <span class="keyword">if</span> ~exist(<span class="string">'options'</span>,<span class="string">'var'</span>) || ~isstruct(options)
+0330                 options = struct;
+0331             <span class="keyword">end</span>
+0332             <span class="keyword">if</span> ~isfield(options, <span class="string">'retainStimuliCompartments'</span>)
+0333                 options.retainStimuliCompartments = false;
+0334             <span class="keyword">end</span>
+0335             <span class="keyword">if</span> ~isfield(options, <span class="string">'retainSubstrateCompartments'</span>)
+0336                 options.retainSubstrateCompartments = false;
+0337             <span class="keyword">end</span>
+0338             <span class="keyword">if</span> ~isfield(options, <span class="string">'retainEnzymeCompartments'</span>)
+0339                 options.retainEnzymeCompartments = false;
+0340             <span class="keyword">end</span>
+0341 
+0342             <span class="comment">%process</span>
+0343             process = findobj(knowledgeBase.processes, <span class="string">'wholeCellModelID'</span>, this.wholeCellModelID);
+0344 
+0345             <span class="comment">%set values of parameter properties</span>
+0346             <span class="comment">%store annotation of parameter properties</span>
+0347             this.parameterNames = {process.parameters.name}';
+0348             this.parameterIndexs = {process.parameters.index}';
+0349 
+0350             parameters = struct;
+0351             validNames = fieldnames(this);
+0352             <span class="keyword">for</span> i = 1:length(process.parameters)
+0353                 p = process.parameters(i);
+0354                 <span class="keyword">if</span> ~isempty(p.index)
+0355                     <span class="keyword">if</span> ismember(p.index, validNames)
+0356                         parameters.(p.name)(this.(p.index),1) = p.defaultValue;
+0357                     <span class="keyword">end</span>
+0358                 <span class="keyword">else</span>
+0359                     parameters.(p.name) = p.defaultValue;
+0360                 <span class="keyword">end</span>
+0361             <span class="keyword">end</span>
+0362             this.setParameters(parameters);
+0363 
+0364             <span class="comment">%copy options from simulation</span>
+0365             this.stepSizeSec = simulation.stepSizeSec;
+0366             this.verbosity   = simulation.verbosity;
+0367             this.seed        = simulation.seed;
+0368 
+0369             <span class="comment">%- compute mapping of stimuli to simulation's state</span>
+0370             <span class="comment">%- fetch names of stimuli from simulation</span>
+0371             <span class="comment">%- fetch molecular weights of stimuli from simulation</span>
+0372             [this.stimuliNames<span class="keyword">...</span>
+0373              this.stimulusStimulusLocalIndexs<span class="keyword">...</span>
+0374              this.stimulusStimulusGlobalIndexs<span class="keyword">...</span>
+0375              this.stimulusStimulusCompartmentIndexs<span class="keyword">...</span>
+0376              this.stimulusStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+0377              this.stimulusMetaboliteLocalIndexs<span class="keyword">...</span>
+0378              this.stimulusMetaboliteGlobalIndexs<span class="keyword">...</span>
+0379              this.stimulusMetaboliteCompartmentIndexs<span class="keyword">...</span>
+0380              this.stimulusMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+0381              this.stimulusRNALocalIndexs<span class="keyword">...</span>
+0382              this.stimulusRNAGlobalIndexs<span class="keyword">...</span>
+0383              this.stimulusRNACompartmentIndexs<span class="keyword">...</span>
+0384              this.stimulusRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+0385              this.stimulusMonomerLocalIndexs<span class="keyword">...</span>
+0386              this.stimulusMonomerGlobalIndexs<span class="keyword">...</span>
+0387              this.stimulusMonomerCompartmentIndexs<span class="keyword">...</span>
+0388              this.stimulusMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+0389              this.stimulusComplexLocalIndexs<span class="keyword">...</span>
+0390              this.stimulusComplexGlobalIndexs<span class="keyword">...</span>
+0391              this.stimulusComplexCompartmentIndexs<span class="keyword">...</span>
+0392              this.stimulusComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+0393              ~, ~, ~, <span class="keyword">...</span>
+0394              this.stimulusGlobalIndexs] = this.initializeConstantsHelper(<span class="keyword">...</span>
+0395                 this.stimuliWholeCellModelIDs, options.retainStimuliCompartments);
+0396            
+0397             <span class="comment">%- compute mapping of substrates to simulation's state</span>
+0398             <span class="comment">%- fetch names of substrates from simulation</span>
+0399             <span class="comment">%- fetch molecular weights of substrates from simulation</span>
+0400             [this.substrateNames<span class="keyword">...</span>
+0401              this.substrateStimulusLocalIndexs<span class="keyword">...</span>
+0402              this.substrateStimulusGlobalIndexs<span class="keyword">...</span>
+0403              this.substrateStimulusCompartmentIndexs<span class="keyword">...</span>
+0404              this.substrateStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+0405              this.substrateMetaboliteLocalIndexs<span class="keyword">...</span>
+0406              this.substrateMetaboliteGlobalIndexs<span class="keyword">...</span>
+0407              this.substrateMetaboliteCompartmentIndexs<span class="keyword">...</span>
+0408              this.substrateMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+0409              this.substrateRNALocalIndexs<span class="keyword">...</span>
+0410              this.substrateRNAGlobalIndexs<span class="keyword">...</span>
+0411              this.substrateRNACompartmentIndexs<span class="keyword">...</span>
+0412              this.substrateRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+0413              this.substrateMonomerLocalIndexs<span class="keyword">...</span>
+0414              this.substrateMonomerGlobalIndexs<span class="keyword">...</span>
+0415              this.substrateMonomerCompartmentIndexs<span class="keyword">...</span>
+0416              this.substrateMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+0417              this.substrateComplexLocalIndexs<span class="keyword">...</span>
+0418              this.substrateComplexGlobalIndexs<span class="keyword">...</span>
+0419              this.substrateComplexCompartmentIndexs<span class="keyword">...</span>
+0420              this.substrateComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+0421              ~, ~, ~, <span class="keyword">...</span>
+0422              this.substrateGlobalIndexs<span class="keyword">...</span>
+0423              this.substrateMolecularWeights] = this.initializeConstantsHelper(<span class="keyword">...</span>
+0424                 this.substrateWholeCellModelIDs, options.retainSubstrateCompartments);
+0425             
+0426             <span class="comment">%- compute mapping of enzymes to simulation's state</span>
+0427             <span class="comment">%- fetch names of enzymes from simulation</span>
+0428             <span class="comment">%- fetch molecular weights of enzymes from simulation</span>
+0429             [this.enzymeNames<span class="keyword">...</span>
+0430              this.enzymeStimulusLocalIndexs<span class="keyword">...</span>
+0431              this.enzymeStimulusGlobalIndexs<span class="keyword">...</span>
+0432              this.enzymeStimulusCompartmentIndexs<span class="keyword">...</span>
+0433              this.enzymeStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+0434              this.enzymeMetaboliteLocalIndexs<span class="keyword">...</span>
+0435              this.enzymeMetaboliteGlobalIndexs<span class="keyword">...</span>
+0436              this.enzymeMetaboliteCompartmentIndexs<span class="keyword">...</span>
+0437              this.enzymeMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+0438              this.enzymeRNALocalIndexs<span class="keyword">...</span>
+0439              this.enzymeRNAGlobalIndexs<span class="keyword">...</span>
+0440              this.enzymeRNACompartmentIndexs<span class="keyword">...</span>
+0441              this.enzymeRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+0442              this.enzymeMonomerLocalIndexs<span class="keyword">...</span>
+0443              this.enzymeMonomerGlobalIndexs<span class="keyword">...</span>
+0444              this.enzymeMonomerCompartmentIndexs<span class="keyword">...</span>
+0445              this.enzymeMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+0446              this.enzymeComplexLocalIndexs<span class="keyword">...</span>
+0447              this.enzymeComplexGlobalIndexs<span class="keyword">...</span>
+0448              this.enzymeComplexCompartmentIndexs<span class="keyword">...</span>
+0449              this.enzymeComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+0450              this.enzymeBoundRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+0451              this.enzymeBoundMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+0452              this.enzymeBoundComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+0453              this.enzymeGlobalIndexs<span class="keyword">...</span>
+0454              this.enzymeMolecularWeights] = this.initializeConstantsHelper(<span class="keyword">...</span>
+0455                 this.enzymeWholeCellModelIDs, options.retainEnzymeCompartments);
+0456 
+0457             this.initialized = true;
+0458         <span class="keyword">end</span>
+0459 
+0460         <span class="comment">%Retrieve state from simulation/other processes</span>
+0461         <span class="comment">%- cell volume</span>
+0462         <span class="comment">%- stimuli</span>
+0463         <span class="comment">%- substrates</span>
+0464         <span class="comment">%- enzymes</span>
+0465         <span class="comment">%- bound enzymes</span>
+0466         <span class="comment">%</span>
+0467         <span class="comment">%Uses mappings computed by initializeConstants to retrieve state</span>
+0468         <span class="comment">%from simulation</span>
+0469         <span class="comment">%</span>
+0470         <span class="comment">%Called before initializeState, evolveState by simulation</span>
+0471         <span class="comment">%initializeState and evolveState methods</span>
+0472         <a name="_sub4" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0473             this.stimuli = this.copyStimuliFromState(<span class="keyword">...</span>
+0474                 this.stimulus.values, this.metabolite.counts, this.rna.counts, this.monomer.counts, this.complex.counts);
+0475             this.substrates = this.copySubstratesFromState(<span class="keyword">...</span>
+0476                 this.stimulus.values, this.metabolite.counts, this.rna.counts, this.monomer.counts, this.complex.counts);
+0477             [this.enzymes, this.boundEnzymes] = this.copyEnzymesFromState(<span class="keyword">...</span>
+0478                 this.stimulus.values, this.metabolite.counts, this.rna.counts, this.monomer.counts, this.complex.counts);
+0479         <span class="keyword">end</span>
+0480         
+0481         <a name="_sub5" href="#_subfunctions" class="code">function stimuli = copyStimuliFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)</a>
+0482             numTimePoints = size(stimulusValues, 3);
+0483             stimuli = zeros(numel(this.stimuliWholeCellModelIDs), size(this.stimulusStimulusGlobalCompartmentIndexs, 2), numTimePoints);
+0484             
+0485             <span class="keyword">if</span> isempty(stimuli)
+0486                 <span class="keyword">return</span>;
+0487             <span class="keyword">end</span>
+0488                         
+0489             <span class="keyword">if</span> numTimePoints == 1
+0490                 <span class="keyword">if</span> ~isempty(this.stimulusStimulusGlobalCompartmentIndexs)
+0491                     stimuli(this.stimulusStimulusLocalIndexs, :) = <span class="keyword">...</span>
+0492                         stimulusValues(this.stimulusStimulusGlobalCompartmentIndexs);
+0493                 <span class="keyword">end</span>
+0494                 <span class="keyword">if</span> ~isempty(this.stimulusMetaboliteGlobalCompartmentIndexs)
+0495                     stimuli(this.stimulusMetaboliteLocalIndexs, :) = <span class="keyword">...</span>
+0496                         metaboliteCounts(this.stimulusMetaboliteGlobalCompartmentIndexs);
+0497                 <span class="keyword">end</span>
+0498                 <span class="keyword">if</span> ~isempty(this.stimulusRNAGlobalCompartmentIndexs)
+0499                     stimuli(this.stimulusRNALocalIndexs, :) = <span class="keyword">...</span>
+0500                         rnaCounts(this.stimulusRNAGlobalCompartmentIndexs);
+0501                 <span class="keyword">end</span>
+0502                 <span class="keyword">if</span> ~isempty(this.stimulusMonomerGlobalCompartmentIndexs)
+0503                     stimuli(this.stimulusMonomerLocalIndexs, :) = <span class="keyword">...</span>
+0504                         monomerCounts(this.stimulusMonomerGlobalCompartmentIndexs);
+0505                 <span class="keyword">end</span>
+0506                 <span class="keyword">if</span> ~isempty(this.stimulusComplexGlobalCompartmentIndexs)
+0507                     stimuli(this.stimulusComplexLocalIndexs, :) = <span class="keyword">...</span>
+0508                         complexCounts(this.stimulusComplexGlobalCompartmentIndexs);
+0509                 <span class="keyword">end</span>
+0510             <span class="keyword">else</span>
+0511                 <span class="keyword">if</span> ~isempty(this.stimulusStimulusLocalIndexs)
+0512                     stimuli(this.stimulusStimulusLocalIndexs, :, :) = <span class="keyword">...</span>
+0513                         this.copyFromStateHelper(stimulusValues, <span class="keyword">...</span>
+0514                         this.stimulusStimulusGlobalIndexs, <span class="keyword">...</span>
+0515                         this.stimulusStimulusCompartmentIndexs);
+0516                 <span class="keyword">end</span>
+0517                 <span class="keyword">if</span> ~isempty(this.stimulusMetaboliteLocalIndexs)
+0518                     stimuli(this.stimulusMetaboliteLocalIndexs, :, :) = <span class="keyword">...</span>
+0519                         this.copyFromStateHelper(metaboliteCounts, <span class="keyword">...</span>
+0520                         this.stimulusMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0521                         this.stimulusMetaboliteCompartmentIndexs);
+0522                 <span class="keyword">end</span>
+0523                 <span class="keyword">if</span> ~isempty(this.stimulusRNALocalIndexs)
+0524                     stimuli(this.stimulusRNALocalIndexs, :, :) = <span class="keyword">...</span>
+0525                         this.copyFromStateHelper(rnaCounts, <span class="keyword">...</span>
+0526                         this.rna.matureIndexs(this.stimulusRNAGlobalIndexs),<span class="keyword">...</span>
+0527                         this.stimulusRNACompartmentIndexs);
+0528                 <span class="keyword">end</span>
+0529                 <span class="keyword">if</span> ~isempty(this.stimulusMonomerLocalIndexs)
+0530                     stimuli(this.stimulusMonomerLocalIndexs, :, :) = <span class="keyword">...</span>
+0531                         this.copyFromStateHelper(monomerCounts, <span class="keyword">...</span>
+0532                         this.monomer.matureIndexs(this.stimulusMonomerGlobalIndexs),<span class="keyword">...</span>
+0533                         this.stimulusMonomerCompartmentIndexs);
+0534                 <span class="keyword">end</span>
+0535                 <span class="keyword">if</span> ~isempty(this.stimulusComplexLocalIndexs)
+0536                     stimuli(this.stimulusComplexLocalIndexs, :, :) = <span class="keyword">...</span>
+0537                         this.copyFromStateHelper(complexCounts, <span class="keyword">...</span>
+0538                         this.complex.matureIndexs(this.stimulusComplexGlobalIndexs),<span class="keyword">...</span>
+0539                         this.stimulusComplexCompartmentIndexs);
+0540                 <span class="keyword">end</span>
+0541             <span class="keyword">end</span>
+0542         <span class="keyword">end</span>
+0543         
+0544         <a name="_sub6" href="#_subfunctions" class="code">function substrates = copySubstratesFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)            </a>
+0545             numTimePoints = size(metaboliteCounts, 3);
+0546             substrates = zeros(numel(this.substrateWholeCellModelIDs), size(this.substrateMetaboliteGlobalCompartmentIndexs, 2), numTimePoints);
+0547             
+0548             <span class="keyword">if</span> isempty(substrates)
+0549                 <span class="keyword">return</span>;
+0550             <span class="keyword">end</span>
+0551                         
+0552             <span class="keyword">if</span> numTimePoints == 1
+0553                 <span class="keyword">if</span> ~isempty(this.substrateStimulusGlobalCompartmentIndexs)
+0554                     substrates(this.substrateStimulusLocalIndexs, :) = <span class="keyword">...</span>
+0555                         stimulusValues(this.substrateStimulusGlobalCompartmentIndexs);
+0556                 <span class="keyword">end</span>
+0557                 <span class="keyword">if</span> ~isempty(this.substrateMetaboliteGlobalCompartmentIndexs)
+0558                     substrates(this.substrateMetaboliteLocalIndexs, :) = <span class="keyword">...</span>
+0559                         metaboliteCounts(this.substrateMetaboliteGlobalCompartmentIndexs);
+0560                 <span class="keyword">end</span>
+0561                 <span class="keyword">if</span> ~isempty(this.substrateRNAGlobalCompartmentIndexs)
+0562                     substrates(this.substrateRNALocalIndexs, :) = <span class="keyword">...</span>
+0563                         rnaCounts(this.substrateRNAGlobalCompartmentIndexs);
+0564                 <span class="keyword">end</span>
+0565                 <span class="keyword">if</span> ~isempty(this.substrateMonomerGlobalCompartmentIndexs)
+0566                     substrates(this.substrateMonomerLocalIndexs, :) = <span class="keyword">...</span>
+0567                         monomerCounts(this.substrateMonomerGlobalCompartmentIndexs);
+0568                 <span class="keyword">end</span>
+0569                 <span class="keyword">if</span> ~isempty(this.substrateComplexGlobalCompartmentIndexs)
+0570                     substrates(this.substrateComplexLocalIndexs, :) = <span class="keyword">...</span>
+0571                         complexCounts(this.substrateComplexGlobalCompartmentIndexs);
+0572                 <span class="keyword">end</span>
+0573             <span class="keyword">else</span>
+0574                 <span class="keyword">if</span> ~isempty(this.substrateStimulusLocalIndexs)
+0575                     substrates(this.substrateStimulusLocalIndexs, :, :) = <span class="keyword">...</span>
+0576                         this.copyFromStateHelper(stimulusValues, <span class="keyword">...</span>
+0577                         this.substrateStimulusGlobalIndexs, <span class="keyword">...</span>
+0578                         this.substrateStimulusCompartmentIndexs);
+0579                 <span class="keyword">end</span>
+0580                 <span class="keyword">if</span> ~isempty(this.substrateMetaboliteLocalIndexs)
+0581                     substrates(this.substrateMetaboliteLocalIndexs, :, :) = <span class="keyword">...</span>
+0582                         this.copyFromStateHelper(metaboliteCounts, <span class="keyword">...</span>
+0583                         this.substrateMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0584                         this.substrateMetaboliteCompartmentIndexs);
+0585                 <span class="keyword">end</span>
+0586                 <span class="keyword">if</span> ~isempty(this.substrateRNALocalIndexs)
+0587                     substrates(this.substrateRNALocalIndexs, :, :) = <span class="keyword">...</span>
+0588                         this.copyFromStateHelper(rnaCounts, <span class="keyword">...</span>
+0589                         this.rna.matureIndexs(this.substrateRNAGlobalIndexs),<span class="keyword">...</span>
+0590                         this.substrateRNACompartmentIndexs);
+0591                 <span class="keyword">end</span>
+0592                 <span class="keyword">if</span> ~isempty(this.substrateMonomerLocalIndexs)
+0593                     substrates(this.substrateMonomerLocalIndexs, :, :) = <span class="keyword">...</span>
+0594                         this.copyFromStateHelper(monomerCounts, <span class="keyword">...</span>
+0595                         this.monomer.matureIndexs(this.substrateMonomerGlobalIndexs),<span class="keyword">...</span>
+0596                         this.substrateMonomerCompartmentIndexs);
+0597                 <span class="keyword">end</span>
+0598                 <span class="keyword">if</span> ~isempty(this.substrateComplexLocalIndexs)
+0599                     substrates(this.substrateComplexLocalIndexs, :, :) = <span class="keyword">...</span>
+0600                         this.copyFromStateHelper(complexCounts, <span class="keyword">...</span>
+0601                         this.complex.matureIndexs(this.substrateComplexGlobalIndexs),<span class="keyword">...</span>
+0602                         this.substrateComplexCompartmentIndexs);
+0603                 <span class="keyword">end</span>
+0604             <span class="keyword">end</span>
+0605         <span class="keyword">end</span>
+0606         
+0607         <a name="_sub7" href="#_subfunctions" class="code">function [enzymes, boundEnzymes] = copyEnzymesFromState(this, stimulusValues, metaboliteCounts, rnaCounts, monomerCounts, complexCounts)</a>
+0608             numTimePoints = size(complexCounts, 3);
+0609             enzymes = zeros(numel(this.enzymeWholeCellModelIDs), size(this.enzymeBoundMonomerGlobalCompartmentIndexs, 2), numTimePoints);
+0610             boundEnzymes = zeros(size(enzymes));
+0611             
+0612             <span class="keyword">if</span> isempty(enzymes)
+0613                 <span class="keyword">return</span>;
+0614             <span class="keyword">end</span>
+0615             
+0616             <span class="keyword">if</span> numTimePoints == 1
+0617                 <span class="keyword">if</span> ~isempty(this.enzymeStimulusGlobalCompartmentIndexs)
+0618                     enzymes(this.enzymeStimulusLocalIndexs, :) = <span class="keyword">...</span>
+0619                         stimulusValues(this.enzymeStimulusGlobalCompartmentIndexs);
+0620                 <span class="keyword">end</span>
+0621                 <span class="keyword">if</span> ~isempty(this.enzymeMetaboliteGlobalCompartmentIndexs)
+0622                     enzymes(this.enzymeMetaboliteLocalIndexs, :) = <span class="keyword">...</span>
+0623                         metaboliteCounts(this.enzymeMetaboliteGlobalCompartmentIndexs);
+0624                 <span class="keyword">end</span>
+0625                 <span class="keyword">if</span> ~isempty(this.enzymeRNAGlobalCompartmentIndexs)
+0626                     enzymes(this.enzymeRNALocalIndexs, :) = <span class="keyword">...</span>
+0627                         rnaCounts(this.enzymeRNAGlobalCompartmentIndexs);
+0628                     boundEnzymes(this.enzymeRNALocalIndexs, :) = <span class="keyword">...</span>
+0629                         rnaCounts(this.enzymeBoundRNAGlobalCompartmentIndexs);
+0630                 <span class="keyword">end</span>
+0631                 <span class="keyword">if</span> ~isempty(this.enzymeMonomerGlobalCompartmentIndexs)
+0632                     enzymes(this.enzymeMonomerLocalIndexs, :) = <span class="keyword">...</span>
+0633                         monomerCounts(this.enzymeMonomerGlobalCompartmentIndexs);
+0634                     boundEnzymes(this.enzymeMonomerLocalIndexs, :) = <span class="keyword">...</span>
+0635                         monomerCounts(this.enzymeBoundMonomerGlobalCompartmentIndexs);
+0636                 <span class="keyword">end</span>
+0637                 <span class="keyword">if</span> ~isempty(this.enzymeComplexGlobalCompartmentIndexs)
+0638                     enzymes(this.enzymeComplexLocalIndexs, :) = <span class="keyword">...</span>
+0639                         complexCounts(this.enzymeComplexGlobalCompartmentIndexs);
+0640                     boundEnzymes(this.enzymeComplexLocalIndexs, :) = <span class="keyword">...</span>
+0641                         complexCounts(this.enzymeBoundComplexGlobalCompartmentIndexs);
+0642                 <span class="keyword">end</span>
+0643             <span class="keyword">else</span>
+0644                 <span class="keyword">if</span> ~isempty(this.enzymeStimulusLocalIndexs)
+0645                     enzymes(this.enzymeStimulusLocalIndexs, :, :) = <span class="keyword">...</span>
+0646                         this.copyFromStateHelper(stimulusValues, <span class="keyword">...</span>
+0647                         this.enzymeStimulusGlobalIndexs, <span class="keyword">...</span>
+0648                         this.enzymeStimulusCompartmentIndexs);
+0649                 <span class="keyword">end</span>
+0650                 <span class="keyword">if</span> ~isempty(this.enzymeMetaboliteLocalIndexs)
+0651                     enzymes(this.enzymeMetaboliteLocalIndexs, :, :) = <span class="keyword">...</span>
+0652                         this.copyFromStateHelper(metaboliteCounts, <span class="keyword">...</span>
+0653                         this.enzymeMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0654                         this.enzymeMetaboliteCompartmentIndexs);
+0655                 <span class="keyword">end</span>
+0656                 <span class="keyword">if</span> ~isempty(this.enzymeRNALocalIndexs)
+0657                     enzymes(this.enzymeRNALocalIndexs, :, :) = <span class="keyword">...</span>
+0658                         this.copyFromStateHelper(rnaCounts, <span class="keyword">...</span>
+0659                         this.rna.matureIndexs(this.enzymeRNAGlobalIndexs),<span class="keyword">...</span>
+0660                         this.enzymeRNACompartmentIndexs);
+0661                 <span class="keyword">end</span>
+0662                 <span class="keyword">if</span> ~isempty(this.enzymeMonomerLocalIndexs)
+0663                     enzymes(this.enzymeMonomerLocalIndexs, :, :) = <span class="keyword">...</span>
+0664                         this.copyFromStateHelper(monomerCounts, <span class="keyword">...</span>
+0665                         this.monomer.matureIndexs(this.enzymeMonomerGlobalIndexs),<span class="keyword">...</span>
+0666                         this.enzymeMonomerCompartmentIndexs);
+0667                 <span class="keyword">end</span>
+0668                 <span class="keyword">if</span> ~isempty(this.enzymeComplexLocalIndexs)
+0669                     enzymes(this.enzymeComplexLocalIndexs, :, :) = <span class="keyword">...</span>
+0670                         this.copyFromStateHelper(complexCounts, <span class="keyword">...</span>
+0671                         this.complex.matureIndexs(this.enzymeComplexGlobalIndexs),<span class="keyword">...</span>
+0672                         this.enzymeComplexCompartmentIndexs);
+0673                 <span class="keyword">end</span>
+0674                 
+0675                 <span class="keyword">if</span> nargin &lt; 2
+0676                     <span class="keyword">return</span>;
+0677                 <span class="keyword">end</span>
+0678                 <span class="keyword">if</span> ~isempty(this.enzymeRNALocalIndexs)
+0679                     boundEnzymes(this.enzymeRNALocalIndexs, :, :) = <span class="keyword">...</span>
+0680                         this.copyFromStateHelper(rnaCounts, <span class="keyword">...</span>
+0681                         this.rna.boundIndexs(this.enzymeRNAGlobalIndexs),<span class="keyword">...</span>
+0682                         this.enzymeRNACompartmentIndexs);
+0683                 <span class="keyword">end</span>
+0684                 <span class="keyword">if</span> ~isempty(this.enzymeMonomerLocalIndexs)
+0685                     boundEnzymes(this.enzymeMonomerLocalIndexs, :, :) = <span class="keyword">...</span>
+0686                         this.copyFromStateHelper(monomerCounts, <span class="keyword">...</span>
+0687                         this.monomer.boundIndexs(this.enzymeMonomerGlobalIndexs),<span class="keyword">...</span>
+0688                         this.enzymeMonomerCompartmentIndexs);
+0689                 <span class="keyword">end</span>
+0690                 <span class="keyword">if</span> ~isempty(this.enzymeComplexLocalIndexs)
+0691                     boundEnzymes(this.enzymeComplexLocalIndexs, :, :) = <span class="keyword">...</span>
+0692                         this.copyFromStateHelper(complexCounts, <span class="keyword">...</span>
+0693                         this.complex.boundIndexs(this.enzymeComplexGlobalIndexs),<span class="keyword">...</span>
+0694                         this.enzymeComplexCompartmentIndexs);
+0695                 <span class="keyword">end</span>
+0696             <span class="keyword">end</span>
+0697         <span class="keyword">end</span>
+0698 
+0699         <span class="comment">%Send state to simulation/other processes</span>
+0700         <span class="comment">%- substrates</span>
+0701         <span class="comment">%- enzymes</span>
+0702         <span class="comment">%- bound enzymes</span>
+0703         <span class="comment">%</span>
+0704         <span class="comment">%Note stimuli are not stored back to the simulation.</span>
+0705         <span class="comment">%</span>
+0706         <span class="comment">%Uses mappings computed by initializeConstants to send state</span>
+0707         <span class="comment">%from simulation.</span>
+0708         <span class="comment">%</span>
+0709         <span class="comment">%Called after initializeState, evolveState by simulation</span>
+0710         <span class="comment">%initializeState and evolveState methods</span>
+0711         <span class="comment">%</span>
+0712         <span class="comment">%Note: this function will behave incorrectly if a process touches the</span>
+0713         <span class="comment">%same molecular species as both a substrate and enzyme, and modifies the</span>
+0714         <span class="comment">%substrate and enzymes counts of this species. As of 1/15/2011 there</span>
+0715         <span class="comment">%were no processes which did this, so the function behaved correctly.</span>
+0716         <a name="_sub8" href="#_subfunctions" class="code">function copyToState(this)</a>
+0717             numTimePoints = size(this.substrates, 3);
+0718             
+0719             <span class="keyword">if</span> ~isempty(this.enzymes)
+0720                 <span class="keyword">if</span> numTimePoints == 1
+0721                     <span class="keyword">if</span> ~isempty(this.enzymeStimulusGlobalCompartmentIndexs)
+0722                         this.stimulus.values(this.enzymeStimulusGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0723                             this.enzymes(this.enzymeStimulusLocalIndexs, :);
+0724                     <span class="keyword">end</span>
+0725                     <span class="keyword">if</span> ~isempty(this.enzymeMetaboliteGlobalCompartmentIndexs)
+0726                         this.metabolite.counts(this.enzymeMetaboliteGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0727                             this.enzymes(this.enzymeMetaboliteLocalIndexs, :);
+0728                     <span class="keyword">end</span>
+0729                     <span class="keyword">if</span> ~isempty(this.enzymeRNAGlobalCompartmentIndexs)
+0730                         this.rna.counts(this.enzymeRNAGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0731                             this.enzymes(this.enzymeRNALocalIndexs, :);
+0732                         this.rna.counts(this.enzymeBoundRNAGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0733                             this.boundEnzymes(this.enzymeRNALocalIndexs, :);
+0734                     <span class="keyword">end</span>
+0735                     <span class="keyword">if</span> ~isempty(this.enzymeMonomerGlobalCompartmentIndexs)
+0736                         this.monomer.counts(this.enzymeMonomerGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0737                             this.enzymes(this.enzymeMonomerLocalIndexs, :);
+0738                         this.monomer.counts(this.enzymeBoundMonomerGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0739                             this.boundEnzymes(this.enzymeMonomerLocalIndexs, :);
+0740                     <span class="keyword">end</span>
+0741                     <span class="keyword">if</span> ~isempty(this.enzymeComplexGlobalCompartmentIndexs)
+0742                         this.complex.counts(this.enzymeComplexGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0743                             this.enzymes(this.enzymeComplexLocalIndexs, :);
+0744                         this.complex.counts(this.enzymeBoundComplexGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0745                             this.boundEnzymes(this.enzymeComplexLocalIndexs, :);
+0746                     <span class="keyword">end</span>
+0747                 <span class="keyword">else</span>
+0748                     this.copyToStateHelper(this.stimulus, <span class="keyword">...</span>
+0749                         <span class="string">'values'</span>, <span class="keyword">...</span>
+0750                         <span class="string">'enzymes'</span>, <span class="keyword">...</span>
+0751                         this.enzymeStimulusGlobalIndexs, <span class="keyword">...</span>
+0752                         this.enzymeStimulusCompartmentIndexs, <span class="keyword">...</span>
+0753                         this.enzymeStimulusLocalIndexs);
+0754                     this.copyToStateHelper(this.metabolite, <span class="keyword">...</span>
+0755                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0756                         <span class="string">'enzymes'</span>,<span class="keyword">...</span>
+0757                         this.enzymeMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0758                         this.enzymeMetaboliteCompartmentIndexs, <span class="keyword">...</span>
+0759                         this.enzymeMetaboliteLocalIndexs);
+0760                     this.copyToStateHelper(this.rna, <span class="keyword">...</span>
+0761                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0762                         <span class="string">'enzymes'</span>,<span class="keyword">...</span>
+0763                         this.rna.matureIndexs(this.enzymeRNAGlobalIndexs),<span class="keyword">...</span>
+0764                         this.enzymeRNACompartmentIndexs, <span class="keyword">...</span>
+0765                         this.enzymeRNALocalIndexs);
+0766                     this.copyToStateHelper(this.monomer, <span class="keyword">...</span>
+0767                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0768                         <span class="string">'enzymes'</span>,<span class="keyword">...</span>
+0769                         this.monomer.matureIndexs(this.enzymeMonomerGlobalIndexs),<span class="keyword">...</span>
+0770                         this.enzymeMonomerCompartmentIndexs, <span class="keyword">...</span>
+0771                         this.enzymeMonomerLocalIndexs);
+0772                     this.copyToStateHelper(this.complex, <span class="keyword">...</span>
+0773                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0774                         <span class="string">'enzymes'</span>,<span class="keyword">...</span>
+0775                         this.complex.matureIndexs(this.enzymeComplexGlobalIndexs),<span class="keyword">...</span>
+0776                         this.enzymeComplexCompartmentIndexs, <span class="keyword">...</span>
+0777                         this.enzymeComplexLocalIndexs);
+0778                     
+0779                     this.copyToStateHelper(this.rna, <span class="keyword">...</span>
+0780                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0781                         <span class="string">'boundEnzymes'</span>,<span class="keyword">...</span>
+0782                         this.rna.boundIndexs(this.enzymeRNAGlobalIndexs),<span class="keyword">...</span>
+0783                         this.enzymeRNACompartmentIndexs, <span class="keyword">...</span>
+0784                         this.enzymeRNALocalIndexs);
+0785                     this.copyToStateHelper(this.monomer, <span class="keyword">...</span>
+0786                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0787                         <span class="string">'boundEnzymes'</span>,<span class="keyword">...</span>
+0788                         this.monomer.boundIndexs(this.enzymeMonomerGlobalIndexs),<span class="keyword">...</span>
+0789                         this.enzymeMonomerCompartmentIndexs, <span class="keyword">...</span>
+0790                         this.enzymeMonomerLocalIndexs);
+0791                     this.copyToStateHelper(this.complex, <span class="keyword">...</span>
+0792                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0793                         <span class="string">'boundEnzymes'</span>,<span class="keyword">...</span>
+0794                         this.complex.boundIndexs(this.enzymeComplexGlobalIndexs),<span class="keyword">...</span>
+0795                         this.enzymeComplexCompartmentIndexs, <span class="keyword">...</span>
+0796                         this.enzymeComplexLocalIndexs);
+0797                 <span class="keyword">end</span>
+0798             <span class="keyword">end</span>
+0799             
+0800             <span class="keyword">if</span> ~isempty(this.substrates)
+0801                 <span class="keyword">if</span> numTimePoints == 1
+0802                     <span class="keyword">if</span> ~isempty(this.substrateStimulusGlobalCompartmentIndexs)
+0803                         this.stimulus.values(this.substrateStimulusGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0804                             this.substrates(this.substrateStimulusLocalIndexs, :);
+0805                     <span class="keyword">end</span>
+0806                     <span class="keyword">if</span> ~isempty(this.substrateMetaboliteGlobalCompartmentIndexs)
+0807                         this.metabolite.counts(this.substrateMetaboliteGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0808                             this.substrates(this.substrateMetaboliteLocalIndexs, :);
+0809                     <span class="keyword">end</span>
+0810                     <span class="keyword">if</span> ~isempty(this.substrateRNAGlobalCompartmentIndexs)
+0811                         this.rna.counts(this.substrateRNAGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0812                             this.substrates(this.substrateRNALocalIndexs, :);
+0813                     <span class="keyword">end</span>
+0814                     <span class="keyword">if</span> ~isempty(this.substrateMonomerGlobalCompartmentIndexs)
+0815                         this.monomer.counts(this.substrateMonomerGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0816                             this.substrates(this.substrateMonomerLocalIndexs, :);
+0817                     <span class="keyword">end</span>
+0818                     <span class="keyword">if</span> ~isempty(this.substrateComplexGlobalCompartmentIndexs)
+0819                         this.complex.counts(this.substrateComplexGlobalCompartmentIndexs) = <span class="keyword">...</span>
+0820                             this.substrates(this.substrateComplexLocalIndexs, :);
+0821                     <span class="keyword">end</span>
+0822                 <span class="keyword">else</span>
+0823                     this.copyToStateHelper(this.stimulus, <span class="keyword">...</span>
+0824                         <span class="string">'values'</span>, <span class="keyword">...</span>
+0825                         <span class="string">'substrates'</span>, <span class="keyword">...</span>
+0826                         this.substrateStimulusGlobalIndexs, <span class="keyword">...</span>
+0827                         this.substrateStimulusCompartmentIndexs, <span class="keyword">...</span>
+0828                         this.substrateStimulusLocalIndexs);
+0829                     this.copyToStateHelper(this.metabolite, <span class="keyword">...</span>
+0830                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0831                         <span class="string">'substrates'</span>,<span class="keyword">...</span>
+0832                         this.substrateMetaboliteGlobalIndexs,<span class="keyword">...</span>
+0833                         this.substrateMetaboliteCompartmentIndexs, <span class="keyword">...</span>
+0834                         this.substrateMetaboliteLocalIndexs);
+0835                     this.copyToStateHelper(this.rna, <span class="keyword">...</span>
+0836                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0837                         <span class="string">'substrates'</span>,<span class="keyword">...</span>
+0838                         this.rna.matureIndexs(this.substrateRNAGlobalIndexs),<span class="keyword">...</span>
+0839                         this.substrateRNACompartmentIndexs, <span class="keyword">...</span>
+0840                         this.substrateRNALocalIndexs);
+0841                     this.copyToStateHelper(this.monomer, <span class="keyword">...</span>
+0842                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0843                         <span class="string">'substrates'</span>,<span class="keyword">...</span>
+0844                         this.monomer.matureIndexs(this.substrateMonomerGlobalIndexs),<span class="keyword">...</span>
+0845                         this.substrateMonomerCompartmentIndexs, <span class="keyword">...</span>
+0846                         this.substrateMonomerLocalIndexs);
+0847                     this.copyToStateHelper(this.complex, <span class="keyword">...</span>
+0848                         <span class="string">'counts'</span>, <span class="keyword">...</span>
+0849                         <span class="string">'substrates'</span>,<span class="keyword">...</span>
+0850                         this.complex.matureIndexs(this.substrateComplexGlobalIndexs),<span class="keyword">...</span>
+0851                         this.substrateComplexCompartmentIndexs, <span class="keyword">...</span>
+0852                         this.substrateComplexLocalIndexs);
+0853                 <span class="keyword">end</span>
+0854             <span class="keyword">end</span>
+0855         <span class="keyword">end</span>
+0856     <span class="keyword">end</span>
+0857 
+0858     <span class="comment">%Allocate memory for state</span>
+0859     <span class="comment">%- stimuli</span>
+0860     <span class="comment">%- substrates</span>
+0861     <span class="comment">%- enzymes</span>
+0862     <span class="comment">%- bound enzymes</span>
+0863     <span class="comment">%</span>
+0864     <span class="comment">%Called by simulation allocateMemoryForState method which is called at the</span>
+0865     <span class="comment">%beginning of simulation.initializeConstants</span>
+0866     methods
+0867         <a name="_sub9" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0868             stimuliCompartments = max([
+0869                 size(this.stimulusStimulusGlobalIndexs, 2)
+0870                 size(this.stimulusMetaboliteGlobalIndexs, 2)
+0871                 size(this.stimulusRNAGlobalIndexs, 2)
+0872                 size(this.stimulusMonomerGlobalIndexs, 2)
+0873                 size(this.stimulusComplexGlobalIndexs, 2)]);
+0874             substrateCompartments = max([
+0875                 size(this.substrateStimulusGlobalIndexs, 2)
+0876                 size(this.substrateMetaboliteGlobalIndexs, 2)
+0877                 size(this.substrateRNAGlobalIndexs, 2)
+0878                 size(this.substrateMonomerGlobalIndexs, 2)
+0879                 size(this.substrateComplexGlobalIndexs, 2)]);
+0880             enzymeCompartments = max([
+0881                 size(this.enzymeStimulusGlobalIndexs, 2)
+0882                 size(this.enzymeMetaboliteGlobalIndexs, 2)
+0883                 size(this.enzymeRNAGlobalIndexs, 2)
+0884                 size(this.enzymeMonomerGlobalIndexs, 2)
+0885                 size(this.enzymeComplexGlobalIndexs, 2)]);
+0886             
+0887             this.stimuli      = zeros(length(this.stimuliWholeCellModelIDs),   stimuliCompartments, numTimePoints);
+0888             this.substrates   = zeros(length(this.substrateWholeCellModelIDs), substrateCompartments, numTimePoints);
+0889             this.enzymes      = zeros(length(this.enzymeWholeCellModelIDs), enzymeCompartments, numTimePoints);
+0890             this.boundEnzymes = zeros(length(this.enzymeWholeCellModelIDs), enzymeCompartments, numTimePoints);
+0891         <span class="keyword">end</span>
+0892     <span class="keyword">end</span>
+0893 
+0894     <span class="comment">%model. Subclasses must implement these methods</span>
+0895     methods (Abstract = true)
+0896         <span class="comment">%Calculate contribution to FBA objective using</span>
+0897         <span class="comment">%- weight fractions: dnaWeight, rnaWeight, proteinWeight, remainingWeight</span>
+0898         <span class="comment">%- macromolecular steady-state: RNAs, monomers, complexs</span>
+0899         <span class="comment">%- macromolecular decays: rnaDecays, monomerDecays, complexDecays</span>
+0900         <span class="comment">%- macromolecular productions (steady-state + decays): rnaProductions, monomerProducts, complexProductions</span>
+0901         <span class="comment">%</span>
+0902         <span class="comment">%Calculate minimum expression (at beginning of cell cycle) consistent with</span>
+0903         <span class="comment">%cell cycle length given current estimates of</span>
+0904         <span class="comment">% - Cell weight</span>
+0905         <span class="comment">% - Cell cycle length, area under cell growth curve</span>
+0906         <span class="comment">% - Composition: dNMP, NMP, AA, other</span>
+0907         <span class="comment">% - Expression: RNA, gene, protein monomers</span>
+0908         <span class="comment">% - Decay rates: RNA, protein monomers</span>
+0909         <span class="comment">%</span>
+0910         <span class="comment">%Called by simulation fitConstants method prior to</span>
+0911         <span class="comment">%after simulation.initializeConstants and after</span>
+0912         <span class="comment">%simulation.initializeState</span>
+0913         <span class="comment">%</span>
+0914         <span class="comment">%This function can access the cell state and local process state, but</span>
+0915         <span class="comment">%shouldn't modify this state or any constants</span>
+0916         [biomassProduction, byproducts, minimumEnzymeExpression, maximumEnzymeExpression] = <span class="keyword">...</span>
+0917             calcResourceRequirements_LifeCycle(this, constants, states)
+0918 
+0919         <span class="comment">%initialization</span>
+0920         <span class="comment">%</span>
+0921         <span class="comment">%called once, before the simulation begins</span>
+0922         initializeState(this)
+0923 
+0924         <span class="comment">%resource requirements</span>
+0925         <span class="comment">%</span>
+0926         <span class="comment">%called once per time step, prior to evolveState</span>
+0927         result = calcResourceRequirements_Current(this)
+0928 
+0929         <span class="comment">%simulation</span>
+0930         <span class="comment">%</span>
+0931         <span class="comment">%called once per time step during the simulation</span>
+0932         evolveState(this)
+0933     <span class="keyword">end</span>
+0934     
+0935     <span class="comment">%get/set methods of annotation properties</span>
+0936     methods
+0937         <span class="comment">%options</span>
+0938         <a name="_sub10" href="#_subfunctions" class="code">function value = get.optionNames(this)</a>
+0939             value = [this.optionNames__; {<span class="string">'stepSizeSec'</span>; <span class="string">'verbosity'</span>; <span class="string">'seed'</span>}];
+0940         <span class="keyword">end</span>
+0941 
+0942         <span class="comment">%fixed constants</span>
+0943         <a name="_sub11" href="#_subfunctions" class="code">function value = get.fixedConstantNames(this)</a>
+0944             value = this.computeFixedConstantsNames();
+0945         <span class="keyword">end</span>
+0946         
+0947         <span class="comment">%provides way for subclasses to override getter for</span>
+0948         <span class="comment">%fixedConstantNames property. Annotates as fixed constants:</span>
+0949         <span class="comment">%- compartments</span>
+0950         <span class="comment">%- molecular weights</span>
+0951         <a name="_sub12" href="#_subfunctions" class="code">function value = computeFixedConstantsNames(this)</a>
+0952             value = [{
+0953                 <span class="string">'stimuliCompartments'</span>;
+0954                 <span class="string">'substrateCompartments'</span>;
+0955                 <span class="string">'enzymeCompartments'</span>;
+0956                 <span class="string">'substrateMolecularWeights'</span>;
+0957                 <span class="string">'enzymeMolecularWeights'</span>};
+0958                 this.fixedConstantNames__];
+0959         <span class="keyword">end</span>
+0960         
+0961         <span class="comment">%fit constants</span>
+0962         <a name="_sub13" href="#_subfunctions" class="code">function value = get.fittedConstantNames(this)</a>
+0963             value = this.computeFittedConstantsNames();
+0964         <span class="keyword">end</span>
+0965 
+0966         <span class="comment">%provides way for subclasses to override getter for</span>
+0967         <span class="comment">%fittedConstantNames property. Annotates as fitted constants:</span>
+0968         <span class="comment">%- biomassProduction</span>
+0969         <span class="comment">%- byproducts</span>
+0970         <span class="comment">%- minimumEnzymeExpression</span>
+0971         <a name="_sub14" href="#_subfunctions" class="code">function value = computeFittedConstantsNames(this)</a>
+0972             value = this.fittedConstantNames__;
+0973         <span class="keyword">end</span>
+0974 
+0975         <span class="comment">%dependent time courses</span>
+0976         <a name="_sub15" href="#_subfunctions" class="code">function value = get.localStateNames(this)</a>
+0977             value = this.computeLocalStateNames();
+0978         <span class="keyword">end</span>
+0979 
+0980         <span class="comment">%provides way for subclasses to override getter for</span>
+0981         <span class="comment">%localStateNames property. Annotates as</span>
+0982         <span class="comment">%dependent time courses.</span>
+0983         <span class="comment">%- stimuli</span>
+0984         <span class="comment">%- substrates</span>
+0985         <span class="comment">%- enzymes</span>
+0986         <span class="comment">%- boundEnzymes</span>
+0987         <a name="_sub16" href="#_subfunctions" class="code">function value = computeLocalStateNames(this)</a>
+0988             value = [{
+0989                 <span class="string">'stimuli'</span>; <span class="string">'substrates'</span>; <span class="string">'enzymes'</span>; <span class="string">'boundEnzymes'</span>}; 
+0990                 this.localStateNames__];
+0991         <span class="keyword">end</span>
+0992     <span class="keyword">end</span>
+0993 
+0994     <span class="comment">%get/set methods of input/output properties. Creates structs with</span>
+0995     <span class="comment">%fields equal to that of properties of the process.</span>
+0996     methods
+0997         <span class="comment">%options</span>
+0998         <a name="_sub17" href="#_subfunctions" class="code">function value = getOptions(this)</a>
+0999             value = this.getAsStruct(this.optionNames);
+1000         <span class="keyword">end</span>
+1001         
+1002         <a name="_sub18" href="#_subfunctions" class="code">function setOptions(this, value)</a>
+1003             this.setFromStruct(value, this.optionNames);
+1004         <span class="keyword">end</span>
+1005         
+1006         <span class="comment">%parameters</span>
+1007         <a name="_sub19" href="#_subfunctions" class="code">function value = getParameters(this)</a>
+1008             value = this.getAsStruct(this.parameterNames);
+1009         <span class="keyword">end</span>
+1010         
+1011         <a name="_sub20" href="#_subfunctions" class="code">function setParameters(this, value)</a>
+1012             this.setFromStruct(value, this.parameterNames);
+1013         <span class="keyword">end</span>
+1014         
+1015         <span class="comment">%fixed constants</span>
+1016         <a name="_sub21" href="#_subfunctions" class="code">function value = getFixedConstants(this)</a>
+1017             value = this.getAsStruct(this.fixedConstantNames);
+1018         <span class="keyword">end</span>
+1019         
+1020         <a name="_sub22" href="#_subfunctions" class="code">function setFixedConstants(this, value)</a>
+1021             this.setFromStruct(value, this.fixedConstantNames);
+1022         <span class="keyword">end</span>
+1023         
+1024         <span class="comment">%fit constants</span>
+1025         <a name="_sub23" href="#_subfunctions" class="code">function value = getFittedConstants(this)</a>
+1026             value = this.getAsStruct(this.fittedConstantNames);
+1027         <span class="keyword">end</span>
+1028         
+1029         <a name="_sub24" href="#_subfunctions" class="code">function setFittedConstants(this, value)</a>
+1030             this.setFromStruct(value, this.fittedConstantNames);
+1031         <span class="keyword">end</span>
+1032     <span class="keyword">end</span>
+1033     
+1034     methods (Access = private)
+1035         <span class="comment">%gets process property values in a struct</span>
+1036         <a name="_sub25" href="#_subfunctions" class="code">function value = getAsStruct(this, fields)</a>
+1037             value = struct;
+1038             validNames = fieldnames(this);
+1039             <span class="keyword">for</span> i = 1:length(fields)
+1040                 <span class="keyword">if</span> ismember(fields{i}, validNames)
+1041                     value.(fields{i}) = this.(fields{i});
+1042                 <span class="keyword">end</span>
+1043             <span class="keyword">end</span>
+1044         <span class="keyword">end</span>
+1045         
+1046         <span class="comment">%sets process property values according to struct values</span>
+1047         <a name="_sub26" href="#_subfunctions" class="code">function setFromStruct(this, value, fields)</a>
+1048             validNames = fieldnames(this);
+1049             <span class="keyword">for</span> i = 1:length(fields)
+1050                 <span class="keyword">if</span> isfield(value, fields{i}) &amp;&amp; ismember(fields{i}, validNames)
+1051                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+1052                         this.(fields{i}) = value.(fields{i});
+1053                     <span class="keyword">end</span>
+1054                 <span class="keyword">end</span>
+1055             <span class="keyword">end</span>
+1056         <span class="keyword">end</span>
+1057     <span class="keyword">end</span>
+1058 
+1059     <span class="comment">%Compute indices of the global compartments of stimuli, substrates, and</span>
+1060     <span class="comment">%enzymes. Computed by getter methods from the compartment indices in</span>
+1061     <span class="comment">%the above section. These properties have size [numComponents of particular type within process (eg stimuli,</span>
+1062     <span class="comment">%substrates, enzymes) X compartments]</span>
+1063     methods
+1064         <span class="comment">%Compute indices of the global compartments of stimuli.</span>
+1065         <a name="_sub27" href="#_subfunctions" class="code">function value = get.stimuliCompartments(this)</a>
+1066             value = this.getComponentCompartments(<span class="string">'stimulus'</span>, <span class="string">'stimuli'</span>);
+1067         <span class="keyword">end</span>
+1068 
+1069         <span class="comment">%Compute indices of the global compartments of substrates.</span>
+1070         <a name="_sub28" href="#_subfunctions" class="code">function value = get.substrateCompartments(this)</a>
+1071             value = this.getComponentCompartments(<span class="string">'substrate'</span>, <span class="string">'substrate'</span>);
+1072         <span class="keyword">end</span>
+1073 
+1074         <span class="comment">%Compute indices of the global compartments of enzymes.</span>
+1075         <a name="_sub29" href="#_subfunctions" class="code">function value = get.enzymeCompartments(this)</a>
+1076             value = this.getComponentCompartments(<span class="string">'enzyme'</span>, <span class="string">'enzyme'</span>);
+1077         <span class="keyword">end</span>
+1078 
+1079         <span class="comment">%Compute indices of the global compartments of components.</span>
+1080         <a name="_sub30" href="#_subfunctions" class="code">function value = getComponentCompartments(this, type, types)</a>
+1081             numCompartments = max([
+1082                 size(this.([type <span class="string">'StimulusGlobalIndexs'</span>]),2)
+1083                 size(this.([type <span class="string">'MetaboliteGlobalIndexs'</span>]),2)
+1084                 size(this.([type <span class="string">'RNAGlobalIndexs'</span>]),2)
+1085                 size(this.([type <span class="string">'MonomerGlobalIndexs'</span>]),2)
+1086                 size(this.([type <span class="string">'ComplexGlobalIndexs'</span>]),2)]);
+1087 
+1088             value = zeros(size(this.([types <span class="string">'WholeCellModelIDs'</span>]),1),  numCompartments);
+1089 
+1090             value(this.([type <span class="string">'StimulusLocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1091                 this.([type <span class="string">'StimulusCompartmentIndexs'</span>]);
+1092 
+1093             value(this.([type <span class="string">'MetaboliteLocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1094                 this.([type <span class="string">'MetaboliteCompartmentIndexs'</span>]);
+1095 
+1096             value(this.([type <span class="string">'RNALocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1097                 this.([type <span class="string">'RNACompartmentIndexs'</span>]);
+1098 
+1099             value(this.([type <span class="string">'MonomerLocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1100                 this.([type <span class="string">'MonomerCompartmentIndexs'</span>]);
+1101 
+1102             value(this.([type <span class="string">'ComplexLocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1103                 this.([type <span class="string">'ComplexCompartmentIndexs'</span>]);
+1104         <span class="keyword">end</span>
+1105     <span class="keyword">end</span>
+1106 
+1107     <span class="comment">%get methods of dependent local state</span>
+1108     methods
+1109         <span class="comment">%dry weight represented by state variables accessible to process</span>
+1110         <span class="comment">%including stimuli, substrates, and enzymes, subclasses may need to</span>
+1111         <span class="comment">%override the getDryWeight method which calculates this</span>
+1112         <a name="_sub31" href="#_subfunctions" class="code">function value = get.dryWeight(this)</a>
+1113             value = this.getDryWeight;
+1114             <span class="keyword">for</span> i = 1:numel(this.states)
+1115                 value = value + this.states{i}.dryWeight;
+1116             <span class="keyword">end</span>
+1117         <span class="keyword">end</span>
+1118 
+1119         <span class="comment">%Provides way for subclasses to override getter method of</span>
+1120         <span class="comment">%dryWeight property</span>
+1121         <a name="_sub32" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+1122             <span class="keyword">if</span> size(this.substrates, 3) == 1
+1123                 value = <span class="keyword">...</span>
+1124                     this.substrateMolecularWeights' * sum(this.substrates,   2) + <span class="keyword">...</span>
+1125                     this.enzymeMolecularWeights'    * sum(this.enzymes,      2) + <span class="keyword">...</span>
+1126                     this.enzymeMolecularWeights'    * sum(this.boundEnzymes, 2);
+1127             <span class="keyword">else</span>
+1128                 value = permute(<span class="keyword">...</span>
+1129                     this.substrateMolecularWeights' * permute(sum(this.substrates,   2),[1 3 2]) + <span class="keyword">...</span>
+1130                     this.enzymeMolecularWeights'    * permute(sum(this.enzymes,      2),[1 3 2]) + <span class="keyword">...</span>
+1131                     this.enzymeMolecularWeights'    * permute(sum(this.boundEnzymes, 2),[1 3 2]), <span class="keyword">...</span>
+1132                     [1 3 2]);
+1133             <span class="keyword">end</span>
+1134             value = value / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+1135         <span class="keyword">end</span>
+1136     <span class="keyword">end</span>
+1137 
+1138     <span class="comment">%helper methods of initializeConstants</span>
+1139     methods (Access = protected)
+1140         <span class="comment">%- computes mapping between process's locally stored state (stimuli,</span>
+1141         <span class="comment">%  substrates, enzymes) and the simulation's state using the</span>
+1142         <span class="comment">%  stimuliWholeCellModelIDs, substrateWholeCellModelIDs, and</span>
+1143         <span class="comment">%  enzymeWholeCellModelIDs properties that subclasses must define</span>
+1144         <span class="comment">%- fetches molecular weights of substrates and enzymes from</span>
+1145         <span class="comment">%  simulation</span>
+1146         <span class="comment">%</span>
+1147         <span class="comment">%By default sets the mapping between the process's locally stored</span>
+1148         <span class="comment">%state and the simulation state to only copy over 1 compartment for</span>
+1149         <span class="comment">%each component. Subclasses can set the retainStimuliCompartments,</span>
+1150         <span class="comment">%retainSubstrateCompartments, retainEnzymeCompartments options to</span>
+1151         <span class="comment">%true to setup the mapping to copy over all compartments of a</span>
+1152         <span class="comment">%component to the simulation's locally stored state.</span>
+1153         <a name="_sub33" href="#_subfunctions" class="code">function [</a><span class="keyword">...</span>
+1154             names, <span class="keyword">...</span>
+1155             stimulusLocalIndexs, stimulusGlobalIndexs, stimulusCompartmentIndexs, stimulusGlobalCompartmentIndexs, <span class="keyword">...</span>
+1156             metaboliteLocalIndexs, metaboliteGlobalIndexs, metaboliteCompartmentIndexs, metaboliteGlobalCompartmentIndexs, <span class="keyword">...</span>
+1157             rnaLocalIndexs, rnaGlobalIndexs, rnaCompartmentIndexs, rnaGlobalCompartmentIndexs,<span class="keyword">...</span>
+1158             monomerLocalIndexs, monomerGlobalIndexs, monomerCompartmentIndexs, monomerGlobalCompartmentIndexs,<span class="keyword">...</span>
+1159             complexLocalIndexs, complexGlobalIndexs, complexCompartmentIndexs, complexGlobalCompartmentIndexs,<span class="keyword">...</span><span class="comment">            </span>
+1160             bound_rnaGlobalCompartmentIndexs, bound_monomerGlobalCompartmentIndexs, bound_complexGlobalCompartmentIndexs, <span class="keyword">...</span>
+1161             globalIndexs, molecularWeights] = <span class="keyword">...</span>
+1162                 initializeConstantsHelper(<span class="keyword">...</span>
+1163                     this, wholeCellModelIDs, retainCompartments)
+1164 
+1165             <span class="keyword">if</span> ~exist(<span class="string">'retainCompartments'</span>,<span class="string">'var'</span>)
+1166                 retainCompartments = false;
+1167             <span class="keyword">end</span>
+1168 
+1169             names             = cell(length(wholeCellModelIDs),1);
+1170             globalIndexs      = zeros(length(wholeCellModelIDs),1);
+1171             compartmentIndexs = zeros(length(wholeCellModelIDs),1);
+1172             stimulis          = false(length(wholeCellModelIDs),1);
+1173             metabolites       = false(length(wholeCellModelIDs),1);
+1174             rnas              = false(length(wholeCellModelIDs),1);
+1175             monomers          = false(length(wholeCellModelIDs),1);
+1176             complexs          = false(length(wholeCellModelIDs),1);
+1177 
+1178             molecularWeights  = zeros(length(wholeCellModelIDs),1);
+1179 
+1180             stimuliIDs        = this.stimulus.wholeCellModelIDs;
+1181             metaboliteIDs     = this.metabolite.wholeCellModelIDs;
+1182             rnaIDs            = this.rna.wholeCellModelIDs(this.rna.matureIndexs);
+1183             monomerIDs        = this.monomer.wholeCellModelIDs(this.monomer.matureIndexs);
+1184             complexIDs        = this.complex.wholeCellModelIDs(this.complex.matureIndexs);
+1185 
+1186             stimNames         = this.stimulus.names;
+1187             metaboliteNames   = this.metabolite.names;
+1188             rnaNames          = this.rna.names(this.rna.matureIndexs);
+1189             monomerNames      = this.monomer.names(this.monomer.matureIndexs);
+1190             complexNames      = this.complex.names(this.complex.matureIndexs);
+1191 
+1192             stimuliCompartments         = repmat(this.compartment.extracellularIndexs, size(stimuliIDs));
+1193             metaboliteCompartments      = repmat(this.compartment.cytosolIndexs, size(metaboliteIDs));
+1194             metaboliteCompartments(this.metabolite.hydrophobicIndexs) = this.compartment.membraneIndexs;
+1195             rnaCompartments             = repmat(this.compartment.cytosolIndexs, size(rnaIDs));
+1196             monomerCompartments         = this.monomer.compartments(this.monomer.matureIndexs);
+1197             complexCompartments         = this.complex.compartments(this.complex.matureIndexs);
+1198 
+1199             <span class="keyword">for</span> i = 1:length(wholeCellModelIDs)
+1200                 index = find(strcmp(stimuliIDs,wholeCellModelIDs{i}),1,<span class="string">'first'</span>);
+1201                 <span class="keyword">if</span> ~isempty(index)
+1202                     names{i} = stimNames{index};
+1203                     globalIndexs(i) = index;
+1204                     compartmentIndexs(i) = stimuliCompartments(index);
+1205                     molecularWeights(i) = 0;
+1206                     stimulis(i) = true;
+1207                     <span class="keyword">continue</span>;
+1208                 <span class="keyword">end</span>
+1209 
+1210                 index = find(strcmp(metaboliteIDs,wholeCellModelIDs{i}),1,<span class="string">'first'</span>);
+1211                 <span class="keyword">if</span> ~isempty(index)
+1212                     names{i} = metaboliteNames{index};
+1213                     globalIndexs(i) = index;
+1214                     compartmentIndexs(i) = metaboliteCompartments(index);
+1215                     molecularWeights(i) = this.metabolite.molecularWeights(index);
+1216                     metabolites(i) = true;
+1217                     <span class="keyword">continue</span>;
+1218                 <span class="keyword">end</span>
+1219 
+1220                 index = find(strcmp(rnaIDs,wholeCellModelIDs{i}),1,<span class="string">'first'</span>);
+1221                 <span class="keyword">if</span> ~isempty(index)
+1222                     names{i} = rnaNames{index};
+1223                     globalIndexs(i) = index;
+1224                     compartmentIndexs(i) = rnaCompartments(index);
+1225                     molecularWeights(i) = this.rna.molecularWeights(this.rna.matureIndexs(index));
+1226                     rnas(i) = true;
+1227                     <span class="keyword">continue</span>;
+1228                 <span class="keyword">end</span>
+1229 
+1230                 index = find(strcmp(monomerIDs,wholeCellModelIDs{i}),1,<span class="string">'first'</span>);
+1231                 <span class="keyword">if</span> ~isempty(index)
+1232                     names{i} = monomerNames{index};
+1233                     globalIndexs(i) = index;
+1234                     compartmentIndexs(i) = monomerCompartments(index);
+1235                     molecularWeights(i) = this.monomer.molecularWeights(this.monomer.matureIndexs(index));
+1236                     monomers(i) = true;
+1237                     <span class="keyword">continue</span>;
+1238                 <span class="keyword">end</span>
+1239 
+1240                 index = find(strcmp(complexIDs,wholeCellModelIDs{i}),1,<span class="string">'first'</span>);
+1241                 <span class="keyword">if</span> ~isempty(index)
+1242                     names{i} = complexNames{index};
+1243                     globalIndexs(i) = index;
+1244                     compartmentIndexs(i) = complexCompartments(index);
+1245                     molecularWeights(i) = this.complex.molecularWeights(this.complex.matureIndexs(index));
+1246                     complexs(i) = true;
+1247                     <span class="keyword">continue</span>;
+1248                 <span class="keyword">end</span>
+1249             <span class="keyword">end</span>
+1250             
+1251             invalidIdxs = find(~(<span class="keyword">...</span>
+1252                 stimulis    | <span class="keyword">...</span>
+1253                 metabolites | <span class="keyword">...</span>
+1254                 rnas        | <span class="keyword">...</span>
+1255                 monomers    | <span class="keyword">...</span>
+1256                 complexs));
+1257             <span class="keyword">if</span> ~isempty(invalidIdxs)
+1258                 throw(MException(<span class="string">'Process:invalidIDs'</span>,<span class="string">'%s not found'</span>,strjoin(<span class="string">', '</span>, wholeCellModelIDs{invalidIdxs})));
+1259             <span class="keyword">end</span>
+1260 
+1261             stimulusLocalIndexs   = reshape(find(stimulis),[],1);
+1262             metaboliteLocalIndexs = reshape(find(metabolites),[],1);
+1263             rnaLocalIndexs        = reshape(find(rnas),[],1);
+1264             monomerLocalIndexs    = reshape(find(monomers),[],1);
+1265             complexLocalIndexs    = reshape(find(complexs),[],1);
+1266 
+1267             <span class="keyword">if</span> retainCompartments
+1268                 nCmp = this.compartment.count;
+1269 
+1270                 stimulusGlobalIndexs        = repmat(globalIndexs(stimulusLocalIndexs),   1, nCmp);
+1271                 metaboliteGlobalIndexs      = repmat(globalIndexs(metaboliteLocalIndexs), 1, nCmp);
+1272                 rnaGlobalIndexs             = repmat(globalIndexs(rnaLocalIndexs),        1, nCmp);
+1273                 monomerGlobalIndexs         = repmat(globalIndexs(monomerLocalIndexs),    1, nCmp);
+1274                 complexGlobalIndexs         = repmat(globalIndexs(complexLocalIndexs),    1, nCmp);
+1275 
+1276                 stimulusCompartmentIndexs   = repmat(1:nCmp, length(stimulusLocalIndexs),   1);
+1277                 metaboliteCompartmentIndexs = repmat(1:nCmp, length(metaboliteLocalIndexs), 1);
+1278                 rnaCompartmentIndexs        = repmat(1:nCmp, length(rnaLocalIndexs),        1);
+1279                 monomerCompartmentIndexs    = repmat(1:nCmp, length(monomerLocalIndexs),    1);
+1280                 complexCompartmentIndexs    = repmat(1:nCmp, length(complexLocalIndexs),    1);
+1281             <span class="keyword">else</span>
+1282                 stimulusGlobalIndexs        = globalIndexs(stimulusLocalIndexs);
+1283                 metaboliteGlobalIndexs      = globalIndexs(metaboliteLocalIndexs);
+1284                 rnaGlobalIndexs             = globalIndexs(rnaLocalIndexs);
+1285                 monomerGlobalIndexs         = globalIndexs(monomerLocalIndexs);
+1286                 complexGlobalIndexs         = globalIndexs(complexLocalIndexs);
+1287 
+1288                 stimulusCompartmentIndexs   = compartmentIndexs(stimulusLocalIndexs);
+1289                 metaboliteCompartmentIndexs = compartmentIndexs(metaboliteLocalIndexs);
+1290                 rnaCompartmentIndexs        = compartmentIndexs(rnaLocalIndexs);
+1291                 monomerCompartmentIndexs    = compartmentIndexs(monomerLocalIndexs);
+1292                 complexCompartmentIndexs    = compartmentIndexs(complexLocalIndexs);
+1293             <span class="keyword">end</span>
+1294             
+1295             stimulusGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1296                 [numel(this.stimulus.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1297                 stimulusGlobalIndexs, <span class="keyword">...</span>
+1298                 stimulusCompartmentIndexs);
+1299             metaboliteGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1300                 [numel(this.metabolite.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1301                 metaboliteGlobalIndexs, <span class="keyword">...</span>
+1302                 metaboliteCompartmentIndexs);
+1303             rnaGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1304                 [numel(this.rna.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1305                 this.rna.matureIndexs(rnaGlobalIndexs), <span class="keyword">...</span>
+1306                 rnaCompartmentIndexs);
+1307             monomerGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1308                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1309                 this.monomer.matureIndexs(monomerGlobalIndexs), <span class="keyword">...</span>
+1310                 monomerCompartmentIndexs);
+1311             complexGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1312                 [numel(this.complex.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1313                 this.complex.matureIndexs(complexGlobalIndexs), <span class="keyword">...</span>
+1314                 complexCompartmentIndexs);
+1315             
+1316             bound_rnaGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1317                 [numel(this.rna.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1318                 this.rna.boundIndexs(rnaGlobalIndexs), <span class="keyword">...</span>
+1319                 rnaCompartmentIndexs);
+1320             bound_monomerGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1321                 [numel(this.monomer.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1322                 this.monomer.boundIndexs(monomerGlobalIndexs), <span class="keyword">...</span>
+1323                 monomerCompartmentIndexs);
+1324             bound_complexGlobalCompartmentIndexs = sub2ind(<span class="keyword">...</span>
+1325                 [numel(this.complex.wholeCellModelIDs) this.compartment.count], <span class="keyword">...</span>
+1326                 this.complex.boundIndexs(complexGlobalIndexs), <span class="keyword">...</span>
+1327                 complexCompartmentIndexs);
+1328         <span class="keyword">end</span>
+1329         
+1330         <a name="_sub34" href="#_subfunctions" class="code">function initializeConstants_overrideSubstrates(this, wholeCellModelIDs)</a>
+1331             <span class="comment">%set whole cell model IDs</span>
+1332             this.substrateWholeCellModelIDs = wholeCellModelIDs;
+1333 
+1334             <span class="comment">%recompute mapping of substrates onto simulation</span>
+1335             [this.substrateNames<span class="keyword">...</span>
+1336              this.substrateStimulusLocalIndexs<span class="keyword">...</span>
+1337              this.substrateStimulusGlobalIndexs<span class="keyword">...</span>
+1338              this.substrateStimulusCompartmentIndexs<span class="keyword">...</span>
+1339              this.substrateStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+1340              this.substrateMetaboliteLocalIndexs<span class="keyword">...</span>
+1341              this.substrateMetaboliteGlobalIndexs<span class="keyword">...</span>
+1342              this.substrateMetaboliteCompartmentIndexs<span class="keyword">...</span>
+1343              this.substrateMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+1344              this.substrateRNALocalIndexs<span class="keyword">...</span>
+1345              this.substrateRNAGlobalIndexs<span class="keyword">...</span>
+1346              this.substrateRNACompartmentIndexs<span class="keyword">...</span>
+1347              this.substrateRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+1348              this.substrateMonomerLocalIndexs<span class="keyword">...</span>
+1349              this.substrateMonomerGlobalIndexs<span class="keyword">...</span>
+1350              this.substrateMonomerCompartmentIndexs<span class="keyword">...</span>
+1351              this.substrateMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+1352              this.substrateComplexLocalIndexs<span class="keyword">...</span>
+1353              this.substrateComplexGlobalIndexs<span class="keyword">...</span>
+1354              this.substrateComplexCompartmentIndexs<span class="keyword">...</span>
+1355              this.substrateComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+1356              ~, ~, ~, <span class="keyword">...</span>
+1357              this.substrateGlobalIndexs<span class="keyword">...</span>
+1358              this.substrateMolecularWeights] = <span class="keyword">...</span>
+1359                 this.initializeConstantsHelper(wholeCellModelIDs, size(this.substrates,2)&gt;1);
+1360         <span class="keyword">end</span>
+1361 
+1362         <a name="_sub35" href="#_subfunctions" class="code">function initializeConstants_overrideEnzymes(this, wholeCellModelIDs)</a>
+1363             <span class="comment">%set whole cell model IDs</span>
+1364             this.enzymeWholeCellModelIDs  = wholeCellModelIDs;
+1365 
+1366             <span class="comment">%recompute mapping of enzymes onto simulation</span>
+1367             [this.enzymeNames<span class="keyword">...</span>
+1368              this.enzymeStimulusLocalIndexs<span class="keyword">...</span>
+1369              this.enzymeStimulusGlobalIndexs<span class="keyword">...</span>
+1370              this.enzymeStimulusCompartmentIndexs<span class="keyword">...</span>
+1371              this.enzymeStimulusGlobalCompartmentIndexs<span class="keyword">...</span>
+1372              this.enzymeMetaboliteLocalIndexs<span class="keyword">...</span>
+1373              this.enzymeMetaboliteGlobalIndexs<span class="keyword">...</span>
+1374              this.enzymeMetaboliteCompartmentIndexs<span class="keyword">...</span>
+1375              this.enzymeMetaboliteGlobalCompartmentIndexs<span class="keyword">...</span>
+1376              this.enzymeRNALocalIndexs<span class="keyword">...</span>
+1377              this.enzymeRNAGlobalIndexs<span class="keyword">...</span>
+1378              this.enzymeRNACompartmentIndexs<span class="keyword">...</span>
+1379              this.enzymeRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+1380              this.enzymeMonomerLocalIndexs<span class="keyword">...</span>
+1381              this.enzymeMonomerGlobalIndexs<span class="keyword">...</span>
+1382              this.enzymeMonomerCompartmentIndexs<span class="keyword">...</span>
+1383              this.enzymeMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+1384              this.enzymeComplexLocalIndexs<span class="keyword">...</span>
+1385              this.enzymeComplexGlobalIndexs<span class="keyword">...</span>
+1386              this.enzymeComplexCompartmentIndexs<span class="keyword">...</span>
+1387              this.enzymeComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+1388              this.enzymeBoundRNAGlobalCompartmentIndexs<span class="keyword">...</span>
+1389              this.enzymeBoundMonomerGlobalCompartmentIndexs<span class="keyword">...</span>
+1390              this.enzymeBoundComplexGlobalCompartmentIndexs<span class="keyword">...</span>
+1391              this.enzymeGlobalIndexs<span class="keyword">...</span>
+1392              this.enzymeMolecularWeights] = <span class="keyword">...</span>
+1393                 this.initializeConstantsHelper(wholeCellModelIDs, size(this.enzymes,2)&gt;1);
+1394         <span class="keyword">end</span>
+1395     <span class="keyword">end</span>
+1396     
+1397     methods
+1398         <span class="comment">%Computes local indices of stimuli. That is, this method returns</span>
+1399         <span class="comment">%the indices of wholeCellModelIDs within this.stimulusWholeCellModelIDs.</span>
+1400         <a name="_sub36" href="#_subfunctions" class="code">function value = stimulusIndexs(this, wholeCellModelIDs)</a>
+1401             value = this.componentIndexs(wholeCellModelIDs, <span class="string">'stimulus'</span>);
+1402         <span class="keyword">end</span>
+1403 
+1404         <span class="comment">%Computes local indices of substrates. That is, this method returns</span>
+1405         <span class="comment">%the indices of wholeCellModelIDs within this.substrateWholeCellModelIDs.</span>
+1406         <a name="_sub37" href="#_subfunctions" class="code">function value = substrateIndexs(this, wholeCellModelIDs)</a>
+1407             value = this.componentIndexs(wholeCellModelIDs, <span class="string">'substrate'</span>);
+1408         <span class="keyword">end</span>
+1409 
+1410         <span class="comment">%Computes local indices of enzymes. That is, this method returns</span>
+1411         <span class="comment">%the indices of wholeCellModelIDs within this.enzymeWholeCellModelIDs.</span>
+1412         <a name="_sub38" href="#_subfunctions" class="code">function value = enzymeIndexs(this, wholeCellModelIDs)</a>
+1413             value = this.componentIndexs(wholeCellModelIDs, <span class="string">'enzyme'</span>);
+1414         <span class="keyword">end</span>
+1415 
+1416         <span class="comment">%Computes local indices of components. That is, this method returns</span>
+1417         <span class="comment">%the indices of wholeCellModelIDs within this.*WholeCellModelIDs.</span>
+1418         <a name="_sub39" href="#_subfunctions" class="code">function value = componentIndexs(this, wholeCellModelIDs, type)</a>
+1419             [tf,value] = ismember(wholeCellModelIDs, this.([type <span class="string">'WholeCellModelIDs'</span>]));
+1420             value = value(tf);
+1421             <span class="keyword">if</span> ~all(tf)
+1422                 missingComponents = setdiff(wholeCellModelIDs,this.([type <span class="string">'WholeCellModelIDs'</span>]));
+1423                 throw(MException(<span class="string">'Process:error'</span>, <span class="string">'%s not found'</span>, strjoin(<span class="string">', '</span>, missingComponents{:})));
+1424             <span class="keyword">end</span>
+1425         <span class="keyword">end</span>
+1426     <span class="keyword">end</span>
+1427 
+1428     <span class="comment">%helper functions of get/set state</span>
+1429     methods
+1430         <span class="comment">%Use simulation-process mapping constructed by initializeConstants</span>
+1431         <span class="comment">%to copy component values from simulation. Called by</span>
+1432         <span class="comment">%copyFromState.</span>
+1433         <a name="_sub40" href="#_subfunctions" class="code">function lclState = copyFromStateHelper(~, gblState, gblIdxs, cmpIdxs)</a>
+1434             numTimePoints = size(gblState, 3);
+1435             lclState = zeros([size(gblIdxs) numTimePoints]);
+1436             <span class="keyword">if</span> isempty(gblIdxs)
+1437                 <span class="keyword">return</span>;
+1438             <span class="keyword">end</span>
+1439             
+1440             times = permute(1:numTimePoints, [1 3 2]);
+1441             <span class="keyword">if</span> ~isa(gblState, <span class="string">'edu.stanford.covert.util.SparseMat'</span>);
+1442                 lclState = gblState(sub2ind(<span class="keyword">...</span>
+1443                     size(gblState), <span class="keyword">...</span>
+1444                     gblIdxs(:, :, ones(numTimePoints, 1)),<span class="keyword">...</span>
+1445                     cmpIdxs(:, :, ones(numTimePoints, 1)),<span class="keyword">...</span>
+1446                     times(ones(size(gblIdxs, 1), 1), ones(size(gblIdxs, 2), 1), :)));
+1447             <span class="keyword">else</span>
+1448                 lclState = reshape(gblState([<span class="keyword">...</span>
+1449                     reshape(gblIdxs(:, :, ones(numTimePoints, 1)), [], 1) <span class="keyword">...</span>
+1450                     reshape(cmpIdxs(:, :, ones(numTimePoints, 1)), [], 1) <span class="keyword">...</span>
+1451                     reshape(times(ones(size(gblIdxs, 1), 1), ones(size(gblIdxs, 2), 1), :), [], 1)
+1452                     ]), [size(gblIdxs) numTimePoints]);
+1453             <span class="keyword">end</span>
+1454         <span class="keyword">end</span>
+1455         
+1456         <span class="comment">%Use simulation-process mapping constructed by initializeConstants</span>
+1457         <span class="comment">%to copy component values to simulation. Called by</span>
+1458         <span class="comment">%copyToState.</span>
+1459         <a name="_sub41" href="#_subfunctions" class="code">function copyToStateHelper(this, state, statePropertyName, lclPropertyName, stateIdxs, cmpIdxs, lclIdxs)</a>
+1460             <span class="keyword">if</span> isempty(lclIdxs)
+1461                 <span class="keyword">return</span>;
+1462             <span class="keyword">end</span>
+1463             
+1464             numTimePoints = size(state.(statePropertyName), 3);
+1465             state.(statePropertyName)(sub2ind(<span class="keyword">...</span>
+1466                 size(state.(statePropertyName)), <span class="keyword">...</span>
+1467                 repmat(stateIdxs, [1 1 numTimePoints]),<span class="keyword">...</span>
+1468                 repmat(cmpIdxs, [1 1 numTimePoints]),<span class="keyword">...</span>
+1469                 permute(repmat((1:numTimePoints)', [1 size(stateIdxs)]), [2 3 1]))) = <span class="keyword">...</span>
+1470                 this.(lclPropertyName)(lclIdxs, :, :);
+1471         <span class="keyword">end</span>
+1472         
+1473         <span class="comment">%Converts units of process state for example from numbers of</span>
+1474         <span class="comment">%components to their concentration. type and types inputs are</span>
+1475         <span class="comment">%strings representing the process property that needs to be scaled.</span>
+1476         <span class="comment">%Scale is a string representing what units the property should be</span>
+1477         <span class="comment">%scaled to.</span>
+1478         <a name="_sub42" href="#_subfunctions" class="code">function scaledValues = scaleState(this, type, types, scale)</a>
+1479             <span class="comment">%unscaled values</span>
+1480             unscaledValues = this.(types);
+1481             
+1482             <span class="comment">%scale values</span>
+1483             <span class="keyword">switch</span> scale
+1484                 <span class="keyword">case</span> <span class="string">'mM'</span>
+1485                     scaledValues = unscaledValues / <span class="keyword">...</span>
+1486                         (edu.stanford.covert.util.ConstantUtil.nAvogadro/1000) / <span class="keyword">...</span>
+1487                         this.geometry.volume;
+1488                 <span class="keyword">case</span> <span class="string">'M'</span>
+1489                     scaledValues = unscaledValues / <span class="keyword">...</span>
+1490                         edu.stanford.covert.util.ConstantUtil.nAvogadro / <span class="keyword">...</span>
+1491                         this.geometry.volume;
+1492                 <span class="keyword">otherwise</span>
+1493                     scaledValues = unscaledValues;
+1494             <span class="keyword">end</span>
+1495             
+1496             <span class="comment">%don't scale stimuli</span>
+1497             scaledValues(this.([type <span class="string">'StimulusLocalIndexs'</span>]),:) = <span class="keyword">...</span>
+1498                 unscaledValues(this.([type <span class="string">'StimulusLocalIndexs'</span>]),:);
+1499         <span class="keyword">end</span>
+1500     <span class="keyword">end</span>
+1501 
+1502     <span class="comment">%Methods which return gene composition of components as adjacency</span>
+1503     <span class="comment">%matrix (genes X components). Used by applyPerturbations method of</span>
+1504     <span class="comment">%simulation and testGeneEssentiality method of process test classes.</span>
+1505     methods
+1506         <span class="comment">%Returns gene composition of stimuli as adjacency matrix (genes X stimuli)</span>
+1507         <a name="_sub43" href="#_subfunctions" class="code">function value = stimuliGeneComposition(this)</a>
+1508             value = this.componentGeneComposition(<span class="string">'stimulus'</span>, <span class="string">'stimuli'</span>);
+1509         <span class="keyword">end</span>
+1510 
+1511         <span class="comment">%Returns gene composition of substrate as adjacency matrix (genes X substrate)</span>
+1512         <a name="_sub44" href="#_subfunctions" class="code">function value = substrateGeneComposition(this)</a>
+1513             value = this.componentGeneComposition(<span class="string">'substrate'</span>, <span class="string">'substrate'</span>);
+1514         <span class="keyword">end</span>
+1515 
+1516         <span class="comment">%Returns gene composition of enzyme as adjacency matrix (genes X enzyme)</span>
+1517         <a name="_sub45" href="#_subfunctions" class="code">function value = enzymeGeneComposition(this)</a>
+1518             value = this.componentGeneComposition(<span class="string">'enzyme'</span>, <span class="string">'enzyme'</span>);
+1519         <span class="keyword">end</span>
+1520 
+1521         <span class="comment">%methods which return gene composition of components as adjacency</span>
+1522         <span class="comment">%matrix (genes X components). Called by</span>
+1523         <span class="comment">%- stimuliGeneComposition</span>
+1524         <span class="comment">%- substrateGeneComposition</span>
+1525         <span class="comment">%- enzymeGeneComposition</span>
+1526         <a name="_sub46" href="#_subfunctions" class="code">function value = componentGeneComposition(this, type, types)</a>
+1527             value = zeros(length(this.gene.wholeCellModelIDs), length(this.([types <span class="string">'WholeCellModelIDs'</span>])));
+1528 
+1529             value(:, this.([type <span class="string">'RNALocalIndexs'</span>])) = <span class="keyword">...</span>
+1530                 this.rna.matureRNAGeneComposition(:, this.([type <span class="string">'RNAGlobalIndexs'</span>])(:,1));
+1531 
+1532             value(sub2ind(<span class="keyword">...</span>
+1533                 size(value),<span class="keyword">...</span>
+1534                 this.gene.mRNAIndexs(this.([type <span class="string">'MonomerGlobalIndexs'</span>])(:,1)),<span class="keyword">...</span>
+1535                 this.([type <span class="string">'MonomerLocalIndexs'</span>]))) = <span class="keyword">...</span>
+1536                 1;
+1537 
+1538             value(:, this.([type <span class="string">'ComplexLocalIndexs'</span>])) = <span class="keyword">...</span>
+1539                 sum(this.complex.proteinComplexComposition(:, this.([type <span class="string">'ComplexGlobalIndexs'</span>])(:,1),:),3);
+1540         <span class="keyword">end</span>
+1541     <span class="keyword">end</span>
+1542 
+1543     <span class="comment">%methods for selecting and converting indices</span>
+1544     methods
+1545         <a name="_sub47" href="#_subfunctions" class="code">function i = substrateToMetabolite(this, i)</a>
+1546             [tf,idxs] = ismember(i, this.substrateMetaboliteLocalIndexs);
+1547             i = this.substrateMetaboliteGlobalIndexs(idxs(tf));
+1548         <span class="keyword">end</span>
+1549         
+1550         <a name="_sub48" href="#_subfunctions" class="code">function i = metaboliteToSubstrate(this, i)</a>
+1551             [tf,idxs] = ismember(i, this.substrateMetaboliteGlobalIndexs);
+1552             i = this.substrateMetaboliteLocalIndexs(idxs(tf));
+1553         <span class="keyword">end</span>
+1554         
+1555         <a name="_sub49" href="#_subfunctions" class="code">function i = enzymeToMonomer(this, i)</a>
+1556             [tf,idxs] = ismember(i, this.enzymeMonomerLocalIndexs);
+1557             i = this.enzymeMonomerGlobalIndexs(idxs(tf));
+1558         <span class="keyword">end</span>
+1559         
+1560         <a name="_sub50" href="#_subfunctions" class="code">function i = monomerToEnzyme(this, i)</a>
+1561             [tf,idxs] = ismember(i, this.enzymeMonomerGlobalIndexs);
+1562             i = this.enzymeMonomerLocalIndexs(idxs(tf));
+1563         <span class="keyword">end</span>
+1564         
+1565         <a name="_sub51" href="#_subfunctions" class="code">function i = enzymeToComplex(this, i)</a>
+1566             [tf,idxs] = ismember(i, this.enzymeComplexLocalIndexs);
+1567             i = this.enzymeComplexGlobalIndexs(idxs(tf));
+1568         <span class="keyword">end</span>
+1569         
+1570         <a name="_sub52" href="#_subfunctions" class="code">function i = complexToEnzyme(this, i)</a>
+1571             [tf,idxs] = ismember(i, this.enzymeComplexGlobalIndexs);
+1572             i = this.enzymeComplexLocalIndexs(idxs(tf));
+1573         <span class="keyword">end</span>
+1574     <span class="keyword">end</span>
+1575 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

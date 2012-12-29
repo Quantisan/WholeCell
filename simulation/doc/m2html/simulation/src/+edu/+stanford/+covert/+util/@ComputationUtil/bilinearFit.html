@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of bilinearFit</title>
+  <meta name="keywords" content="bilinearFit">
+  <meta name="description" content="bilinearFit">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="../index.html">+util</a> &gt; <a href="index.html">@ComputationUtil</a> &gt; bilinearFit.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util/@ComputationUtil&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>bilinearFit
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>bilinearFit</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [a, b, cutX, gof] = bilinearFit(x, y) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">bilinearFit
+ Fits data to bilinear function
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/11/2012</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>	Utility functions for various computations:</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%bilinearFit</span>
+0002 <span class="comment">% Fits data to bilinear function</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last Updated: 1/11/2012</span>
+0007 <a name="_sub0" href="#_subfunctions" class="code">function [a, b, cutX, gof] = bilinearFit(x, y)</a>
+0008 
+0009 tf = ~isnan(x) &amp; ~isnan(y);
+0010 x = x(tf);
+0011 y = y(tf);
+0012 
+0013 [~, order] = sort(x);
+0014 x = x(order);
+0015 y = y(order);
+0016 
+0017 a = NaN(numel(x), 2);
+0018 b = NaN(numel(x), 2);
+0019 sse = NaN(numel(x), 2);
+0020 rsquare = NaN(numel(x), 2);
+0021 adjrsquare = NaN(numel(x), 2);
+0022 <span class="keyword">for</span> i = 2:numel(x)-2
+0023     [fitobject1, gof1] = fit(x(1:i), y(1:i), <span class="string">'poly1'</span>);
+0024     [fitobject2, gof2] = fit(x(i+1:end), y(i+1:end), <span class="string">'poly1'</span>);
+0025     a(i, :) = [fitobject1.p2 fitobject2.p2];
+0026     b(i, :) = [fitobject1.p1 fitobject2.p1];
+0027     sse(i, :) = [gof1.sse gof2.sse];
+0028     rsquare(i, :) = [gof1.rsquare gof2.rsquare];
+0029     adjrsquare(i, :) = [gof1.adjrsquare gof2.adjrsquare];
+0030 <span class="keyword">end</span>
+0031 
+0032 [~, cutIdx] = nanmin(sum(sse, 2));
+0033 cutX = mean(x(cutIdx:cutIdx+1));
+0034 
+0035 a = a(cutIdx, :);
+0036 b = b(cutIdx, :);
+0037 sse = sse(cutIdx, :);
+0038 rsquare = rsquare(cutIdx, :);
+0039 adjrsquare = adjrsquare(cutIdx, :);
+0040 
+0041 sse0 = sum(sse);
+0042 rsquare0 = 1 - sse0 / sum((y-mean(y)).^2);
+0043 n = numel(x);
+0044 p = 3;
+0045 adjrsquare0 = 1 - (1 - rsquare0) * (n-1) / (n-p-1);
+0046 
+0047 gof = struct(<span class="keyword">...</span>
+0048     <span class="string">'sse'</span>, [sse0 sse], <span class="keyword">...</span>
+0049     <span class="string">'rsquare'</span>, [rsquare0 rsquare], <span class="keyword">...</span>
+0050     <span class="string">'adjrsquare'</span>, [adjrsquare0 adjrsquare]);</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

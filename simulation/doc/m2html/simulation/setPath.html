@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setPath</title>
+  <meta name="keywords" content="setPath">
+  <meta name="description" content="SETPATH Adds folders to MATLAB path and MATLAB Java path.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; setPath.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>setPath
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>SETPATH Adds folders to MATLAB path and MATLAB Java path.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function setPath() </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETPATH Adds folders to MATLAB path and MATLAB Java path.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 6/8/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="generateTestFixtures.html" class="code" title="">generateTestFixtures</a>	Generates test fixtures for whole cell simulation.</li><li><a href="loadSimulation.html" class="code" title="function [simulation, states, options, parameters, fittedConstants, metadata] = loadSimulation(directoryOrWID, timeInit, timeFin, downsampleStepSec, downsampleType)">loadSimulation</a>	Load whole cell simulation from disk/database.</li><li><a href="runAnalysis.html" class="code" title="function runAnalysis(varargin)">runAnalysis</a>	Analyzes whole cell simulations.</li><li><a href="runAnalysisTests.html" class="code" title="function runAnalysisTests()">runAnalysisTests</a>	Runs the analysis tests for the whole cell simulation.</li><li><a href="runAnimation.html" class="code" title="function runAnimation(varargin)">runAnimation</a>	Generates an animation</li><li><a href="runChromosomeTests.html" class="code" title="">runChromosomeTests</a>	Run chromosome tests.</li><li><a href="runCoverageTests.html" class="code" title="function runCoverageTests()">runCoverageTests</a>	Gathers code coverage for whole cell simulation tests.</li><li><a href="runDisplacementCalculation.html" class="code" title="function runDisplacementCalculation(simBatch, simIdx, outDir)">runDisplacementCalculation</a>	Calculates DNA-bound protein displacements</li><li><a href="runLargeTests.html" class="code" title="function runLargeTests()">runLargeTests</a>	Runs the large tests for the whole cell simulation.</li><li><a href="runMediumDNATests.html" class="code" title="function runMediumDNATests()">runMediumDNATests</a>	Runs the medium DNA tests for the whole cell simulation.</li><li><a href="runMediumProteinTests.html" class="code" title="function runMediumProteinTests()">runMediumProteinTests</a>	Runs the medium protein tests for the whole cell simulation.</li><li><a href="runMediumTests.html" class="code" title="function runMediumTests()">runMediumTests</a>	Runs the medium tests for the whole cell simulation.</li><li><a href="runReindexing.html" class="code" title="function runReindexing(outputDirectory)">runReindexing</a>	Reindexes whole cell simulation.</li><li><a href="runSimulation.html" class="code" title="function simulation = runSimulation(configDirectory, logToDisk, logToDatabase)">runSimulation</a>	Executes whole cell simulation.</li><li><a href="runSimulationTests.html" class="code" title="function runSimulationTests(runProfiler)">runSimulationTests</a>	Runs a full length simulation.</li><li><a href="runSmallTests.html" class="code" title="function runSmallTests()">runSmallTests</a>	Runs the small tests for the whole cell simulation.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function setPathHelper(method, pathStr)</a></li><li><a href="#_sub2" class="code">function setJavaPathHelper(pathStr)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function setPath()</a>
+0002 <span class="comment">%SETPATH Adds folders to MATLAB path and MATLAB Java path.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updated: 6/8/2011</span>
+0007 
+0008 <span class="keyword">if</span> isdeployed
+0009     <span class="keyword">return</span>;
+0010 <span class="keyword">end</span>
+0011 
+0012 <span class="comment">%% MATLAB path</span>
+0013 
+0014 <span class="comment">%libraries</span>
+0015 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'m2html'</span>,       <span class="string">'lib/m2html-1.5'</span>);                <span class="comment">%documentation                   http://www.artefact.tk/software/matlab/m2html/</span>
+0016 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'propertygrid'</span>, <span class="string">'lib/propertygrid'</span>);              <span class="comment">%property grid                   http://www.mathworks.com/matlabcentral/fileexchange/28732</span>
+0017 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'uitabpanel'</span>,   <span class="string">'lib/uitabpanel'</span>);                <span class="comment">%tab panel                       http://www.mathworks.com/matlabcentral/fileexchange/11546</span>
+0018 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'figstate'</span>,     <span class="string">'lib/figstate'</span>);                  <span class="comment">%min/max figures                 http://www.mathworks.com/support/solutions/en/data/1-3MY8PN/?solution=1-3MY8PN</span>
+0019 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'spanFigures'</span>,  <span class="string">'lib/spanFigures'</span>);               <span class="comment">%tile figures                    http://www.mathworks.com/matlabcentral/fileexchange/31604</span>
+0020 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'boundedline'</span>,  <span class="string">'lib/boundedline'</span>);               <span class="comment">%line plot with shaded interval  http://www.mathworks.com/matlabcentral/fileexchange/27485</span>
+0021 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'tick2text'</span>,    <span class="string">'lib/tick2text'</span>);                 <span class="comment">%tick formatting                 http://www.mathworks.com/matlabcentral/fileexchange/16003</span>
+0022 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'absolutepath'</span>, <span class="string">'lib/absolutepath'</span>);              <span class="comment">%full file name                  http://www.mathworks.com/matlabcentral/fileexchange/3857</span>
+0023 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'runtests'</span>,     <span class="string">'lib/matlab_xunit_3.0.1/xunit'</span>);  <span class="comment">%unit testing                    http://www.mathworks.com/matlabcentral/fileexchange/22846</span>
+0024 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'multiprod'</span>,    <span class="string">'lib/multiprod'</span>);                 <span class="comment">%tensor multiplication           http://www.mathworks.com/matlabcentral/fileexchange/8773</span>
+0025 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'glpk'</span>,         <span class="string">'lib/glpkmex-2.9'</span>);               <span class="comment">%linear programming solver       http://glpkmex.sourceforge.net/ (Note win64 version is actually v2.7; maci version is actually v2.8)</span>
+0026 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'substr'</span>,       <span class="string">'lib/util/strutil'</span>);              <span class="comment">%string utility functions        http://home.online.no/~pjacklam/matlab/software/util/</span>
+0027 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'iseven'</span>,       <span class="string">'lib/util/matutil'</span>);              <span class="comment">%matrix utility functions        http://home.online.no/~pjacklam/matlab/software/util/</span>
+0028 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'bullseye'</span>,     <span class="string">'lib/bullseye'</span>);                  <span class="comment">%bullseye polar plot             http://www.mathworks.com/matlabcentral/fileexchange/16458</span>
+0029 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'swtest'</span>,       <span class="string">'lib/swtest'</span>);                    <span class="comment">%Shapiro-Wilk normality test     http://www.mathworks.com/matlabcentral/fileexchange/13964</span>
+0030 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'rude'</span>,         <span class="string">'lib/rude'</span>);                      <span class="comment">%run-length encoder/decoder      http://www.mathworks.com/matlabcentral/fileexchange/6436</span>
+0031 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'Funct_Bezier'</span>, <span class="string">'lib/cubicBezier'</span>);               <span class="comment">%cubic bezier                    http://www.mathworks.com/matlabcentral/fileexchange/6661</span>
+0032 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'randsample'</span>,   <span class="string">'lib/randsample'</span>);                <span class="comment">%randsample                      version from R2011b (earlier version has a bug)</span>
+0033 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'cplexlp'</span>,      <span class="string">'lib/cplex-12.2'</span>)                 <span class="comment">%clpex                           http://www-01.ibm.com/software/websphere/products/optimization/academic-initiative/</span>
+0034 setenv(<span class="string">'ILOG_LICENSE_FILE'</span>, sprintf(<span class="string">'%s%s%s%s%s%s%s%s'</span>, pwd, filesep, <span class="string">'lib'</span>, filesep, <span class="string">'cplex-12.2'</span>, filesep, <span class="string">'access.ilm'</span>));
+0035 <span class="keyword">if</span> isempty(which(<span class="string">'mxlpsolve'</span>))                                  <span class="comment">%lp_solve                        http://sourceforge.net/projects/lpsolve/</span>
+0036     addpath(fullfile(pwd, <span class="string">'lib/lp_solve_5.5.2.0'</span>));
+0037     <span class="keyword">switch</span> computer
+0038         <span class="keyword">case</span> <span class="string">'PCWIN64'</span>, addpath(fullfile(pwd, <span class="string">'lib\lp_solve_5.5.2.0\bin\win64'</span>));
+0039         <span class="keyword">case</span> <span class="string">'PCWIN'</span>, addpath(fullfile(pwd, <span class="string">'lib\lp_solve_5.5.2.0\bin\win32'</span>));
+0040         <span class="keyword">case</span> {<span class="string">'GLNXA64'</span>, <span class="string">'GLNX86'</span>, <span class="string">'MACI'</span>}, addpath(fullfile(pwd, <span class="string">'lib/lp_solve_5.5.2.0/bin'</span>));
+0041     <span class="keyword">end</span>
+0042 <span class="keyword">end</span>
+0043 
+0044 <span class="comment">%source code</span>
+0045 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'edu.stanford.covert.cell.sim.Simulation_Test'</span>, <span class="string">'src_test'</span>);  <span class="comment">%whole cell test classes</span>
+0046 <a href="#_sub1" class="code" title="subfunction setPathHelper(method, pathStr)">setPathHelper</a>(<span class="string">'edu.stanford.covert.cell.sim.Simulation'</span>,      <span class="string">'src'</span>);       <span class="comment">%whole cell classes</span>
+0047 addpath(pwd);
+0048 
+0049 <span class="comment">%% MATLAB Java path</span>
+0050 <span class="comment">%source code</span>
+0051 <a href="#_sub2" class="code" title="subfunction setJavaPathHelper(pathStr)">setJavaPathHelper</a>(<span class="string">'src/+edu/+stanford/+covert/+db/'</span>);
+0052 
+0053 <span class="comment">%libraries</span>
+0054 <a href="#_sub2" class="code" title="subfunction setJavaPathHelper(pathStr)">setJavaPathHelper</a>(<span class="string">'lib/json-marshaller/json-0.21.jar'</span>);                                 <span class="comment">%JSON parser/formatter  http://code.google.com/p/jsonmarshaller/</span>
+0055 <a href="#_sub2" class="code" title="subfunction setJavaPathHelper(pathStr)">setJavaPathHelper</a>(<span class="string">'lib/mysql-connector-java-5.1.6/mysql-connector-java-5.1.6-bin.jar'</span>); <span class="comment">%database connector     http://www.mysql.com/products/connector/</span>
+0056 <span class="keyword">end</span>
+0057 
+0058 <span class="comment">%add folder to path, but only if necessary to avoid clearing break points</span>
+0059 <a name="_sub1" href="#_subfunctions" class="code">function setPathHelper(method, pathStr)</a>
+0060 
+0061 <span class="comment">%detect if path is already added to MATLAB path, but without calling the</span>
+0062 <span class="comment">%path method which clear break points</span>
+0063 tmp = which(method);
+0064 <span class="keyword">if</span> nargin &gt; 1 &amp;&amp; isequal(tmp, [fullfile(pwd, pathStr) pathsep method])
+0065     <span class="keyword">return</span>;
+0066 <span class="keyword">end</span>
+0067 
+0068 addpath(fullfile(pwd, pathStr));
+0069 <span class="keyword">end</span>
+0070 
+0071 <span class="comment">%set java class path, but only if necessary to prevent conflicts with break</span>
+0072 <span class="comment">%points</span>
+0073 <a name="_sub2" href="#_subfunctions" class="code">function setJavaPathHelper(pathStr)</a>
+0074 tmp = javaclasspath;
+0075 <span class="keyword">if</span> pathStr(end) == <span class="string">'/'</span> || pathStr(end) == <span class="string">'\'</span>
+0076     pathStr = pathStr(1:end-1);
+0077 <span class="keyword">end</span>
+0078 <span class="keyword">if</span> any(strcmp(absolutepath(pathStr), tmp))
+0079     <span class="keyword">return</span>;
+0080 <span class="keyword">end</span>
+0081 javaaddpath(absolutepath(pathStr));
+0082 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

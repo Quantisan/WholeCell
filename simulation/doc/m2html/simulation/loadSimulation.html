@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of loadSimulation</title>
+  <meta name="keywords" content="loadSimulation">
+  <meta name="description" content="Load whole cell simulation from disk/database.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; loadSimulation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>loadSimulation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Load whole cell simulation from disk/database.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [simulation, states, options, parameters, fittedConstants, metadata] = loadSimulation(directoryOrWID, timeInit, timeFin, downsampleStepSec, downsampleType) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Load whole cell simulation from disk/database.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/12/2011
+initialize</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>	CONFIG Returns configuration values.</li><li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>	SETPREFERENCES Sets MATLAB preferences</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Load whole cell simulation from disk/database.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 1/12/2011</span>
+0006 <a name="_sub0" href="#_subfunctions" class="code">function [simulation, states, options, parameters, fittedConstants, metadata] = loadSimulation(directoryOrWID, timeInit, timeFin, downsampleStepSec, downsampleType)</a>
+0007 <span class="comment">%initialize</span>
+0008 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>();
+0009 <a href="setPath.html" class="code" title="function setPath()">setPath</a>();
+0010 <a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>();
+0011 
+0012 <span class="comment">%import</span>
+0013 import edu.stanford.covert.cell.sim.Simulation;
+0014 import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0015 import edu.stanford.covert.cell.sim.util.DiskLogger;
+0016 import edu.stanford.covert.cell.sim.util.CachedSimulationObjectUtil;
+0017 import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0018 import edu.stanford.covert.db.MySQLDatabase;
+0019 
+0020 <span class="comment">%load metadata</span>
+0021 <span class="keyword">if</span> ischar(directoryOrWID)
+0022     directoryOrWID = SimulationDiskUtil.getSimulation(directoryOrWID);
+0023     metadata = DiskLogger.loadMetadata(directoryOrWID);
+0024 <span class="keyword">else</span>
+0025     <span class="keyword">if</span> ~exist(<span class="string">'database'</span>, <span class="string">'var'</span>); database = MySQLDatabase(<a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>); <span class="keyword">end</span>
+0026     metadata = DatabaseLogger.loadMetadata(database, directoryOrWID);
+0027 <span class="keyword">end</span>
+0028 
+0029 <span class="comment">%construct simulation object</span>
+0030 simulation = CachedSimulationObjectUtil.load(metadata.revision);
+0031 
+0032 <span class="comment">%load options, parameters, fitted constants based on data stored in disk/database</span>
+0033 <span class="keyword">if</span> ischar(directoryOrWID)
+0034     <span class="keyword">if</span> nargin &lt; 2
+0035         timeInit = [];
+0036     <span class="keyword">end</span>
+0037     <span class="keyword">if</span> nargin &lt; 3
+0038         timeFin = [];
+0039     <span class="keyword">end</span>
+0040     <span class="keyword">if</span> nargin &lt; 4
+0041         downsampleStepSec = [];
+0042     <span class="keyword">end</span>
+0043     <span class="keyword">if</span> nargin &lt; 5
+0044         downsampleType = [];
+0045     <span class="keyword">end</span>
+0046     [states, metadata, options, parameters, fittedConstants, randStreamStates] = <span class="keyword">...</span>
+0047         DiskLogger.load(directoryOrWID, <span class="string">'-independent'</span>, timeInit, timeFin, downsampleStepSec, downsampleType);
+0048 <span class="keyword">else</span>
+0049     <span class="keyword">if</span> ~exist(<span class="string">'database'</span>, <span class="string">'var'</span>)
+0050         database = MySQLDatabase(<a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>);
+0051     <span class="keyword">end</span>
+0052     <span class="keyword">if</span> nargin &gt; 1
+0053         warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Additional options ignored'</span>);
+0054     <span class="keyword">end</span>
+0055     [states, metadata, options, parameters, fittedConstants, randStreamStates] = <span class="keyword">...</span>
+0056         DatabaseLogger.load(simulation, database, directoryOrWID);
+0057 <span class="keyword">end</span>
+0058 
+0059 <span class="comment">%apply options, parameters, constants, time courses to simulation</span>
+0060 simulation.applyOptions(options);
+0061 simulation.applyParameters(parameters);
+0062 simulation.applyFittedConstants(fittedConstants);
+0063 simulation.applyRandStreamStates(randStreamStates);
+0064 simulation.allocateMemoryForState(numel(states.Time.values));
+0065 
+0066 <span class="keyword">for</span> i = 1:numel(simulation.states)
+0067     state = simulation.states{i};
+0068     stateID = state.wholeCellModelID(7:end);
+0069     <span class="keyword">for</span> j = 1:numel(state.stateNames)
+0070         name = state.stateNames{j};
+0071         <span class="keyword">try</span>
+0072             state.(name) = states.(stateID).(name);
+0073         <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0074             warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Data not provided for %s %s state'</span>, state.name, name);
+0075         <span class="keyword">end</span>
+0076     <span class="keyword">end</span>
+0077 <span class="keyword">end</span>
+0078 
+0079 <span class="keyword">for</span> i = 1:numel(simulation.processes)
+0080     process = simulation.processes{i};
+0081     process.copyFromState();
+0082 <span class="keyword">end</span>
+0083 
+0084 simulation.applyPerturbationsToConstants();
+0085 
+0086 <span class="comment">%cleanup</span>
+0087 <span class="keyword">if</span> exist(<span class="string">'database'</span>, <span class="string">'var'</span>)
+0088     database.close();
+0089 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

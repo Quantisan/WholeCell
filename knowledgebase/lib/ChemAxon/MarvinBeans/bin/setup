@@ -1,0 +1,8 @@
+#!/bin/bash
+# Set Java path
+
+JVMABSPATH="@JVMPATH@"
+JVMPATH=$JVMABSPATH
+if [ ! -f "$JVMPATH" ]; then
+    JVMPATH=java
+fi

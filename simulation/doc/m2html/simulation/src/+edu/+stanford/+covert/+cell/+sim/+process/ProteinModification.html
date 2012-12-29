@@ -1,0 +1,539 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ProteinModification</title>
+  <meta name="keywords" content="ProteinModification">
+  <meta name="description" content="Protein Modification">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ProteinModification.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ProteinModification
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Protein Modification</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Protein Modification
+
+ @wholeCellModelID Process_ProteinModification
+ @name             Protein Modification
+ @description
+   Biology
+   ==================
+   This process simulates protein modifications including
+   - Adductions:
+      - Ser/Thr/Tyr phosphorylation   (MG_109_DIMER)
+      - lipoate ligation              (MG_270_MONOMER)
+   - Ligations:
+      - C-terminal glutamate ligation (MG_012_MONOMER)
+
+   Many protein require covalent modifications to function properly. These
+   modifications are enzymatic catalyzed.
+
+   Knowledge Base
+   ==================
+   In this model of M. genitalium, there are currently 16 proteins that require
+   phosphorylation at anywhere from one to 11 sites each. Only one protein
+   requires lipoate ligation (pdhC), and only one requires glutamate ligation
+   (rplF). All other proteins require no modification and are guaranteed to
+   progress through this phase of protein maturation in a single time step.
+
+   The knowledge base representation of the stoichiometry of protein
+   monomer modification reactions includes both the unmodified amino acid
+   of the unmodified protein monomer on the left-hand-side and the
+   modified amino acid of the resulting modified protein monomer on the
+   right-hand-side.
+
+   Representation
+   ==================
+   The counts of unmodified and fully modified proteins are represented by the
+   unmodifiedMonomers and modifiedMonomers properties. Intermediate modified
+   states (proteins which have some, but not all of their requisite
+   modifications) are not represented here. The molecular weights of the
+   unmodified and fully modified protein mononomers are computed by the
+   knowledge base protein monomer class.
+
+   This process uses the reactionModificationMatrix, reactionCatalysisMatrix,
+   reactionStoichiometryMatrix, and enzymeBounds properties to represent the
+   modifications required to mature each protein. These properties are
+   initialized from the knowledge base by initializeConstants.
+   reactionModificationMatrix represents the protein monomer modified by each
+   reaction. reactionCatalysisMatrix represents the enzyme which catalyzes each
+   reaction. enzymeBounds represents the kcat of the enzyme for each reaction.
+   reactionStoichiometryMatrix represents the free metabolites reactants and
+   products of each reaction. Note reactionStoichiometryMatrix used in this
+   reaction is different from that of the superclass. The
+   reactionStoichiometryMatrix used here does not include either the unmodified
+   amino acid of the unmodified protein monomer on the left-hand-side of
+   reactions or the modified amino acid of the resulting modified protein
+   monomer on the right-hand-side of reactions; these amino acids are
+   represented within the unmodified and modified protein monomers. For this
+   process to mature a protein monomer, each of the reactions which modifies
+   that protein monomer must proceed.
+
+   Initialization
+   ==================
+   All protein monomers are initialized to the mature state. This is
+   accomplished by the simulation class initializeState method.
+
+   Simulation
+   ==================
+   While(true)
+     1. Calculate numbers of protein monomers that can be modified based on
+        substrate, enzyme, and unmodified protein monomer availability and
+        kinetics.
+     2. Randomly select protein monomer to modify weighted by limits
+        calculated in step (1).
+     3. Update substrates, enzymes, unmodified protein monomers
+     4. Repeat until insufficient resources to further modify protein
+        monomers
+   End
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinModification.html" class="code" title="">ProteinModification</a>	Protein Modification</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ProteinModification.html" class="code" title="">ProteinModification</a>	Protein Modification</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ProteinModification(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function initializeSpeciesNetwork(this)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(~)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Protein Modification</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ProteinModification</span>
+0004 <span class="comment">% @name             Protein Modification</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ==================</span>
+0008 <span class="comment">%   This process simulates protein modifications including</span>
+0009 <span class="comment">%   - Adductions:</span>
+0010 <span class="comment">%      - Ser/Thr/Tyr phosphorylation   (MG_109_DIMER)</span>
+0011 <span class="comment">%      - lipoate ligation              (MG_270_MONOMER)</span>
+0012 <span class="comment">%   - Ligations:</span>
+0013 <span class="comment">%      - C-terminal glutamate ligation (MG_012_MONOMER)</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   Many protein require covalent modifications to function properly. These</span>
+0016 <span class="comment">%   modifications are enzymatic catalyzed.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   Knowledge Base</span>
+0019 <span class="comment">%   ==================</span>
+0020 <span class="comment">%   In this model of M. genitalium, there are currently 16 proteins that require</span>
+0021 <span class="comment">%   phosphorylation at anywhere from one to 11 sites each. Only one protein</span>
+0022 <span class="comment">%   requires lipoate ligation (pdhC), and only one requires glutamate ligation</span>
+0023 <span class="comment">%   (rplF). All other proteins require no modification and are guaranteed to</span>
+0024 <span class="comment">%   progress through this phase of protein maturation in a single time step.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   The knowledge base representation of the stoichiometry of protein</span>
+0027 <span class="comment">%   monomer modification reactions includes both the unmodified amino acid</span>
+0028 <span class="comment">%   of the unmodified protein monomer on the left-hand-side and the</span>
+0029 <span class="comment">%   modified amino acid of the resulting modified protein monomer on the</span>
+0030 <span class="comment">%   right-hand-side.</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   Representation</span>
+0033 <span class="comment">%   ==================</span>
+0034 <span class="comment">%   The counts of unmodified and fully modified proteins are represented by the</span>
+0035 <span class="comment">%   unmodifiedMonomers and modifiedMonomers properties. Intermediate modified</span>
+0036 <span class="comment">%   states (proteins which have some, but not all of their requisite</span>
+0037 <span class="comment">%   modifications) are not represented here. The molecular weights of the</span>
+0038 <span class="comment">%   unmodified and fully modified protein mononomers are computed by the</span>
+0039 <span class="comment">%   knowledge base protein monomer class.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   This process uses the reactionModificationMatrix, reactionCatalysisMatrix,</span>
+0042 <span class="comment">%   reactionStoichiometryMatrix, and enzymeBounds properties to represent the</span>
+0043 <span class="comment">%   modifications required to mature each protein. These properties are</span>
+0044 <span class="comment">%   initialized from the knowledge base by initializeConstants.</span>
+0045 <span class="comment">%   reactionModificationMatrix represents the protein monomer modified by each</span>
+0046 <span class="comment">%   reaction. reactionCatalysisMatrix represents the enzyme which catalyzes each</span>
+0047 <span class="comment">%   reaction. enzymeBounds represents the kcat of the enzyme for each reaction.</span>
+0048 <span class="comment">%   reactionStoichiometryMatrix represents the free metabolites reactants and</span>
+0049 <span class="comment">%   products of each reaction. Note reactionStoichiometryMatrix used in this</span>
+0050 <span class="comment">%   reaction is different from that of the superclass. The</span>
+0051 <span class="comment">%   reactionStoichiometryMatrix used here does not include either the unmodified</span>
+0052 <span class="comment">%   amino acid of the unmodified protein monomer on the left-hand-side of</span>
+0053 <span class="comment">%   reactions or the modified amino acid of the resulting modified protein</span>
+0054 <span class="comment">%   monomer on the right-hand-side of reactions; these amino acids are</span>
+0055 <span class="comment">%   represented within the unmodified and modified protein monomers. For this</span>
+0056 <span class="comment">%   process to mature a protein monomer, each of the reactions which modifies</span>
+0057 <span class="comment">%   that protein monomer must proceed.</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   Initialization</span>
+0060 <span class="comment">%   ==================</span>
+0061 <span class="comment">%   All protein monomers are initialized to the mature state. This is</span>
+0062 <span class="comment">%   accomplished by the simulation class initializeState method.</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   Simulation</span>
+0065 <span class="comment">%   ==================</span>
+0066 <span class="comment">%   While(true)</span>
+0067 <span class="comment">%     1. Calculate numbers of protein monomers that can be modified based on</span>
+0068 <span class="comment">%        substrate, enzyme, and unmodified protein monomer availability and</span>
+0069 <span class="comment">%        kinetics.</span>
+0070 <span class="comment">%     2. Randomly select protein monomer to modify weighted by limits</span>
+0071 <span class="comment">%        calculated in step (1).</span>
+0072 <span class="comment">%     3. Update substrates, enzymes, unmodified protein monomers</span>
+0073 <span class="comment">%     4. Repeat until insufficient resources to further modify protein</span>
+0074 <span class="comment">%        monomers</span>
+0075 <span class="comment">%   End</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0078 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0079 <span class="comment">% Last updated: 1/4/2010</span>
+0080 classdef  <a href="ProteinModification.html" class="code" title="">ProteinModification</a> &lt; edu.stanford.covert.cell.sim.ReactionProcess
+0081     <span class="comment">%property annotations</span>
+0082     properties (Constant)
+0083         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0084         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0085             <span class="string">'monomerCompartments'</span>;
+0086             };
+0087         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0088         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0089             <span class="string">'unmodifiedMonomers'</span>;
+0090             <span class="string">'modifiedMonomers'</span>};
+0091     <span class="keyword">end</span>
+0092     
+0093     <span class="comment">%IDs, names, and local indices</span>
+0094     properties
+0095         <span class="comment">%substrateWholeCellModelIDs = {'ATP';'ADP';'H2O';...};</span>
+0096         substrateIndexs_aminoAcids          <span class="comment">%indices of amino acids within substrates</span>
+0097         substrateIndexs_modifiedAminoAcids  <span class="comment">%indices of modified amino acids within substrates</span>
+0098         substrateIndexs_atp                 <span class="comment">%index of ATP within substrates</span>
+0099         substrateIndexs_adp                 <span class="comment">%index of ADP within substrates</span>
+0100         substrateIndexs_amp                 <span class="comment">%index of AMP within substrates</span>
+0101         substrateIndexs_hydrogen            <span class="comment">%index of H within substrates</span>
+0102         substrateIndexs_phosphate           <span class="comment">%index of Pi within substrates</span>
+0103         substrateIndexs_glutamate           <span class="comment">%index of glutamate within substrates</span>
+0104         substrateIndexs_lipoylAmp           <span class="comment">%index of lipoyl AMP within substrates</span>
+0105         substrateIndexs_lipoylLys           <span class="comment">%index of lipoyl Lysine within substrates</span>
+0106         
+0107         enzymeIndexs_serineThreonineKinase  <span class="comment">%index of serine/threonine kinase (MG_109_DIMER) within enzymes</span>
+0108         enzymeIndexs_lipoylTransferase      <span class="comment">%index of lipoyl transferase (MG_270_MONOMER) within enzymes</span>
+0109         enzymeIndexs_glutamateLigase        <span class="comment">%index of glutamate ligase (MG_012_MONOMER) within enzymes</span>
+0110         
+0111         reactionIndexs_adduction            <span class="comment">%indices of adduction reactions within reactionWholeCellModelIDs</span>
+0112         reactionIndexs_ligation             <span class="comment">%indices of ligation reactions within reactionWholeCellModelIDs</span>
+0113         
+0114         unmodifiedMonomerWholeCellModelIDs  <span class="comment">%whole cell model ids of unmodified protein monomers</span>
+0115         modifiedMonomerWholeCellModelIDs    <span class="comment">%whole cell model ids of modified protein monomers</span>
+0116         
+0117         monomerIndexs_modified              <span class="comment">%indices of monomers that are modified within unmodifiedMonomerWholeCellModelIDs</span>
+0118         monomerIndexs_notmodified           <span class="comment">%indices of monomers that are not modified within unmodifiedMonomerWholeCellModelIDs</span>
+0119         
+0120         speciesIndexs_enzymes               <span class="comment">%indexs of enzyme species within speciesReactantByproductMatrix, speciesReactantMatrix</span>
+0121     <span class="keyword">end</span>
+0122     
+0123     <span class="comment">%fixed biological constants</span>
+0124     properties
+0125         monomerCompartments               <span class="comment">%final compartments of protein monomers (when mature after translocation and incorporation into special compartments such as the terminal organelle)</span>
+0126         
+0127         speciesReactantByproductMatrix    <span class="comment">%stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; unmodified RNAs]</span>
+0128         speciesReactantMatrix             <span class="comment">%reactant stoichiometry of susbtrates, enzymes, RNA in modifications necessary to mature each modifying RNA: [RNA modifications] X [subtrates; enzymes; unmodified RNAs]</span>
+0129     <span class="keyword">end</span>
+0130     
+0131     <span class="comment">%local state</span>
+0132     properties
+0133         unmodifiedMonomers <span class="comment">%counts of unmodified protein monomers (monomers X 1 X time)</span>
+0134         modifiedMonomers   <span class="comment">%counts of modified protein monomers   (monomers X 1 X time)</span>
+0135     <span class="keyword">end</span>
+0136     
+0137     <span class="comment">%constructor</span>
+0138     methods
+0139         <a name="_sub0" href="#_subfunctions" class="code">function this = ProteinModification(wholeCellModelID, name)</a>
+0140             this = this@edu.stanford.covert.cell.sim.ReactionProcess(wholeCellModelID, name);
+0141         <span class="keyword">end</span>
+0142     <span class="keyword">end</span>
+0143     
+0144     <span class="comment">%communication between process/simulation</span>
+0145     methods
+0146         <span class="comment">%initialize constants</span>
+0147         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0148             this.initializeConstants@edu.stanford.covert.cell.sim.ReactionProcess(<span class="keyword">...</span>
+0149                 knowledgeBase, simulation, varargin{:});
+0150             
+0151             <span class="comment">%% metabolite indices</span>
+0152             this.substrateIndexs_aminoAcids         = this.substrateIndexs({<span class="string">'GLU'</span>; <span class="string">'LYS'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TYR'</span>;});
+0153             this.substrateIndexs_modifiedAminoAcids = this.substrateIndexs({<span class="string">'LIPOYLLYS'</span>; <span class="string">'pSER'</span>; <span class="string">'pTHR'</span>; <span class="string">'pTYR'</span>});
+0154             this.substrateIndexs_atp                = this.substrateIndexs({<span class="string">'ATP'</span>});
+0155             this.substrateIndexs_adp                = this.substrateIndexs({<span class="string">'ADP'</span>});
+0156             this.substrateIndexs_amp                = this.substrateIndexs({<span class="string">'AMP'</span>});
+0157             this.substrateIndexs_hydrogen           = this.substrateIndexs({<span class="string">'H'</span>});
+0158             this.substrateIndexs_phosphate          = this.substrateIndexs({<span class="string">'PI'</span>});
+0159             this.substrateIndexs_glutamate          = this.substrateIndexs({<span class="string">'GLU'</span>});
+0160             this.substrateIndexs_lipoylAmp          = this.substrateIndexs({<span class="string">'LIPOYLAMP'</span>});
+0161             this.substrateIndexs_lipoylLys          = this.substrateIndexs({<span class="string">'LIPOYLLYS'</span>});
+0162             
+0163             <span class="comment">%% enzyme indices</span>
+0164             this.enzymeIndexs_serineThreonineKinase  = this.enzymeIndexs({<span class="string">'MG_109_DIMER'</span>});
+0165             this.enzymeIndexs_lipoylTransferase      = this.enzymeIndexs({<span class="string">'MG_270_MONOMER'</span>});
+0166             this.enzymeIndexs_glutamateLigase        = this.enzymeIndexs({<span class="string">'MG_012_MONOMER'</span>});
+0167             
+0168             <span class="comment">%% protein monomers</span>
+0169             this.unmodifiedMonomerWholeCellModelIDs = this.monomer.wholeCellModelIDs(this.monomer.foldedIndexs);
+0170             this.modifiedMonomerWholeCellModelIDs   = this.monomer.wholeCellModelIDs(this.monomer.matureIndexs);
+0171             
+0172             <span class="comment">%% protein monomer modification reactions</span>
+0173             <span class="comment">%indices</span>
+0174             this.reactionIndexs_adduction = find(strcmp(this.reactionTypes, <span class="string">'adduction'</span>));
+0175             this.reactionIndexs_ligation  = find(strcmp(this.reactionTypes, <span class="string">'ligation'</span>));
+0176             
+0177             <span class="comment">%Note in constrast to the knowledge base,</span>
+0178             <span class="comment">%reactionStoichiometryMatrix doesn't include the unmodified</span>
+0179             <span class="comment">%amino acid of the unmodified protein monomer on the</span>
+0180             <span class="comment">%left-hand-side or the modified amino acid of the resulting</span>
+0181             <span class="comment">%modified protein monomer.</span>
+0182             this.reactionStoichiometryMatrix(this.substrateIndexs_aminoAcids,         this.reactionIndexs_adduction) = 0;
+0183             this.reactionStoichiometryMatrix(this.substrateIndexs_modifiedAminoAcids, this.reactionIndexs_adduction) = 0;
+0184             
+0185             <span class="comment">%In constrast to other processes where reactionModificationMatrix</span>
+0186             <span class="comment">%maps genes onto reactions, here reactionModificationMatrix</span>
+0187             <span class="comment">%maps protein monomers onto reactions. Also un contrast to</span>
+0188             <span class="comment">%other processes where entries in reactionModificationMatrix</span>
+0189             <span class="comment">%contain the positions of the modification in the modified</span>
+0190             <span class="comment">%macromolecule, here entries of reactionModificationMatrix are simply 0 or 1</span>
+0191             this.reactionModificationMatrix = this.reactionModificationMatrix(:, this.gene.mRNAIndexs)&gt;0;
+0192             
+0193             this.monomerIndexs_modified    = find( any(this.reactionModificationMatrix, 1));
+0194             this.monomerIndexs_notmodified = find(~any(this.reactionModificationMatrix, 1));
+0195             
+0196             this.initializeSpeciesNetwork();
+0197             
+0198             <span class="comment">%compartments of protein monomers as seen by this process</span>
+0199             <span class="comment">%  Note: proteins undergo modification before inclusion into</span>
+0200             <span class="comment">%  the terminal organelle. Consequently, this process modifies</span>
+0201             <span class="comment">%  proteins in the membrane and cytosol rather than in the</span>
+0202             <span class="comment">%  terminal organelle membrane or cytosol.</span>
+0203             this.monomerCompartments = knowledgeBase.proteinMonomerCompartments;
+0204             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0205             this.monomerCompartments(this.monomerCompartments == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0206         <span class="keyword">end</span>
+0207         
+0208         <span class="comment">%initialize reaction stoichiomety to be used in evolveState:</span>
+0209         <span class="comment">%  [Monomer modifications] X [subtrates; enzymes; unmodified monomers]</span>
+0210         <a name="_sub2" href="#_subfunctions" class="code">function initializeSpeciesNetwork(this)</a>
+0211             numMetabolites = size(this.reactionStoichiometryMatrix, 1);
+0212             numEnzymes     = size(this.reactionCatalysisMatrix, 2);
+0213             numProteins    = numel(this.monomerIndexs_modified);
+0214             
+0215             this.speciesReactantByproductMatrix = [this.reactionModificationMatrix(:, this.monomerIndexs_modified)' * [<span class="keyword">...</span>
+0216                 -this.reactionStoichiometryMatrix' <span class="keyword">...</span>
+0217                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:, 2) * this.stepSizeSec, 1, numEnzymes)] <span class="keyword">...</span>
+0218                 eye(numProteins)];
+0219             this.speciesReactantMatrix = [this.reactionModificationMatrix(:, this.monomerIndexs_modified)' * max(0, [<span class="keyword">...</span>
+0220                 -this.reactionStoichiometryMatrix' <span class="keyword">...</span>
+0221                 this.reactionCatalysisMatrix ./ repmat(this.enzymeBounds(:, 2) * this.stepSizeSec, 1, numEnzymes)]) <span class="keyword">...</span>
+0222                 eye(numProteins)];
+0223             
+0224             this.speciesIndexs_enzymes = (1:numEnzymes)' + numMetabolites;
+0225         <span class="keyword">end</span>
+0226         
+0227         <span class="comment">%retrieve state from simulation</span>
+0228         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0229             this.copyFromState@edu.stanford.covert.cell.sim.ReactionProcess();
+0230             
+0231             <span class="comment">%compartments</span>
+0232             mComps = this.monomer.compartments(this.monomer.foldedIndexs);
+0233             mComps(mComps == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0234             mComps(mComps == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0235             
+0236             <span class="comment">% indices</span>
+0237             numTimePoints = size(this.unmodifiedMonomers, 3);
+0238             <span class="keyword">if</span> numTimePoints == 1
+0239                 unmodifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0240                     this.monomer.foldedIndexs, mComps);
+0241                 modifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0242                     this.monomer.matureIndexs, mComps);
+0243             <span class="keyword">else</span>
+0244                 unmodifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0245                     repmat(this.monomer.foldedIndexs, [1 1 numTimePoints]),<span class="keyword">...</span>
+0246                     repmat(mComps, [1 1 numTimePoints]), <span class="keyword">...</span>
+0247                     permute(repmat((1:numTimePoints)', [1 size(this.unmodifiedMonomers, 1) 1]), [2 3 1]));
+0248                 modifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0249                     repmat(this.monomer.matureIndexs, [1 1 numTimePoints]),<span class="keyword">...</span>
+0250                     repmat(mComps, [1 1 numTimePoints]), <span class="keyword">...</span>
+0251                     permute(repmat((1:numTimePoints)', [1 size(this.unmodifiedMonomers, 1) 1]), [2 3 1]));
+0252             <span class="keyword">end</span>
+0253             
+0254             <span class="comment">%monomers</span>
+0255             this.unmodifiedMonomers = this.monomer.counts(unmodifiedMonomerIndexs);
+0256             this.modifiedMonomers   = this.monomer.counts(modifiedMonomerIndexs);
+0257         <span class="keyword">end</span>
+0258         
+0259         <span class="comment">%send state to simulation</span>
+0260         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0261             this.copyToState@edu.stanford.covert.cell.sim.ReactionProcess();
+0262             
+0263             <span class="comment">%compartments</span>
+0264             mComps = this.monomer.compartments(this.monomer.foldedIndexs);
+0265             mComps(mComps == this.compartment.terminalOrganelleCytosolIndexs)  = this.compartment.cytosolIndexs;
+0266             mComps(mComps == this.compartment.terminalOrganelleMembraneIndexs) = this.compartment.membraneIndexs;
+0267             
+0268             <span class="comment">% indices</span>
+0269             numTimePoints = size(this.unmodifiedMonomers, 3);
+0270             <span class="keyword">if</span> numTimePoints == 1
+0271                 unmodifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0272                     this.monomer.foldedIndexs, mComps);
+0273                 modifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0274                     this.monomer.matureIndexs, mComps);
+0275             <span class="keyword">else</span>
+0276                 unmodifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0277                     repmat(this.monomer.foldedIndexs, [1 1 numTimePoints]),<span class="keyword">...</span>
+0278                     repmat(mComps, [1 1 numTimePoints]),<span class="keyword">...</span>
+0279                     permute(repmat((1:numTimePoints)', [1 size(this.unmodifiedMonomers, 1) 1]), [2 3 1]));
+0280                 modifiedMonomerIndexs = sub2ind(size(this.monomer.counts), <span class="keyword">...</span>
+0281                     repmat(this.monomer.matureIndexs, [1 1 numTimePoints]),<span class="keyword">...</span>
+0282                     repmat(mComps, [1 1 numTimePoints]),<span class="keyword">...</span>
+0283                     permute(repmat((1:numTimePoints)', [1 size(this.unmodifiedMonomers, 1) 1]), [2 3 1]));
+0284             <span class="keyword">end</span>
+0285             
+0286             <span class="comment">%monomers</span>
+0287             this.monomer.counts(unmodifiedMonomerIndexs) = this.unmodifiedMonomers;
+0288             this.monomer.counts(modifiedMonomerIndexs)   = this.modifiedMonomers;
+0289         <span class="keyword">end</span>
+0290     <span class="keyword">end</span>
+0291     
+0292     <span class="comment">%allocate memory for state</span>
+0293     methods
+0294         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0295             this.allocateMemoryForState@edu.stanford.covert.cell.sim.ReactionProcess(numTimePoints);
+0296             
+0297             this.unmodifiedMonomers = zeros(length(this.unmodifiedMonomerWholeCellModelIDs), 1, numTimePoints);
+0298             this.modifiedMonomers   = zeros(length(this.modifiedMonomerWholeCellModelIDs),   1, numTimePoints);
+0299         <span class="keyword">end</span>
+0300     <span class="keyword">end</span>
+0301     
+0302     methods
+0303         <span class="comment">%Calculate</span>
+0304         <span class="comment">%- contribution to FBA objective</span>
+0305         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0306         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0307             <span class="comment">%substrate and byproducts</span>
+0308             nRxn = this.reactionModificationMatrix * states.monomerProductions;
+0309             bmProd = max(0, -this.reactionStoichiometryMatrix) * nRxn;
+0310             byProd = max(0,  this.reactionStoichiometryMatrix) * nRxn;
+0311             
+0312             <span class="comment">%enzymes</span>
+0313             nRxn = this.reactionModificationMatrix * states.monomerProductions0;
+0314             minEnzExp = 2 * this.reactionCatalysisMatrix' * (nRxn ./ this.enzymeBounds(:, 2));
+0315             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0316         <span class="keyword">end</span>
+0317         
+0318         <span class="comment">%initialization: monomers initialized to mature/bound/inactivated state</span>
+0319         <span class="comment">%by simulation initializeState method</span>
+0320         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(~)</a>
+0321         <span class="keyword">end</span>
+0322         
+0323         <span class="comment">%resource requirements</span>
+0324         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0325             result = max(0, -this.reactionStoichiometryMatrix) * min(<span class="keyword">...</span>
+0326                 ceil(this.reactionCatalysisMatrix * this.enzymes * this.stepSizeSec), <span class="keyword">...</span>
+0327                 this.reactionModificationMatrix * this.unmodifiedMonomers);
+0328         <span class="keyword">end</span>
+0329         
+0330         <span class="comment">%simulation</span>
+0331         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0332             <span class="comment">%% update protein monomers that don't require modification</span>
+0333             this.modifiedMonomers(this.monomerIndexs_notmodified) = <span class="keyword">...</span>
+0334                 this.modifiedMonomers(this.monomerIndexs_notmodified) + <span class="keyword">...</span>
+0335                 this.unmodifiedMonomers(this.monomerIndexs_notmodified);
+0336             this.unmodifiedMonomers(this.monomerIndexs_notmodified) = 0;
+0337             
+0338             <span class="comment">%% stop early if no proteins require modification</span>
+0339             <span class="keyword">if</span> ~any(this.unmodifiedMonomers)
+0340                 <span class="keyword">return</span>;
+0341             <span class="keyword">end</span>
+0342             
+0343             <span class="comment">%% simulate protein monomer modification</span>
+0344             numProteins = numel(this.monomerIndexs_modified);
+0345             
+0346             species = [
+0347                 this.substrates;
+0348                 this.enzymes;
+0349                 this.unmodifiedMonomers(this.monomerIndexs_modified)]';
+0350             
+0351             reactionFluxes = zeros(size(this.speciesReactantByproductMatrix,1),1);
+0352             anyFlux = false;
+0353             
+0354             limits = species(ones(numProteins, 1), :) ./ this.speciesReactantMatrix;
+0355             reactionLimits = min(limits, [], 2)';
+0356             reactionLimits(isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 0) = 0;
+0357             isReactionInactive = reactionLimits &lt;= 0;
+0358             
+0359             <span class="keyword">while</span> true
+0360                 <span class="comment">%compute maximum number of each protein monomer species that can be modified</span>
+0361                 limits = species(ones(numProteins, 1), :) ./ max(0, this.speciesReactantByproductMatrix);
+0362                 reactionLimits = min(<span class="keyword">...</span>
+0363                     this.randStream.stochasticRound(min(limits(:, this.speciesIndexs_enzymes), [], 2)), <span class="keyword">...</span>
+0364                     min(limits(:, [1:this.speciesIndexs_enzymes(1)-1 this.speciesIndexs_enzymes(end)+1:end]), [], 2))';
+0365                 reactionLimits(isReactionInactive | isinf(reactionLimits) | isnan(reactionLimits) | reactionLimits &lt; 1) = 0;
+0366                 
+0367                 <span class="comment">%stop if no more substrates can be modified</span>
+0368                 <span class="keyword">if</span> ~any(reactionLimits)
+0369                     <span class="keyword">break</span>;
+0370                 <span class="keyword">end</span>
+0371                 anyFlux = true;
+0372                 
+0373                 <span class="comment">%pick reaction</span>
+0374                 selectedReaction = this.randStream.randsample(numel(reactionLimits), 1, true, reactionLimits);
+0375                 reactionFluxes(selectedReaction) = reactionFluxes(selectedReaction) + 1;
+0376                 
+0377                 <span class="comment">%update metabolites, enzymes, unmodified substrates</span>
+0378                 species = species - this.speciesReactantByproductMatrix(selectedReaction,:);
+0379             <span class="keyword">end</span>
+0380             
+0381             <span class="comment">%stop if no reactions can proceed</span>
+0382             <span class="keyword">if</span> ~anyFlux
+0383                 <span class="keyword">return</span>;
+0384             <span class="keyword">end</span>
+0385             
+0386             <span class="comment">% update substrates</span>
+0387             this.substrates = this.substrates + <span class="keyword">...</span>
+0388                 this.reactionStoichiometryMatrix * this.reactionModificationMatrix(:,this.monomerIndexs_modified) * reactionFluxes;
+0389             
+0390             <span class="comment">%update protein monomers that require modification</span>
+0391             this.unmodifiedMonomers(this.monomerIndexs_modified) = this.unmodifiedMonomers(this.monomerIndexs_modified) - reactionFluxes;
+0392             this.modifiedMonomers(this.monomerIndexs_modified)   = this.modifiedMonomers(this.monomerIndexs_modified)   + reactionFluxes;
+0393         <span class="keyword">end</span>
+0394     <span class="keyword">end</span>
+0395     
+0396     <span class="comment">%get methods of dependent local state</span>
+0397     methods
+0398         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0399             <span class="keyword">if</span> size(this.unmodifiedMonomers, 3) == 1
+0400                 value = this.getDryWeight@edu.stanford.covert.cell.sim.ReactionProcess() + (<span class="keyword">...</span>
+0401                     this.monomer.molecularWeights(this.monomer.foldedIndexs)' * this.unmodifiedMonomers + <span class="keyword">...</span>
+0402                     this.monomer.molecularWeights(this.monomer.matureIndexs)' * this.modifiedMonomers) <span class="keyword">...</span>
+0403                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0404             <span class="keyword">else</span>
+0405                 value = this.getDryWeight@edu.stanford.covert.cell.sim.ReactionProcess() + (<span class="keyword">...</span>
+0406                     permute(this.monomer.molecularWeights(this.monomer.foldedIndexs)' * permute(this.unmodifiedMonomers, [1 3 2]), [1 3 2]) + <span class="keyword">...</span>
+0407                     permute(this.monomer.molecularWeights(this.monomer.matureIndexs)' * permute(this.modifiedMonomers,   [1 3 2]), [1 3 2])) <span class="keyword">...</span>
+0408                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0409             <span class="keyword">end</span>
+0410         <span class="keyword">end</span>
+0411     <span class="keyword">end</span>
+0412 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

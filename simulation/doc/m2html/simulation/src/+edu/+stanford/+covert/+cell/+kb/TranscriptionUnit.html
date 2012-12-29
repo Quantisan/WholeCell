@@ -1,0 +1,581 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TranscriptionUnit</title>
+  <meta name="keywords" content="TranscriptionUnit">
+  <meta name="description" content="Defines a transcription unit">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; TranscriptionUnit.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TranscriptionUnit
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a transcription unit</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a transcription unit
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="TranscriptionUnit.html" class="code" title="">TranscriptionUnit</a>	Defines a transcription unit</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="TranscriptionUnit.html" class="code" title="">TranscriptionUnit</a>	Defines a transcription unit</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = TranscriptionUnit(knowledgeBase, wid,wholeCellModelID,name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function value = get.halfLife(this)</a></li><li><a href="#_sub4" class="code">function value = get.type(this)</a></li><li><a href="#_sub5" class="code">function value = get.dnaSequence(this)</a></li><li><a href="#_sub6" class="code">function value = get.sequence(this)</a></li><li><a href="#_sub7" class="code">function value = get.startCoordinate(this)</a></li><li><a href="#_sub8" class="code">function value = get.endCoordinate(this)</a></li><li><a href="#_sub9" class="code">function value = get.fivePrimeCoordinate(this)</a></li><li><a href="#_sub10" class="code">function value = get.threePrimeCoordinate(this)</a></li><li><a href="#_sub11" class="code">function value = get.direction(this)</a></li><li><a href="#_sub12" class="code">function value = get.synthesisRate(this)</a></li><li><a href="#_sub13" class="code">function value = get.expression(this)</a></li><li><a href="#_sub14" class="code">function value = get.promoter1Sequence(this)</a></li><li><a href="#_sub15" class="code">function value = get.promoter10Sequence(this)</a></li><li><a href="#_sub16" class="code">function value = get.promoter35Sequence(this)</a></li><li><a href="#_sub17" class="code">function value = get.intergenicSequences(this)</a></li><li><a href="#_sub18" class="code">function value = get.intergenicSequenceLengths(this)</a></li><li><a href="#_sub19" class="code">function value = get.intergenicSequenceBaseCounts(this)</a></li><li><a href="#_sub20" class="code">function value = get.intergenicSequenceDecayReactions(this)</a></li><li><a href="#_sub21" class="code">function value = get.intergenicSequenceMolecularWeights(this)</a></li><li><a href="#_sub22" class="code">function value = get.intergenicSequenceHalfLives(this)</a></li><li><a href="#_sub23" class="code">function value = get.numGenes(this)</a></li><li><a href="#_sub24" class="code">function value = get.features(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a transcription unit</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="TranscriptionUnit.html" class="code" title="">TranscriptionUnit</a> &lt; edu.stanford.covert.cell.kb.ssRNA
+0007     properties
+0008         genome           = edu.stanford.covert.cell.kb.Genome.empty(0,0);
+0009         
+0010         genes            = edu.stanford.covert.cell.kb.Gene.empty(0,0);
+0011         geneCompartments = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0012         
+0013         compartment      = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0014         
+0015         transcriptionFactorProteinMonomers            = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);        
+0016         transcriptionFactorProteinMonomerAffinitys    = []; <span class="comment">%nM</span>
+0017         transcriptionFactorProteinMonomerActivitys    = [];
+0018         transcriptionFactorProteinMonomerConditions   = [];
+0019         transcriptionFactorProteinMonomerBindingSiteStartCoordinates = [];
+0020         transcriptionFactorProteinMonomerBindingSiteLengths          = [];
+0021         transcriptionFactorProteinMonomerBindingSiteDirections       = [];
+0022         transcriptionFactorProteinMonomerCompartments = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0023         
+0024         transcriptionFactorProteinComplexs            = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);        
+0025         transcriptionFactorProteinComplexAffinitys    = []; <span class="comment">%nM</span>
+0026         transcriptionFactorProteinComplexActivitys    = [];
+0027         transcriptionFactorProteinComplexConditions   = [];
+0028         transcriptionFactorProteinComplexBindingSiteStartCoordinates = [];
+0029         transcriptionFactorProteinComplexBindingSiteLengths          = [];
+0030         transcriptionFactorProteinComplexBindingSiteDirections       = [];
+0031         transcriptionFactorProteinComplexCompartments = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0032     <span class="keyword">end</span>
+0033     
+0034     properties (SetAccess = protected)
+0035         halfLife
+0036         sequence
+0037         promoter35Coordinate
+0038         promoter35Length
+0039         promoter10Coordinate
+0040         promoter10Length
+0041         tssCoordinate
+0042     <span class="keyword">end</span>
+0043     
+0044     <span class="comment">%computed properties</span>
+0045     properties (SetAccess = protected)
+0046         type
+0047         dnaSequence
+0048         startCoordinate
+0049         endCoordinate
+0050         fivePrimeCoordinate
+0051         threePrimeCoordinate
+0052         direction
+0053         synthesisRate
+0054         expression
+0055         
+0056         promoter1Sequence
+0057         promoter10Sequence
+0058         promoter35Sequence
+0059         
+0060         intergenicSequences
+0061         intergenicSequenceLengths
+0062         intergenicSequenceBaseCounts
+0063         intergenicSequenceDecayReactions
+0064         intergenicSequenceMolecularWeights
+0065         intergenicSequenceHalfLives
+0066         
+0067         numGenes
+0068         features
+0069     <span class="keyword">end</span>
+0070     
+0071     methods
+0072         <a name="_sub0" href="#_subfunctions" class="code">function this = TranscriptionUnit(knowledgeBase, wid,wholeCellModelID,name,</a><span class="keyword">...</span>
+0073                 promoter35Coordinate, promoter35Length, <span class="keyword">...</span>
+0074                 promoter10Coordinate, promoter10Length, <span class="keyword">...</span>
+0075                 tssCoordinate, <span class="keyword">...</span>
+0076                 comments,crossReferences)
+0077             
+0078             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0079             
+0080             this = edu.stanford.covert.cell.kb.TranscriptionUnit.empty(size(wid,1),0);
+0081             this(size(wid,1),1) = edu.stanford.covert.cell.kb.TranscriptionUnit;
+0082             <span class="keyword">for</span> i = 1:size(wid,1)
+0083                 this(i,1).idx = i;
+0084                 this(i,1).knowledgeBase = knowledgeBase;
+0085                 this(i,1).wid = wid(i);
+0086                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0087                 this(i,1).name = name{i};
+0088                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0089                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0090                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0091                         this(i,1).crossReferences = crossReferences(i);
+0092                     <span class="keyword">else</span>
+0093                         this(i,1).crossReferences = struct;
+0094                         fields = fieldnames(crossReferences);
+0095                         <span class="keyword">for</span> j = 1:size(fields,1)
+0096                             values = crossReferences.(fields{j});
+0097                             this(i,1).crossReferences.(fields{j}) = values(i);
+0098                         <span class="keyword">end</span>
+0099                     <span class="keyword">end</span>
+0100                 <span class="keyword">end</span>
+0101                 
+0102                 this(i,1).promoter35Coordinate = promoter35Coordinate(i);
+0103                 this(i,1).promoter35Length     = promoter35Length(i);
+0104                 this(i,1).promoter10Coordinate = promoter10Coordinate(i);
+0105                 this(i,1).promoter10Length     = promoter10Length(i);
+0106                 this(i,1).tssCoordinate        = tssCoordinate(i);
+0107             <span class="keyword">end</span>
+0108         <span class="keyword">end</span>
+0109         
+0110         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0111             <span class="keyword">for</span> i = 1:numel(this)
+0112                 this(i).genome                                        = [];
+0113                 
+0114                 this(i).genes                                         = [];
+0115                 this(i).geneCompartments                              = [];
+0116                 
+0117                 this(i).compartment                                   = [];
+0118                 
+0119                 this(i).transcriptionFactorProteinMonomers            = [];
+0120                 this(i).transcriptionFactorProteinMonomerAffinitys    = [];
+0121                 this(i).transcriptionFactorProteinMonomerActivitys    = [];
+0122                 this(i).transcriptionFactorProteinMonomerConditions   = [];
+0123                 this(i).transcriptionFactorProteinMonomerCompartments = [];
+0124                 
+0125                 this(i).transcriptionFactorProteinComplexs            = [];
+0126                 this(i).transcriptionFactorProteinComplexAffinitys    = [];
+0127                 this(i).transcriptionFactorProteinComplexActivitys    = [];
+0128                 this(i).transcriptionFactorProteinComplexConditions   = [];
+0129                 this(i).transcriptionFactorProteinComplexCompartments = [];
+0130                 
+0131                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.ssRNA(this(i));
+0132             <span class="keyword">end</span>
+0133         <span class="keyword">end</span>
+0134         
+0135         <a name="_sub2" href="#_subfunctions" class="code">function value = get.halfLife(this)</a>
+0136             <span class="comment">%retrieve</span>
+0137             <span class="keyword">if</span> ~isempty(this.halfLife)
+0138                 value = this.halfLife;
+0139                 <span class="keyword">return</span>;
+0140             <span class="keyword">end</span>
+0141             
+0142             <span class="comment">%compute</span>
+0143             value = mean([this.genes.halfLife]);
+0144             
+0145             <span class="comment">%store</span>
+0146             this.halfLife = value;
+0147         <span class="keyword">end</span>
+0148         
+0149         <a name="_sub3" href="#_subfunctions" class="code">function value = get.type(this)</a>
+0150             <span class="comment">%retrieve</span>
+0151             <span class="keyword">if</span> ~isempty(this.type)
+0152                 value = this.type;
+0153                 <span class="keyword">return</span>;
+0154             <span class="keyword">end</span>
+0155             
+0156             <span class="comment">%compute</span>
+0157             <span class="keyword">if</span> ~isempty(this.genes)
+0158                 value = this.genes(1).type;
+0159             <span class="keyword">else</span>
+0160                 value = [];
+0161             <span class="keyword">end</span>
+0162             
+0163             <span class="comment">%store</span>
+0164             this.type = value;
+0165         <span class="keyword">end</span>
+0166         
+0167         <a name="_sub4" href="#_subfunctions" class="code">function value = get.dnaSequence(this)</a>
+0168             <span class="comment">%retrieve</span>
+0169             <span class="keyword">if</span> ~isempty(this.dnaSequence)
+0170                 value = this.dnaSequence;
+0171                 <span class="keyword">return</span>;
+0172             <span class="keyword">end</span>
+0173             
+0174             <span class="comment">%compute</span>
+0175             <span class="keyword">if</span> this.direction
+0176                 value = this.genome.sequence(this.startCoordinate:this.endCoordinate);
+0177             <span class="keyword">else</span>
+0178                 value = seqrcomplement(this.genome.sequence(this.startCoordinate:this.endCoordinate));
+0179             <span class="keyword">end</span>
+0180             
+0181             <span class="comment">%store</span>
+0182             this.dnaSequence = value;
+0183         <span class="keyword">end</span>
+0184         
+0185         <a name="_sub5" href="#_subfunctions" class="code">function value = get.sequence(this)</a>
+0186             <span class="comment">%retrieve</span>
+0187             <span class="keyword">if</span> ~isempty(this.sequence)
+0188                 value = this.sequence;
+0189                 <span class="keyword">return</span>;
+0190             <span class="keyword">end</span>
+0191             
+0192             <span class="comment">%compute</span>
+0193             value = this.dnaSequence;
+0194             value(this.dnaSequence == <span class="string">'A'</span>) = <span class="string">'U'</span>;
+0195             value(this.dnaSequence == <span class="string">'C'</span>) = <span class="string">'G'</span>;
+0196             value(this.dnaSequence == <span class="string">'G'</span>) = <span class="string">'C'</span>;
+0197             value(this.dnaSequence == <span class="string">'T'</span>) = <span class="string">'A'</span>;
+0198             
+0199             <span class="comment">%store</span>
+0200             this.sequence = value;
+0201         <span class="keyword">end</span>
+0202         
+0203         <a name="_sub6" href="#_subfunctions" class="code">function value = get.startCoordinate(this)</a>
+0204             <span class="comment">%retrieve</span>
+0205             <span class="keyword">if</span> ~isempty(this.startCoordinate)
+0206                 value = this.startCoordinate;
+0207                 <span class="keyword">return</span>;
+0208             <span class="keyword">end</span>
+0209             
+0210             <span class="comment">%compute</span>
+0211             value = min([this.genes.startCoordinate]);
+0212             
+0213             <span class="comment">%store</span>
+0214             this.startCoordinate = value;
+0215         <span class="keyword">end</span>
+0216         
+0217         <a name="_sub7" href="#_subfunctions" class="code">function value = get.endCoordinate(this)</a>
+0218             <span class="comment">%retrieve</span>
+0219             <span class="keyword">if</span> ~isempty(this.endCoordinate)
+0220                 value = this.endCoordinate;
+0221                 <span class="keyword">return</span>;
+0222             <span class="keyword">end</span>
+0223             
+0224             <span class="comment">%compute</span>
+0225             value = max([this.genes.endCoordinate]);
+0226             
+0227             <span class="comment">%store</span>
+0228             this.endCoordinate = value;
+0229         <span class="keyword">end</span>
+0230         
+0231         <a name="_sub8" href="#_subfunctions" class="code">function value = get.fivePrimeCoordinate(this)</a>
+0232             <span class="comment">%retrieve</span>
+0233             <span class="keyword">if</span> ~isempty(this.fivePrimeCoordinate)
+0234                 value = this.fivePrimeCoordinate;
+0235                 <span class="keyword">return</span>;
+0236             <span class="keyword">end</span>
+0237             
+0238             <span class="comment">%compute</span>
+0239             <span class="keyword">if</span> this.direction
+0240                 value = this.startCoordinate;
+0241             <span class="keyword">else</span>
+0242                 value = this.endCoordinate;
+0243             <span class="keyword">end</span>
+0244             
+0245             <span class="comment">%store</span>
+0246             this.fivePrimeCoordinate = value;
+0247         <span class="keyword">end</span>
+0248         
+0249         <a name="_sub9" href="#_subfunctions" class="code">function value = get.threePrimeCoordinate(this)</a>
+0250             <span class="comment">%retrieve</span>
+0251             <span class="keyword">if</span> ~isempty(this.threePrimeCoordinate)
+0252                 value = this.threePrimeCoordinate;
+0253                 <span class="keyword">return</span>;
+0254             <span class="keyword">end</span>
+0255             
+0256             <span class="comment">%compute</span>
+0257             <span class="keyword">if</span> this.direction
+0258                 value = this.endCoordinate;
+0259             <span class="keyword">else</span>
+0260                 value = this.startCoordinate;
+0261             <span class="keyword">end</span>
+0262             
+0263             <span class="comment">%store</span>
+0264             this.threePrimeCoordinate = value;
+0265         <span class="keyword">end</span>
+0266         
+0267         <a name="_sub10" href="#_subfunctions" class="code">function value = get.direction(this)</a>
+0268             <span class="comment">%retrieve</span>
+0269             <span class="keyword">if</span> ~isempty(this.direction)
+0270                 value = this.direction;
+0271                 <span class="keyword">return</span>;
+0272             <span class="keyword">end</span>
+0273             
+0274             <span class="comment">%compute</span>
+0275             value = this.genes(1).direction;
+0276             
+0277             <span class="comment">%store</span>
+0278             this.direction = value;
+0279         <span class="keyword">end</span>
+0280         
+0281         <a name="_sub11" href="#_subfunctions" class="code">function value = get.synthesisRate(this)</a>
+0282             <span class="comment">%retrieve</span>
+0283             <span class="keyword">if</span> ~isempty(this.synthesisRate)
+0284                 value = this.synthesisRate;
+0285                 <span class="keyword">return</span>;
+0286             <span class="keyword">end</span>
+0287             
+0288             <span class="comment">%compute</span>
+0289             value = mean(reshape([this.genes.synthesisRate],[],this.numGenes),2)';
+0290             
+0291             <span class="comment">%store</span>
+0292             this.synthesisRate = value;
+0293         <span class="keyword">end</span>
+0294         
+0295         <a name="_sub12" href="#_subfunctions" class="code">function value = get.expression(this)</a>
+0296             <span class="comment">%retrieve</span>
+0297             <span class="keyword">if</span> ~isempty(this.expression)
+0298                 value = this.expression;
+0299                 <span class="keyword">return</span>;
+0300             <span class="keyword">end</span>
+0301             
+0302             <span class="comment">%compute</span>
+0303             value = this.synthesisRate*this.halfLife/log(2);
+0304             
+0305             <span class="comment">%store</span>
+0306             this.expression = value;
+0307         <span class="keyword">end</span>
+0308         
+0309         <a name="_sub13" href="#_subfunctions" class="code">function value = get.promoter1Sequence(this)</a>
+0310             <span class="comment">%retrieve</span>
+0311             <span class="keyword">if</span> ~isempty(this.promoter1Sequence)
+0312                 value = this.promoter1Sequence;
+0313                 <span class="keyword">return</span>;
+0314             <span class="keyword">end</span>
+0315             
+0316             <span class="comment">%compute</span>
+0317             <span class="keyword">if</span> this.direction
+0318                 value = this.genome.sequence(this.fivePrimeCoordinate + this.tssCoordinate + (-1:-1) + 1);
+0319             <span class="keyword">else</span>
+0320                 value = seqcomplement(this.genome.sequence(this.fivePrimeCoordinate - this.tssCoordinate + (1:-1:1) - 1));
+0321             <span class="keyword">end</span>
+0322             
+0323             <span class="comment">%store</span>
+0324             this.promoter1Sequence = value;
+0325         <span class="keyword">end</span>
+0326         
+0327         <a name="_sub14" href="#_subfunctions" class="code">function value = get.promoter10Sequence(this)</a>
+0328             <span class="comment">%retrieve</span>
+0329             <span class="keyword">if</span> ~isempty(this.promoter10Sequence)
+0330                 value = this.promoter10Sequence;
+0331                 <span class="keyword">return</span>;
+0332             <span class="keyword">end</span>
+0333             
+0334             <span class="comment">%compute</span>
+0335             <span class="keyword">if</span> this.direction
+0336                 value = this.genome.sequence(this.fivePrimeCoordinate + this.promoter10Coordinate + (-this.promoter10Length:-1) + 1);
+0337             <span class="keyword">else</span>
+0338                 value = seqcomplement(this.genome.sequence(this.fivePrimeCoordinate - this.promoter10Coordinate + (this.promoter10Length:-1:1) - 1));
+0339             <span class="keyword">end</span>
+0340             
+0341             <span class="comment">%store</span>
+0342             this.promoter10Sequence = value;
+0343         <span class="keyword">end</span>
+0344         
+0345         <a name="_sub15" href="#_subfunctions" class="code">function value = get.promoter35Sequence(this)</a>
+0346             <span class="comment">%retrieve</span>
+0347             <span class="keyword">if</span> ~isempty(this.promoter35Sequence)
+0348                 value = this.promoter35Sequence;
+0349                 <span class="keyword">return</span>;
+0350             <span class="keyword">end</span>
+0351             
+0352             <span class="comment">%compute</span>
+0353             <span class="keyword">if</span> this.direction
+0354                 value = this.genome.sequence(this.fivePrimeCoordinate + this.promoter35Coordinate + (-this.promoter35Length:-1) + 1);
+0355             <span class="keyword">else</span>
+0356                 value = seqcomplement(this.genome.sequence(this.fivePrimeCoordinate - this.promoter35Coordinate + (this.promoter35Length:-1:1) - 1));
+0357             <span class="keyword">end</span>
+0358             
+0359             <span class="comment">%store</span>
+0360             this.promoter35Sequence = value;
+0361         <span class="keyword">end</span>
+0362         
+0363         <a name="_sub16" href="#_subfunctions" class="code">function value = get.intergenicSequences(this)</a>
+0364             <span class="comment">%retrieve</span>
+0365             <span class="keyword">if</span> ~isempty(this.intergenicSequences)
+0366                 value = this.intergenicSequences;
+0367                 <span class="keyword">return</span>;
+0368             <span class="keyword">end</span>
+0369             
+0370             <span class="comment">%compute</span>
+0371             value = cell(0,1);
+0372             <span class="keyword">for</span> i = 1:numel(this.genes)-1
+0373                 <span class="keyword">if</span> strcmp(this.type,<span class="string">'mRNA'</span>)
+0374                     <span class="keyword">continue</span>;
+0375                 <span class="keyword">end</span>
+0376                 <span class="keyword">if</span> this.genes(i).endCoordinate+1 &gt; this.genes(i+1).startCoordinate-1
+0377                     <span class="keyword">continue</span>;
+0378                 <span class="keyword">end</span>
+0379                 
+0380                 <span class="keyword">if</span> this.direction
+0381                     seq = this.genome.sequence(this.genes(i).endCoordinate+1:this.genes(i+1).startCoordinate-1);
+0382                 <span class="keyword">else</span>
+0383                     seq = seqrcomplement(this.genome.sequence(this.genes(i).endCoordinate+1:this.genes(i+1).startCoordinate-1));
+0384                 <span class="keyword">end</span>
+0385                 
+0386                 value{i,1} = seq;
+0387                 value{i,1}(seq == <span class="string">'A'</span>) = <span class="string">'U'</span>;
+0388                 value{i,1}(seq == <span class="string">'C'</span>) = <span class="string">'G'</span>;
+0389                 value{i,1}(seq == <span class="string">'G'</span>) = <span class="string">'C'</span>;
+0390                 value{i,1}(seq == <span class="string">'T'</span>) = <span class="string">'A'</span>;
+0391             <span class="keyword">end</span>
+0392             
+0393             <span class="comment">%store</span>
+0394             this.intergenicSequences = value;
+0395         <span class="keyword">end</span>
+0396         
+0397         <a name="_sub17" href="#_subfunctions" class="code">function value = get.intergenicSequenceLengths(this)</a>
+0398             <span class="comment">%retrieve</span>
+0399             <span class="keyword">if</span> ~isempty(this.intergenicSequenceLengths)
+0400                 value = this.intergenicSequenceLengths;
+0401                 <span class="keyword">return</span>;
+0402             <span class="keyword">end</span>
+0403             
+0404             <span class="comment">%compute</span>
+0405             value = zeros(0,1);
+0406             <span class="keyword">for</span> i = 1:numel(this.genes)-1
+0407                 <span class="keyword">if</span> strcmp(this.type,<span class="string">'mRNA'</span>)
+0408                     <span class="keyword">continue</span>;
+0409                 <span class="keyword">end</span>
+0410                 <span class="keyword">if</span> this.genes(i).endCoordinate+1 &gt; this.genes(i+1).startCoordinate-1
+0411                     <span class="keyword">continue</span>;
+0412                 <span class="keyword">end</span>
+0413                 
+0414                 value(i,1) = (this.genes(i+1).startCoordinate-1) - (this.genes(i).endCoordinate+1) + 1;
+0415             <span class="keyword">end</span>
+0416             
+0417             <span class="comment">%store</span>
+0418             this.intergenicSequenceLengths = value;
+0419         <span class="keyword">end</span>
+0420         
+0421         <a name="_sub18" href="#_subfunctions" class="code">function value = get.intergenicSequenceBaseCounts(this)</a>
+0422             <span class="comment">%retrieve</span>
+0423             <span class="keyword">if</span> ~isempty(this.intergenicSequenceBaseCounts)
+0424                 value = this.intergenicSequenceBaseCounts;
+0425                 <span class="keyword">return</span>;
+0426             <span class="keyword">end</span>
+0427             
+0428             <span class="comment">%compute</span>
+0429             value = zeros(numel(this.intergenicSequences), this.knowledgeBase.numMetabolites);
+0430             
+0431             <span class="keyword">for</span> i = 1:numel(this.intergenicSequences)
+0432                 value(i, this.knowledgeBase.nmpIndexs) = [<span class="keyword">...</span>
+0433                     sum(<span class="string">'A'</span> == this.intergenicSequences{i}) <span class="keyword">...</span>
+0434                     sum(<span class="string">'C'</span> == this.intergenicSequences{i}) <span class="keyword">...</span>
+0435                     sum(<span class="string">'G'</span> == this.intergenicSequences{i}) <span class="keyword">...</span>
+0436                     sum(<span class="string">'U'</span> == this.intergenicSequences{i})];
+0437             <span class="keyword">end</span>
+0438             
+0439             <span class="comment">%store</span>
+0440             this.intergenicSequenceBaseCounts = value;
+0441         <span class="keyword">end</span>
+0442         
+0443         <a name="_sub19" href="#_subfunctions" class="code">function value = get.intergenicSequenceDecayReactions(this)</a>
+0444             <span class="comment">%retrieve</span>
+0445             <span class="keyword">if</span> ~isempty(this.intergenicSequenceDecayReactions)
+0446                 value = this.intergenicSequenceDecayReactions;
+0447                 <span class="keyword">return</span>;
+0448             <span class="keyword">end</span>
+0449             
+0450             <span class="comment">%compute</span>
+0451             value = this.intergenicSequenceBaseCounts;            
+0452             <span class="keyword">for</span> i = 1:numel(this.intergenicSequences)
+0453                 value(i, this.knowledgeBase.waterIndexs)    = value(i, this.knowledgeBase.waterIndexs)    - max(0, length(this.intergenicSequences{i}) - 1);
+0454                 value(i, this.knowledgeBase.hydrogenIndexs) = value(i, this.knowledgeBase.hydrogenIndexs) + max(0, length(this.intergenicSequences{i}) - 1);
+0455             <span class="keyword">end</span>
+0456             
+0457             <span class="comment">%store</span>
+0458             this.intergenicSequenceDecayReactions = value;
+0459         <span class="keyword">end</span>
+0460         
+0461         <a name="_sub20" href="#_subfunctions" class="code">function value = get.intergenicSequenceMolecularWeights(this)</a>
+0462             <span class="comment">%retrieve</span>
+0463             <span class="keyword">if</span> ~isempty(this.intergenicSequenceMolecularWeights)
+0464                 value = this.intergenicSequenceMolecularWeights;
+0465                 <span class="keyword">return</span>;
+0466             <span class="keyword">end</span>
+0467             
+0468             <span class="comment">%compute</span>
+0469             value = zeros(size(this.intergenicSequences));
+0470             
+0471             <span class="keyword">for</span> i = 1:numel(this.intergenicSequences)
+0472                 value(i) = this.calculateMolecularWeight(<span class="keyword">...</span>
+0473                     this.intergenicSequences{i}, length(this.intergenicSequences{i}), <span class="string">'linear'</span>, <span class="keyword">...</span>
+0474                     this.knowledgeBase.metaboliteMolecularWeights(this.knowledgeBase.nmpIndexs));
+0475             <span class="keyword">end</span>
+0476             
+0477             <span class="comment">%store</span>
+0478             this.intergenicSequenceMolecularWeights = value;
+0479         <span class="keyword">end</span>
+0480         
+0481         <a name="_sub21" href="#_subfunctions" class="code">function value = get.intergenicSequenceHalfLives(this)</a>
+0482             <span class="comment">%retrieve</span>
+0483             <span class="keyword">if</span> ~isempty(this.intergenicSequenceHalfLives)
+0484                 value = this.intergenicSequenceHalfLives;
+0485                 <span class="keyword">return</span>;
+0486             <span class="keyword">end</span>
+0487             
+0488             <span class="comment">%compute</span>
+0489             value = zeros(size(this.intergenicSequences));
+0490             
+0491             <span class="comment">%store</span>
+0492             this.intergenicSequenceHalfLives = value;
+0493         <span class="keyword">end</span>
+0494         
+0495         <a name="_sub22" href="#_subfunctions" class="code">function value = get.numGenes(this)</a>
+0496             <span class="comment">%retrieve</span>
+0497             <span class="keyword">if</span> ~isempty(this.numGenes)
+0498                 value = this.numGenes;
+0499                 <span class="keyword">return</span>;
+0500             <span class="keyword">end</span>
+0501             
+0502             <span class="comment">%compute</span>
+0503             value = length(this.genes);
+0504             
+0505             <span class="comment">%store</span>
+0506             this.numGenes = value;
+0507         <span class="keyword">end</span>
+0508         
+0509         <a name="_sub23" href="#_subfunctions" class="code">function value = get.features(this)</a>
+0510             <span class="comment">%retrieve</span>
+0511             <span class="keyword">if</span> ~isempty(this.features)
+0512                 value = this.features;
+0513                 <span class="keyword">return</span>;
+0514             <span class="keyword">end</span>
+0515             
+0516             <span class="comment">%compute</span>
+0517             featureStartCoordinates = [this.genome.features.startCoordinate];
+0518             featureEndCoordinates = [this.genome.features.endCoordinate];
+0519             value = this.genome.features(<span class="keyword">...</span>
+0520                 (this.startCoordinate &gt; featureStartCoordinates &amp; this.startCoordinate &lt; featureEndCoordinates) | <span class="keyword">...</span>
+0521                 (this.endCoordinate   &gt; featureStartCoordinates &amp; this.endCoordinate   &lt; featureEndCoordinates) | <span class="keyword">...</span>
+0522                 (this.startCoordinate &lt; featureStartCoordinates &amp; this.endCoordinate   &gt; featureEndCoordinates));
+0523             
+0524             <span class="comment">%store</span>
+0525             this.features = value;
+0526         <span class="keyword">end</span>
+0527     <span class="keyword">end</span>
+0528 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

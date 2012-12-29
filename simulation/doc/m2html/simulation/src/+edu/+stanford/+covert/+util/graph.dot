@@ -1,0 +1,37 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  CircularMat -> CircularMat;
+  CircularSparseMat -> CircularSparseMat;
+  ConstantUtil -> ConstantUtil;
+  EmpiricalFormula -> EmpiricalFormula;
+  IOUtil -> IOUtil;
+  InterfaceUtil -> InterfaceUtil;
+  MatFileUtil -> MatFileUtil;
+  PdfUtil -> PdfUtil;
+  RandStream -> RandStream;
+  SetUtil -> SetUtil;
+  SparseMat -> CircularSparseMat;
+  SparseMat -> SparseMat;
+  StructUtil -> StructUtil;
+  revision -> revision;
+
+  CircularMat [URL="CircularMat.html"];
+  CircularSparseMat [URL="CircularSparseMat.html"];
+  ConstantUtil [URL="ConstantUtil.html"];
+  EmpiricalFormula [URL="EmpiricalFormula.html"];
+  IOUtil [URL="IOUtil.html"];
+  InterfaceUtil [URL="InterfaceUtil.html"];
+  MatFileUtil [URL="MatFileUtil.html"];
+  PdfUtil [URL="PdfUtil.html"];
+  RandStream [URL="RandStream.html"];
+  SetUtil [URL="SetUtil.html"];
+  SparseMat [URL="SparseMat.html"];
+  StructUtil [URL="StructUtil.html"];
+  computerInfo [URL="computerInfo.html"];
+  countUnique [URL="countUnique.html"];
+  escapeXML [URL="escapeXML.html"];
+  findNonInteractingRowsAndColumns [URL="findNonInteractingRowsAndColumns.html"];
+  parseDoubles [URL="parseDoubles.html"];
+  revision [URL="revision.html"];
+  substr [URL="substr.html"];
+}

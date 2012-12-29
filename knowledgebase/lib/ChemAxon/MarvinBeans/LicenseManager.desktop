@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=LicenseManager
+Exec=/bin/sh "/usr/share/ChemAxon/MarvinBeans/LicenseManager"
+Icon=/usr/share/ChemAxon/MarvinBeans/.install4j/LicenseManager.png
+Categories=Application;

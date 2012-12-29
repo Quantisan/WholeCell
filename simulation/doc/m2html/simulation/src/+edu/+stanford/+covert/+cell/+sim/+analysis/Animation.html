@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Animation</title>
+  <meta name="keywords" content="Animation">
+  <meta name="description" content="Animation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Animation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Animation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Animation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Animation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/20/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Animation.html" class="code" title="">Animation</a>	Animation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Animation.html" class="code" title="">Animation</a>	Animation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Animation(simGroupId, simId, movieFileName, downsampleStepSizeSec, frameRenderer, movieRenderer, verbosity)</a></li><li><a href="#_sub2" class="code">function run(this, frameSkip, drawFrames, renderFrames, renderMovie, cleanup)</a></li><li><a href="#_sub3" class="code">function renderFrames(this, frameSkip)</a></li><li><a href="#_sub4" class="code">function renderFrames_librsvg(this, frameSkip)</a></li><li><a href="#_sub5" class="code">function renderFrames_graphicsmagick(this, ~)</a></li><li><a href="#_sub6" class="code">function renderFrames_imagemagick(this, ~)</a></li><li><a href="#_sub7" class="code">function renderFrames_inkscape(this, frameSkip)</a></li><li><a href="#_sub8" class="code">function renderFrames_batik(this, ~)</a></li><li><a href="#_sub9" class="code">function initializeSubtitles(this)</a></li><li><a href="#_sub10" class="code">function appendSubtitle(this, frameIdx, timeIdx)</a></li><li><a href="#_sub11" class="code">function finalizeSubtitles(this)</a></li><li><a href="#_sub12" class="code">function renderMovie(this)</a></li><li><a href="#_sub13" class="code">function renderMovie_ffmpeg(this)</a></li><li><a href="#_sub14" class="code">function renderMovie_mencoder(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Animation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 7/20/2011</span>
+0006 classdef <a href="Animation.html" class="code" title="">Animation</a> &lt; handle
+0007     properties (Abstract = true, SetAccess = protected)
+0008         title
+0009         description
+0010         author
+0011     <span class="keyword">end</span>
+0012     
+0013     properties
+0014         year
+0015         copyright
+0016                 
+0017         frameFilePattern = <span class="string">'frame_%d'</span>
+0018         frameFormat = <span class="string">'png'</span>
+0019         frameFormatOptions
+0020         subtitleFileName = <span class="string">'subtitles.srt'</span>
+0021         movieFileName
+0022         movieDPI = 250;
+0023         movieWidth
+0024         movieHeight
+0025         movieOptions
+0026         
+0027         frameRenderer
+0028         movieRenderer
+0029         codec = struct(<span class="keyword">...</span>
+0030             <span class="string">'ffmpeg'</span>, <span class="string">'libx264'</span>, <span class="keyword">...</span>
+0031             <span class="string">'mencoder'</span>, <span class="string">'mpeg4'</span>)
+0032         subtitleCodec = <span class="string">'srt'</span>
+0033         frameRate = 12
+0034         quality = 4
+0035         bitRate = 1200
+0036         loopCount = 0
+0037         
+0038         verbosity
+0039     <span class="keyword">end</span>
+0040     
+0041     properties
+0042         tmpDirectory
+0043     <span class="keyword">end</span>
+0044     
+0045     properties (SetAccess = protected)
+0046         simGroupId
+0047         simId
+0048         downsampleStepSizeSec
+0049         
+0050         simulation
+0051         times
+0052         states
+0053     <span class="keyword">end</span>
+0054     
+0055     properties (SetAccess = protected)
+0056         subtitleFid
+0057     <span class="keyword">end</span>
+0058     
+0059     methods
+0060         <a name="_sub0" href="#_subfunctions" class="code">function this = Animation(simGroupId, simId, movieFileName, downsampleStepSizeSec, frameRenderer, movieRenderer, verbosity)</a>
+0061             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0062             
+0063             <span class="comment">%% options</span>
+0064             <span class="keyword">if</span> nargin &lt; 1 || isempty(simGroupId)
+0065                 simGroupId = SimulationDiskUtil.getLatestSimulationGroup();
+0066             <span class="keyword">end</span>
+0067             <span class="keyword">if</span> nargin &lt; 2 || isempty(simId)
+0068                 simId = 1;
+0069             <span class="keyword">end</span>
+0070             <span class="keyword">if</span> nargin &lt; 3 || isempty(movieFileName)
+0071                 movieFileName = <span class="string">'video.avi'</span>;
+0072             <span class="keyword">end</span>
+0073             <span class="keyword">if</span> nargin &lt; 4 || isempty(downsampleStepSizeSec)
+0074                 downsampleStepSizeSec = 100;
+0075             <span class="keyword">end</span>
+0076             <span class="keyword">if</span> nargin &lt; 5 || isempty(frameRenderer)
+0077                 frameRenderer = <span class="string">'inkscape'</span>;
+0078             <span class="keyword">end</span>
+0079             <span class="keyword">if</span> nargin &lt; 6 || isempty(movieRenderer)
+0080                 movieRenderer = <span class="string">'ffmpeg'</span>;
+0081             <span class="keyword">end</span>
+0082             <span class="keyword">if</span> nargin &lt; 7 || isempty(verbosity)
+0083                 verbosity = 0;
+0084             <span class="keyword">end</span>
+0085             
+0086             this.simGroupId = simGroupId;
+0087             this.simId = simId;
+0088             this.movieFileName = movieFileName;
+0089             this.downsampleStepSizeSec = downsampleStepSizeSec;
+0090             this.frameRenderer = frameRenderer;
+0091             this.movieRenderer = movieRenderer;
+0092             this.verbosity = verbosity;
+0093             
+0094             this.year = datestr(now, <span class="string">'YYYY'</span>);
+0095             this.copyright = [<span class="string">'Copyright '</span> this.author <span class="string">' '</span> this.year];
+0096             this.tmpDirectory = tempname;
+0097             
+0098             this.movieWidth = 600;
+0099             this.movieHeight = 900;
+0100             this.frameFormatOptions.png = <span class="string">''</span>;
+0101             this.movieOptions.ffmpeg = <span class="string">''</span>;
+0102             <span class="keyword">if</span> ispc
+0103                 this.frameFormatOptions.png = <span class="string">'-define png:bit-depth=8 -define png:color-type=2 -define png:compression-level=0 -define png:compression-strategy=0'</span>;
+0104             <span class="keyword">else</span>
+0105                 this.movieOptions.ffmpeg = <span class="string">'-vpre medium'</span>;
+0106             <span class="keyword">end</span>
+0107             
+0108             <span class="comment">%% load simulation and data</span>
+0109             [~, ~, this.simulation] = SimulationDiskUtil.getSimulation([this.simGroupId filesep num2str(this.simId(1))]);
+0110             [this.times, this.states] = this.loadSimulationData();
+0111         <span class="keyword">end</span>
+0112         
+0113         <a name="_sub1" href="#_subfunctions" class="code">function run(this, frameSkip, drawFrames, renderFrames, renderMovie, cleanup)</a>
+0114             <span class="keyword">if</span> nargin &lt; 2 || isempty(frameSkip)
+0115                 frameSkip = [1 1];
+0116             <span class="keyword">end</span>
+0117             
+0118             nFrames = floor(numel(this.times) / this.downsampleStepSizeSec);
+0119             
+0120             <span class="comment">%make temporary directory</span>
+0121             <span class="keyword">if</span> (nargin &lt; 6 || cleanup) &amp;&amp; ~exist(this.tmpDirectory, <span class="string">'dir'</span>)
+0122                 mkdir(this.tmpDirectory);
+0123             <span class="keyword">end</span>
+0124             
+0125             <span class="comment">%draw frames</span>
+0126             <span class="keyword">if</span> nargin &lt; 3 || drawFrames
+0127                 <span class="keyword">for</span> frameIdx = frameSkip(1):frameSkip(2):nFrames
+0128                     <span class="comment">%calculate time index</span>
+0129                     timeIdx = (frameIdx - 1) * this.downsampleStepSizeSec + 1;
+0130                     
+0131                     <span class="comment">%build svg</span>
+0132                     fileName = sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.svg'</span>], this.tmpDirectory, filesep, frameIdx);
+0133                     svg = this.drawFrame(timeIdx);
+0134                     fid = fopen(fileName, <span class="string">'w'</span>);
+0135                     fwrite(fid, svg);
+0136                     fclose(fid);
+0137                 <span class="keyword">end</span>
+0138             <span class="keyword">end</span>
+0139             
+0140             <span class="comment">%convert to png</span>
+0141             <span class="keyword">if</span> nargin &lt; 4 || <a href="#_sub3" class="code" title="subfunction renderFrames(this, frameSkip)">renderFrames</a>
+0142                 this.renderFrames(frameSkip);
+0143             <span class="keyword">end</span>
+0144             
+0145             <span class="comment">%render movie</span>
+0146             <span class="keyword">if</span> nargin &lt; 5 || <a href="#_sub12" class="code" title="subfunction renderMovie(this)">renderMovie</a>
+0147                 <span class="comment">% subtitles</span>
+0148                 this.initializeSubtitles();
+0149                 <span class="keyword">for</span> frameIdx = frameSkip(1):frameSkip(2):nFrames
+0150                     <span class="comment">%calculate time index</span>
+0151                     timeIdx = (frameIdx - 1) * this.downsampleStepSizeSec + 1;
+0152                     
+0153                     <span class="comment">%append</span>
+0154                     this.appendSubtitle(frameIdx, timeIdx);
+0155                 <span class="keyword">end</span>
+0156                 this.finalizeSubtitles();
+0157                 
+0158                 <span class="comment">%movie</span>
+0159                 this.renderMovie();
+0160             <span class="keyword">end</span>
+0161             
+0162             <span class="comment">%clean up temporary directory</span>
+0163             <span class="keyword">if</span> nargin &lt; 6 || cleanup
+0164                 rmdir(this.tmpDirectory, <span class="string">'s'</span>);
+0165             <span class="keyword">end</span>
+0166         <span class="keyword">end</span>
+0167         
+0168         <a name="_sub2" href="#_subfunctions" class="code">function renderFrames(this, frameSkip)</a>
+0169             <span class="keyword">switch</span> this.frameRenderer
+0170                 <span class="keyword">case</span> <span class="string">'librsvg'</span>
+0171                     this.renderFrames_librsvg(frameSkip);
+0172                 <span class="keyword">case</span> <span class="string">'graphicsmagick'</span>
+0173                     this.renderFrames_graphicsmagick(frameSkip);
+0174                 <span class="keyword">case</span> <span class="string">'imagemagick'</span>
+0175                     this.renderFrames_imagemagick(frameSkip);
+0176                 <span class="keyword">case</span> <span class="string">'inkscape'</span>
+0177                     this.renderFrames_inkscape(frameSkip);
+0178                 <span class="keyword">case</span> <span class="string">'batik'</span>
+0179                     this.renderFrames_batik(frameSkip);
+0180                 <span class="keyword">otherwise</span>
+0181                     throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Undefined renderer %s'</span>, this.frameRenderer))
+0182             <span class="keyword">end</span>
+0183         <span class="keyword">end</span>
+0184         
+0185         <a name="_sub3" href="#_subfunctions" class="code">function renderFrames_librsvg(this, frameSkip)</a>
+0186             nFrames = floor(numel(this.times) / this.downsampleStepSizeSec);
+0187             renderFileName = [this.tmpDirectory, filesep <span class="string">'renderFrames.sh'</span>];
+0188             fid = fopen(renderFileName, <span class="string">'w'</span>);
+0189             fprintf(fid, <span class="string">'#!/bin/sh\n'</span>);
+0190             <span class="keyword">for</span> frameIdx = frameSkip(1):frameSkip(2):nFrames
+0191                 <span class="keyword">if</span> ~exist(sprintf(<span class="string">'%s%s%s.svg'</span>, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx))), <span class="string">'file'</span>)
+0192                     <span class="keyword">continue</span>;
+0193                 <span class="keyword">end</span>
+0194                 fprintf(fid, [<span class="keyword">...</span>
+0195                     <span class="string">'rsvg-convert '</span><span class="keyword">...</span>
+0196                     <span class="string">'-f png '</span><span class="keyword">...</span>
+0197                     <span class="string">'-w %d -h %d '</span><span class="keyword">...</span>
+0198                     <span class="string">'-o &quot;%s%s%s.png&quot; &quot;%s%s%s.svg&quot;\n'</span>], <span class="keyword">...</span>
+0199                     this.movieWidth, this.movieHeight, <span class="keyword">...</span>
+0200                     this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx)), <span class="keyword">...</span>
+0201                     this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx)));
+0202             <span class="keyword">end</span>
+0203             fclose(fid);
+0204             [status, result] = system([<span class="string">'chmod 775 '</span> renderFileName <span class="string">' &amp;&amp; '</span> renderFileName]);
+0205             <span class="keyword">if</span> status ~= 0
+0206                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0207             <span class="keyword">end</span>
+0208         <span class="keyword">end</span>
+0209         
+0210         <a name="_sub4" href="#_subfunctions" class="code">function renderFrames_graphicsmagick(this, ~)</a>
+0211             cmd = sprintf([<span class="keyword">...</span>
+0212                 <span class="string">'gm mogrify '</span><span class="keyword">...</span>
+0213                 <span class="string">'-format png %s '</span><span class="keyword">...</span>
+0214                 <span class="string">'-resize %dx%d '</span><span class="keyword">...</span>
+0215                 <span class="string">'&quot;%s%s%s.svg&quot;'</span>], <span class="keyword">...</span>
+0216                 this.frameFormatOptions.png, this.movieWidth, this.movieHeight, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, <span class="string">'*'</span>));
+0217             [status, result] = system(cmd);
+0218             <span class="keyword">if</span> status ~= 0
+0219                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0220             <span class="keyword">end</span>
+0221         <span class="keyword">end</span>
+0222         
+0223         <a name="_sub5" href="#_subfunctions" class="code">function renderFrames_imagemagick(this, ~)</a>
+0224             cmd = sprintf([<span class="keyword">...</span>
+0225                 <span class="string">'mogrify '</span><span class="keyword">...</span>
+0226                 <span class="string">'-format png %s '</span><span class="keyword">...</span>
+0227                 <span class="string">'-resize %dx%d '</span><span class="keyword">...</span>
+0228                 <span class="string">'&quot;%s%s%s.svg&quot;'</span>], <span class="keyword">...</span>
+0229                 this.frameFormatOptions.png, this.movieWidth, this.movieHeight, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, <span class="string">'*'</span>));
+0230             [status, result] = system(cmd);
+0231             <span class="keyword">if</span> status ~= 0
+0232                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0233             <span class="keyword">end</span>
+0234         <span class="keyword">end</span>
+0235         
+0236         <a name="_sub6" href="#_subfunctions" class="code">function renderFrames_inkscape(this, frameSkip)</a>
+0237             nFrames = floor(numel(this.times) / this.downsampleStepSizeSec);
+0238             <span class="keyword">for</span> frameIdx = frameSkip(1):frameSkip(2):nFrames
+0239                 <span class="keyword">if</span> ~exist(sprintf(<span class="string">'%s%s%s.svg'</span>, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, num2str(frameIdx))), <span class="string">'file'</span>)
+0240                     <span class="keyword">continue</span>;
+0241                 <span class="keyword">end</span>
+0242                 
+0243                 <span class="comment">%print status</span>
+0244                 <span class="keyword">if</span> this.verbosity &gt; 0
+0245                     fprintf(<span class="string">'Drawing frame %d of %d frames\n'</span>, <span class="keyword">...</span>
+0246                         frameIdx, nFrames);
+0247                 <span class="keyword">end</span>
+0248                 [status, result] = system(sprintf(<span class="string">'inkscape &quot;%s&quot; --export-png=&quot;%s&quot; --export-area-page -w %d -h %d'</span>, <span class="keyword">...</span>
+0249                     sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.svg'</span>], this.tmpDirectory, filesep, frameIdx), <span class="keyword">...</span>
+0250                     sprintf([<span class="string">'%s%s'</span> this.frameFilePattern <span class="string">'.png'</span>], this.tmpDirectory, filesep, frameIdx), <span class="keyword">...</span>
+0251                     this.movieWidth, this.movieHeight));
+0252                 <span class="keyword">if</span> status ~= 0
+0253                     throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0254                 <span class="keyword">end</span>
+0255             <span class="keyword">end</span>
+0256         <span class="keyword">end</span>
+0257         
+0258         <a name="_sub7" href="#_subfunctions" class="code">function renderFrames_batik(this, ~)</a>
+0259             [status, result] = system(sprintf(<span class="string">'java -jar batik-rasterizer.jar -w %d -h %d -m image/png -d &quot;%s&quot; &quot;%s%s%s.svg&quot;'</span>, <span class="keyword">...</span>
+0260                 this.movieWidth, this.movieHeight, this.tmpDirectory, this.tmpDirectory, filesep, strrep(this.frameFilePattern, <span class="string">'%d'</span>, <span class="string">'*'</span>)));
+0261             <span class="keyword">if</span> status ~= 0
+0262                 throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Failed to convert svg to png: %s'</span>, result));
+0263             <span class="keyword">end</span>
+0264         <span class="keyword">end</span>
+0265         
+0266         <a name="_sub8" href="#_subfunctions" class="code">function initializeSubtitles(this)</a>
+0267             this.subtitleFid = fopen([this.tmpDirectory filesep this.subtitleFileName], <span class="string">'w'</span>);
+0268         <span class="keyword">end</span>
+0269         
+0270         <a name="_sub9" href="#_subfunctions" class="code">function appendSubtitle(this, frameIdx, timeIdx)</a>
+0271             fprintf(this.subtitleFid, <span class="string">'%d\n'</span>, frameIdx);
+0272             fprintf(this.subtitleFid, <span class="string">'%s --&gt; %s\n'</span>, <span class="keyword">...</span>
+0273                 datestr((frameIdx-1)/this.frameRate/(24*60*60), <span class="string">'HH:MM:SS,FFF'</span>), <span class="keyword">...</span>
+0274                 datestr((frameIdx-1)/this.frameRate/(24*60*60), <span class="string">'HH:MM:SS,FFF'</span>));
+0275             fprintf(this.subtitleFid, <span class="string">'%s\n\n'</span>, datestr(this.times(timeIdx) / 3600 / 24, <span class="string">'HH:MM:SS'</span>));
+0276         <span class="keyword">end</span>
+0277         
+0278         <a name="_sub10" href="#_subfunctions" class="code">function finalizeSubtitles(this)</a>
+0279             fclose(this.subtitleFid);
+0280         <span class="keyword">end</span>
+0281         
+0282         <a name="_sub11" href="#_subfunctions" class="code">function renderMovie(this)</a>
+0283             <span class="keyword">switch</span> this.movieRenderer
+0284                 <span class="keyword">case</span> <span class="string">'ffmpeg'</span>
+0285                     this.renderMovie_ffmpeg();
+0286                 <span class="keyword">case</span> <span class="string">'mencoder'</span>
+0287                     this.renderMovie_mencoder();
+0288                 <span class="keyword">otherwise</span>
+0289                     throw(MException(<span class="string">'Animation:error'</span>, <span class="string">'Undefined renderer %s'</span>, this.movieRenderer))
+0290             <span class="keyword">end</span>
+0291         <span class="keyword">end</span>
+0292         
+0293         <a name="_sub12" href="#_subfunctions" class="code">function renderMovie_ffmpeg(this)</a>
+0294             <span class="keyword">if</span> exist(this.movieFileName, <span class="string">'file'</span>)
+0295                 delete(this.movieFileName);
+0296             <span class="keyword">end</span>
+0297             cmd = sprintf([<span class="keyword">...</span>
+0298                 <span class="string">'ffmpeg -f image2 -i &quot;%s/%s.png&quot; '</span> <span class="keyword">...</span>
+0299                 <span class="string">'-vcodec %s -r %f %s -qscale %d -qmin 1 -qmax 35 -loop_output %d -threads 0 -s %dx%d '</span> <span class="keyword">...</span>
+0300                 <span class="string">'-an '</span> <span class="keyword">...</span>
+0301                 <span class="string">'-timestamp now -metadata title=&quot;%s&quot; -metadata description=&quot;%s&quot; -metadata author=&quot;%s&quot; -metadata year=&quot;%s&quot;  -metadata copyright=&quot;%s&quot; '</span> <span class="keyword">...</span>
+0302                 <span class="string">'-y &quot;%s&quot;'</span>
+0303                 ], <span class="keyword">...</span>
+0304                 this.tmpDirectory, this.frameFilePattern, <span class="keyword">...</span>
+0305                 this.codec.ffmpeg, this.frameRate, this.movieOptions.ffmpeg, this.quality, this.loopCount, this.movieWidth, this.movieHeight, <span class="keyword">...</span>
+0306                 this.title, this.description, this.author, this.year, this.copyright, <span class="keyword">...</span>
+0307                 this.movieFileName);
+0308             [status, result] = system(cmd);
+0309             <span class="keyword">if</span> status ~= 0
+0310                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Failed to render movie: %s'</span>, result));
+0311             <span class="keyword">end</span>
+0312         <span class="keyword">end</span>
+0313         
+0314         <a name="_sub13" href="#_subfunctions" class="code">function renderMovie_mencoder(this)</a>
+0315             movieFileName = this.movieFileName; <span class="comment">%#ok&lt;*PROP&gt;</span>
+0316             <span class="keyword">if</span> ~((isunix &amp;&amp; movieFileName(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; movieFileName(2) == <span class="string">':'</span>))
+0317                 movieFileName = [pwd filesep movieFileName];
+0318             <span class="keyword">end</span>
+0319             
+0320             cmd = sprintf([
+0321                 <span class="string">'cd %s &amp;&amp; '</span> <span class="keyword">...</span>
+0322                 <span class="string">'mencoder &quot;mf://%s.png&quot; -mf type=png:fps=%f:w=%d:h=%d -sub &quot;%s&quot; -o &quot;%s&quot; '</span> <span class="keyword">...</span>
+0323                 <span class="string">'-ovc lavc -lavcopts vcodec=%s:vbitrate=%d:vpass=1 '</span> <span class="keyword">...</span>
+0324                 <span class="string">'-subcp enca:en:iso-8859-7 '</span> <span class="keyword">...</span>
+0325                 <span class="string">'-info name=&quot;%s&quot;:subject=&quot;%s&quot;:artist=&quot;%s&quot;:copyright=&quot;%s&quot; '</span> <span class="keyword">...</span>
+0326                 ], <span class="keyword">...</span>
+0327                 this.tmpDirectory, this.frameFilePattern, this.frameRate, this.movieWidth, this.movieHeight, <span class="keyword">...</span>
+0328                 this.subtitleFileName, movieFileName, <span class="keyword">...</span>
+0329                 this.codec.mencoder, this.bitRate, <span class="keyword">...</span>
+0330                 this.title, this.description, this.author, this.copyright);
+0331             [status, result] = system(cmd);
+0332             <span class="keyword">if</span> status ~= 0
+0333                 throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Failed to render movie: %s'</span>, result));
+0334             <span class="keyword">end</span>
+0335         <span class="keyword">end</span>
+0336     <span class="keyword">end</span>
+0337     
+0338     methods (Abstract = true)
+0339         [times, states] = loadSimulationData(this)
+0340         
+0341         svg = drawFrame(this, timeIdx)
+0342     <span class="keyword">end</span>
+0343 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

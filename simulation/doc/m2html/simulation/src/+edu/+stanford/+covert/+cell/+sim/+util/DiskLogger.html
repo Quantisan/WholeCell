@@ -1,0 +1,1093 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DiskLogger</title>
+  <meta name="keywords" content="DiskLogger">
+  <meta name="description" content="Simulation disk logger.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; DiskLogger.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>DiskLogger
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Simulation disk logger.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Simulation disk logger.
+   Stores and retrieves simulated dynamics and simulation meta data
+   to/from disk. Generally, each batch of simulations is stored as folder
+   containing 1 subfolder for each simulation. Each simulation subfolder
+   contains the simulated dynamics of a single cell. The simulated
+   dynamics of each single cell are stored in two ways:
+   1) Simulated dynamics are stored indexed primarily by time with the
+      file name pattern state-(\d+).mat
+   2) Simulated dynamics are stored indexed primarily by state with the
+      file name pattern state-(state name)-(property name).mat
+   During the execution of each simulation results are stored in the first
+   form. However this form is inefficient for most analyses. Consequently,
+   after the completion of each simulation, simulated dynamics are
+   reindexed by state.
+
+   The SimuationEnsemble class provides additional methods for retrieving
+   the simulated dynamics of multiple cells and entire cellular
+   populations. The SimulationDiskUtil class provides additional methods
+   for retrieving simulation meta data.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/10/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DiskLogger.html" class="code" title="">DiskLogger</a>	Simulation disk logger.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DiskLogger.html" class="code" title="">DiskLogger</a>	Simulation disk logger.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = DiskLogger(outputDirectory, segmentSizeStep, metadata, verbosity)</a></li><li><a href="#_sub2" class="code">function setOptions(this, varargin)</a></li><li><a href="#_sub3" class="code">function this = addMetadata(this, varargin)</a></li><li><a href="#_sub4" class="code">function this = initialize(this, sim)</a></li><li><a href="#_sub5" class="code">function this = append(this, sim)</a></li><li><a href="#_sub6" class="code">function this = finalize(this, sim)</a></li><li><a href="#_sub7" class="code">function validateMetadata(this)</a></li><li><a href="#_sub8" class="code">function copyFromState(this, sim, k)</a></li><li><a href="#_sub9" class="code">function copyRandStreamStates(this, sim)</a></li><li><a href="#_sub10" class="code">function saveMetadata(this, ~)</a></li><li><a href="#_sub11" class="code">function saveOptions(this, sim)</a></li><li><a href="#_sub12" class="code">function saveParameters(this, sim)</a></li><li><a href="#_sub13" class="code">function saveFittedConstants(this, sim)</a></li><li><a href="#_sub14" class="code">function saveRandStreamStates(this, ~)</a></li><li><a href="#_sub15" class="code">function saveSegmentToDisk(this, segmentIdx)</a></li><li><a href="#_sub16" class="code">function value = getSegmentLength(this, sim)</a></li><li><a href="#_sub17" class="code">function value = getNumSegments(this, sim)</a></li><li><a href="#_sub18" class="code">function clearLog(this)</a></li><li><a href="#_sub19" class="code">function metaStates = getMetaStates(sim, includeDependentStates)</a></li><li><a href="#_sub20" class="code">function [stateNames, stateDataTypes, isStateDataBuiltinDenseMatrix] = getAvailableStates(outputDirectory)</a></li><li><a href="#_sub21" class="code">function [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(</a></li><li><a href="#_sub22" class="code">function value = loadMetadata(outputDirectory, varargin)</a></li><li><a href="#_sub23" class="code">function value = loadOptions(outputDirectory, varargin)</a></li><li><a href="#_sub24" class="code">function value = loadParameters(outputDirectory, varargin)</a></li><li><a href="#_sub25" class="code">function value = loadFittedConstants(outputDirectory, varargin)</a></li><li><a href="#_sub26" class="code">function value = loadRandStreamStates(outputDirectory, varargin)</a></li><li><a href="#_sub27" class="code">function states = loadTimecourses(outputDirectory, stateNames, initTime, finTime, downsampleStepSec,</a></li><li><a href="#_sub28" class="code">function states = downSample_extract_byState(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a></li><li><a href="#_sub29" class="code">function states = downSample_mean_byState(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a></li><li><a href="#_sub30" class="code">function states = downSample_extract_byTime(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a></li><li><a href="#_sub31" class="code">function states = downSample_mean_byTime(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a></li><li><a href="#_sub32" class="code">function saveStructToDisk(outputDirectory, path, data, structTF, appendTf)</a></li><li><a href="#_sub33" class="code">function structure = loadStructFromDisk(path, fields, varargin)</a></li><li><a href="#_sub34" class="code">function log = allocateMemory(metaStates, segmentSizeStep)</a></li><li><a href="#_sub35" class="code">function data = allocateData(dataType, sz, sparsity)</a></li><li><a href="#_sub36" class="code">function reindexTimeCourses(outputDirectory)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Simulation disk logger.</span>
+0002 <span class="comment">%   Stores and retrieves simulated dynamics and simulation meta data</span>
+0003 <span class="comment">%   to/from disk. Generally, each batch of simulations is stored as folder</span>
+0004 <span class="comment">%   containing 1 subfolder for each simulation. Each simulation subfolder</span>
+0005 <span class="comment">%   contains the simulated dynamics of a single cell. The simulated</span>
+0006 <span class="comment">%   dynamics of each single cell are stored in two ways:</span>
+0007 <span class="comment">%   1) Simulated dynamics are stored indexed primarily by time with the</span>
+0008 <span class="comment">%      file name pattern state-(\d+).mat</span>
+0009 <span class="comment">%   2) Simulated dynamics are stored indexed primarily by state with the</span>
+0010 <span class="comment">%      file name pattern state-(state name)-(property name).mat</span>
+0011 <span class="comment">%   During the execution of each simulation results are stored in the first</span>
+0012 <span class="comment">%   form. However this form is inefficient for most analyses. Consequently,</span>
+0013 <span class="comment">%   after the completion of each simulation, simulated dynamics are</span>
+0014 <span class="comment">%   reindexed by state.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   The SimuationEnsemble class provides additional methods for retrieving</span>
+0017 <span class="comment">%   the simulated dynamics of multiple cells and entire cellular</span>
+0018 <span class="comment">%   populations. The SimulationDiskUtil class provides additional methods</span>
+0019 <span class="comment">%   for retrieving simulation meta data.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0022 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0023 <span class="comment">% Last updated: 1/10/2011</span>
+0024 classdef <a href="DiskLogger.html" class="code" title="">DiskLogger</a> &lt; edu.stanford.covert.cell.sim.util.Logger
+0025     <span class="comment">%options</span>
+0026     properties (SetAccess = protected)
+0027         metadata          <span class="comment">%metadata</span>
+0028         outputDirectory   <span class="comment">%output directory</span>
+0029         segmentSizeStep   <span class="comment">%max state history to cache in memory during a run (s)</span>
+0030         verbosity         <span class="comment">%verbosity</span>
+0031     <span class="keyword">end</span>
+0032     
+0033     <span class="comment">%saved data</span>
+0034     properties (SetAccess = protected)
+0035         log
+0036         randStreamStates
+0037     <span class="keyword">end</span>
+0038     
+0039     <span class="comment">%indices into simulation state</span>
+0040     properties (Access = protected)
+0041         stateIndex_time
+0042     <span class="keyword">end</span>
+0043     
+0044     methods
+0045         <a name="_sub0" href="#_subfunctions" class="code">function this = DiskLogger(outputDirectory, segmentSizeStep, metadata, verbosity)</a>
+0046             <span class="keyword">if</span> ~exist(outputDirectory, <span class="string">'dir'</span>)
+0047                 mkdir(outputDirectory);
+0048             <span class="keyword">end</span>
+0049             <span class="keyword">if</span> ~exist(<span class="string">'metadata'</span>, <span class="string">'var'</span>)
+0050                 metadata = struct;
+0051             <span class="keyword">end</span>
+0052             <span class="keyword">if</span> ~exist(<span class="string">'verbosity'</span>, <span class="string">'var'</span>)
+0053                 verbosity = 0;
+0054             <span class="keyword">end</span>
+0055             
+0056             this.outputDirectory = outputDirectory;
+0057             this.segmentSizeStep = segmentSizeStep;
+0058             this.metadata = metadata;
+0059             this.verbosity = verbosity;
+0060         <span class="keyword">end</span>
+0061     <span class="keyword">end</span>
+0062     
+0063     methods
+0064         <a name="_sub1" href="#_subfunctions" class="code">function setOptions(this, varargin)</a>
+0065             <span class="keyword">if</span> isstruct(varargin{1})
+0066                 options = varargin{1}; <span class="comment">%#ok&lt;*PROP&gt;</span>
+0067             <span class="keyword">else</span>
+0068                 options = struct(varargin{:});
+0069             <span class="keyword">end</span>
+0070             
+0071             metaClass = metaclass(this);
+0072             fields = intersect(fieldnames(options), cellfun(@(x) x.Name, metaClass.Properties, <span class="string">'UniformOutput'</span>,false));
+0073             <span class="keyword">for</span> i = 1:numel(fields)
+0074                 this.(fields{i}) = options.(fields{i});
+0075             <span class="keyword">end</span>
+0076         <span class="keyword">end</span>
+0077         
+0078         <a name="_sub2" href="#_subfunctions" class="code">function this = addMetadata(this, varargin)</a>
+0079             <span class="keyword">if</span> isstruct(varargin{1})
+0080                 metadata = varargin{1}; <span class="comment">%#ok&lt;*PROP&gt;</span>
+0081             <span class="keyword">else</span>
+0082                 metadata = struct(varargin{:});
+0083             <span class="keyword">end</span>
+0084             
+0085             names = fieldnames(metadata);
+0086             <span class="keyword">for</span> i = 1:length(names)
+0087                 this.metadata.(names{i}) = metadata.(names{i});
+0088             <span class="keyword">end</span>
+0089         <span class="keyword">end</span>
+0090         
+0091         <a name="_sub3" href="#_subfunctions" class="code">function this = initialize(this, sim)</a>
+0092             <span class="comment">%% validate options</span>
+0093             <span class="comment">%segment length</span>
+0094             validateattributes(sim.lengthSec / sim.stepSizeSec / this.segmentSizeStep, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>, <span class="string">'integer'</span>});
+0095             
+0096             <span class="comment">%downsample step</span>
+0097             validateattributes(sim.lengthSec / sim.stepSizeSec / this.segmentSizeStep, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>, <span class="string">'integer'</span>});
+0098             
+0099             <span class="comment">%metadata</span>
+0100             this.validateMetadata();
+0101             
+0102             <span class="comment">%% indices</span>
+0103             this.stateIndex_time = sim.stateIndex(<span class="string">'Time'</span>);
+0104             
+0105             <span class="comment">%% metdata</span>
+0106             <span class="comment">%states</span>
+0107             this.metadata.stateNames = cell(0, 2);
+0108             this.metadata.dependentStateNames = cell(0, 2);
+0109             <span class="keyword">for</span> j = 1:length(sim.states)
+0110                 state = sim.states{j};
+0111                 stateID = {state.wholeCellModelID(7:end)};
+0112                 this.metadata.stateNames = [
+0113                     this.metadata.stateNames
+0114                     repmat(stateID, numel(state.stateNames), 1) state.stateNames
+0115                     ];
+0116                 this.metadata.dependentStateNames = [
+0117                     this.metadata.dependentStateNames
+0118                     repmat(stateID, numel(state.dependentStateNames), 1) state.dependentStateNames
+0119                     ];
+0120             <span class="keyword">end</span>
+0121             
+0122             <span class="comment">%start time</span>
+0123             this.metadata.startTime = datestr(clock, <span class="string">'yyyy-mm-dd HH:MM:SS'</span>);
+0124             this.metadata.endTime = [];
+0125             this.metadata.lengthSec = [];
+0126             
+0127             <span class="comment">%output directory</span>
+0128             this.metadata.outputDirectory = strrep(this.outputDirectory, <span class="string">'\'</span>, <span class="string">'/'</span>);
+0129             <span class="keyword">if</span> ~isempty(this.outputDirectory) &amp;&amp; ~exist(this.outputDirectory, <span class="string">'dir'</span>)
+0130                 mkdir(this.outputDirectory);
+0131             <span class="keyword">end</span>
+0132             
+0133             <span class="comment">%segment step</span>
+0134             this.metadata.segmentSizeStep = this.segmentSizeStep;
+0135             
+0136             <span class="comment">%down sample step</span>
+0137             this.metadata.downsampleStepSec = sim.stepSizeSec;
+0138             
+0139             <span class="comment">%% store initial state as &quot;segment zero&quot;</span>
+0140             metaStates = this.getMetaStates(sim, true);
+0141             this.log = this.allocateMemory(metaStates, 1);
+0142             this.copyFromState(sim, 1);
+0143             this.saveSegmentToDisk(0);
+0144             
+0145             <span class="comment">%% allocate memory</span>
+0146             <span class="comment">%cell state</span>
+0147             this.log = this.allocateMemory(metaStates, this.segmentSizeStep);
+0148             
+0149             <span class="comment">%rand stream states</span>
+0150             this.randStreamStates = struct(<span class="string">'simulation'</span>, [], <span class="string">'states'</span>, struct(), <span class="string">'processes'</span>, struct());
+0151             tmp = sim.getRandStreamStates();
+0152             this.randStreamStates.simulation = zeros(numel(tmp.simulation), sim.lengthSec + 1);
+0153             <span class="keyword">for</span> i = 1:numel(sim.states)
+0154                 o = sim.states{i};
+0155                 this.randStreamStates.states.(o.wholeCellModelID(7:end)) = zeros(numel(tmp.states.(o.wholeCellModelID(7:end))), sim.lengthSec + 1);
+0156             <span class="keyword">end</span>
+0157             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0158                 o = sim.processes{i};
+0159                 this.randStreamStates.processes.(o.wholeCellModelID(9:end)) = zeros(numel(tmp.processes.(o.wholeCellModelID(9:end))), sim.lengthSec + 1);
+0160             <span class="keyword">end</span>
+0161             this.copyRandStreamStates(sim);
+0162         <span class="keyword">end</span>
+0163         
+0164         <a name="_sub4" href="#_subfunctions" class="code">function this = append(this, sim)</a>
+0165             <span class="comment">%cell state</span>
+0166             nSteps = sim.states{this.stateIndex_time}.values / sim.stepSizeSec;
+0167             i = mod(nSteps - 1, this.segmentSizeStep) + 1;
+0168             this.copyFromState(sim, i);
+0169             
+0170             <span class="keyword">if</span> i == this.segmentSizeStep
+0171                 this.saveSegmentToDisk(nSteps / this.segmentSizeStep);
+0172             <span class="keyword">end</span>
+0173             
+0174             <span class="comment">%rand stream states</span>
+0175             this.copyRandStreamStates(sim);
+0176         <span class="keyword">end</span>
+0177         
+0178         <a name="_sub5" href="#_subfunctions" class="code">function this = finalize(this, sim)</a>
+0179             <span class="comment">%references</span>
+0180             states = sim.states;
+0181             
+0182             <span class="comment">%meta data -- end time</span>
+0183             this.metadata.endTime = datestr(clock, <span class="string">'yyyy-mm-dd HH:MM:SS'</span>);
+0184             this.metadata.lengthSec = sim.states{this.stateIndex_time}.values;
+0185             
+0186             <span class="comment">%append last data bits, trim last segment, save, and clear</span>
+0187             nSteps = sim.states{this.stateIndex_time}.values / sim.stepSizeSec;
+0188             i = mod(nSteps - 1, this.segmentSizeStep) + 1;
+0189             this.copyFromState(sim, i);
+0190             
+0191             <span class="keyword">for</span> j = 1:length(states)
+0192                 state = states{j};
+0193                 stateID = state.wholeCellModelID(7:end);
+0194                 names = [state.stateNames; state.dependentStateNames];
+0195                 <span class="keyword">for</span> k = 1:length(names)
+0196                     name = names{k};
+0197                     this.log.(stateID).(name) = this.log.(stateID).(name)(:, :, 1:i);
+0198                 <span class="keyword">end</span>
+0199             <span class="keyword">end</span>
+0200             
+0201             this.saveSegmentToDisk(ceil(nSteps / this.segmentSizeStep));
+0202             
+0203             <span class="comment">%append rand stream states, trim, and save</span>
+0204             this.copyRandStreamStates(sim);
+0205             this.randStreamStates.simulation = this.randStreamStates.simulation(:, 1:nSteps+1);
+0206             <span class="keyword">for</span> i = 1:numel(sim.states)
+0207                 o = sim.states{i};
+0208                 this.randStreamStates.states.(o.wholeCellModelID(7:end)) = this.randStreamStates.states.(o.wholeCellModelID(7:end))(:, 1:nSteps+1);
+0209             <span class="keyword">end</span>
+0210             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0211                 o = sim.processes{i};
+0212                 this.randStreamStates.processes.(o.wholeCellModelID(9:end)) = this.randStreamStates.processes.(o.wholeCellModelID(9:end))(:, 1:nSteps+1);
+0213             <span class="keyword">end</span>
+0214             
+0215             <span class="comment">%store to disk</span>
+0216             this.saveMetadata(sim);
+0217             this.saveOptions(sim);
+0218             this.saveParameters(sim);
+0219             this.saveFittedConstants(sim);
+0220             this.saveRandStreamStates(sim);
+0221         <span class="keyword">end</span>
+0222     <span class="keyword">end</span>
+0223     
+0224     methods
+0225         <a name="_sub6" href="#_subfunctions" class="code">function validateMetadata(this)</a>
+0226             <span class="keyword">if</span> <span class="keyword">...</span>
+0227                     ~isfield(this.metadata, <span class="string">'shortDescription'</span>) || <span class="keyword">...</span>
+0228                     ~isfield(this.metadata, <span class="string">'longDescription'</span>) || <span class="keyword">...</span>
+0229                     ~isfield(this.metadata, <span class="string">'email'</span>) || <span class="keyword">...</span>
+0230                     ~isfield(this.metadata, <span class="string">'firstName'</span>) || <span class="keyword">...</span>
+0231                     ~isfield(this.metadata, <span class="string">'lastName'</span>) || <span class="keyword">...</span>
+0232                     ~isfield(this.metadata, <span class="string">'affiliation'</span>) || <span class="keyword">...</span>
+0233                     ~isfield(this.metadata, <span class="string">'knowledgeBaseWID'</span>) || <span class="keyword">...</span>
+0234                     ~isfield(this.metadata, <span class="string">'revision'</span>) || <span class="keyword">...</span>
+0235                     ~isfield(this.metadata, <span class="string">'differencesFromRevision'</span>) || <span class="keyword">...</span>
+0236                     ~isfield(this.metadata, <span class="string">'userName'</span>) || <span class="keyword">...</span>
+0237                     ~isfield(this.metadata, <span class="string">'hostName'</span>) || <span class="keyword">...</span>
+0238                     ~isfield(this.metadata, <span class="string">'ipAddress'</span>)
+0239                 throw(MException(<span class="string">'DiskLogger:invalidMetadata'</span>, <span class="string">'Metadata missing'</span>));
+0240             <span class="keyword">end</span>
+0241         <span class="keyword">end</span>
+0242         
+0243         <span class="comment">%Copies the current state to a particular index in a segment.</span>
+0244         <a name="_sub7" href="#_subfunctions" class="code">function copyFromState(this, sim, k)</a>
+0245             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0246             
+0247             states = sim.states;
+0248             <span class="keyword">for</span> i = 1:length(states)
+0249                 state = states{i};
+0250                 stateID = state.wholeCellModelID(7:end);
+0251                 names = [state.stateNames; state.dependentStateNames];
+0252                 <span class="keyword">for</span> j = 1:length(names)
+0253                     name = names{j};
+0254                     data = state.(name);
+0255                     <span class="keyword">if</span>      size(data, 1) &gt; size(this.log.(stateID).(name), 1) || <span class="keyword">...</span>
+0256                             size(data, 2) &gt; size(this.log.(stateID).(name), 2)
+0257                         tmp = this.log.(stateID).(name);
+0258                         this.log.(stateID).(name) = DiskLogger.allocateData(class(tmp), [size(data) size(tmp, 3)]);
+0259                         this.log.(stateID).(name)(1:size(tmp,1), 1:size(tmp, 2), :) = tmp;
+0260                     <span class="keyword">end</span>
+0261                     
+0262                     <span class="keyword">if</span> isa(data, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0263                         <span class="keyword">if</span> k == 1
+0264                             this.log.(stateID).(name) = data;
+0265                         <span class="keyword">else</span>
+0266                             this.log.(stateID).(name) = cat(3, this.log.(stateID).(name), data);
+0267                         <span class="keyword">end</span>
+0268                     <span class="keyword">else</span>
+0269                         this.log.(stateID).(name)(1:size(data, 1), 1:size(data, 2), k) = data;
+0270                     <span class="keyword">end</span>
+0271                 <span class="keyword">end</span>
+0272             <span class="keyword">end</span>
+0273         <span class="keyword">end</span>
+0274         
+0275         <a name="_sub8" href="#_subfunctions" class="code">function copyRandStreamStates(this, sim)</a>
+0276             nSteps = sim.states{this.stateIndex_time}.values / sim.stepSizeSec;
+0277             tmp = sim.getRandStreamStates();
+0278             
+0279             this.randStreamStates.simulation(:, nSteps + 1) = tmp.simulation;
+0280             <span class="keyword">for</span> i = 1:numel(sim.states)
+0281                 o = sim.states{i};
+0282                 this.randStreamStates.states.(o.wholeCellModelID(7:end))(:, nSteps + 1) = tmp.states.(o.wholeCellModelID(7:end));
+0283             <span class="keyword">end</span>
+0284             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0285                 o = sim.processes{i};
+0286                 this.randStreamStates.processes.(o.wholeCellModelID(9:end))(:, nSteps + 1) = tmp.processes.(o.wholeCellModelID(9:end));
+0287             <span class="keyword">end</span>
+0288         <span class="keyword">end</span>
+0289         
+0290         <a name="_sub9" href="#_subfunctions" class="code">function saveMetadata(this, ~)</a>
+0291             this.saveStructToDisk(this.outputDirectory, <span class="string">'metadata.mat'</span>, this.metadata);
+0292         <span class="keyword">end</span>
+0293         
+0294         <a name="_sub10" href="#_subfunctions" class="code">function saveOptions(this, sim)</a>
+0295             this.saveStructToDisk(this.outputDirectory, <span class="string">'options.mat'</span>, sim.getOptions);
+0296         <span class="keyword">end</span>
+0297         
+0298         <a name="_sub11" href="#_subfunctions" class="code">function saveParameters(this, sim)</a>
+0299             this.saveStructToDisk(this.outputDirectory, <span class="string">'parameters.mat'</span>, sim.getParameters);
+0300         <span class="keyword">end</span>
+0301         
+0302         <a name="_sub12" href="#_subfunctions" class="code">function saveFittedConstants(this, sim)</a>
+0303             this.saveStructToDisk(this.outputDirectory, <span class="string">'fittedConstants.mat'</span>, sim.getFittedConstants);
+0304         <span class="keyword">end</span>
+0305         
+0306         <a name="_sub13" href="#_subfunctions" class="code">function saveRandStreamStates(this, ~)</a>
+0307             this.saveStructToDisk(this.outputDirectory, <span class="string">'randStreamStates.mat'</span>, this.randStreamStates);
+0308         <span class="keyword">end</span>
+0309         
+0310         <a name="_sub14" href="#_subfunctions" class="code">function saveSegmentToDisk(this, segmentIdx)</a>
+0311             this.saveStructToDisk(this.outputDirectory, [<span class="string">'state-'</span> num2str(segmentIdx) <span class="string">'.mat'</span>], this.log);
+0312         <span class="keyword">end</span>
+0313         
+0314         <span class="comment">%number of time steps per segment</span>
+0315         <a name="_sub15" href="#_subfunctions" class="code">function value = getSegmentLength(this, sim)</a>
+0316             value = this.segmentSizeSec / sim.stepSizeSec;
+0317         <span class="keyword">end</span>
+0318         
+0319         <span class="comment">%number of time segments</span>
+0320         <a name="_sub16" href="#_subfunctions" class="code">function value = getNumSegments(this, sim)</a>
+0321             value = sim.lengthSec / this.getSegmentLength;
+0322         <span class="keyword">end</span>
+0323         
+0324         <a name="_sub17" href="#_subfunctions" class="code">function clearLog(this)</a>
+0325             this.log = [];
+0326         <span class="keyword">end</span>
+0327     <span class="keyword">end</span>
+0328     
+0329     <span class="comment">%load from disk</span>
+0330     methods (Static)
+0331         <a name="_sub18" href="#_subfunctions" class="code">function metaStates = getMetaStates(sim, includeDependentStates)</a>
+0332             metaStates.names = cell(0, 1);
+0333             metaStates.properties = cell(0, 4);
+0334             <span class="keyword">for</span> i = 1:length(sim.states)
+0335                 state = sim.states{i};
+0336                 stateID = strrep(state.wholeCellModelID, <span class="string">'State_'</span>, <span class="string">''</span>);
+0337                 metaStates.names = [
+0338                     metaStates.names;
+0339                     stateID];
+0340                 names = state.stateNames;
+0341                 <span class="keyword">if</span> nargin &gt;= 2 &amp;&amp; exist(<span class="string">'includeDependentStates'</span>, <span class="string">'var'</span>) &amp;&amp; includeDependentStates
+0342                     names = [names; state.dependentStateNames]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0343                 <span class="keyword">end</span>
+0344                 <span class="keyword">for</span> j = 1:length(names)
+0345                     metaStates.properties = [
+0346                         metaStates.properties;
+0347                         {stateID names{j} class(state.(names{j})) size(state.(names{j}))}];
+0348                 <span class="keyword">end</span>
+0349             <span class="keyword">end</span>
+0350          <span class="keyword">end</span>
+0351         
+0352         <a name="_sub19" href="#_subfunctions" class="code">function [stateNames, stateDataTypes, isStateDataBuiltinDenseMatrix] = getAvailableStates(outputDirectory)</a>
+0353             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0354             
+0355             log0 = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, 0));
+0356             stateNames = cell(0, 2);
+0357             stateDataTypes = cell(0, 1);
+0358             isStateDataBuiltinDenseMatrix = false(0, 1);
+0359             fields = fieldnames(log0);
+0360             <span class="keyword">for</span> i = 1:numel(fields)
+0361                 fieldsi = fieldnames(log0.(fields{i}));
+0362                 stateNames = [
+0363                     stateNames;
+0364                     repmat(fields(i), size(fieldsi, 1), 1) fieldsi(:)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0365                 <span class="keyword">for</span> j = 1:numel(fieldsi)
+0366                     stateDataTypes = [
+0367                         stateDataTypes;
+0368                         class(log0.(fields{i}).(fieldsi{j}))
+0369                         ]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0370                     isStateDataBuiltinDenseMatrix = [
+0371                         isStateDataBuiltinDenseMatrix;
+0372                         isnumeric(log0.(fields{i}).(fieldsi{j})) &amp;&amp; ~issparse(log0.(fields{i}).(fieldsi{j}))
+0373                         ]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0374                 <span class="keyword">end</span>
+0375             <span class="keyword">end</span>
+0376         <span class="keyword">end</span>
+0377         
+0378         <span class="comment">%load simulation from disk</span>
+0379         <span class="comment">%- stateNames is a n x 2 cell array; 1st col-&gt;state ID, 2nd col-&gt;property name</span>
+0380         <span class="comment">%- downsampleType can be 'extract' or 'mean'</span>
+0381         <a name="_sub20" href="#_subfunctions" class="code">function [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(</a><span class="keyword">...</span>
+0382                 outputDirectory, stateNames, <span class="keyword">...</span>
+0383                 initTime, finTime, downsampleStepSec, <span class="keyword">...</span>
+0384                 downsampleType)
+0385             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0386                         
+0387             metadata = DiskLogger.loadMetadata(outputDirectory); metadata.downsampleStepSec = downsampleStepSec;
+0388             options = DiskLogger.loadOptions(outputDirectory);
+0389             <span class="keyword">if</span> nargout &gt;= 4
+0390                 parameters = DiskLogger.loadParameters(outputDirectory);
+0391             <span class="keyword">end</span>
+0392             <span class="keyword">if</span> nargout &gt;= 5
+0393                 fittedConstants = DiskLogger.loadFittedConstants(outputDirectory);
+0394             <span class="keyword">end</span>
+0395             <span class="keyword">if</span> nargout &gt;= 6
+0396                 randStreamStates = DiskLogger.loadRandStreamStates(outputDirectory);
+0397             <span class="keyword">end</span>
+0398             states = DiskLogger.loadTimecourses(outputDirectory, stateNames, initTime, finTime, downsampleStepSec, downsampleType, options, metadata);
+0399         <span class="keyword">end</span>
+0400         
+0401         <a name="_sub21" href="#_subfunctions" class="code">function value = loadMetadata(outputDirectory, varargin)</a>
+0402             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0403             value = DiskLogger.loadStructFromDisk([outputDirectory <span class="string">'/metadata.mat'</span>], varargin{:});
+0404         <span class="keyword">end</span>
+0405         
+0406         <a name="_sub22" href="#_subfunctions" class="code">function value = loadOptions(outputDirectory, varargin)</a>
+0407             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0408             value = DiskLogger.loadStructFromDisk([outputDirectory <span class="string">'/options.mat'</span>], varargin{:});
+0409         <span class="keyword">end</span>
+0410         
+0411         <a name="_sub23" href="#_subfunctions" class="code">function value = loadParameters(outputDirectory, varargin)</a>
+0412             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0413             value = DiskLogger.loadStructFromDisk([outputDirectory <span class="string">'/parameters.mat'</span>], varargin{:});
+0414         <span class="keyword">end</span>
+0415         
+0416         <a name="_sub24" href="#_subfunctions" class="code">function value = loadFittedConstants(outputDirectory, varargin)</a>
+0417             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0418             value = DiskLogger.loadStructFromDisk([outputDirectory <span class="string">'/fittedConstants.mat'</span>], varargin{:});
+0419         <span class="keyword">end</span>
+0420         
+0421         <a name="_sub25" href="#_subfunctions" class="code">function value = loadRandStreamStates(outputDirectory, varargin)</a>
+0422             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0423             value = DiskLogger.loadStructFromDisk([outputDirectory <span class="string">'/randStreamStates.mat'</span>], varargin{:});
+0424         <span class="keyword">end</span>
+0425         
+0426         <a name="_sub26" href="#_subfunctions" class="code">function states = loadTimecourses(outputDirectory, stateNames, initTime, finTime, downsampleStepSec, </a><span class="keyword">...</span>
+0427                 downsampleType, options, metadata, method)
+0428             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0429             
+0430             <span class="comment">%process options</span>
+0431             <span class="keyword">if</span> ~exist(<span class="string">'downsampleStepSec'</span>, <span class="string">'var'</span>) || isempty(downsampleStepSec)
+0432                 downsampleStepSec = options.stepSizeSec;
+0433             <span class="keyword">elseif</span> mod(downsampleStepSec, options.stepSizeSec) ~= 0
+0434                 throw(MException(<span class="string">'DiskLogger:invalid'</span>, <span class="string">'downsampleStepSec must be a multiple of stepSizeSec'</span>));
+0435             <span class="keyword">end</span>
+0436             <span class="keyword">if</span> ~exist(<span class="string">'downsampleType'</span>, <span class="string">'var'</span>) || isempty(downsampleType)
+0437                 downsampleType = <span class="string">'extract'</span>;
+0438             <span class="keyword">elseif</span> ~ismember(downsampleType, {<span class="string">'extract'</span>, <span class="string">'mean'</span>})
+0439                 throw(MException(<span class="string">'DiskLogger:invalid'</span>, <span class="string">'downsampleType must be one of ''extract'' or ''mean'''</span>));
+0440             <span class="keyword">end</span>
+0441             <span class="keyword">if</span> strcmp(downsampleType, <span class="string">'mean'</span>) &amp;&amp; downsampleStepSec == options.stepSizeSec
+0442                 downsampleType = <span class="string">'extract'</span>;
+0443             <span class="keyword">end</span>
+0444             <span class="keyword">if</span> isempty(initTime)
+0445                 initTime = 1;
+0446             <span class="keyword">else</span>
+0447                 validateattributes(initTime, {<span class="string">'numeric'</span>}, {<span class="string">'&gt;='</span>, 1, <span class="string">'&lt;='</span>, metadata.lengthSec});
+0448             <span class="keyword">end</span>
+0449             <span class="keyword">if</span> isempty(finTime)
+0450                 finTime = metadata.lengthSec;
+0451             <span class="keyword">else</span>
+0452                 validateattributes(finTime, {<span class="string">'numeric'</span>}, {<span class="string">'&gt;='</span>, initTime, <span class="string">'&lt;='</span>, metadata.lengthSec});
+0453             <span class="keyword">end</span>
+0454             <span class="keyword">if</span> ~exist(<span class="string">'method'</span>, <span class="string">'var'</span>)
+0455                 method = <span class="string">'byState'</span>;
+0456             <span class="keyword">end</span>
+0457             
+0458             <span class="comment">%allocate memory</span>
+0459             numSegments = ceil(metadata.lengthSec / options.stepSizeSec / metadata.segmentSizeStep);
+0460             <span class="keyword">if</span> ischar(stateNames) &amp;&amp; stateNames(1) == <span class="string">'-'</span>
+0461                 logN = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, numSegments));
+0462                 metaStates.names = fieldnames(logN);
+0463                 <span class="keyword">switch</span> stateNames
+0464                     <span class="keyword">case</span> <span class="string">'-all'</span>
+0465                         <span class="keyword">if</span> isfield(metadata, <span class="string">'stateNames'</span>)
+0466                             stateNames = [metadata.stateNames; metadata.dependentStateNames];
+0467                         <span class="keyword">else</span>
+0468                             <span class="comment">%for backwards compatability with data from before dependent</span>
+0469                             <span class="comment">%states were stored (Revision &lt; 1733)</span>
+0470                             stateNames = DiskLogger.getAvailableStates(outputDirectory);
+0471                         <span class="keyword">end</span>
+0472                     <span class="keyword">case</span> <span class="string">'-independent'</span>
+0473                         stateNames = metadata.stateNames;
+0474                     <span class="keyword">case</span> <span class="string">'-dependent'</span>
+0475                         stateNames = metadata.dependentStateNames;
+0476                     <span class="keyword">otherwise</span>
+0477                         throw(MException(<span class="string">'DiskLogger:error'</span>, <span class="string">'Invalid stateNames option ''%s'', stateNames'</span>));
+0478                 <span class="keyword">end</span>
+0479             <span class="keyword">else</span>
+0480                 logN = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, numSegments), stateNames(:, 1));                
+0481                 metaStates.names = intersect(fieldnames(logN), unique(stateNames(:, 1)));
+0482             <span class="keyword">end</span>
+0483             metaStates.properties = [stateNames cell(size(stateNames, 1), 2)];
+0484             <span class="keyword">for</span> i = 1:size(stateNames, 1)
+0485                 tmp = logN.(stateNames{i, 1}).(stateNames{i, 2});
+0486                 metaStates.properties{i, 3} = class(tmp);
+0487                 metaStates.properties{i, 4} = [size(tmp, 1) size(tmp, 2)];
+0488                 <span class="keyword">if</span> size(stateNames, 2) &gt;= 3
+0489                     <span class="keyword">if</span> ischar(stateNames{i, 3}) &amp;&amp; ismember(stateNames{i, 3}, {<span class="string">'-sum'</span>; <span class="string">'-nnz'</span>})
+0490                         metaStates.properties{i, 3} = <span class="string">'double'</span>;
+0491                         metaStates.properties{i, 4}(1) = 1;
+0492                     <span class="keyword">elseif</span> isnumeric(stateNames{i, 3})
+0493                         metaStates.properties{i, 4}(1) = size(stateNames{i, 3}, 1);
+0494                     <span class="keyword">end</span>
+0495                 <span class="keyword">end</span>
+0496                 <span class="keyword">if</span> size(stateNames, 2) &gt;= 4
+0497                     <span class="keyword">if</span> ischar(stateNames{i, 4}) &amp;&amp; ismember(stateNames{i, 4}, {<span class="string">'-sum'</span>; <span class="string">'-nnz'</span>})
+0498                         metaStates.properties{i, 3} = <span class="string">'double'</span>;
+0499                         metaStates.properties{i, 4}(2) = 1;
+0500                     <span class="keyword">elseif</span> isnumeric(stateNames{i, 4})
+0501                         metaStates.properties{i, 4}(2) = size(stateNames{i, 4}, 1);
+0502                     <span class="keyword">end</span>
+0503                 <span class="keyword">end</span>
+0504             <span class="keyword">end</span>
+0505             states = DiskLogger.allocateMemory(metaStates, ceil((finTime-initTime) / downsampleStepSec));
+0506             
+0507             <span class="comment">%downsample timecourse</span>
+0508             <span class="keyword">if</span> strcmp(method, <span class="string">'byState'</span>) &amp;&amp; exist([outputDirectory filesep <span class="string">'state-Time-values.mat'</span>], <span class="string">'file'</span>) &amp;&amp; finTime - initTime &gt; metadata.segmentSizeStep
+0509                 <span class="keyword">switch</span> downsampleType
+0510                     <span class="keyword">case</span> <span class="string">'extract'</span>, states = DiskLogger.downSample_extract_byState(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec);
+0511                     <span class="keyword">case</span> <span class="string">'mean'</span>,    states = DiskLogger.downSample_mean_byState(   states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec);
+0512                 <span class="keyword">end</span>
+0513             <span class="keyword">else</span>
+0514                 <span class="keyword">switch</span> downsampleType
+0515                     <span class="keyword">case</span> <span class="string">'extract'</span>, states = DiskLogger.downSample_extract_byTime(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec);
+0516                     <span class="keyword">case</span> <span class="string">'mean'</span>,    states = DiskLogger.downSample_mean_byTime(   states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec);
+0517                 <span class="keyword">end</span>
+0518             <span class="keyword">end</span>
+0519         <span class="keyword">end</span>
+0520         
+0521         <a name="_sub27" href="#_subfunctions" class="code">function states = downSample_extract_byState(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a>
+0522             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0523             
+0524             times = ceil(initTime/options.stepSizeSec : downsampleStepSec/options.stepSizeSec : ceil(finTime/downsampleStepSec)*downsampleStepSec/options.stepSizeSec) * options.stepSizeSec;
+0525             times(end) = finTime;
+0526             
+0527             data = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%s-%s.mat'</span>, outputDirectory, <span class="string">'Time'</span>, <span class="string">'values'</span>));
+0528             data = data.data;
+0529             allTimes = isequal(times, permute(data, [2 3 1]));
+0530             <span class="keyword">if</span> allTimes
+0531                 idxs = <span class="string">':'</span>;
+0532             <span class="keyword">else</span>
+0533                 idxs = ismembc2(times, permute(data, [2 3 1]));
+0534             <span class="keyword">end</span>
+0535             
+0536             sNames = unique(stateNames(:, 1));
+0537             <span class="keyword">for</span> i = 1:numel(sNames);
+0538                 stateName = sNames{i};
+0539                 propNames = stateNames(strcmp(stateNames(:, 1), stateName), 2:end);
+0540                 <span class="keyword">for</span> j = 1:size(propNames, 1)
+0541                     fileName = sprintf(<span class="string">'%s/state-%s-%s.mat'</span>, outputDirectory, stateName, propNames{j, 1});
+0542                     <span class="keyword">if</span> ~exist(fileName, <span class="string">'file'</span>)
+0543                         states = DiskLogger.downSample_extract_byTime(<span class="keyword">...</span>
+0544                             states, options, metadata, outputDirectory, [{stateName} propNames(j, :)], initTime, finTime, downsampleStepSec);
+0545                         <span class="keyword">continue</span>;
+0546                     <span class="keyword">end</span>
+0547                     
+0548                     tmp = DiskLogger.loadStructFromDisk(fileName);
+0549                     tmp = tmp.data;
+0550                     
+0551                     calcMargins = false(1, 2);
+0552                     calcSums = false(1, 2);
+0553                     calcNnzs = false(1, 2);
+0554                     s.type = <span class="string">'()'</span>;
+0555                     s.subs = {<span class="string">':'</span> <span class="string">':'</span> <span class="string">':'</span>};
+0556                     <span class="keyword">if</span> size(stateNames, 2) &gt; 2
+0557                         s.subs(1:2) = propNames(j, 2:3);
+0558                         calcMargins = cellfun(@(x) isnumeric(x) &amp;&amp; size(x, 2) &gt; 1, propNames(j, 2:3));
+0559                         calcSums = strcmp(propNames(j, 2:3), <span class="string">'-sum'</span>);
+0560                         calcNnzs = strcmp(propNames(j, 2:3), <span class="string">'-nnz'</span>);
+0561                         s.subs(calcSums | calcNnzs) = {<span class="string">':'</span>};
+0562                     <span class="keyword">end</span>
+0563                     s.subs{3} = idxs;
+0564                     
+0565                     tmp = subsref(tmp, s);
+0566                     
+0567                     <span class="keyword">if</span> calcMargins(1)
+0568                         siz = size(tmp);
+0569                         siz = [size(s.subs{1}) siz(2:end)];
+0570                         tmp = permute(sum(reshape(tmp, siz), 2), [1 3 4 2]);
+0571                     <span class="keyword">elseif</span> calcSums(1)
+0572                         tmp = sum(tmp, 1);
+0573                     <span class="keyword">elseif</span> calcNnzs(1)
+0574                         <span class="keyword">if</span> iscell(tmp)
+0575                             tmp = ~cellfun(@isempty, tmp);
+0576                         <span class="keyword">end</span>
+0577                         tmp = sum(tmp ~= 0, 1);
+0578                     <span class="keyword">end</span>
+0579                     <span class="keyword">if</span> calcMargins(2)
+0580                         siz = size(tmp);
+0581                         siz = [siz(1) size(s.subs{2}) siz(3:end)];
+0582                         tmp = permute(sum(reshape(tmp, siz), 3), [1 2 4 3]);
+0583                     <span class="keyword">elseif</span> calcSums(2)
+0584                         tmp = sum(tmp, 2);
+0585                     <span class="keyword">elseif</span> calcNnzs(2)
+0586                         <span class="keyword">if</span> iscell(tmp)
+0587                             tmp = ~cellfun(@isempty, tmp);
+0588                         <span class="keyword">end</span>
+0589                         tmp = sum(tmp ~= 0, 2);
+0590                     <span class="keyword">end</span>
+0591                     
+0592                     <span class="keyword">if</span>  isa(tmp, <span class="string">'edu.stanford.covert.util.SparseMat'</span>) &amp;&amp; <span class="keyword">...</span>
+0593                             ~isa(states.(stateName).(propNames{j, 1}), <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0594                         tmp = full(tmp);
+0595                     <span class="keyword">end</span>
+0596                     
+0597                     states.(stateName).(propNames{j, 1}) = tmp;
+0598                     
+0599                     clear tmp;
+0600                 <span class="keyword">end</span>
+0601             <span class="keyword">end</span>
+0602         <span class="keyword">end</span>
+0603         
+0604         <a name="_sub28" href="#_subfunctions" class="code">function states = downSample_mean_byState(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a>
+0605             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0606             
+0607             times = ceil(initTime/options.stepSizeSec : downsampleStepSec/options.stepSizeSec : ceil(finTime/downsampleStepSec)*downsampleStepSec/options.stepSizeSec) * options.stepSizeSec;
+0608             
+0609             data = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%s-%s.mat'</span>, outputDirectory, <span class="string">'Time'</span>, <span class="string">'values'</span>));
+0610             data = data.data;
+0611             idxs = ismembc2(times, permute(data, [2 3 1]));
+0612             
+0613             sNames = unique(stateNames(:, 1));
+0614             <span class="keyword">for</span> i = 1:numel(sNames);
+0615                 stateName = sNames{i};
+0616                 propNames = stateNames(strcmp(stateNames(:, 1), stateName), 2:end);
+0617                 
+0618                 <span class="keyword">for</span> j = 1:size(propNames, 1)
+0619                     fileName = sprintf(<span class="string">'%s/state-%s-%s.mat'</span>, outputDirectory, stateName, propNames{j, 1});
+0620                     <span class="keyword">if</span> ~exist(fileName, <span class="string">'file'</span>)
+0621                         states = DiskLogger.downSample_mean_byTime(<span class="keyword">...</span>
+0622                             states, options, metadata, outputDirectory, [{stateName} propNames(j, :)], initTime, finTime, downsampleStepSec);
+0623                         <span class="keyword">continue</span>;
+0624                     <span class="keyword">end</span>
+0625                     data = DiskLogger.loadStructFromDisk(fileName);
+0626                     data = data.data;
+0627                     
+0628                     calcMargins = false(1, 2);
+0629                     calcSums = false(1, 2);
+0630                     calcNnzs = false(1, 2);
+0631                     s.type = <span class="string">'()'</span>;
+0632                     s.subs = {<span class="string">':'</span> <span class="string">':'</span> <span class="string">':'</span>};
+0633                     <span class="keyword">if</span> size(stateNames, 2) &gt; 2
+0634                         s.subs(1:2) = propNames(j, 2:3);
+0635                         calcMargins = cellfun(@(x) isnumeric(x) &amp;&amp; size(x, 2) &gt; 1, propNames(j, 2:3));
+0636                         calcSums = strcmp(propNames(j, 2:3), <span class="string">'-sum'</span>);
+0637                         calcNnzs = strcmp(propNames(j, 2:3), <span class="string">'-nnz'</span>);
+0638                         s.subs(calcSums | calcNnzs) = {<span class="string">':'</span>};
+0639                     <span class="keyword">end</span>
+0640                     <span class="keyword">if</span> iscell(states.(stateName).(propNames{j, 1}))
+0641                         s.subs{3} = idxs;
+0642                         states.(stateName).(propNames{j, 1}) = subsref(data, s);
+0643                     <span class="keyword">else</span>
+0644                         <span class="keyword">for</span> k = 1:numel(idxs)
+0645                             s.subs{3} = min(finTime, idxs(k)+(0:downsampleStepSec-1));
+0646                             tmp = mean(subsref(data, s), 3);
+0647                             
+0648                             <span class="keyword">if</span> calcMargins(1)
+0649                                 siz = size(tmp);
+0650                                 siz = [size(s.subs{1}) siz(2:end)];
+0651                                 tmp = permute(sum(reshape(tmp, siz), 2), [1 3 4 2]);
+0652                             <span class="keyword">elseif</span> calcSums(1)
+0653                                 tmp = sum(tmp, 1);
+0654                             <span class="keyword">elseif</span> calcNnzs(1)
+0655                                 <span class="keyword">if</span> iscell(tmp)
+0656                                     tmp = ~cellfun(@isempty, tmp);
+0657                                 <span class="keyword">end</span>
+0658                                 tmp = sum(tmp ~= 0, 1);
+0659                             <span class="keyword">end</span>
+0660                             <span class="keyword">if</span> calcMargins(2)
+0661                                 siz = size(tmp);
+0662                                 siz = [siz(1) size(s.subs{2}) siz(3:end)];
+0663                                 tmp = permute(sum(reshape(tmp, siz), 3), [1 2 4 3]);
+0664                             <span class="keyword">elseif</span> calcSums(2)
+0665                                 tmp = sum(tmp, 2);
+0666                             <span class="keyword">elseif</span> calcNnzs(2)
+0667                                 <span class="keyword">if</span> iscell(tmp)
+0668                                     tmp = ~cellfun(@isempty, tmp);
+0669                                 <span class="keyword">end</span>
+0670                                 tmp = sum(tmp ~= 0, 2);
+0671                             <span class="keyword">end</span>
+0672                             
+0673                             states.(stateName).(propNames{j, 1})(:, :, k) = tmp;
+0674                             
+0675                             clear tmp;
+0676                         <span class="keyword">end</span>
+0677                     <span class="keyword">end</span>
+0678                     
+0679                     clear data;
+0680                 <span class="keyword">end</span>
+0681             <span class="keyword">end</span>
+0682         <span class="keyword">end</span>
+0683         
+0684         <a name="_sub29" href="#_subfunctions" class="code">function states = downSample_extract_byTime(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a>
+0685             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0686             
+0687             numSegments = ceil(metadata.lengthSec / options.stepSizeSec / metadata.segmentSizeStep);
+0688             
+0689             times = ceil(initTime/options.stepSizeSec : downsampleStepSec/options.stepSizeSec : ceil(finTime/downsampleStepSec)*downsampleStepSec/options.stepSizeSec) * options.stepSizeSec;
+0690             times(end) = finTime;
+0691             
+0692             tmp2 = cell(numSegments, size(stateNames, 1));
+0693             <span class="keyword">for</span> i = 1:numSegments
+0694                 <span class="keyword">if</span> ~any(ismembc(times, (i-1) * metadata.segmentSizeStep + (1:metadata.segmentSizeStep)))
+0695                     <span class="keyword">continue</span>;
+0696                 <span class="keyword">end</span>
+0697                 <span class="keyword">try</span>
+0698                     logI = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, i), [stateNames(:, 1); <span class="string">'Time'</span>]);
+0699                 <span class="keyword">catch</span> exception
+0700                     exception.addCause(MException(<span class="string">'DiskLogger:error'</span>, <span class="keyword">...</span>
+0701                         <span class="string">'Unable to load segment %d of states {%s}'</span>, <span class="keyword">...</span>
+0702                         i, strjoin(<span class="string">', '</span>, stateNames{:, 1}))).rethrow();
+0703                 <span class="keyword">end</span>
+0704                 allTimes = all(ismembc(logI.Time.values, times));
+0705                 segIdxs = ismembc2(times, logI.Time.values);
+0706                 gblIdxs = find(segIdxs &gt; 0);
+0707                 segIdxs = segIdxs(gblIdxs);
+0708                 <span class="keyword">for</span> j = 1:size(stateNames, 1)
+0709                     <span class="keyword">try</span>
+0710                         calcMargins = false(1, 2);
+0711                         calcSums = false(1, 2);
+0712                         calcNnzs = false(1, 2);
+0713                         s.type = <span class="string">'()'</span>;
+0714                         s.subs = {<span class="string">':'</span> <span class="string">':'</span> <span class="string">':'</span>};
+0715                         <span class="keyword">if</span> size(stateNames, 2) &gt; 2
+0716                             s.subs(1:2) = stateNames(j, 3:4);
+0717                             calcMargins = cellfun(@(x) isnumeric(x) &amp;&amp; size(x, 2) &gt; 1, stateNames(j, 3:4));
+0718                             calcSums = strcmp(stateNames(j, 3:4), <span class="string">'-sum'</span>);
+0719                             calcNnzs = strcmp(stateNames(j, 3:4), <span class="string">'-nnz'</span>);
+0720                             s.subs(calcSums | calcNnzs) = {<span class="string">':'</span>};
+0721                         <span class="keyword">end</span>
+0722                         
+0723                         <span class="keyword">if</span> ~allTimes
+0724                             s.subs{3} = segIdxs;
+0725                         <span class="keyword">end</span>
+0726                         tmp = subsref(logI.(stateNames{j, 1}).(stateNames{j, 2}), s);
+0727                         
+0728                         <span class="keyword">if</span> calcMargins(1)
+0729                             siz = size(tmp);
+0730                             siz = [size(s.subs{1}) siz(2:end)];
+0731                             tmp = permute(sum(reshape(tmp, siz), 2), [1 3 4 2]);
+0732                         <span class="keyword">elseif</span> calcSums(1)
+0733                             tmp = sum(tmp, 1);
+0734                         <span class="keyword">elseif</span> calcNnzs(1)
+0735                             <span class="keyword">if</span> iscell(tmp)
+0736                                 tmp = ~cellfun(@isempty, tmp);
+0737                             <span class="keyword">end</span>
+0738                             tmp = sum(tmp ~= 0, 1);
+0739                         <span class="keyword">end</span>
+0740                         <span class="keyword">if</span> calcMargins(2)
+0741                             siz = size(tmp);
+0742                             siz = [siz(1) size(s.subs{2}) siz(3:end)];
+0743                             tmp = permute(sum(reshape(tmp, siz), 3), [1 2 4 3]);
+0744                         <span class="keyword">elseif</span> calcSums(2)
+0745                             tmp = sum(tmp, 2);
+0746                         <span class="keyword">elseif</span> calcNnzs(2)
+0747                             <span class="keyword">if</span> iscell(tmp)
+0748                                 tmp = ~cellfun(@isempty, tmp);
+0749                             <span class="keyword">end</span>
+0750                             tmp = sum(tmp ~= 0, 2);
+0751                         <span class="keyword">end</span>
+0752                         
+0753                         <span class="keyword">if</span> isa(states.(stateNames{j, 1}).(stateNames{j, 2}), <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0754                             <span class="keyword">if</span> ~isa(tmp, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0755                                 tmp = edu.stanford.covert.util.SparseMat(tmp);
+0756                             <span class="keyword">end</span>
+0757                             tmp2{i, j} = tmp;
+0758                         <span class="keyword">else</span>
+0759                             states.(stateNames{j, 1}).(stateNames{j, 2})(1:size(tmp, 1), 1:size(tmp, 2), gblIdxs) = tmp;
+0760                         <span class="keyword">end</span>
+0761                     <span class="keyword">catch</span> exception
+0762                         exception.addCause(MException(<span class="string">'DiskLogger:error'</span>, <span class="keyword">...</span>
+0763                             <span class="string">'Unable to load segment %d of state %s.%s'</span>, <span class="keyword">...</span>
+0764                             i, stateNames{j, 1}, stateNames{j, 2})).rethrow();
+0765                     <span class="keyword">end</span>
+0766                     
+0767                     clear tmp;
+0768                 <span class="keyword">end</span>
+0769                 
+0770                 clear logI;
+0771             <span class="keyword">end</span>
+0772             
+0773             <span class="keyword">for</span> j = 1:size(stateNames, 1)
+0774                 <span class="keyword">if</span> isa(states.(stateNames{j, 1}).(stateNames{j, 2}), <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0775                     tfs = ~cellfun(@isempty, tmp2(:, j));
+0776                     tmp = tmp2(tfs, j);
+0777                     
+0778                     siz = [0 0];
+0779                     <span class="keyword">for</span> i = 1:numel(tmp)
+0780                         siz(1) = max(siz(1), size(tmp{i}, 1));
+0781                         siz(2) = max(siz(2), size(tmp{i}, 2));
+0782                     <span class="keyword">end</span>
+0783                     <span class="keyword">for</span> i = 1:numel(tmp)
+0784                         <span class="keyword">if</span> size(tmp{i}, 1) ~= siz(1)
+0785                             tmp{i} = [tmp{i}; edu.stanford.covert.util.SparseMat([], [], [siz(1)-size(tmp{i}, 1) size(tmp{i}, 2) size(tmp{i}, 3)])];
+0786                         <span class="keyword">end</span>
+0787                         <span class="keyword">if</span> size(tmp{i}, 2) ~= siz(2)
+0788                             tmp{i} = [tmp{i}  edu.stanford.covert.util.SparseMat([], [], [size(tmp{i}, 1) siz(2)-size(tmp{i}, 2) size(tmp{i}, 3)])];
+0789                         <span class="keyword">end</span>
+0790                     <span class="keyword">end</span>
+0791                     
+0792                     states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(3, tmp{:});
+0793                     
+0794                     clear tmp;
+0795                 <span class="keyword">end</span>
+0796             <span class="keyword">end</span>
+0797         <span class="keyword">end</span>
+0798         
+0799         <a name="_sub30" href="#_subfunctions" class="code">function states = downSample_mean_byTime(states, options, metadata, outputDirectory, stateNames, initTime, finTime, downsampleStepSec)</a>
+0800             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0801             
+0802             numSegments = ceil(metadata.lengthSec / options.stepSizeSec / metadata.segmentSizeStep);
+0803             
+0804             times = ceil(initTime/options.stepSizeSec : downsampleStepSec/options.stepSizeSec : ceil(finTime/downsampleStepSec)*downsampleStepSec/options.stepSizeSec) * options.stepSizeSec;
+0805             
+0806             log2 = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, 1), [stateNames(:,1); <span class="string">'Time'</span>]);
+0807             <span class="keyword">for</span> i = 1:numSegments
+0808                 log1 = log2;
+0809                 <span class="keyword">if</span> i &lt; numSegments
+0810                     <span class="keyword">try</span>
+0811                         log2 = DiskLogger.loadStructFromDisk(sprintf(<span class="string">'%s/state-%d.mat'</span>, outputDirectory, i+1), [stateNames(:,1); <span class="string">'Time'</span>]);
+0812                     <span class="keyword">catch</span> exception
+0813                         exception.addCause(MException(<span class="string">'DiskLogger:error'</span>, <span class="keyword">...</span>
+0814                             <span class="string">'Unable to load segment %d of states {%s}'</span>, <span class="keyword">...</span>
+0815                             i, strjoin(<span class="string">', '</span>, stateNames{:, 1}))).rethrow();
+0816                     <span class="keyword">end</span>
+0817                 <span class="keyword">end</span>
+0818                 segIdxs = ismembc2(times, log1.Time.values);
+0819                 gblIdxs = find(segIdxs &gt; 0);
+0820                 segIdxs = segIdxs(gblIdxs);
+0821                 
+0822                 <span class="keyword">for</span> k = 1:numel(segIdxs)
+0823                     <span class="keyword">for</span> j = 1:size(stateNames, 1)
+0824                         <span class="keyword">try</span>
+0825                             tmpSegIdxs = segIdxs(k)+(1:downsampleStepSec/options.stepSizeSec)-1;
+0826                             segmentLength = size(log1.(stateNames{j, 1}).(stateNames{j, 2}), 3);
+0827                             calcMargins = false(1, 2);
+0828                             calcSums = false(1, 2);
+0829                             calcNnzs = false(1, 2);
+0830                             s.type = <span class="string">'()'</span>;
+0831                             s.subs = {<span class="string">':'</span> <span class="string">':'</span> <span class="string">':'</span>};
+0832                             <span class="keyword">if</span> size(stateNames, 2) &gt; 2
+0833                                 s.subs(1:2) = stateNames(j, 3:4);
+0834                                 calcMargins = cellfun(@(x) isnumeric(x) &amp;&amp; size(x, 2) &gt; 1, stateNames(j, 3:4));
+0835                                 calcSums = strcmp(stateNames(j, 3:4), <span class="string">'-sum'</span>);
+0836                                 calcNnzs = strcmp(stateNames(j, 3:4), <span class="string">'-nnz'</span>);
+0837                                 s.subs(calcSums | calcNnzs) = {<span class="string">':'</span>};
+0838                             <span class="keyword">end</span>
+0839                             <span class="keyword">if</span> tmpSegIdxs(end) &lt;= segmentLength
+0840                                 s.subs{3} = tmpSegIdxs;
+0841                                 tmp = subsref(log1.(stateNames{j, 1}).(stateNames{j, 2}), s);
+0842                             <span class="keyword">else</span>
+0843                                 s1 = s;
+0844                                 s2 = s;
+0845                                 s1.subs{3} = tmpSegIdxs(1):size(log1.(stateNames{j, 1}).(stateNames{j, 2}), 3);
+0846                                 s2.subs{3} = 1:tmpSegIdxs(end)-segmentLength;
+0847                                 tmp = cat(3, <span class="keyword">...</span>
+0848                                     subsref(log1.(stateNames{j, 1}).(stateNames{j, 2}), s1), <span class="keyword">...</span>
+0849                                     subsref(log2.(stateNames{j, 1}).(stateNames{j, 2}), s2));
+0850                             <span class="keyword">end</span>
+0851                             
+0852                             <span class="keyword">if</span> calcMargins(1)
+0853                                 siz = size(tmp);
+0854                                 siz = [size(s.subs{1}) siz(2:end)];
+0855                                 tmp = permute(sum(reshape(tmp, siz), 2), [1 3 4 2]);
+0856                             <span class="keyword">elseif</span> calcSums(1)
+0857                                 tmp = sum(tmp, 1);
+0858                             <span class="keyword">elseif</span> calcNnzs(1)
+0859                                 <span class="keyword">if</span> iscell(tmp)
+0860                                     tmp = ~cellfun(@isempty, tmp);
+0861                                 <span class="keyword">end</span>
+0862                                 tmp = sum(tmp ~= 0, 1);
+0863                             <span class="keyword">end</span>
+0864                             <span class="keyword">if</span> calcMargins(2)
+0865                                 siz = size(tmp);
+0866                                 siz = [siz(1) size(s.subs{2}) siz(3:end)];
+0867                                 tmp = permute(sum(reshape(tmp, siz), 3), [1 2 4 3]);
+0868                             <span class="keyword">elseif</span> calcSums(2)
+0869                                 tmp = sum(tmp, 2);
+0870                             <span class="keyword">elseif</span> calcNnzs(2)
+0871                                 <span class="keyword">if</span> iscell(tmp)
+0872                                     tmp = ~cellfun(@isempty, tmp);
+0873                                 <span class="keyword">end</span>
+0874                                 tmp = sum(tmp ~= 0, 2);
+0875                             <span class="keyword">end</span>
+0876                             
+0877                             <span class="keyword">switch</span> class(tmp)
+0878                                 <span class="keyword">case</span> <span class="string">'cell'</span>, tmp = tmp(:, :, 1);
+0879                                 <span class="keyword">otherwise</span>, tmp = mean(tmp, 3);
+0880                             <span class="keyword">end</span>
+0881                             
+0882                             <span class="keyword">if</span> isa(states.(stateNames{j, 1}).(stateNames{j, 2}), <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0883                                 <span class="keyword">if</span> gblIdxs(k) == 1
+0884                                     <span class="keyword">if</span> ~isa(tmp, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0885                                         tmp = edu.stanford.covert.util.SparseMat(tmp);
+0886                                     <span class="keyword">end</span>
+0887                                     states.(stateNames{j, 1}).(stateNames{j, 2}) = tmp;
+0888                                 <span class="keyword">else</span>
+0889                                     states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(3, <span class="keyword">...</span>
+0890                                         states.(stateNames{j, 1}).(stateNames{j, 2}), <span class="keyword">...</span>
+0891                                         tmp);
+0892                                 <span class="keyword">end</span>
+0893                             <span class="keyword">else</span>
+0894                                 states.(stateNames{j, 1}).(stateNames{j, 2})(1:size(tmp,1), 1:size(tmp,2), gblIdxs(k)) = tmp;
+0895                             <span class="keyword">end</span>
+0896                         <span class="keyword">catch</span> exception
+0897                             exception.addCause(MException(<span class="string">'DiskLogger:error'</span>, <span class="keyword">...</span>
+0898                                 <span class="string">'Unable to load segment %d %s.%s'</span>, <span class="keyword">...</span>
+0899                                 i, stateNames{j, 1}, stateNames{j, 2})).rethrow();
+0900                         <span class="keyword">end</span>
+0901                         
+0902                         clear tmp;
+0903                     <span class="keyword">end</span>
+0904                 <span class="keyword">end</span>
+0905                 
+0906                 clear log1;
+0907             <span class="keyword">end</span>
+0908             
+0909             clear log2;
+0910         <span class="keyword">end</span>
+0911         
+0912         <a name="_sub31" href="#_subfunctions" class="code">function saveStructToDisk(outputDirectory, path, data, structTF, appendTf)</a>
+0913             options = {<span class="string">'-v7'</span>};
+0914             <span class="keyword">if</span> nargin &gt;= 5 &amp;&amp; appendTf
+0915                 options = [options; <span class="string">'-append'</span>];
+0916             <span class="keyword">end</span>
+0917             <span class="keyword">if</span> (nargin &lt; 4 &amp;&amp; isstruct(data)) || (nargin &gt;= 4 &amp;&amp; structTF)
+0918                 options = [options; <span class="string">'-struct'</span>];
+0919             <span class="keyword">end</span>
+0920             
+0921             lastwarn(<span class="string">''</span>);
+0922             save([outputDirectory filesep path],  options{:}, <span class="string">'data'</span>);
+0923             
+0924             [~, id] = lastwarn();
+0925             <span class="keyword">if</span> isequal(id, <span class="string">'MATLAB:save:sizeTooBigForMATFile'</span>)
+0926                 tmp = whos(<span class="string">'data'</span>);
+0927                 <span class="keyword">if</span> tmp.bytes &lt; 5e9
+0928                     options{1} = <span class="string">'-v7.3'</span>;
+0929                     save([outputDirectory filesep path],  options{:}, <span class="string">'data'</span>);
+0930                 <span class="keyword">else</span>
+0931                     warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Data too large to store as mat file ''%s'''</span>, [outputDirectory filesep path]);
+0932                 <span class="keyword">end</span>
+0933             <span class="keyword">end</span>
+0934         <span class="keyword">end</span>
+0935         
+0936         <a name="_sub32" href="#_subfunctions" class="code">function structure = loadStructFromDisk(path, fields, varargin)</a>
+0937             <span class="keyword">if</span> nargin == 1
+0938                 structure = <a href="#_sub21" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(">load</a>(path);
+0939             <span class="keyword">elseif</span> nargin == 2 &amp;&amp; iscell(fields)
+0940                 fields = unique(fields);
+0941                 structure = <a href="#_sub21" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(">load</a>(path, fields{:});
+0942             <span class="keyword">elseif</span> nargin == 2
+0943                 structure = <a href="#_sub21" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(">load</a>(path, fields);
+0944             <span class="keyword">elseif</span> nargin &gt; 2
+0945                 structure = <a href="#_sub21" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(">load</a>(path, fields, varargin{:});
+0946             <span class="keyword">end</span>
+0947         <span class="keyword">end</span>
+0948         
+0949         <span class="comment">%Allocates space for one segment's worth of time course data.</span>
+0950         <a name="_sub33" href="#_subfunctions" class="code">function log = allocateMemory(metaStates, segmentSizeStep)</a>
+0951             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0952             
+0953             log = struct;
+0954             
+0955             <span class="keyword">for</span> i = 1:size(metaStates.names, 1)
+0956                 log.(metaStates.names{i, 1}) = struct;
+0957             <span class="keyword">end</span>
+0958             
+0959             <span class="keyword">for</span> i = 1:size(metaStates.properties, 1)
+0960                 log.(metaStates.properties{i, 1}).(metaStates.properties{i, 2}) = DiskLogger.allocateData(<span class="keyword">...</span>
+0961                     metaStates.properties{i, 3}, [metaStates.properties{i, 4}, segmentSizeStep]);
+0962             <span class="keyword">end</span>
+0963         <span class="keyword">end</span>
+0964         
+0965         <a name="_sub34" href="#_subfunctions" class="code">function data = allocateData(dataType, sz, sparsity)</a>
+0966             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0967             import edu.stanford.covert.util.CircularSparseMat;
+0968             import edu.stanford.covert.util.SparseMat;
+0969             
+0970             <span class="keyword">if</span> prod(sz) &gt; 10^8 &amp;&amp; (nargin &lt; 3 || sparsity &lt; 1/3) &amp;&amp; <span class="keyword">...</span>
+0971                     ismember(dataType, {<span class="string">'logical'</span>, <span class="string">'double'</span>, <span class="string">'uint8'</span>, <span class="string">'uint16'</span>, <span class="string">'uint32'</span>, <span class="string">'uint64'</span>, <span class="string">'int8'</span>, <span class="string">'int16'</span> ,<span class="string">'int32'</span>, <span class="string">'int64'</span>})                    
+0972                 dataType = <span class="string">'edu.stanford.covert.util.SparseMat'</span>;
+0973             <span class="keyword">end</span>
+0974             
+0975             <span class="keyword">switch</span> dataType
+0976                 <span class="keyword">case</span> <span class="string">'edu.stanford.covert.util.SparseMat'</span>, data = SparseMat([], [], sz);
+0977                 <span class="keyword">case</span> <span class="string">'edu.stanford.covert.util.CircularSparseMat'</span>,  data = CircularSparseMat([], [], sz, 1);
+0978                 <span class="keyword">case</span> <span class="string">'char'</span>,     data = char(zeros(sz));
+0979                 <span class="keyword">case</span> <span class="string">'logical'</span>,  data = false(sz);
+0980                 <span class="keyword">case</span> <span class="string">'cell'</span>,     data = cell(sz);
+0981                 <span class="keyword">otherwise</span>,
+0982                     <span class="keyword">try</span>
+0983                         data = zeros(sz, dataType);
+0984                     <span class="keyword">catch</span> exception
+0985                         exception.addCause(MException(<span class="string">'DiskLogger:invalidDataType'</span>, <span class="string">'%s is not a numeric data type'</span>, dataType)).rethrow();
+0986                     <span class="keyword">end</span>
+0987             <span class="keyword">end</span>
+0988         <span class="keyword">end</span>
+0989     <span class="keyword">end</span>
+0990     
+0991     methods (Static = true)
+0992         <a name="_sub35" href="#_subfunctions" class="code">function reindexTimeCourses(outputDirectory)</a>
+0993             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0994             
+0995             <span class="comment">%% get meta data, options</span>
+0996             metadata = DiskLogger.loadMetadata(outputDirectory);
+0997             options = DiskLogger.loadOptions(outputDirectory);
+0998             stateNames = DiskLogger.getAvailableStates(outputDirectory);
+0999             
+1000             <span class="comment">%% re-index simulation, organized by state</span>
+1001             <span class="keyword">for</span> i = 1:size(stateNames, 1)
+1002                 <span class="keyword">try</span>
+1003                     data = DiskLogger.loadTimecourses(outputDirectory, <span class="keyword">...</span>
+1004                         stateNames(i, :), <span class="keyword">...</span>
+1005                         1, metadata.lengthSec, metadata.downsampleStepSec, <span class="string">'extract'</span>, <span class="keyword">...</span>
+1006                         options, metadata, <span class="string">'byTime'</span>);
+1007                     DiskLogger.saveStructToDisk(outputDirectory, [<span class="string">'state-'</span> stateNames{i, 1} <span class="string">'-'</span> stateNames{i, 2} <span class="string">'.mat'</span>], <span class="keyword">...</span>
+1008                         data.(stateNames{i, 1}).(stateNames{i, 2}), false);                    
+1009                 <span class="keyword">catch</span> exception
+1010                     <span class="keyword">if</span> ismember(exception.identifier, {<span class="string">'MATLAB:save:errorClosingFile'</span>; <span class="string">'MATLAB:nomem'</span>})
+1011                         warning(<span class="string">'WholeCell:warning:reindexing'</span>, <span class="string">'Unable to reindex %s.%s\n%s'</span>, stateNames{i, 1}, stateNames{i, 2}, exception.getReport());
+1012                     <span class="keyword">else</span>
+1013                         exception.addCause(MException(<span class="string">'DiskLogger:error'</span>, <span class="string">'Unable to reindex %s.%s'</span>, stateNames{i, 1}, stateNames{i, 2})).rethrow();
+1014                     <span class="keyword">end</span>
+1015                 <span class="keyword">end</span>
+1016                 
+1017                 <span class="comment">%clean up</span>
+1018                 clear data;
+1019             <span class="keyword">end</span>
+1020         <span class="keyword">end</span>
+1021     <span class="keyword">end</span>
+1022 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

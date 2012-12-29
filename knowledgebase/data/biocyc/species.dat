@@ -1,0 +1,47 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: species.dat
+# Date and time generated: March 29, 2012, 18:01:32
+#
+UNIQUE-ID - MGEN243273
+TYPES - TAX-243273
+COMMON-NAME - Mycoplasma genitalium
+COMMENT - This Pathway/Genome Database was generated on 29-Mar-2012 18:01:32 from the annotated genome of <i>Mycoplasma genitalium</i> G37.
+CONTACT-EMAIL - wholecell@lists.stanford.edu
+DBLINKS - (NCBI-BIOPROJECT "57707)
+DBLINKS - (NCBI-TAXONOMY-DB "243273")
+GENETIC-CODE - 4
+GENOME - CHROMOSOME-1
+MITOCHONDRIAL-GENETIC-CODE - 0
+PGDB-AUTHORS - |jkarr|
+PGDB-COPYRIGHT - Copyright &copy; 2012, Stanford University. All rights reserved.
+PGDB-HOME-PAGE - http://wholecell.stanford.edu/knowledgebase
+PGDB-LAST-CONSISTENCY-CHECK - 3519494623
+PGDB-NAME - MGEN243273cyc
+PGDB-TIER - 2
+PGDB-UNIQUE-ID - C03
+RANK - |strain|
+STRAIN-NAME - G37
+SYNONYMS - Mycoplasma genitalium ATCC 33530
+SYNONYMS - Mycoplasma genitalium str. G37
+SYNONYMS - Mycoplasma genitalium strain G37
+SYNONYMS - Mycoplasma genitalium G37
+NCBI-TAXONOMY-ID - 57707

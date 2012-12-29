@@ -1,0 +1,726 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ConditionSet</title>
+  <meta name="keywords" content="ConditionSet">
+  <meta name="description" content="Generates and parse condition sets">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; ConditionSet.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ConditionSet
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Generates and parse condition sets</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Generates and parse condition sets
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/28/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ConditionSet.html" class="code" title="">ConditionSet</a>	Generates and parse condition sets</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ConditionSet.html" class="code" title="">ConditionSet</a>	Generates and parse condition sets</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function generateSingleGeneDeletionConditionSet(sim, metadata, geneWholeCellModelIDs, replicates, fileName)</a></li><li><a href="#_sub2" class="code">function generateConditionSet(sim, metadata, conditions, fileName)</a></li><li><a href="#_sub3" class="code">function data = parseConditionSet(sim, fileName)</a></li><li><a href="#_sub4" class="code">function validateConditionSet(xml)</a></li><li><a href="#_sub5" class="code">function validateConditions(xml)</a></li><li><a href="#_sub6" class="code">function validateCondition(xml)</a></li><li><a href="#_sub7" class="code">function validateOptions(xml)</a></li><li><a href="#_sub8" class="code">function validateOption(xml)</a></li><li><a href="#_sub9" class="code">function validateParameters(xml)</a></li><li><a href="#_sub10" class="code">function validateParameter(xml)</a></li><li><a href="#_sub11" class="code">function validatePerturbations(xml)</a></li><li><a href="#_sub12" class="code">function validatePerturbation(xml)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Generates and parse condition sets</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 7/28/2011</span>
+0006 classdef <a href="ConditionSet.html" class="code" title="">ConditionSet</a>
+0007     <span class="comment">%generate condition set</span>
+0008     methods (Static = true)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function generateSingleGeneDeletionConditionSet(sim, metadata, geneWholeCellModelIDs, replicates, fileName)</a>
+0010             import edu.stanford.covert.cell.sim.util.ConditionSet;
+0011             
+0012             g = sim.gene;
+0013             
+0014             <span class="keyword">if</span> strcmp(geneWholeCellModelIDs, <span class="string">'-all'</span>)
+0015                 geneWholeCellModelIDs = g.wholeCellModelIDs;
+0016             <span class="keyword">elseif</span> ischar(geneWholeCellModelIDs)
+0017                 geneWholeCellModelIDs = {geneWholeCellModelIDs};
+0018             <span class="keyword">end</span>
+0019             
+0020             conditions = repmat(struct(<span class="keyword">...</span>
+0021                 <span class="string">'shortDescription'</span>, [], <span class="keyword">...</span>
+0022                 <span class="string">'longDescription'</span>, [], <span class="keyword">...</span>
+0023                 <span class="string">'replicates'</span>, replicates, <span class="keyword">...</span>
+0024                 <span class="string">'perturbations'</span>, struct(<span class="keyword">...</span>
+0025                     <span class="string">'geneticKnockouts'</span>, [])), <span class="keyword">...</span>
+0026                 numel(geneWholeCellModelIDs), 1);
+0027             
+0028             <span class="keyword">for</span> i = 1:numel(geneWholeCellModelIDs)
+0029                 conditions(i).shortDescription = sprintf(<span class="string">'Single-gene (%s; %s) deletion simulation set'</span>, <span class="keyword">...</span>
+0030                     geneWholeCellModelIDs{i}, g.names{strcmp(g.wholeCellModelIDs, geneWholeCellModelIDs{i})});
+0031                 conditions(i).longDescription = sprintf(<span class="string">'Single-gene (%s; %s) deletion simulation set with %d replicates'</span>, <span class="keyword">...</span>
+0032                     geneWholeCellModelIDs{i}, g.names{strcmp(g.wholeCellModelIDs, geneWholeCellModelIDs{i})}, replicates);
+0033                 conditions(i).perturbations.geneticKnockouts = geneWholeCellModelIDs(i);
+0034             <span class="keyword">end</span>
+0035             
+0036             ConditionSet.generateConditionSet(sim, metadata, conditions, fileName);
+0037         <span class="keyword">end</span>
+0038         
+0039         <a name="_sub1" href="#_subfunctions" class="code">function generateConditionSet(sim, metadata, conditions, fileName)</a>
+0040             import edu.stanford.covert.cell.sim.constant.Condition;
+0041             comp = sim.compartment;
+0042             stim = sim.state(<span class="string">'Stimulus'</span>);
+0043             m = sim.state(<span class="string">'Metabolite'</span>);
+0044             
+0045             <span class="comment">%initialize xml file</span>
+0046             fid = fopen(fileName, <span class="string">'w'</span>);
+0047             fprintf(fid, <span class="string">'&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;\n'</span>);
+0048             fprintf(fid, <span class="string">'&lt;!-- Autogenerated by %s at %s --&gt;\n'</span>,  <span class="string">'edu.stanford.covert.cell.sim.util.ConditionSet'</span>, datestr(now, 31));
+0049             fprintf(fid, <span class="string">'&lt;conditions\n'</span>);
+0050             fprintf(fid, <span class="string">'    xmlns=&quot;http://covertlab.stanford.edu&quot;\n'</span>);
+0051             fprintf(fid, <span class="string">'    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;\n'</span>);
+0052             fprintf(fid, <span class="string">'    xsi:schemaLocation=&quot;http://covertlab.stanford.edu runSimulations.xsd&quot;&gt;\n'</span>);
+0053             
+0054             <span class="comment">%metadata</span>
+0055             fprintf(fid, <span class="string">'    &lt;firstName&gt;&lt;![CDATA[%s]]&gt;&lt;/firstName&gt;\n'</span>, metadata.firstName);
+0056             fprintf(fid, <span class="string">'    &lt;lastName&gt;&lt;![CDATA[%s]]&gt;&lt;/lastName&gt;\n'</span>, metadata.lastName);
+0057             fprintf(fid, <span class="string">'    &lt;email&gt;&lt;![CDATA[%s]]&gt;&lt;/email&gt;\n'</span>, metadata.email);
+0058             fprintf(fid, <span class="string">'    &lt;affiliation&gt;&lt;![CDATA[%s]]&gt;&lt;/affiliation&gt;\n'</span>, metadata.affiliation);
+0059             fprintf(fid, <span class="string">'    &lt;userName&gt;&lt;![CDATA[%s]]&gt;&lt;/userName&gt;\n'</span>, metadata.userName);
+0060             fprintf(fid, <span class="string">'    &lt;hostName&gt;&lt;![CDATA[%s]]&gt;&lt;/hostName&gt;\n'</span>, metadata.hostName);
+0061             fprintf(fid, <span class="string">'    &lt;ipAddress&gt;&lt;![CDATA[%s]]&gt;&lt;/ipAddress&gt;\n'</span>, metadata.ipAddress);
+0062             fprintf(fid, <span class="string">'    &lt;revision&gt;%d&lt;/revision&gt;\n'</span>, metadata.revision);
+0063             fprintf(fid, <span class="string">'    &lt;differencesFromRevision&gt;&lt;![CDATA[%s]]&gt;&lt;/differencesFromRevision&gt;\n'</span>, metadata.differencesFromRevision);
+0064             
+0065             <span class="comment">%conditions</span>
+0066             <span class="keyword">for</span> i = 1:numel(conditions)
+0067                 <span class="comment">%open condition</span>
+0068                 fprintf(fid, <span class="string">'    &lt;condition&gt;\n'</span>);
+0069                 
+0070                 <span class="comment">%metadata</span>
+0071                 fprintf(fid, <span class="string">'        &lt;shortDescription&gt;&lt;![CDATA[%s]]&gt;&lt;/shortDescription&gt;\n'</span>, conditions(i).shortDescription);
+0072                 fprintf(fid, <span class="string">'        &lt;longDescription&gt;&lt;![CDATA[%s]]&gt;&lt;/longDescription&gt;\n'</span>, conditions(i).longDescription);
+0073                 fprintf(fid, <span class="string">'        &lt;replicates&gt;%d&lt;/replicates&gt;\n'</span>, conditions(i).replicates);
+0074                 
+0075                 <span class="comment">%options</span>
+0076                 <span class="keyword">if</span> isfield(conditions(i), <span class="string">'options'</span>) &amp;&amp; isstruct(conditions(i).options)
+0077                     <span class="comment">%open</span>
+0078                     fprintf(fid, <span class="string">'        &lt;options&gt;\n'</span>);
+0079                     
+0080                     <span class="comment">%global</span>
+0081                     fields = setdiff(fieldnames(conditions(i).options), {<span class="string">'states'</span>, <span class="string">'processes'</span>});
+0082                     <span class="keyword">for</span> j = 1:numel(fields)
+0083                         fprintf(fid, <span class="string">'            &lt;option name=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0084                             fields{j}, edu.stanford.covert.io.jsonFormat(conditions(i).options(fields{j})));
+0085                     <span class="keyword">end</span>
+0086                     
+0087                     <span class="comment">%states</span>
+0088                     <span class="keyword">if</span> isfield(conditions(i).options, <span class="string">'states'</span>)
+0089                         fields = fieldnames(conditions(i).options.states);
+0090                         <span class="keyword">for</span> j = 1:numel(fields)
+0091                             subfields = fieldnames(conditions(i).options.states.(fields{j}));
+0092                             <span class="keyword">for</span> k = 1:numel(subfields)
+0093                                 fprintf(fid, <span class="string">'            &lt;option state=&quot;%s&quot; name=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0094                                     fields{j}, subfields{k}, <span class="keyword">...</span>
+0095                                     edu.stanford.covert.io.jsonFormat(conditions(i).options.states.(fields{j}).(subfields{k})));
+0096                             <span class="keyword">end</span>
+0097                         <span class="keyword">end</span>
+0098                     <span class="keyword">end</span>
+0099                     
+0100                     <span class="comment">%processes</span>
+0101                     <span class="keyword">if</span> isfield(conditions(i).options, <span class="string">'processes'</span>)
+0102                         fields = fieldnames(conditions(i).options.processes);
+0103                         <span class="keyword">for</span> j = 1:numel(fields)
+0104                             subfields = fieldnames(conditions(i).options.processes.(fields{j}));
+0105                             <span class="keyword">for</span> k = 1:numel(subfields)
+0106                                 fprintf(fid, <span class="string">'            &lt;option process=&quot;%s&quot; name=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0107                                     fields{j}, subfields{k}, <span class="keyword">...</span>
+0108                                     edu.stanford.covert.io.jsonFormat(conditions(i).options.processes.(fields{j}).(subfields{k})));
+0109                             <span class="keyword">end</span>
+0110                         <span class="keyword">end</span>
+0111                     <span class="keyword">end</span>
+0112                     
+0113                     <span class="comment">%close</span>
+0114                     fprintf(fid, <span class="string">'        &lt;/options&gt;\n'</span>);
+0115                 <span class="keyword">end</span>
+0116                 
+0117                 <span class="comment">%parameters</span>
+0118                 <span class="keyword">if</span> isfield(conditions(i), <span class="string">'parameters'</span>) &amp;&amp; isstruct(conditions(i).parameters)
+0119                     <span class="comment">%open</span>
+0120                     fprintf(fid, <span class="string">'        &lt;parameters&gt;\n'</span>);
+0121                     
+0122                     <span class="comment">%states</span>
+0123                     <span class="keyword">if</span> isfield(conditions(i).parameters, <span class="string">'states'</span>)
+0124                         fields = fieldnames(conditions(i).parameters.states);
+0125                         <span class="keyword">for</span> j = 1:numel(fields)
+0126                             subfields = fieldnames(conditions(i).parameters.states.(fields{j}));
+0127                             <span class="keyword">for</span> k = 1:numel(subfields)
+0128                                 <span class="keyword">if</span> isscalar(conditions(i).parameters.states.(fields{j}).(subfields{k}))
+0129                                     fprintf(fid, <span class="string">'            &lt;parameter state=&quot;%s&quot; name=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0130                                         fields{j}, subfields{k}, <span class="keyword">...</span>
+0131                                         edu.stanford.covert.io.jsonFormat(conditions(i).parameters.states.(fields{j}).(subfields{k})));
+0132                                 <span class="keyword">else</span>
+0133                                     <span class="keyword">for</span> l = 1:numel(conditions(i).parameters.states.(fields{j}).(subfields{k}))
+0134                                         index = <span class="string">''</span>;
+0135                                         fprintf(fid, <span class="string">'            &lt;parameter state=&quot;%s&quot; name=&quot;%s&quot; index=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0136                                             fields{j}, subfields{k}, index, <span class="keyword">...</span>
+0137                                             edu.stanford.covert.io.jsonFormat(conditions(i).parameters.states.(fields{j}).(subfields{k})));
+0138                                     <span class="keyword">end</span>
+0139                                 <span class="keyword">end</span>
+0140                             <span class="keyword">end</span>
+0141                         <span class="keyword">end</span>
+0142                     <span class="keyword">end</span>
+0143                     
+0144                     <span class="comment">%processes</span>
+0145                     <span class="keyword">if</span> isfield(conditions(i).parameters, <span class="string">'processes'</span>)
+0146                         fields = fieldnames(conditions(i).parameters.processes);
+0147                         <span class="keyword">for</span> j = 1:numel(fields)
+0148                             subfields = fieldnames(conditions(i).parameters.processes.(fields{j}));
+0149                             <span class="keyword">for</span> k = 1:numel(subfields)
+0150                                 <span class="keyword">if</span> isscalar(conditions(i).parameters.processes.(fields{j}).(subfields{k}))
+0151                                     fprintf(fid, <span class="string">'            &lt;parameter process=&quot;%s&quot; name=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0152                                         fields{j}, subfields{k}, <span class="keyword">...</span>
+0153                                         edu.stanford.covert.io.jsonFormat(conditions(i).parameters.processes.(fields{j}).(subfields{k})));
+0154                                 <span class="keyword">else</span>
+0155                                     <span class="keyword">for</span> l = 1:numel(conditions(i).parameters.processes.(fields{j}).(subfields{k}))
+0156                                         index=<span class="string">''</span>;
+0157                                         fprintf(fid, <span class="string">'            &lt;parameter process=&quot;%s&quot; name=&quot;%s&quot; index=&quot;%s&quot; value=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0158                                             fields{j}, subfields{k}, index, <span class="keyword">...</span>
+0159                                             edu.stanford.covert.io.jsonFormat(conditions(i).parameters.processes.(fields{j}).(subfields{k})));
+0160                                     <span class="keyword">end</span>
+0161                                 <span class="keyword">end</span>
+0162                             <span class="keyword">end</span>
+0163                         <span class="keyword">end</span>
+0164                     <span class="keyword">end</span>
+0165                     
+0166                     <span class="comment">%close</span>
+0167                     fprintf(fid, <span class="string">'        &lt;/parameters&gt;\n'</span>);
+0168                 <span class="keyword">end</span>
+0169                 
+0170                 <span class="comment">%perturbations</span>
+0171                 <span class="keyword">if</span> isfield(conditions(i), <span class="string">'perturbations'</span>) &amp;&amp; isstruct(conditions(i).perturbations)
+0172                     <span class="comment">%close</span>
+0173                     fprintf(fid, <span class="string">'        &lt;perturbations&gt;\n'</span>);
+0174                     
+0175                     <span class="comment">%genetic knockouts</span>
+0176                     <span class="keyword">if</span> isfield(conditions(i).perturbations, <span class="string">'geneticKnockouts'</span>)
+0177                         <span class="keyword">for</span> j = 1:size(conditions(i).perturbations.geneticKnockouts, 1)
+0178                             fprintf(fid, <span class="string">'            &lt;perturbation type=&quot;%s&quot; component=&quot;%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0179                                 <span class="string">'geneticKnockout'</span>, conditions(i).perturbations.geneticKnockouts{j});
+0180                         <span class="keyword">end</span>
+0181                     <span class="keyword">end</span>
+0182                     
+0183                     <span class="comment">%stimulus</span>
+0184                     <span class="keyword">if</span> isfield(conditions(i).perturbations, <span class="string">'stimulus'</span>)
+0185                         <span class="keyword">for</span> j = 1:size(conditions(i).perturbations.stimulus, 1)
+0186                             fprintf(fid, <span class="string">'            &lt;perturbation type=&quot;%s&quot; component=&quot;%s&quot; compartment=&quot;%s&quot; initialTime=&quot;%f&quot; finalTime=&quot;%f&quot; value=&quot;%f&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0187                                 <span class="string">'stimulus'</span>, <span class="keyword">...</span><span class="comment">.</span>
+0188                                 stim.wholeCellModelIDs{conditions(i).perturbations.stimulus(j, Condition.objectIndexs)}, <span class="keyword">...</span>
+0189                                 comp.wholeCellModelIDs{conditions(i).perturbations.stimulus(j, Condition.compartmentIndexs)}, <span class="keyword">...</span>
+0190                                 conditions(i).perturbations.stimulus(j, Condition.initialTimeIndexs), <span class="keyword">...</span>
+0191                                 conditions(i).perturbations.stimulus(j, Condition.finalTimeIndexs), <span class="keyword">...</span>
+0192                                 conditions(i).perturbations.stimulus(j, Condition.valueIndexs));
+0193                         <span class="keyword">end</span>
+0194                     <span class="keyword">end</span>
+0195                     
+0196                     <span class="comment">%media</span>
+0197                     <span class="keyword">if</span> isfield(conditions(i).perturbations, <span class="string">'media'</span>)
+0198                         <span class="keyword">for</span> j = 1:size(conditions(i).perturbations.media, 1)
+0199                             fprintf(fid, <span class="string">'            &lt;perturbation type=&quot;%s&quot; component=&quot;%s&quot; compartment=&quot;%s&quot; initialTime=&quot;%f&quot; finalTime=&quot;%f&quot; value=&quot;%f&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0200                                 <span class="string">'media'</span>, <span class="keyword">...</span><span class="comment">.</span>
+0201                                 m.wholeCellModelIDs{conditions(i).perturbations.media(j, Condition.objectIndexs)}, <span class="keyword">...</span>
+0202                                 comp.wholeCellModelIDs{conditions(i).perturbations.media(j, Condition.compartmentIndexs)}, <span class="keyword">...</span>
+0203                                 conditions(i).perturbations.media(j, Condition.initialTimeIndexs), <span class="keyword">...</span>
+0204                                 conditions(i).perturbations.media(j, Condition.finalTimeIndexs), <span class="keyword">...</span>
+0205                                 conditions(i).perturbations.media(j, Condition.valueIndexs));
+0206                         <span class="keyword">end</span>
+0207                     <span class="keyword">end</span>
+0208                     
+0209                     <span class="comment">%close</span>
+0210                     fprintf(fid, <span class="string">'        &lt;/perturbations&gt;\n'</span>);
+0211                 <span class="keyword">end</span>
+0212                 
+0213                 <span class="comment">%close condition</span>
+0214                 fprintf(fid, <span class="string">'    &lt;/condition&gt;\n'</span>);
+0215             <span class="keyword">end</span>
+0216             
+0217             <span class="comment">%finalize xml file</span>
+0218             fprintf(fid, <span class="string">'&lt;/conditions&gt;\n'</span>);
+0219             fclose(fid);
+0220         <span class="keyword">end</span>
+0221     <span class="keyword">end</span>
+0222     
+0223     <span class="comment">%parse condition set</span>
+0224     methods (Static)
+0225         <a name="_sub2" href="#_subfunctions" class="code">function data = parseConditionSet(sim, fileName)</a>
+0226             import edu.stanford.covert.cell.sim.constant.Condition;
+0227             
+0228             data = struct(<span class="keyword">...</span>
+0229                 <span class="string">'metadata'</span>, struct(<span class="keyword">...</span>
+0230                     <span class="string">'firstName'</span>, [], <span class="keyword">...</span>
+0231                     <span class="string">'lastName'</span>, [], <span class="keyword">...</span>
+0232                     <span class="string">'email'</span>, [], <span class="keyword">...</span>
+0233                     <span class="string">'affiliation'</span>, [], <span class="keyword">...</span>
+0234                     <span class="string">'userName'</span>, [], <span class="keyword">...</span>
+0235                     <span class="string">'hostName'</span>, []', <span class="keyword">...</span>
+0236                     <span class="string">'ipAddress'</span>, [], <span class="keyword">...</span>
+0237                     <span class="string">'revision'</span>, [], <span class="keyword">...</span>
+0238                     <span class="string">'differencesFromRevision'</span>, [], <span class="keyword">...</span>
+0239                     <span class="string">'shortDescription'</span>, [], <span class="keyword">...</span>
+0240                     <span class="string">'longDescription'</span>, []), <span class="keyword">...</span>
+0241                 <span class="string">'options'</span>, struct(<span class="string">'states'</span>,struct,<span class="string">'processes'</span>,struct), <span class="keyword">...</span>
+0242                 <span class="string">'parameters'</span>, struct(<span class="string">'states'</span>,struct,<span class="string">'processes'</span>,struct), <span class="keyword">...</span>
+0243                 <span class="string">'perturbations'</span>, struct(<span class="string">'geneticKnockouts'</span>, [], <span class="string">'stimulus'</span>, [], <span class="string">'media'</span>, []));
+0244             data.perturbations.geneticKnockouts = cell(0, 1);
+0245             data.perturbations.stimulus = zeros(0, 6);
+0246             data.perturbations.media = zeros(0, 6);
+0247             
+0248             xml = xmlread(fileName);
+0249             edu.stanford.covert.cell.sim.util.ConditionSet.validateConditionSet(xml);
+0250             
+0251             condition = xml.getElementsByTagName(<span class="string">'condition'</span>).item(0);
+0252             
+0253             <span class="comment">%metadata</span>
+0254             data.metadata.firstName = char(xml.getElementsByTagName(<span class="string">'firstName'</span>).item(0).getFirstChild.getNodeValue);
+0255             data.metadata.lastName = char(xml.getElementsByTagName(<span class="string">'lastName'</span>).item(0).getFirstChild.getNodeValue);
+0256             data.metadata.email = char(xml.getElementsByTagName(<span class="string">'email'</span>).item(0).getFirstChild.getNodeValue);
+0257             data.metadata.affiliation = char(xml.getElementsByTagName(<span class="string">'affiliation'</span>).item(0).getFirstChild.getNodeValue);
+0258             data.metadata.userName = char(xml.getElementsByTagName(<span class="string">'userName'</span>).item(0).getFirstChild.getNodeValue);
+0259             data.metadata.hostName = char(xml.getElementsByTagName(<span class="string">'hostName'</span>).item(0).getFirstChild.getNodeValue);
+0260             data.metadata.ipAddress = char(xml.getElementsByTagName(<span class="string">'ipAddress'</span>).item(0).getFirstChild.getNodeValue);
+0261             data.metadata.revision = str2double(char(xml.getElementsByTagName(<span class="string">'revision'</span>).item(0).getFirstChild.getNodeValue));
+0262             tmp = xml.getElementsByTagName(<span class="string">'differencesFromRevision'</span>);
+0263             <span class="keyword">if</span> tmp.getLength() &gt; 0 &amp;&amp; tmp.item(0).getChildNodes.getLength() &gt; 0
+0264                 data.metadata.differencesFromRevision = char(tmp.item(0).getFirstChild.getNodeValue);
+0265             <span class="keyword">else</span>
+0266                 data.metadata.differencesFromRevision = char([]);
+0267             <span class="keyword">end</span>
+0268             data.metadata.shortDescription = char(condition.getElementsByTagName(<span class="string">'shortDescription'</span>).item(0).getFirstChild.getNodeValue);
+0269             data.metadata.longDescription = char(condition.getElementsByTagName(<span class="string">'longDescription'</span>).item(0).getFirstChild.getNodeValue);
+0270             
+0271             <span class="comment">%options</span>
+0272             options = xml.getElementsByTagName(<span class="string">'option'</span>);
+0273             <span class="keyword">for</span> i = 1:options.getLength
+0274                 option = options.item(i-1);
+0275                 
+0276                 name = char(option.getAttribute(<span class="string">'name'</span>));
+0277                 state = char(option.getAttribute(<span class="string">'state'</span>));
+0278                 process = char(option.getAttribute(<span class="string">'process'</span>));
+0279                 value = char(option.getAttribute(<span class="string">'value'</span>));
+0280                 [tmp, status] = str2num(value); <span class="comment">%#ok&lt;*ST2NM&gt;</span>
+0281                 <span class="keyword">if</span> status
+0282                     value = tmp;
+0283                 <span class="keyword">end</span>
+0284                 
+0285                 <span class="keyword">if</span> ~isempty(state)
+0286                     data.options.states.(state).(name) = value;
+0287                 <span class="keyword">elseif</span> ~isempty(process)
+0288                     data.options.processes.(process).(name) = value;
+0289                 <span class="keyword">else</span>
+0290                     data.options.(name) = value;
+0291                 <span class="keyword">end</span>
+0292             <span class="keyword">end</span>
+0293             
+0294             <span class="comment">%parameters</span>
+0295             parameters = xml.getElementsByTagName(<span class="string">'parameter'</span>);
+0296             <span class="keyword">for</span> i=1:parameters.getLength
+0297                 parameter = parameters.item(i-1);
+0298                 
+0299                 name = char(parameter.getAttribute(<span class="string">'name'</span>));
+0300                 indexName = char(parameter.getAttribute(<span class="string">'index'</span>));
+0301                 state = strrep(char(parameter.getAttribute(<span class="string">'state'</span>)), <span class="string">'State_'</span>, <span class="string">''</span>);
+0302                 process = strrep(char(parameter.getAttribute(<span class="string">'process'</span>)), <span class="string">'Process_'</span>, <span class="string">''</span>);
+0303                 value = char(parameter.getAttribute(<span class="string">'value'</span>));
+0304                 [tmp, status] = str2num(value);
+0305                 <span class="keyword">if</span> status
+0306                     value = tmp;
+0307                 <span class="keyword">end</span>
+0308                 
+0309                 <span class="keyword">if</span> ~isempty(state)
+0310                     <span class="keyword">if</span> isempty(indexName)
+0311                         data.parameters.states.(state).(name) = value;
+0312                     <span class="keyword">else</span>
+0313                         index = sim.state(state).(indexName);
+0314                         data.parameters.states.(state).(name)(index) = value;
+0315                     <span class="keyword">end</span>
+0316                 <span class="keyword">elseif</span> ~isempty(process)
+0317                     <span class="keyword">if</span> isempty(indexName)
+0318                         data.parameters.processes.(process).(name) = value;
+0319                     <span class="keyword">else</span>
+0320                         index = sim.process(process).(indexName);
+0321                         data.parameters.processes.(process).(name)(index) = value;
+0322                     <span class="keyword">end</span>
+0323                 <span class="keyword">else</span>
+0324                     <span class="keyword">if</span> isempty(indexName)
+0325                         data.parameters.(name) = value;
+0326                     <span class="keyword">else</span>
+0327                         index = sim.(indexName);
+0328                         data.parameters.(name)(index) = value;
+0329                     <span class="keyword">end</span>
+0330                 <span class="keyword">end</span>
+0331             <span class="keyword">end</span>
+0332             
+0333             <span class="comment">%perturbations</span>
+0334             s = sim.state(<span class="string">'Stimulus'</span>);
+0335             m = sim.state(<span class="string">'Metabolite'</span>);
+0336             nStim = numel(s.wholeCellModelIDs);
+0337             nMet = numel(m.wholeCellModelIDs);
+0338             nComp = sim.compartment.count;
+0339             
+0340             perturbations = xml.getElementsByTagName(<span class="string">'perturbation'</span>);
+0341             <span class="keyword">for</span> i=1:perturbations.getLength
+0342                 perturbation = perturbations.item(i-1);
+0343                 
+0344                 type = char(perturbation.getAttribute(<span class="string">'type'</span>));
+0345                 componentName = char(perturbation.getAttribute(<span class="string">'component'</span>));
+0346                 compartmentName = char(perturbation.getAttribute(<span class="string">'compartment'</span>));
+0347                 initialTime = char(perturbation.getAttribute(<span class="string">'initialTime'</span>));
+0348                 initialTime = strrep(initialTime, <span class="string">'INF'</span>,<span class="string">'Inf'</span>);
+0349                 initialTime = str2double(initialTime);
+0350                 finalTime = char(perturbation.getAttribute(<span class="string">'finalTime'</span>));
+0351                 finalTime = strrep(finalTime, <span class="string">'INF'</span>,<span class="string">'Inf'</span>);
+0352                 finalTime = str2double(finalTime);                
+0353                 value = char(perturbation.getAttribute(<span class="string">'value'</span>));
+0354                 value = strrep(value, <span class="string">'INF'</span>,<span class="string">'Inf'</span>);
+0355                 value = str2double(value);
+0356                 
+0357                 <span class="keyword">switch</span> (type)
+0358                     <span class="keyword">case</span> <span class="string">'geneticKnockout'</span>
+0359                         data.perturbations.geneticKnockouts = [
+0360                             data.perturbations.geneticKnockouts;
+0361                             {componentName}];
+0362                     <span class="keyword">case</span> <span class="string">'stimulus'</span>
+0363                         component = s.getIndexs(componentName);
+0364                         compartment = sim.compartment.getIndexs(compartmentName);
+0365                         data.perturbations.stimulus = [
+0366                             data.perturbations.stimulus;
+0367                             component compartment value initialTime finalTime sub2ind([nStim nComp], component, compartment)];
+0368                     <span class="keyword">case</span> <span class="string">'media'</span>
+0369                         component = m.getIndexs(componentName);
+0370                         compartment = sim.compartment.getIndexs(compartmentName);
+0371                         data.perturbations.media = [
+0372                             data.perturbations.media;
+0373                             component compartment value initialTime finalTime sub2ind([nMet nComp], component, compartment)];
+0374                 <span class="keyword">end</span>
+0375             <span class="keyword">end</span>           
+0376         <span class="keyword">end</span>
+0377         
+0378         <a name="_sub3" href="#_subfunctions" class="code">function validateConditionSet(xml)</a>
+0379             hasConditions = 0;
+0380             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0381                 child = xml.getChildNodes.item(i-1);
+0382                 <span class="keyword">switch</span> char(child.getNodeName)
+0383                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0384                     <span class="keyword">case</span> <span class="string">'conditions'</span>
+0385                         hasConditions = hasConditions+1;
+0386                         edu.stanford.covert.cell.sim.util.ConditionSet.validateConditions(child);
+0387                     <span class="keyword">otherwise</span>
+0388                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0389                 <span class="keyword">end</span>
+0390             <span class="keyword">end</span>
+0391             <span class="keyword">if</span> hasConditions~=1
+0392                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0393             <span class="keyword">end</span>
+0394         <span class="keyword">end</span>
+0395         
+0396         <a name="_sub4" href="#_subfunctions" class="code">function validateConditions(xml)</a>
+0397             hasFirstName = 0;
+0398             hasLastName = 0;
+0399             hasEmail = 0;
+0400             hasAffiliation = 0;
+0401             hasUserName = 0;
+0402             hasHostName = 0;
+0403             hasIpAddress = 0;
+0404             hasRevision = 0;
+0405             hasDifferencesFromRevision = 0;
+0406             hasCondition = 0;
+0407             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0408                 child = xml.getChildNodes.item(i-1);
+0409                 <span class="keyword">switch</span> char(child.getNodeName)
+0410                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0411                     <span class="keyword">case</span> <span class="string">'firstName'</span>
+0412                         hasFirstName = hasFirstName+1;
+0413                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0414                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0415                         <span class="keyword">end</span>
+0416                     <span class="keyword">case</span> <span class="string">'lastName'</span>
+0417                         hasLastName = hasLastName+1;
+0418                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0419                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0420                         <span class="keyword">end</span>
+0421                     <span class="keyword">case</span> <span class="string">'email'</span>
+0422                         hasEmail = hasEmail+1;
+0423                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0424                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0425                         <span class="keyword">end</span>
+0426                     <span class="keyword">case</span> <span class="string">'affiliation'</span>
+0427                         hasAffiliation = hasAffiliation+1;
+0428                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0429                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0430                         <span class="keyword">end</span>
+0431                     <span class="keyword">case</span> <span class="string">'userName'</span>
+0432                         hasUserName = hasUserName+1;
+0433                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0434                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0435                         <span class="keyword">end</span>
+0436                     <span class="keyword">case</span> <span class="string">'hostName'</span>
+0437                         hasHostName = hasHostName+1;
+0438                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0439                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0440                         <span class="keyword">end</span>
+0441                     <span class="keyword">case</span> <span class="string">'ipAddress'</span>
+0442                         hasIpAddress = hasIpAddress+1;
+0443                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0444                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0445                         <span class="keyword">end</span>
+0446                     <span class="keyword">case</span> <span class="string">'revision'</span>
+0447                         hasRevision = hasRevision+1;
+0448                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0449                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0450                         <span class="keyword">end</span>
+0451                     <span class="keyword">case</span> <span class="string">'differencesFromRevision'</span>
+0452                         hasDifferencesFromRevision = hasDifferencesFromRevision+1;
+0453                     <span class="keyword">case</span> <span class="string">'condition'</span>
+0454                         hasCondition = hasCondition+1;
+0455                         edu.stanford.covert.cell.sim.util.ConditionSet.validateCondition(child);
+0456                     <span class="keyword">otherwise</span>
+0457                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0458                 <span class="keyword">end</span>
+0459             <span class="keyword">end</span>
+0460             <span class="keyword">if</span>      hasFirstName~=1 || hasLastName~=1 || hasEmail~=1 || hasAffiliation~=1 || <span class="keyword">...</span>
+0461                     hasUserName~=1 || hasHostName~=1 || hasIpAddress~=1 || hasRevision~=1 || hasDifferencesFromRevision~=1 || <span class="keyword">...</span>
+0462                     hasCondition~=1
+0463                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0464             <span class="keyword">end</span>
+0465         <span class="keyword">end</span>
+0466         
+0467         <a name="_sub5" href="#_subfunctions" class="code">function validateCondition(xml)</a>
+0468             hasName = 0;
+0469             hasDescription = 0;
+0470             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0471                 child = xml.getChildNodes.item(i-1);
+0472                 <span class="keyword">switch</span> char(child.getNodeName)
+0473                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0474                     <span class="keyword">case</span> <span class="string">'shortDescription'</span>
+0475                         hasName = hasName+1;
+0476                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0477                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0478                         <span class="keyword">end</span>
+0479                     <span class="keyword">case</span> <span class="string">'longDescription'</span>
+0480                         hasDescription = hasDescription+1;
+0481                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0482                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0483                         <span class="keyword">end</span>
+0484                     <span class="keyword">case</span> <span class="string">'replicates'</span>
+0485                         [x, status] = str2num(char(child.getFirstChild.getNodeValue)); <span class="comment">%#ok&lt;ST2NM&gt;</span>
+0486                         <span class="keyword">if</span> ~status
+0487                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0488                         <span class="keyword">end</span>
+0489                         validateattributes(x, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>, <span class="string">'integer'</span>});
+0490                     <span class="keyword">case</span> <span class="string">'options'</span>
+0491                         edu.stanford.covert.cell.sim.util.ConditionSet.validateOptions(child);
+0492                     <span class="keyword">case</span> <span class="string">'parameters'</span>
+0493                         edu.stanford.covert.cell.sim.util.ConditionSet.validateParameters(child);
+0494                     <span class="keyword">case</span> <span class="string">'perturbations'</span>
+0495                         edu.stanford.covert.cell.sim.util.ConditionSet.validatePerturbations(child);
+0496                     <span class="keyword">otherwise</span>
+0497                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0498                 <span class="keyword">end</span>
+0499             <span class="keyword">end</span>
+0500             <span class="keyword">if</span> hasName~=1 || hasDescription~=1
+0501                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0502             <span class="keyword">end</span>
+0503         <span class="keyword">end</span>
+0504         
+0505         <a name="_sub6" href="#_subfunctions" class="code">function validateOptions(xml)</a>
+0506             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0507                 child = xml.getChildNodes.item(i-1);
+0508                 <span class="keyword">switch</span> char(child.getNodeName)
+0509                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0510                     <span class="keyword">case</span> <span class="string">'option'</span>
+0511                         edu.stanford.covert.cell.sim.util.ConditionSet.validateOption(child);
+0512                     <span class="keyword">otherwise</span>
+0513                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0514                 <span class="keyword">end</span>
+0515             <span class="keyword">end</span>
+0516         <span class="keyword">end</span>
+0517         
+0518         <a name="_sub7" href="#_subfunctions" class="code">function validateOption(xml)</a>
+0519             hasName = 0;
+0520             hasState = 0;
+0521             hasProcess = 0;
+0522             <span class="keyword">for</span> i = 1:xml.getAttributes.getLength
+0523                 child = xml.getAttributes.item(i-1);
+0524                 <span class="keyword">switch</span> char(child.getNodeName)
+0525                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0526                     <span class="keyword">case</span> <span class="string">'name'</span>
+0527                         hasName = hasName+1;
+0528                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0529                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0530                         <span class="keyword">end</span>
+0531                     <span class="keyword">case</span> <span class="string">'state'</span>
+0532                         hasState = hasState+1;
+0533                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0534                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0535                         <span class="keyword">end</span>
+0536                     <span class="keyword">case</span> <span class="string">'process'</span>
+0537                         hasProcess = hasProcess+1;
+0538                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0539                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0540                         <span class="keyword">end</span>
+0541                     <span class="keyword">case</span> <span class="string">'value'</span>
+0542                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0543                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0544                         <span class="keyword">end</span>
+0545                     <span class="keyword">otherwise</span>
+0546                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0547                 <span class="keyword">end</span>
+0548             <span class="keyword">end</span>
+0549             <span class="keyword">if</span> hasName~=1 || (hasState+hasProcess)&gt;1
+0550                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0551             <span class="keyword">end</span>
+0552         <span class="keyword">end</span>
+0553         
+0554         <a name="_sub8" href="#_subfunctions" class="code">function validateParameters(xml)</a>
+0555             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0556                 child = xml.getChildNodes.item(i-1);
+0557                 <span class="keyword">switch</span> char(child.getNodeName)
+0558                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0559                     <span class="keyword">case</span> <span class="string">'parameter'</span>
+0560                         edu.stanford.covert.cell.sim.util.ConditionSet.validateParameter(child);
+0561                     <span class="keyword">otherwise</span>
+0562                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0563                 <span class="keyword">end</span>
+0564             <span class="keyword">end</span>
+0565         <span class="keyword">end</span>
+0566         
+0567         <a name="_sub9" href="#_subfunctions" class="code">function validateParameter(xml)</a>
+0568             hasName = 0;
+0569             hasState = 0;
+0570             hasProcess = 0;
+0571             <span class="keyword">for</span> i = 1:xml.getAttributes.getLength
+0572                 child = xml.getAttributes.item(i-1);
+0573                 <span class="keyword">switch</span> char(child.getNodeName)
+0574                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0575                     <span class="keyword">case</span> <span class="string">'name'</span>
+0576                         hasName = hasName+1;
+0577                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0578                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0579                         <span class="keyword">end</span>
+0580                     <span class="keyword">case</span> <span class="string">'index'</span>
+0581                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0582                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0583                         <span class="keyword">end</span>
+0584                     <span class="keyword">case</span> <span class="string">'state'</span>
+0585                         hasState = hasState+1;
+0586                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0587                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0588                         <span class="keyword">end</span>
+0589                     <span class="keyword">case</span> <span class="string">'process'</span>
+0590                         hasProcess = hasProcess+1;
+0591                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0592                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0593                         <span class="keyword">end</span>
+0594                     <span class="keyword">case</span> <span class="string">'value'</span>
+0595                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0596                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0597                         <span class="keyword">end</span>
+0598                     <span class="keyword">otherwise</span>
+0599                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0600                 <span class="keyword">end</span>
+0601             <span class="keyword">end</span>
+0602             <span class="keyword">if</span> hasName~=1 || (hasState+hasProcess)~=1
+0603                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0604             <span class="keyword">end</span>
+0605         <span class="keyword">end</span>
+0606         
+0607         <a name="_sub10" href="#_subfunctions" class="code">function validatePerturbations(xml)</a>
+0608             <span class="keyword">for</span> i = 1:xml.getChildNodes.getLength
+0609                 child = xml.getChildNodes.item(i-1);
+0610                 <span class="keyword">switch</span> char(child.getNodeName)
+0611                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0612                     <span class="keyword">case</span> <span class="string">'perturbation'</span>
+0613                         edu.stanford.covert.cell.sim.util.ConditionSet.validatePerturbation(child);
+0614                     <span class="keyword">otherwise</span>
+0615                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0616                 <span class="keyword">end</span>
+0617             <span class="keyword">end</span>
+0618         <span class="keyword">end</span>
+0619         
+0620         <a name="_sub11" href="#_subfunctions" class="code">function validatePerturbation(xml)</a>
+0621             hasType = 0;
+0622             hasComponent = 0;
+0623             hasCompartment = 0;
+0624             hasTime = 0;
+0625             hasValue = 0;
+0626             <span class="keyword">for</span> i = 1:xml.getAttributes.getLength
+0627                 child = xml.getAttributes.item(i-1);
+0628                 <span class="keyword">switch</span> char(child.getNodeName)
+0629                     <span class="keyword">case</span> {<span class="string">'#comment'</span>, <span class="string">'#text'</span>}
+0630                     <span class="keyword">case</span> <span class="string">'type'</span>
+0631                         type = char(child.getFirstChild.getNodeValue);
+0632                         hasType = hasType+1;
+0633                         <span class="keyword">if</span> ~all(ismember(type, {<span class="string">'geneticKnockout'</span>, <span class="string">'stimulus'</span>, <span class="string">'media'</span>}));
+0634                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0635                         <span class="keyword">end</span>
+0636                     <span class="keyword">case</span> <span class="string">'component'</span>
+0637                         hasComponent = hasComponent+1;
+0638                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0639                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0640                         <span class="keyword">end</span>
+0641                     <span class="keyword">case</span> <span class="string">'compartment'</span>
+0642                         hasCompartment = hasCompartment+1;
+0643                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0644                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0645                         <span class="keyword">end</span>
+0646                     <span class="keyword">case</span> {<span class="string">'initialTime'</span>, <span class="string">'finalTime'</span>}
+0647                         hasTime = hasTime+1;
+0648                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0649                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0650                         <span class="keyword">end</span>
+0651                         val = char(child.getFirstChild.getNodeValue);
+0652                         val = strrep(val, <span class="string">'INF'</span>,<span class="string">'Inf'</span>);
+0653                         [x, status] = str2num(val); <span class="comment">%#ok&lt;ST2NM&gt;</span>
+0654                         <span class="keyword">if</span> ~status
+0655                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0656                         <span class="keyword">end</span>
+0657                         validateattributes(x, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>});
+0658                     <span class="keyword">case</span> <span class="string">'value'</span>
+0659                         hasValue = hasValue+1;
+0660                         <span class="keyword">if</span> isempty(char(child.getFirstChild.getNodeValue))
+0661                             throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0662                         <span class="keyword">end</span>
+0663                     <span class="keyword">otherwise</span>
+0664                         throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0665                 <span class="keyword">end</span>
+0666             <span class="keyword">end</span>
+0667             <span class="keyword">if</span> hasType~=1 || hasComponent~=1 || (strcmp(type, <span class="string">'geneticKnockout'</span>) &amp;&amp; (hasCompartment || hasTime || hasValue)) || <span class="keyword">...</span>
+0668                     (~strcmp(type, <span class="string">'geneticKnockout'</span>) &amp;&amp; (~hasCompartment || ~hasValue))
+0669                 throw(MException(<span class="string">'ConditionSet:invalidXML'</span>,<span class="string">'invalid XML'</span>));
+0670             <span class="keyword">end</span>
+0671         <span class="keyword">end</span>
+0672     <span class="keyword">end</span>
+0673 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

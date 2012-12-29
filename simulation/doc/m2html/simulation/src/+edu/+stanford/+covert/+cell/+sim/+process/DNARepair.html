@@ -1,0 +1,1950 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DNARepair</title>
+  <meta name="keywords" content="DNARepair">
+  <meta name="description" content="DNA Repair">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; DNARepair.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>DNARepair
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>DNA Repair</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DNA Repair
+
+ @wholeCellModelID Process_DNARepair
+ @name             DNA Repair
+ @description
+   Biology
+   =====================================================================
+   Simulates repair of a spectrum of DNA lesions by the direct damage
+   repair (DDR), base excision (BER), nucleotide excision (NER), and
+   homologous recombination (HR) DNA repair pathways. The table below
+   summarizes the pathways of DNA repair modelled here.
+
+      Damage                   Repair Pathway
+      ======                   ==============
+      Abasic site              BER
+      Damaged base             BER, GG-NER
+      Intrastrand crosslink    GG-NER
+      Single strand break      DDR
+      Double strand break      HR-DSBR
+
+   This process also simulates DNA damage recognition by the DNA integrity
+   scanning protein DisA (MG_105).
+
+   Direct Damage Reversal (DDR)
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   The only direct damage repair homolog identified in M. genitalium is
+   ligase ligA (MG_254). ligA is capable of repairing single strand
+   breaks by a NAD-dependent mechanism:
+
+         base    O   base    O           base    O   base    O
+          |     ||    |     ||            |      ||   |     ||
+   ...-O-sugar-O-P-O-sugar-O-P-O-  +  HO-sugar-O-P-O-sugar-O-P...  + NAD
+                 |           |                   |           |
+                 O           O                   O           O
+
+                                    ||
+                                    ||
+                                    V
+
+
+         base    O    base   O   base    O   base   O
+          |     ||    |     ||    |     ||    |    ||
+   ...-O-sugar-O-P-O-sugar-O-P-O-sugar-O-P-O-sugar-O-P...  + AMP + NMN + H
+                 |           |           |           |
+                 O           O           O           O
+
+
+   Base Excision Repair (BER)
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   Repairs specific spontaneously and endogenously produced DNA damaged
+   including base modifications, abasic sites, and single strand breaks
+   by the following mechanism:
+   1. Base excision by Fpg (MG_498) or Ung (MG_097) glycosylase
+
+         base    O                 OH      O
+          |     ||                  |     ||
+      -O-sugar-O-P... + H2O ==&gt; -O-sugar-O-P  +  base
+                 |                         |
+                 O                         O
+
+   2. a. i.  3'-AP lyase Fpg (MG_498)
+         ii. 5'-AP endonuclease Nfo (MG_235)
+      b. i.  5'-deoxyribosephosphodiesterase Nfo (MG_235)
+         ii. 3'-(deoxyribose-5'-phosphate) lyase dnaN (MG_001)
+   3. 5'-3' Polymerization by dnaN (MG_001)
+   4. Ligation by ligA (MG_254). See DDR section for details.
+   5. Catabolism and export of damaged nucleobases and nucleosides by
+      metabolic process.
+
+   Flap endonuclease fen1 homologs have not been identified in M.
+   genitalium; MG_262 is a weak fen1 homolog, but is more strongly
+   homologous to polI exonucleases. Consequently, we do not model flap
+   base excision repair.
+
+   Global Genomic (GGR) Nucleotide Excision Repair (NER)
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   NER recognizes bulky distortions in the shape of the DNA helix caused
+   by damaged bases and cross links caused by NO and UV light, and uses
+   endonucleases with lower specificity than that of BER. Consequently,
+   NER has broader repair capability than base excision repair. Here we
+   model only global genomic NER. In some bacteria such as E. coli DNA
+   damage is sensed by RNA polymerase and coupled to the NER machinery by
+   the transcription-repair coupling factor mfd.
+
+   1. UvrABC (MG_073, MG_206, MG_421) cleaves DNA 3' and 5' to lesion
+   2. Helicase PcrA (MG_244) excises cleaved DNA
+   3. Cleavage excised oligonucleotide (12-13 nts) by MgpA (MG_190)
+   4. 5'-3' Polymerization by dnaN (MG_001)
+   5. Ligation by ligA (MG_254). See DDR section for details.
+   6. Catabolism and export of damaged nucleobases and nucleosides by
+      metabolic process.
+
+   Note steps (3) and (4-5) occur in parallel. NER removes 2.7 x 10^3
+   excison products per cell per minute.
+
+   Homologous Recombination (HR) Double Strand Break Repair (DSBR)
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   HR repairs double strand breaks caused by ionizing radiation and
+   stalled replicaton forks. HR also repairs strand gaps which can be
+   generated by the interaction of replication forks with unrepaired
+   lesions. M. genitalium has a very reduced complement of recombination
+   repair proteins. Normally recombination repair involves the following
+   steps:
+   1. Initiation: 5'-3' exonuclease removes dNMPs from 5' ends of strands
+      leaving 3' overhangs. Daley and Wilson have shown homologous
+      recombination is most efficient with overhangs of at least 8 bases
+      [6]. No tradiational initiation gene has been identified in M.
+      genitalium. 5'-3' resection could be carried out by pcrA (MG_244)
+      or polI-like (MG_262). Here we model pcrA as the NER helicase, and
+      therefore choose to model polI-like as the HR initiator.
+   2. Strand exchange: One of the damaged 3' overhang invades the
+      undamaged homologous chromosome, forming a holliday junction.
+      Catalyzed by recA (MG_339)
+   3. 5'-3' Polymerization by dnaN (MG_001)
+   4. 2 ligations by ligA (MG_254). See DDR section for details.
+   5. Second strand exchange: The second damaged 3' overhang invades the
+      undamaged homologous chromosome, forming a second holliday
+      junction. Also catalyzed by recA (MG_339)
+   6. Holliday junction migration: ruvAB (MG_358, MG_359) widens distance
+      between the two strand cross over points by moving holliday
+      junctions to preferred sequence 5'-(A/T)TT?(G/C)-3' [PUB_0532].
+   7. Resolution: recU (MG_352) dimer nicks DNA at cross over points
+      creating four single strand breaks
+   8. 4 ligations by ligA (MG_254). See DDR section for details.
+   9. Catabolism and export of damaged nucleobases and nucleosides by
+      metabolic process.
+
+   Additionally, homologous recombination is believed to be critical
+   for antigenic variation in M. genitalium (Sluijter et al).
+
+   DNA integrity scanning protein DisA
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   In B. subtilis DisA recognizes strand breaks, base damage,
+   and cross links (possibly through ssDNA, Holliday junctions, or stalled
+   replication forks that are generated during recombination repair of
+   these lesions), binds damaged DNA, and via an unknown mechanism delays
+   sporulation. DisA has weak, non-specific DNA binding. In addition DisA
+   has diadenylate cyclization (produces c-di-AMP from 2 ATPs) activity
+   which is abolished when bound to branched DNA such as Holliday
+   junctions. c-di-AMP has been speculated as the second messenger which
+   couples DisA damage recognition to regulation of the transcriptional
+   regulator Spo0A, and delayed sporulation. The rest of the B. subtilis
+   signaling system (spo0A, kinA, kinE) is not present in M. genitalium.
+
+   DNA Restriction/Modification
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   Organisms employ a restriction/modification systems to distinguish
+   self from foreign DNA. These systems methylate hemi-methylated DNA and
+   cleave unmethylated DNA. The systems maintains self DNA in the fully
+   methylated state so that it can be distinguished from foreign
+   DNA (which will be unmethylated) on methylation status.
+
+   M. genitalium contains a reduced restriction/modification system
+   consisting of the EcoD type I DNA recognition subunit (MG_438) and the
+   MunI type II methylase (MG_184). M. genitalium does not contain a
+   type III R/M system.
+
+   EcoD is the DNA binding domain of a multimetric methylation and
+   restriction complex. Type I R/M systems typically have structure R2M2S
+   or M2S. EcoD recognizes the sequence 5'-TCARTTC-3'. The other subunits
+   methylate the N(7) position of A-3, producing N(7)-methyladenine or
+   cleavage DNA at this position. M. genitalium contains only the DNA
+   recognition subunit. 
+
+   MunI methylase (MG_184) methylates the N(6) position of A-3 in the
+   sequence 5'-CAATTG-3', producing N(6)-methyladenine. M. genitalium
+   does not contain a MunI endonuclease. Type II R/M systems have been
+   found as monomers, dimers, and trimers.
+
+   DNA repair mechanisms not present in M. genitalium
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   - Transcription-coupled NER (TC-NER)
+     M. genitalium does not have a transcription-repair coupling factor
+     mfd homolog.
+   - Additional eukaryotic homologous recombination (HR) pathways
+     - Synthesis-dependent strand annealing (SDSA)
+     - Single-strand annealing (SSA)
+     - Break-induced replication (BIR)
+   - Non-homologous end joining (NHEJ)
+     M. genitalium does not have a dedicated NHEJ DNA ligase ligD or a
+     DNA-end-binding protein Ku.
+   - Mismatch Repair
+   - SOS Response
+
+   Metabolism of damaged nucleo-bases, -sides, and -tides
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   No gene has been identified which cleaves DNA oligonucleotides;
+   possible genes include pcrA (MG_244), mgpA (MG_190), and polI-like
+   (MG_262). Here we model pcrA as the NER helicase and polI-like as the
+   HR resection enzyme, leaving mgpA without an assigned function.
+   Therefore we choose to model mgpA as capable of cleaving
+   oligonucleotides released by NER into single nucleotides.
+
+   Nucleotides released by polI-like or mgpA are returned to the
+   cytoplasmic free pool, and are available to the metabolism process.
+   Damaged nucleotides are degraded to nucleosides and are exported by
+   the metabolism process. Damaged nucleobases are also exported by the
+   metabolism process.
+
+   Knowledge Base
+   =====================================================================
+   As of 8/12/2010 the M. genitalium knowledge contained the stochiometry
+   and kinetics of 33 DNA repair reactions involving 16 enzymes. These
+   reactions were compiled from several sources.
+
+      Reaction Type                          Reactions
+      ========================               ==========
+      base excision repair                       4
+      base excision repair, base excision       6
+      DNA catabolism                          4
+      DNA ligation                            1
+      DNA polymerization                      4
+      DNA restriction/modification               4
+      homologous recombination                   7
+      nucleotide excision repair               2
+      second messenger generation               1
+
+   Representation
+   =====================================================================
+   8 properties are used to keep track of the damage state of DNA. These
+   properties are owned by the DNA damage process, and are copied locally at
+   each time step. The first  dimension of each has length equal to that of
+   the chromosome.
+   - occupiedDNA               enumeration   proteins bound to DNA
+   - gapSites                  true/false    sugar gaps
+   - abasicSites               true/false    abasic sites
+   - damagedSugarPhosphates    enumeration   damaged sugar phosphates
+   - damagedBases              enumeration   damaged bases
+   - intrastrandCrossLinks     true/false    intrastand cross link
+   - strandBreaks              true/false    strand break (missing sugar-phosphate bond)
+   - hollidayJunctions         true/false    holliday junction
+
+   substrates represents the amounts of free metabolites. initializeConstants
+   synchronizes the substrates of this process with that of the DNA damage
+   process to make it easy for these processes to communicate. That is
+   initializeConstants sets the substrates of both processes equal to the union
+   of the two, are orders the substrates the same in both processes. Thus
+   substrate indices defined in process are valid on properties received from
+   the other process, and it is unecessary to remap properties in
+   copyFromState.
+
+   enzymes represents the amount of DNA repair enzymes.
+
+   Rather than using reactionStoichiometryMatrix directly this process
+   factors the reactionStoichiometryMatrix into two parts:
+   - reactionSmallMoleculeStoichiometryMatrix: the stochiometry of free
+     metabolites in repair reactions
+   - reactionDNAStoichiometryMatrix: the stoichiometry of DNA bases in
+     repair reactions
+
+   In addition, rather than using reactionModificationReaction to
+   represent the macromolecule affected by each reaction we use
+   reactionDNABase to represent the DNA base affected by each repair reaction.
+
+   reactionCatalysisMatrix represents the enzymes which catalyze each repair
+   reaction. enzymeBounds represents the backward and forward enzyme rate
+   constant of each repair reaction.
+
+   Several additional properties represent more detailed information
+   about the specific action of each enzyme.
+
+   Simulation
+   =====================================================================
+   The simulation is implemented as six subfunctions which are called in a
+   random order from evolveState:
+   - base excision repair
+   - nucleotide excision repair
+   - homologous recombination double strand break repair
+   - polymerization/ligation
+   - DisA damage recognition, and
+   - restriction/modification
+
+   Each subfunction carries out some variation of the algorithm:
+   1. Identify chromosomes sites that are substrates for the repair system
+   2. Eliminate sites that neighbor damage, or which are occupied by proteins
+      (other than the DNA damage scanning protein DisA).
+   3. Compute maximum number of repair reactions that can occur based on
+      metabolite and enzyme availability and kinetics.
+   4. Randomly select among chromosome sites
+   5. Update state of DNA. Update metabolites.
+   6. Free any DisA that was previously bound to the repaired site.
+
+   References
+   =====================================================================
+   1. B.A. Sokhansanj, G.R. Rodrigue, J.P. Fitch and D.M. Wilson III
+      (2002). A quantitative model of human DNA base excision repair: I.
+      Mechanistic insights. Nuc Acids Res. 30(8): 1817-25. [PUB_0488]
+   2. Sokhansanj BA, Wilson DM 3rd (2004). Oxidative DNA damage
+      background estimated by a system model of base excision repair.
+      Free Radic Biol Med. 37(3): 422-7. [PUB_0487]
+   3. Politi A, Moné MJ, Houtsmuller AB, Hoogstraten D, Vermeulen W,
+      Heinrich R, van Driel R (2005). Mathematical modeling of nucleotide
+      excision repair reveals efficiency of sequential assembly
+      strategies. Mol Cell. 19(5): 679-90. [PUB_0514]
+   4. Alain Blanchard, Glenn Browning (2005). Mycoplasmas: molecular
+      biology, pathogenicity and strategies for control. CRC Press.
+   5. Carvalho FM, Fonseca MM, Batistuzzo De Medeiros S, Scortecci KC,
+      Blaha CA, Agnez-Lima LF (2005). DNA repair in reduced genome: The
+      Mycoplasma model. Gene. 360(2): 111-9.
+   6. James M. Daley and Thomas E. Wilson (2005). Rejoining of DNA
+      Double-Strand Breaks as a Function of Overhang Length. Mol Cell
+      Biol. 25(3): 896-906.
+   7. Reardon JT, Sancar A (2005). Nucleotide Excision Repair. Prog
+      Nucleic Acid Res Mol Biol. 79: 183-235. [PUB_0084]
+   8. Marcelo Brocchi, Ana Tereza Ribeiro de Vasconcelos, and Arnaldo Zaha
+      (2007). Restriction-modification systems in Mycoplasma spp. Genet.
+      Mol. Biol. 30: 1. [PUB_0652]
+   9. Wilson GG, Murray NE (1991). Restriction and modification systems.
+      Annu Rev Genet. 25: 585-627. [PUB_0653]
+  10. Romling U (2008). Great Times for Small Molecules: c-di-AMP, a
+      Second Messenger Candidate in Bacteria and Archaea. Sci Signal.
+      1(33):39. [PUB_0195]
+  11. Erik Boye (2006). DisA, a Busy Bee That Monitors Chromosome
+      Integrity. Cell. 125(4):641-643. [PUB_0511]
+  12. Witte G, Hartung S, Büttner K, Hopfner KP (2008). Structural.
+      Biochemistry of a Bacterial Checkpoint Protein Reveals Diadenylate
+      Cyclase Activity Regulated by DNA Recombination Intermediates. Mol
+      Cell. 30(2):167-78. [PUB_0512]
+  13. Bejerano-Sagie M, Oppenheimer-Shaanan Y, Berlatzky I, Rouvinski A,
+      Meyerovich M, Ben-Yehuda S (2006). A checkpoint protein that scans
+      the chromosome for damage at the start of sporulation in Bacillus
+      subtilis. Cell. 125(4):679-90. [PUB_0513]
+  14. Murray NE (2000). Type I restriction systems: sophisticated
+      molecular machines (a legacy of Bertani and Weigle). Microbiol Mol
+      Biol Rev. 64(2):412-34. [PUB_0542]
+  15. Cline SD, Hanawalt PC (2003). Who's on first in the cellular
+      response to DNA damage? Nat Rev Mol Cell Biol. 4(5):361-72.
+      [PUB_0780]
+  16. Sluijter M, Kaptein E, Spuesens EB, Hoogenboezem T, Hartwig NG, Van 
+      Rossum AM, Vink C (2010). The Mycoplasma genitalium MG352-encoded protein 
+      is a Holliday junction resolvase that has a non-functional orthologue in 
+      Mycoplasma pneumoniae. Mol Microbiol. 77(5): 1261-77. [PUB_0797].
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/3/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNARepair.html" class="code" title="">DNARepair</a>	DNA Repair</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DNARepair.html" class="code" title="">DNARepair</a>	DNA Repair</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = DNARepair(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, ~)</a></li><li><a href="#_sub5" class="code">function repairRates = calcExpectedReactionRates(this, constants)</a></li><li><a href="#_sub6" class="code">function initializeState(this)</a></li><li><a href="#_sub7" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub8" class="code">function evolveState(this)</a></li><li><a href="#_sub9" class="code">function evolveState_BER(this)</a></li><li><a href="#_sub10" class="code">function evolveState_NER(this)</a></li><li><a href="#_sub11" class="code">function evolveState_HR(this)</a></li><li><a href="#_sub12" class="code">function evolveState_Polymerize(this)</a></li><li><a href="#_sub13" class="code">function evolveState_Ligate(this)</a></li><li><a href="#_sub14" class="code">function evolveState_DisA(this)</a></li><li><a href="#_sub15" class="code">function evolveState_Modification(this)</a></li><li><a href="#_sub16" class="code">function evolveState_Restriction(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%DNA Repair</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_DNARepair</span>
+0004 <span class="comment">% @name             DNA Repair</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   =====================================================================</span>
+0008 <span class="comment">%   Simulates repair of a spectrum of DNA lesions by the direct damage</span>
+0009 <span class="comment">%   repair (DDR), base excision (BER), nucleotide excision (NER), and</span>
+0010 <span class="comment">%   homologous recombination (HR) DNA repair pathways. The table below</span>
+0011 <span class="comment">%   summarizes the pathways of DNA repair modelled here.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%      Damage                   Repair Pathway</span>
+0014 <span class="comment">%      ======                   ==============</span>
+0015 <span class="comment">%      Abasic site              BER</span>
+0016 <span class="comment">%      Damaged base             BER, GG-NER</span>
+0017 <span class="comment">%      Intrastrand crosslink    GG-NER</span>
+0018 <span class="comment">%      Single strand break      DDR</span>
+0019 <span class="comment">%      Double strand break      HR-DSBR</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   This process also simulates DNA damage recognition by the DNA integrity</span>
+0022 <span class="comment">%   scanning protein DisA (MG_105).</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   Direct Damage Reversal (DDR)</span>
+0025 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0026 <span class="comment">%   The only direct damage repair homolog identified in M. genitalium is</span>
+0027 <span class="comment">%   ligase ligA (MG_254). ligA is capable of repairing single strand</span>
+0028 <span class="comment">%   breaks by a NAD-dependent mechanism:</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%         base    O   base    O           base    O   base    O</span>
+0031 <span class="comment">%          |     ||    |     ||            |      ||   |     ||</span>
+0032 <span class="comment">%   ...-O-sugar-O-P-O-sugar-O-P-O-  +  HO-sugar-O-P-O-sugar-O-P...  + NAD</span>
+0033 <span class="comment">%                 |           |                   |           |</span>
+0034 <span class="comment">%                 O           O                   O           O</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%                                    ||</span>
+0037 <span class="comment">%                                    ||</span>
+0038 <span class="comment">%                                    V</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%         base    O    base   O   base    O   base   O</span>
+0042 <span class="comment">%          |     ||    |     ||    |     ||    |    ||</span>
+0043 <span class="comment">%   ...-O-sugar-O-P-O-sugar-O-P-O-sugar-O-P-O-sugar-O-P...  + AMP + NMN + H</span>
+0044 <span class="comment">%                 |           |           |           |</span>
+0045 <span class="comment">%                 O           O           O           O</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   Base Excision Repair (BER)</span>
+0049 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0050 <span class="comment">%   Repairs specific spontaneously and endogenously produced DNA damaged</span>
+0051 <span class="comment">%   including base modifications, abasic sites, and single strand breaks</span>
+0052 <span class="comment">%   by the following mechanism:</span>
+0053 <span class="comment">%   1. Base excision by Fpg (MG_498) or Ung (MG_097) glycosylase</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%         base    O                 OH      O</span>
+0056 <span class="comment">%          |     ||                  |     ||</span>
+0057 <span class="comment">%      -O-sugar-O-P... + H2O ==&gt; -O-sugar-O-P  +  base</span>
+0058 <span class="comment">%                 |                         |</span>
+0059 <span class="comment">%                 O                         O</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   2. a. i.  3'-AP lyase Fpg (MG_498)</span>
+0062 <span class="comment">%         ii. 5'-AP endonuclease Nfo (MG_235)</span>
+0063 <span class="comment">%      b. i.  5'-deoxyribosephosphodiesterase Nfo (MG_235)</span>
+0064 <span class="comment">%         ii. 3'-(deoxyribose-5'-phosphate) lyase dnaN (MG_001)</span>
+0065 <span class="comment">%   3. 5'-3' Polymerization by dnaN (MG_001)</span>
+0066 <span class="comment">%   4. Ligation by ligA (MG_254). See DDR section for details.</span>
+0067 <span class="comment">%   5. Catabolism and export of damaged nucleobases and nucleosides by</span>
+0068 <span class="comment">%      metabolic process.</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">%   Flap endonuclease fen1 homologs have not been identified in M.</span>
+0071 <span class="comment">%   genitalium; MG_262 is a weak fen1 homolog, but is more strongly</span>
+0072 <span class="comment">%   homologous to polI exonucleases. Consequently, we do not model flap</span>
+0073 <span class="comment">%   base excision repair.</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   Global Genomic (GGR) Nucleotide Excision Repair (NER)</span>
+0076 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0077 <span class="comment">%   NER recognizes bulky distortions in the shape of the DNA helix caused</span>
+0078 <span class="comment">%   by damaged bases and cross links caused by NO and UV light, and uses</span>
+0079 <span class="comment">%   endonucleases with lower specificity than that of BER. Consequently,</span>
+0080 <span class="comment">%   NER has broader repair capability than base excision repair. Here we</span>
+0081 <span class="comment">%   model only global genomic NER. In some bacteria such as E. coli DNA</span>
+0082 <span class="comment">%   damage is sensed by RNA polymerase and coupled to the NER machinery by</span>
+0083 <span class="comment">%   the transcription-repair coupling factor mfd.</span>
+0084 <span class="comment">%</span>
+0085 <span class="comment">%   1. UvrABC (MG_073, MG_206, MG_421) cleaves DNA 3' and 5' to lesion</span>
+0086 <span class="comment">%   2. Helicase PcrA (MG_244) excises cleaved DNA</span>
+0087 <span class="comment">%   3. Cleavage excised oligonucleotide (12-13 nts) by MgpA (MG_190)</span>
+0088 <span class="comment">%   4. 5'-3' Polymerization by dnaN (MG_001)</span>
+0089 <span class="comment">%   5. Ligation by ligA (MG_254). See DDR section for details.</span>
+0090 <span class="comment">%   6. Catabolism and export of damaged nucleobases and nucleosides by</span>
+0091 <span class="comment">%      metabolic process.</span>
+0092 <span class="comment">%</span>
+0093 <span class="comment">%   Note steps (3) and (4-5) occur in parallel. NER removes 2.7 x 10^3</span>
+0094 <span class="comment">%   excison products per cell per minute.</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">%   Homologous Recombination (HR) Double Strand Break Repair (DSBR)</span>
+0097 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0098 <span class="comment">%   HR repairs double strand breaks caused by ionizing radiation and</span>
+0099 <span class="comment">%   stalled replicaton forks. HR also repairs strand gaps which can be</span>
+0100 <span class="comment">%   generated by the interaction of replication forks with unrepaired</span>
+0101 <span class="comment">%   lesions. M. genitalium has a very reduced complement of recombination</span>
+0102 <span class="comment">%   repair proteins. Normally recombination repair involves the following</span>
+0103 <span class="comment">%   steps:</span>
+0104 <span class="comment">%   1. Initiation: 5'-3' exonuclease removes dNMPs from 5' ends of strands</span>
+0105 <span class="comment">%      leaving 3' overhangs. Daley and Wilson have shown homologous</span>
+0106 <span class="comment">%      recombination is most efficient with overhangs of at least 8 bases</span>
+0107 <span class="comment">%      [6]. No tradiational initiation gene has been identified in M.</span>
+0108 <span class="comment">%      genitalium. 5'-3' resection could be carried out by pcrA (MG_244)</span>
+0109 <span class="comment">%      or polI-like (MG_262). Here we model pcrA as the NER helicase, and</span>
+0110 <span class="comment">%      therefore choose to model polI-like as the HR initiator.</span>
+0111 <span class="comment">%   2. Strand exchange: One of the damaged 3' overhang invades the</span>
+0112 <span class="comment">%      undamaged homologous chromosome, forming a holliday junction.</span>
+0113 <span class="comment">%      Catalyzed by recA (MG_339)</span>
+0114 <span class="comment">%   3. 5'-3' Polymerization by dnaN (MG_001)</span>
+0115 <span class="comment">%   4. 2 ligations by ligA (MG_254). See DDR section for details.</span>
+0116 <span class="comment">%   5. Second strand exchange: The second damaged 3' overhang invades the</span>
+0117 <span class="comment">%      undamaged homologous chromosome, forming a second holliday</span>
+0118 <span class="comment">%      junction. Also catalyzed by recA (MG_339)</span>
+0119 <span class="comment">%   6. Holliday junction migration: ruvAB (MG_358, MG_359) widens distance</span>
+0120 <span class="comment">%      between the two strand cross over points by moving holliday</span>
+0121 <span class="comment">%      junctions to preferred sequence 5'-(A/T)TT?(G/C)-3' [PUB_0532].</span>
+0122 <span class="comment">%   7. Resolution: recU (MG_352) dimer nicks DNA at cross over points</span>
+0123 <span class="comment">%      creating four single strand breaks</span>
+0124 <span class="comment">%   8. 4 ligations by ligA (MG_254). See DDR section for details.</span>
+0125 <span class="comment">%   9. Catabolism and export of damaged nucleobases and nucleosides by</span>
+0126 <span class="comment">%      metabolic process.</span>
+0127 <span class="comment">%</span>
+0128 <span class="comment">%   Additionally, homologous recombination is believed to be critical</span>
+0129 <span class="comment">%   for antigenic variation in M. genitalium (Sluijter et al).</span>
+0130 <span class="comment">%</span>
+0131 <span class="comment">%   DNA integrity scanning protein DisA</span>
+0132 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0133 <span class="comment">%   In B. subtilis DisA recognizes strand breaks, base damage,</span>
+0134 <span class="comment">%   and cross links (possibly through ssDNA, Holliday junctions, or stalled</span>
+0135 <span class="comment">%   replication forks that are generated during recombination repair of</span>
+0136 <span class="comment">%   these lesions), binds damaged DNA, and via an unknown mechanism delays</span>
+0137 <span class="comment">%   sporulation. DisA has weak, non-specific DNA binding. In addition DisA</span>
+0138 <span class="comment">%   has diadenylate cyclization (produces c-di-AMP from 2 ATPs) activity</span>
+0139 <span class="comment">%   which is abolished when bound to branched DNA such as Holliday</span>
+0140 <span class="comment">%   junctions. c-di-AMP has been speculated as the second messenger which</span>
+0141 <span class="comment">%   couples DisA damage recognition to regulation of the transcriptional</span>
+0142 <span class="comment">%   regulator Spo0A, and delayed sporulation. The rest of the B. subtilis</span>
+0143 <span class="comment">%   signaling system (spo0A, kinA, kinE) is not present in M. genitalium.</span>
+0144 <span class="comment">%</span>
+0145 <span class="comment">%   DNA Restriction/Modification</span>
+0146 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0147 <span class="comment">%   Organisms employ a restriction/modification systems to distinguish</span>
+0148 <span class="comment">%   self from foreign DNA. These systems methylate hemi-methylated DNA and</span>
+0149 <span class="comment">%   cleave unmethylated DNA. The systems maintains self DNA in the fully</span>
+0150 <span class="comment">%   methylated state so that it can be distinguished from foreign</span>
+0151 <span class="comment">%   DNA (which will be unmethylated) on methylation status.</span>
+0152 <span class="comment">%</span>
+0153 <span class="comment">%   M. genitalium contains a reduced restriction/modification system</span>
+0154 <span class="comment">%   consisting of the EcoD type I DNA recognition subunit (MG_438) and the</span>
+0155 <span class="comment">%   MunI type II methylase (MG_184). M. genitalium does not contain a</span>
+0156 <span class="comment">%   type III R/M system.</span>
+0157 <span class="comment">%</span>
+0158 <span class="comment">%   EcoD is the DNA binding domain of a multimetric methylation and</span>
+0159 <span class="comment">%   restriction complex. Type I R/M systems typically have structure R2M2S</span>
+0160 <span class="comment">%   or M2S. EcoD recognizes the sequence 5'-TCARTTC-3'. The other subunits</span>
+0161 <span class="comment">%   methylate the N(7) position of A-3, producing N(7)-methyladenine or</span>
+0162 <span class="comment">%   cleavage DNA at this position. M. genitalium contains only the DNA</span>
+0163 <span class="comment">%   recognition subunit.</span>
+0164 <span class="comment">%</span>
+0165 <span class="comment">%   MunI methylase (MG_184) methylates the N(6) position of A-3 in the</span>
+0166 <span class="comment">%   sequence 5'-CAATTG-3', producing N(6)-methyladenine. M. genitalium</span>
+0167 <span class="comment">%   does not contain a MunI endonuclease. Type II R/M systems have been</span>
+0168 <span class="comment">%   found as monomers, dimers, and trimers.</span>
+0169 <span class="comment">%</span>
+0170 <span class="comment">%   DNA repair mechanisms not present in M. genitalium</span>
+0171 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0172 <span class="comment">%   - Transcription-coupled NER (TC-NER)</span>
+0173 <span class="comment">%     M. genitalium does not have a transcription-repair coupling factor</span>
+0174 <span class="comment">%     mfd homolog.</span>
+0175 <span class="comment">%   - Additional eukaryotic homologous recombination (HR) pathways</span>
+0176 <span class="comment">%     - Synthesis-dependent strand annealing (SDSA)</span>
+0177 <span class="comment">%     - Single-strand annealing (SSA)</span>
+0178 <span class="comment">%     - Break-induced replication (BIR)</span>
+0179 <span class="comment">%   - Non-homologous end joining (NHEJ)</span>
+0180 <span class="comment">%     M. genitalium does not have a dedicated NHEJ DNA ligase ligD or a</span>
+0181 <span class="comment">%     DNA-end-binding protein Ku.</span>
+0182 <span class="comment">%   - Mismatch Repair</span>
+0183 <span class="comment">%   - SOS Response</span>
+0184 <span class="comment">%</span>
+0185 <span class="comment">%   Metabolism of damaged nucleo-bases, -sides, and -tides</span>
+0186 <span class="comment">%   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+0187 <span class="comment">%   No gene has been identified which cleaves DNA oligonucleotides;</span>
+0188 <span class="comment">%   possible genes include pcrA (MG_244), mgpA (MG_190), and polI-like</span>
+0189 <span class="comment">%   (MG_262). Here we model pcrA as the NER helicase and polI-like as the</span>
+0190 <span class="comment">%   HR resection enzyme, leaving mgpA without an assigned function.</span>
+0191 <span class="comment">%   Therefore we choose to model mgpA as capable of cleaving</span>
+0192 <span class="comment">%   oligonucleotides released by NER into single nucleotides.</span>
+0193 <span class="comment">%</span>
+0194 <span class="comment">%   Nucleotides released by polI-like or mgpA are returned to the</span>
+0195 <span class="comment">%   cytoplasmic free pool, and are available to the metabolism process.</span>
+0196 <span class="comment">%   Damaged nucleotides are degraded to nucleosides and are exported by</span>
+0197 <span class="comment">%   the metabolism process. Damaged nucleobases are also exported by the</span>
+0198 <span class="comment">%   metabolism process.</span>
+0199 <span class="comment">%</span>
+0200 <span class="comment">%   Knowledge Base</span>
+0201 <span class="comment">%   =====================================================================</span>
+0202 <span class="comment">%   As of 8/12/2010 the M. genitalium knowledge contained the stochiometry</span>
+0203 <span class="comment">%   and kinetics of 33 DNA repair reactions involving 16 enzymes. These</span>
+0204 <span class="comment">%   reactions were compiled from several sources.</span>
+0205 <span class="comment">%</span>
+0206 <span class="comment">%      Reaction Type                          Reactions</span>
+0207 <span class="comment">%      ========================               ==========</span>
+0208 <span class="comment">%      base excision repair                       4</span>
+0209 <span class="comment">%      base excision repair, base excision       6</span>
+0210 <span class="comment">%      DNA catabolism                          4</span>
+0211 <span class="comment">%      DNA ligation                            1</span>
+0212 <span class="comment">%      DNA polymerization                      4</span>
+0213 <span class="comment">%      DNA restriction/modification               4</span>
+0214 <span class="comment">%      homologous recombination                   7</span>
+0215 <span class="comment">%      nucleotide excision repair               2</span>
+0216 <span class="comment">%      second messenger generation               1</span>
+0217 <span class="comment">%</span>
+0218 <span class="comment">%   Representation</span>
+0219 <span class="comment">%   =====================================================================</span>
+0220 <span class="comment">%   8 properties are used to keep track of the damage state of DNA. These</span>
+0221 <span class="comment">%   properties are owned by the DNA damage process, and are copied locally at</span>
+0222 <span class="comment">%   each time step. The first  dimension of each has length equal to that of</span>
+0223 <span class="comment">%   the chromosome.</span>
+0224 <span class="comment">%   - occupiedDNA               enumeration   proteins bound to DNA</span>
+0225 <span class="comment">%   - gapSites                  true/false    sugar gaps</span>
+0226 <span class="comment">%   - abasicSites               true/false    abasic sites</span>
+0227 <span class="comment">%   - damagedSugarPhosphates    enumeration   damaged sugar phosphates</span>
+0228 <span class="comment">%   - damagedBases              enumeration   damaged bases</span>
+0229 <span class="comment">%   - intrastrandCrossLinks     true/false    intrastand cross link</span>
+0230 <span class="comment">%   - strandBreaks              true/false    strand break (missing sugar-phosphate bond)</span>
+0231 <span class="comment">%   - hollidayJunctions         true/false    holliday junction</span>
+0232 <span class="comment">%</span>
+0233 <span class="comment">%   substrates represents the amounts of free metabolites. initializeConstants</span>
+0234 <span class="comment">%   synchronizes the substrates of this process with that of the DNA damage</span>
+0235 <span class="comment">%   process to make it easy for these processes to communicate. That is</span>
+0236 <span class="comment">%   initializeConstants sets the substrates of both processes equal to the union</span>
+0237 <span class="comment">%   of the two, are orders the substrates the same in both processes. Thus</span>
+0238 <span class="comment">%   substrate indices defined in process are valid on properties received from</span>
+0239 <span class="comment">%   the other process, and it is unecessary to remap properties in</span>
+0240 <span class="comment">%   copyFromState.</span>
+0241 <span class="comment">%</span>
+0242 <span class="comment">%   enzymes represents the amount of DNA repair enzymes.</span>
+0243 <span class="comment">%</span>
+0244 <span class="comment">%   Rather than using reactionStoichiometryMatrix directly this process</span>
+0245 <span class="comment">%   factors the reactionStoichiometryMatrix into two parts:</span>
+0246 <span class="comment">%   - reactionSmallMoleculeStoichiometryMatrix: the stochiometry of free</span>
+0247 <span class="comment">%     metabolites in repair reactions</span>
+0248 <span class="comment">%   - reactionDNAStoichiometryMatrix: the stoichiometry of DNA bases in</span>
+0249 <span class="comment">%     repair reactions</span>
+0250 <span class="comment">%</span>
+0251 <span class="comment">%   In addition, rather than using reactionModificationReaction to</span>
+0252 <span class="comment">%   represent the macromolecule affected by each reaction we use</span>
+0253 <span class="comment">%   reactionDNABase to represent the DNA base affected by each repair reaction.</span>
+0254 <span class="comment">%</span>
+0255 <span class="comment">%   reactionCatalysisMatrix represents the enzymes which catalyze each repair</span>
+0256 <span class="comment">%   reaction. enzymeBounds represents the backward and forward enzyme rate</span>
+0257 <span class="comment">%   constant of each repair reaction.</span>
+0258 <span class="comment">%</span>
+0259 <span class="comment">%   Several additional properties represent more detailed information</span>
+0260 <span class="comment">%   about the specific action of each enzyme.</span>
+0261 <span class="comment">%</span>
+0262 <span class="comment">%   Simulation</span>
+0263 <span class="comment">%   =====================================================================</span>
+0264 <span class="comment">%   The simulation is implemented as six subfunctions which are called in a</span>
+0265 <span class="comment">%   random order from evolveState:</span>
+0266 <span class="comment">%   - base excision repair</span>
+0267 <span class="comment">%   - nucleotide excision repair</span>
+0268 <span class="comment">%   - homologous recombination double strand break repair</span>
+0269 <span class="comment">%   - polymerization/ligation</span>
+0270 <span class="comment">%   - DisA damage recognition, and</span>
+0271 <span class="comment">%   - restriction/modification</span>
+0272 <span class="comment">%</span>
+0273 <span class="comment">%   Each subfunction carries out some variation of the algorithm:</span>
+0274 <span class="comment">%   1. Identify chromosomes sites that are substrates for the repair system</span>
+0275 <span class="comment">%   2. Eliminate sites that neighbor damage, or which are occupied by proteins</span>
+0276 <span class="comment">%      (other than the DNA damage scanning protein DisA).</span>
+0277 <span class="comment">%   3. Compute maximum number of repair reactions that can occur based on</span>
+0278 <span class="comment">%      metabolite and enzyme availability and kinetics.</span>
+0279 <span class="comment">%   4. Randomly select among chromosome sites</span>
+0280 <span class="comment">%   5. Update state of DNA. Update metabolites.</span>
+0281 <span class="comment">%   6. Free any DisA that was previously bound to the repaired site.</span>
+0282 <span class="comment">%</span>
+0283 <span class="comment">%   References</span>
+0284 <span class="comment">%   =====================================================================</span>
+0285 <span class="comment">%   1. B.A. Sokhansanj, G.R. Rodrigue, J.P. Fitch and D.M. Wilson III</span>
+0286 <span class="comment">%      (2002). A quantitative model of human DNA base excision repair: I.</span>
+0287 <span class="comment">%      Mechanistic insights. Nuc Acids Res. 30(8): 1817-25. [PUB_0488]</span>
+0288 <span class="comment">%   2. Sokhansanj BA, Wilson DM 3rd (2004). Oxidative DNA damage</span>
+0289 <span class="comment">%      background estimated by a system model of base excision repair.</span>
+0290 <span class="comment">%      Free Radic Biol Med. 37(3): 422-7. [PUB_0487]</span>
+0291 <span class="comment">%   3. Politi A, Moné MJ, Houtsmuller AB, Hoogstraten D, Vermeulen W,</span>
+0292 <span class="comment">%      Heinrich R, van Driel R (2005). Mathematical modeling of nucleotide</span>
+0293 <span class="comment">%      excision repair reveals efficiency of sequential assembly</span>
+0294 <span class="comment">%      strategies. Mol Cell. 19(5): 679-90. [PUB_0514]</span>
+0295 <span class="comment">%   4. Alain Blanchard, Glenn Browning (2005). Mycoplasmas: molecular</span>
+0296 <span class="comment">%      biology, pathogenicity and strategies for control. CRC Press.</span>
+0297 <span class="comment">%   5. Carvalho FM, Fonseca MM, Batistuzzo De Medeiros S, Scortecci KC,</span>
+0298 <span class="comment">%      Blaha CA, Agnez-Lima LF (2005). DNA repair in reduced genome: The</span>
+0299 <span class="comment">%      Mycoplasma model. Gene. 360(2): 111-9.</span>
+0300 <span class="comment">%   6. James M. Daley and Thomas E. Wilson (2005). Rejoining of DNA</span>
+0301 <span class="comment">%      Double-Strand Breaks as a Function of Overhang Length. Mol Cell</span>
+0302 <span class="comment">%      Biol. 25(3): 896-906.</span>
+0303 <span class="comment">%   7. Reardon JT, Sancar A (2005). Nucleotide Excision Repair. Prog</span>
+0304 <span class="comment">%      Nucleic Acid Res Mol Biol. 79: 183-235. [PUB_0084]</span>
+0305 <span class="comment">%   8. Marcelo Brocchi, Ana Tereza Ribeiro de Vasconcelos, and Arnaldo Zaha</span>
+0306 <span class="comment">%      (2007). Restriction-modification systems in Mycoplasma spp. Genet.</span>
+0307 <span class="comment">%      Mol. Biol. 30: 1. [PUB_0652]</span>
+0308 <span class="comment">%   9. Wilson GG, Murray NE (1991). Restriction and modification systems.</span>
+0309 <span class="comment">%      Annu Rev Genet. 25: 585-627. [PUB_0653]</span>
+0310 <span class="comment">%  10. Romling U (2008). Great Times for Small Molecules: c-di-AMP, a</span>
+0311 <span class="comment">%      Second Messenger Candidate in Bacteria and Archaea. Sci Signal.</span>
+0312 <span class="comment">%      1(33):39. [PUB_0195]</span>
+0313 <span class="comment">%  11. Erik Boye (2006). DisA, a Busy Bee That Monitors Chromosome</span>
+0314 <span class="comment">%      Integrity. Cell. 125(4):641-643. [PUB_0511]</span>
+0315 <span class="comment">%  12. Witte G, Hartung S, Büttner K, Hopfner KP (2008). Structural.</span>
+0316 <span class="comment">%      Biochemistry of a Bacterial Checkpoint Protein Reveals Diadenylate</span>
+0317 <span class="comment">%      Cyclase Activity Regulated by DNA Recombination Intermediates. Mol</span>
+0318 <span class="comment">%      Cell. 30(2):167-78. [PUB_0512]</span>
+0319 <span class="comment">%  13. Bejerano-Sagie M, Oppenheimer-Shaanan Y, Berlatzky I, Rouvinski A,</span>
+0320 <span class="comment">%      Meyerovich M, Ben-Yehuda S (2006). A checkpoint protein that scans</span>
+0321 <span class="comment">%      the chromosome for damage at the start of sporulation in Bacillus</span>
+0322 <span class="comment">%      subtilis. Cell. 125(4):679-90. [PUB_0513]</span>
+0323 <span class="comment">%  14. Murray NE (2000). Type I restriction systems: sophisticated</span>
+0324 <span class="comment">%      molecular machines (a legacy of Bertani and Weigle). Microbiol Mol</span>
+0325 <span class="comment">%      Biol Rev. 64(2):412-34. [PUB_0542]</span>
+0326 <span class="comment">%  15. Cline SD, Hanawalt PC (2003). Who's on first in the cellular</span>
+0327 <span class="comment">%      response to DNA damage? Nat Rev Mol Cell Biol. 4(5):361-72.</span>
+0328 <span class="comment">%      [PUB_0780]</span>
+0329 <span class="comment">%  16. Sluijter M, Kaptein E, Spuesens EB, Hoogenboezem T, Hartwig NG, Van</span>
+0330 <span class="comment">%      Rossum AM, Vink C (2010). The Mycoplasma genitalium MG352-encoded protein</span>
+0331 <span class="comment">%      is a Holliday junction resolvase that has a non-functional orthologue in</span>
+0332 <span class="comment">%      Mycoplasma pneumoniae. Mol Microbiol. 77(5): 1261-77. [PUB_0797].</span>
+0333 <span class="comment">%</span>
+0334 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0335 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0336 <span class="comment">% Last updated: 5/3/2010</span>
+0337 classdef  <a href="DNARepair.html" class="code" title="">DNARepair</a> &lt; edu.stanford.covert.cell.sim.ReactionProcess &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0338     <span class="comment">%property annotations</span>
+0339     properties (Constant)
+0340         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0341         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0342             <span class="string">'HR_PolA_ResectionLength'</span>;
+0343             <span class="string">'HR_RecA_Spacing'</span>;
+0344             <span class="string">'HR_RuvAB_JunctionMigrationHop'</span>;
+0345             <span class="string">'HR_RecU_CleavageSequence'</span>;
+0346             <span class="string">'HR_RecU_CleavagePosition'</span>;
+0347             <span class="string">'NER_UvrABC_IncisionMargin3'</span>;
+0348             <span class="string">'NER_UvrABC_IncisionMargin5'</span>;
+0349             <span class="string">'NER_PcrA_StepSize'</span>;
+0350             <span class="string">'hollidayJunctionResolutionSites'</span>;
+0351             <span class="string">'RM_EcoD_RecognitionSequence'</span>;
+0352             <span class="string">'RM_EcoD_RecognitionSites'</span>;
+0353             <span class="string">'RM_EcoD_MethylationPosition'</span>;
+0354             <span class="string">'RM_EcoD_RestrictionPosition'</span>;
+0355             <span class="string">'RM_MunI_RecognitionSequence'</span>;
+0356             <span class="string">'RM_MunI_RecognitionSites'</span>;
+0357             <span class="string">'RM_MunI_MethylationPosition'</span>;
+0358             <span class="string">'RM_MunI_RestrictionPosition'</span>;
+0359             <span class="string">'RM_MunI_MethylatedPositions'</span>;
+0360             <span class="string">'RM_MunI_RestrictionPositions'</span>;
+0361             <span class="string">'reactionSmallMoleculeStoichiometryMatrix'</span>;
+0362             <span class="string">'reactionDNAStoichiometryMatrix'</span>;
+0363             <span class="string">'reactionDNABase'</span>;
+0364             }
+0365         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0366         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0367     <span class="keyword">end</span>
+0368 
+0369     <span class="comment">%IDs, names, and local indices</span>
+0370     properties
+0371         substrateIndexs_water                       <span class="comment">%index within substrates of water</span>
+0372         substrateIndexs_hydrogen                    <span class="comment">%index within substrates of hydrogen</span>
+0373         substrateIndexs_DR5P                        <span class="comment">%index within substrates of deoxyribose-5-phosphate</span>
+0374         substrateIndexs_dRibose5P_dRibose5P         <span class="comment">%index within substrates of (deoxyribose-5-phosphate)-(deoxyribose-5-phosphate)</span>
+0375         substrateIndexs_NAD                         <span class="comment">%index within substrates of NAD</span>
+0376         substrateIndexs_AMP                         <span class="comment">%index within substrates of AMP</span>
+0377         substrateIndexs_NMN                         <span class="comment">%index within substrates of NMN</span>
+0378         substrateIndexs_PPI                         <span class="comment">%index within substrates of diphosphate</span>
+0379         substrateIndexs_m6AD                        <span class="comment">%index within substrates of 6-methyladenine</span>
+0380         substrateIndexs_undamagedNucleobases        <span class="comment">%index within substrates of undamaged nucleobases</span>
+0381         substrateIndexs_damagedNucleobases          <span class="comment">%index within substrates of damaged nucleobases</span>
+0382         substrateIndexs_damagedNucleosides          <span class="comment">%index within substrates of damaged deoxyribonucleosides</span>
+0383         substrateIndexs_damagedDNMPs                <span class="comment">%index within substrates of damaged dNMPs</span>
+0384         substrateIndexs_dNMPs                       <span class="comment">%index within substrates of dNMPs</span>
+0385         substrateIndexs_dNTPs                       <span class="comment">%index within substrates of dNTPs</span>
+0386         substrateIndexs_dNpdNps                     <span class="comment">%index within substrates of (dNTP-dNTP)s</span>
+0387 
+0388         enzymeIndexs_formamidopyrimidineGlycosylase <span class="comment">%index within enzymes of formamidopyrimidine glycosylase</span>
+0389         enzymeIndexs_uracilGlycosylase              <span class="comment">%index within enzymes of uracil glycosylase</span>
+0390         enzymeIndexs_apurinicEndonuclease           <span class="comment">%index within enzymes of apurinic endonuclease</span>
+0391         enzymeIndexs_incisionComplex                <span class="comment">%index within enzymes of incision complex</span>
+0392         enzymeIndexs_helicase35                     <span class="comment">%index within enzymes of 3'-&gt;5' helicase</span>
+0393         enzymeIndexs_recombinationStrandExchange    <span class="comment">%index within enzymes of recombination strand exchange</span>
+0394         enzymeIndexs_hollidayJunctionEndonuclease   <span class="comment">%index within enzymes of holliday junction endonuclease</span>
+0395         enzymeIndexs_hollidayJunctionHelicase       <span class="comment">%index within enzymes of holliday junction helicase</span>
+0396         enzymeIndexs_exonuclease53                  <span class="comment">%index within enzymes of 5'-&gt;3' exonuclease</span>
+0397         enzymeIndexs_polymerase                     <span class="comment">%index within enzymes of polymerase</span>
+0398         enzymeIndexs_ligase                         <span class="comment">%index within enzymes of ligase</span>
+0399         enzymeIndexs_phosphoesterase                <span class="comment">%index within enzymes of phosphoesterase</span>
+0400         enzymeIndexs_DisA                           <span class="comment">%index within enzymes of DisA</span>
+0401         enzymeIndexs_RM_typeI                       <span class="comment">%index within enzymes of Restriction/Modification typeI</span>
+0402         enzymeIndexs_RM_typeII                      <span class="comment">%index within enzymes of Restriction/Modification typeII</span>
+0403         enzymeIndexs_BER_baseExcision               <span class="comment">%index within enzymes of BER base Excision</span>
+0404 
+0405         reactionIndexs_BER                          <span class="comment">%index within reactions of BER</span>
+0406         reactionIndexs_BER_baseexcision             <span class="comment">%index within reactions of BER base excision</span>
+0407         reactionIndexs_BER_aplyase                  <span class="comment">%index within reactions of BER aplyase</span>
+0408         reactionIndexs_BER_drpesterase              <span class="comment">%index within reactions of BER deoxyribosose-5'-phosphate esterase</span>
+0409         reactionIndexs_BER_apendonuclease           <span class="comment">%index within reactions of BER AP endonuclease</span>
+0410         reactionIndexs_BER_dr5plyase                <span class="comment">%index within reactions of BER deoxyribosose-5'-phosphate lyase</span>
+0411         reactionIndexs_NER                          <span class="comment">%index within reactions of NER</span>
+0412         reactionIndexs_NER_incision                 <span class="comment">%index within reactions of NER incision</span>
+0413         reactionIndexs_NER_excision                 <span class="comment">%index within reactions of NER excision</span>
+0414         reactionIndexs_HR_dsbr                      <span class="comment">%index within reactions of HR double strand break repair</span>
+0415         reactionIndexs_HR_DNAResection              <span class="comment">%index within reactions of HR DNA resection</span>
+0416         reactionIndexs_HR_strandExchange            <span class="comment">%index within reactions of HR strand exchange</span>
+0417         reactionIndexs_HR_junctionMigration         <span class="comment">%index within reactions of HR junction migration</span>
+0418         reactionIndexs_HR_junctionResolution        <span class="comment">%index within reactions of HR junction resolution</span>
+0419         reactionIndexs_ligation                     <span class="comment">%index within reactions of ligation</span>
+0420         reactionIndexs_polymerization               <span class="comment">%index within reactions of polymerization</span>
+0421         reactionIndexs_DNACleavage                  <span class="comment">%index within reactions of DNA processive cleavage</span>
+0422         reactionIndexs_RM                           <span class="comment">%index within reactions of Restriction/Modification reactions</span>
+0423         reactionIndexs_RM_EcoD_Methylation          <span class="comment">%index within reactions of Restriction/Modification EcoD methylation</span>
+0424         reactionIndexs_RM_EcoD_Restriction          <span class="comment">%index within reactions of Restriction/Modification EcoD restriction</span>
+0425         reactionIndexs_RM_MunI_Methylation          <span class="comment">%index within reactions of Restriction/Modification MunI methylation</span>
+0426         reactionIndexs_RM_MunI_Restriction          <span class="comment">%index within reactions of Restriction/Modification MunI restriction</span>
+0427     <span class="keyword">end</span>
+0428     
+0429     <span class="comment">%fixed biological constants</span>
+0430     properties        
+0431         HR_PolA_ResectionLength                     <span class="comment">%number of bases PolA resect DNA ends            8               b [PUB_0526]</span>
+0432         HR_RecA_Spacing                             <span class="comment">%spacing between RecA molecule                   3               b [PUB_0082]</span>
+0433         HR_RuvAB_JunctionMigrationHop               <span class="comment">%RuvAB junction migration hop                    2.2             b [PUB_0538]</span>
+0434         HR_RecU_CleavageSequence                    <span class="comment">%RecU cleavage sequence                          WTTS              [PUB_0538]</span>
+0435         HR_RecU_CleavagePosition                    <span class="comment">%RecU cleavage position within sequence          3                 [PUB_0538]</span>
+0436         
+0437         NER_UvrABC_IncisionMargin3                  <span class="comment">%3' distance between damage and UvrABC cleavage  4               b [PUB_0461]</span>
+0438         NER_UvrABC_IncisionMargin5                  <span class="comment">%5' distance between damage and UvrABC cleavage  7               b [PUB_0461]</span>
+0439         NER_PcrA_StepSize                           <span class="comment">%PcrA step size                                  1               b [PUB_0516]</span>
+0440         
+0441         hollidayJunctionResolutionSites             <span class="comment">%(no. sites) x 2 vector indicating positions of holliday junction resolution sites; first col - position; second col - strand</span>
+0442         
+0443         RM_EcoD_RecognitionSequence                 <span class="comment">%EcoD recognition sequence                       TTANNNNNNNGTCY    [PUB_0542]</span>
+0444         RM_EcoD_RecognitionSites                    <span class="comment">%(no. sites) x 2 vector indicating positions of restriction/modification methylation sites; first col - position; second col - strand</span>
+0445         RM_EcoD_MethylationPosition                 <span class="comment">%EcoD methylation position within sequence       3                 [PUB_0542]</span>
+0446         RM_EcoD_RestrictionPosition                 <span class="comment">%EcoD restriction position within sequence       []                [PUB_0542]</span>
+0447         
+0448         RM_MunI_RecognitionSequence                 <span class="comment">%MunI recognition sequence                       CAATG             [PUB_0096]</span>
+0449         RM_MunI_RecognitionSites                    <span class="comment">%(no. sites) x 2 vector indicating positions of restriction/modification methylation sites; first col - position; second col - strand</span>
+0450         RM_MunI_MethylationPosition                 <span class="comment">%MunI methylation position within sequence       3                 [PUB_0096]</span>
+0451         RM_MunI_RestrictionPosition                 <span class="comment">%MunI restriction position within sequence       1                 [PUB_0544]</span>
+0452         RM_MunI_MethylatedPositions                 <span class="comment">%columns within RM_MunI_RecognitionSites that represent methylation positions</span>
+0453         RM_MunI_RestrictionPositions                <span class="comment">%columns within RM_MunI_RecognitionSites that represent cleaved phosphodiester bonds</span>
+0454                
+0455         reactionSmallMoleculeStoichiometryMatrix    <span class="comment">%stoichiometry of free metabolites in chemical reactions (substrates X reactions)</span>
+0456         reactionDNAStoichiometryMatrix              <span class="comment">%stoichiometry of DNA bases in chemical reactions (substrates X reactions)</span>
+0457         reactionDNABase                             <span class="comment">%substrate indices of DNA bases involved in each reaction (reactions X 1)</span>
+0458     <span class="keyword">end</span>
+0459 
+0460     <span class="comment">%constructor</span>
+0461     methods
+0462         <a name="_sub0" href="#_subfunctions" class="code">function this = DNARepair(wholeCellModelID, name)</a>
+0463             this = this@edu.stanford.covert.cell.sim.ReactionProcess(wholeCellModelID, name);
+0464         <span class="keyword">end</span>
+0465     <span class="keyword">end</span>
+0466 
+0467     <span class="comment">%communication between process/simulation</span>
+0468     methods
+0469         <span class="comment">%set references to state objects</span>
+0470         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0471             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0472             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0473         <span class="keyword">end</span>
+0474         
+0475         <span class="comment">%initialize constants</span>
+0476         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0477             <span class="comment">%% call super class method to get reactions, substrates, and enzymes</span>
+0478             this.initializeConstants@edu.stanford.covert.cell.sim.ReactionProcess(knowledgeBase, simulation, varargin{:});
+0479             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(knowledgeBase, simulation, varargin{:});
+0480 
+0481             <span class="comment">%% additional substrates</span>
+0482             additionalSubstrates = findobj(knowledgeBase.metabolites,<span class="keyword">...</span>
+0483                 <span class="string">'category'</span>, <span class="string">'modified nucleobase'</span>,                        <span class="string">'-or'</span>,<span class="keyword">...</span>
+0484                 <span class="string">'category'</span>, <span class="string">'modified deoxyribonucleoside'</span>,               <span class="string">'-or'</span>,<span class="keyword">...</span>
+0485                 <span class="string">'category'</span>, <span class="string">'modified deoxyribonucleotide monophosphate'</span>, <span class="string">'-or'</span>,<span class="keyword">...</span>
+0486                 <span class="string">'wholeCellModelID'</span>,<span class="string">'URA'</span>,                                 <span class="string">'-or'</span>,<span class="keyword">...</span>
+0487                 <span class="string">'wholeCellModelID'</span>,<span class="string">'URI'</span>);
+0488             substrateWholeCellModelIDs = unique([
+0489                 this.substrateWholeCellModelIDs;
+0490                 {additionalSubstrates.wholeCellModelID}';
+0491                 <span class="string">'AD'</span>; <span class="string">'CSN'</span>; <span class="string">'GN'</span>; <span class="string">'THY'</span>]);
+0492             tfs = ismember(simulation.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs, substrateWholeCellModelIDs);
+0493             <span class="keyword">if</span> sum(tfs) ~= numel(substrateWholeCellModelIDs)
+0494                 throw(MException(<span class="string">'DNARepair:error'</span>, <span class="string">'Substrates must all be metabolites'</span>));
+0495             <span class="keyword">end</span>
+0496             substrateWholeCellModelIDs = simulation.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(tfs);
+0497             this.initializeConstants_overrideSubstrates(substrateWholeCellModelIDs);
+0498             
+0499             <span class="comment">%% additional enzymes</span>
+0500             enzymeWholeCellModelIDs = unique([this.enzymeWholeCellModelIDs; <span class="string">'MG_105_OCTAMER'</span>]);
+0501             this.initializeConstants_overrideEnzymes(enzymeWholeCellModelIDs);
+0502 
+0503             <span class="comment">%% parameters</span>
+0504             <span class="comment">%knowledge base parameter class holds string values as cell arrays</span>
+0505             this.HR_RecU_CleavageSequence    = this.HR_RecU_CleavageSequence{1};
+0506             this.RM_EcoD_RecognitionSequence = this.RM_EcoD_RecognitionSequence{1};
+0507             this.RM_MunI_RecognitionSequence = this.RM_MunI_RecognitionSequence{1};
+0508 
+0509             <span class="comment">%% substrate indices</span>
+0510             this.substrateIndexs_water                = this.substrateIndexs({<span class="string">'H2O'</span>});
+0511             this.substrateIndexs_hydrogen             = this.substrateIndexs({<span class="string">'H'</span>});
+0512             this.substrateIndexs_DR5P                 = this.substrateIndexs({<span class="string">'DR5P'</span>});
+0513             this.substrateIndexs_dRibose5P_dRibose5P  = this.substrateIndexs({<span class="string">'dRibose5P_dRibose5P'</span>});
+0514             this.substrateIndexs_NAD                  = this.substrateIndexs({<span class="string">'NAD'</span>});
+0515             this.substrateIndexs_AMP                  = this.substrateIndexs({<span class="string">'AMP'</span>});
+0516             this.substrateIndexs_NMN                  = this.substrateIndexs({<span class="string">'NMN'</span>});
+0517             this.substrateIndexs_PPI                  = this.substrateIndexs({<span class="string">'PPI'</span>});
+0518             this.substrateIndexs_m6AD                 = this.substrateIndexs({<span class="string">'m6AD'</span>});
+0519             this.substrateIndexs_undamagedNucleobases = this.substrateIndexs({<span class="string">'AD'</span>;<span class="string">'CSN'</span>;<span class="string">'GN'</span>;<span class="string">'THY'</span>});
+0520             this.substrateIndexs_damagedNucleobases   = this.substrateMetaboliteLocalIndexs(<span class="keyword">...</span>
+0521                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).category},<span class="string">'modified nucleobase'</span>) | <span class="keyword">...</span>
+0522                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).wholeCellModelID},<span class="string">'URA'</span>));
+0523             this.substrateIndexs_damagedNucleosides = this.substrateMetaboliteLocalIndexs(<span class="keyword">...</span>
+0524                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).category},<span class="string">'modified deoxyribonucleoside'</span>) | <span class="keyword">...</span>
+0525                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).wholeCellModelID},<span class="string">'URI'</span>));
+0526             this.substrateIndexs_damagedDNMPs = this.substrateMetaboliteLocalIndexs(<span class="keyword">...</span>
+0527                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).category},<span class="string">'modified deoxyribonucleotide monophosphate'</span>) | <span class="keyword">...</span>
+0528                 strcmp({knowledgeBase.metabolites(this.substrateMetaboliteGlobalIndexs).wholeCellModelID},<span class="string">'DUMP'</span>));
+0529             this.substrateIndexs_dNMPs                = this.substrateIndexs({<span class="string">'DAMP'</span>;<span class="string">'DCMP'</span>;<span class="string">'DGMP'</span>;<span class="string">'DTMP'</span>});
+0530             this.substrateIndexs_dNTPs                = this.substrateIndexs({<span class="string">'DATP'</span>;<span class="string">'DCTP'</span>;<span class="string">'DGTP'</span>;<span class="string">'DTTP'</span>});
+0531             this.substrateIndexs_dNpdNps              = this.substrateIndexs({<span class="string">'dApdAp'</span>;<span class="string">'dCpdCp'</span>;<span class="string">'dGpdGp'</span>;<span class="string">'dTpdTp'</span>});
+0532 
+0533             <span class="comment">%% enzyme indices</span>
+0534             this.enzymeIndexs_BER_baseExcision               = this.enzymeIndexs({<span class="string">'MG_097_MONOMER'</span>;<span class="string">'MG_498_MONOMER'</span>});
+0535             this.enzymeIndexs_formamidopyrimidineGlycosylase = this.enzymeIndexs({<span class="string">'MG_498_MONOMER'</span>});          <span class="comment">%BER  fpg          formamidopyrimidine-DNA glycosylase</span>
+0536             this.enzymeIndexs_uracilGlycosylase              = this.enzymeIndexs({<span class="string">'MG_097_MONOMER'</span>});          <span class="comment">%BER  ung          uracil-DNA glycosylase, putative</span>
+0537             this.enzymeIndexs_apurinicEndonuclease           = this.enzymeIndexs({<span class="string">'MG_235_MONOMER'</span>});          <span class="comment">%BER  nfo          apurinic endonuclease</span>
+0538             this.enzymeIndexs_incisionComplex                = this.enzymeIndexs({<span class="string">'MG_073_206_421_TETRAMER'</span>}); <span class="comment">%NER  uvrABC       DNA incision complex</span>
+0539             this.enzymeIndexs_helicase35                     = this.enzymeIndexs({<span class="string">'MG_244_DIMER'</span>});            <span class="comment">%NER  pcrA         3'-5' helicase</span>
+0540             this.enzymeIndexs_recombinationStrandExchange    = this.enzymeIndexs({<span class="string">'MG_339_MONOMER'</span>});          <span class="comment">%HR   recA         recombination protein, strand exchange</span>
+0541             this.enzymeIndexs_hollidayJunctionEndonuclease   = this.enzymeIndexs({<span class="string">'MG_352_DIMER'</span>});            <span class="comment">%HR   recU         Holliday junction endonuclease</span>
+0542             this.enzymeIndexs_hollidayJunctionHelicase       = this.enzymeIndexs({<span class="string">'MG_358_359_10MER'</span>});        <span class="comment">%HR   ruvAB        Holliday junction DNA helicase</span>
+0543             this.enzymeIndexs_exonuclease53                  = this.enzymeIndexs({<span class="string">'MG_262_MONOMER'</span>});          <span class="comment">%HR   pol I-like   5'-3' exonuclease, putative</span>
+0544             this.enzymeIndexs_polymerase                     = this.enzymeIndexs({<span class="string">'MG_001_MONOMER'</span>});          <span class="comment">%     dnaN         DNA polymerase III, beta subunit</span>
+0545             this.enzymeIndexs_ligase                         = this.enzymeIndexs({<span class="string">'MG_254_MONOMER'</span>});          <span class="comment">%     ligA         DNA ligase, NAD-dependent</span>
+0546             this.enzymeIndexs_phosphoesterase                = this.enzymeIndexs({<span class="string">'MG_190_MONOMER'</span>});          <span class="comment">%     mgpA         phosphoesterase</span>
+0547             this.enzymeIndexs_DisA                           = this.enzymeIndexs({<span class="string">'MG_105_OCTAMER'</span>});          <span class="comment">%     disA         DNA integrity scanning protein</span>
+0548             this.enzymeIndexs_RM_typeI                       = this.enzymeIndexs({<span class="string">'MG_438_MONOMER'</span>});          <span class="comment">%                  type I restriction modification DNA specificity domain protein</span>
+0549             this.enzymeIndexs_RM_typeII                      = this.enzymeIndexs({<span class="string">'MG_184_DIMER'</span>});            <span class="comment">%                  adenine-specific DNA modification methylase</span>
+0550 
+0551             <span class="comment">%% reactions</span>
+0552             <span class="comment">%1. Find indices of reactions</span>
+0553             <span class="comment">%2. Factor reactionStoichiometryMatrix into</span>
+0554             <span class="comment">%   - reactionSmallMoleculeStoichiometryMatrix: the stochiometry of</span>
+0555             <span class="comment">%     free metabolites in repair reactions</span>
+0556             <span class="comment">%   - reactionDNAStoichiometryMatrix: the stoichiometry of DNA bases</span>
+0557             <span class="comment">%     in repair reactions</span>
+0558             <span class="comment">%3. Create reactionDNABase to represent the DNA base affected by</span>
+0559             <span class="comment">%   each repair reaction</span>
+0560             this.reactionSmallMoleculeStoichiometryMatrix = zeros(size(this.reactionStoichiometryMatrix));
+0561             this.reactionDNAStoichiometryMatrix           = zeros(size(this.reactionStoichiometryMatrix));
+0562             this.reactionDNABase                          = zeros(size(this.reactionStoichiometryMatrix,2),1);
+0563 
+0564             <span class="comment">%base excision repair (BER)</span>
+0565             this.reactionIndexs_BER                = find(strcmp(this.reactionTypes,<span class="string">'base excision repair'</span>) | strcmp(this.reactionTypes,<span class="string">'base excision repair, base excision'</span>));
+0566             this.reactionIndexs_BER_baseexcision   = find(strcmp(this.reactionTypes,<span class="string">'base excision repair, base excision'</span>));
+0567             this.reactionIndexs_BER_aplyase        = this.reactionIndexs({<span class="string">'AP_lyase'</span>});
+0568             this.reactionIndexs_BER_drpesterase    = this.reactionIndexs({<span class="string">'deoxyribosephosphodiesterase'</span>});            
+0569             this.reactionIndexs_BER_apendonuclease = this.reactionIndexs({<span class="string">'AP_endonuclease'</span>});
+0570             this.reactionIndexs_BER_dr5plyase      = this.reactionIndexs({<span class="string">'dRiboseP_lyase'</span>});
+0571 
+0572             dnaSubstrateIndexs = [this.substrateIndexs_damagedDNMPs; this.substrateIndexs_dRibose5P_dRibose5P; this.substrateIndexs_DR5P];
+0573             this.reactionDNAStoichiometryMatrix(dnaSubstrateIndexs, [this.reactionIndexs_BER_baseexcision;this.reactionIndexs_BER_aplyase;this.reactionIndexs_BER_apendonuclease]) = <span class="keyword">...</span>
+0574                 this.reactionStoichiometryMatrix(dnaSubstrateIndexs, [this.reactionIndexs_BER_baseexcision;this.reactionIndexs_BER_aplyase;this.reactionIndexs_BER_apendonuclease]);
+0575 
+0576             dnaSubstrateIndexs = [this.substrateIndexs_damagedDNMPs; this.substrateIndexs_dRibose5P_dRibose5P];
+0577             this.reactionDNAStoichiometryMatrix(dnaSubstrateIndexs, [this.reactionIndexs_BER_drpesterase; this.reactionIndexs_BER_dr5plyase]) = <span class="keyword">...</span>
+0578                 this.reactionStoichiometryMatrix(dnaSubstrateIndexs, [this.reactionIndexs_BER_drpesterase; this.reactionIndexs_BER_dr5plyase]);            
+0579             this.reactionDNAStoichiometryMatrix(this.substrateIndexs_DR5P, [this.reactionIndexs_BER_drpesterase; this.reactionIndexs_BER_dr5plyase]) = 1;
+0580 
+0581             <span class="comment">%nucleotide excision repair (NER)</span>
+0582             this.reactionIndexs_NER                   = find(strcmp(this.reactionTypes,<span class="string">'nucleotide excision repair'</span>));
+0583             this.reactionIndexs_NER_incision          = this.reactionIndexs({<span class="string">'NER_DNAIncision'</span>});
+0584             this.reactionIndexs_NER_excision          = this.reactionIndexs({<span class="string">'NER_DNAExcision'</span>});
+0585 
+0586             dnaSubstrateIndexs = [this.substrateIndexs_damagedDNMPs; this.substrateIndexs_dRibose5P_dRibose5P; this.substrateIndexs_DR5P];
+0587             this.reactionDNAStoichiometryMatrix(dnaSubstrateIndexs, this.reactionIndexs_NER) = <span class="keyword">...</span>
+0588                 this.reactionStoichiometryMatrix(dnaSubstrateIndexs, this.reactionIndexs_NER);
+0589 
+0590             <span class="comment">%cleavage</span>
+0591             this.reactionIndexs_DNACleavage = find(strcmp(this.reactionTypes,<span class="string">'DNA cleavage'</span>));
+0592 
+0593             this.reactionDNAStoichiometryMatrix(this.substrateIndexs_dNpdNps, this.reactionIndexs_DNACleavage) = <span class="keyword">...</span>
+0594                 this.reactionStoichiometryMatrix(this.substrateIndexs_dNpdNps, this.reactionIndexs_DNACleavage);
+0595             this.reactionDNAStoichiometryMatrix(this.substrateIndexs_dNMPs, this.reactionIndexs_DNACleavage) = <span class="keyword">...</span>
+0596                 0.5 * this.reactionStoichiometryMatrix(this.substrateIndexs_dNMPs, this.reactionIndexs_DNACleavage);
+0597 
+0598             <span class="comment">%homologous recombination (HR) double strand break repair (DSBR)</span>
+0599             this.reactionIndexs_HR_dsbr               = find(strcmp(this.reactionTypes,<span class="string">'homologous recombination'</span>));
+0600             this.reactionIndexs_HR_DNAResection       = this.reactionIndexs({<span class="string">'HR_DNAResection_dAMP'</span>;<span class="string">'HR_DNAResection_dCMP'</span>;<span class="string">'HR_DNAResection_dGMP'</span>;<span class="string">'HR_DNAResection_dTMP'</span>});
+0601             this.reactionIndexs_HR_strandExchange     = this.reactionIndexs({<span class="string">'HR_strandExchange'</span>});
+0602             this.reactionIndexs_HR_junctionMigration  = this.reactionIndexs({<span class="string">'HR_junctionMigration'</span>});
+0603             this.reactionIndexs_HR_junctionResolution = this.reactionIndexs({<span class="string">'HR_junctionResolution'</span>});
+0604 
+0605             dnaSubstrates = [this.substrateIndexs_dNMPs;this.substrateIndexs_dNpdNps;this.substrateIndexs_dRibose5P_dRibose5P;this.substrateIndexs_DR5P];
+0606             partitions = [0.5*ones(length(this.substrateIndexs_dNMPs),1); ones(length(dnaSubstrates)-length(this.substrateIndexs_dNMPs),1)];
+0607             this.reactionDNAStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_HR_dsbr) = <span class="keyword">...</span>
+0608                 repmat(partitions, 1, length(this.reactionIndexs_HR_dsbr)) .* <span class="keyword">...</span>
+0609                 this.reactionStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_HR_dsbr);
+0610             
+0611             this.hollidayJunctionResolutionSites = this.chromosome.sequence.findSubsequence(<span class="keyword">...</span>
+0612                 this.HR_RecU_CleavageSequence, this.HR_RecU_CleavagePosition, true);
+0613 
+0614             <span class="comment">%polymerization</span>
+0615             this.reactionIndexs_polymerization = find(strcmp(this.reactionTypes,<span class="string">'DNA polymerization'</span>));
+0616             dnaSubstrates = [this.substrateIndexs_dNMPs; this.substrateIndexs_dNpdNps];
+0617             this.reactionDNAStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_polymerization) = <span class="keyword">...</span>
+0618                 this.reactionStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_polymerization);
+0619 
+0620             <span class="comment">%ligation</span>
+0621             this.reactionIndexs_ligation = this.reactionIndexs({<span class="string">'DNA_ligation_repair'</span>});
+0622             dnaSubstrates = [this.substrateIndexs_DR5P; this.substrateIndexs_dRibose5P_dRibose5P];
+0623             this.reactionDNAStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_ligation) = <span class="keyword">...</span>
+0624                 this.reactionStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_ligation);
+0625 
+0626             <span class="comment">%restriction/modification</span>
+0627             this.reactionIndexs_RM                  = find(strcmp(this.reactionTypes, <span class="string">'DNA restriction/modification'</span>));
+0628             this.reactionIndexs_RM_EcoD_Methylation = this.reactionIndexs({<span class="string">'DNA_RM_EcoD_Methylation'</span>});
+0629             this.reactionIndexs_RM_EcoD_Restriction = this.reactionIndexs({<span class="string">'DNA_RM_EcoD_Restriction'</span>});
+0630             this.reactionIndexs_RM_MunI_Methylation = this.reactionIndexs({<span class="string">'DNA_RM_MunI_Methylation'</span>});
+0631             this.reactionIndexs_RM_MunI_Restriction = this.reactionIndexs({<span class="string">'DNA_RM_MunI_Restriction'</span>});
+0632 
+0633             dnaSubstrates = [this.substrateIndexs_undamagedNucleobases;this.substrateIndexs_damagedNucleobases;this.substrateIndexs_dRibose5P_dRibose5P;this.substrateIndexs_DR5P];
+0634             this.reactionDNAStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_RM) = <span class="keyword">...</span>
+0635                 this.reactionStoichiometryMatrix(dnaSubstrates, this.reactionIndexs_RM);
+0636 
+0637             this.RM_MunI_MethylatedPositions = [
+0638                 this.RM_MunI_MethylationPosition;
+0639                 length(this.RM_MunI_RecognitionSequence)-this.RM_MunI_MethylationPosition+1]';
+0640             this.RM_MunI_RestrictionPositions = [
+0641                 this.RM_MunI_RestrictionPosition;
+0642                 length(this.RM_MunI_RecognitionSequence)-this.RM_MunI_RestrictionPosition]';
+0643 
+0644             this.RM_EcoD_RecognitionSites = this.chromosome.sequence.findSubsequence(this.RM_EcoD_RecognitionSequence, 1);
+0645             this.RM_EcoD_RecognitionSites = mod(<span class="keyword">...</span>
+0646                 repmat(this.RM_EcoD_RecognitionSites,1,length(this.RM_EcoD_RecognitionSequence)) + <span class="keyword">...</span>
+0647                 repmat(0:length(this.RM_EcoD_RecognitionSequence)-1,size(this.RM_EcoD_RecognitionSites,1),1) - <span class="keyword">...</span>
+0648                 1, this.chromosome.sequenceLen)+1;
+0649 
+0650             this.RM_MunI_RecognitionSites = this.chromosome.sequence.findSubsequence(this.RM_MunI_RecognitionSequence, 1);
+0651             this.RM_MunI_RecognitionSites = mod(<span class="keyword">...</span>
+0652                 repmat(this.RM_MunI_RecognitionSites,1,length(this.RM_MunI_RecognitionSequence)) + <span class="keyword">...</span>
+0653                 repmat(0:length(this.RM_MunI_RecognitionSequence)-1,size(this.RM_MunI_RecognitionSites,1),1) - <span class="keyword">...</span>
+0654                 1, this.chromosome.sequenceLen)+1;
+0655 
+0656             <span class="comment">% reactionSmallMoleculeStoichiometryMatrix</span>
+0657             this.reactionSmallMoleculeStoichiometryMatrix = <span class="keyword">...</span>
+0658                 this.reactionStoichiometryMatrix - <span class="keyword">...</span>
+0659                 this.reactionDNAStoichiometryMatrix;
+0660 
+0661             <span class="comment">% reactionDNABase</span>
+0662             [metaboliteIdx, reactionIdx] = find(this.reactionDNAStoichiometryMatrix(this.substrateIndexs_damagedDNMPs, :)&lt;0);
+0663             this.reactionDNABase(reactionIdx) = this.substrateIndexs_damagedDNMPs(metaboliteIdx);
+0664         <span class="keyword">end</span>
+0665     <span class="keyword">end</span>
+0666 
+0667     <span class="comment">%model</span>
+0668     methods
+0669         <span class="comment">%Calculate</span>
+0670         <span class="comment">%- contribution to FBA objective</span>
+0671         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0672         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, constants, ~)</a>
+0673             <span class="comment">%expected rates of reactions (repair and restriction/modification)</span>
+0674             rates = this.calcExpectedReactionRates(constants);
+0675             
+0676             <span class="comment">%substrate and byproducts: metabolic load of reactions</span>
+0677             bmProd = max(0, -this.reactionSmallMoleculeStoichiometryMatrix) * rates;
+0678             byProd = max(0,  this.reactionSmallMoleculeStoichiometryMatrix) * rates;
+0679             
+0680             <span class="comment">%enzymes</span>
+0681             minEnzExp = max(<span class="keyword">...</span>
+0682                 this.reactionCatalysisMatrix' * (rates ./ this.enzymeBounds(:, 2)) / constants.states.Time.cellCycleLength * log(2), <span class="keyword">...</span>
+0683                 this.reactionCatalysisMatrix(this.reactionIndexs_RM_MunI_Methylation, :)' * <span class="keyword">...</span>
+0684                     (rates(this.reactionIndexs_RM_MunI_Methylation) ./ this.enzymeBounds(this.reactionIndexs_RM_MunI_Methylation, 2)) / constants.states.Time.cellCycleLength * log(2) / <span class="keyword">...</span>
+0685                     (exp(log(2) * (constants.states.Time.replicationInitiationDuration + constants.states.Time.replicationDuration) / constants.states.Time.cellCycleLength) - <span class="keyword">...</span>
+0686                      exp(log(2) * constants.states.Time.replicationInitiationDuration / constants.states.Time.cellCycleLength)) <span class="keyword">...</span>
+0687                 );
+0688             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0689         <span class="keyword">end</span>
+0690         
+0691         <a name="_sub4" href="#_subfunctions" class="code">function repairRates = calcExpectedReactionRates(this, constants)</a>
+0692             repairRates = zeros(numel(this.reactionWholeCellModelIDs), 1);
+0693             
+0694             <span class="comment">%% repair of damaged bases: calculate expected number of occurences of</span>
+0695             <span class="comment">%each reaction over cell cycle</span>
+0696             c = this.chromosome;
+0697             dmg = constants.processes.DNADamage;
+0698             polDNA = collapse(c.polymerizedRegions);
+0699             bases = <span class="string">'ACGT'</span>;
+0700             dntpComposition = [
+0701                 1 - c.sequenceGCContent
+0702                 c.sequenceGCContent
+0703                 c.sequenceGCContent
+0704                 1 - c.sequenceGCContent] / 2;
+0705             
+0706             <span class="keyword">for</span> i = 1:size(dmg.reactionStoichiometryMatrix, 2)
+0707                 <span class="keyword">if</span> dmg.reactionBounds(i, 2) == 0
+0708                     <span class="keyword">continue</span>;
+0709                 <span class="keyword">end</span>
+0710                 
+0711                 <span class="comment">%number of sites vulnerable to reaction per chromosome</span>
+0712                 <span class="keyword">if</span> ischar(dmg.reactionVulnerableMotifs{i})
+0713                     nVulnerableSites = polDNA * prod(dntpComposition(ismembc(dmg.reactionVulnerableMotifs{i}, bases)));
+0714                 <span class="keyword">else</span>
+0715                     nVulnerableSites = collapse(<span class="keyword">...</span>
+0716                         dmg.reactionVulnerableMotifs{i} == c.(dmg.reactionVulnerableMotifTypes{i}) &amp; <span class="keyword">...</span>
+0717                         dmg.reactionVulnerableMotifs{i} == c.damagedSites_nonRedundant);
+0718                 <span class="keyword">end</span>
+0719                 <span class="keyword">if</span> nVulnerableSites == 0
+0720                     <span class="keyword">continue</span>;
+0721                 <span class="keyword">end</span>
+0722                 
+0723                 <span class="comment">%calculate rate, product of</span>
+0724                 <span class="comment">%- number of vulnerable site / chromosome</span>
+0725                 <span class="comment">%- integrated number of chromosomes over cell cycle</span>
+0726                 <span class="comment">%- reaction rate per vulnerable site (and per unit radiation</span>
+0727                 <span class="comment">%  for applicable reactions)</span>
+0728                 <span class="comment">%- amount of radition, for applicable reactions</span>
+0729                 iRadLcl = find(dmg.reactionRadiationStoichiometryMatrix(:, i));
+0730                 
+0731                 damageRate = nVulnerableSites * <span class="keyword">...</span>
+0732                     (1 * constants.states.Time.replicationInitiationDuration + 1.5 * constants.states.Time.replicationDuration + 2 * constants.states.Time.cytokinesisDuration) * <span class="keyword">...</span>
+0733                     dmg.reactionBounds(i, 2);
+0734                 <span class="keyword">if</span> ~isempty(iRadLcl)
+0735                     iRadGbl = dmg.substrateStimulusGlobalCompartmentIndexs(dmg.substrateStimulusLocalIndexs == iRadLcl);
+0736                     damageRate = damageRate * this.stimulus.values(iRadGbl);
+0737                 <span class="keyword">end</span>
+0738                 
+0739                 <span class="keyword">switch</span> dmg.reactionDamageTypes{i}
+0740                     <span class="keyword">case</span> <span class="string">'abasicSites'</span>
+0741                         repairRates(this.reactionIndexs_BER_aplyase) = <span class="keyword">...</span>
+0742                             repairRates(this.reactionIndexs_BER_aplyase) + <span class="keyword">...</span>
+0743                             damageRate / 2;
+0744                         repairRates(this.reactionIndexs_BER_drpesterase) = <span class="keyword">...</span>
+0745                             repairRates(this.reactionIndexs_BER_drpesterase) + <span class="keyword">...</span>
+0746                             damageRate / 2;
+0747                         
+0748                         repairRates(this.reactionIndexs_BER_apendonuclease) = <span class="keyword">...</span>
+0749                             repairRates(this.reactionIndexs_BER_apendonuclease) + <span class="keyword">...</span>
+0750                             damageRate / 2;
+0751                         repairRates(this.reactionIndexs_BER_dr5plyase) = <span class="keyword">...</span>
+0752                             repairRates(this.reactionIndexs_BER_dr5plyase) + <span class="keyword">...</span>
+0753                             damageRate / 2;
+0754                         
+0755                         repairRates(this.reactionIndexs_polymerization) = <span class="keyword">...</span>
+0756                             repairRates(this.reactionIndexs_polymerization) + <span class="keyword">...</span>
+0757                             damageRate * dntpComposition;
+0758                         repairRates(this.reactionIndexs_ligation) = <span class="keyword">...</span>
+0759                             repairRates(this.reactionIndexs_ligation) + <span class="keyword">...</span>
+0760                             damageRate;
+0761                     <span class="keyword">case</span> <span class="string">'damagedBases'</span>
+0762                         repairRates(this.reactionIndexs_BER_baseexcision) = <span class="keyword">...</span>
+0763                             repairRates(this.reactionIndexs_BER_baseexcision) + <span class="keyword">...</span>
+0764                             damageRate / 2;
+0765                         
+0766                         repairRates(this.reactionIndexs_BER_aplyase) = <span class="keyword">...</span>
+0767                             repairRates(this.reactionIndexs_BER_aplyase) + <span class="keyword">...</span>
+0768                             damageRate / 2;
+0769                         repairRates(this.reactionIndexs_BER_drpesterase) = <span class="keyword">...</span>
+0770                             repairRates(this.reactionIndexs_BER_drpesterase) + <span class="keyword">...</span>
+0771                             damageRate / 2;
+0772                         
+0773                         repairRates(this.reactionIndexs_BER_apendonuclease) = <span class="keyword">...</span>
+0774                             repairRates(this.reactionIndexs_BER_apendonuclease) + <span class="keyword">...</span>
+0775                             damageRate / 2;
+0776                         repairRates(this.reactionIndexs_BER_dr5plyase) = <span class="keyword">...</span>
+0777                             repairRates(this.reactionIndexs_BER_dr5plyase) + <span class="keyword">...</span>
+0778                             damageRate / 2;
+0779                         
+0780                         repairRates(this.reactionIndexs_polymerization) = <span class="keyword">...</span>
+0781                             repairRates(this.reactionIndexs_polymerization) + <span class="keyword">...</span>
+0782                             damageRate * dntpComposition;
+0783                         repairRates(this.reactionIndexs_ligation) = <span class="keyword">...</span>
+0784                             repairRates(this.reactionIndexs_ligation) + <span class="keyword">...</span>
+0785                             damageRate;
+0786                     <span class="keyword">case</span> <span class="string">'intrastrandCrossLinks'</span>
+0787                         numExcisions = (this.NER_UvrABC_IncisionMargin5 + this.NER_UvrABC_IncisionMargin3 + 1);
+0788                         
+0789                         repairRates(this.reactionIndexs_NER_incision) = <span class="keyword">...</span>
+0790                             repairRates(this.reactionIndexs_NER_incision) + <span class="keyword">...</span>
+0791                             damageRate;
+0792                         repairRates(this.reactionIndexs_NER_excision) = <span class="keyword">...</span>
+0793                             repairRates(this.reactionIndexs_NER_excision) + <span class="keyword">...</span>
+0794                             damageRate * ceil(numExcisions / this.NER_PcrA_StepSize);
+0795                         repairRates(this.reactionIndexs_DNACleavage) = <span class="keyword">...</span>
+0796                             repairRates(this.reactionIndexs_DNACleavage) + <span class="keyword">...</span>
+0797                             damageRate * numExcisions * dntpComposition;
+0798                         
+0799                         repairRates(this.reactionIndexs_polymerization) = <span class="keyword">...</span>
+0800                             repairRates(this.reactionIndexs_polymerization) + <span class="keyword">...</span>
+0801                             damageRate * 2 * dntpComposition;
+0802                         repairRates(this.reactionIndexs_ligation) = <span class="keyword">...</span>
+0803                             repairRates(this.reactionIndexs_ligation) + <span class="keyword">...</span>
+0804                             damageRate;
+0805                     <span class="keyword">case</span> <span class="string">'strandBreaks'</span>
+0806                         repairRates(this.reactionIndexs_ligation) = <span class="keyword">...</span>
+0807                             repairRates(this.reactionIndexs_ligation) + <span class="keyword">...</span>
+0808                             damageRate;
+0809                     <span class="keyword">otherwise</span>
+0810                         throw(MException(<span class="string">'DNARepair:error'</span>, <span class="string">'undefined damage reaction type %s'</span>, dmg.reactionDamageTypes{i}));
+0811                 <span class="keyword">end</span>
+0812             <span class="keyword">end</span>
+0813             
+0814             <span class="comment">%methylation of restriction/modification sites</span>
+0815             repairRates(this.reactionIndexs_RM_MunI_Methylation) = 2 * size(this.RM_MunI_RecognitionSites, 1);
+0816         <span class="keyword">end</span>
+0817         
+0818         <span class="comment">%initialization:</span>
+0819         <span class="comment">%- Simulation initializeState initialize 1 undamaged chromosome</span>
+0820         <span class="comment">%- Here we methylate all restriction/modification sites</span>
+0821         <a name="_sub5" href="#_subfunctions" class="code">function initializeState(this)</a>
+0822             c = this.chromosome;
+0823             iMet = this.substrateGlobalIndexs(this.substrateIndexs_m6AD);
+0824             c.damagedBases(this.RM_MunI_RecognitionSites(:, this.RM_MunI_MethylatedPositions(1)), 1) = iMet;
+0825             c.damagedBases(this.RM_MunI_RecognitionSites(:, this.RM_MunI_MethylatedPositions(2)), 2) = iMet;
+0826         <span class="keyword">end</span>
+0827 
+0828         <span class="comment">%resource requirements</span>
+0829         <a name="_sub6" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0830             c = this.chromosome;
+0831             
+0832             <span class="comment">%% numbers of damages</span>
+0833             nGapSites = nnz(c.gapSites);
+0834             nAbasicSites = nnz(c.abasicSites);
+0835             <span class="keyword">if</span> nnz(c.damagedSites)
+0836                 [posStrnds, bases] = find(c.damagedBases);
+0837                 nDamagedBases = numel(bases) - sum(<span class="keyword">...</span>
+0838                     bases == this.metabolite.m6ADIndexs &amp; <span class="keyword">...</span>
+0839                     ((isodd(posStrnds(:, 2)) &amp; ismembc(posStrnds(:, 1), this.RM_MunI_RecognitionSites(:, this.RM_MunI_MethylatedPositions(1)))) | <span class="keyword">...</span>
+0840                     (iseven(posStrnds(:, 2)) &amp; ismembc(posStrnds(:, 1), this.RM_MunI_RecognitionSites(:, this.RM_MunI_MethylatedPositions(2))))));
+0841             <span class="keyword">else</span>
+0842                 nDamagedBases = 0;
+0843             <span class="keyword">end</span>
+0844             nIntrastrandCrossLinks = nnz(c.intrastrandCrossLinks);
+0845             nStrandBreaks = nnz(c.strandBreaks);
+0846             <span class="keyword">if</span> nStrandBreaks &gt; 0
+0847                 nDSBR = nnz(c.doubleStrandBreaks);
+0848             <span class="keyword">else</span>
+0849                 nDSBR = 0;
+0850             <span class="keyword">end</span>
+0851             nHJ = nnz(c.hollidayJunctions) / 2;
+0852             
+0853             <span class="comment">%% reaction rates</span>
+0854             rates = zeros(size(this.reactionSmallMoleculeStoichiometryMatrix, 2), 1);
+0855             
+0856             <span class="comment">%BER</span>
+0857             rates(this.reactionIndexs_BER_baseexcision)   = nDamagedBases;
+0858             rates(this.reactionIndexs_BER_apendonuclease) = 0.5 * nAbasicSites;
+0859             rates(this.reactionIndexs_BER_aplyase)        = 0.5 * nAbasicSites;
+0860             rates(this.reactionIndexs_BER_drpesterase)    = 0.5 * nAbasicSites;
+0861             rates(this.reactionIndexs_BER_dr5plyase)      = 0.5 * nAbasicSites;
+0862             
+0863             <span class="comment">%NER</span>
+0864             nNER = nDamagedBases + nIntrastrandCrossLinks;
+0865             nExcisions = (this.NER_UvrABC_IncisionMargin5 + this.NER_UvrABC_IncisionMargin3 + 1);
+0866             rates(this.reactionIndexs_NER_incision) = nNER;
+0867             rates(this.reactionIndexs_NER_excision) = nNER * nExcisions;
+0868             rates(this.reactionIndexs_DNACleavage)  = nNER * nExcisions/4;
+0869             
+0870             <span class="comment">%HR</span>
+0871             numResections = 2 * this.HR_PolA_ResectionLength;
+0872             avgJunctionMigrationLength = c.sequenceLen / (size(this.hollidayJunctionResolutionSites, 2) / 2) / 2;
+0873             rates(this.reactionIndexs_HR_DNAResection)       = nDSBR * numResections;
+0874             rates(this.reactionIndexs_HR_strandExchange)     = nDSBR * 2 + nHJ * 2;
+0875             rates(this.reactionIndexs_HR_junctionMigration)  = nHJ * avgJunctionMigrationLength / this.HR_RuvAB_JunctionMigrationHop;
+0876             rates(this.reactionIndexs_HR_junctionResolution) = nHJ;
+0877             
+0878             <span class="comment">%polymerization/ligation</span>
+0879             <span class="keyword">if</span> nGapSites &amp;&amp; nAbasicSites
+0880                 rates(this.reactionIndexs_polymerization) = nnz(c.gapSites &amp; c.abasicSites);
+0881             <span class="keyword">end</span>
+0882             rates(this.reactionIndexs_ligation) = nStrandBreaks;
+0883             
+0884             <span class="comment">%restriction / modification</span>
+0885             rates(this.reactionIndexs_RM_MunI_Methylation) = nnz(c.hemiunmethylatedMunIRMSites);
+0886             rates(this.reactionIndexs_RM_MunI_Restriction) = nnz(c.restrictableMunIRMSites);
+0887             
+0888             <span class="comment">%% metabolic demands</span>
+0889             result = max(0, -this.reactionSmallMoleculeStoichiometryMatrix) * <span class="keyword">...</span>
+0890                 min(ceil(this.reactionCatalysisMatrix * this.enzymes * this.stepSizeSec), rates);
+0891         <span class="keyword">end</span>
+0892 
+0893         <span class="comment">%simulation</span>
+0894         <a name="_sub7" href="#_subfunctions" class="code">function evolveState(this)</a>
+0895             <span class="keyword">if</span> nnz(this.chromosome.damagedSites) == 0
+0896                 <span class="comment">%there is no damage, no repair necessary</span>
+0897                 <span class="keyword">if</span> this.randStream.rand &gt; 0.5
+0898                     this.evolveState_Modification();
+0899                     this.evolveState_Restriction();
+0900                 <span class="keyword">else</span>
+0901                     this.evolveState_Restriction();
+0902                     this.evolveState_Modification();
+0903                 <span class="keyword">end</span>
+0904             <span class="keyword">else</span>
+0905                 <span class="comment">%there is damage, repair necessary</span>
+0906                 subfunctions = {
+0907                     @this.evolveState_BER;          <span class="comment">%base excision repair (BER)</span>
+0908                     @this.evolveState_NER;          <span class="comment">%nucleotide excision repair (NER)</span>
+0909                     @this.evolveState_HR;           <span class="comment">%homologous recombination (HR) double strand break repair (DSBR)</span>
+0910                     @this.evolveState_Polymerize;   <span class="comment">%polymerize DNA</span>
+0911                     @this.evolveState_Ligate;       <span class="comment">%ligate DNA</span>
+0912                     @this.evolveState_Modification; <span class="comment">%Modification</span>
+0913                     @this.evolveState_Restriction;  <span class="comment">%Restriction</span>
+0914                     @this.evolveState_DisA;         <span class="comment">%DNA integrity scanning protein</span>
+0915                     };
+0916                 order = this.randStream.randperm(numel(subfunctions));
+0917                 <span class="keyword">for</span> i = 1:numel(subfunctions)
+0918                     subfunctions{order(i)}();
+0919                 <span class="keyword">end</span>
+0920             <span class="keyword">end</span>
+0921         <span class="keyword">end</span>
+0922     <span class="keyword">end</span>
+0923 
+0924     <span class="comment">%model helper functions</span>
+0925     methods
+0926         <span class="comment">%base excision repair</span>
+0927         <a name="_sub8" href="#_subfunctions" class="code">function evolveState_BER(this)</a>
+0928             c = this.chromosome;
+0929             
+0930             <span class="comment">%1. Base excision by</span>
+0931             <span class="comment">%   - fpg: FAPyA, FAPyG, 8-oxo-G, 8-oxo-A (MG_498_MONOMER)</span>
+0932             <span class="comment">%   - ung: uracil, ho5U (MG_097_MONOMER)</span>
+0933 
+0934             <span class="comment">%Loop over base excision enzymes (fpg, ung)</span>
+0935             <span class="keyword">if</span> nnz(c.damagedBases)
+0936                 randOrder = this.randStream.randperm(length(this.enzymeIndexs_BER_baseExcision));
+0937                 <span class="keyword">for</span> idx = 1:length(this.enzymeIndexs_BER_baseExcision)
+0938                     i = randOrder(idx);
+0939                     ezIdx = this.enzymeIndexs_BER_baseExcision(i);
+0940                     
+0941                     <span class="comment">%short cut if no enzyme</span>
+0942                     <span class="keyword">if</span> this.enzymes(ezIdx) == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>
+0943                     
+0944                     <span class="comment">%Find damaged bases that enzyme can excise</span>
+0945                     rxIdxs = this.reactionIndexs_BER_baseexcision(this.reactionCatalysisMatrix(this.reactionIndexs_BER_baseexcision, ezIdx) ~= 0);
+0946                     [positionsStrands, damagedBaseGlobalIndexs] = find(c.damagedBases);
+0947                     damagedBaseLocalIndexs = ismembc2(damagedBaseGlobalIndexs, this.substrateGlobalIndexs);
+0948                     [tfs, idxs] = ismember(damagedBaseLocalIndexs, this.reactionDNABase(rxIdxs));
+0949                     positionsStrands(~tfs, :) = [];
+0950                     reactions = rxIdxs(idxs(tfs));
+0951                     
+0952                     <span class="comment">%short cut if no positions to be repaired</span>
+0953                     <span class="keyword">if</span> isempty(positionsStrands); <span class="keyword">continue</span>; <span class="keyword">end</span>                    
+0954                     
+0955                     <span class="comment">%Randomly select bases to excise up to available resources,</span>
+0956                     <span class="comment">%(note this is valid because each reaction has the same</span>
+0957                     <span class="comment">%enzymatic rate and free metabolite reactants)</span>
+0958                     numReactions = max(0, floor(min([
+0959                         numel(reactions);
+0960                         this.randStream.stochasticRound(this.enzymes(ezIdx) * this.enzymeBounds(reactions(1), 2) * this.stepSizeSec);
+0961                         this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, reactions(1)))])));
+0962                     <span class="keyword">if</span> numReactions == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>         
+0963                     
+0964                     [~, idxs, positionsStrands] = this.bindProteinToChromosome(positionsStrands, <span class="keyword">...</span>
+0965                         ezIdx, numReactions, [], false, true, 1, false, 1);
+0966                     <span class="keyword">if</span> isempty(idxs); <span class="keyword">continue</span>; <span class="keyword">end</span>
+0967                     reactions = reactions(idxs, :);
+0968                     
+0969                     <span class="comment">%update state</span>
+0970                     this.substrates = this.substrates + <span class="keyword">...</span>
+0971                         sum(this.reactionSmallMoleculeStoichiometryMatrix(:, reactions), 2);
+0972                     c.damagedBases(positionsStrands) = 0;
+0973                     c.abasicSites( positionsStrands) = 1;
+0974                 <span class="keyword">end</span>
+0975             <span class="keyword">end</span>
+0976 
+0977             <span class="comment">%2. Sugar excision</span>
+0978             <span class="comment">%   a. i.  3'-AP lyase Fpg (MG_498)</span>
+0979             <span class="comment">%      ii. 5'-deoxyribosephosphodiesterase Nfo (MG_235)</span>
+0980             <span class="comment">%   b. i.  5'-AP endonuclease Nfo (MG_235)</span>
+0981             <span class="comment">%      ii. 3'-(deoxyribose-5'-phosphate) lyase dnaN (MG_001)</span>
+0982 
+0983             <span class="comment">%3'-AP lyase (MG_498) / 5'-AP endonuclease Nfo (MG_235)</span>
+0984             <span class="keyword">if</span> nnz(c.abasicSites)
+0985                 rxIdxs = [this.reactionIndexs_BER_aplyase;this.reactionIndexs_BER_apendonuclease];
+0986                 randOrder = this.randStream.randperm(length(rxIdxs));
+0987                 <span class="keyword">for</span> i = 1:length(rxIdxs)
+0988                     rxIdx = rxIdxs(randOrder(i));
+0989                     ezIdx = find(this.reactionCatalysisMatrix(rxIdx,:));
+0990                     <span class="keyword">if</span> this.enzymes(ezIdx) == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>
+0991                     
+0992                     positionsStrands = find(c.abasicSites &amp; xor(c.abasicSites,  c.strandBreaks3 | c.strandBreaks5));
+0993                     <span class="keyword">if</span> isempty(positionsStrands); <span class="keyword">continue</span>; <span class="keyword">end</span>
+0994                     
+0995                     numReactions = max(0, floor(min([
+0996                         size(positionsStrands, 1);
+0997                         this.randStream.stochasticRound(this.enzymes(ezIdx) * this.enzymeBounds(rxIdx, 2) * this.stepSizeSec);
+0998                         this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, rxIdx))])));
+0999                     <span class="keyword">if</span> numReactions == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>
+1000                     
+1001                     <span class="keyword">if</span> rxIdx == this.reactionIndexs_BER_aplyase
+1002                         checkPositionsStrands = positionsStrands;
+1003                         checkPositionsStrands(mod(positionsStrands(:,2),2)==0, 1) = checkPositionsStrands(mod(positionsStrands(:,2),2)==0, 1) - 1;
+1004                         [~, idxs, ~, numReactions] = this.bindProteinToChromosome(checkPositionsStrands, <span class="keyword">...</span>
+1005                             ezIdx, numReactions, [], false, true, 2, false, 1);
+1006                         <span class="keyword">if</span> numReactions == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>
+1007                         positionsStrands = positionsStrands(idxs, :);
+1008                         
+1009                         c.strandBreaks(c.shiftPositionsStrandsBond3Prime(positionsStrands)) = 1;
+1010                         c.damagedSugarPhosphates(positionsStrands) = 0;
+1011                     <span class="keyword">else</span>
+1012                         checkPositionsStrands = positionsStrands;
+1013                         checkPositionsStrands(mod(positionsStrands(:,2),2)==1, 1) = checkPositionsStrands(mod(positionsStrands(:,2),2)==1, 1) - 1;
+1014                         [~, idxs, ~, numReactions] = this.bindProteinToChromosome(checkPositionsStrands, <span class="keyword">...</span>
+1015                             ezIdx, numReactions, [], false, true, 2, false, [1 2]);
+1016                         <span class="keyword">if</span> numReactions == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>
+1017                         positionsStrands = positionsStrands(idxs, :);
+1018                         
+1019                         c.strandBreaks(c.shiftPositionsStrandsBond5Prime(positionsStrands)) = 1;
+1020                         c.damagedSugarPhosphates(positionsStrands) = 0;
+1021                     <span class="keyword">end</span>
+1022                     
+1023                     this.substrates = this.substrates + <span class="keyword">...</span>
+1024                         numReactions * this.reactionSmallMoleculeStoichiometryMatrix(:, rxIdx);
+1025                 <span class="keyword">end</span>
+1026             <span class="keyword">end</span>
+1027             
+1028             <span class="comment">%5'-deoxyribosephosphodiesterase Nfo (MG_235)</span>
+1029             <span class="keyword">if</span> nnz(c.abasicSites) &amp;&amp; nnz(c.strandBreaks)
+1030                 positionsStrands = find(<span class="keyword">...</span>
+1031                     c.abasicSites &amp; <span class="keyword">...</span>
+1032                     c.strandBreaks3);
+1033                 <span class="keyword">if</span> ~isempty(positionsStrands)
+1034                     
+1035                     numReactions = max(0, floor(min([
+1036                         size(positionsStrands, 1);
+1037                         this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_apurinicEndonuclease) * this.enzymeBounds(this.reactionIndexs_BER_drpesterase, 2) * this.stepSizeSec);
+1038                         this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_BER_drpesterase))])));
+1039                     
+1040                     checkPositionsStrands = positionsStrands;
+1041                     checkPositionsStrands(:, 1) = checkPositionsStrands(:, 1) - 1;
+1042                     [~, idxs, ~, numReactions] = this.bindProteinToChromosome(checkPositionsStrands, <span class="keyword">...</span>
+1043                         this.enzymeIndexs_apurinicEndonuclease, numReactions, [], false, true, 2, false, [1 2 3]);
+1044                     <span class="keyword">if</span> numReactions &gt; 0
+1045                         positionsStrands = positionsStrands(idxs, :);
+1046                         
+1047                         c.damagedSugarPhosphates(positionsStrands) = 0;
+1048                         c.strandBreaks(c.shiftPositionsStrandsBond5Prime(positionsStrands)) = 1;
+1049                         c.gapSites(positionsStrands) = 1;
+1050                         
+1051                         this.substrates = this.substrates + <span class="keyword">...</span>
+1052                             numReactions * this.reactionSmallMoleculeStoichiometryMatrix(:,this.reactionIndexs_BER_drpesterase);
+1053                     <span class="keyword">end</span>
+1054                 <span class="keyword">end</span>
+1055             <span class="keyword">end</span>
+1056             
+1057             <span class="comment">%3'-(deoxyribose-5'-phosphate) lyase dnaN (MG_001)</span>
+1058             <span class="keyword">if</span> nnz(c.abasicSites) &amp;&amp; nnz(c.strandBreaks)
+1059                 positionsStrands = find(c.abasicSites &amp; c.strandBreaks5);
+1060                 <span class="keyword">if</span> ~isempty(positionsStrands)
+1061                     
+1062                     numReactions = max(0, floor(min([
+1063                         size(positionsStrands, 1);
+1064                         this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_polymerase) * this.enzymeBounds(this.reactionIndexs_BER_dr5plyase, 2) * this.stepSizeSec);
+1065                         this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_BER_dr5plyase))])));
+1066                     
+1067                     checkPositionsStrands = positionsStrands;
+1068                     checkPositionsStrands(:, 1) = checkPositionsStrands(:, 1) - 1;
+1069                     [~, idxs, ~, numReactions] = this.bindProteinToChromosome(checkPositionsStrands, <span class="keyword">...</span>
+1070                         this.enzymeIndexs_polymerase, numReactions, [], false, true, 2, false, [1 2 3]);
+1071                     <span class="keyword">if</span> numReactions &gt; 0
+1072                         positionsStrands = positionsStrands(idxs, :);
+1073                         
+1074                         c.damagedSugarPhosphates(positionsStrands) = 0;
+1075                         c.strandBreaks(c.shiftPositionsStrandsBond3Prime(positionsStrands)) = 1;
+1076                         c.gapSites(positionsStrands) = 1;
+1077                         
+1078                         this.substrates = this.substrates + <span class="keyword">...</span>
+1079                             numReactions * this.reactionSmallMoleculeStoichiometryMatrix(:,this.reactionIndexs_BER_dr5plyase);
+1080                     <span class="keyword">end</span>
+1081                 <span class="keyword">end</span>
+1082             <span class="keyword">end</span>
+1083         <span class="keyword">end</span>
+1084 
+1085         <span class="comment">%nucleotide excision repair:</span>
+1086         <span class="comment">%1. UvrABC (MG_073, MG_206, MG_421) cleaves DNA 3' and 5' to lesion</span>
+1087         <span class="comment">%2. Helicase PcrA (MG_244) excises cleaved DNA</span>
+1088         <span class="comment">%3. Cleavage excised oligonucleotide by MgpA (MG_190)</span>
+1089         <span class="comment">%4. 5'-3' Polymerization by dnaN (MG_001)</span>
+1090         <span class="comment">%5. Ligation by ligA (MG_254). See DDR section for details.</span>
+1091         <span class="comment">%6. Catabolism and export of damaged nucleobases and nucleosides by</span>
+1092         <span class="comment">%   metabolic process.</span>
+1093         <span class="comment">%</span>
+1094         <span class="comment">%evolveState_NER models steps 1-3. evolveState_PolymeraseLigate models</span>
+1095         <span class="comment">%steps 4-6.</span>
+1096         <a name="_sub9" href="#_subfunctions" class="code">function evolveState_NER(this)            </a>
+1097             <span class="comment">%% for convenience</span>
+1098             c = this.chromosome;
+1099             
+1100             <span class="comment">%% stop early</span>
+1101             <span class="comment">%no enzyme</span>
+1102             rxIdxs = [this.reactionIndexs_NER_incision; this.reactionIndexs_NER_excision; this.reactionIndexs_DNACleavage];
+1103             <span class="keyword">if</span> ~all(this.reactionCatalysisMatrix(rxIdxs, :) * this.enzymes)
+1104                 <span class="keyword">return</span>;
+1105             <span class="keyword">end</span>
+1106             
+1107             <span class="comment">%no damage</span>
+1108             <span class="keyword">if</span> nnz(c.damagedBases) == 0 &amp;&amp; nnz(c.intrastrandCrossLinks) == 0
+1109                 <span class="keyword">return</span>;
+1110             <span class="keyword">end</span>
+1111 
+1112             <span class="comment">%% damaged sites: positions and strands</span>
+1113             damagedPositionsStrands = setdiff(<span class="keyword">...</span>
+1114                 find(xor(c.damagedBases, c.intrastrandCrossLinks)), <span class="keyword">...</span>
+1115                 find(c.damagedBases == this.substrateGlobalIndexs(this.substrateIndexs_m6AD)), <span class="keyword">...</span>
+1116                 <span class="string">'rows'</span>);
+1117             <span class="keyword">if</span> isempty(damagedPositionsStrands)
+1118                 <span class="keyword">return</span>;
+1119             <span class="keyword">end</span>
+1120 
+1121             <span class="comment">%% exclude methylated restriction/modification sites</span>
+1122             <span class="comment">% Note: this implements the approximation that the rate of</span>
+1123             <span class="comment">% methylation of hemimethylated restriction/modification sites is</span>
+1124             <span class="comment">% greater their rate of demethylation by the DNA repair machinery</span>
+1125             rmPositionsStrands = [<span class="keyword">...</span>
+1126                 reshape(this.RM_MunI_RecognitionSites(:, this.RM_MunI_MethylatedPositions), [], 1) <span class="keyword">...</span>
+1127                 reshape(repmat([1 2], size(this.RM_MunI_RecognitionSites, 1), 1), [], 1)];
+1128             rmPositionsStrands(<span class="keyword">...</span>
+1129                 c.damagedBases(rmPositionsStrands) == this.substrateGlobalIndexs(this.substrateIndexs_m6AD), :) = [];
+1130             
+1131             damagedPositionsStrands(edu.stanford.covert.util.SparseMat.ismember_subs(damagedPositionsStrands, rmPositionsStrands, [c.sequenceLen c.nCompartments]), :) = [];
+1132             
+1133             <span class="comment">%% possible excision, incision sites</span>
+1134             lengths = 1 + (this.NER_UvrABC_IncisionMargin5 + this.NER_UvrABC_IncisionMargin3 + 1);
+1135             
+1136             excisedPositions = 2:lengths;
+1137             incisedPositions = [1 lengths];
+1138             numExcisions = numel(excisedPositions);
+1139             numIncisions = numel(incisedPositions);
+1140             
+1141             positionsStrands = damagedPositionsStrands;
+1142             ignoreDamageFilter = ones(size(positionsStrands, 1), 2);
+1143             
+1144             idxs = find(c.intrastrandCrossLinks(damagedPositionsStrands));
+1145             ignoreDamageFilter(idxs, 2) = ignoreDamageFilter(idxs, 2) + (2 * (mod(damagedPositionsStrands(idxs, 2), 2) == 1) - 1);
+1146 
+1147             <span class="comment">%% calculate maximum number of sites that can be repaired</span>
+1148             rxIdxs = [this.reactionIndexs_NER_incision; this.reactionIndexs_NER_excision; this.reactionIndexs_DNACleavage];
+1149             rxCounts = [1; ceil(numExcisions / this.NER_PcrA_StepSize); ceil(numExcisions / 4 * ones(4,1))];
+1150             
+1151             numReactions = max(0, floor(min([<span class="keyword">...</span>
+1152                 size(positionsStrands, 1);
+1153                 this.randStream.stochasticRound((this.reactionCatalysisMatrix(rxIdxs, :) * this.enzymes * this.stepSizeSec) .* (this.enzymeBounds(rxIdxs, 2) .* rxCounts));
+1154                 this.substrates ./ (max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, rxIdxs)) * rxCounts)])));
+1155             <span class="keyword">if</span> numReactions == 0
+1156                 <span class="keyword">return</span>;
+1157             <span class="keyword">end</span>
+1158             
+1159             <span class="comment">%% randomly select sites to repair</span>
+1160             [~, idxs, positionsStrands] = this.bindProteinToChromosome(positionsStrands, <span class="keyword">...</span>
+1161                 any(this.reactionCatalysisMatrix(rxIdxs, :), 1), numReactions, [], <span class="keyword">...</span>
+1162                 false, true, lengths, false, ignoreDamageFilter);
+1163             <span class="keyword">if</span> isempty(idxs)
+1164                 <span class="keyword">return</span>;
+1165             <span class="keyword">end</span>
+1166             damagedPositionsStrands = damagedPositionsStrands(idxs, :);
+1167             
+1168             <span class="comment">%% update state</span>
+1169             numReactions = size(positionsStrands, 1);
+1170             positionsStrands(mod(positionsStrands(:, 2), 2) == 1, 1) = positionsStrands(mod(positionsStrands(:, 2), 2) == 1, 1) - this.NER_UvrABC_IncisionMargin5 - 1;
+1171             positionsStrands(mod(positionsStrands(:, 2), 2) == 0, 1) = positionsStrands(mod(positionsStrands(:, 2), 2) == 0, 1) - this.NER_UvrABC_IncisionMargin3 - 1;
+1172             
+1173             <span class="comment">%metabolites</span>
+1174             rxCounts(1) = numReactions;
+1175             rxCounts(2) = ceil(numExcisions / this.NER_PcrA_StepSize) * numReactions;
+1176             rxCounts(3:6) = c.sequence.subsequenceBaseCounts(<span class="keyword">...</span>
+1177                 reshape(repmat(positionsStrands(:, 1), 1, numExcisions) + repmat(excisedPositions - 1, numReactions, 1), [], 1), <span class="keyword">...</span>
+1178                 repmat(positionsStrands(:,2), numExcisions, 1));
+1179             this.substrates = this.substrates + <span class="keyword">...</span>
+1180                 this.reactionSmallMoleculeStoichiometryMatrix(:, rxIdxs) * rxCounts;
+1181 
+1182             <span class="comment">%correct metabolites for damages bases</span>
+1183             damages = c.damagedBases(damagedPositionsStrands);
+1184             idxs = find(damages);
+1185             undamagedBaseCounts = c.sequence.subsequenceBaseCounts(damagedPositionsStrands(idxs, :));
+1186             [damages, damageCounts] = edu.stanford.covert.util.countUnique(damages(idxs, :));
+1187             damages = ismembc2(damages, this.substrateGlobalIndexs);
+1188             
+1189             this.substrates(this.substrateIndexs_dNMPs) = this.substrates(this.substrateIndexs_dNMPs) - undamagedBaseCounts;
+1190             this.substrates(damages) = this.substrates(damages) + damageCounts;
+1191             
+1192             <span class="comment">%correct metabolites for intrastrand cross links</span>
+1193             damages = c.intrastrandCrossLinks(damagedPositionsStrands);
+1194             idxs = find(damages);
+1195             undamagedBaseCounts = c.sequence.subsequenceBaseCounts(<span class="keyword">...</span>
+1196                 repmat(damagedPositionsStrands(idxs, 1), 1, 2) + repmat(2 * (mod(damagedPositionsStrands(idxs, 2), 2) == 1) - 1, 1, 2) .* repmat(0:1, numel(idxs), 1), <span class="keyword">...</span>
+1197                 damagedPositionsStrands(idxs, 2));
+1198             [damages, damageCounts] = edu.stanford.covert.util.countUnique(damages(idxs, :));
+1199             damages = ismembc2(damages, this.substrateGlobalIndexs);
+1200             
+1201             this.substrates(this.substrateIndexs_dNMPs) = this.substrates(this.substrateIndexs_dNMPs) - undamagedBaseCounts;
+1202             this.substrates(damages) = this.substrates(damages) + damageCounts;
+1203             this.substrates(this.substrateIndexs_water) = this.substrates(this.substrateIndexs_water) + sum(damageCounts);
+1204             this.substrates(this.substrateIndexs_hydrogen) = this.substrates(this.substrateIndexs_hydrogen) - sum(damageCounts);
+1205             
+1206             <span class="comment">%DNA</span>
+1207             incisedPositionsStrands = [<span class="keyword">...</span>
+1208                 reshape(repmat(positionsStrands(:,1), 1, numIncisions) + repmat(incisedPositions-1, numReactions, 1), [], 1) <span class="keyword">...</span>
+1209                 repmat(positionsStrands(:,2), numIncisions, 1)];
+1210             excisedPositionsStrands = [<span class="keyword">...</span>
+1211                 reshape(repmat(positionsStrands(:,1), 1, numExcisions) + repmat(excisedPositions-1, numReactions, 1), [], 1) <span class="keyword">...</span>
+1212                 repmat(positionsStrands(:,2), numExcisions, 1)];
+1213             
+1214             c.strandBreaks(          incisedPositionsStrands) = 1;
+1215             c.gapSites(              excisedPositionsStrands) = 1;
+1216             c.abasicSites(           excisedPositionsStrands) = 1;
+1217             c.damagedBases(          excisedPositionsStrands) = 0;
+1218             c.intrastrandCrossLinks( excisedPositionsStrands) = 0;
+1219         <span class="keyword">end</span>
+1220 
+1221         <span class="comment">%homologous recombination repair</span>
+1222         <a name="_sub10" href="#_subfunctions" class="code">function evolveState_HR(this)</a>
+1223             c = this.chromosome;                       
+1224 
+1225             <span class="comment">%% 1. 5'-3' resection (polI-like, MG_262),</span>
+1226             <span class="comment">%  2. Strand exchange (recA, MG_339)</span>
+1227             <span class="keyword">if</span> nnz(c.strandBreaks) &amp;&amp; nnz(c.doubleStrandBreaks)
+1228                 <span class="comment">%find double strand breaks</span>
+1229                 positionsChromosomes = find(c.doubleStrandBreaks(:, 1:2:end));
+1230                 
+1231                 <span class="comment">%possible sites of resection</span>
+1232                 numResections = 2*this.HR_PolA_ResectionLength;
+1233                 
+1234                 <span class="comment">%randomly select double strand breaks to repair, up to limit of</span>
+1235                 <span class="comment">%available metabolites and enzymes</span>
+1236                 rxIdxs = [this.reactionIndexs_HR_strandExchange; this.reactionIndexs_HR_DNAResection(1)];
+1237                 rxCounts = [2; numResections];
+1238                 numReactions = max(0,floor(min([
+1239                     size(positionsChromosomes,1);
+1240                     this.substrates ./ (max(0,-this.reactionSmallMoleculeStoichiometryMatrix(:,rxIdxs))*rxCounts);
+1241                     this.randStream.stochasticRound((this.reactionCatalysisMatrix(rxIdxs,:)*this.enzymes*this.stepSizeSec).*(this.enzymeBounds(rxIdxs,2) .* rxCounts));
+1242                     floor(this.enzymes(this.enzymeIndexs_recombinationStrandExchange) / (2*ceil(numResections/2/this.HR_RecA_Spacing)))])));
+1243                 
+1244                 [~, idxs, ~, numReactions] = this.bindProteinToChromosome(<span class="keyword">...</span>
+1245                     [positionsChromosomes(:,1) - this.HR_PolA_ResectionLength 2*positionsChromosomes(:,2)], <span class="keyword">...</span>
+1246                     this.enzymeIndexs_exonuclease53, numReactions, [], <span class="keyword">...</span>
+1247                     false, true, 2*this.HR_PolA_ResectionLength, false, this.HR_PolA_ResectionLength + [1 2]);
+1248                 <span class="keyword">if</span> numReactions &gt; 0
+1249                     positionsChromosomes = positionsChromosomes(idxs,:);
+1250                     positions = positionsChromosomes(:, 1);
+1251                     chrs      = positionsChromosomes(:, 2);
+1252                     numDSBs = length(idxs);
+1253                     
+1254                     <span class="comment">%update state</span>
+1255                     resectedPositions1    = repmat(positions, 1, numResections/2) + repmat(1:this.HR_PolA_ResectionLength,    numDSBs, 1);
+1256                     resectedPositions2    = repmat(positions, 1, numResections/2) + repmat(-this.HR_PolA_ResectionLength+1:0, numDSBs, 1);
+1257                     resectedEndPositions1 =        positions                      +         this.HR_PolA_ResectionLength;
+1258                     resectedEndPositions2 =        positions                      +        -this.HR_PolA_ResectionLength;
+1259                     
+1260                     c.gapSites(   reshape(resectedPositions1, [], 1), 1) = 1;
+1261                     c.gapSites(   reshape(resectedPositions2, [], 1), 2) = 1;
+1262                     c.abasicSites(reshape(resectedPositions1, [], 1), 1) = 1;
+1263                     c.abasicSites(reshape(resectedPositions2, [], 1), 2) = 1;
+1264                     c.hollidayJunctions(  resectedEndPositions1,     1) = 1;
+1265                     c.hollidayJunctions(  resectedEndPositions2,     2) = 1;
+1266                     
+1267                     rxIdxs = [this.reactionIndexs_HR_strandExchange; this.reactionIndexs_HR_DNAResection];
+1268                     rxCounts = [2*numReactions;
+1269                         c.sequence.subsequenceBaseCounts(resectedPositions1, 1) + c.sequence.subsequenceBaseCounts(resectedPositions2, 2)];
+1270                     this.substrates = this.substrates + <span class="keyword">...</span>
+1271                         this.reactionSmallMoleculeStoichiometryMatrix(:, rxIdxs) * rxCounts;
+1272                     
+1273                     nRecA = ceil(numResections / 2 / this.HR_RecA_Spacing);
+1274                     recAPositions1 = repmat(positions, 1, nRecA) + repmat(this.randStream.stochasticRound((1:nRecA)*this.HR_PolA_ResectionLength / nRecA),            numDSBs, 1);
+1275                     recAPositions2 = repmat(positions, 1, nRecA) + repmat(this.randStream.stochasticRound((-nRecA+1:0)*(this.HR_PolA_ResectionLength-1) / (nRecA-1)), numDSBs, 1);
+1276                     this.bindProteinToChromosome(<span class="keyword">...</span>
+1277                         [reshape(recAPositions1, [], 1) repmat(2*chrs-1, nRecA, 1); reshape(recAPositions2, [], 1) repmat(2*chrs, nRecA, 1)], <span class="keyword">...</span>
+1278                         this.enzymeIndexs_recombinationStrandExchange, [], [], <span class="keyword">...</span>
+1279                         true, true, 1, false, -this.HR_PolA_ResectionLength-1:this.HR_PolA_ResectionLength);
+1280                 <span class="keyword">end</span>
+1281             <span class="keyword">end</span>
+1282 
+1283             <span class="comment">%% 3. 5'-3' polymerization (dnaN, MG_001)</span>
+1284             <span class="comment">%  4. Ligation (ligA, MG_254)</span>
+1285             <span class="comment">%    simulated by evolveState_Polymerize/Ligate</span>
+1286 
+1287             <span class="comment">%% 5. Second strand exchange (recA, MG_339)</span>
+1288             <span class="comment">%  6. Holliday junction migration (ruvAB, MG_358, MG_359)</span>
+1289             <span class="comment">%  7. Holliday junction resolution (recU, MG_352)</span>
+1290 
+1291             <span class="keyword">if</span> nnz(c.hollidayJunctions)
+1292                 <span class="comment">%find holiday junctions</span>
+1293                 numResections = 2*this.HR_PolA_ResectionLength;
+1294                 positionsChromosomes = find(<span class="keyword">...</span>
+1295                     c.hollidayJunctions(:, 1:2:end) &amp; <span class="keyword">...</span>
+1296                     vertcat(c.hollidayJunctions(end-numResections+1:<span class="keyword">end</span>,2:2:end), c.hollidayJunctions(1:end-numResections, 2:2:end)));
+1297                 
+1298                 <span class="comment">%randomly reorder holliday junctions</span>
+1299                 randomIdxs  = this.randStream.randperm(size(positionsChromosomes,1));
+1300                 positionsChromosomes = positionsChromosomes(randomIdxs,:);
+1301                 positions = positionsChromosomes(:, 1);
+1302                 chrs = positionsChromosomes(:, 2);
+1303                 
+1304                 <span class="comment">%loop over holliday junctions</span>
+1305                 <span class="keyword">for</span> i = 1:numel(positions)
+1306                     <span class="comment">%formation site</span>
+1307                     hollidayJunctionFormationSite = mod(positions(i) + [0; -numResections] - 1, c.sequenceLen) + 1;
+1308                     
+1309                     <span class="comment">%find nearest resolution site</span>
+1310                     hollidayJunctionResolutionSite = zeros(2,1);
+1311                     <span class="keyword">if</span> hollidayJunctionFormationSite(1) &gt; this.hollidayJunctionResolutionSites(find(this.hollidayJunctionResolutionSites(:, 2) == 1, 1, <span class="string">'last'</span>), 1)
+1312                         hollidayJunctionResolutionSite(1) = this.hollidayJunctionResolutionSites(<span class="keyword">...</span>
+1313                             find(this.hollidayJunctionResolutionSites(:, 2) == 1, 1, <span class="string">'first'</span>), 1);
+1314                     <span class="keyword">else</span>
+1315                         hollidayJunctionResolutionSite(1) = this.hollidayJunctionResolutionSites(<span class="keyword">...</span>
+1316                             find(this.hollidayJunctionResolutionSites(:, 2) == 1 &amp; <span class="keyword">...</span>
+1317                             this.hollidayJunctionResolutionSites(:, 1) &gt; hollidayJunctionFormationSite(1), 1, <span class="string">'first'</span>), 1);
+1318                     <span class="keyword">end</span>
+1319                     <span class="keyword">if</span> hollidayJunctionFormationSite(2) &lt; this.hollidayJunctionResolutionSites(find(this.hollidayJunctionResolutionSites(:, 2) == 2, 1, <span class="string">'first'</span>), 1)
+1320                         hollidayJunctionResolutionSite(2) = this.hollidayJunctionResolutionSites(<span class="keyword">...</span>
+1321                             find(this.hollidayJunctionResolutionSites(:, 2) == 2, 1, <span class="string">'last'</span>), 1);
+1322                     <span class="keyword">else</span>
+1323                         hollidayJunctionResolutionSite(2) = this.hollidayJunctionResolutionSites(<span class="keyword">...</span>
+1324                             find(this.hollidayJunctionResolutionSites(:, 2) == 2 &amp; <span class="keyword">...</span>
+1325                             this.hollidayJunctionResolutionSites(:, 1) &lt; hollidayJunctionFormationSite(2), 1, <span class="string">'last'</span>), 1);
+1326                     <span class="keyword">end</span>
+1327                     
+1328                     <span class="comment">%junction migration steps</span>
+1329                     junctionMigrationLengths = abs(hollidayJunctionResolutionSite-hollidayJunctionFormationSite);
+1330                     junctionMigrationHops = sum(this.randStream.stochasticRound(junctionMigrationLengths / this.HR_RuvAB_JunctionMigrationHop));
+1331                     
+1332                     <span class="comment">%stop if insufficient resources</span>
+1333                     rxIdxs   = [this.reactionIndexs_HR_strandExchange; this.reactionIndexs_HR_junctionMigration; this.reactionIndexs_HR_junctionResolution];
+1334                     rxCounts = [2; junctionMigrationHops; 1];
+1335                     <span class="keyword">if</span> <span class="keyword">...</span>
+1336                             any(this.substrates &lt; max(0,-this.reactionSmallMoleculeStoichiometryMatrix(:,rxIdxs))*rxCounts) || <span class="keyword">...</span>
+1337                             any(this.randStream.stochasticRound(this.reactionCatalysisMatrix(rxIdxs,:) * this.enzymes * this.stepSizeSec .* this.enzymeBounds(rxIdxs,2)) &lt; 1)
+1338                         <span class="keyword">continue</span>;
+1339                     <span class="keyword">end</span>
+1340                     
+1341                     <span class="comment">%stop if site isn't accessible</span>
+1342                     resolutionRegionLength = mod(hollidayJunctionResolutionSite(1) - hollidayJunctionResolutionSite(2) + 1 -1, c.sequenceLen) + 1;
+1343                     ignoreDamageFilter = mod(repmat(hollidayJunctionFormationSite, 1, 3) + repmat(-1:1, 2, 1) - hollidayJunctionResolutionSite(2) + 1 -1, c.sequenceLen) + 1;
+1344                     <span class="keyword">if</span> ~this.bindProteinToChromosome([hollidayJunctionResolutionSite(2) 2*chrs(i)], <span class="keyword">...</span>
+1345                             this.enzymeIndexs_hollidayJunctionHelicase, 1, [], <span class="keyword">...</span>
+1346                             false, true, resolutionRegionLength, false, reshape(ignoreDamageFilter, 1, []))
+1347                         <span class="keyword">continue</span>;
+1348                     <span class="keyword">end</span>
+1349                     
+1350                     <span class="comment">%update state</span>
+1351                     this.substrates = this.substrates + <span class="keyword">...</span>
+1352                         this.reactionSmallMoleculeStoichiometryMatrix(:,rxIdxs)*rxCounts;
+1353                     
+1354                     c.hollidayJunctions([hollidayJunctionFormationSite 2*chrs(i) + [-1;0]]) = 0;
+1355                     c.strandBreaks([hollidayJunctionResolutionSite 2*chrs(i) + [-1;0]]) = 1;
+1356                 <span class="keyword">end</span>
+1357             <span class="keyword">end</span>
+1358 
+1359             <span class="comment">%% 8. Ligation (ligA, MG_254)</span>
+1360             <span class="comment">%  9. Catabolism</span>
+1361             <span class="comment">%     simulated by evolveState_Polymerize/Ligate, metabolism process</span>
+1362         <span class="keyword">end</span>
+1363 
+1364         <span class="comment">% polymerize DNA</span>
+1365         <a name="_sub11" href="#_subfunctions" class="code">function evolveState_Polymerize(this)</a>
+1366             c = this.chromosome;
+1367             
+1368             <span class="keyword">if</span> nnz(c.gapSites) == 0 || nnz(c.abasicSites) == 0 || nnz(c.strandBreaks) == 0
+1369                 <span class="keyword">return</span>;
+1370             <span class="keyword">end</span>
+1371             
+1372             <span class="comment">%find regions that need to be polymerized</span>
+1373             gapStarts = find(c.gapSites &amp; c.abasicSites &amp; c.strandBreaks5);
+1374             <span class="keyword">if</span> isempty(gapStarts)
+1375                 <span class="keyword">return</span>; 
+1376             <span class="keyword">end</span>
+1377             gapNotStarts = find(c.gapSites &amp; c.abasicSites &amp; c.gapSites5 &amp; c.abasicSites5);
+1378             gapNotStarts(find(c.strandBreaks5(gapNotStarts)), :) = []; <span class="comment">%#ok&lt;FNDSB&gt;</span>
+1379             gaps = edu.stanford.covert.util.SparseMat.sort_subs([gapStarts;gapNotStarts], [c.sequenceLen c.nCompartments]);
+1380             gaps(<span class="keyword">...</span>
+1381                 c.damagedSugarPhosphates3(gaps) | <span class="keyword">...</span>
+1382                 c.damagedSugarPhosphates5(gaps) | <span class="keyword">...</span>
+1383                 c.damagedBases(           gaps) | <span class="keyword">...</span>
+1384                 c.intrastrandCrossLinks3( gaps) | <span class="keyword">...</span>
+1385                 c.intrastrandCrossLinks5( gaps), :)=[];
+1386             
+1387             [positions, lengths, strands, sequencesCell] = c.sequence.locateFeatures(gaps);
+1388             dirs = 2 * (mod(strands, 2) == 1) - 1;
+1389             
+1390             <span class="comment">%polymerize regions in random order</span>
+1391             polymerase = this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_polymerase) * this.enzymeBounds(this.reactionIndexs_polymerization(1), 2) * this.stepSizeSec);
+1392             randOrder = this.randStream.randperm(numel(positions));
+1393             [~, footprint3Prime, footprint5Prime] = c.getDNAFootprint(this.enzymeGlobalIndexs(this.enzymeIndexs_polymerase), []);
+1394             <span class="keyword">for</span> j = 1:numel(positions)
+1395                 <span class="comment">%% polymerize regions in random order</span>
+1396                 i = randOrder(j);
+1397                 
+1398                 <span class="comment">%% calculate extent of polymerization</span>
+1399                 <span class="comment">%limit extent by available polymerase and metabolites</span>
+1400                 polymerizedBases = edu.stanford.covert.cell.sim.util.polymerize(<span class="keyword">...</span>
+1401                     sequencesCell{i}(1: min(lengths(i), polymerase)), <span class="keyword">...</span>
+1402                     this.substrates(this.substrateIndexs_dNTPs), <span class="string">'ACGT'</span>, char(0), 0, 0, this.randStream);                
+1403                 <span class="keyword">if</span> polymerizedBases == 0
+1404                     <span class="keyword">continue</span>;
+1405                 <span class="keyword">end</span>
+1406                 
+1407                 <span class="comment">%damage filter</span>
+1408                 ignoreDamageMin = -1;
+1409                 ignoreDamageMax = lengths(i)+1;
+1410                 <span class="keyword">if</span> mod(strands(i), 2)
+1411                     ignoreDamageMin = ignoreDamageMin - footprint5Prime;
+1412                     ignoreDamageMax = ignoreDamageMax + footprint3Prime;
+1413                 <span class="keyword">else</span>
+1414                     ignoreDamageMin = ignoreDamageMin - footprint3Prime;
+1415                     ignoreDamageMax = ignoreDamageMax + footprint5Prime;
+1416                 <span class="keyword">end</span>
+1417                 ignoreDamageFilter = dirs(i) * (ignoreDamageMin:ignoreDamageMax) + 1;
+1418                 
+1419                 <span class="comment">%limit extent by accessibility of sites to DNA polymerase</span>
+1420                 [~, ~, ~, ~, polymerizedBases] = this.bindProteinToChromosome(c.shiftPositionsStrandsBond5Prime([positions(i) strands(i)]), this.enzymeIndexs_polymerase, 1, [], <span class="keyword">...</span>
+1421                     false, true, dirs(i) * (polymerizedBases + 1), true, ignoreDamageFilter);
+1422                 
+1423                 polymerizedBases = min(abs(polymerizedBases), lengths(i));
+1424                 
+1425                 <span class="keyword">if</span> polymerizedBases == 0
+1426                     <span class="keyword">continue</span>;
+1427                 <span class="keyword">end</span>
+1428                 
+1429                 <span class="comment">%% update state</span>
+1430                 <span class="comment">%calculate base costs</span>
+1431                 [~, ~, baseCosts] = edu.stanford.covert.cell.sim.util.polymerize(<span class="keyword">...</span>
+1432                     sequencesCell{i}(1:polymerizedBases), <span class="keyword">...</span>
+1433                     this.substrates(this.substrateIndexs_dNTPs), <span class="string">'ACGT'</span>, char(0), 0, 0, this.randStream);
+1434                 
+1435                 <span class="comment">%decrement enzyme</span>
+1436                 polymerase = polymerase - polymerizedBases;
+1437                 
+1438                 <span class="comment">%update metabolites</span>
+1439                 this.substrates = this.substrates + <span class="keyword">...</span>
+1440                     this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_polymerization) * baseCosts;
+1441                 
+1442                 <span class="comment">%update chromosome state</span>
+1443                 pos = positions(i) + dirs(i) * (0:polymerizedBases-1);
+1444                 c.gapSites(   pos, strands(i)) = 0;
+1445                 c.abasicSites(pos, strands(i)) = 0;
+1446                 c.strandBreaks(c.shiftPositionsStrandsBond5Prime([pos(1)   strands(i)])) = 0;
+1447                 c.strandBreaks(c.shiftPositionsStrandsBond3Prime([pos(end) strands(i)])) = 1;
+1448             <span class="keyword">end</span>
+1449         <span class="keyword">end</span>
+1450 
+1451         <span class="comment">% ligate DNA</span>
+1452         <span class="comment">%</span>
+1453         <span class="comment">%Note: this function is redundant with ligateDNA in Replication</span>
+1454         <a name="_sub12" href="#_subfunctions" class="code">function evolveState_Ligate(this)</a>
+1455             c = this.chromosome;
+1456 
+1457             <span class="keyword">if</span> nnz(c.strandBreaks) == 0
+1458                 <span class="keyword">return</span>;
+1459             <span class="keyword">end</span>
+1460             
+1461             positionsStrands = find(c.singleStrandBreaks);
+1462             <span class="keyword">if</span> isempty(positionsStrands)
+1463                 <span class="keyword">return</span>;
+1464             <span class="keyword">end</span>
+1465             
+1466             numReactions = max(0, floor(min([
+1467                 size(positionsStrands, 1);
+1468                 this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_ligase) * this.stepSizeSec * this.enzymeBounds(this.reactionIndexs_ligation, 2));
+1469                 this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_ligation))])));
+1470             <span class="keyword">if</span> numReactions == 0
+1471                 <span class="keyword">return</span>
+1472             <span class="keyword">end</span>
+1473             
+1474             [~, ~, positionsStrands, numReactions] = this.bindProteinToChromosome(<span class="keyword">...</span>
+1475                 positionsStrands, this.enzymeIndexs_ligase, numReactions, [], false, true, 1, false, [0 1 2]);            
+1476             <span class="keyword">if</span> numReactions == 0
+1477                 <span class="keyword">return</span>;
+1478             <span class="keyword">end</span>
+1479             
+1480             c.strandBreaks(positionsStrands) = 0;
+1481             
+1482             this.substrates = this.substrates + numReactions * <span class="keyword">...</span>
+1483                 this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_ligation);
+1484         <span class="keyword">end</span>
+1485 
+1486         <span class="comment">%bind DNA integrity scanning protein to strand breaks, base</span>
+1487         <span class="comment">%damage, and cross links</span>
+1488         <a name="_sub13" href="#_subfunctions" class="code">function evolveState_DisA(this)</a>
+1489             <span class="comment">%find locations of damages</span>
+1490             positionsStrands = find(this.chromosome.damagedSites_excm6AD);
+1491             <span class="keyword">if</span> isempty(positionsStrands)
+1492                 <span class="keyword">return</span>;
+1493             <span class="keyword">end</span>
+1494             
+1495             <span class="comment">%bind free DisA to accessible damaged sites</span>
+1496             this.bindProteinToChromosome(positionsStrands, this.enzymeIndexs_DisA, <span class="keyword">...</span>
+1497                 this.enzymes(this.enzymeIndexs_DisA), [], true, true, 1, false, 1);
+1498         <span class="keyword">end</span>
+1499         
+1500         <a name="_sub14" href="#_subfunctions" class="code">function evolveState_Modification(this)</a>
+1501             c = this.chromosome;
+1502             
+1503             <span class="comment">%% EcoD Type I restriction/modification system</span>
+1504             <span class="comment">%  M. genitalium contains only the DNA binding subunit</span>
+1505             
+1506             <span class="comment">%% MunI Type II restriction/modification system</span>
+1507             <span class="comment">%methylate hemi-unmethylated restriction/modification sites</span>
+1508             posStrnds = find(c.hemiunmethylatedMunIRMSites);
+1509             <span class="keyword">if</span> isempty(posStrnds)
+1510                 <span class="keyword">return</span>;
+1511             <span class="keyword">end</span>
+1512             
+1513             numReactions = max(0, floor(min([
+1514                 size(posStrnds, 1);
+1515                 this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_RM_MunI_Methylation));
+1516                 this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_RM_typeII) * this.stepSizeSec * this.enzymeBounds(this.reactionIndexs_RM_MunI_Methylation, 2))])));
+1517             <span class="keyword">if</span> numReactions  == 0
+1518                 <span class="keyword">return</span>;
+1519             <span class="keyword">end</span>
+1520             
+1521             [~, ~, posStrnds, numReactions] = this.bindProteinToChromosome(<span class="keyword">...</span>
+1522                 posStrnds, this.enzymeIndexs_RM_typeII, numReactions, [], false, true, 1, false, [0 1 2]);
+1523             <span class="keyword">if</span> numReactions == 0
+1524                 <span class="keyword">return</span>;
+1525             <span class="keyword">end</span>
+1526             
+1527             c.damagedBases(posStrnds) = this.substrateGlobalIndexs(this.substrateIndexs_m6AD);
+1528             
+1529             this.substrates = this.substrates + <span class="keyword">...</span>
+1530                 numReactions * this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_RM_MunI_Methylation);
+1531         <span class="keyword">end</span>
+1532         
+1533         <a name="_sub15" href="#_subfunctions" class="code">function evolveState_Restriction(this)</a>
+1534             c = this.chromosome;
+1535             
+1536             <span class="comment">%% EcoD Type I restriction/modification system</span>
+1537             <span class="comment">%  M. genitalium contains only the DNA binding subunit</span>
+1538             
+1539             <span class="comment">%% MunI Type II restriction/modification system</span>
+1540             <span class="comment">%cleave unmethylated restriction/modification sites</span>
+1541             posStrnds = find(c.restrictableMunIRMSites);
+1542             <span class="keyword">if</span> isempty(posStrnds)
+1543                 <span class="keyword">return</span>;
+1544             <span class="keyword">end</span>
+1545             
+1546             numReactions = max(0, floor(min([
+1547                 size(posStrnds, 1);
+1548                 this.substrates ./ max(0, -this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_RM_MunI_Restriction));
+1549                 this.randStream.stochasticRound(this.enzymes(this.enzymeIndexs_RM_typeII) * this.stepSizeSec * this.enzymeBounds(this.reactionIndexs_RM_MunI_Restriction, 2))])));
+1550             <span class="keyword">if</span> numReactions == 0
+1551                 <span class="keyword">return</span>;
+1552             <span class="keyword">end</span>
+1553             
+1554             [~, ~, posStrnds, numReactions] = this.bindProteinToChromosome(<span class="keyword">...</span>
+1555                 posStrnds, this.enzymeIndexs_RM_typeII, numReactions, [], false, true, 1, false, -1:1);
+1556             <span class="keyword">if</span> numReactions == 0
+1557                 <span class="keyword">return</span>;
+1558             <span class="keyword">end</span>
+1559             
+1560             c.strandBreaks(posStrnds) = 1;
+1561             
+1562             this.substrates = this.substrates + <span class="keyword">...</span>
+1563                 numReactions * this.reactionSmallMoleculeStoichiometryMatrix(:, this.reactionIndexs_RM_MunI_Restriction);
+1564         <span class="keyword">end</span>
+1565     <span class="keyword">end</span>
+1566 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

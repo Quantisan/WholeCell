@@ -1,0 +1,1303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ReplicationInitiation</title>
+  <meta name="keywords" content="ReplicationInitiation">
+  <meta name="description" content="ReplicationInitiation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ReplicationInitiation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ReplicationInitiation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ReplicationInitiation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ReplicationInitiation
+
+ @wholeCellModelID Process_ReplicationInitiation
+ @name             ReplicationInitiation
+ @description
+   Biology
+   =======================================
+   Chromosomal replication begins with the formation of large DnaA-ATP
+   polymers, totaling approximately 30 DnaA molecues, at several sites denoted
+   R1-5 near the OriC. This process simulates the binding and unbinding of
+   DnaA-ATP and DnaA-ADP to these and 2000 additional sites throughout the
+   chromosome throughout the cell cycle. Although binding occurs throughout the
+   cell cycle, due to the cell's limited amount of DnaA, the titration affects
+   of the additional 2000 sites, and the cooperativity of DnaA polymerization
+   at the OriC sites, DnaA complexation formation at the OriC only occurs
+   approximately 2/3 through the cell cycle, providing robust control of
+   replication initiation.
+
+   DnaA Boxes (Mycoplasma genitalium)
+   =======================================
+   All the DnaA box positions based on the M. genitalium motif described in
+   Cordova 2002. 
+   - 9mer sites (high affinity) are the exact matches of the motif (and reverse
+     complement). 
+   - 8mer sites (medium affinity) are matches of the motif (and reverse
+     complement) with 1 incorrect base. 
+
+   We assume that in the oriC, 5 boxes are present: one 9mer, three
+   8mers, and one 7mer, to mimic E. coli's R1-R4, R5. These boxes should reside
+   between MG_469 and MG_470 (bases: 578581-579224). There are 9 (8-9mer) boxes
+   in this region, but we only recognize 4, so we ignore the boxes at positions
+   578837, 578855, 578881, 578966, and 579139.
+
+   R5 is a 7mer, so it is a very weak binder of DnaA. Essentially it is only
+   bound by cooperativity given the presence of the initiator complex. Since we
+   do not know its exact mechanism/purpose we say it just binds after the
+   complex is formed, and its binding triggers initiation.
+
+   Knowledge Base
+   =======================================
+   The DnaA boxes are represented in the knowledge base as genomic features and
+   loaded into this class by the initializeConstants method. The knowledge base
+   also contains the footprint sizes of the DnaA complexes; these are used by
+   the chromosomes object to determine whether DnaA complexes can bind to
+   specific chromosomal regions.
+
+   Representation
+   =======================================
+   The substrates, enzymes, and boundEnzymes properties represent the counts of
+   free metabolites, free DnaA, and DnaA bound to the chromosome. The
+   complexBoundSites property of the chromosomes object represent the specific
+   chromosomal locations of bound DnaA. The ATP/ADP bound and polymerization
+   status of each bound DnaA molecule is indicated by the specific identity of
+   the bound DnaA complex (DnaA-ATP 1-7 mer; DnaA-ADP + DnaA-ATP 0-6 mer).   
+
+   Initialization
+   =======================================
+   The process is initialized to a steady state by the initializeState method.
+   The steady state (amounts of free, 8mer/9mer bound DnaA-AxP) is found using
+   non-linear constrained optimization where we try to identify a state which
+   is a stable point and which maximizes the amount of 9-mer bound ATP. In the
+   initializeState method we make the simplifications that there is no free
+   DnaA (all DnaA is ATP or ADP bound) and that there are no DnaA polymers at
+   the functional R1-4 OriC boxes.
+
+   Simulation
+   =======================================
+   This process follows the general ideas in Atlas et al. 2008. The process
+   consists of several subfunctions executed in a deterministic order:
+   - Activate free DnaA to DnaA-ATP (activateFreeDnaA)
+     Deterministically form DnaA-ATP complexes upto the limit of available DnaA
+     monomers and ATP. The kinetics of DnaA activation are not known, and are
+     not modeled.
+   - Dissociate free DnaA-ATP polymers into monomers and hydrolyze ATPs (inactivateFreeDnaAATP)
+   - polymerized DnaA-ATP (polymerizeDnaAATP)
+     If chromosomes are supercoiled, stochastically polymerize R1-4 DnaA boxes
+     (which are bound by DnaA-ATP monomers/polymers (of up to length 6)) by 1
+     additional DnaA-ATP molecule at rate
+       kbATP * numFreeDnaAATP / V * C
+     where C is a cooperativity constant which depends on the polymerization
+     status of the other R1-4 boxes
+   - polymerized DnaA-ADP (polymerizeDnaAADP)
+     Similar to DnaA-ATP polymerization, but with slower kinetic rate, kbADP
+   - Bind DnaA-ATP (bindDnaAATP)
+     Stochastically bind DnaA-ATP to free DnaA boxes at rate
+       kbATP * numFreeDnaAATP / V
+   - Bind DnaA-ADP (bindDnaAADP)
+     Similar to DnaA-ATP binding, but with slower kinetic rate, kbADP
+   - Stochastically release bound DnaA-ATP with uniform probability (releaseDnaAAxP)
+     Stochastically release bound DnaA-ATP monomers, and stochastically
+     depolymerize R1-4 boxes (except those which have polymer lengths equal to
+     the minimum of that over the R1-4 boxes) at rate kd1ATP.
+   - Stochastically release bound DnaA-ADP with uniform probability (releaseDnaAAxP)
+     Stochastically release bound DnaA-ADP monomers, and stochastically
+     depolymerize R1-4 boxes at rate kd1ADP.
+   - Reactivate free DnaA from free DnaA-ADPs (reactivateFreeDnaAADP)
+     Deterministically reactivate free DnaA-ATP from free DnaA-ATP a rate
+        numFreeDnaAADP * (k_Regen * membraneConc) /
+                       (K_Regen_P4 + membraneConc)
+
+   Replication-dependent bound DnaA-ATP inactivation is modeled differently
+   here than by Atlas et al 2008. Atlas et, 2008 included a global term for the
+   effect of active beta-clamps on bound DnaA-ATP inactivation. Because this
+   model is evaluated as part of a larger model and in particular the exact
+   position of active beta-clamps are known, we are able to model the local
+   affects of beta-clamps on bound DnaA-ATP, which is to release the bound
+   protein from DNA. However, because we cannot distinguish free DnaA-ATP from
+   DnaA-ATP released by beta-clamps we only model the release of these proteins
+   from the DNA, and not their hydrolysis to DnaA-ADP.
+
+   References
+   =======================================
+   1. Atlas, J.C., Nikolaev, E.V., Browning, S.T., Shuler, M.L. (2008).
+      Incorporating genome-wide DNA sequence information into a dynamic
+      whole-cell model of E. coli: application to DNA replication. Systems
+      Biology, IET 2: 369-382.
+   2. Browning, S.T., Castellanos, M., Shuler, M.L. (2004). Robust control of
+      Initiation of prokaryotic chromosome replication: essential considerations
+      for a minimal cell. Biotechnology and Bioengineering 88: 575-584.
+      All rate constants are from Browning (2004).
+   3. Cordova, C.M.M., Lartigue, C., Sirand-Pugnet, P., Renaudin, J., Cunha,
+      R.A.F., Blanchard, A. (2002). Identification of the origin of replication
+      of the Mycoplasma pulmonis chromosome and its use in oriC replicative
+      plasmids. Journal of Bacteriology 184: 5426-5435.
+   4. Margulies, C., Kaguni, J.M. (1996). Ordered and sequential binding of DnaA
+      protein to oriC, the chromosomal origin of escherichia coli. Journal of
+      biological chemistry 271: 17035-17040.
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 8/10/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ReplicationInitiation.html" class="code" title="">ReplicationInitiation</a>	ReplicationInitiation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ReplicationInitiation.html" class="code" title="">ReplicationInitiation</a>	ReplicationInitiation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ReplicationInitiation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function sampleDnaABoxes(this, nBoxes)</a></li><li><a href="#_sub5" class="code">function calcDnaAxpReleaseReactions(this)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(this)</a></li><li><a href="#_sub8" class="code">function x = initializeState_cubicRoot(this, x)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function activateFreeDnaA(this)</a></li><li><a href="#_sub12" class="code">function inactivateFreeDnaAATP(this)</a></li><li><a href="#_sub13" class="code">function [polATPs, polADPs] = bindAndPolymerizeDnaAATP(this, polATPs, polADPs)</a></li><li><a href="#_sub14" class="code">function [polATPs, polADPs] = bindAndPolymerizeDnaAADP(this, polATPs, polADPs)</a></li><li><a href="#_sub15" class="code">function [polATPs, polADPs] = polymerizeDnaAATP(this, polATPs, polADPs, maxPol, polATPRates)</a></li><li><a href="#_sub16" class="code">function [polATPs, polADPs] = polymerizeDnaAADP(this, polATPs, polADPs, maxPol, polADPRates)</a></li><li><a href="#_sub17" class="code">function [polATPs, polADPs, nBound] = bindDnaAATP(this, polATPs, polADPs, maxBinding, positionsStrands, bindingRates)</a></li><li><a href="#_sub18" class="code">function [polATPs, polADPs, nBound] = bindDnaAADP(this, polATPs, polADPs, maxBinding, positionsStrands, bindingRates)</a></li><li><a href="#_sub19" class="code">function [polATPs, polADPs] = releaseDnaAAxP(this, polATPs, polADPs)</a></li><li><a href="#_sub20" class="code">function reactivateFreeDnaAADP(this)</a></li><li><a href="#_sub21" class="code">function polRates = calculateDnaAR1234ATPPolymerizationRates(this, polATPs, polADPs)</a></li><li><a href="#_sub22" class="code">function polRates = calculateDnaAR1234ADPPolymerizationRates(this, polATPs, polADPs)</a></li><li><a href="#_sub23" class="code">function cooperativity = calculateDnaAR1234ATPPolymerizationCooperativity(this, polATPs, polADPs, pol)</a></li><li><a href="#_sub24" class="code">function [positionsStrands, bindingRates, avgBindingRate] = calculateDnaAATPBindingRates(this, polATPs, polADPs)</a></li><li><a href="#_sub25" class="code">function [positionsStrands, bindingRates, avgBindingRate] = calculateDnaAADPBindingRates(this, polATPs, polADPs)</a></li><li><a href="#_sub26" class="code">function [polATP, polADP] = calculateDnaAR1234Polymerization(this)</a></li><li><a href="#_sub27" class="code">function siz = calculateDnaAR1234ComplexSize(~, polATPs, polADPs)</a></li><li><a href="#_sub28" class="code">function tf = calcuateIsDnaAR5Occupied(this)</a></li><li><a href="#_sub29" class="code">function tf = calculateIsDnaAORIComplexAssembled(this)</a></li><li><a href="#_sub30" class="code">function status = calculateDnaABoxStatus(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ReplicationInitiation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ReplicationInitiation</span>
+0004 <span class="comment">% @name             ReplicationInitiation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   =======================================</span>
+0008 <span class="comment">%   Chromosomal replication begins with the formation of large DnaA-ATP</span>
+0009 <span class="comment">%   polymers, totaling approximately 30 DnaA molecues, at several sites denoted</span>
+0010 <span class="comment">%   R1-5 near the OriC. This process simulates the binding and unbinding of</span>
+0011 <span class="comment">%   DnaA-ATP and DnaA-ADP to these and 2000 additional sites throughout the</span>
+0012 <span class="comment">%   chromosome throughout the cell cycle. Although binding occurs throughout the</span>
+0013 <span class="comment">%   cell cycle, due to the cell's limited amount of DnaA, the titration affects</span>
+0014 <span class="comment">%   of the additional 2000 sites, and the cooperativity of DnaA polymerization</span>
+0015 <span class="comment">%   at the OriC sites, DnaA complexation formation at the OriC only occurs</span>
+0016 <span class="comment">%   approximately 2/3 through the cell cycle, providing robust control of</span>
+0017 <span class="comment">%   replication initiation.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   DnaA Boxes (Mycoplasma genitalium)</span>
+0020 <span class="comment">%   =======================================</span>
+0021 <span class="comment">%   All the DnaA box positions based on the M. genitalium motif described in</span>
+0022 <span class="comment">%   Cordova 2002.</span>
+0023 <span class="comment">%   - 9mer sites (high affinity) are the exact matches of the motif (and reverse</span>
+0024 <span class="comment">%     complement).</span>
+0025 <span class="comment">%   - 8mer sites (medium affinity) are matches of the motif (and reverse</span>
+0026 <span class="comment">%     complement) with 1 incorrect base.</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   We assume that in the oriC, 5 boxes are present: one 9mer, three</span>
+0029 <span class="comment">%   8mers, and one 7mer, to mimic E. coli's R1-R4, R5. These boxes should reside</span>
+0030 <span class="comment">%   between MG_469 and MG_470 (bases: 578581-579224). There are 9 (8-9mer) boxes</span>
+0031 <span class="comment">%   in this region, but we only recognize 4, so we ignore the boxes at positions</span>
+0032 <span class="comment">%   578837, 578855, 578881, 578966, and 579139.</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   R5 is a 7mer, so it is a very weak binder of DnaA. Essentially it is only</span>
+0035 <span class="comment">%   bound by cooperativity given the presence of the initiator complex. Since we</span>
+0036 <span class="comment">%   do not know its exact mechanism/purpose we say it just binds after the</span>
+0037 <span class="comment">%   complex is formed, and its binding triggers initiation.</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   Knowledge Base</span>
+0040 <span class="comment">%   =======================================</span>
+0041 <span class="comment">%   The DnaA boxes are represented in the knowledge base as genomic features and</span>
+0042 <span class="comment">%   loaded into this class by the initializeConstants method. The knowledge base</span>
+0043 <span class="comment">%   also contains the footprint sizes of the DnaA complexes; these are used by</span>
+0044 <span class="comment">%   the chromosomes object to determine whether DnaA complexes can bind to</span>
+0045 <span class="comment">%   specific chromosomal regions.</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   Representation</span>
+0048 <span class="comment">%   =======================================</span>
+0049 <span class="comment">%   The substrates, enzymes, and boundEnzymes properties represent the counts of</span>
+0050 <span class="comment">%   free metabolites, free DnaA, and DnaA bound to the chromosome. The</span>
+0051 <span class="comment">%   complexBoundSites property of the chromosomes object represent the specific</span>
+0052 <span class="comment">%   chromosomal locations of bound DnaA. The ATP/ADP bound and polymerization</span>
+0053 <span class="comment">%   status of each bound DnaA molecule is indicated by the specific identity of</span>
+0054 <span class="comment">%   the bound DnaA complex (DnaA-ATP 1-7 mer; DnaA-ADP + DnaA-ATP 0-6 mer).</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   Initialization</span>
+0057 <span class="comment">%   =======================================</span>
+0058 <span class="comment">%   The process is initialized to a steady state by the initializeState method.</span>
+0059 <span class="comment">%   The steady state (amounts of free, 8mer/9mer bound DnaA-AxP) is found using</span>
+0060 <span class="comment">%   non-linear constrained optimization where we try to identify a state which</span>
+0061 <span class="comment">%   is a stable point and which maximizes the amount of 9-mer bound ATP. In the</span>
+0062 <span class="comment">%   initializeState method we make the simplifications that there is no free</span>
+0063 <span class="comment">%   DnaA (all DnaA is ATP or ADP bound) and that there are no DnaA polymers at</span>
+0064 <span class="comment">%   the functional R1-4 OriC boxes.</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%   Simulation</span>
+0067 <span class="comment">%   =======================================</span>
+0068 <span class="comment">%   This process follows the general ideas in Atlas et al. 2008. The process</span>
+0069 <span class="comment">%   consists of several subfunctions executed in a deterministic order:</span>
+0070 <span class="comment">%   - Activate free DnaA to DnaA-ATP (activateFreeDnaA)</span>
+0071 <span class="comment">%     Deterministically form DnaA-ATP complexes upto the limit of available DnaA</span>
+0072 <span class="comment">%     monomers and ATP. The kinetics of DnaA activation are not known, and are</span>
+0073 <span class="comment">%     not modeled.</span>
+0074 <span class="comment">%   - Dissociate free DnaA-ATP polymers into monomers and hydrolyze ATPs (inactivateFreeDnaAATP)</span>
+0075 <span class="comment">%   - polymerized DnaA-ATP (polymerizeDnaAATP)</span>
+0076 <span class="comment">%     If chromosomes are supercoiled, stochastically polymerize R1-4 DnaA boxes</span>
+0077 <span class="comment">%     (which are bound by DnaA-ATP monomers/polymers (of up to length 6)) by 1</span>
+0078 <span class="comment">%     additional DnaA-ATP molecule at rate</span>
+0079 <span class="comment">%       kbATP * numFreeDnaAATP / V * C</span>
+0080 <span class="comment">%     where C is a cooperativity constant which depends on the polymerization</span>
+0081 <span class="comment">%     status of the other R1-4 boxes</span>
+0082 <span class="comment">%   - polymerized DnaA-ADP (polymerizeDnaAADP)</span>
+0083 <span class="comment">%     Similar to DnaA-ATP polymerization, but with slower kinetic rate, kbADP</span>
+0084 <span class="comment">%   - Bind DnaA-ATP (bindDnaAATP)</span>
+0085 <span class="comment">%     Stochastically bind DnaA-ATP to free DnaA boxes at rate</span>
+0086 <span class="comment">%       kbATP * numFreeDnaAATP / V</span>
+0087 <span class="comment">%   - Bind DnaA-ADP (bindDnaAADP)</span>
+0088 <span class="comment">%     Similar to DnaA-ATP binding, but with slower kinetic rate, kbADP</span>
+0089 <span class="comment">%   - Stochastically release bound DnaA-ATP with uniform probability (releaseDnaAAxP)</span>
+0090 <span class="comment">%     Stochastically release bound DnaA-ATP monomers, and stochastically</span>
+0091 <span class="comment">%     depolymerize R1-4 boxes (except those which have polymer lengths equal to</span>
+0092 <span class="comment">%     the minimum of that over the R1-4 boxes) at rate kd1ATP.</span>
+0093 <span class="comment">%   - Stochastically release bound DnaA-ADP with uniform probability (releaseDnaAAxP)</span>
+0094 <span class="comment">%     Stochastically release bound DnaA-ADP monomers, and stochastically</span>
+0095 <span class="comment">%     depolymerize R1-4 boxes at rate kd1ADP.</span>
+0096 <span class="comment">%   - Reactivate free DnaA from free DnaA-ADPs (reactivateFreeDnaAADP)</span>
+0097 <span class="comment">%     Deterministically reactivate free DnaA-ATP from free DnaA-ATP a rate</span>
+0098 <span class="comment">%        numFreeDnaAADP * (k_Regen * membraneConc) /</span>
+0099 <span class="comment">%                       (K_Regen_P4 + membraneConc)</span>
+0100 <span class="comment">%</span>
+0101 <span class="comment">%   Replication-dependent bound DnaA-ATP inactivation is modeled differently</span>
+0102 <span class="comment">%   here than by Atlas et al 2008. Atlas et, 2008 included a global term for the</span>
+0103 <span class="comment">%   effect of active beta-clamps on bound DnaA-ATP inactivation. Because this</span>
+0104 <span class="comment">%   model is evaluated as part of a larger model and in particular the exact</span>
+0105 <span class="comment">%   position of active beta-clamps are known, we are able to model the local</span>
+0106 <span class="comment">%   affects of beta-clamps on bound DnaA-ATP, which is to release the bound</span>
+0107 <span class="comment">%   protein from DNA. However, because we cannot distinguish free DnaA-ATP from</span>
+0108 <span class="comment">%   DnaA-ATP released by beta-clamps we only model the release of these proteins</span>
+0109 <span class="comment">%   from the DNA, and not their hydrolysis to DnaA-ADP.</span>
+0110 <span class="comment">%</span>
+0111 <span class="comment">%   References</span>
+0112 <span class="comment">%   =======================================</span>
+0113 <span class="comment">%   1. Atlas, J.C., Nikolaev, E.V., Browning, S.T., Shuler, M.L. (2008).</span>
+0114 <span class="comment">%      Incorporating genome-wide DNA sequence information into a dynamic</span>
+0115 <span class="comment">%      whole-cell model of E. coli: application to DNA replication. Systems</span>
+0116 <span class="comment">%      Biology, IET 2: 369-382.</span>
+0117 <span class="comment">%   2. Browning, S.T., Castellanos, M., Shuler, M.L. (2004). Robust control of</span>
+0118 <span class="comment">%      Initiation of prokaryotic chromosome replication: essential considerations</span>
+0119 <span class="comment">%      for a minimal cell. Biotechnology and Bioengineering 88: 575-584.</span>
+0120 <span class="comment">%      All rate constants are from Browning (2004).</span>
+0121 <span class="comment">%   3. Cordova, C.M.M., Lartigue, C., Sirand-Pugnet, P., Renaudin, J., Cunha,</span>
+0122 <span class="comment">%      R.A.F., Blanchard, A. (2002). Identification of the origin of replication</span>
+0123 <span class="comment">%      of the Mycoplasma pulmonis chromosome and its use in oriC replicative</span>
+0124 <span class="comment">%      plasmids. Journal of Bacteriology 184: 5426-5435.</span>
+0125 <span class="comment">%   4. Margulies, C., Kaguni, J.M. (1996). Ordered and sequential binding of DnaA</span>
+0126 <span class="comment">%      protein to oriC, the chromosomal origin of escherichia coli. Journal of</span>
+0127 <span class="comment">%      biological chemistry 271: 17035-17040.</span>
+0128 <span class="comment">%</span>
+0129 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0130 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0131 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0132 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0133 <span class="comment">% Last updated: 8/10/2010</span>
+0134 classdef <a href="ReplicationInitiation.html" class="code" title="">ReplicationInitiation</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0135     <span class="comment">%property annotations</span>
+0136     properties (Constant)
+0137         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0138         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0139             <span class="string">'dnaABoxStartPositions'</span>;
+0140             <span class="string">'siteCooperativity'</span>;
+0141             <span class="string">'stateCooperativity'</span>;
+0142             <span class="string">'kb1ATP'</span>;
+0143             <span class="string">'kb2ATP'</span>;
+0144             <span class="string">'kd1ATP'</span>;
+0145             <span class="string">'kb1ADP'</span>;
+0146             <span class="string">'kb2ADP'</span>;
+0147             <span class="string">'kd1ADP'</span>;
+0148             <span class="string">'k_Regen'</span>;
+0149             <span class="string">'K_Regen_P4'</span>;
+0150             <span class="string">'k_inact'</span>;
+0151             };
+0152         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0153         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0154     <span class="keyword">end</span>
+0155 
+0156     <span class="comment">%enumerations</span>
+0157     properties (Constant)
+0158         dnaABoxStatus_NotExist     = -1; <span class="comment">%site on the second chromosome that has not yet been replicated</span>
+0159         dnaABoxStatus_NotBound     =  0; <span class="comment">%site not bound by DnaA-ATP or DnaA-ADP</span>
+0160         dnaABoxStatus_DnaAATPBound =  1; <span class="comment">%site bound by DnaA-ATP</span>
+0161         dnaABoxStatus_DnaAADPBound =  2; <span class="comment">%site bound by DnaA-ADP</span>
+0162     <span class="keyword">end</span>
+0163 
+0164     <span class="comment">%IDs, names, and local indices</span>
+0165     properties
+0166         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0167         
+0168         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0169             <span class="string">'ATP'</span>;<span class="string">'ADP'</span>;<span class="string">'PI'</span>;<span class="string">'H2O'</span>;<span class="string">'H'</span>};
+0170         substrateIndexs_atp        = 1;
+0171         substrateIndexs_adp        = 2;
+0172         substrateIndexs_phosphate  = 3;
+0173         substrateIndexs_water      = 4;
+0174         substrateIndexs_hydrogen   = 5;
+0175         
+0176         enzymeWholeCellModelIDs = {    <span class="comment">%whole cell model IDs of enzymes</span>
+0177             <span class="string">'MG_469_1MER_ADP'</span>      <span class="comment">%DnaA-ADP 1mer</span>
+0178             <span class="string">'MG_469_1MER_ATP'</span>      <span class="comment">%DnaA-ATP 1mer</span>
+0179             <span class="string">'MG_469_2MER_1ATP_ADP'</span> <span class="comment">%DnaA 2mer-(1)ATP-(1)ADP</span>
+0180             <span class="string">'MG_469_2MER_ATP'</span>      <span class="comment">%DnaA-ATP 2mer</span>
+0181             <span class="string">'MG_469_3MER_2ATP_ADP'</span> <span class="comment">%DnaA 3mer-(2)ATP-(1)ADP</span>
+0182             <span class="string">'MG_469_3MER_ATP'</span>      <span class="comment">%DnaA-ATP 3mer</span>
+0183             <span class="string">'MG_469_4MER_3ATP_ADP'</span> <span class="comment">%DnaA 4mer-(3)ATP-(1)ADP</span>
+0184             <span class="string">'MG_469_4MER_ATP'</span>      <span class="comment">%DnaA-ATP 4mer</span>
+0185             <span class="string">'MG_469_5MER_4ATP_ADP'</span> <span class="comment">%DnaA 5mer-(4)ATP-(1)ADP</span>
+0186             <span class="string">'MG_469_5MER_ATP'</span>      <span class="comment">%DnaA-ATP 5mer</span>
+0187             <span class="string">'MG_469_6MER_5ATP_ADP'</span> <span class="comment">%DnaA 6mer-(5)ATP-(1)ADP</span>
+0188             <span class="string">'MG_469_6MER_ATP'</span>      <span class="comment">%DnaA-ATP 6mer</span>
+0189             <span class="string">'MG_469_7MER_6ATP_ADP'</span> <span class="comment">%DnaA 7mer-(6)ATP-(1)ADP</span>
+0190             <span class="string">'MG_469_7MER_ATP'</span>      <span class="comment">%DnaA-ATP 7mer</span>
+0191             <span class="string">'MG_469_MONOMER'</span>       <span class="comment">%chromosomal replication initiator protein DnaA</span>
+0192             };
+0193         enzymeIndexs_DnaA             = 15;
+0194         enzymeIndexs_DnaA_1mer_ADP    = 1;
+0195         enzymeIndexs_DnaA_1mer_ATP    = 2;
+0196         enzymeIndexs_DnaA_Nmer_ATP    = (2:2:14)';
+0197         enzymeIndexs_DnaA_Nmer_ADP    = (1:2:13)';
+0198         enzymeIndexs_DnaA_polymer_ATP = (4:2:14)';
+0199         enzymeIndexs_DnaA_polymer_ADP = (3:2:13)';
+0200         
+0201         dnaABoxIndexs_7mer   <span class="comment">%indices of 7mer binding sites within dnaABindingSites</span>
+0202         dnaABoxIndexs_8mer   <span class="comment">%indices of 8mer binding sites within dnaABindingSites</span>
+0203         dnaABoxIndexs_9mer   <span class="comment">%indices of 9mer binding sites within dnaABindingSites</span>
+0204         dnaABoxIndexs_R12345 <span class="comment">%indices of R1-5 functional binding sites within dnaABindingSites</span>
+0205         dnaABoxIndexs_R1234  <span class="comment">%indices of R1-4 functional binding sites within dnaABindingSites</span>
+0206         dnaABoxIndexs_R5     <span class="comment">%indices of R5 functional binding sites within dnaABindingSites</span>
+0207     <span class="keyword">end</span>
+0208 
+0209     <span class="comment">%fixed biological constants</span>
+0210     properties
+0211         dnaABoxStartPositions<span class="comment">%positions of all DnaA binding sites on chromosome</span>
+0212         
+0213         siteCooperativity    <span class="comment">%factor by which DnaAATP to oriC site binding probability increases when other sites are bound (70)</span>
+0214         stateCooperativity   <span class="comment">%factor by which DnaAATP to oriC site binding probability increases when x*4 sized DnaA complex has formed at oriC (20)</span>
+0215         
+0216         kb1ATP               <span class="comment">%rate for DnaA-ATP binding high affinity DnaA boxes (25 nM/h) --ASSUME THESE ARE ACTUALLY 1/(nM*h) %Browning (2004)[PUB_0448]</span>
+0217         kb2ATP               <span class="comment">%rate for DnaA-ATP binding medium affinity DnaA boxes (0.6 nM/h) --ASSUME THESE ARE ACTUALLY 1/(nM*h) %Browning (2004)[PUB_0448]</span>
+0218         kd1ATP               <span class="comment">%rate for DnaA-ATP dissociating from dna (20 1/h) %Browning (2004)[PUB_0448]</span>
+0219         kb1ADP               <span class="comment">%rate for DnaA-ADP binding high affinity DnaA boxes (2.5 nM/h) --ASSUME THESE ARE ACTUALLY 1/(nM*h) %Browning (2004)[PUB_0448]</span>
+0220         kb2ADP               <span class="comment">%rate for DnaA-ADP binding medium affinity DnaA boxes (0.61 nM/h) --ASSUME THESE ARE ACTUALLY 1/(nM*h) %Browning (2004)[PUB_0448]</span>
+0221         kd1ADP               <span class="comment">%rate for DnaA-ADP dissociating from dna (20 1/h) %Browning (2004)[PUB_0448]</span>
+0222         k_Regen              <span class="comment">%rate for DnaA-ADP to DnaA-ATP regeneration (2.3026 1/h)</span>
+0223         K_Regen_P4           <span class="comment">%rate for DnaA-ADP to DnaA-ATP regeneration catalyzed by membrane lipids (0.018 g/L) (Atlas 2008 xml file)[PUB_0447]</span>
+0224         k_inact              <span class="comment">%rate for DnaA-ATP to DnaA-ADP inactivation (4.24e14 1/s) (Browning 2004) %units unknown, likely 1/g [PUB_0448]</span>
+0225         
+0226         dnaARelease_remainingDnaAIndexs <span class="comment">%local indices of DnaA-AxP complexes remaining after bound DnaA-AxP complex release</span>
+0227         dnaARelease_remainingDnaAMatrix <span class="comment">%DnaA-AxP complexes remaining after bound DnaA-AxP complex release [remaining X bound]</span>
+0228         dnaARelease_releasedDnaAIndexs  <span class="comment">%local indices of DnaA-AxP complexes released by DnaA-AxP complex release</span>
+0229         dnaARelease_releasedDnaAMatrix  <span class="comment">%DnaA-AxP complexes released by bound DnaA-AxP complex release [released X bound]</span>
+0230     <span class="keyword">end</span>
+0231     
+0232     <span class="comment">%state references</span>
+0233     properties
+0234         mass
+0235     <span class="keyword">end</span>
+0236 
+0237     methods
+0238         <span class="comment">%constructor</span>
+0239         <a name="_sub0" href="#_subfunctions" class="code">function this = ReplicationInitiation(wholeCellModelID, name)</a>
+0240             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0241         <span class="keyword">end</span>
+0242     <span class="keyword">end</span>
+0243 
+0244     <span class="comment">%communication between process/simulation</span>
+0245     methods
+0246         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0247             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0248             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0249             
+0250             this.mass = simulation.state(<span class="string">'Mass'</span>);
+0251             this.states = [this.states; {this.mass}];
+0252         <span class="keyword">end</span>
+0253         
+0254         <span class="comment">%initialize constants</span>
+0255         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0256             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0257                 knowledgeBase, simulation, varargin{:});
+0258             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(<span class="keyword">...</span>
+0259                 knowledgeBase, simulation, varargin{:});
+0260             
+0261             <span class="comment">%DnaA binding sites</span>
+0262             dnaABoxes = findobj(knowledgeBase.genomeFeatures, <span class="string">'type'</span>, <span class="string">'DnaA box'</span>);
+0263             dnaABoxSubtypes = {dnaABoxes.subtype}';
+0264             dnaABoxNames = {dnaABoxes.name}';
+0265             
+0266             this.dnaABoxStartPositions = <span class="keyword">...</span>
+0267                 ceil([dnaABoxes.startCoordinate]' + [dnaABoxes.sequenceLength]'/2 - this.enzymeDNAFootprints(this.enzymeIndexs_DnaA_1mer_ATP)/2);
+0268             
+0269             this.dnaABoxIndexs_7mer = find(strcmp(dnaABoxSubtypes, <span class="string">'7mer'</span>));
+0270             this.dnaABoxIndexs_8mer = find(strcmp(dnaABoxSubtypes, <span class="string">'8mer'</span>));
+0271             this.dnaABoxIndexs_9mer = find(strcmp(dnaABoxSubtypes, <span class="string">'9mer'</span>));
+0272             
+0273             [~, this.dnaABoxIndexs_R12345] = ismember({
+0274                 <span class="string">'Functional box R1'</span>;
+0275                 <span class="string">'Functional box R2'</span>;
+0276                 <span class="string">'Functional box R3'</span>;
+0277                 <span class="string">'Functional box R4'</span>;
+0278                 <span class="string">'Functional box R5'</span>;
+0279                 }, dnaABoxNames);
+0280             this.dnaABoxIndexs_R1234 = this.dnaABoxIndexs_R12345(1:4);
+0281             this.dnaABoxIndexs_R5 = this.dnaABoxIndexs_R12345(5);
+0282             
+0283             <span class="comment">%DnaA-AxP release reactions</span>
+0284             this.calcDnaAxpReleaseReactions();
+0285         <span class="keyword">end</span>
+0286         
+0287         <a name="_sub3" href="#_subfunctions" class="code">function sampleDnaABoxes(this, nBoxes)</a>
+0288             validateattributes(nBoxes, {<span class="string">'numeric'</span>}, {<span class="keyword">...</span>
+0289                 <span class="string">'integer'</span>, <span class="keyword">...</span>
+0290                 <span class="string">'&gt;='</span>, numel(this.dnaABoxIndexs_R12345), <span class="keyword">...</span>
+0291                 <span class="string">'&lt;='</span>, numel(this.dnaABoxStartPositions)});
+0292             
+0293             idxs = sort([this.randStream.randomlySelectNRows(<span class="keyword">...</span>
+0294                 setdiff((1:numel(this.dnaABoxStartPositions))', this.dnaABoxIndexs_R12345), <span class="keyword">...</span>
+0295                 nBoxes - numel(this.dnaABoxIndexs_R12345))
+0296                 this.dnaABoxIndexs_R12345]);
+0297             
+0298             this.dnaABoxStartPositions(idxs);
+0299             
+0300             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_7mer, idxs);
+0301             this.dnaABoxIndexs_7mer = tmpIdxs(tfs);            
+0302             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_8mer, idxs);
+0303             this.dnaABoxIndexs_8mer = tmpIdxs(tfs);            
+0304             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_9mer, idxs);
+0305             this.dnaABoxIndexs_9mer = tmpIdxs(tfs);
+0306             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_R12345, idxs);
+0307             this.dnaABoxIndexs_R12345 = tmpIdxs(tfs);
+0308             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_R1234, idxs);
+0309             this.dnaABoxIndexs_R1234 = tmpIdxs(tfs);
+0310             [tfs, tmpIdxs] = ismember(this.dnaABoxIndexs_R5, idxs);
+0311             this.dnaABoxIndexs_R5 = tmpIdxs(tfs);
+0312         <span class="keyword">end</span>
+0313         
+0314         <a name="_sub4" href="#_subfunctions" class="code">function calcDnaAxpReleaseReactions(this)</a>
+0315             this.dnaARelease_remainingDnaAIndexs = zeros(size(this.enzymeComplexGlobalIndexs));
+0316             this.dnaARelease_remainingDnaAIndexs(this.enzymeIndexs_DnaA_1mer_ATP) = 0;
+0317             this.dnaARelease_remainingDnaAIndexs(this.enzymeIndexs_DnaA_1mer_ADP) = 0;
+0318             this.dnaARelease_remainingDnaAIndexs(this.enzymeIndexs_DnaA_Nmer_ATP(2:end)) = this.enzymeIndexs_DnaA_Nmer_ATP(1:end-1);
+0319             this.dnaARelease_remainingDnaAIndexs(this.enzymeIndexs_DnaA_Nmer_ADP(2:end)) = this.enzymeIndexs_DnaA_Nmer_ATP(1:end-1);
+0320             
+0321             this.dnaARelease_remainingDnaAMatrix = zeros(numel(this.enzymeWholeCellModelIDs)); <span class="comment">%remaining bound X original bound</span>
+0322             this.dnaARelease_remainingDnaAMatrix(sub2ind(size(this.dnaARelease_remainingDnaAMatrix), this.enzymeIndexs_DnaA_Nmer_ATP(1:end-1), this.enzymeIndexs_DnaA_Nmer_ATP(2:end))) = 1;
+0323             this.dnaARelease_remainingDnaAMatrix(sub2ind(size(this.dnaARelease_remainingDnaAMatrix), this.enzymeIndexs_DnaA_Nmer_ATP(1:end-1), this.enzymeIndexs_DnaA_Nmer_ADP(2:end))) = 1;
+0324             
+0325             this.dnaARelease_releasedDnaAIndexs = zeros(size(this.enzymeComplexGlobalIndexs));
+0326             this.dnaARelease_releasedDnaAIndexs(this.enzymeIndexs_DnaA_1mer_ATP) = this.enzymeIndexs_DnaA_1mer_ATP;
+0327             this.dnaARelease_releasedDnaAIndexs(this.enzymeIndexs_DnaA_1mer_ADP) = this.enzymeIndexs_DnaA_1mer_ADP;
+0328             this.dnaARelease_releasedDnaAIndexs(this.enzymeIndexs_DnaA_Nmer_ATP(2:end)) = this.enzymeIndexs_DnaA_1mer_ATP;
+0329             this.dnaARelease_releasedDnaAIndexs(this.enzymeIndexs_DnaA_Nmer_ADP(2:end)) = this.enzymeIndexs_DnaA_1mer_ADP;
+0330             
+0331             this.dnaARelease_releasedDnaAMatrix = zeros(numel(this.enzymeWholeCellModelIDs)); <span class="comment">%released X original bound</span>
+0332             this.dnaARelease_releasedDnaAMatrix(this.enzymeIndexs_DnaA_1mer_ATP, this.enzymeIndexs_DnaA_1mer_ATP) = 1;
+0333             this.dnaARelease_releasedDnaAMatrix(this.enzymeIndexs_DnaA_1mer_ADP, this.enzymeIndexs_DnaA_1mer_ADP) = 1;
+0334             this.dnaARelease_releasedDnaAMatrix(this.enzymeIndexs_DnaA_1mer_ATP, this.enzymeIndexs_DnaA_Nmer_ATP(2:end)) = 1;
+0335             this.dnaARelease_releasedDnaAMatrix(this.enzymeIndexs_DnaA_1mer_ADP, this.enzymeIndexs_DnaA_Nmer_ADP(2:end)) = 1;
+0336         <span class="keyword">end</span>
+0337     <span class="keyword">end</span>
+0338 
+0339     <span class="comment">%model</span>
+0340     methods
+0341         <span class="comment">%Calculate</span>
+0342         <span class="comment">%- contribution to FBA objective</span>
+0343         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0344         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0345             <span class="comment">%substrate and byproducts</span>
+0346             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0347             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0348             
+0349             nATPInc = (1:7) * states.complexProductions(this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ATP)); <span class="comment">%activated newly produced DnaA</span>
+0350             nADPInc = (1:7) * states.complexProductions(this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ADP)); <span class="comment">%activated newly produced DnaA</span>
+0351             nATPHyd = 4 * numel(this.enzymeIndexs_DnaA_Nmer_ATP);                                                  <span class="comment">%regenerate polymerized DnaA-ADP released by replisome from OriC DnaA boxes (Note: the model makes the simplification that only polymerized DnaA-ATP is deactivated)</span>
+0352             bmProd(this.substrateIndexs_atp)       = nATPHyd + nATPInc;
+0353             bmProd(this.substrateIndexs_water)     = nATPHyd;
+0354             byProd(this.substrateIndexs_adp)       = nATPHyd - nADPInc;
+0355             byProd(this.substrateIndexs_phosphate) = nATPHyd;
+0356             byProd(this.substrateIndexs_hydrogen)  = nATPHyd;
+0357             
+0358             <span class="comment">%current level of enzymes, so that parameters don't need to be refit</span>
+0359             <span class="comment">%to be consistent with replication initiation duration</span>
+0360             minEnzExp = this.enzymes;
+0361             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0362         <span class="keyword">end</span>
+0363         
+0364         <span class="comment">%initialization</span>
+0365         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(this)</a>
+0366             import edu.stanford.covert.util.ComputationUtil;
+0367             
+0368             <span class="comment">%break down any DnaA-AxP</span>
+0369             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP) + this.boundEnzymes(this.enzymeIndexs_DnaA_Nmer_ATP);
+0370             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP) + this.boundEnzymes(this.enzymeIndexs_DnaA_Nmer_ADP);
+0371             this.boundEnzymes(this.enzymeIndexs_DnaA_Nmer_ATP) = 0;
+0372             this.boundEnzymes(this.enzymeIndexs_DnaA_Nmer_ADP) = 0;
+0373             this.substrates(this.substrateIndexs_atp) = <span class="keyword">...</span>
+0374                 + this.substrates(this.substrateIndexs_atp) <span class="keyword">...</span>
+0375                 + (1:7) * this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP);
+0376             this.substrates(this.substrateIndexs_adp) = <span class="keyword">...</span>
+0377                 + this.substrates(this.substrateIndexs_adp) <span class="keyword">...</span>
+0378                 + (1:7) * this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP);
+0379             this.enzymes(this.enzymeIndexs_DnaA) = <span class="keyword">...</span>
+0380                 + this.enzymes(this.enzymeIndexs_DnaA) <span class="keyword">...</span>
+0381                 + (1:7) * this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP) <span class="keyword">...</span>
+0382                 + (1:7) * this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP);
+0383             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP) = 0;
+0384             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP) = 0;                        
+0385             
+0386             <span class="comment">%compute steady state</span>
+0387             DnaA_total = this.enzymes(this.enzymeIndexs_DnaA);
+0388             x0 = [
+0389                 DnaA_total; <span class="comment">%free DnaA-ATP</span>
+0390                 0;          <span class="comment">%9mer DnaA-ATP</span>
+0391                 0];         <span class="comment">%8mer DnaA-ATP</span>
+0392             <span class="keyword">if</span> any(x0)
+0393                 x = this.initializeState_cubicRoot(x0);
+0394             <span class="keyword">else</span>
+0395                 x = x0;
+0396             <span class="keyword">end</span>
+0397             
+0398             <span class="comment">%round to nearest integer-value solution</span>
+0399             x(2) = ComputationUtil.roundHalfUp(x(2)); 
+0400             x(3) = ComputationUtil.roundHalfDown(x(3));
+0401             x(3) = floor(x(3)) + (rem(x(3),1) &gt;  0.5); <span class="comment">%round half down</span>
+0402             x(1) = DnaA_total - sum(x(2:end));
+0403             <span class="keyword">if</span> any(x &lt; 0)
+0404                 throw(MException(<span class="string">'ReplicationInitiation:error'</span>, <span class="string">'all values must be positive'</span>));
+0405             <span class="keyword">end</span>            
+0406             DnaA_ATP_total = sum(x([1 2 3]));
+0407             DnaA_ADP_total = 0;
+0408             
+0409             <span class="comment">%update DnaA</span>
+0410             this.enzymes(this.enzymeIndexs_DnaA) =  DnaA_total - DnaA_ATP_total - DnaA_ADP_total;
+0411             this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP) = DnaA_ATP_total;
+0412             this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP) = DnaA_ADP_total;
+0413             
+0414             <span class="comment">%bind DnaA to chromosome</span>
+0415             positionsStrands_9mer = [this.dnaABoxStartPositions(this.dnaABoxIndexs_9mer) ones(size(this.dnaABoxIndexs_9mer))];
+0416             positionsStrands_8mer = [this.dnaABoxStartPositions(this.dnaABoxIndexs_8mer) ones(size(this.dnaABoxIndexs_8mer))];
+0417             tfs9 = this.bindProteinToChromosome(positionsStrands_9mer, this.enzymeIndexs_DnaA_1mer_ATP, x(2), [], true, false, 1, false, [], true);
+0418             tfs8 = this.bindProteinToChromosome(positionsStrands_8mer, this.enzymeIndexs_DnaA_1mer_ATP, x(3), [], true, false, 1, false, [], true);
+0419             <span class="keyword">if</span> sum(tfs9) ~= x(2) || sum(tfs8) ~= x(3)
+0420                 throw(MException(<span class="string">'ReplicationInitiation:error'</span>, <span class="string">'DnaA-ATP should be bound to 8- and 9-mer sites'</span>));
+0421             <span class="keyword">end</span>
+0422             
+0423             this.bindProteinToChromosome(positionsStrands_9mer(~tfs9, :), this.enzymeIndexs_DnaA_1mer_ADP, 0, true, false, 1, false, [], true);
+0424             this.bindProteinToChromosome(positionsStrands_8mer(~tfs8, :), this.enzymeIndexs_DnaA_1mer_ADP, 0, true, false, 1, false, [], true);
+0425         <span class="keyword">end</span>
+0426         
+0427         <a name="_sub7" href="#_subfunctions" class="code">function x = initializeState_cubicRoot(this, x)            </a>
+0428             Navo = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0429             V = this.geometry.volume;
+0430             
+0431             k8 = this.kb2ATP * 1e9 / 3600 / Navo / V;
+0432             k9 = this.kb1ATP * 1e9 / 3600 / Navo / V;
+0433             kd = this.kd1ATP / 3600;
+0434             N8 = numel(this.dnaABoxIndexs_8mer);
+0435             N9 = numel(this.dnaABoxIndexs_9mer);
+0436             
+0437             Xt = sum(x);
+0438                         
+0439             a = -k8*k9;
+0440             b = Xt*k8*k9 - kd*(k8+k9) - k8*k9*(N8+N9);
+0441             c = Xt*kd*(k8+k9) - kd^2 - kd*(k9*N9+k8*N8);
+0442             d = Xt*kd^2; 
+0443             
+0444             X0 = edu.stanford.covert.util.ComputationUtil.cubicfcn(a, b, c, d);
+0445             
+0446             X0 = X0(1);
+0447             X8 = k8*N8*X0 / (k8*X0 + kd);
+0448             X9 = k9*N9*X0 / (k9*X0 + kd);
+0449             
+0450             x = [X0; X9; X8];
+0451         <span class="keyword">end</span>
+0452         
+0453         <span class="comment">%resource requirements</span>
+0454         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0455             result = zeros(size(this.substrates));
+0456             result(this.substrateIndexs_atp) = <span class="keyword">...</span>
+0457                 + this.enzymes(this.enzymeIndexs_DnaA) <span class="keyword">...</span><span class="comment">          %number of free DnaA</span>
+0458                 + this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP) <span class="keyword">...</span><span class="comment"> %number of DnaA-ADP to be regenerated</span>
+0459                 + this.boundEnzymes(this.enzymeIndexs_DnaA_1mer_ADP);
+0460             result(this.substrateIndexs_water) = <span class="keyword">...</span>
+0461                 (2:7) * this.enzymes(this.enzymeIndexs_DnaA_polymer_ATP);
+0462         <span class="keyword">end</span>
+0463 
+0464         <span class="comment">%simulation</span>
+0465         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0466             [polATPs, polADPs] = this.calculateDnaAR1234Polymerization();
+0467             
+0468             <span class="comment">%Activate free DnaA to DnaA-ATP</span>
+0469             this.activateFreeDnaA();
+0470             
+0471             <span class="comment">%Dissociate free DnaA-ATP polymers into monomers and hydrolyze ATPs</span>
+0472             this.inactivateFreeDnaAATP();
+0473             
+0474             <span class="comment">%DnaA binding is reduced when DNA isn't supercoiled (Margulies et</span>
+0475             <span class="comment">%al, 1996)</span>
+0476             <span class="keyword">if</span> collapse(this.chromosome.supercoiled)
+0477                 <span class="comment">%bind and polymerized DnaA-ATP</span>
+0478                 [polATPs, polADPs] = this.bindAndPolymerizeDnaAATP(polATPs, polADPs);
+0479                 
+0480                 <span class="comment">%bind polymerized DnaA-ADP</span>
+0481                 [polATPs, polADPs] = this.bindAndPolymerizeDnaAADP(polATPs, polADPs);
+0482             <span class="keyword">end</span>
+0483             
+0484             <span class="comment">%Stochastically release bound DnaA-AxP with uniform probability</span>
+0485             this.releaseDnaAAxP(polATPs, polADPs);
+0486             
+0487             <span class="comment">%Reactivate free DnaA from free DnaA-ADPs</span>
+0488             this.reactivateFreeDnaAADP();
+0489         <span class="keyword">end</span>
+0490     <span class="keyword">end</span>
+0491 
+0492     <span class="comment">%model helper functions</span>
+0493     methods       
+0494         <span class="comment">%Activate free DnaA to DnaA-ATP</span>
+0495         <a name="_sub10" href="#_subfunctions" class="code">function activateFreeDnaA(this)</a>
+0496             nActivations = min(<span class="keyword">...</span>
+0497                 this.substrates(this.substrateIndexs_atp), <span class="keyword">...</span>
+0498                 this.enzymes(this.enzymeIndexs_DnaA));
+0499             
+0500             <span class="comment">%stop early if no activation</span>
+0501             <span class="keyword">if</span> nActivations == 0
+0502                 <span class="keyword">return</span>; 
+0503             <span class="keyword">end</span>
+0504             
+0505             <span class="comment">%update DnaA, DnaA-ATP, ATP</span>
+0506             this.substrates(this.substrateIndexs_atp)     = this.substrates(this.substrateIndexs_atp)     - nActivations;
+0507             this.enzymes(this.enzymeIndexs_DnaA)          = this.enzymes(this.enzymeIndexs_DnaA)          - nActivations;
+0508             this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP) = this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP) + nActivations;
+0509         <span class="keyword">end</span>
+0510         
+0511         <span class="comment">%Dissociate free DnaA-ATP polymers into monomers and hydrolyze ATPs</span>
+0512         <span class="comment">%</span>
+0513         <span class="comment">%These polymers are normally only found bound to functional DnaA</span>
+0514         <span class="comment">%boxes near the ORI. However if they are released from the</span>
+0515         <span class="comment">%chromosome by another protein, for example by DNA polymerase at the</span>
+0516         <span class="comment">%start of replication, they could become free. These freed polymers</span>
+0517         <span class="comment">%must dissociate into individual DnaA-ADP molecules before they can</span>
+0518         <span class="comment">%again bind to the chromosome.</span>
+0519         <a name="_sub11" href="#_subfunctions" class="code">function inactivateFreeDnaAATP(this)</a>
+0520             nDissociatingPolymers = this.enzymes(this.enzymeIndexs_DnaA_polymer_ATP);
+0521             
+0522             <span class="comment">%limit by water availability</span>
+0523             <span class="keyword">while</span> true
+0524                 nDissociatingMonomers = (2:7) * nDissociatingPolymers;
+0525                 <span class="keyword">if</span> nDissociatingMonomers == 0
+0526                     <span class="keyword">return</span>;
+0527                 <span class="keyword">end</span>
+0528                 <span class="keyword">if</span> this.substrates(this.substrateIndexs_water) &gt;= nDissociatingMonomers
+0529                     <span class="keyword">break</span>;
+0530                 <span class="keyword">end</span>
+0531                 idx = this.randStream.randsample(6, 1, false, nDissociatingPolymers);
+0532                 nDissociatingPolymers(idx) = nDissociatingPolymers(idx) - 1;
+0533             <span class="keyword">end</span>
+0534 
+0535             <span class="comment">%update DnaA-ATP polymers, DnaA-ADP, water, phosphate, hydrogen</span>
+0536             this.substrates(this.substrateIndexs_water)      = this.substrates(this.substrateIndexs_water)      - nDissociatingMonomers;
+0537             this.substrates(this.substrateIndexs_phosphate)  = this.substrates(this.substrateIndexs_phosphate)  + nDissociatingMonomers;
+0538             this.substrates(this.substrateIndexs_hydrogen)   = this.substrates(this.substrateIndexs_hydrogen)   + nDissociatingMonomers;
+0539             this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP)    = this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP)    + nDissociatingMonomers;
+0540             this.enzymes(this.enzymeIndexs_DnaA_polymer_ATP) = this.enzymes(this.enzymeIndexs_DnaA_polymer_ATP) - nDissociatingPolymers;
+0541         <span class="keyword">end</span>
+0542         
+0543         <a name="_sub12" href="#_subfunctions" class="code">function [polATPs, polADPs] = bindAndPolymerizeDnaAATP(this, polATPs, polADPs)</a>
+0544             <span class="comment">%% number of free DnaA-ATP</span>
+0545             numFreeDnaAATP = this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP);
+0546             <span class="keyword">if</span> numFreeDnaAATP == 0
+0547                 <span class="keyword">return</span>;
+0548             <span class="keyword">end</span>
+0549             
+0550             <span class="comment">%% upper bound of binding</span>
+0551             <span class="comment">%rates of binding each DnaA box type</span>
+0552             [positionsStrands, bindingRates, avgBindingRate] = this.calculateDnaAATPBindingRates(polATPs, polADPs);
+0553             
+0554             <span class="comment">%Estimate number of free DnaA boxes</span>
+0555             [~, complexs] = find(this.chromosome.complexBoundSites);
+0556             numFreeBindingSites = numel(bindingRates) <span class="keyword">...</span>
+0557                 - sum(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_1mer_ATP)) <span class="keyword">...</span>
+0558                 - sum(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_1mer_ADP));
+0559             
+0560             <span class="comment">%Maximum number of DnaA-ATP binding</span>
+0561             maxBinding = this.randStream.stochasticRound(min([
+0562                 avgBindingRate * numFreeBindingSites * numFreeDnaAATP + nnz(bindingRates(this.dnaABoxIndexs_7mer, :));
+0563                 numFreeBindingSites;
+0564                 numFreeDnaAATP]));
+0565             
+0566             <span class="comment">%% upper bound of polymerization</span>
+0567             <span class="comment">%polymerization state of each function DnaA box</span>
+0568             maxPol = 0;
+0569             polATPRates = zeros(size(polATPs));
+0570             <span class="keyword">if</span> any(polATPs(:))
+0571                 
+0572                 <span class="comment">%Rates of polymerizing each DnaA box</span>
+0573                 polATPRates = this.calculateDnaAR1234ATPPolymerizationRates(polATPs, polADPs);
+0574                 
+0575                 <span class="comment">%number of site available for polymerization</span>
+0576                 numFreePolSites = nnz(polATPRates);
+0577                 <span class="keyword">if</span> numFreePolSites &gt; 0
+0578                     
+0579                     <span class="comment">%Calculate total number of DnaA-ATP molecules that bind an</span>
+0580                     <span class="comment">%accessible DnaA box</span>
+0581                     maxPol = this.randStream.stochasticRound(min([
+0582                         sum(polATPRates(:)) * numFreeDnaAATP;
+0583                         numFreePolSites;
+0584                         numFreeDnaAATP]));
+0585                 <span class="keyword">end</span>
+0586             <span class="keyword">end</span>
+0587             
+0588             <span class="comment">%% allocate DnaA-ATP</span>
+0589             totBindingRate = avgBindingRate * numFreeBindingSites;
+0590             totPolRate = sum(polATPRates(:));
+0591             
+0592             maxBinding = min(maxBinding, this.randStream.stochasticRound(numFreeDnaAATP * totBindingRate / (totBindingRate + totPolRate)));
+0593             
+0594             <span class="comment">%% bind, polymerize</span>
+0595             [polATPs, polADPs, nBound] = this.bindDnaAATP(polATPs, polADPs, maxBinding, positionsStrands, bindingRates);
+0596             [polATPs, polADPs] = this.polymerizeDnaAATP(polATPs, polADPs, min(maxPol, numFreeDnaAATP - nBound), polATPRates);
+0597         <span class="keyword">end</span>
+0598         
+0599         <a name="_sub13" href="#_subfunctions" class="code">function [polATPs, polADPs] = bindAndPolymerizeDnaAADP(this, polATPs, polADPs)</a>
+0600             <span class="comment">%% number of free DnaA-ADP</span>
+0601             numFreeDnaAADP = this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP);
+0602             <span class="keyword">if</span> numFreeDnaAADP == 0
+0603                 <span class="keyword">return</span>;
+0604             <span class="keyword">end</span>
+0605             
+0606             <span class="comment">%% binding</span>
+0607             <span class="comment">%rates of binding each DnaA box type</span>
+0608             [positionsStrands, bindingRates, avgBindingRate] = this.calculateDnaAADPBindingRates(polATPs, polADPs);
+0609             
+0610             <span class="comment">%Estimate number of free DnaA boxes</span>
+0611             [~, complexs] = find(this.chromosome.complexBoundSites);
+0612             numFreeBindingSites = numel(bindingRates) <span class="keyword">...</span>
+0613                 - sum(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_1mer_ATP)) <span class="keyword">...</span>
+0614                 - sum(complexs == this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_1mer_ADP));
+0615             
+0616             <span class="comment">%Maximum number of DnaA-ADP binding</span>
+0617             maxBinding = this.randStream.stochasticRound(min([
+0618                 avgBindingRate * numFreeBindingSites * numFreeDnaAADP + nnz(bindingRates(this.dnaABoxIndexs_7mer, :));
+0619                 numFreeBindingSites;
+0620                 numFreeDnaAADP]));
+0621             
+0622             <span class="comment">%% polymerization</span>
+0623             <span class="comment">%polymerization state of each function DnaA box</span>
+0624             maxPol = 0;
+0625             polADPRates = zeros(size(polADPs));
+0626             <span class="keyword">if</span> any(polATPs(:))
+0627                 
+0628                 <span class="comment">%Rates of polymerizing each DnaA box</span>
+0629                 polADPRates = this.calculateDnaAR1234ADPPolymerizationRates(polATPs, polADPs);
+0630                 
+0631                 <span class="comment">%number of site available for polymerization</span>
+0632                 numFreePolSites = nnz(polADPRates);
+0633                 <span class="keyword">if</span> numFreePolSites &gt; 0
+0634                     
+0635                     <span class="comment">%Calculate total number of DnaA-ADP molecules that bind an</span>
+0636                     <span class="comment">%accessible DnaA box</span>
+0637                     maxPol = this.randStream.stochasticRound(min([
+0638                         sum(polADPRates(:)) * numFreeDnaAADP;
+0639                         numFreePolSites;
+0640                         numFreeDnaAADP]));
+0641                 <span class="keyword">end</span>
+0642             <span class="keyword">end</span>
+0643             
+0644             <span class="comment">%% allocation</span>
+0645             totBindingRate = avgBindingRate * numFreeBindingSites;
+0646             totPolRate = sum(polADPRates(:));
+0647             
+0648             maxBinding = min(maxBinding, this.randStream.stochasticRound(numFreeDnaAADP * totBindingRate / (totBindingRate + totPolRate)));
+0649             
+0650             <span class="comment">%% bind, polymerize</span>
+0651             [polATPs, polADPs, nBound] = this.bindDnaAADP(polATPs, polADPs, maxBinding, positionsStrands, bindingRates);
+0652             [polATPs, polADPs] = this.polymerizeDnaAADP(polATPs, polADPs, min(maxPol, numFreeDnaAADP - nBound), polADPRates);
+0653         <span class="keyword">end</span>
+0654                 
+0655         <span class="comment">%polymerized DnaA-ATP</span>
+0656         <span class="comment">%</span>
+0657         <span class="comment">%Choose binding sites by sampling from CDF.</span>
+0658         <span class="comment">%</span>
+0659         <span class="comment">%Calculate maximum amount of DnaA-ATP that could form</span>
+0660         <span class="comment">%Browning et al 2004, say that if there is enough ATP, all new</span>
+0661         <span class="comment">%DnaA is assumed to be in the ATP form. The consequence of this is</span>
+0662         <span class="comment">%that for most of the simulation there is pretty much only DnaA-ATP</span>
+0663         <span class="comment">%and no DnaA-ADP. Our framework however doesn't distinguish newly</span>
+0664         <span class="comment">%constructed DnaA-ATPs from those recently released from the</span>
+0665         <span class="comment">%chromosome. Consequently, because we would like to model the</span>
+0666         <span class="comment">%hydrolysis of ATP bound to recently released DnaA molecules, we</span>
+0667         <span class="comment">%must model the binding of ATP to DnaA as occuring just prior to</span>
+0668         <span class="comment">%binding to the chromosome.</span>
+0669         <span class="comment">%</span>
+0670         <span class="comment">%Note: to implement the Browning et al model, the hydrolysis of ATP</span>
+0671         <span class="comment">%bound to recently released DnaA would have to be handled by the</span>
+0672         <span class="comment">%setRegionProteinUnbound method of the Chromosome class.</span>
+0673         <a name="_sub14" href="#_subfunctions" class="code">function [polATPs, polADPs] = polymerizeDnaAATP(this, polATPs, polADPs, maxPol, polATPRates)</a>
+0674             <span class="keyword">if</span> maxPol == 0
+0675                 <span class="keyword">return</span>;
+0676             <span class="keyword">end</span>
+0677             
+0678             <span class="comment">%stochastically select DnaA boxes to polymerize according to rate distribution</span>
+0679             idxs = this.randStream.randsample(numel(polATPRates), maxPol, false, polATPRates(:));
+0680             
+0681             <span class="comment">%update ATP polymerization status</span>
+0682             polATPs(idxs) = polATPs(idxs) + 1;
+0683             
+0684             <span class="comment">%update chromosome state</span>
+0685             positionsStrands = [
+0686                 this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234(mod(idxs - 1, 4) + 1), 1) <span class="keyword">...</span>
+0687                 2*ceil(idxs/4)-1];
+0688             
+0689             this.modifyProteinOnChromosome(positionsStrands, this.enzymeIndexs_DnaA_Nmer_ATP(polATPs(idxs)));
+0690             
+0691             counts = histc(polATPs(idxs), 2:7);
+0692             this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP)      = this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP)      - maxPol;
+0693             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(1:6)) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(1:6)) - counts(:);
+0694             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(2:7)) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(2:7)) + counts(:);
+0695         <span class="keyword">end</span>
+0696         
+0697         <span class="comment">%polymerized DnaA-ADP</span>
+0698         <a name="_sub15" href="#_subfunctions" class="code">function [polATPs, polADPs] = polymerizeDnaAADP(this, polATPs, polADPs, maxPol, polADPRates)</a>
+0699             <span class="keyword">if</span> maxPol == 0
+0700                 <span class="keyword">return</span>;
+0701             <span class="keyword">end</span>
+0702             
+0703             <span class="comment">%stochastically select DnaA boxes to polymerize according to rate distribution</span>
+0704             idxs = this.randStream.randsample(numel(polADPRates), maxPol, false, polADPRates(:));
+0705             
+0706             <span class="comment">%update AxP polymerization status</span>
+0707             polADPs(idxs) = polATPs(idxs) + 1;
+0708             polATPs(idxs) = 0;
+0709             
+0710             <span class="comment">%update chromosome state</span>
+0711             positionsStrands = [
+0712                 this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234(mod(idxs - 1, 4) + 1), 1) <span class="keyword">...</span>
+0713                 2*ceil(idxs/4)-1];
+0714             
+0715             this.modifyProteinOnChromosome(positionsStrands, this.enzymeIndexs_DnaA_Nmer_ADP(polADPs(idxs)));
+0716             
+0717             counts = histc(polADPs(idxs), 2:7);
+0718             this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP)      = this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP)      - maxPol;
+0719             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(1:6)) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ATP(1:6)) - counts(:);
+0720             this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP(2:7)) = this.enzymes(this.enzymeIndexs_DnaA_Nmer_ADP(2:7)) + counts(:);
+0721         <span class="keyword">end</span>
+0722         
+0723         <span class="comment">%Bind DnaA-ATP</span>
+0724         <a name="_sub16" href="#_subfunctions" class="code">function [polATPs, polADPs, nBound] = bindDnaAATP(this, polATPs, polADPs, maxBinding, positionsStrands, bindingRates)</a>
+0725             <span class="keyword">if</span> maxBinding == 0;
+0726                 nBound = 0;
+0727                 <span class="keyword">return</span>;
+0728             <span class="keyword">end</span>
+0729             
+0730             <span class="comment">%Bind DnaA-ATP stochastically to accessible DnaA boxes according to rate distribution</span>
+0731             [tfs, ~, ~, nBound] = this.bindProteinToChromosome(positionsStrands, <span class="keyword">...</span>
+0732                 this.enzymeIndexs_DnaA_1mer_ATP, maxBinding, bindingRates, true, false, 1, false, [], true);
+0733             polATPs(tfs(this.dnaABoxIndexs_R1234, 1), 1) = 1;
+0734         <span class="keyword">end</span>
+0735         
+0736         <span class="comment">%Bind DnaA-ADP</span>
+0737         <a name="_sub17" href="#_subfunctions" class="code">function [polATPs, polADPs, nBound] = bindDnaAADP(this, polATPs, polADPs, maxBinding, positionsStrands, bindingRates)</a>
+0738             <span class="keyword">if</span> maxBinding == 0;
+0739                 nBound = 0;
+0740                 <span class="keyword">return</span>;
+0741             <span class="keyword">end</span>
+0742             
+0743             <span class="comment">%Bind DnaA-ADP stochastically to accessible DnaA boxes according to rate distribution</span>
+0744             [tfs, ~, ~, nBound] = this.bindProteinToChromosome(positionsStrands, <span class="keyword">...</span>
+0745                 this.enzymeIndexs_DnaA_1mer_ADP, maxBinding, bindingRates, true, false, 1, false, [], true);
+0746             polADPs(tfs(this.dnaABoxIndexs_R1234, 1), 1) = 1;
+0747         <span class="keyword">end</span>
+0748                 
+0749         <span class="comment">%Stochastically release/depolymerize bound DnaA-AxP with uniform probability</span>
+0750         <a name="_sub18" href="#_subfunctions" class="code">function [polATPs, polADPs] = releaseDnaAAxP(this, polATPs, polADPs)</a>
+0751             <span class="comment">%get bound DnaA complexes</span>
+0752             c = this.chromosome;
+0753             [posStrnds, complexGblIdxs] = find(c.complexBoundSites);
+0754             complexLclIdxs = ismembc2(complexGblIdxs, this.enzymeComplexGlobalIndexs);
+0755             tfs = complexLclIdxs &gt; 0;
+0756             
+0757             <span class="comment">%protect completed polymerized layers at R1-4 positions</span>
+0758             minPol = this.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0759             
+0760             <span class="keyword">if</span> minPol(1) &gt; 0
+0761                 protectedPositions1 = this.dnaABoxStartPositions(<span class="keyword">...</span>
+0762                     this.dnaABoxIndexs_R1234(polATPs(:, 1) == minPol(1)));
+0763                 <span class="keyword">if</span> minPol(1) &gt;= 7
+0764                     protectedPositions1 = [protectedPositions1;
+0765                         this.dnaABoxStartPositions(this.dnaABoxIndexs_R5, :)];
+0766                 <span class="keyword">end</span>
+0767                 <span class="keyword">if</span> ~isempty(protectedPositions1)
+0768                     tfs(tfs) = ~edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+0769                         posStrnds(tfs, :), [protectedPositions1 ones(size(protectedPositions1))], [c.sequenceLen c.nCompartments]);
+0770                 <span class="keyword">end</span>
+0771             <span class="keyword">end</span>
+0772             
+0773             <span class="keyword">if</span> minPol(2) &gt; 0
+0774                 protectedPositions2 = this.dnaABoxStartPositions(<span class="keyword">...</span>
+0775                     this.dnaABoxIndexs_R1234(polATPs(:, 2) == minPol(2)));
+0776                 <span class="keyword">if</span> minPol(2) &gt;= 7
+0777                     protectedPositions2 = [protectedPositions2;
+0778                         this.dnaABoxStartPositions(this.dnaABoxIndexs_R5, :)];
+0779                 <span class="keyword">end</span>
+0780                 <span class="keyword">if</span> ~isempty(protectedPositions2)
+0781                     tfs(tfs) = ~edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+0782                         posStrnds(tfs, :), [protectedPositions2 3*ones(size(protectedPositions2))], [c.sequenceLen c.nCompartments]);                   
+0783                 <span class="keyword">end</span>
+0784             <span class="keyword">end</span>
+0785             
+0786             <span class="comment">%choose complexes to release</span>
+0787             tfs(tfs) = this.randStream.rand(sum(tfs), 1) &lt; this.kd1ATP / 3600;
+0788             <span class="keyword">if</span> ~any(tfs)
+0789                 <span class="keyword">return</span>;
+0790             <span class="keyword">end</span>
+0791             complexLclIdxs = complexLclIdxs(tfs, 1);
+0792             posStrnds = posStrnds(tfs, :);
+0793             
+0794             <span class="comment">%update enzymes, bound enzymes</span>
+0795             remainingComplexLclIdxs = this.dnaARelease_remainingDnaAIndexs(complexLclIdxs);
+0796             
+0797             this.releaseProteinFromSites(posStrnds(remainingComplexLclIdxs == 0, :), false);
+0798             
+0799             posStrnds = posStrnds(remainingComplexLclIdxs ~= 0, :);
+0800             complexLclIdxs = complexLclIdxs(remainingComplexLclIdxs ~= 0, 1);
+0801             remainingComplexLclIdxs = remainingComplexLclIdxs(remainingComplexLclIdxs ~= 0, 1);
+0802             releasedComplexLclIdxs = this.dnaARelease_releasedDnaAIndexs(complexLclIdxs);
+0803             this.modifyProteinOnChromosome(posStrnds, remainingComplexLclIdxs);
+0804             
+0805             count = histc(complexLclIdxs, 1:numel(this.enzymes));
+0806             remainingCount = histc(remainingComplexLclIdxs, 1:numel(this.enzymes));
+0807             releasedCount = histc(releasedComplexLclIdxs, 1:numel(this.enzymes));
+0808             this.enzymes = this.enzymes -count(:) + remainingCount(:) + releasedCount(:);
+0809         <span class="keyword">end</span>
+0810     
+0811         <span class="comment">%Reactivate free DnaA-ATPs from free DnaA-ADPs, upto available DnaA-ADP and ATP</span>
+0812         <span class="comment">%</span>
+0813         <span class="comment">%Incorporating DnaA-ADP rejuvenation to DnaA-ATP as in Atlas 2008.</span>
+0814         <span class="comment">%This reaction is promoted by the aciding phospholipids cadiolipin</span>
+0815         <span class="comment">%and phosphatidylglycerol (yat-ming 1998, crooke 1992, sekimizu</span>
+0816         <span class="comment">%1987).</span>
+0817         <a name="_sub19" href="#_subfunctions" class="code">function reactivateFreeDnaAADP(this)</a>
+0818             <span class="comment">%DnaA-ADP available for regeneration</span>
+0819             numFreeDnaAADP = this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP);
+0820             <span class="keyword">if</span> numFreeDnaAADP == 0
+0821                 <span class="keyword">return</span>; 
+0822             <span class="keyword">end</span>
+0823             
+0824             <span class="comment">%upper bound on DnaA-ADP regeneration to DnaA-ATP</span>
+0825             membraneConc = this.mass.metaboliteWt(1, this.mass.compartment.membraneIndexs) / this.geometry.volume; <span class="comment">%g/L</span>
+0826             numRegenerations = min([
+0827                 this.substrates(this.substrateIndexs_atp);
+0828                 numFreeDnaAADP;
+0829                 this.randStream.stochasticRound(numFreeDnaAADP * <span class="keyword">...</span>
+0830                 (this.k_Regen / 3600 * membraneConc) / (this.K_Regen_P4 + membraneConc) * <span class="keyword">...</span>
+0831                 this.stepSizeSec)]);
+0832             
+0833             <span class="comment">%stop early if no regeneration</span>
+0834             <span class="keyword">if</span> numRegenerations == 0
+0835                 <span class="keyword">return</span>; 
+0836             <span class="keyword">end</span>
+0837             
+0838             <span class="comment">%update DnaA-ATP, DnaA-ADP, ATP, ADP</span>
+0839             this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP) = this.enzymes(this.enzymeIndexs_DnaA_1mer_ADP) - numRegenerations;
+0840             this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP) = this.enzymes(this.enzymeIndexs_DnaA_1mer_ATP) + numRegenerations;
+0841             this.substrates(this.substrateIndexs_atp)     = this.substrates(this.substrateIndexs_atp)     - numRegenerations;
+0842             this.substrates(this.substrateIndexs_adp)     = this.substrates(this.substrateIndexs_adp)     + numRegenerations;
+0843         <span class="keyword">end</span>
+0844     <span class="keyword">end</span>
+0845     
+0846     <span class="comment">%model helper helper methods</span>
+0847     methods
+0848         <a name="_sub20" href="#_subfunctions" class="code">function polRates = calculateDnaAR1234ATPPolymerizationRates(this, polATPs, polADPs)</a>
+0849             <span class="comment">%initialize rates</span>
+0850             polRates = zeros(4, 2);
+0851             
+0852             <span class="comment">%complex size</span>
+0853             pol = this.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0854             
+0855             <span class="comment">%stop if no polymerization possible</span>
+0856             <span class="keyword">if</span> ~any(pol)
+0857                 <span class="keyword">return</span>;
+0858             <span class="keyword">end</span>
+0859             
+0860             <span class="comment">%complex size range for cooperativity to apply</span>
+0861             polRange = min(6, max(1, pol));
+0862             
+0863             <span class="comment">%Rates of polymerizing each DnaA box</span>
+0864             nAvo = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0865             polRates(4,   :) = this.kb1ATP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0866             polRates(1:3, :) = this.kb2ATP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0867             polRates = polRates .* (polATPs == [polRange; polRange; polRange; polRange]);
+0868             <span class="keyword">if</span> ~any(polRates(:))
+0869                 <span class="keyword">return</span>;
+0870             <span class="keyword">end</span>
+0871             
+0872             <span class="comment">%Include effect of cooperativity</span>
+0873             polRates = polRates .* this.calculateDnaAR1234ATPPolymerizationCooperativity(polATPs, polADPs, pol);
+0874         <span class="keyword">end</span>
+0875         
+0876         <a name="_sub21" href="#_subfunctions" class="code">function polRates = calculateDnaAR1234ADPPolymerizationRates(this, polATPs, polADPs)</a>
+0877             <span class="comment">%initialize rates</span>
+0878             polRates = zeros(4, 2);
+0879             
+0880             <span class="comment">%complex size</span>
+0881             pol = this.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0882             
+0883             <span class="comment">%stop if no polymerization possible</span>
+0884             <span class="keyword">if</span> ~any(pol)
+0885                 <span class="keyword">return</span>;
+0886             <span class="keyword">end</span>
+0887             
+0888             <span class="comment">%complex size range for cooperativity to apply</span>
+0889             polRange = min(6, max(1, pol));
+0890             
+0891             <span class="comment">%Rates of polymerizing each DnaA box</span>
+0892             nAvo = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0893             polRates(4,   :) = this.kb1ADP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0894             polRates(1:3, :) = this.kb2ADP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0895             polRates = polRates .* (polATPs == [polRange; polRange; polRange; polRange]);
+0896         <span class="keyword">end</span>
+0897         
+0898         <a name="_sub22" href="#_subfunctions" class="code">function cooperativity = calculateDnaAR1234ATPPolymerizationCooperativity(this, polATPs, polADPs, pol)</a>
+0899             <span class="comment">%site cooperativity</span>
+0900             cooperativity = this.siteCooperativity * [
+0901                 polATPs(4, :) &gt;  pol;
+0902                 all(polATPs([1 4], :) &gt; [pol; pol], 1);
+0903                 all(polATPs([1 4], :) &gt; [pol; pol], 1);
+0904                 any(polATPs &gt; [pol; pol; pol; pol], 1);
+0905                 ];
+0906             
+0907             <span class="comment">%additive state cooperativity</span>
+0908             <span class="comment">%- we considered multiplicative and exponential models, but these</span>
+0909             <span class="comment">%  give rise to higher variance in the replication initiation time</span>
+0910             cooperativity(4, :) = cooperativity(4, :) + this.stateCooperativity * pol; 
+0911             
+0912             <span class="comment">%set cooperativity to 1 for sites which can't polymerize</span>
+0913             cooperativity = max(1, (polATPs == [pol; pol; pol; pol] &amp; polADPs == 0) .* cooperativity);
+0914         <span class="keyword">end</span>
+0915         
+0916         <span class="comment">%Rate which DnaA-ATP binds to each DnaA box</span>
+0917         <a name="_sub23" href="#_subfunctions" class="code">function [positionsStrands, bindingRates, avgBindingRate] = calculateDnaAATPBindingRates(this, polATPs, polADPs)</a>
+0918             <span class="comment">%8-mer, 9-mer, average binding rates</span>
+0919             nAvo = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0920             rate9mer = this.kb1ATP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0921             rate8mer = this.kb2ATP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0922             avgBindingRate = (rate9mer*numel(this.dnaABoxIndexs_9mer) + rate8mer*numel(this.dnaABoxIndexs_8mer)) / <span class="keyword">...</span>
+0923                 numel(this.dnaABoxStartPositions);
+0924             
+0925             <span class="comment">%functional DnaA complex size</span>
+0926             complexSize = this.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0927             
+0928             <span class="comment">%cooperativity</span>
+0929             cooperativity = this.calculateDnaAR1234ATPPolymerizationCooperativity(polATPs, polADPs, complexSize);
+0930             
+0931             <span class="comment">%First chromosome positions, strands, binding rates</span>
+0932             <span class="comment">%set rate of R5 to Inf if R1-4 fully bound</span>
+0933             <span class="comment">%baseline rate of binding 7mer site low, and binding is HIGHLY</span>
+0934             <span class="comment">%cooperative with complete occupancy of R1-4 sites</span>
+0935             positionsStrands = [this.dnaABoxStartPositions ones(size(this.dnaABoxStartPositions))];
+0936             bindingRates = zeros(numel(this.dnaABoxStartPositions), 1);
+0937             bindingRates(this.dnaABoxIndexs_9mer, 1) = rate9mer;
+0938             bindingRates(this.dnaABoxIndexs_8mer, 1) = rate8mer;
+0939             bindingRates(this.dnaABoxIndexs_R5,   1) = (complexSize(1) == 7) * realmax;
+0940             
+0941             bindingRates(this.dnaABoxIndexs_R1234) = <span class="keyword">...</span>
+0942                 bindingRates(this.dnaABoxIndexs_R1234) .* <span class="keyword">...</span>
+0943                 cooperativity(:, 1);
+0944             
+0945             <span class="comment">%Second chromosome positions, strands, binding rates</span>
+0946             <span class="comment">%- We ingore setting the R5 box rate for computational efficiency</span>
+0947             <span class="comment">%  because a complex should never be form on the second chromosome</span>
+0948             <span class="comment">%- We also ignore cooperativity on the second chromosome</span>
+0949             <span class="keyword">if</span> collapse(this.chromosome.polymerizedRegions) &gt; 2 * this.chromosome.sequenceLen
+0950                 positionsStrands2 = [this.dnaABoxStartPositions 3*ones(size(this.dnaABoxStartPositions))];
+0951                 bindingRates2 = zeros(numel(this.dnaABoxStartPositions), 1);
+0952                 bindingRates2(this.dnaABoxIndexs_9mer, 1) = rate9mer;
+0953                 bindingRates2(this.dnaABoxIndexs_8mer, 1) = rate8mer;
+0954                 bindingRates2(this.dnaABoxIndexs_R5,   1) = (complexSize(2) == 7) * realmax;
+0955                 
+0956                 bindingRates2(this.dnaABoxIndexs_R1234) = <span class="keyword">...</span>
+0957                     bindingRates2(this.dnaABoxIndexs_R1234) .* <span class="keyword">...</span>
+0958                     cooperativity(:, 2);
+0959                 
+0960                 <span class="keyword">if</span> collapse(this.chromosome.polymerizedRegions) &lt; 4 * this.chromosome.sequenceLen
+0961                     [pos, len] = find(this.chromosome.doubleStrandedRegions);
+0962                     len = len(pos(:, 2) == 4, 1);
+0963                     pos = pos(pos(:, 2) == 4, 1);
+0964                     tfs = this.dnaABoxStartPositions &lt; pos(1) + len(1) | this.dnaABoxStartPositions &gt; pos(end);
+0965                     positionsStrands2 = positionsStrands2(tfs, :);
+0966                     bindingRates2 = bindingRates2(tfs);
+0967                 <span class="keyword">end</span>
+0968                 
+0969                 bindingRates = [bindingRates; bindingRates2];
+0970                 positionsStrands = [positionsStrands; positionsStrands2];
+0971             <span class="keyword">end</span>
+0972         <span class="keyword">end</span>
+0973         
+0974         <span class="comment">%Rate which DnaA-ADP binds to each DnaA box</span>
+0975         <a name="_sub24" href="#_subfunctions" class="code">function [positionsStrands, bindingRates, avgBindingRate] = calculateDnaAADPBindingRates(this, polATPs, polADPs)</a>
+0976             <span class="comment">%8-mer, 9-mer, average binding rates</span>
+0977             nAvo = edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0978             rate9mer = this.kb1ADP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0979             rate8mer = this.kb2ADP * 1e9 / 3600 / nAvo / this.geometry.volume * this.stepSizeSec;
+0980             avgBindingRate = (rate9mer*numel(this.dnaABoxIndexs_9mer) + rate8mer*numel(this.dnaABoxIndexs_8mer)) / numel(this.dnaABoxStartPositions);
+0981             
+0982             <span class="comment">%functional DnaA complex size</span>
+0983             complexSize = this.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0984             
+0985             <span class="comment">%First chromosome positions, strands, binding rates</span>
+0986             <span class="comment">%set rate of R5 to Inf if R1-4 fully bound</span>
+0987             <span class="comment">%baseline rate of binding 7mer site low, and binding is HIGHLY</span>
+0988             <span class="comment">%cooperative with complete occupancy of R1-4 sites</span>
+0989             positionsStrands = [this.dnaABoxStartPositions ones(size(this.dnaABoxStartPositions))];
+0990             bindingRates = zeros(numel(this.dnaABoxStartPositions), 1);
+0991             bindingRates(this.dnaABoxIndexs_9mer, 1) = rate9mer;
+0992             bindingRates(this.dnaABoxIndexs_8mer, 1) = rate8mer;
+0993             bindingRates(this.dnaABoxIndexs_R5,   1) = (complexSize(1) == 7) * realmax;
+0994             
+0995             <span class="comment">%Second chromosome positions, strands, binding rates</span>
+0996             <span class="comment">%We ingore setting the R5 box rate for computational efficiency</span>
+0997             <span class="comment">%because a complex should never be form on the second chromosome</span>
+0998             <span class="keyword">if</span> collapse(this.chromosome.polymerizedRegions) &gt; 2 * this.chromosome.sequenceLen
+0999                 positionsStrands2 = [this.dnaABoxStartPositions 3*ones(size(this.dnaABoxStartPositions))];
+1000                 bindingRates2 = zeros(numel(this.dnaABoxStartPositions), 1);
+1001                 bindingRates2(this.dnaABoxIndexs_9mer, 1) = rate9mer;
+1002                 bindingRates2(this.dnaABoxIndexs_8mer, 1) = rate8mer;
+1003                 bindingRates2(this.dnaABoxIndexs_R5,   1) = (complexSize(2) == 7) * realmax;
+1004                 
+1005                 <span class="keyword">if</span> collapse(this.chromosome.polymerizedRegions) &lt; 4 * this.chromosome.sequenceLen
+1006                     [pos, len] = find(this.chromosome.doubleStrandedRegions);
+1007                     len = len(pos(:, 2) == 4, 1);
+1008                     pos = pos(pos(:, 2) == 4, 1);
+1009                     tfs = this.dnaABoxStartPositions &lt; pos(1) + len(1) | this.dnaABoxStartPositions &gt; pos(end);
+1010                     positionsStrands2 = positionsStrands2(tfs, :);
+1011                     bindingRates2 = bindingRates2(tfs);
+1012                 <span class="keyword">end</span>
+1013                 
+1014                 bindingRates = [bindingRates; bindingRates2];
+1015                 positionsStrands = [positionsStrands; positionsStrands2];
+1016             <span class="keyword">end</span>
+1017         <span class="keyword">end</span>
+1018         
+1019         <a name="_sub25" href="#_subfunctions" class="code">function [polATP, polADP] = calculateDnaAR1234Polymerization(this)</a>
+1020             polATP = zeros(4, 2);
+1021             polADP = zeros(4, 2);
+1022             c = this.chromosome;
+1023             [posStrnds, complexs] = find(c.complexBoundSites);
+1024             
+1025             <span class="comment">%ATP</span>
+1026             idxsATP = ismembc2(complexs, this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ATP));
+1027             tfsATP = idxsATP &gt; 0;
+1028             idxsATP = idxsATP(tfsATP, 1);
+1029             [tfs2, idxs2] = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+1030                 [this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234) ones(4, 1)], <span class="keyword">...</span>
+1031                 posStrnds(tfsATP, :), [c.sequenceLen c.nCompartments]);
+1032             polATP(tfs2, 1) = idxsATP(idxs2(tfs2, 1), 1);
+1033             
+1034             <span class="comment">%ADP</span>
+1035             <span class="keyword">if</span> nargout &gt;= 2
+1036                 idxsADP = ismembc2(complexs, this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ADP));
+1037                 tfsADP = idxsADP &gt; 0;
+1038                 idxsADP = idxsADP(tfsADP, 1);
+1039                 [tfs2, idxs2] = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+1040                     [this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234) ones(4, 1)], <span class="keyword">...</span>
+1041                     posStrnds(tfsADP, :), [c.sequenceLen c.nCompartments]);
+1042                 polADP(tfs2, 1) = idxsADP(idxs2(tfs2, 1), 1);
+1043             <span class="keyword">end</span>
+1044             
+1045             <span class="comment">%second chromosome</span>
+1046             <span class="keyword">if</span> nnz(this.chromosome.polymerizedRegions) ~= 2
+1047                 <span class="comment">%ATP</span>
+1048                 [tfs2, idxs2] = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+1049                     [this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234) 3*ones(4, 1)], <span class="keyword">...</span>
+1050                     posStrnds(tfsATP, :), [c.sequenceLen c.nCompartments]);
+1051                 polATP(tfs2, 2) = idxsATP(idxs2(tfs2, 1), 1);
+1052                 
+1053                 <span class="comment">%ADP</span>
+1054                 <span class="keyword">if</span> nargout &gt;= 2
+1055                     [tfs2, idxs2] = edu.stanford.covert.util.SparseMat.ismember_subs(<span class="keyword">...</span>
+1056                         [this.dnaABoxStartPositions(this.dnaABoxIndexs_R1234) 3*ones(4, 1)], <span class="keyword">...</span>
+1057                         posStrnds(tfsADP, :), [c.sequenceLen c.nCompartments]);
+1058                     polADP(tfs2, 2) = idxsADP(idxs2(tfs2, 1), 1);
+1059                 <span class="keyword">end</span>
+1060             <span class="keyword">end</span>
+1061         <span class="keyword">end</span>
+1062         
+1063         <a name="_sub26" href="#_subfunctions" class="code">function siz = calculateDnaAR1234ComplexSize(~, polATPs, polADPs)</a>
+1064             siz = min(max(polATPs, polADPs-1), [], 1);
+1065         <span class="keyword">end</span>
+1066         
+1067         <a name="_sub27" href="#_subfunctions" class="code">function tf = calcuateIsDnaAR5Occupied(this)</a>
+1068             tf = this.chromosome.complexBoundSites([
+1069                 this.dnaABoxStartPositions(this.dnaABoxIndexs_R5) 1
+1070                 this.dnaABoxStartPositions(this.dnaABoxIndexs_R5) 3])' == <span class="keyword">...</span>
+1071                 this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_1mer_ATP);
+1072         <span class="keyword">end</span>
+1073         
+1074         <span class="comment">%Returns true if all functional DnaA boxes (R1-5) are maximally</span>
+1075         <span class="comment">%occupied:</span>
+1076         <span class="comment">%- R4   (9mer, high affinity)   is  bound by DnaA-ATP 7mer</span>
+1077         <span class="comment">%- R1-3 (8mer, medium affinity) are bound by DnaA-ATP 7mers</span>
+1078         <span class="comment">%- R5   (7mer, low affinity)    is  bound by DnaA-ATP 1mer</span>
+1079         <a name="_sub28" href="#_subfunctions" class="code">function tf = calculateIsDnaAORIComplexAssembled(this)</a>
+1080             tf = all(this.calculateDnaAR1234Polymerization() &gt;= [7 7 7 7; 7 7 7 7]', 1) &amp; <span class="keyword">...</span>
+1081                 this.calcuateIsDnaAR5Occupied();
+1082         <span class="keyword">end</span>
+1083         
+1084         <span class="comment">%approximate status of DnaA boxes (approximate to speed calculation;</span>
+1085         <span class="comment">%approximate because doesn't use Chromosome isRegionPolymerized</span>
+1086         <span class="comment">%method)</span>
+1087         <span class="comment">%</span>
+1088         <span class="comment">%A more exact calculation would replace the second and third sections</span>
+1089         <span class="comment">%below with:</span>
+1090         <span class="comment">%  status = repmat([this.dnaABoxStatus_NotBound this.dnaABoxStatus_NotExist], size(this.dnaABoxStartPositions, 1), 1);</span>
+1091         <span class="comment">%  status(reshape(this.chromosome.isRegionPolymerized(positionsStrands, this.enzymeDNAFootprints(this.enzymeIndexs_DnaA_1mer_ATP)), [], 2)) = this.dnaABoxStatus_NotBound;</span>
+1092         <a name="_sub29" href="#_subfunctions" class="code">function status = calculateDnaABoxStatus(this)</a>
+1093             <span class="comment">%starting positions and strands of DnaA boxes</span>
+1094             positionsStrands = [repmat(this.dnaABoxStartPositions, 2, 1) reshape(repmat([1 3], size(this.dnaABoxStartPositions, 1), 1), [], 1)];
+1095                         
+1096             <span class="comment">%initialize status</span>
+1097             status = repmat(this.dnaABoxStatus_NotBound, size(this.dnaABoxStartPositions, 1), 2);
+1098             
+1099             <span class="comment">%find polymerized sites</span>
+1100             [starts1, lengths1] = find(this.chromosome.polymerizedRegions(:, 3));
+1101             starts2 = find(this.chromosome.polymerizedRegions(:, 4));
+1102             <span class="keyword">if</span> isempty(starts1)
+1103                 <span class="keyword">if</span> isempty(starts2)
+1104                     status(:, 2) = this.dnaABoxStatus_NotExist;
+1105                 <span class="keyword">else</span>
+1106                     status(this.dnaABoxStartPositions &lt; starts2(end), 2) = this.dnaABoxStatus_NotExist;
+1107                 <span class="keyword">end</span>
+1108             <span class="keyword">else</span>
+1109                 <span class="keyword">if</span> isempty(starts2)
+1110                     status(this.dnaABoxStartPositions &gt; starts1(1), 2) = this.dnaABoxStatus_NotExist;
+1111                 <span class="keyword">else</span>
+1112                     status(this.dnaABoxStartPositions &gt; starts1(1) + lengths1(1) &amp; this.dnaABoxStartPositions &lt; starts2(end), 2) = this.dnaABoxStatus_NotExist;
+1113                 <span class="keyword">end</span>
+1114             <span class="keyword">end</span>
+1115             
+1116             <span class="comment">%find bound sites</span>
+1117             boundComplexs = reshape(this.chromosome.complexBoundSites(positionsStrands), [], 2);
+1118             status(ismembc(boundComplexs, this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ATP))) = this.dnaABoxStatus_DnaAATPBound;
+1119             status(ismembc(boundComplexs, this.enzymeGlobalIndexs(this.enzymeIndexs_DnaA_Nmer_ADP))) = this.dnaABoxStatus_DnaAADPBound;
+1120         <span class="keyword">end</span>
+1121     <span class="keyword">end</span>
+1122 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,1330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Transcription</title>
+  <meta name="keywords" content="Transcription">
+  <meta name="description" content="Transcription">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; Transcription.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Transcription
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Transcription</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Transcription
+
+ @wholeCellModelID Process_Transcription
+ @name             Transcription
+ @description
+   Biology
+   ===============
+   Transcription is the first step in the synthesis of functional gene
+   products where RNA polymerase and several accessory enzymes translate
+   transcription units, or regions of the DNA containing 1 or more genes, into
+   RNA molecules. Following transcription the RNA molecules follow one of
+   two pathways:
+   - mRNAs are used as templates for translation (see translation process)
+   - r/s/tRNAs which are transcribed as molecules containing multiple genes are
+     cleavaged into their individual genes (see RNA processing process), are
+     modified at several bases (see RNA modification process) to improve their
+     stability and enhance their catalytic activity, and finally act as
+     ribozymes (r/sRNAs) or as adaptors between mRNAs and the amino acids they
+     code for (tRNAs).
+
+   Transcription begins with the recruitment of RNA polymerase to a promoter
+   with the help of the sigma initiation factor and possiblity transcription
+   factors. Next elongation factors are recruited, RNA begins to be
+   polymerized, and sigma factor is released. Finally the RNA polymerase
+   reaches  a terminator at the the end of the transcription unit, and
+   with the help of termination factors releases the polymerized RNA and
+   dissociates from the DNA. Termination in E. coli occurs via either a
+   Rho-dependent (50%) or Rho-independent mechanism (50%). Rho-dependent
+   termination is catalyzed by the hexameric ATP-dependent helicase Rho.
+   Rho is not essential in B. subtilis [PUB_0234]. Rho-independent
+   termination occur via the intrinsic properties RNA which disrupt RNA
+   polymerase-DNA binding. Terminator hairpins are not predicted in M.
+   genitalium. In E. coli termination is incompetition with
+   antitermination. However antitermination has not been reported in any
+   mcyoplasma [PUB_0182].
+
+   As soon as the RNA begins to polymerized, even prior to termination, the
+   mRNA transcripts may be bound by ribosomes and polymerized. For simplicity,
+   our model doesn't represent this phenomenon.
+
+   Knowledge Base
+   ===============
+   The transcription unit structure was compiled from several sources:
+   - Primary reports of cotranscribed genes [PUB_0176, PUB_0182, PUB_0186,
+     PUB_0188, PUB_0188, PUB_0244, PUB_0247, PUB_0248, PUB_0249, PUB_0251]
+   - OperonDB database of cotranscribed genes [PUB_0250]
+   - Conservation of gene order across multiple species
+   - Related function of adjacent genes
+   - Expression levels as measured by microarrays of adjacent genes [PUB_0569]
+   - Strandedness of adjacent genes
+   - Weiner, Hermann, and Browning computational model of promoters and
+     transcription unit start sites [PUB_0411]
+
+   The transcription unit structure is organized in the knowledge base, and is
+   loaded into this process by the initializeConstants method.
+
+   The knowledge base also contains the measured expression and half-lives of
+   many transcripts. These values are loaded by initializeConstants and fit by
+   simulation.fitConstants to be consistent with other processes.
+
+   Representation
+   ===============
+   substrates, enzymes, boundEnzymes, and RNAs represent the counts of
+   metabolites, free transcription enzymes, transcription enzymes bound to RNAs
+   and RNA polymerases, and nascent RNAs.
+
+   rnaPolymerases.states represents the current state / pseudostate (actively
+   transcribing, specifically bound, non-specifically bound, free,
+   non-existent) of each RNA polymerase, where each state is indicated by the
+   enumeration:
+   - rnaPolymeraseActivelyTranscribingValue
+   - rnaPolymeraseSpecificallyBoundValue
+   - rnaPolymeraseNonSpecificallyBoundValue
+   - rnaPolymeraseFreeValue
+   - rnaPolymeraseNotExistValue (state exists as a way to account for memory
+     allocated for future RNA polymerases)
+   For actively transcribing polymerases rnaPolymerases.states also represents
+   the position of the polymerase along the transcription unit.
+
+   That is entries of rnaPolymerases.states with the following values
+   corresponding to these states:
+     &gt;= RNAPolymerases.activelyTranscribingValue: RNA polymerases position on genome actively transcribing
+     == RNAPolymerases.specificallyBoundValue:    RNA polymerase specifically bound
+     == RNAPolymerases.nonSpecificallyBoundValue: RNA polymerase non-specifically bound
+     == RNAPolymerases.freeValue:                 RNA polymerase free
+     == RNAPolymerases.notExistValue:             RNA polymerase doesn't exist
+
+   transcripts.boundTranscriptionUnits represents the particular transcription
+   unit to which each actively transcribing and specifically bound polymerase
+   is bound.
+
+   rnaPolymeraseStateExpectations represents the expected occupancies of the
+   RNA polymerase states.
+
+   transcriptionUnitBindingProbabilities represents the relative affinity of
+   RNA polymerases for the promoters of each transcription unit.
+   transcriptionFactorBindingProbFoldChange represents the fold change affect of
+   transcription factors on the relative affinities of the RNA polymerse for
+   the promoters. RNA polymerases are assigned to
+   transcription units weighted by the product of
+   transcriptionUnitBindingProbabilities and
+   transcriptionFactorBindingProbFoldChange.
+
+   Initialization
+   ===============
+   All RNAs are initialized to the mature state. This is implemented by the
+   simulation class initializeState method.
+
+   RNA polymerases are initialized to their steady state:
+   - Each RNA polymerase is randomly assigned (with replacement) to one of the
+     actively transcribing, specifically bound, non-specifically bound, or free
+     states weighted by the expected occupancy of each state
+     (rnaPolymeraseStateExpectations)
+   - Actively transcribing and specifically bound polymerases randomly assigned
+     to transcription units weighted by their transcription rates
+     (transcriptionUnitBindingProbabilities)
+   - Each transcription unit to which an actively transcribing polymerase has
+     been assigned is divided into 1 segment for each polymerase
+   - Actively transcribing polymerases randomly assigned to positions within
+     the assigned segment of their assigned transcription unit (positions near
+     the segment border are not allowed to prevent polymerases from being too
+     close to each other) with uniform probably.
+
+   Simulation
+   ===============
+   Evolves the state of RNA polymerase using a markov chain model with four
+   states:
+   - actively translating
+   - specifically bound
+   - non-specifically bound
+   - free
+
+   Transition probabilities are designed to maintain the occupancy of each
+   state within a narrow window around their expected values. Transition
+   probability are determined by four logistic control functions. These can
+   be tuned with the constants
+   - rnaPolymeraseStateExpectations
+
+   RNA polymerase are created in the free state.
+
+   Actively transcribing state:
+   1. Release sigma factor if after first second of elongation
+   2. Elongate transcript according to nucleic acid limits (substrates)
+      if elongation factors are available
+   3. If transcription complete and termination factor available
+      - release transcript
+      - transition RNA polymerase to free state
+      - increment gene expression
+      Otherwise remain in active state
+
+   Specifically bound State:
+   - Can transition to active, specifically bound, non-specifically bound,
+     or free states
+   - Transition into state only if a free sigma factor is available
+     1. Decrement number of free sigma factors
+     2. Pick a transcription unit (tu) to bind to according to
+     Expression transcription unit i~prob(ribosome releases tu i|ribosome active)
+                      =prob(ribosome within RNA polymerase elongation rate bases of length of tu i|ribosome active)
+                      =prob(ribosome within RNA polymerase elongation rate bases of length of tu i|ribosome active, bound to tu i)*prob(ribosome bound to tu i|ribosome active)
+                      =[(RNA polymerase transcription rate)/(length of tu i)] * [(length of tu i)*prob(binding tu i|binding)]
+     prob(binding tu i | binding)~expression tu i
+
+   Non-specifically bound state:
+   - Can transition to specifically bound, non-specifically bound, or free
+     states
+
+   Free state:
+   - Can transition to specifically bound, non-specifically bound, or free
+     states
+
+   Algorithm
+   +++++++++++++++
+   1. Randomly transition RNA polymerases among activlely transcribing,
+      specifically bound, non-specifically, bound, and free states weighted by
+      state transition probabilities. Update rnaPolymerases.states.
+   2. Randomly assign RNA polymerases entering the specifically bound to
+      specific transcription units weighted by the product of
+      transcriptionUnitBindingProbabilities and
+      transcriptionFactorBindingProbFoldChange. Update
+      transcripts.boundTranscriptionUnits.
+   3. Assign RNA polymerase entering the actively transcribing state sigma
+      factors. Update enzymes and boundEnzymes.
+   4. Simulate RNA polymerization by actively transcribing RNA polymerases with
+      the aid of elongation factors. Allocate available nucleic acids among the
+      actively transcribing RNA polymerases. Release sigma factors from RNA
+      polymerases that started at the beginning of the transcription unit and
+      progressed. Update rnaPolymerases.states. Update substrates. Update enzymes
+      and boundEnzymes.
+   5. If termination factors are available dissociate RNA polymerases which
+      have reached the terminus of the transcription they're bound to, and
+      release RNAs. Update rnaPolymerases.states and
+      transcripts.boundTranscriptionUnits. Increment RNAs.
+
+   References
+   ===========
+   1. McClure, W. R. 1985. Mechanism and control of transcription
+      initiation in prokaryotes. Annu. Rev. Biochem. 54:171-204.
+      [PUB_0775]
+   2. Ciampi MS (2006). Rho-dependent terminators and transcription
+      termination. Microbiology. 152(9):2515-28 [PUB_0233].
+   3. Nudler E, Gottesman ME (2002). Transcription termination and
+      anti-termination in E. coli. Genes Cells. 7(8):755-68. [PUB_0662]
+   4. Washio T, Sasayama J, Tomita M (1998). Analysis of complete genomes
+      suggests that many prokaryotes do not rely on hairpin formation in
+      transcription termination. Nucleic Acids Res. 26(23):5456-63
+      [PUB_0234]
+   5. Peterson JD, Umayam LA, Dickinson T, Hickey EK, White O (2001). The
+      Comprehensive Microbial Resource. Nucleic Acids Res. 29(1):123-5.
+      [PUB_0182]
+   6. Shepherd N, Dennis P, Bremer H (2001). Cytoplasmic RNA Polymerase in
+      Escherichia coli. J Bacteriol. 183(8): 2527-34. [PUB_0784]
+   7. Klumpp S, Hwa T (2008). Growth-rate-dependent partitioning of RNA
+      polymerases in bacteria. Proc Natl Acad Sci U S A. 105(21):
+      20245-50. [PUB_0785]
+   8. Grigorova IL, Phleger NJ, Mutalik VK, Gross CA (2006). Insights into
+      transcriptional regulation and sigma competition from an equilibrium
+      model of RNA polymerase binding to DNA. Proc Natl Acad Sci U S A.
+      103(14): 5332-7. [PUB_0786]
+
+ Author: Markus Covert, mcovert@stanford.edu
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010
+
+TODO: require Mg2+ or Mn2+ as cofactor for transcription</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcription.html" class="code" title="">Transcription</a>	Transcription</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Transcription.html" class="code" title="">Transcription</a>	Transcription</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Transcription(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function copyFromState(this)</a></li><li><a href="#_sub5" class="code">function copyToState(this)</a></li><li><a href="#_sub6" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub7" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub8" class="code">function initializeState(this)</a></li><li><a href="#_sub9" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub10" class="code">function evolveState(this)</a></li><li><a href="#_sub11" class="code">function pBinds = computeRNAPolymeraseTUBindingProbabilities(this, protectDnaABoxes)</a></li><li><a href="#_sub12" class="code">function pStProbs = calcStateTransitionProbabilities(this, nPols, ntpProdRate, tuBindingProbs, method)</a></li><li><a href="#_sub13" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Transcription</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_Transcription</span>
+0004 <span class="comment">% @name             Transcription</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ===============</span>
+0008 <span class="comment">%   Transcription is the first step in the synthesis of functional gene</span>
+0009 <span class="comment">%   products where RNA polymerase and several accessory enzymes translate</span>
+0010 <span class="comment">%   transcription units, or regions of the DNA containing 1 or more genes, into</span>
+0011 <span class="comment">%   RNA molecules. Following transcription the RNA molecules follow one of</span>
+0012 <span class="comment">%   two pathways:</span>
+0013 <span class="comment">%   - mRNAs are used as templates for translation (see translation process)</span>
+0014 <span class="comment">%   - r/s/tRNAs which are transcribed as molecules containing multiple genes are</span>
+0015 <span class="comment">%     cleavaged into their individual genes (see RNA processing process), are</span>
+0016 <span class="comment">%     modified at several bases (see RNA modification process) to improve their</span>
+0017 <span class="comment">%     stability and enhance their catalytic activity, and finally act as</span>
+0018 <span class="comment">%     ribozymes (r/sRNAs) or as adaptors between mRNAs and the amino acids they</span>
+0019 <span class="comment">%     code for (tRNAs).</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   Transcription begins with the recruitment of RNA polymerase to a promoter</span>
+0022 <span class="comment">%   with the help of the sigma initiation factor and possiblity transcription</span>
+0023 <span class="comment">%   factors. Next elongation factors are recruited, RNA begins to be</span>
+0024 <span class="comment">%   polymerized, and sigma factor is released. Finally the RNA polymerase</span>
+0025 <span class="comment">%   reaches  a terminator at the the end of the transcription unit, and</span>
+0026 <span class="comment">%   with the help of termination factors releases the polymerized RNA and</span>
+0027 <span class="comment">%   dissociates from the DNA. Termination in E. coli occurs via either a</span>
+0028 <span class="comment">%   Rho-dependent (50%) or Rho-independent mechanism (50%). Rho-dependent</span>
+0029 <span class="comment">%   termination is catalyzed by the hexameric ATP-dependent helicase Rho.</span>
+0030 <span class="comment">%   Rho is not essential in B. subtilis [PUB_0234]. Rho-independent</span>
+0031 <span class="comment">%   termination occur via the intrinsic properties RNA which disrupt RNA</span>
+0032 <span class="comment">%   polymerase-DNA binding. Terminator hairpins are not predicted in M.</span>
+0033 <span class="comment">%   genitalium. In E. coli termination is incompetition with</span>
+0034 <span class="comment">%   antitermination. However antitermination has not been reported in any</span>
+0035 <span class="comment">%   mcyoplasma [PUB_0182].</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   As soon as the RNA begins to polymerized, even prior to termination, the</span>
+0038 <span class="comment">%   mRNA transcripts may be bound by ribosomes and polymerized. For simplicity,</span>
+0039 <span class="comment">%   our model doesn't represent this phenomenon.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   Knowledge Base</span>
+0042 <span class="comment">%   ===============</span>
+0043 <span class="comment">%   The transcription unit structure was compiled from several sources:</span>
+0044 <span class="comment">%   - Primary reports of cotranscribed genes [PUB_0176, PUB_0182, PUB_0186,</span>
+0045 <span class="comment">%     PUB_0188, PUB_0188, PUB_0244, PUB_0247, PUB_0248, PUB_0249, PUB_0251]</span>
+0046 <span class="comment">%   - OperonDB database of cotranscribed genes [PUB_0250]</span>
+0047 <span class="comment">%   - Conservation of gene order across multiple species</span>
+0048 <span class="comment">%   - Related function of adjacent genes</span>
+0049 <span class="comment">%   - Expression levels as measured by microarrays of adjacent genes [PUB_0569]</span>
+0050 <span class="comment">%   - Strandedness of adjacent genes</span>
+0051 <span class="comment">%   - Weiner, Hermann, and Browning computational model of promoters and</span>
+0052 <span class="comment">%     transcription unit start sites [PUB_0411]</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   The transcription unit structure is organized in the knowledge base, and is</span>
+0055 <span class="comment">%   loaded into this process by the initializeConstants method.</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   The knowledge base also contains the measured expression and half-lives of</span>
+0058 <span class="comment">%   many transcripts. These values are loaded by initializeConstants and fit by</span>
+0059 <span class="comment">%   simulation.fitConstants to be consistent with other processes.</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   Representation</span>
+0062 <span class="comment">%   ===============</span>
+0063 <span class="comment">%   substrates, enzymes, boundEnzymes, and RNAs represent the counts of</span>
+0064 <span class="comment">%   metabolites, free transcription enzymes, transcription enzymes bound to RNAs</span>
+0065 <span class="comment">%   and RNA polymerases, and nascent RNAs.</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   rnaPolymerases.states represents the current state / pseudostate (actively</span>
+0068 <span class="comment">%   transcribing, specifically bound, non-specifically bound, free,</span>
+0069 <span class="comment">%   non-existent) of each RNA polymerase, where each state is indicated by the</span>
+0070 <span class="comment">%   enumeration:</span>
+0071 <span class="comment">%   - rnaPolymeraseActivelyTranscribingValue</span>
+0072 <span class="comment">%   - rnaPolymeraseSpecificallyBoundValue</span>
+0073 <span class="comment">%   - rnaPolymeraseNonSpecificallyBoundValue</span>
+0074 <span class="comment">%   - rnaPolymeraseFreeValue</span>
+0075 <span class="comment">%   - rnaPolymeraseNotExistValue (state exists as a way to account for memory</span>
+0076 <span class="comment">%     allocated for future RNA polymerases)</span>
+0077 <span class="comment">%   For actively transcribing polymerases rnaPolymerases.states also represents</span>
+0078 <span class="comment">%   the position of the polymerase along the transcription unit.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">%   That is entries of rnaPolymerases.states with the following values</span>
+0081 <span class="comment">%   corresponding to these states:</span>
+0082 <span class="comment">%     &gt;= RNAPolymerases.activelyTranscribingValue: RNA polymerases position on genome actively transcribing</span>
+0083 <span class="comment">%     == RNAPolymerases.specificallyBoundValue:    RNA polymerase specifically bound</span>
+0084 <span class="comment">%     == RNAPolymerases.nonSpecificallyBoundValue: RNA polymerase non-specifically bound</span>
+0085 <span class="comment">%     == RNAPolymerases.freeValue:                 RNA polymerase free</span>
+0086 <span class="comment">%     == RNAPolymerases.notExistValue:             RNA polymerase doesn't exist</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   transcripts.boundTranscriptionUnits represents the particular transcription</span>
+0089 <span class="comment">%   unit to which each actively transcribing and specifically bound polymerase</span>
+0090 <span class="comment">%   is bound.</span>
+0091 <span class="comment">%</span>
+0092 <span class="comment">%   rnaPolymeraseStateExpectations represents the expected occupancies of the</span>
+0093 <span class="comment">%   RNA polymerase states.</span>
+0094 <span class="comment">%</span>
+0095 <span class="comment">%   transcriptionUnitBindingProbabilities represents the relative affinity of</span>
+0096 <span class="comment">%   RNA polymerases for the promoters of each transcription unit.</span>
+0097 <span class="comment">%   transcriptionFactorBindingProbFoldChange represents the fold change affect of</span>
+0098 <span class="comment">%   transcription factors on the relative affinities of the RNA polymerse for</span>
+0099 <span class="comment">%   the promoters. RNA polymerases are assigned to</span>
+0100 <span class="comment">%   transcription units weighted by the product of</span>
+0101 <span class="comment">%   transcriptionUnitBindingProbabilities and</span>
+0102 <span class="comment">%   transcriptionFactorBindingProbFoldChange.</span>
+0103 <span class="comment">%</span>
+0104 <span class="comment">%   Initialization</span>
+0105 <span class="comment">%   ===============</span>
+0106 <span class="comment">%   All RNAs are initialized to the mature state. This is implemented by the</span>
+0107 <span class="comment">%   simulation class initializeState method.</span>
+0108 <span class="comment">%</span>
+0109 <span class="comment">%   RNA polymerases are initialized to their steady state:</span>
+0110 <span class="comment">%   - Each RNA polymerase is randomly assigned (with replacement) to one of the</span>
+0111 <span class="comment">%     actively transcribing, specifically bound, non-specifically bound, or free</span>
+0112 <span class="comment">%     states weighted by the expected occupancy of each state</span>
+0113 <span class="comment">%     (rnaPolymeraseStateExpectations)</span>
+0114 <span class="comment">%   - Actively transcribing and specifically bound polymerases randomly assigned</span>
+0115 <span class="comment">%     to transcription units weighted by their transcription rates</span>
+0116 <span class="comment">%     (transcriptionUnitBindingProbabilities)</span>
+0117 <span class="comment">%   - Each transcription unit to which an actively transcribing polymerase has</span>
+0118 <span class="comment">%     been assigned is divided into 1 segment for each polymerase</span>
+0119 <span class="comment">%   - Actively transcribing polymerases randomly assigned to positions within</span>
+0120 <span class="comment">%     the assigned segment of their assigned transcription unit (positions near</span>
+0121 <span class="comment">%     the segment border are not allowed to prevent polymerases from being too</span>
+0122 <span class="comment">%     close to each other) with uniform probably.</span>
+0123 <span class="comment">%</span>
+0124 <span class="comment">%   Simulation</span>
+0125 <span class="comment">%   ===============</span>
+0126 <span class="comment">%   Evolves the state of RNA polymerase using a markov chain model with four</span>
+0127 <span class="comment">%   states:</span>
+0128 <span class="comment">%   - actively translating</span>
+0129 <span class="comment">%   - specifically bound</span>
+0130 <span class="comment">%   - non-specifically bound</span>
+0131 <span class="comment">%   - free</span>
+0132 <span class="comment">%</span>
+0133 <span class="comment">%   Transition probabilities are designed to maintain the occupancy of each</span>
+0134 <span class="comment">%   state within a narrow window around their expected values. Transition</span>
+0135 <span class="comment">%   probability are determined by four logistic control functions. These can</span>
+0136 <span class="comment">%   be tuned with the constants</span>
+0137 <span class="comment">%   - rnaPolymeraseStateExpectations</span>
+0138 <span class="comment">%</span>
+0139 <span class="comment">%   RNA polymerase are created in the free state.</span>
+0140 <span class="comment">%</span>
+0141 <span class="comment">%   Actively transcribing state:</span>
+0142 <span class="comment">%   1. Release sigma factor if after first second of elongation</span>
+0143 <span class="comment">%   2. Elongate transcript according to nucleic acid limits (substrates)</span>
+0144 <span class="comment">%      if elongation factors are available</span>
+0145 <span class="comment">%   3. If transcription complete and termination factor available</span>
+0146 <span class="comment">%      - release transcript</span>
+0147 <span class="comment">%      - transition RNA polymerase to free state</span>
+0148 <span class="comment">%      - increment gene expression</span>
+0149 <span class="comment">%      Otherwise remain in active state</span>
+0150 <span class="comment">%</span>
+0151 <span class="comment">%   Specifically bound State:</span>
+0152 <span class="comment">%   - Can transition to active, specifically bound, non-specifically bound,</span>
+0153 <span class="comment">%     or free states</span>
+0154 <span class="comment">%   - Transition into state only if a free sigma factor is available</span>
+0155 <span class="comment">%     1. Decrement number of free sigma factors</span>
+0156 <span class="comment">%     2. Pick a transcription unit (tu) to bind to according to</span>
+0157 <span class="comment">%     Expression transcription unit i~prob(ribosome releases tu i|ribosome active)</span>
+0158 <span class="comment">%                      =prob(ribosome within RNA polymerase elongation rate bases of length of tu i|ribosome active)</span>
+0159 <span class="comment">%                      =prob(ribosome within RNA polymerase elongation rate bases of length of tu i|ribosome active, bound to tu i)*prob(ribosome bound to tu i|ribosome active)</span>
+0160 <span class="comment">%                      =[(RNA polymerase transcription rate)/(length of tu i)] * [(length of tu i)*prob(binding tu i|binding)]</span>
+0161 <span class="comment">%     prob(binding tu i | binding)~expression tu i</span>
+0162 <span class="comment">%</span>
+0163 <span class="comment">%   Non-specifically bound state:</span>
+0164 <span class="comment">%   - Can transition to specifically bound, non-specifically bound, or free</span>
+0165 <span class="comment">%     states</span>
+0166 <span class="comment">%</span>
+0167 <span class="comment">%   Free state:</span>
+0168 <span class="comment">%   - Can transition to specifically bound, non-specifically bound, or free</span>
+0169 <span class="comment">%     states</span>
+0170 <span class="comment">%</span>
+0171 <span class="comment">%   Algorithm</span>
+0172 <span class="comment">%   +++++++++++++++</span>
+0173 <span class="comment">%   1. Randomly transition RNA polymerases among activlely transcribing,</span>
+0174 <span class="comment">%      specifically bound, non-specifically, bound, and free states weighted by</span>
+0175 <span class="comment">%      state transition probabilities. Update rnaPolymerases.states.</span>
+0176 <span class="comment">%   2. Randomly assign RNA polymerases entering the specifically bound to</span>
+0177 <span class="comment">%      specific transcription units weighted by the product of</span>
+0178 <span class="comment">%      transcriptionUnitBindingProbabilities and</span>
+0179 <span class="comment">%      transcriptionFactorBindingProbFoldChange. Update</span>
+0180 <span class="comment">%      transcripts.boundTranscriptionUnits.</span>
+0181 <span class="comment">%   3. Assign RNA polymerase entering the actively transcribing state sigma</span>
+0182 <span class="comment">%      factors. Update enzymes and boundEnzymes.</span>
+0183 <span class="comment">%   4. Simulate RNA polymerization by actively transcribing RNA polymerases with</span>
+0184 <span class="comment">%      the aid of elongation factors. Allocate available nucleic acids among the</span>
+0185 <span class="comment">%      actively transcribing RNA polymerases. Release sigma factors from RNA</span>
+0186 <span class="comment">%      polymerases that started at the beginning of the transcription unit and</span>
+0187 <span class="comment">%      progressed. Update rnaPolymerases.states. Update substrates. Update enzymes</span>
+0188 <span class="comment">%      and boundEnzymes.</span>
+0189 <span class="comment">%   5. If termination factors are available dissociate RNA polymerases which</span>
+0190 <span class="comment">%      have reached the terminus of the transcription they're bound to, and</span>
+0191 <span class="comment">%      release RNAs. Update rnaPolymerases.states and</span>
+0192 <span class="comment">%      transcripts.boundTranscriptionUnits. Increment RNAs.</span>
+0193 <span class="comment">%</span>
+0194 <span class="comment">%   References</span>
+0195 <span class="comment">%   ===========</span>
+0196 <span class="comment">%   1. McClure, W. R. 1985. Mechanism and control of transcription</span>
+0197 <span class="comment">%      initiation in prokaryotes. Annu. Rev. Biochem. 54:171-204.</span>
+0198 <span class="comment">%      [PUB_0775]</span>
+0199 <span class="comment">%   2. Ciampi MS (2006). Rho-dependent terminators and transcription</span>
+0200 <span class="comment">%      termination. Microbiology. 152(9):2515-28 [PUB_0233].</span>
+0201 <span class="comment">%   3. Nudler E, Gottesman ME (2002). Transcription termination and</span>
+0202 <span class="comment">%      anti-termination in E. coli. Genes Cells. 7(8):755-68. [PUB_0662]</span>
+0203 <span class="comment">%   4. Washio T, Sasayama J, Tomita M (1998). Analysis of complete genomes</span>
+0204 <span class="comment">%      suggests that many prokaryotes do not rely on hairpin formation in</span>
+0205 <span class="comment">%      transcription termination. Nucleic Acids Res. 26(23):5456-63</span>
+0206 <span class="comment">%      [PUB_0234]</span>
+0207 <span class="comment">%   5. Peterson JD, Umayam LA, Dickinson T, Hickey EK, White O (2001). The</span>
+0208 <span class="comment">%      Comprehensive Microbial Resource. Nucleic Acids Res. 29(1):123-5.</span>
+0209 <span class="comment">%      [PUB_0182]</span>
+0210 <span class="comment">%   6. Shepherd N, Dennis P, Bremer H (2001). Cytoplasmic RNA Polymerase in</span>
+0211 <span class="comment">%      Escherichia coli. J Bacteriol. 183(8): 2527-34. [PUB_0784]</span>
+0212 <span class="comment">%   7. Klumpp S, Hwa T (2008). Growth-rate-dependent partitioning of RNA</span>
+0213 <span class="comment">%      polymerases in bacteria. Proc Natl Acad Sci U S A. 105(21):</span>
+0214 <span class="comment">%      20245-50. [PUB_0785]</span>
+0215 <span class="comment">%   8. Grigorova IL, Phleger NJ, Mutalik VK, Gross CA (2006). Insights into</span>
+0216 <span class="comment">%      transcriptional regulation and sigma competition from an equilibrium</span>
+0217 <span class="comment">%      model of RNA polymerase binding to DNA. Proc Natl Acad Sci U S A.</span>
+0218 <span class="comment">%      103(14): 5332-7. [PUB_0786]</span>
+0219 <span class="comment">%</span>
+0220 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0221 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0222 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0223 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0224 <span class="comment">% Last updated: 1/4/2010</span>
+0225 <span class="comment">%</span>
+0226 <span class="comment">%TODO: require Mg2+ or Mn2+ as cofactor for transcription</span>
+0227 classdef <a href="Transcription.html" class="code" title="">Transcription</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0228     <span class="comment">%property annotations</span>
+0229     properties (Constant)
+0230         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0231         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0232             <span class="string">'rnaPolymeraseElongationRate'</span>;
+0233             <span class="string">'transcriptionUnitBaseCounts'</span>;
+0234             <span class="string">'transcriptionUnitBindingProbabilities'</span>;
+0235             };
+0236         fittedConstantNames__      = {   <span class="comment">%names of fitted constant properties</span>
+0237             <span class="string">'transcriptionUnitBindingProbabilities'</span>
+0238             };
+0239         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0240             <span class="string">'RNAs'</span>};
+0241     <span class="keyword">end</span>
+0242     
+0243     <span class="comment">%IDs, names, and local indices</span>
+0244     properties
+0245         stimuliWholeCellModelIDs = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0246         
+0247         substrateWholeCellModelIDs = { <span class="comment">%whole cell model IDs of substrates</span>
+0248             <span class="string">'ATP'</span>; <span class="string">'CTP'</span>; <span class="string">'GTP'</span>; <span class="string">'UTP'</span>;
+0249             <span class="string">'AMP'</span>; <span class="string">'CMP'</span>; <span class="string">'GMP'</span>; <span class="string">'UMP'</span>;
+0250             <span class="string">'ADP'</span>; <span class="string">'PPI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0251         substrateIndexs_ntp         = (1:4)'; <span class="comment">%indices within substrates of NTPs</span>
+0252         substrateIndexs_nmp         = (5:8)'; <span class="comment">%indices within substrates of NMPs</span>
+0253         substrateIndexs_atp         = 1;      <span class="comment">%index within substrates of ATP</span>
+0254         substrateIndexs_adp         = 9;      <span class="comment">%index within substrates of ADP</span>
+0255         substrateIndexs_diphosphate = 10;     <span class="comment">%index within substrates of diphosphate</span>
+0256         substrateIndexs_water       = 11;     <span class="comment">%index within substrates of water</span>
+0257         substrateIndexs_hydrogen    = 12;     <span class="comment">%index within substrates of hydrogen</span>
+0258         
+0259         enzymeWholeCellModelIDs = {       <span class="comment">%enzyme whole cell model ids</span>
+0260             <span class="string">'MG_249_MONOMER'</span>;             <span class="comment">%RNA polymerase sigma factor RpoD</span>
+0261             <span class="string">'MG_282_MONOMER'</span>;             <span class="comment">%transcription elongation factor GreA</span>
+0262             <span class="string">'MG_141_MONOMER'</span>;             <span class="comment">%transcription termination factor NusA</span>
+0263             <span class="string">'MG_027_MONOMER'</span>;             <span class="comment">%transcription termination/antitermination protein NusB</span>
+0264             <span class="string">'RNA_POLYMERASE'</span>;             <span class="comment">%DNA-directed RNA polymerase</span>
+0265             <span class="string">'RNA_POLYMERASE_HOLOENZYME'</span>}; <span class="comment">%DNA-directed RNA polymerase holoenzyme</span>
+0266         enzymeIndexs_transcriptionFactors    = (1:4)'; <span class="comment">%indices within enzymes of transcription factors</span>
+0267         enzymeIndexs_sigmaFactor             = 1;      <span class="comment">%index within enzymes of sigma factor RpoD</span>
+0268         enzymeIndexs_elongationFactor        = 2;      <span class="comment">%index within enzymes of elongation factor GreA</span>
+0269         enzymeIndexs_terminationFactor       = 3;      <span class="comment">%index within enzymes of termination factor NusA</span>
+0270         enzymeIndexs_antiterminationFactor   = 4;      <span class="comment">%index within enzymes of termination/antitermination protein NusB</span>
+0271         enzymeIndexs_rnaPolymerase           = 5;      <span class="comment">%index within enzymes of DNA-directed RNA polymerase</span>
+0272         enzymeIndexs_rnaPolymeraseHoloenzyme = 6;      <span class="comment">%index within enzymes of DNA-directed RNA polymerase holoenzyme</span>
+0273         
+0274         complexIndexs_DnaA_ATP                         <span class="comment">%indices within protein complexes of DnaA-ATP</span>
+0275         transcriptionUnitIndexs_DnaAR12345Boxes        <span class="comment">%indices of transcription units containing the functional DnaA boxes R1-5</span>
+0276     <span class="keyword">end</span>
+0277     
+0278     <span class="comment">%fixed biological constants</span>
+0279     properties
+0280         rnaPolymeraseElongationRate                   <span class="comment">%RNA polymerase elongation rate (50 nucleotides per second per RNA polymerase) [PUB_0562, PUB_0563]</span>
+0281         transcriptionUnitBaseCounts                   <span class="comment">%transcription unit base counts</span>
+0282         transcriptionUnitBindingProbabilities         <span class="comment">%transcription unit binding probabilities</span>
+0283         stateTransitionProbabilities                  <span class="comment">%transition probabilities among RNA polymerase states</span>
+0284     <span class="keyword">end</span>
+0285     
+0286     <span class="comment">%global state, stored locally for convenience</span>
+0287     properties
+0288         RNAs                                          <span class="comment">%copy number of transcription units</span>
+0289     <span class="keyword">end</span>
+0290     
+0291     <span class="comment">%global state (referenced locally for convenience)</span>
+0292     properties
+0293         rnaPolymerases   <span class="comment">%RNA Polymerase state class</span>
+0294         transcripts      <span class="comment">%New Transcripts state class</span>
+0295     <span class="keyword">end</span>
+0296     
+0297     <span class="comment">%constructor</span>
+0298     methods
+0299         <a name="_sub0" href="#_subfunctions" class="code">function this = Transcription(wholeCellModelID, name)</a>
+0300             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0301         <span class="keyword">end</span>
+0302     <span class="keyword">end</span>
+0303     
+0304     <span class="comment">%communication between process/simulation</span>
+0305     methods
+0306         <span class="comment">%set references to state objects</span>
+0307         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0308             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0309             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0310             
+0311             this.rnaPolymerases = simulation.state(<span class="string">'RNAPolymerase'</span>);
+0312             this.transcripts = simulation.state(<span class="string">'Transcript'</span>);
+0313             
+0314             this.states = [this.states; {this.rnaPolymerases; this.transcripts}];
+0315         <span class="keyword">end</span>
+0316         
+0317         <span class="comment">%initialize constants</span>
+0318         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0319             <span class="comment">%call super class method</span>
+0320             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0321             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(knowledgeBase, simulation, varargin{:});
+0322             
+0323             this.transcriptionUnitBaseCounts = reshape([knowledgeBase.transcriptionUnits.baseCount],[],length(knowledgeBase.transcriptionUnits))';
+0324             this.transcriptionUnitBaseCounts = this.transcriptionUnitBaseCounts(:, this.substrateMetaboliteGlobalIndexs);
+0325             
+0326             this.transcriptionUnitBindingProbabilities  = zeros(size(this.transcripts.transcriptionUnitLengths));
+0327             
+0328             this.complexIndexs_DnaA_ATP = find(ismember({knowledgeBase.proteinComplexs.wholeCellModelID}', {
+0329                 <span class="string">'MG_469_1MER_ATP'</span>      <span class="comment">%DnaA-ATP 1mer</span>
+0330                 <span class="string">'MG_469_2MER_1ATP_ADP'</span> <span class="comment">%DnaA 2mer-(1)ATP-(1)ADP</span>
+0331                 <span class="string">'MG_469_2MER_ATP'</span>      <span class="comment">%DnaA-ATP 2mer</span>
+0332                 <span class="string">'MG_469_3MER_2ATP_ADP'</span> <span class="comment">%DnaA 3mer-(2)ATP-(1)ADP</span>
+0333                 <span class="string">'MG_469_3MER_ATP'</span>      <span class="comment">%DnaA-ATP 3mer</span>
+0334                 <span class="string">'MG_469_4MER_3ATP_ADP'</span> <span class="comment">%DnaA 4mer-(3)ATP-(1)ADP</span>
+0335                 <span class="string">'MG_469_4MER_ATP'</span>      <span class="comment">%DnaA-ATP 4mer</span>
+0336                 <span class="string">'MG_469_5MER_4ATP_ADP'</span> <span class="comment">%DnaA 5mer-(4)ATP-(1)ADP</span>
+0337                 <span class="string">'MG_469_5MER_ATP'</span>      <span class="comment">%DnaA-ATP 5mer</span>
+0338                 <span class="string">'MG_469_6MER_5ATP_ADP'</span> <span class="comment">%DnaA 6mer-(5)ATP-(1)ADP</span>
+0339                 <span class="string">'MG_469_6MER_ATP'</span>      <span class="comment">%DnaA-ATP 6mer</span>
+0340                 <span class="string">'MG_469_7MER_6ATP_ADP'</span> <span class="comment">%DnaA 7mer-(6)ATP-(1)ADP</span>
+0341                 <span class="string">'MG_469_7MER_ATP'</span>}));  <span class="comment">%DnaA-ATP 7mer;</span>
+0342             [~, idxs] = ismember({
+0343                 <span class="string">'Functional box R1'</span>
+0344                 <span class="string">'Functional box R2'</span>
+0345                 <span class="string">'Functional box R3'</span>
+0346                 <span class="string">'Functional box R4'</span>
+0347                 <span class="string">'Functional box R5'</span>}, {knowledgeBase.genomeFeatures.name});
+0348             tus = [knowledgeBase.genomeFeatures(idxs).transcriptionUnits];
+0349             this.transcriptionUnitIndexs_DnaAR12345Boxes = unique([tus.idx])';
+0350         <span class="keyword">end</span>
+0351         
+0352         <span class="comment">%retrieve state from simulation</span>
+0353         <a name="_sub3" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0354             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0355             
+0356             this.RNAs = this.rna.counts(this.rna.nascentIndexs, this.compartment.cytosolIndexs, :);
+0357         <span class="keyword">end</span>
+0358         
+0359         <span class="comment">%send state to simulation</span>
+0360         <a name="_sub4" href="#_subfunctions" class="code">function copyToState(this)</a>
+0361             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0362             
+0363             this.rna.counts(this.rna.nascentIndexs, this.compartment.cytosolIndexs, :) = this.RNAs;
+0364         <span class="keyword">end</span>
+0365     <span class="keyword">end</span>
+0366     
+0367     <span class="comment">%allocate memory for state</span>
+0368     methods
+0369         <a name="_sub5" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0370             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0371             
+0372             numTranscriptionUnits = length(this.transcripts.transcriptionUnitLengths);
+0373             
+0374             this.RNAs = zeros(numTranscriptionUnits, 1, numTimePoints);
+0375         <span class="keyword">end</span>
+0376     <span class="keyword">end</span>
+0377     
+0378     <span class="comment">%model</span>
+0379     methods
+0380         <span class="comment">%Calculate</span>
+0381         <span class="comment">%- contribution to FBA objective</span>
+0382         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0383         <a name="_sub6" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0384             <span class="comment">%% initialize</span>
+0385             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0386             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0387             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0388             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0389             
+0390             <span class="comment">%% substrate and byproducts</span>
+0391             <span class="comment">%Contributions, by process, to RNA metabolism:</span>
+0392             <span class="comment">%                 NTPs + H2O --(transcription)--&gt; nascent RNA + PPi + H</span>
+0393             <span class="comment">%          nascent RNA + H2O --(processing)-----&gt; processed RNA + NMPs</span>
+0394             <span class="comment">%processed RNA + metabolites --(modification)---&gt; modified RNA + metabolites</span>
+0395             <span class="comment">%               modified RNA --(decay)----------&gt; NMPs + modified NMPs</span>
+0396             <span class="comment">%               NMPs + 2 ATP --(charging)-------&gt; NTPs + 2 ADP</span>
+0397             <span class="comment">%        modified NMPs + H2O --(catabolism)-----&gt; modified bases + Pi</span>
+0398             <span class="comment">%</span>
+0399             <span class="comment">%Here we only account for the contributions of transcription.</span>
+0400             invMat = edu.stanford.covert.util.ComputationUtil.invertCompositionMatrix(this.rna.nascentRNAMatureRNAComposition);
+0401             
+0402             transcribedNTPs = this.transcriptionUnitBaseCounts(:, this.substrateIndexs_nmp)' * invMat * states.rnaProductions;
+0403             bmProd(this.substrateIndexs_ntp)         = bmProd(this.substrateIndexs_ntp)         + transcribedNTPs;
+0404             byProd(this.substrateIndexs_diphosphate) = byProd(this.substrateIndexs_diphosphate) + sum(transcribedNTPs);
+0405             bmProd(this.substrateIndexs_water)       = bmProd(this.substrateIndexs_water)       + sum(states.rnaProductions);
+0406             byProd(this.substrateIndexs_hydrogen)    = byProd(this.substrateIndexs_hydrogen)    + sum(states.rnaProductions);
+0407             
+0408             <span class="comment">%% enzymes</span>
+0409             <span class="comment">%RNA polymerase</span>
+0410             fractionInitiating = this.rnaPolymeraseElongationRate * sum(invMat * states.rnaProductions0) / <span class="keyword">...</span><span class="comment"> %fraction of active RNA polymerases that are initiating</span>
+0411                 (this.transcripts.transcriptionUnitLengths' * invMat * states.rnaProductions0);
+0412             minEnzExp(this.enzymeIndexs_rnaPolymerase) = 4.5867 * <span class="keyword">...</span>
+0413                 (this.transcripts.transcriptionUnitLengths' * invMat * states.rnaProductions0) / <span class="keyword">...</span>
+0414                 this.rnaPolymeraseElongationRate / <span class="keyword">...</span>
+0415                 this.rnaPolymerases.stateExpectations(this.rnaPolymerases.activelyTranscribingIndex) / <span class="keyword">...</span>
+0416                 (1 - fractionInitiating);
+0417             
+0418             <span class="comment">%sigma, elongation, termination factors</span>
+0419             minEnzExp(this.enzymeIndexs_sigmaFactor) = minEnzExp(this.enzymeIndexs_rnaPolymerase) * <span class="keyword">...</span>
+0420                 (this.rnaPolymerases.stateExpectations(this.rnaPolymerases.activelyTranscribingIndex) * fractionInitiating + <span class="keyword">...</span>
+0421                 this.rnaPolymerases.stateExpectations(this.rnaPolymerases.specificallyBoundIndex));
+0422             minEnzExp(this.enzymeIndexs_elongationFactor)  = 2;
+0423             minEnzExp(this.enzymeIndexs_terminationFactor) = 2;
+0424         <span class="keyword">end</span>
+0425         
+0426         <span class="comment">%Initialize RNA polymerase, bound transcription units, transcription factor states</span>
+0427         <span class="comment">%Assumptions:</span>
+0428         <span class="comment">%- Metabolic cost of the transcription of these nucleic acids is negligible</span>
+0429         <span class="comment">%- Probability that so many RNA polymerases bind a given transcription unit</span>
+0430         <span class="comment">%  that they can't pack along the transcription unit without steric</span>
+0431         <span class="comment">%  interactions is negligible. Thus we don't try to handle this case</span>
+0432         <span class="comment">%  separately</span>
+0433         <a name="_sub7" href="#_subfunctions" class="code">function initializeState(this)</a>
+0434             rnaPols = this.rnaPolymerases;
+0435             trnspts = this.transcripts;
+0436             
+0437             <span class="comment">%% states</span>
+0438             trnsptStrnds = 2 - trnspts.transcriptionUnitDirections;
+0439             trnsptLens = trnspts.transcriptionUnitLengths;
+0440             trnsptDirs = 2 * trnspts.transcriptionUnitDirections - 1;
+0441             trnspt5Coords = trnspts.transcriptionUnitFivePrimeCoordinates;
+0442             trnsptStarts = <span class="keyword">...</span>
+0443                 trnspt5Coords - (1 - trnspts.transcriptionUnitDirections) .* (trnspts.transcriptionUnitLengths-1);
+0444             trnsptStarts(trnsptDirs == 1) = <span class="keyword">...</span>
+0445                 trnsptStarts(trnsptDirs == 1) - <span class="keyword">...</span>
+0446                 this.enzymeDNAFootprints5Prime(this.enzymeIndexs_rnaPolymerase);
+0447             trnsptStarts(trnsptDirs == -1) = <span class="keyword">...</span>
+0448                 trnsptStarts(trnsptDirs == -1) + <span class="keyword">...</span>
+0449                 this.enzymeDNAFootprints5Prime(this.enzymeIndexs_rnaPolymerase);
+0450             
+0451             <span class="comment">%% enzymes</span>
+0452             freTFs = this.enzymes(this.enzymeIndexs_transcriptionFactors);
+0453             bndTFs = this.boundEnzymes(this.enzymeIndexs_transcriptionFactors);
+0454             frePls = this.enzymes(this.enzymeIndexs_rnaPolymerase);
+0455             bndPls = this.boundEnzymes(this.enzymeIndexs_rnaPolymerase);
+0456             freHls = this.enzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme);
+0457             bndHls = this.boundEnzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme);
+0458             pls = frePls + bndPls + freHls + bndHls;
+0459             
+0460             <span class="comment">%% allocate</span>
+0461             rnaPols.states = repmat(rnaPols.notExistValue, [2 * pls, 1, 1]);
+0462             rnaPols.positionStrands = zeros([2 * pls, 2, 1]);
+0463             trnspts.boundTranscriptionUnits = repmat(trnspts.nullTranscriptValue, [2 * pls, 1, 1]);
+0464             trnspts.boundTranscriptProgress = repmat(trnspts.nullTranscriptValue, [2 * pls, 1, 1]);
+0465             trnspts.boundTranscriptChromosome = repmat(trnspts.nullTranscriptValue, [2 * pls, 1, 1]);
+0466             
+0467             <span class="comment">%% initialize</span>
+0468             pState = rnaPols.stateExpectations;
+0469             probs = this.computeRNAPolymeraseTUBindingProbabilities();
+0470             pBinds = trnspts.transcriptionUnitLengths .* probs(:, 1);
+0471             pSpBinds = pBinds;
+0472             
+0473             <span class="keyword">for</span> i = 1:pls
+0474                 <span class="comment">%check whether conditions necessary for actively transcribing state are met</span>
+0475                 <span class="keyword">if</span> frePls == 0 || ~any(pBinds) || freTFs(this.enzymeIndexs_elongationFactor) == 0
+0476                     pState(rnaPols.activelyTranscribingIndex) = 0;
+0477                 <span class="keyword">end</span>
+0478                 
+0479                 <span class="comment">%check whether conditions necessary for specifically bound state are met</span>
+0480                 <span class="keyword">if</span> frePls == 0 || ~any(pSpBinds) || freTFs(this.enzymeIndexs_sigmaFactor) == 0
+0481                     pState(rnaPols.specificallyBoundIndex) = 0;
+0482                 <span class="keyword">end</span>
+0483                 
+0484                 <span class="comment">%check whether conditions necessary for non-specifically bound state are met</span>
+0485                 <span class="keyword">if</span> frePls == 0
+0486                     pState(rnaPols.nonSpecificallyBoundIndex) = 0;
+0487                 <span class="keyword">end</span>
+0488                 
+0489                 <span class="keyword">if</span> ~any(pState)
+0490                     pState(rnaPols.freeIndex) = 1;
+0491                 <span class="keyword">end</span>
+0492                 
+0493                 <span class="comment">%randomly select state</span>
+0494                 state = this.randStream.randsample(4, 1, true, pState);
+0495                 
+0496                 <span class="comment">%Actively transcribing, specifically bound: randomly select</span>
+0497                 <span class="comment">%transcription unit</span>
+0498                 <span class="keyword">switch</span> state
+0499                     <span class="keyword">case</span> rnaPols.activelyTranscribingIndex
+0500                         tmp_pBinds = pBinds;
+0501                         posStrnds = zeros(0, 2);
+0502                         <span class="keyword">while</span> any(tmp_pBinds)
+0503                             iTU = this.randStream.randsample(numel(pBinds), 1, true, tmp_pBinds);
+0504                             tmp_pBinds(iTU) = 0;
+0505                             [~, posStrnds] = this.bindProteinToChromosomeStochastically(<span class="keyword">...</span>
+0506                                 this.enzymeIndexs_rnaPolymerase, 1, [trnsptStarts(iTU)+1 trnsptStrnds(iTU)], trnsptLens(iTU)-2);
+0507                             <span class="keyword">if</span> ~isempty(posStrnds)
+0508                                 <span class="keyword">break</span>;
+0509                             <span class="keyword">end</span>
+0510                         <span class="keyword">end</span>
+0511                         <span class="keyword">if</span> isempty(posStrnds)
+0512                             throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'unable to bind chromosome'</span>));
+0513                         <span class="keyword">end</span>
+0514                         
+0515                         posStrnds( isodd(posStrnds(:, 2)), 1) = posStrnds( isodd(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints5Prime(this.enzymeIndexs_rnaPolymerase);
+0516                         posStrnds(iseven(posStrnds(:, 2)), 1) = posStrnds(iseven(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints3Prime(this.enzymeIndexs_rnaPolymerase);
+0517                         <span class="keyword">if</span> trnspts.transcriptionUnitDirections(iTU)
+0518                             state = posStrnds(:, 1) - trnspt5Coords(iTU) + 1;
+0519                         <span class="keyword">else</span>
+0520                             state = trnspt5Coords(iTU) - posStrnds(:, 1) + 1;
+0521                         <span class="keyword">end</span>
+0522                         
+0523                         rnaPols.states(i) = state;
+0524                         rnaPols.positionStrands(i, :) = posStrnds;
+0525                         trnspts.boundTranscriptProgress(i) = state;
+0526                         trnspts.boundTranscriptionUnits(i) = iTU;
+0527                         trnspts.boundTranscriptChromosome(i) = 1; <span class="comment">%initialize to first chromosome</span>
+0528                         
+0529                         frePls = frePls - 1;
+0530                         bndPls = bndPls + 1;
+0531                         
+0532                         <span class="comment">%freTFs(this.enzymeIndexs_elongationFactor) = freTFs(this.enzymeIndexs_elongationFactor) - 1;</span>
+0533                         <span class="comment">%bndTFs(this.enzymeIndexs_elongationFactor) = bndTFs(this.enzymeIndexs_elongationFactor) + 1;</span>
+0534                     <span class="keyword">case</span> rnaPols.specificallyBoundIndex
+0535                         <span class="keyword">while</span> any(pSpBinds)
+0536                             iTU = this.randStream.randsample(numel(pSpBinds), 1, true, pSpBinds);
+0537                             pSpBinds(iTU) = 0;
+0538                             [~, ~, posStrnds] = this.bindProteinToChromosome([trnspt5Coords(iTU)-trnsptDirs(iTU) trnsptStrnds(iTU)], this.enzymeIndexs_rnaPolymeraseHoloenzyme, 1);
+0539                             <span class="keyword">if</span> ~isempty(posStrnds)
+0540                                 <span class="keyword">break</span>;
+0541                             <span class="keyword">end</span>
+0542                         <span class="keyword">end</span>
+0543                         <span class="keyword">if</span> isempty(posStrnds)
+0544                             throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'unable to bind chromosome'</span>));
+0545                         <span class="keyword">end</span>
+0546                         
+0547                         rnaPols.states(i) = rnaPols.specificallyBoundValue;
+0548                         rnaPols.positionStrands(i, :) = posStrnds;
+0549                         trnspts.boundTranscriptProgress(i) = trnspts.nullTranscriptValue;
+0550                         trnspts.boundTranscriptionUnits(i) = iTU;
+0551                         trnspts.boundTranscriptChromosome(i) = 1; <span class="comment">%initialize to first chromosome</span>
+0552                         
+0553                         bndHls = bndHls + 1;
+0554                         frePls = frePls - 1;
+0555                         freTFs(this.enzymeIndexs_sigmaFactor) = freTFs(this.enzymeIndexs_sigmaFactor) - 1;
+0556                     <span class="keyword">case</span> rnaPols.nonSpecificallyBoundIndex
+0557                         [~, posStrnds] = this.bindProteinToChromosomeStochastically(this.enzymeIndexs_rnaPolymerase, 1);
+0558                         <span class="keyword">if</span> isempty(posStrnds)
+0559                             throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'unable to bind chromosome'</span>));
+0560                         <span class="keyword">end</span>
+0561                         posStrnds( isodd(posStrnds(:, 2)), 1) = posStrnds( isodd(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints5Prime(this.enzymeIndexs_rnaPolymerase);
+0562                         posStrnds(iseven(posStrnds(:, 2)), 1) = posStrnds(iseven(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints3Prime(this.enzymeIndexs_rnaPolymerase);
+0563                         
+0564                         rnaPols.states(i) = rnaPols.nonSpecificallyBoundValue;
+0565                         rnaPols.positionStrands(i, :) = posStrnds;
+0566                         trnspts.boundTranscriptionUnits(i) = trnspts.nullTranscriptValue;
+0567                         trnspts.boundTranscriptProgress(i) = trnspts.nullTranscriptValue;
+0568                         trnspts.boundTranscriptChromosome(i) = trnspts.nullTranscriptValue;
+0569                         
+0570                         frePls = frePls - 1;
+0571                         bndPls = bndPls + 1;
+0572                     <span class="keyword">case</span> rnaPols.freeIndex
+0573                         rnaPols.states(i) = rnaPols.freeValue;
+0574                         rnaPols.positionStrands(i, :) = 0;
+0575                         trnspts.boundTranscriptionUnits(i) = trnspts.nullTranscriptValue;
+0576                         trnspts.boundTranscriptProgress(i) = trnspts.nullTranscriptValue;
+0577                         trnspts.boundTranscriptChromosome(i) = trnspts.nullTranscriptValue;
+0578                 <span class="keyword">end</span>
+0579             <span class="keyword">end</span>
+0580             
+0581             <span class="comment">%% store states of enzymes</span>
+0582             this.enzymes(this.enzymeIndexs_transcriptionFactors)      = freTFs;
+0583             this.boundEnzymes(this.enzymeIndexs_transcriptionFactors) = bndTFs;
+0584             this.enzymes(this.enzymeIndexs_rnaPolymerase)             = frePls;
+0585             this.boundEnzymes(this.enzymeIndexs_rnaPolymerase)        = bndPls;
+0586             this.enzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme)   = freHls;
+0587             this.boundEnzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme) = bndHls;
+0588             
+0589             <span class="comment">%% decrement counts of RNAs</span>
+0590             this.copyToState();
+0591             
+0592             comp = this.compartment;
+0593             rna = this.rna;
+0594             
+0595             matureRnaWt = max(0, sum(rna.dryWeight) - trnspts.dryWeight);
+0596             initRnaCnts = rna.counts;
+0597             <span class="keyword">while</span> sum(rna.dryWeight) &gt; matureRnaWt
+0598                 idx = this.randStream.randsample(size(rna.counts, 1), 1, false, rna.counts(:, comp.cytosolIndexs));
+0599                 rna.counts(idx, comp.cytosolIndexs) = rna.counts(idx, comp.cytosolIndexs) - 1;
+0600             <span class="keyword">end</span>
+0601             rna.counts(:, comp.cytosolIndexs) = <span class="keyword">...</span>
+0602                 + rna.counts(:, comp.cytosolIndexs) <span class="keyword">...</span>
+0603                 + rna.updateExternalState(-(initRnaCnts(:, comp.cytosolIndexs) - rna.counts(:, comp.cytosolIndexs)), true);
+0604             
+0605             this.copyFromState();
+0606         <span class="keyword">end</span>
+0607         
+0608         <span class="comment">%resource requirements</span>
+0609         <a name="_sub8" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0610             result = zeros(size(this.substrates));
+0611             result(this.substrateIndexs_ntp) = 2 * <span class="keyword">...</span>
+0612                 sum(this.metabolite.nmpComposition, 2) * this.rnaPolymerases.nActive * <span class="keyword">...</span>
+0613                 this.rnaPolymeraseElongationRate;
+0614             result(this.substrateIndexs_water) = this.rnaPolymerases.nActive;
+0615         <span class="keyword">end</span>
+0616         
+0617         <span class="comment">%simulation</span>
+0618         <a name="_sub9" href="#_subfunctions" class="code">function evolveState(this)</a>
+0619             <span class="comment">%% define and allocate variables</span>
+0620             
+0621             <span class="comment">%states</span>
+0622             c = this.chromosome;
+0623             rnaPols = this.rnaPolymerases;
+0624             trnspts = this.transcripts;
+0625             
+0626             <span class="comment">%numbers of enzymes</span>
+0627             nFreTfs  = this.enzymes(this.enzymeIndexs_transcriptionFactors);
+0628             nBndTFs  = this.boundEnzymes(this.enzymeIndexs_transcriptionFactors);
+0629             nFrePols = this.enzymes(this.enzymeIndexs_rnaPolymerase);
+0630             nBndPols = this.boundEnzymes(this.enzymeIndexs_rnaPolymerase);
+0631             nFreHols = this.enzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme);
+0632             nBndHols = this.boundEnzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme);
+0633             nTotPols = nFrePols + nBndPols + nFreHols + nBndHols;
+0634             
+0635             <span class="comment">%properties of RNA polymerases</span>
+0636             pStTrns = this.stateTransitionProbabilities; <span class="comment">%probabilities of state transitions</span>
+0637             
+0638             <span class="comment">%transcription unit properties</span>
+0639             tuDirs = 2 * trnspts.transcriptionUnitDirections - 1;
+0640             tuStrnds = c.transcriptionUnitStrands;
+0641             tuLens = trnspts.transcriptionUnitLengths;
+0642             tu5Coords = trnspts.transcriptionUnitFivePrimeCoordinates;
+0643             tuSeqs = trnspts.transcriptionUnitSequences;  <span class="comment">%sequences</span>
+0644             
+0645             <span class="comment">%% Update states of RNA polymerases</span>
+0646             
+0647             <span class="comment">%allocate space to store states of new RNA polymerases</span>
+0648             <span class="keyword">if</span> nTotPols &gt; size(rnaPols.states, 1)
+0649                 rnaPols.states = [
+0650                     rnaPols.states;
+0651                     rnaPols.notExistValue(ones(2 * nTotPols - size(rnaPols.states, 1), 1), 1)];
+0652                 rnaPols.positionStrands = [
+0653                     rnaPols.positionStrands;
+0654                     zeros(2 * nTotPols - size(rnaPols.positionStrands, 1), 2)];
+0655                 trnspts.boundTranscriptionUnits = [
+0656                     trnspts.boundTranscriptionUnits;
+0657                     trnspts.nullTranscriptValue(ones(2 * nTotPols - size(trnspts.boundTranscriptChromosome, 1), 1), 1)];
+0658                 trnspts.boundTranscriptProgress = [
+0659                     trnspts.boundTranscriptProgress;
+0660                     trnspts.nullTranscriptValue(ones(2 * nTotPols - size(trnspts.boundTranscriptChromosome, 1), 1), 1)];
+0661                 trnspts.boundTranscriptChromosome = [
+0662                     trnspts.boundTranscriptChromosome;
+0663                     trnspts.nullTranscriptValue(ones(2 * nTotPols - size(trnspts.boundTranscriptChromosome, 1), 1), 1)];
+0664             <span class="keyword">end</span>
+0665             
+0666             <span class="comment">%indices of RNA polymerases in various states</span>
+0667             actPols = find(rnaPols.states &gt;= rnaPols.activelyTranscribingValue);
+0668             sbPols = find(rnaPols.states == rnaPols.specificallyBoundValue);
+0669             freeNsbPols = find(<span class="keyword">...</span>
+0670                 rnaPols.states == rnaPols.nonSpecificallyBoundValue | <span class="keyword">...</span>
+0671                 rnaPols.states == rnaPols.freeValue);
+0672             sbPols = sbPols(this.randStream.randperm(numel(sbPols)));
+0673             freeNsbPols = freeNsbPols(this.randStream.randperm(numel(freeNsbPols)));
+0674             
+0675             <span class="comment">%number of new RNA polymerases</span>
+0676             nNewPols = nTotPols - (numel(actPols) + numel(sbPols) + numel(freeNsbPols));
+0677             
+0678             <span class="comment">%dissociate any free RNA polymerase holoenzymes (created say by</span>
+0679             <span class="comment">%their release from chromosome by another protein) into RNA</span>
+0680             <span class="comment">%polymerase core and sigma factor</span>
+0681             nFrePols = nFrePols + nFreHols;
+0682             nFreTfs(this.enzymeIndexs_sigmaFactor) = nFreTfs(this.enzymeIndexs_sigmaFactor) + nFreHols;
+0683             nFreHols = 0;
+0684             
+0685             <span class="comment">%initiating specifically bound polymerases</span>
+0686             nInitMax = this.randStream.stochasticRound(numel(sbPols) * pStTrns(rnaPols.activelyTranscribingIndex, rnaPols.specificallyBoundIndex)); <span class="comment">%#ok&lt;*PROP&gt;</span>
+0687             <span class="keyword">if</span> nInitMax &gt; 0
+0688                 releasedProteins = this.releaseProteinFromSites(rnaPols.positionStrands(sbPols(1:nInitMax), :), false, this.enzymeIndexs_rnaPolymeraseHoloenzyme, true, true);
+0689                 <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymeraseHoloenzyme), nInitMax)
+0690                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to release protein'</span>));
+0691                 <span class="keyword">end</span>
+0692                 
+0693                 <span class="comment">%try to initiate RNA polymerases</span>
+0694                 positions = tu5Coords(trnspts.boundTranscriptionUnits(sbPols(1:nInitMax)));
+0695                 tfs = this.bindProteinToChromosome([positions rnaPols.positionStrands(sbPols(1:nInitMax), 2)], <span class="keyword">...</span>
+0696                     this.enzymeIndexs_rnaPolymeraseHoloenzyme);
+0697                 rnaPols.states(sbPols(tfs)) = rnaPols.activelyTranscribingValue;
+0698                 trnspts.boundTranscriptProgress(sbPols(tfs)) = trnspts.newTranscriptValue;
+0699                 rnaPols.positionStrands(sbPols(tfs), 1) = positions(tfs, 1);
+0700                 
+0701                 <span class="comment">%rebind RNA polymerases that couldn't move forward</span>
+0702                 <span class="keyword">if</span> ~all(this.bindProteinToChromosome(rnaPols.positionStrands(sbPols(~tfs), :), <span class="keyword">...</span>
+0703                         this.enzymeIndexs_rnaPolymeraseHoloenzyme))
+0704                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to unbind protein'</span>));
+0705                 <span class="keyword">end</span>
+0706             <span class="keyword">end</span>
+0707             
+0708             <span class="comment">%specifically bound polymerases becoming non-specifically bound / free</span>
+0709             nUnsb = max(0, numel(sbPols) - nInitMax - this.randStream.stochasticRound(numel(sbPols) * <span class="keyword">...</span>
+0710                 pStTrns(rnaPols.specificallyBoundIndex, rnaPols.specificallyBoundIndex)));
+0711             <span class="keyword">if</span> nUnsb &gt; 0
+0712                 idxs = sbPols(end-nUnsb+1:end);
+0713                 posStrnds = rnaPols.positionStrands(idxs, :);
+0714                 releasedProteins = this.releaseProteinFromSites(posStrnds, false, this.enzymeIndexs_rnaPolymeraseHoloenzyme, true, true);
+0715                 <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymeraseHoloenzyme), nUnsb)
+0716                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to unbind protein'</span>));
+0717                 <span class="keyword">end</span>
+0718                 
+0719                 rnaPols.states(idxs) = rnaPols.freeValue;
+0720                 rnaPols.positionStrands(idxs, :) = 0;
+0721                 trnspts.boundTranscriptionUnits(idxs) = trnspts.nullTranscriptValue;
+0722                 trnspts.boundTranscriptProgress(idxs) = trnspts.nullTranscriptValue;
+0723                 trnspts.boundTranscriptChromosome(idxs) = trnspts.nullTranscriptValue;
+0724                 
+0725                 nBndHols = nBndHols - nUnsb;                
+0726                 nFrePols = nFrePols + nUnsb;
+0727                 nFreTfs(this.enzymeIndexs_sigmaFactor) = nFreTfs(this.enzymeIndexs_sigmaFactor) + nUnsb;
+0728             <span class="keyword">end</span>
+0729             
+0730             <span class="comment">%free polymerases/non-specifically bound becoming specifically bound</span>
+0731             nFreeNsbPols = this.randStream.stochasticRound(min([
+0732                 numel(freeNsbPols) * pStTrns(rnaPols.specificallyBoundIndex, rnaPols.freeIndex)
+0733                 nFreTfs(this.enzymeIndexs_sigmaFactor)]));
+0734             <span class="keyword">if</span> nFreeNsbPols &gt; 0
+0735                 <span class="comment">%unbind from non-specifically bound site</span>
+0736                 idxs = freeNsbPols(1:nFreeNsbPols);
+0737                 nNsbPols = sum(rnaPols.states(idxs) == rnaPols.nonSpecificallyBoundValue);
+0738                 releasedProteins = this.releaseProteinFromSites(rnaPols.positionStrands(idxs, :), false, this.enzymeIndexs_rnaPolymerase, true, true);
+0739                 <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymerase), nNsbPols)
+0740                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to release protein'</span>));
+0741                 <span class="keyword">end</span>
+0742                 
+0743                 rnaPols.states(idxs) = rnaPols.freeValue;
+0744                 rnaPols.positionStrands(idxs, :) = 0;
+0745                 trnspts.boundTranscriptionUnits(idxs) = trnspts.nullTranscriptValue;
+0746                 trnspts.boundTranscriptProgress(idxs) = trnspts.nullTranscriptValue;
+0747                 trnspts.boundTranscriptChromosome(idxs) = trnspts.nullTranscriptValue;
+0748                 
+0749                 nFrePols = nFrePols + nNsbPols;
+0750                 nBndPols = nBndPols - nNsbPols;
+0751                 
+0752                 <span class="comment">%bind to new specifically bound site</span>
+0753                 pBnds = this.computeRNAPolymeraseTUBindingProbabilities();
+0754                 
+0755                 <span class="keyword">if</span> nnz(c.polymerizedRegions) == 2
+0756                     [~, iTU, posStrnds, nFreeNsbPols] = this.bindProteinToChromosome( <span class="keyword">...</span>
+0757                         [tu5Coords-tuDirs tuStrnds], <span class="keyword">...</span>
+0758                         this.enzymeIndexs_rnaPolymeraseHoloenzyme, nFreeNsbPols, pBnds(:, 1), <span class="keyword">...</span>
+0759                         true, true, 1, false, []);
+0760                     iChr = 1;
+0761                 <span class="keyword">else</span>
+0762                     [~, iTU, posStrnds, nFreeNsbPols] = this.bindProteinToChromosome( <span class="keyword">...</span>
+0763                         [tu5Coords-tuDirs tuStrnds
+0764                         tu5Coords-tuDirs tuStrnds + 2], <span class="keyword">...</span>
+0765                         this.enzymeIndexs_rnaPolymeraseHoloenzyme, nFreeNsbPols, pBnds(:), <span class="keyword">...</span>
+0766                         true, true, 1, false, []);
+0767                     iTU = mod(iTU - 1, numel(tuLens)) + 1;
+0768                     iChr = ceil(posStrnds(:, 2) / 2);
+0769                 <span class="keyword">end</span>
+0770                 
+0771                 idxs = freeNsbPols(1:nFreeNsbPols);
+0772                 rnaPols.states(idxs) = rnaPols.specificallyBoundValue;
+0773                 rnaPols.positionStrands(idxs, :) = posStrnds;
+0774                 trnspts.boundTranscriptionUnits(idxs) = iTU;
+0775                 trnspts.boundTranscriptProgress(idxs) = trnspts.nullTranscriptValue;
+0776                 trnspts.boundTranscriptChromosome(idxs) = iChr;
+0777                 
+0778                 nBndHols = nBndHols + nFreeNsbPols;
+0779                 nFrePols = nFrePols - nFreeNsbPols;
+0780                 nFreTfs(this.enzymeIndexs_sigmaFactor) = nFreTfs(this.enzymeIndexs_sigmaFactor) - nFreeNsbPols;
+0781             <span class="keyword">end</span>
+0782             
+0783             <span class="comment">%free polymerases/non-specifically bound becoming free/non-specifically bound</span>
+0784             nsbPols = find(rnaPols.states == rnaPols.nonSpecificallyBoundValue);
+0785             <span class="keyword">if</span> ~isempty(nsbPols)
+0786                 <span class="comment">%set non-specifically bound to free</span>
+0787                 releasedProteins = this.releaseProteinFromSites(rnaPols.positionStrands(nsbPols, :), false, this.enzymeIndexs_rnaPolymerase, true, true);
+0788                 <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymerase), numel(nsbPols))
+0789                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to release protein'</span>));
+0790                 <span class="keyword">end</span>
+0791                 
+0792                 rnaPols.states(nsbPols) = rnaPols.freeValue;
+0793                 rnaPols.positionStrands(nsbPols, :) = 0;
+0794                 trnspts.boundTranscriptionUnits(nsbPols) = trnspts.nullTranscriptValue;
+0795                 trnspts.boundTranscriptProgress(nsbPols) = trnspts.nullTranscriptValue;
+0796                 trnspts.boundTranscriptChromosome(nsbPols) = trnspts.nullTranscriptValue;
+0797                 
+0798                 nFrePols = nFrePols + numel(nsbPols);
+0799                 nBndPols = nBndPols - numel(nsbPols);
+0800             <span class="keyword">end</span>
+0801             
+0802             freePols = find(rnaPols.states == rnaPols.freeValue);
+0803             nNsbPols = this.randStream.stochasticRound(min([<span class="keyword">...</span>
+0804                 nFrePols
+0805                 numel(freePols) * pStTrns(rnaPols.nonSpecificallyBoundIndex, rnaPols.freeIndex) / (pStTrns(rnaPols.nonSpecificallyBoundIndex, rnaPols.freeIndex) + pStTrns(rnaPols.freeIndex, rnaPols.freeIndex))]));
+0806             <span class="keyword">if</span> nNsbPols &gt; 0
+0807                 <span class="comment">%set some to non-specifically bound state</span>
+0808                 [nNsbPols posStrnds] = this.bindProteinToChromosomeStochastically(this.enzymeIndexs_rnaPolymerase, nNsbPols);
+0809                 posStrnds( isodd(posStrnds(:, 2)), 1) = posStrnds( isodd(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints5Prime(this.enzymeIndexs_rnaPolymerase);
+0810                 posStrnds(iseven(posStrnds(:, 2)), 1) = posStrnds(iseven(posStrnds(:, 2)), 1) + this.enzymeDNAFootprints3Prime(this.enzymeIndexs_rnaPolymerase);
+0811                 
+0812                 rnaPols.states(freePols(1:nNsbPols)) = rnaPols.nonSpecificallyBoundValue;
+0813                 rnaPols.positionStrands(freePols(1:nNsbPols), :) = posStrnds;
+0814                 trnspts.boundTranscriptionUnits(freePols(1:nNsbPols)) = trnspts.nullTranscriptValue;
+0815                 trnspts.boundTranscriptProgress(freePols(1:nNsbPols)) = trnspts.nullTranscriptValue;
+0816                 trnspts.boundTranscriptChromosome(freePols(1:nNsbPols)) = trnspts.nullTranscriptValue;
+0817                 
+0818                 nFrePols = nFrePols - nNsbPols;
+0819                 nBndPols = nBndPols + nNsbPols;
+0820             <span class="keyword">end</span>
+0821             
+0822             <span class="comment">%set newly created RNA polymerases to free state</span>
+0823             <span class="keyword">if</span> nNewPols &gt; 0
+0824                 newPols = find(rnaPols.states == rnaPols.notExistValue, nNewPols, <span class="string">'first'</span>);
+0825                 rnaPols.states(newPols) = rnaPols.freeValue;
+0826                 rnaPols.positionStrands(newPols, :) = 0;
+0827                 trnspts.boundTranscriptionUnits(newPols) = trnspts.nullTranscriptValue;
+0828                 trnspts.boundTranscriptProgress(newPols) = trnspts.nullTranscriptValue;
+0829                 trnspts.boundTranscriptChromosome(newPols) = trnspts.nullTranscriptValue;
+0830             <span class="keyword">end</span>
+0831             
+0832             <span class="comment">%% Transcribe active sequences</span>
+0833             <span class="comment">%compute progress of transcription and cost</span>
+0834             usedNTPs = zeros(4, 1);
+0835             <span class="keyword">if</span> ~isempty(actPols) &amp;&amp; nFreTfs(this.enzymeIndexs_elongationFactor) &amp;&amp; this.rnaPolymeraseElongationRate &gt; 0
+0836                 posStrnds = rnaPols.positionStrands(actPols, :);
+0837                 iTUs = trnspts.boundTranscriptionUnits(actPols);
+0838                 
+0839                 <span class="comment">%temporarily release RNA polymerase from old position strands</span>
+0840                 releasedProteins = <span class="keyword">...</span>
+0841                     this.releaseProteinFromSites(posStrnds, false, this.enzymeIndexs_rnaPolymerase, true, true) + <span class="keyword">...</span>
+0842                     this.releaseProteinFromSites(posStrnds, false, this.enzymeIndexs_rnaPolymeraseHoloenzyme, true, true);
+0843                 <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymerase) + releasedProteins(this.enzymeIndexs_rnaPolymeraseHoloenzyme), numel(actPols))
+0844                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to unbind protein'</span>));
+0845                 <span class="keyword">end</span>
+0846                 
+0847                 <span class="comment">%extract active sequences (part of sequence that should be transcribed)</span>
+0848                 actSeqs = cell(size(actPols)); <span class="comment">%active sequences (those can be transcribed)</span>
+0849                 <span class="keyword">for</span> idx = 1:numel(actPols)
+0850                     i = actPols(idx);
+0851                     left = rnaPols.states(i);
+0852                     actSeqs{idx} = tuSeqs{trnspts.boundTranscriptionUnits(i)}(left:end);
+0853                 <span class="keyword">end</span>
+0854                 actSeqs = char(actSeqs);
+0855                 actSeqs = actSeqs(:, 1:min(<span class="keyword">end</span>, this.rnaPolymeraseElongationRate));
+0856                 
+0857                 <span class="comment">%elongation limits by RNA polymerase kinetic rate and transcription unit extent</span>
+0858                 elngMax = min(this.rnaPolymeraseElongationRate, <span class="keyword">...</span>
+0859                     tuLens(trnspts.boundTranscriptionUnits(actPols)) - rnaPols.states(actPols) + 1);
+0860                                 
+0861                 <span class="comment">%elongation limits by RNA-polymerase / RNA-polymerase interactions</span>
+0862                 <span class="keyword">for</span> strnd = 1 : 4
+0863                     idxs = find(posStrnds(:, 2) == strnd);
+0864                     <span class="keyword">if</span> numel(idxs) &lt;= 1
+0865                         <span class="keyword">continue</span>;
+0866                     <span class="keyword">end</span>
+0867                     [~, order] = sort(posStrnds(idxs, 1));
+0868                     
+0869                     <span class="keyword">if</span> isodd(strnd)
+0870                         elngMax(idxs(order)) = min(<span class="keyword">...</span>
+0871                             elngMax(idxs(order)), <span class="keyword">...</span>
+0872                             diff([posStrnds(idxs(order), 1); posStrnds(idxs(order(1)), 1) + c.sequenceLen]) - <span class="keyword">...</span>
+0873                             this.enzymeDNAFootprints(this.enzymeIndexs_rnaPolymerase));
+0874                     <span class="keyword">else</span>
+0875                         elngMax(idxs(order)) = min(<span class="keyword">...</span>
+0876                             elngMax(idxs(order)), <span class="keyword">...</span>
+0877                             diff([posStrnds(idxs(order(end)), 1) - c.sequenceLen; posStrnds(idxs(order), 1)]) - <span class="keyword">...</span>
+0878                             this.enzymeDNAFootprints(this.enzymeIndexs_rnaPolymerase));
+0879                     <span class="keyword">end</span>
+0880                 <span class="keyword">end</span>
+0881                 
+0882                 <span class="comment">%elongation limits by RNA-polymerase DNA interactions (Note: independent of other RNA polymerases)</span>
+0883                 [~, ~, ~, tmp_elngMax] = c.isRegionAccessible(<span class="keyword">...</span>
+0884                     posStrnds, (elngMax + 1) .* tuDirs(iTUs), <span class="keyword">...</span>
+0885                     [], this.enzymeGlobalIndexs(this.enzymeIndexs_rnaPolymerase), true, [], true, false);
+0886                 <span class="keyword">if</span> ~all(tmp_elngMax)
+0887                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to bind proteins'</span>));
+0888                 <span class="keyword">end</span>
+0889                 elngMax = min(abs(tmp_elngMax) - 1, elngMax);
+0890                 
+0891                 <span class="comment">%elongation limits by NTPs</span>
+0892                 <span class="keyword">for</span> i = 1:size(actSeqs, 1)
+0893                     actSeqs(i, elngMax(i) + 1:end) = <span class="string">' '</span>;
+0894                 <span class="keyword">end</span>
+0895                 [elngProg, this.substrates(this.substrateIndexs_ntp), usedNTPs] = <span class="keyword">...</span>
+0896                     edu.stanford.covert.cell.sim.util.polymerize(<span class="keyword">...</span>
+0897                     actSeqs, this.substrates(this.substrateIndexs_ntp), <span class="string">'ACGU'</span>, <span class="string">' '</span>, 0, 0, this.randStream);
+0898                 
+0899                 <span class="comment">%release sigma factor after initiation</span>
+0900                 nInits = sum(<span class="keyword">...</span>
+0901                     rnaPols.states(actPols) == rnaPols.activelyTranscribingValue &amp; <span class="keyword">...</span>
+0902                     elngProg &gt; 0);
+0903                 nBndHols = nBndHols - nInits;
+0904                 nFreTfs(this.enzymeIndexs_sigmaFactor) = nFreTfs(this.enzymeIndexs_sigmaFactor) + nInits;
+0905                 nBndPols = nBndPols + nInits;
+0906                 
+0907                 <span class="comment">%rebind RNA polymerase to new positions</span>
+0908                 rnaPols.states(actPols) = rnaPols.states(actPols) + elngProg;
+0909                 rnaPols.positionStrands(actPols, 1) = posStrnds(:, 1) + elngProg .* tuDirs(iTUs);
+0910                 trnspts.boundTranscriptProgress(actPols) = rnaPols.states(actPols);
+0911                 
+0912                 initPols = rnaPols.states(actPols) == rnaPols.activelyTranscribingValue;
+0913                 <span class="keyword">if</span> <span class="keyword">...</span>
+0914                         ~all(this.bindProteinToChromosome(rnaPols.positionStrands(actPols(~initPols), :), this.enzymeIndexs_rnaPolymerase)) || <span class="keyword">...</span>
+0915                         ~all(this.bindProteinToChromosome(rnaPols.positionStrands(actPols( initPols), :), this.enzymeIndexs_rnaPolymeraseHoloenzyme))
+0916                     throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to bind proteins'</span>));
+0917                 <span class="keyword">end</span>
+0918             <span class="keyword">end</span>
+0919             
+0920             <span class="comment">%release polymerases which have completed transcription, and increment</span>
+0921             <span class="comment">%expression of the corresponding transcription unit</span>
+0922             <span class="keyword">if</span> ~isempty(actPols) &amp;&amp; nFreTfs(this.enzymeIndexs_elongationFactor) &amp;&amp; nFreTfs(this.enzymeIndexs_terminationFactor)
+0923                 trmPols = actPols(rnaPols.states(actPols) &gt; <span class="keyword">...</span>
+0924                     tuLens(trnspts.boundTranscriptionUnits(actPols)));
+0925                 nTrmPols = numel(trmPols);
+0926                 <span class="keyword">if</span> nTrmPols &gt; this.substrates(this.substrateIndexs_water)
+0927                    order = this.randStream.randperm(nTrmPols);
+0928                    nTrmPols = this.substrates(this.substrateIndexs_water);
+0929                    trmPols = trmPols(order(1:nTrmPols));
+0930                 <span class="keyword">end</span>
+0931                 
+0932                 <span class="keyword">if</span> nTrmPols &gt; 0
+0933                     <span class="keyword">if</span> isscalar(trmPols)
+0934                         this.RNAs(trnspts.boundTranscriptionUnits(trmPols)) = <span class="keyword">...</span>
+0935                             this.RNAs(trnspts.boundTranscriptionUnits(trmPols)) + 1;
+0936                     <span class="keyword">else</span>
+0937                         this.RNAs = this.RNAs + <span class="keyword">...</span>
+0938                             histc(trnspts.boundTranscriptionUnits(trmPols, 1), 1:numel(tuLens));
+0939                     <span class="keyword">end</span>
+0940                     
+0941                     <span class="comment">%release proteins from chromsome</span>
+0942                     releasedProteins = this.releaseProteinFromSites(rnaPols.positionStrands(trmPols, :), false, this.enzymeIndexs_rnaPolymerase, true, true);
+0943                     <span class="keyword">if</span> ~isequal(releasedProteins(this.enzymeIndexs_rnaPolymerase), numel(trmPols))
+0944                         throw(MException(<span class="string">'Transcription:error'</span>, <span class="string">'Unable to unbind protein'</span>));
+0945                     <span class="keyword">end</span>
+0946                     
+0947                     nFrePols = nFrePols + nTrmPols;
+0948                     nBndPols = nBndPols - nTrmPols;
+0949                     
+0950                     this.substrates(this.substrateIndexs_water)    = this.substrates(this.substrateIndexs_water)    - nTrmPols;
+0951                     this.substrates(this.substrateIndexs_hydrogen) = this.substrates(this.substrateIndexs_hydrogen) + nTrmPols;
+0952                     
+0953                     rnaPols.states(trmPols) = rnaPols.freeValue;
+0954                     rnaPols.positionStrands(trmPols, :) = 0;
+0955                     trnspts.boundTranscriptionUnits(trmPols) = trnspts.nullTranscriptValue;
+0956                     trnspts.boundTranscriptProgress(trmPols) = trnspts.nullTranscriptValue;
+0957                     trnspts.boundTranscriptChromosome(trmPols) = trnspts.nullTranscriptValue;
+0958                 <span class="keyword">end</span>
+0959             <span class="keyword">end</span>
+0960             
+0961             <span class="comment">%% diphosphate released by polymerization</span>
+0962             this.substrates(this.substrateIndexs_diphosphate) = <span class="keyword">...</span>
+0963                 this.substrates(this.substrateIndexs_diphosphate) + <span class="keyword">...</span>
+0964                 sum(usedNTPs);
+0965             
+0966             <span class="comment">%% store enzyme state</span>
+0967             this.enzymes(this.enzymeIndexs_transcriptionFactors) = nFreTfs;
+0968             this.boundEnzymes(this.enzymeIndexs_transcriptionFactors) = nBndTFs;
+0969             this.enzymes(this.enzymeIndexs_rnaPolymerase) = nFrePols;
+0970             this.boundEnzymes(this.enzymeIndexs_rnaPolymerase) = nBndPols;
+0971             this.enzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme) = nFreHols;
+0972             this.boundEnzymes(this.enzymeIndexs_rnaPolymeraseHoloenzyme) = nBndHols;
+0973         <span class="keyword">end</span>
+0974     <span class="keyword">end</span>
+0975     
+0976     <span class="comment">%model helper functions</span>
+0977     methods    
+0978         <a name="_sub10" href="#_subfunctions" class="code">function pBinds = computeRNAPolymeraseTUBindingProbabilities(this, protectDnaABoxes)</a>
+0979             c = this.chromosome;
+0980             r = this.rnaPolymerases;
+0981             
+0982             <span class="comment">%relative probability RNA polymerase binds each transcription</span>
+0983             <span class="comment">%unit</span>
+0984             pBinds = this.transcriptionUnitBindingProbabilities(:, ones(1, 2)) .* <span class="keyword">...</span>
+0985                 r.transcriptionFactorBindingProbFoldChange .* <span class="keyword">...</span>
+0986                 r.supercoilingBindingProbFoldChange;
+0987             
+0988             <span class="comment">%if functional DnaA boxes R1-5 are occupied by DnaA-ATP,</span>
+0989             <span class="comment">%don't allow RNA polymerase to bind since it would knockoff</span>
+0990             <span class="comment">%DnaA-ATP</span>
+0991             <span class="keyword">if</span> nargin == 1 || protectDnaABoxes
+0992                 [posStrnds, complexs] = find(<span class="keyword">...</span>
+0993                     c.complexBoundSites(c.transcriptionUnitStartCoordinates(this.transcriptionUnitIndexs_DnaAR12345Boxes) + <span class="keyword">...</span>
+0994                     (1:c.transcriptionUnitLengths(this.transcriptionUnitIndexs_DnaAR12345Boxes))' - 1, :));
+0995                 <span class="keyword">if</span> any(ismembc(complexs, this.complexIndexs_DnaA_ATP) &amp; posStrnds(:, 2) &lt;= 2)
+0996                     pBinds(this.transcriptionUnitIndexs_DnaAR12345Boxes, 1) = 0;
+0997                 <span class="keyword">end</span>
+0998                 <span class="keyword">if</span> any(ismembc(complexs, this.complexIndexs_DnaA_ATP) &amp; posStrnds(:, 2) &gt; 2)
+0999                     pBinds(this.transcriptionUnitIndexs_DnaAR12345Boxes, 2) = 0;
+1000                 <span class="keyword">end</span>
+1001             <span class="keyword">end</span>
+1002         <span class="keyword">end</span>
+1003         
+1004         <a name="_sub11" href="#_subfunctions" class="code">function pStProbs = calcStateTransitionProbabilities(this, nPols, ntpProdRate, tuBindingProbs, method)</a>
+1005             import edu.stanford.covert.util.ComputationUtil;
+1006             import edu.stanford.covert.util.ConstantUtil;
+1007             
+1008             rna = this.rna;
+1009             rnaPols = this.rnaPolymerases;
+1010             
+1011             pStProbs = zeros(4, 4);
+1012             pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.activelyTranscribingIndex) = <span class="keyword">...</span>
+1013                 ntpProdRate / (nPols * rnaPols.stateExpectations(rnaPols.activelyTranscribingIndex)) / <span class="keyword">...</span>
+1014                 (tuBindingProbs' * rna.lengths(rna.nascentIndexs));
+1015             <span class="keyword">if</span> nargin &lt; 5 || isequal(method, <span class="string">'handTuned'</span>)
+1016                 pStProbs(rnaPols.activelyTranscribingIndex, rnaPols.specificallyBoundIndex) = 1;
+1017                 pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.specificallyBoundIndex) = 0;
+1018                 pStProbs(rnaPols.specificallyBoundIndex, rnaPols.nonSpecificallyBoundIndex) = 0.10;
+1019             <span class="keyword">else</span>
+1020                 pStProbs(rnaPols.activelyTranscribingIndex, rnaPols.specificallyBoundIndex) = <span class="keyword">...</span>
+1021                     pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.activelyTranscribingIndex) * <span class="keyword">...</span>
+1022                     rnaPols.stateExpectations(rnaPols.activelyTranscribingIndex) / <span class="keyword">...</span>
+1023                     rnaPols.stateExpectations(rnaPols.specificallyBoundIndex);
+1024                 pStProbs(rnaPols.specificallyBoundIndex, rnaPols.nonSpecificallyBoundIndex) = <span class="keyword">...</span>
+1025                     pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.activelyTranscribingIndex) * <span class="keyword">...</span>
+1026                     rnaPols.stateExpectations(rnaPols.activelyTranscribingIndex) / <span class="keyword">...</span>
+1027                     rnaPols.stateExpectations(rnaPols.nonSpecificallyBoundIndex);
+1028             <span class="keyword">end</span>
+1029             
+1030             pStProbs(rnaPols.activelyTranscribingIndex, rnaPols.activelyTranscribingIndex) = <span class="keyword">...</span>
+1031                 1 - pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.activelyTranscribingIndex);
+1032             pStProbs(rnaPols.specificallyBoundIndex, rnaPols.specificallyBoundIndex) = <span class="keyword">...</span>
+1033                 + 1 <span class="keyword">...</span>
+1034                 - pStProbs(rnaPols.activelyTranscribingIndex, rnaPols.specificallyBoundIndex)<span class="keyword">...</span>
+1035                 - pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.specificallyBoundIndex);
+1036             pStProbs(rnaPols.nonSpecificallyBoundIndex, rnaPols.nonSpecificallyBoundIndex) = <span class="keyword">...</span>
+1037                 1 - pStProbs(rnaPols.specificallyBoundIndex, rnaPols.nonSpecificallyBoundIndex);
+1038             pStProbs(:, rnaPols.freeIndex) = pStProbs(:, rnaPols.nonSpecificallyBoundIndex);
+1039         <span class="keyword">end</span>
+1040     <span class="keyword">end</span>
+1041     
+1042     <span class="comment">%get methods of dependent local state</span>
+1043     methods
+1044         <a name="_sub12" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+1045             <span class="keyword">if</span> size(this.RNAs, 3) == 1
+1046                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+1047                     this.rna.molecularWeights(this.rna.nascentIndexs)' * this.RNAs <span class="keyword">...</span>
+1048                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+1049             <span class="keyword">else</span>
+1050                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + <span class="keyword">...</span>
+1051                     permute(this.rna.molecularWeights(this.rna.nascentIndexs)' * permute(this.RNAs,[1 3 2]),[1 3 2]) <span class="keyword">...</span>
+1052                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+1053             <span class="keyword">end</span>
+1054         <span class="keyword">end</span>
+1055     <span class="keyword">end</span>
+1056 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

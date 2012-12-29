@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of generateTestFixtures</title>
+  <meta name="keywords" content="generateTestFixtures">
+  <meta name="description" content="Generates test fixtures for whole cell simulation.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; generateTestFixtures.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>generateTestFixtures
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Generates test fixtures for whole cell simulation.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Generates test fixtures for whole cell simulation.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/31/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>	CONFIG Returns configuration values.</li><li><a href="setPath.html" class="code" title="function setPath()">setPath</a>	SETPATH Adds folders to MATLAB path and MATLAB Java path.</li><li><a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>	SETPREFERENCES Sets MATLAB preferences</li><li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Generates test fixtures for whole cell simulation.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0005 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updated: 5/31/2011</span>
+0007 
+0008 <span class="comment">%% initialize</span>
+0009 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>();
+0010 <a href="setPath.html" class="code" title="function setPath()">setPath</a>();
+0011 <a href="setPreferences.html" class="code" title="function setPreferences()">setPreferences</a>();
+0012 dbConnectionParameters = <a href="config.html" class="code" title="function dbConnectionParameters = config()">config</a>();
+0013 database = edu.stanford.covert.db.MySQLDatabase(dbConnectionParameters);
+0014 
+0015 <span class="comment">%% construct latest knowledge base from database</span>
+0016 knowledgeBaseWID = edu.stanford.covert.cell.kb.KnowledgeBaseUtil.selectLatestKnowledgeBase(database);
+0017 knowledgeBase = edu.stanford.covert.cell.kb.KnowledgeBase(database, knowledgeBaseWID);
+0018 
+0019 <span class="comment">%% construct simulation and initialize its constants</span>
+0020 simulation = edu.stanford.covert.cell.sim.Simulation(knowledgeBase.states, knowledgeBase.processes);
+0021 simulation.initializeConstants(knowledgeBase);
+0022 simulation.applyOptions(<span class="string">'seed'</span>, 1);
+0023 fitter = edu.stanford.covert.cell.sim.util.FitConstants(simulation, struct(<span class="string">'verbosity'</span>, 1));
+0024 fitter.run();
+0025 
+0026 <span class="comment">%% verify initial growth rate distribution</span>
+0027 mr = simulation.state(<span class="string">'MetabolicReaction'</span>);
+0028 initialGrowthFilterWidth = mr.initialGrowthFilterWidth;
+0029 mr.initialGrowthFilterWidth = Inf;
+0030 growths = zeros(100, 1);
+0031 <span class="keyword">for</span> i = 1:100
+0032     simulation.applyOptions(<span class="string">'seed'</span>, i);
+0033     simulation.initializeState();
+0034     growths(i) = mr.growth;
+0035 <span class="keyword">end</span>
+0036 mr.initialGrowthFilterWidth = initialGrowthFilterWidth;
+0037 assertElementsAlmostEqual(mr.meanInitialGrowthRate, mean(growths(growths &gt; 1e-6)), <span class="string">'relative'</span>, 10e-2);
+0038 assertElementsAlmostEqual(mr.meanInitialGrowthRate, median(growths(growths &gt; 1e-6)), <span class="string">'relative'</span>, 10e-2);
+0039 
+0040 <span class="comment">%% choose an initial simulation state with desired growth rate</span>
+0041 simulation.applyOptions(<span class="string">'seed'</span>, 1);
+0042 mr = simulation.state(<span class="string">'MetabolicReaction'</span>);
+0043 initialGrowthFilterWidth = mr.initialGrowthFilterWidth;
+0044 mr.initialGrowthFilterWidth = 1e-2;
+0045 simulation.initializeState();
+0046 mr.initialGrowthFilterWidth = initialGrowthFilterWidth;
+0047 
+0048 <span class="comment">%% write simulation data</span>
+0049 import edu.stanford.covert.cell.sim.util.CachedSimulationObjectUtil;
+0050 
+0051 CachedSimulationObjectUtil.store(simulation, knowledgeBaseWID);
+0052 
+0053 data = {<span class="string">'options'</span>, <span class="string">'parameters'</span>, <span class="string">'fixedConstants'</span>, <span class="string">'fittedConstants'</span>};
+0054 <span class="keyword">for</span>  i = 1:numel(data)
+0055     fid = fopen(sprintf(<span class="string">'data/%s.json'</span>, data{i}), <span class="string">'w'</span>);
+0056     tmp = simulation.([<span class="string">'get'</span> upper(data{i}(1)) data{i}(2:end)])();
+0057     <span class="keyword">if</span> ismember(data{i}, {<span class="string">'fixedConstants'</span>, <span class="string">'fittedConstants'</span>})
+0058         <span class="keyword">for</span> j = 1:numel(simulation.states)
+0059             stateID = simulation.states{j}.wholeCellModelID(7:end);
+0060             fields = fieldnames(tmp.states.(stateID));
+0061             <span class="keyword">for</span> k = 1:numel(fields)
+0062                 tmp.states.(stateID).(fields{k}) = [];
+0063             <span class="keyword">end</span>
+0064         <span class="keyword">end</span>
+0065         <span class="keyword">for</span> j = 1:numel(simulation.processes)
+0066             processID = simulation.processes{j}.wholeCellModelID(9:end);
+0067             fields = fieldnames(tmp.processes.(processID));
+0068             <span class="keyword">for</span> k = 1:numel(fields)
+0069                 tmp.processes.(processID).(fields{k}) = [];
+0070             <span class="keyword">end</span>
+0071         <span class="keyword">end</span>
+0072     <span class="keyword">end</span>
+0073     fwrite(fid, edu.stanford.covert.io.jsonFormat(tmp));
+0074     fclose(fid);
+0075 <span class="keyword">end</span>
+0076 clear data tmp fid i j k stateID processID fields;
+0077 
+0078 <span class="comment">%% write simulation test fixture</span>
+0079 import edu.stanford.covert.cell.sim.SimulationFixture;
+0080 simulation.applyOptions(<span class="string">'lengthSec'</span>, 1, <span class="string">'verbosity'</span>, 0);
+0081 SimulationFixture.store(simulation, <span class="string">'Simulation.mat'</span>);
+0082 
+0083 <span class="comment">%% unset mass reference in geometry state to reduce fixture sizes</span>
+0084 mass = simulation.state(<span class="string">'Mass'</span>);
+0085 simulation.state(<span class="string">'Geometry'</span>).mass = [];
+0086 
+0087 <span class="comment">%% write state test fixtures</span>
+0088 <span class="keyword">for</span> i = 1:length(simulation.states)
+0089     edu.stanford.covert.cell.sim.CellStateFixture.store(simulation.states{i});
+0090 <span class="keyword">end</span>
+0091 
+0092 <span class="comment">%% write process test fixtures</span>
+0093 <span class="keyword">for</span> i = 1:length(simulation.processes)
+0094     edu.stanford.covert.cell.sim.ProcessFixture.store(simulation.processes{i});
+0095 <span class="keyword">end</span>
+0096 
+0097 <span class="comment">%% reset mass reference in geometry state, and regenerate fixtures</span>
+0098 simulation.state(<span class="string">'Geometry'</span>).mass = mass;
+0099 edu.stanford.covert.cell.sim.CellStateFixture.store(simulation.state(<span class="string">'Geometry'</span>));
+0100 edu.stanford.covert.cell.sim.ProcessFixture.store(simulation.process(<span class="string">'Metabolism'</span>));
+0101 
+0102 <span class="comment">%% clean up</span>
+0103 database.close();
+0104 clear dbConnectionParameters database simulation mr mass ans i o fitter initialGrowthFilterWidth;
+0105 clear knowledgeBase knowledgeBaseWID;</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

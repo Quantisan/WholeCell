@@ -1,0 +1,349 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellGeometry</title>
+  <meta name="keywords" content="CellGeometry">
+  <meta name="description" content="CellGeometry">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; CellGeometry.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellGeometry
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellGeometry</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CellGeometry
+
+ @wholeCellModelID State_CellGeometry
+ @name             Cell geometry
+ @description
+
+ The Cell Shape process calculates the length and surface area of the cell
+ across its lifespan. It also keeps track of the cell volume. The cell is
+ approximated to be of a rod shape similar to E. coli, even though
+ M. genitalium is known to have a less uniform flask shape. Initially, the
+ cell is modeled as a cylinder with two hemispherical caps. Once cell
+ pinching commences at the midline of the cell, the shape and size of a
+ &quot;septum region&quot; is also modeled.
+
+ General geometric equations to represent the shape of a cell, and the
+ idea that the density of the cell does not change across the cell cycle
+ are borrowed from Domach et al. (1983). We add the assumption that the
+ width of the cell remains constant during the lifespan of a cell. Thus,
+ the density and cell width are inputs into our model. The cell density of
+ E. coli is used 1100g/L (Baldwin et al., 1995). The cell width is
+ calculated based on the initial cell mass and density and the assumption
+ that the cell is a sphere. The initial cell mass is fit to result in a
+ cell width of 200nm (Lind et al, 1984).
+
+ Our model calculates the mass of the cell at all timesteps. The mass and
+ constant density provide us with the volume at all time points.
+ Volume = [2 hemispheres] + [2 cylinders] + [septum region]
+ The volume of the septum region is calculated as a cylinder of length,
+ 2*septumLength, and width of the cell. Then two cones (height=septum,
+ radius=septum) are subtracted from this cylinder.
+ (This approximation was used in Shuler et al. 1979).
+
+ Since we know the volume of the cell from the cell's mass and density,
+ and the septum length from our cytokinesis process, the volume formula
+ gives us the length of the cell at each timestep.
+
+ Similarly, we can also calculate the surface area of the cell.
+ Surface Area = [2 hemispheres] + [2 cylinders] + [septum region]
+ The surface area of the septum region is calculated as a cylinder of
+ length, 2*septum, and width of the cell.
+
+ References
+ ==================
+ 1. Shuler, M.L., Leung, S., Dick, C.C. (1979). A Mathematical Model for the
+    Growth of a Single Bacteria Cell. Annals of the New York Academy of Sciences
+    326: 35-52.
+ 2. Domach, M.M., Leung, S.K., Cahn, R.E., Cocks, G.G., Shuler, M.L. (1983).
+    Computer model for glucose-limited growth of a single cell of Escherichia
+    coli B/r-A. Biotechnology and Bioengineering 26: 203-216.
+ 3. Lind, K., Lindhardt, B., Schutten, H.J., Blom, J., Christiansen, C.
+    (1984). Serological Cross-Reactions Between Mycoplasma genitalium and
+    Mycoplasma pneumoniae. Journal of Clinical Microbiology 20: 1036-1043.
+ 4. Baldwin WW, Myer R, Powell N, Anderson E, Koch AL. (1995). Buoyant
+    density of Escherichia coli is determined solely by the osmolarity of the
+    culture medium. Arch Microbiology 164: 155-157.
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 6/3/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellGeometry.html" class="code" title="">CellGeometry</a>	CellGeometry</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellGeometry.html" class="code" title="">CellGeometry</a>	CellGeometry</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CellGeometry(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub4" class="code">function initialize(this)</a></li><li><a href="#_sub5" class="code">function w = calculateWidth(~, volume)</a></li><li><a href="#_sub6" class="code">function calculateVolume(this)</a></li><li><a href="#_sub7" class="code">function value = get.width(this)</a></li><li><a href="#_sub8" class="code">function value = get.cylindricalLength(this)</a></li><li><a href="#_sub9" class="code">function value = get.surfaceArea(this)</a></li><li><a href="#_sub10" class="code">function value = get.totalLength(this)</a></li><li><a href="#_sub11" class="code">function result = get.pinchedCircumference(this)</a></li><li><a href="#_sub12" class="code">function result = get.pinched(this)</a></li><li><a href="#_sub13" class="code">function [cylindricalLength, surfaceArea, totalLength] = calcGeometry(this)</a></li><li><a href="#_sub14" class="code">function value = get.chamberVolume(this)</a></li><li><a href="#_sub15" class="code">function [cylindricalLength, surfaceArea, totalLength] = calculateGeometry(width, pinchedDiameter, volume)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%CellGeometry</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_CellGeometry</span>
+0004 <span class="comment">% @name             Cell geometry</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% The Cell Shape process calculates the length and surface area of the cell</span>
+0008 <span class="comment">% across its lifespan. It also keeps track of the cell volume. The cell is</span>
+0009 <span class="comment">% approximated to be of a rod shape similar to E. coli, even though</span>
+0010 <span class="comment">% M. genitalium is known to have a less uniform flask shape. Initially, the</span>
+0011 <span class="comment">% cell is modeled as a cylinder with two hemispherical caps. Once cell</span>
+0012 <span class="comment">% pinching commences at the midline of the cell, the shape and size of a</span>
+0013 <span class="comment">% &quot;septum region&quot; is also modeled.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% General geometric equations to represent the shape of a cell, and the</span>
+0016 <span class="comment">% idea that the density of the cell does not change across the cell cycle</span>
+0017 <span class="comment">% are borrowed from Domach et al. (1983). We add the assumption that the</span>
+0018 <span class="comment">% width of the cell remains constant during the lifespan of a cell. Thus,</span>
+0019 <span class="comment">% the density and cell width are inputs into our model. The cell density of</span>
+0020 <span class="comment">% E. coli is used 1100g/L (Baldwin et al., 1995). The cell width is</span>
+0021 <span class="comment">% calculated based on the initial cell mass and density and the assumption</span>
+0022 <span class="comment">% that the cell is a sphere. The initial cell mass is fit to result in a</span>
+0023 <span class="comment">% cell width of 200nm (Lind et al, 1984).</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% Our model calculates the mass of the cell at all timesteps. The mass and</span>
+0026 <span class="comment">% constant density provide us with the volume at all time points.</span>
+0027 <span class="comment">% Volume = [2 hemispheres] + [2 cylinders] + [septum region]</span>
+0028 <span class="comment">% The volume of the septum region is calculated as a cylinder of length,</span>
+0029 <span class="comment">% 2*septumLength, and width of the cell. Then two cones (height=septum,</span>
+0030 <span class="comment">% radius=septum) are subtracted from this cylinder.</span>
+0031 <span class="comment">% (This approximation was used in Shuler et al. 1979).</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">% Since we know the volume of the cell from the cell's mass and density,</span>
+0034 <span class="comment">% and the septum length from our cytokinesis process, the volume formula</span>
+0035 <span class="comment">% gives us the length of the cell at each timestep.</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">% Similarly, we can also calculate the surface area of the cell.</span>
+0038 <span class="comment">% Surface Area = [2 hemispheres] + [2 cylinders] + [septum region]</span>
+0039 <span class="comment">% The surface area of the septum region is calculated as a cylinder of</span>
+0040 <span class="comment">% length, 2*septum, and width of the cell.</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">% References</span>
+0043 <span class="comment">% ==================</span>
+0044 <span class="comment">% 1. Shuler, M.L., Leung, S., Dick, C.C. (1979). A Mathematical Model for the</span>
+0045 <span class="comment">%    Growth of a Single Bacteria Cell. Annals of the New York Academy of Sciences</span>
+0046 <span class="comment">%    326: 35-52.</span>
+0047 <span class="comment">% 2. Domach, M.M., Leung, S.K., Cahn, R.E., Cocks, G.G., Shuler, M.L. (1983).</span>
+0048 <span class="comment">%    Computer model for glucose-limited growth of a single cell of Escherichia</span>
+0049 <span class="comment">%    coli B/r-A. Biotechnology and Bioengineering 26: 203-216.</span>
+0050 <span class="comment">% 3. Lind, K., Lindhardt, B., Schutten, H.J., Blom, J., Christiansen, C.</span>
+0051 <span class="comment">%    (1984). Serological Cross-Reactions Between Mycoplasma genitalium and</span>
+0052 <span class="comment">%    Mycoplasma pneumoniae. Journal of Clinical Microbiology 20: 1036-1043.</span>
+0053 <span class="comment">% 4. Baldwin WW, Myer R, Powell N, Anderson E, Koch AL. (1995). Buoyant</span>
+0054 <span class="comment">%    density of Escherichia coli is determined solely by the osmolarity of the</span>
+0055 <span class="comment">%    culture medium. Arch Microbiology 164: 155-157.</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0058 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0059 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0060 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0061 <span class="comment">% Last updated: 6/3/2010</span>
+0062 classdef <a href="CellGeometry.html" class="code" title="">CellGeometry</a> &lt; edu.stanford.covert.cell.sim.CellState
+0063     <span class="comment">%property annotations</span>
+0064     properties (Constant)
+0065         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0066             <span class="string">'verbosity'</span>;
+0067             <span class="string">'seed'</span>;
+0068             };
+0069         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0070             <span class="string">'density'</span>;
+0071             };
+0072         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0073         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0074             <span class="string">'width'</span>;
+0075             <span class="string">'pinchedDiameter'</span>
+0076             };
+0077         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0078             <span class="string">'volume'</span>
+0079             <span class="string">'cylindricalLength'</span>
+0080             <span class="string">'surfaceArea'</span>
+0081             <span class="string">'totalLength'</span>
+0082             <span class="string">'pinchedCircumference'</span>
+0083             <span class="string">'pinched'</span>
+0084             <span class="string">'chamberVolume'</span>
+0085             };
+0086     <span class="keyword">end</span>
+0087     
+0088     properties (Constant)
+0089         dryWeight = 0;      <span class="comment">%dry weight of this class' state properties</span>
+0090     <span class="keyword">end</span>
+0091 
+0092     <span class="comment">%fixed biological constants</span>
+0093     properties
+0094         density             <span class="comment">%g/L [PUB_0553]</span>
+0095     <span class="keyword">end</span>
+0096 
+0097     <span class="comment">%state</span>
+0098     properties
+0099         width               <span class="comment">%m; width of the cell; stays constant across simulation; calculated during initialization</span>
+0100         pinchedDiameter     <span class="comment">%m; diameter where cell is pinched the most</span>
+0101     <span class="keyword">end</span>   
+0102     
+0103     <span class="comment">%dependent state</span>
+0104     properties
+0105         volume               <span class="comment">%L</span>
+0106     <span class="keyword">end</span>
+0107     
+0108     properties (Dependent = true, SetAccess = protected)
+0109         cylindricalLength    <span class="comment">%m; length of just the cylindrical part of the cell</span>
+0110         surfaceArea          <span class="comment">%m^2; surface area of the cell</span>
+0111         totalLength          <span class="comment">%m; total cell length = width + length + (2*septumLength)</span>
+0112         pinchedCircumference <span class="comment">%circumference where cell is pinched the most (m)</span>
+0113         pinched              <span class="comment">%whether cytokinesis is finished</span>
+0114         
+0115         chamberVolume        <span class="comment">%volume of chamber in which cell is simulated (L)</span>
+0116     <span class="keyword">end</span>
+0117     
+0118     <span class="comment">%references to other parts of the cell state</span>
+0119     properties
+0120         mass
+0121     <span class="keyword">end</span>
+0122 
+0123     <span class="comment">%constructor</span>
+0124     methods
+0125         <a name="_sub0" href="#_subfunctions" class="code">function this = CellGeometry(wholeCellModelID, name)</a>
+0126             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);            
+0127         <span class="keyword">end</span>
+0128     <span class="keyword">end</span>
+0129     
+0130     methods
+0131         <span class="comment">%build object graph</span>
+0132         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0133             this.mass = simulation.state(<span class="string">'Mass'</span>);
+0134         <span class="keyword">end</span>
+0135     <span class="keyword">end</span>
+0136     
+0137     <span class="comment">%allocate memory for state</span>
+0138     methods
+0139         <a name="_sub2" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)            </a>
+0140             this.width             = zeros(1, 1, numTimePoints);
+0141             this.pinchedDiameter   = zeros(1, 1, numTimePoints);
+0142         <span class="keyword">end</span>
+0143     <span class="keyword">end</span>
+0144 
+0145     <span class="comment">%model</span>
+0146     methods
+0147         <span class="comment">%initialize to spherical shape</span>
+0148         <a name="_sub3" href="#_subfunctions" class="code">function initialize(this)</a>
+0149             this.calculateVolume();
+0150             
+0151             w = this.calculateWidth(this.volume);
+0152             this.width = w;
+0153             this.pinchedDiameter = w;
+0154         <span class="keyword">end</span>
+0155                 
+0156         <span class="comment">%calculates width</span>
+0157         <a name="_sub4" href="#_subfunctions" class="code">function w = calculateWidth(~, volume)</a>
+0158             w = 2 * (volume/1000 * 3/(4*pi))^(1/3);
+0159         <span class="keyword">end</span>
+0160         
+0161         <span class="comment">%updates volume; called by metabolism</span>
+0162         <a name="_sub5" href="#_subfunctions" class="code">function calculateVolume(this)</a>
+0163             this.volume = sum(this.mass.cell) / this.density;
+0164         <span class="keyword">end</span>
+0165     <span class="keyword">end</span>
+0166        
+0167     <span class="comment">%getters</span>
+0168     methods
+0169         <a name="_sub6" href="#_subfunctions" class="code">function value = get.width(this)</a>
+0170             <span class="keyword">if</span> this.pinchedDiameter &gt; 0
+0171                 value = this.width;
+0172             <span class="keyword">else</span>
+0173                 value = -1;
+0174             <span class="keyword">end</span>
+0175         <span class="keyword">end</span>       
+0176         
+0177         <a name="_sub7" href="#_subfunctions" class="code">function value = get.cylindricalLength(this)</a>
+0178             [value, ~, ~] = this.calcGeometry();
+0179         <span class="keyword">end</span>
+0180         
+0181         <a name="_sub8" href="#_subfunctions" class="code">function value = get.surfaceArea(this)</a>
+0182             [~, value, ~] = this.calcGeometry();
+0183         <span class="keyword">end</span>
+0184         
+0185         <a name="_sub9" href="#_subfunctions" class="code">function value = get.totalLength(this)</a>
+0186             [~, ~, value] = this.calcGeometry();
+0187         <span class="keyword">end</span>
+0188         
+0189         <a name="_sub10" href="#_subfunctions" class="code">function result = get.pinchedCircumference(this)</a>
+0190             result = this.pinchedDiameter * pi;
+0191         <span class="keyword">end</span>
+0192         
+0193         <a name="_sub11" href="#_subfunctions" class="code">function result = get.pinched(this)</a>
+0194             result = this.pinchedDiameter == 0;
+0195         <span class="keyword">end</span>
+0196        
+0197         <a name="_sub12" href="#_subfunctions" class="code">function [cylindricalLength, surfaceArea, totalLength] = calcGeometry(this)</a>
+0198             import edu.stanford.covert.cell.sim.state.CellGeometry;
+0199             [cylindricalLength, surfaceArea, totalLength] = <span class="keyword">...</span>
+0200                 CellGeometry.calculateGeometry(this.width,this.pinchedDiameter, this.volume);
+0201         <span class="keyword">end</span>
+0202         
+0203         <a name="_sub13" href="#_subfunctions" class="code">function value = get.chamberVolume(this)</a>
+0204             value = this.mass.cellInitialDryWeight / (1 - this.mass.fractionWetWeight) / <span class="keyword">...</span>
+0205                 this.mass.initialBiomassConcentration;
+0206         <span class="keyword">end</span> 
+0207     <span class="keyword">end</span>
+0208     methods (Static)
+0209         <a name="_sub14" href="#_subfunctions" class="code">function [cylindricalLength, surfaceArea, totalLength] = calculateGeometry(width, pinchedDiameter, volume)</a>
+0210             <span class="keyword">if</span> pinchedDiameter &gt; 0
+0211                 <span class="comment">%calculate dimensions of cell whose shape is a cyclinder with</span>
+0212                 <span class="comment">%hemispherical caps</span>
+0213                 
+0214                 w = width;
+0215                 s = (w - pinchedDiameter)/2; <span class="comment">%m</span>
+0216                 
+0217                 cylindricalLength = <span class="keyword">...</span><span class="comment">                                             %(m)</span>
+0218                     max(0, <span class="keyword">...</span>
+0219                     + volume / 1000 <span class="keyword">...</span><span class="comment">                                             %total volume</span>
+0220                     - 1/6 * pi * width^3 <span class="keyword">...</span><span class="comment">                                        %spherical caps</span>
+0221                     - pi/2*(s*(8*s^2-4*s*w+w^2) + 2*s^2*(-2*s+w)*pi/2 - 4/3*s^3) <span class="keyword">...</span><span class="comment"> %septum</span>
+0222                     ) * 4/(pi * width^2);
+0223                 surfaceArea = <span class="keyword">...</span><span class="comment">                            %(m^2)</span>
+0224                     pi * width^2 + <span class="keyword">...</span><span class="comment">                       %spherical caps</span>
+0225                     pi * width * cylindricalLength + <span class="keyword">...</span><span class="comment">     %cylinder</span>
+0226                     pi * 4*s*(w-2*s+s);                      <span class="comment">%septum</span>
+0227                 totalLength = <span class="keyword">...</span>
+0228                     cylindricalLength + <span class="keyword">...</span>
+0229                     width + <span class="keyword">...</span>
+0230                     2 * s; <span class="comment">%m</span>
+0231             <span class="keyword">else</span>
+0232                 <span class="comment">% cell has divided</span>
+0233                 warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'Cell has divided. Cell shape undefined'</span>);
+0234                 cylindricalLength = -1;
+0235                 surfaceArea = -1;
+0236                 totalLength = -1;
+0237             <span class="keyword">end</span>
+0238         <span class="keyword">end</span>
+0239     <span class="keyword">end</span>
+0240 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

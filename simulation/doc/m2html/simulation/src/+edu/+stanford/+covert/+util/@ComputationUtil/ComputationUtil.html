@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ComputationUtil</title>
+  <meta name="keywords" content="ComputationUtil">
+  <meta name="description" content="Utility functions for various computations:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="../index.html">+util</a> &gt; <a href="index.html">@ComputationUtil</a> &gt; ComputationUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util/@ComputationUtil&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ComputationUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Utility functions for various computations:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Utility functions for various computations:
+ - linear programming
+ - quadratic programming
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 5/12/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>	Utility functions for various computations:</li><li><a href="bilinearFit.html" class="code" title="function [a, b, cutX, gof] = bilinearFit(x, y)">bilinearFit</a>	bilinearFit</li><li><a href="cubicfcn.html" class="code" title="function [x,nroot]=cubicfcn(a, b, c, d)">cubicfcn</a>	----------------------------------------------------------------------</li><li><a href="fzero.html" class="code" title="function [b,fval,exitflag,output] = fzero(FunFcnIn,x,options,varargin)">fzero</a>	FZERO  Single-variable nonlinear zero finding.</li><li><a href="linearProgramming.html" class="code" title="function varargout = linearProgramming(maximizeFlag, f, A, b, lb, ub, constraintTypes, variableTypes, options)">linearProgramming</a>	Provides a common interface to several linear programming solvers.</li><li><a href="quadraticProgramming.html" class="code" title="function [x, objective, errorFlag, errorMsg] = quadraticProgramming(H, f, A, b, Aeq, beq, lb, ub, x0, options)">quadraticProgramming</a>	Provides a common interface to several quadratic programming solvers.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>	Utility functions for various computations:</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [A, b] = calcIndependentLinearConstraints(A, b)</a></li><li><a href="#_sub2" class="code">function matrix = invertCompositionMatrix(matrix)</a></li><li><a href="#_sub3" class="code">function data = imputeMissingData(data, imputedValue)</a></li><li><a href="#_sub4" class="code">function val = roundHalfUp(val)</a></li><li><a href="#_sub5" class="code">function val = roundHalfDown(val)</a></li><li><a href="#_sub6" class="code">function result = isdiag(A)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Utility functions for various computations:</span>
+0002 <span class="comment">% - linear programming</span>
+0003 <span class="comment">% - quadratic programming</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0006 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0007 <span class="comment">% Last Updated: 5/12/2009</span>
+0008 classdef <a href="ComputationUtil.html" class="code" title="">ComputationUtil</a>
+0009     methods (Static = true)
+0010         varargout = <a href="linearProgramming.html" class="code" title="function varargout = linearProgramming(maximizeFlag, f, A, b, lb, ub, constraintTypes, variableTypes, options)">linearProgramming</a>(<span class="keyword">...</span>
+0011             maximizeFlag, f, A, b, lb, ub, constraintTypes, variableTypes, options)
+0012         
+0013         [x, objective, errorFlag, errorMsg] = <a href="quadraticProgramming.html" class="code" title="function [x, objective, errorFlag, errorMsg] = quadraticProgramming(H, f, A, b, Aeq, beq, lb, ub, x0, options)">quadraticProgramming</a>(<span class="keyword">...</span>
+0014             H, f, A, b, Aeq, beq, lb, ub, x0, options)
+0015         
+0016         [x, nroot] = <a href="cubicfcn.html" class="code" title="function [x,nroot]=cubicfcn(a, b, c, d)">cubicfcn</a>(a, b, c, d)
+0017         
+0018         [b,fval,exitflag,output] = <a href="fzero.html" class="code" title="function [b,fval,exitflag,output] = fzero(FunFcnIn,x,options,varargin)">fzero</a>(FunFcnIn,x,options,varargin)
+0019         
+0020         [a, b, cutX, gof] = <a href="bilinearFit.html" class="code" title="function [a, b, cutX, gof] = bilinearFit(x, y)">bilinearFit</a>(x, y)
+0021         
+0022         <a name="_sub0" href="#_subfunctions" class="code">function [A, b] = calcIndependentLinearConstraints(A, b)</a>
+0023             <span class="comment">%throw error if constraints are inconsistent</span>
+0024             <span class="keyword">if</span> rank(A) - rank([A b]) &gt; 0
+0025                 throw(MException(<span class="string">'Simulation:error'</span>,<span class="keyword">...</span>
+0026                     <span class="string">'transcription unit constraints cannot be made consistent'</span>));
+0027             <span class="keyword">end</span>
+0028             
+0029             <span class="comment">%if constraints are dependent (eg. A is not full row rank) find submatrix</span>
+0030             <span class="comment">%which is full row rank, and has rank equal to that of A</span>
+0031             [~, pivotRows] = rref(A');
+0032             A = A(pivotRows, :);
+0033             b = b(pivotRows);
+0034         <span class="keyword">end</span>
+0035         
+0036         <a name="_sub1" href="#_subfunctions" class="code">function matrix = invertCompositionMatrix(matrix)</a>
+0037             matrix = diag(1 ./ sum(matrix)) * matrix';
+0038         <span class="keyword">end</span>
+0039         
+0040         <a name="_sub2" href="#_subfunctions" class="code">function data = imputeMissingData(data, imputedValue)</a>
+0041             <span class="keyword">if</span> ~exist(<span class="string">'imputedValue'</span>, <span class="string">'var'</span>)
+0042                 imputedValue = <span class="string">'mean'</span>;
+0043             <span class="keyword">end</span>
+0044             
+0045             indicesToImpute = isnan(data) | isinf(data);
+0046             <span class="keyword">switch</span> imputedValue
+0047                 <span class="keyword">case</span> <span class="string">'mean'</span>, data(indicesToImpute) = mean(data(~indicesToImpute));
+0048                 <span class="keyword">case</span> 0,      data(indicesToImpute) = 0;
+0049             <span class="keyword">end</span>
+0050         <span class="keyword">end</span>
+0051         
+0052         <a name="_sub3" href="#_subfunctions" class="code">function val = roundHalfUp(val)</a>
+0053             val = round(val);
+0054         <span class="keyword">end</span>
+0055         
+0056         <a name="_sub4" href="#_subfunctions" class="code">function val = roundHalfDown(val)</a>
+0057             val = floor(val) + (rem(val,1) &gt; 0.5);
+0058         <span class="keyword">end</span>
+0059         
+0060         <span class="comment">%http://www.mathworks.com/matlabcentral/newsreader/view_thread/299383</span>
+0061         <a name="_sub5" href="#_subfunctions" class="code">function result = isdiag(A)</a>
+0062             
+0063             <span class="keyword">if</span> nnz(A) &gt; size(A, 1) <span class="comment">%&lt;----Matt J added this pre-check</span>
+0064                 result = false;
+0065                 <span class="keyword">return</span>;
+0066             <span class="keyword">end</span>
+0067             
+0068             [I, J] = find(A);
+0069             
+0070             <span class="keyword">if</span> ~isempty(I)
+0071                 result = all(I == J);
+0072             <span class="keyword">else</span>
+0073                 <span class="comment">% make the simple choice that an all zero matrix</span>
+0074                 <span class="comment">% or an empty array is by definition diagonal, since</span>
+0075                 <span class="comment">% it has no non-zero off diagonals.</span>
+0076                 result = true;
+0077             <span class="keyword">end</span>
+0078         <span class="keyword">end</span>
+0079     <span class="keyword">end</span>
+0080 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

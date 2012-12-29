@@ -1,0 +1,1054 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   viewBox="60 20 985 570" width="785" height="467">
+  <style type="text/css">
+	path{
+	  stroke:#000000;
+	  stroke-width:1px;
+	  fill:none;
+	}
+	ellipse{
+	  stroke:#000000;
+	  stroke-width:1px;
+	  fill:#666666;
+	}
+	text{
+	  font-family:Arial, "sans-serif";
+	  text-anchor:middle;
+	  alignment-baseline:middle;
+	}
+	text.label{
+	  font-size:10px;
+	}
+	text.value{
+	  font-size:10px;
+	}
+	tspan.sub{
+	  font-size:60%;
+	}
+  </style>
+  <defs>
+	<marker orient="auto" id="Arrow2Lend" style="overflow:visible;">
+	  <path
+		 d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z"
+		 transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+		 style="stroke-width:1;fill:#000000;"/>
+	</marker>
+  </defs>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_001">
+	   <path id="MetabolicMap_Reaction_001:AceE" style="marker-end:url(#Arrow2Lend);" d="M 277,425 L 436,425"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_001" x="394.000000" y="435.000000">AceE</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_002">
+	   <path id="MetabolicMap_Reaction_002:AckA" style="marker-end:url(#Arrow2Lend);" d="M 490,471 L 490,505"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_002" x="514.000000" y="491.000000">AckA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_003">
+	   <path id="MetabolicMap_Reaction_003:TX_ACUP" style="marker-end:url(#Arrow2Lend);" d="M 490,558 L 490,524"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_003" x="512.000000" y="554.000000">TX_ACUP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_004">
+	   <path id="MetabolicMap_Reaction_004:Adk1" style="marker-end:url(#Arrow2Lend);" d="M 761,78 L 815,78"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_004" x="770.000000" y="96.000000">Adk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_005">
+	   <path id="MetabolicMap_Reaction_005:Adk2" style="marker-end:url(#Arrow2Lend);" d="M 761,80 L 815,80"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_005" x="770.000000" y="108.000000">Adk2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_006">
+	   <path id="MetabolicMap_Reaction_006:Adk3" style="marker-end:url(#Arrow2Lend);" d="M 761,82 L 815,82"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_006" x="770.000000" y="119.000000">Adk3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_007">
+	   <path id="MetabolicMap_Reaction_007:Adk4" style="marker-end:url(#Arrow2Lend);" d="M 761,62 L 813,48"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_007" x="777.000000" y="43.000000">Adk4</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_008">
+	   <path id="MetabolicMap_Reaction_008:Apt" style="marker-end:url(#Arrow2Lend);" d="M 607,85 C 644,109 712,109 747,85"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_008" x="683.000000" y="114.000000">Apt</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_009">
+	   <path id="MetabolicMap_Reaction_009:AspC1" style="marker-end:url(#Arrow2Lend);" d="M 489,383 C 508,393 539,393 553,383"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_009" x="522.000000" y="405.000000">AspC1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_010">
+	   <path id="MetabolicMap_Reaction_010:AspC1" style="marker-end:url(#Arrow2Lend);" d="M 489,396 C 508,389 539,389 553,396"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_010" x="522.000000" y="405.000000">AspC1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_011">
+	   <path id="MetabolicMap_Reaction_011:AtpA" style="marker-end:url(#Arrow2Lend);" d="M 392,270 L 450,270"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_011" x="414.000000" y="267.000000">AtpA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_012">
+	   <path id="MetabolicMap_Reaction_012:Cdd1" style="marker-end:url(#Arrow2Lend);" d="M 980,361 L 980,396"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_012" x="997.000000" y="372.000000">Cdd1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_013">
+	   <path id="MetabolicMap_Reaction_013:Cdd2" style="marker-end:url(#Arrow2Lend);" d="M 855,361 L 855,446"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_013" x="874.000000" y="376.000000">Cdd2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_014">
+	   <path id="MetabolicMap_Reaction_014:CmkA1" style="marker-end:url(#Arrow2Lend);" d="M 773,355 L 688,355"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_014" x="733.000000" y="343.000000">CmkA1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_015">
+	   <path id="MetabolicMap_Reaction_015:CmkA2" style="marker-end:url(#Arrow2Lend);" d="M 927,349 C 880,320 655,320 610,347"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_015" x="782.000000" y="314.000000">CmkA2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_016">
+	   <path id="MetabolicMap_Reaction_016:CmkB3" style="marker-end:url(#Arrow2Lend);" d="M 980,462 C 960,570 605,570 605,464"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_016" x="782.000000" y="565.000000">CmkB3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_017">
+	   <path id="MetabolicMap_Reaction_017:Dak1" style="marker-end:url(#Arrow2Lend);" d="M 686,65 L 746,65"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_017" x="716.000000" y="53.000000">Dak1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_018">
+	   <path id="MetabolicMap_Reaction_018:DcdK" style="marker-end:url(#Arrow2Lend);" d="M 734,401 L 772,362"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_018" x="752.000000" y="392.000000">DcdK</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_019">
+	   <path id="MetabolicMap_Reaction_019:DcdK" style="marker-end:url(#Arrow2Lend);" d="M 684,360 L 723,398"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_019" x="679.000000" y="388.000000">DcdK</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_020">
+	   <path id="MetabolicMap_Reaction_020:Dck" style="marker-end:url(#Arrow2Lend);" d="M 849,353 L 789,353"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_020" x="817.000000" y="343.000000">Dck</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_021">
+	   <path id="MetabolicMap_Reaction_021:DeoC" style="marker-end:url(#Arrow2Lend);" d="M 358,220 L 280,220"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_021" x="322.000000" y="211.000000">DeoC</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_022">
+	   <path id="MetabolicMap_Reaction_022:DeoD1" style="marker-end:url(#Arrow2Lend);" d="M 674,158 L 615,168"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_022" x="643.000000" y="148.000000">DeoD1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_023">
+	   <path id="MetabolicMap_Reaction_023:DeoD2" style="marker-end:url(#Arrow2Lend);" d="M 674,66 L 614,77"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_023" x="643.000000" y="58.000000">DeoD2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_024">
+	   <path id="MetabolicMap_Reaction_024:DeoD3" style="marker-end:url(#Arrow2Lend);" d="M 674,250 L 614,255"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_024" x="643.000000" y="239.000000">DeoD3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_025">
+	   <path id="MetabolicMap_Reaction_025:DeoD4" style="marker-end:url(#Arrow2Lend);" d="M 612,172 L 671,172"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_025" x="643.000000" y="189.000000">DeoD4</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_026">
+	   <path id="MetabolicMap_Reaction_026:DeoD5" style="marker-end:url(#Arrow2Lend);" d="M 612,80 L 670,80"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_026" x="643.000000" y="98.000000">DeoD5</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_027">
+	   <path id="MetabolicMap_Reaction_027:DeoD6" style="marker-end:url(#Arrow2Lend);" d="M 614,255 L 671,260"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_027" x="643.000000" y="275.000000">DeoD6</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_028">
+	   <path id="MetabolicMap_Reaction_028:Dgk1" style="marker-end:url(#Arrow2Lend);" d="M 687,250 L 747,250"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_028" x="716.000000" y="239.000000">Dgk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_029">
+	   <path id="MetabolicMap_Reaction_029:Eno" style="marker-end:url(#Arrow2Lend);" d="M 270,345 L 270,372"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_029" x="244.000000" y="351.000000">Eno</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_030">
+	   <path id="MetabolicMap_Reaction_030:Fba" style="marker-end:url(#Arrow2Lend);" d="M 236,189 L 264,214"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_030" x="262.000000" y="191.000000">Fba</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_031">
+	   <path id="MetabolicMap_Reaction_031:Fba" style="marker-end:url(#Arrow2Lend);" d="M 225,189 L 186,213"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_031" x="262.000000" y="191.000000">Fba</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_032">
+	   <path id="MetabolicMap_Reaction_032:FruK1" style="marker-end:url(#Arrow2Lend);" d="M 164,101 L 222,178"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_032" x="164.000000" y="133.000000">FruK1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_033">
+	   <path id="MetabolicMap_Reaction_033:TX_FRUPTS" style="marker-end:url(#Arrow2Lend);" d="M 97,95 L 151,95"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_033" x="117.000000" y="83.000000">TX_FRUPTS</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_034">
+	   <path id="MetabolicMap_Reaction_034:GalE" style="marker-end:url(#Arrow2Lend);" d="M 473,65 L 414,65"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_034" x="450.000000" y="53.000000">GalE</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_035">
+	   <path id="MetabolicMap_Reaction_035:GalU1" style="marker-end:url(#Arrow2Lend);" d="M 336,65 L 396,65"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_035" x="360.000000" y="53.000000">GalU1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_036">
+	   <path id="MetabolicMap_Reaction_036:GapA" style="marker-end:url(#Arrow2Lend);" d="M 270,225 L 270,252"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_036" x="244.000000" y="241.000000">GapA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_037">
+	   <path id="MetabolicMap_Reaction_037:TX_GLCPTS" style="marker-end:url(#Arrow2Lend);" d="M 230,32 L 230,86"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_037" x="206.000000" y="50.000000">TX_GLCPTS</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_038">
+	   <path id="MetabolicMap_Reaction_038:TX_GLCPTS" style="marker-end:url(#Arrow2Lend);" d="M 260,380 C 230,387 235,394 235,402 C 235,410 230,417 260,424"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_038" x="211.000000" y="397.000000">TX_GLCPTS</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_039">
+	   <path id="MetabolicMap_Reaction_039:Glf" style="marker-end:url(#Arrow2Lend);" d="M 487,65 L 538,65"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_039" x="507.000000" y="53.000000">Glf</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_040">
+	   <path id="MetabolicMap_Reaction_040:GlpK" style="marker-end:url(#Arrow2Lend);" d="M 140,302 L 173,281"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_040" x="166.000000" y="313.000000">GlpK</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_041">
+	   <path id="MetabolicMap_Reaction_041:GlpQ1" style="marker-end:url(#Arrow2Lend);" d="M 72,335 L 126,335"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_041" x="93.000000" y="343.000000">GlpQ1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_042">
+	   <path id="MetabolicMap_Reaction_042:GlpQ2" style="marker-end:url(#Arrow2Lend);" d="M 72,355 L 126,355"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_042" x="93.000000" y="363.000000">GlpQ2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_043">
+	   <path id="MetabolicMap_Reaction_043:GlpQ3" style="marker-end:url(#Arrow2Lend);" d="M 72,375 L 126,375"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_043" x="93.000000" y="383.000000">GlpQ3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_044">
+	   <path id="MetabolicMap_Reaction_044:GlpQ4" style="marker-end:url(#Arrow2Lend);" d="M 72,395 L 126,395"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_044" x="93.000000" y="403.000000">GlpQ4</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_045">
+	   <path id="MetabolicMap_Reaction_045:GlpQ5" style="marker-end:url(#Arrow2Lend);" d="M 72,415 L 126,415"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_045" x="93.000000" y="423.000000">GlpQ5</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_046">
+	   <path id="MetabolicMap_Reaction_046:TX_GLUP" style="marker-end:url(#Arrow2Lend);" d="M 72,305 L 126,305"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_046" x="93.000000" y="302.000000">TX_GLUP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_047">
+	   <path id="MetabolicMap_Reaction_047:Gmk1" style="marker-end:url(#Arrow2Lend);" d="M 761,260 L 816,260"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_047" x="782.000000" y="280.000000">Gmk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_048">
+	   <path id="MetabolicMap_Reaction_048:Gmk2" style="marker-end:url(#Arrow2Lend);" d="M 762,247 L 815,229"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_048" x="777.000000" y="225.000000">Gmk2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_049">
+	   <path id="MetabolicMap_Reaction_049:GpmA" style="marker-end:url(#Arrow2Lend);" d="M 274,305 L 274,331"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_049" x="300.000000" y="314.000000">GpmA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_050">
+	   <path id="MetabolicMap_Reaction_050:GpsA" style="marker-end:url(#Arrow2Lend);" d="M 180,227 L 180,266"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_050" x="158.000000" y="241.000000">GpsA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_051">
+	   <path id="MetabolicMap_Reaction_051:Hpt1" style="marker-end:url(#Arrow2Lend);" d="M 607,176 C 644,200 712,200 747,176"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_051" x="680.000000" y="204.000000">Hpt1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_052">
+	   <path id="MetabolicMap_Reaction_052:Hpt2" style="marker-end:url(#Arrow2Lend);" d="M 607,263 C 644,287 712,287 747,266"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_052" x="677.000000" y="292.000000">Hpt2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_053">
+	   <path id="MetabolicMap_Reaction_053:LdhA" style="marker-end:url(#Arrow2Lend);" d="M 270,432 L 270,476"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_053" x="293.000000" y="456.000000">LdhA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_054">
+	   <path id="MetabolicMap_Reaction_054:Mdh" style="marker-end:url(#Arrow2Lend);" d="M 485,337 L 485,371"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_054" x="506.000000" y="347.000000">Mdh</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_055">
+	   <path id="MetabolicMap_Reaction_055:NOX" style="marker-end:url(#Arrow2Lend);" d="M 392,320 L 450,320"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_055" x="414.000000" y="317.000000">NOX</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_060">
+	   <path id="MetabolicMap_Reaction_060:PcbX" style="marker-end:url(#Arrow2Lend);" d="M 275,423 L 475,381"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_060" x="419.000000" y="414.000000">PcbX</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_061">
+	   <path id="MetabolicMap_Reaction_061:Pdp1" style="marker-end:url(#Arrow2Lend);" d="M 861,459 L 921,477"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_061" x="885.000000" y="444.000000">Pdp1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_062">
+	   <path id="MetabolicMap_Reaction_062:Pdp1" style="marker-end:url(#Arrow2Lend);" d="M 861,455 L 921,455"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_062" x="885.000000" y="467.000000">Pdp1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_063">
+	   <path id="MetabolicMap_Reaction_063:Pdp2" style="marker-end:url(#Arrow2Lend);" d="M 861,505 L 921,505"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_063" x="885.000000" y="524.000000">Pdp2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_064">
+	   <path id="MetabolicMap_Reaction_064:Pdp2" style="marker-end:url(#Arrow2Lend);" d="M 861,502 L 920,484"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_064" x="885.000000" y="500.000000">Pdp2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_065">
+	   <path id="MetabolicMap_Reaction_065:PfkA1" style="marker-end:url(#Arrow2Lend);" d="M 225,145 L 225,178"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_065" x="257.000000" y="142.000000">PfkA1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_066">
+	   <path id="MetabolicMap_Reaction_066:PfkA2" style="marker-end:url(#Arrow2Lend);" d="M 228,145 L 228,178"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_066" x="257.000000" y="153.000000">PfkA2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_067">
+	   <path id="MetabolicMap_Reaction_067:PfkA3" style="marker-end:url(#Arrow2Lend);" d="M 231,145 L 231,178"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_067" x="257.000000" y="163.000000">PfkA3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_068">
+	   <path id="MetabolicMap_Reaction_068:PfkA4" style="marker-end:url(#Arrow2Lend);" d="M 234,145 L 234,178"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_068" x="257.000000" y="174.000000">PfkA4</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_069">
+	   <path id="MetabolicMap_Reaction_069:Pgi" style="marker-end:url(#Arrow2Lend);" d="M 230,101 L 230,131"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_069" x="213.000000" y="110.000000">Pgi</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_070">
+	   <path id="MetabolicMap_Reaction_070:Pgk1" style="marker-end:url(#Arrow2Lend);" d="M 265,265 L 265,293"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_070" x="299.000000" y="266.000000">Pgk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_071">
+	   <path id="MetabolicMap_Reaction_071:Pgk2" style="marker-end:url(#Arrow2Lend);" d="M 268,265 L 268,293"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_071" x="299.000000" y="277.000000">Pgk2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_072">
+	   <path id="MetabolicMap_Reaction_072:Pgk3" style="marker-end:url(#Arrow2Lend);" d="M 271,265 L 271,293"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_072" x="299.000000" y="288.000000">Pgk3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_073">
+	   <path id="MetabolicMap_Reaction_073:Pgk4" style="marker-end:url(#Arrow2Lend);" d="M 274,265 L 274,293"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_073" x="299.000000" y="299.000000">Pgk4</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_074">
+	   <path id="MetabolicMap_Reaction_074:Pgm" style="marker-end:url(#Arrow2Lend);" d="M 323,67 L 238,92"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_074" x="282.000000" y="74.000000">Pgm</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_075">
+	   <path id="MetabolicMap_Reaction_075:TX_PIUP1" style="marker-end:url(#Arrow2Lend);" d="M 526,245 L 469,245"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_075" x="505.000000" y="243.000000">TX_PIUP1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_076">
+	   <path id="MetabolicMap_Reaction_076:Ppa" style="marker-end:url(#Arrow2Lend);" d="M 392,245 L 450,245"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_076" x="414.000000" y="243.000000">Ppa</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_077">
+	   <path id="MetabolicMap_Reaction_077:Ppc" style="marker-end:url(#Arrow2Lend);" d="M 278,380 L 476,380"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_077" x="398.000000" y="368.000000">Ppc</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_078">
+	   <path id="MetabolicMap_Reaction_078:PrsA" style="marker-end:url(#Arrow2Lend);" d="M 405,178 L 405,197"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_078" x="432.000000" y="189.000000">PrsA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_079">
+	   <path id="MetabolicMap_Reaction_079:Pta" style="marker-end:url(#Arrow2Lend);" d="M 450,429 L 483,459"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_079" x="480.000000" y="433.000000">Pta</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_080">
+	   <path id="MetabolicMap_Reaction_080:Pyk_ADP" style="marker-end:url(#Arrow2Lend);" d="M 263,385 L 263,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_080" x="305.000000" y="370.000000">Pyk_ADP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_081">
+	   <path id="MetabolicMap_Reaction_081:Pyk_GDP" style="marker-end:url(#Arrow2Lend);" d="M 266,385 L 266,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_081" x="305.000000" y="381.000000">Pyk_GDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_082">
+	   <path id="MetabolicMap_Reaction_082:Pyk_DADP" style="marker-end:url(#Arrow2Lend);" d="M 269,385 L 269,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_082" x="305.000000" y="392.000000">Pyk_DADP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_083">
+	   <path id="MetabolicMap_Reaction_083:Pyk_DGDP" style="marker-end:url(#Arrow2Lend);" d="M 272,385 L 272,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_083" x="305.000000" y="404.000000">Pyk_DGDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_084">
+	   <path id="MetabolicMap_Reaction_084:Pyk_CDP" style="marker-end:url(#Arrow2Lend);" d="M 275,385 L 275,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_084" x="305.000000" y="415.000000">Pyk_CDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_085">
+	   <path id="MetabolicMap_Reaction_085:Pyk_DCDP" style="marker-end:url(#Arrow2Lend);" d="M 278,385 L 278,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_085" x="305.000000" y="427.000000">Pyk_DCDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_086">
+	   <path id="MetabolicMap_Reaction_086:Pyk_DTDP" style="marker-end:url(#Arrow2Lend);" d="M 281,385 L 281,418"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_086" x="305.000000" y="438.000000">Pyk_DTDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_087">
+	   <path id="MetabolicMap_Reaction_087:Pyk_DTDP" style="marker-end:url(#Arrow2Lend);" d="M 699,505 L 655,505"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_087" x="683.000000" y="494.000000">Pyk_DTDP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_088">
+	   <path id="MetabolicMap_Reaction_088:Rpe" style="marker-end:url(#Arrow2Lend);" d="M 405,136 L 405,145"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_088" x="432.000000" y="139.000000">Rpe</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_089">
+	   <path id="MetabolicMap_Reaction_089:RpiB" style="marker-end:url(#Arrow2Lend);" d="M 405,159 L 405,169"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_089" x="432.000000" y="166.000000">RpiB</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_090">
+	   <path id="MetabolicMap_Reaction_090:TalA" style="marker-end:url(#Arrow2Lend);" d="M 347,181 C 347,182 357,200 379,211 C 400,221 457,222 471,197 C 484,172 477,140 456,116 C 435,91 411,87 411,87"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_090" x="492.000000" y="209.000000">TalA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_091">
+	   <path id="MetabolicMap_Reaction_091:TalA" style="marker-end:url(#Arrow2Lend);" d="M 341,134 C 341,134 327,179 345,197 C 362,214 379,216 388,217 C 394,218 461,224 474,190 C 486,156 463,100 437,84 C 412,69 349,83 349,83"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_091" x="492.000000" y="209.000000">TalA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_092">
+	   <path id="MetabolicMap_Reaction_092:Tdk1" style="marker-end:url(#Arrow2Lend);" d="M 849,453 L 788,453"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_092" x="817.000000" y="444.000000">Tdk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_093">
+	   <path id="MetabolicMap_Reaction_093:Tdk2" style="marker-end:url(#Arrow2Lend);" d="M 849,503 L 788,503"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_093" x="817.000000" y="490.000000">Tdk2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_094">
+	   <path id="MetabolicMap_Reaction_094:ThyA" style="marker-end:url(#Arrow2Lend);" d="M 780,461 L 780,496"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_094" x="761.000000" y="474.000000">ThyA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_095">
+	   <path id="MetabolicMap_Reaction_095:Tkt1" style="marker-end:url(#Arrow2Lend);" d="M 402,135 C 391,157 373,157 349,137"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_095" x="377.000000" y="166.000000">Tkt1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_096">
+	   <path id="MetabolicMap_Reaction_096:Tkt1" style="marker-end:url(#Arrow2Lend);" d="M 402,168 C 389,148 371,147 349,166"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_096" x="377.000000" y="166.000000">Tkt1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_097">
+	   <path id="MetabolicMap_Reaction_097:Tkt2" style="marker-end:url(#Arrow2Lend);" d="M 402,124 C 389,104 371,103 349,122"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_097" x="377.000000" y="94.000000">Tkt2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_098">
+	   <path id="MetabolicMap_Reaction_098:Tkt2" style="marker-end:url(#Arrow2Lend);" d="M 402,91 C 391,113 373,113 349,93"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_098" x="377.000000" y="94.000000">Tkt2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_099">
+	   <path id="MetabolicMap_Reaction_099:Tmk" style="marker-end:url(#Arrow2Lend);" d="M 773,505 L 715,505"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_099" x="750.000000" y="516.000000">Tmk</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_100">
+	   <path id="MetabolicMap_Reaction_100:TpiA" style="marker-end:url(#Arrow2Lend);" d="M 187,220 L 261,220"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_100" x="221.000000" y="229.000000">TpiA</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_101">
+	   <path id="MetabolicMap_Reaction_101:TrxB" style="marker-end:url(#Arrow2Lend);" d="M 392,295 L 450,295"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_101" x="414.000000" y="292.000000">TrxB</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_102">
+	   <path id="MetabolicMap_Reaction_102:Udk1" style="marker-end:url(#Arrow2Lend);" d="M 980,411 L 980,446"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_102" x="998.000000" y="421.000000">Udk1</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_103">
+	   <path id="MetabolicMap_Reaction_103:Udk2" style="marker-end:url(#Arrow2Lend);" d="M 973,355 L 939,355"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_103" x="962.000000" y="340.000000">Udk2</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_104">
+	   <path id="MetabolicMap_Reaction_104:Pdp3" style="marker-end:url(#Arrow2Lend);" d="M 975,409 L 936,449"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_104" x="926.000000" y="415.000000">Pdp3</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_105">
+	   <path id="MetabolicMap_Reaction_105:Upp" style="marker-end:url(#Arrow2Lend);" d="M 937,455 L 971,455"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_105" x="945.000000" y="435.000000">Upp</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_106">
+	   <path id="MetabolicMap_Reaction_106:UshA_dUMP" style="marker-end:url(#Arrow2Lend);" d="M 785,457 L 847,457"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_106" x="818.000000" y="473.000000">UshA_dUMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_107">
+	   <path id="MetabolicMap_Reaction_107:UshA_dTMP" style="marker-end:url(#Arrow2Lend);" d="M 785,507 L 847,507"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_107" x="817.000000" y="524.000000">UshA_dTMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_108">
+	   <path id="MetabolicMap_Reaction_108:UshA_dCMP" style="marker-end:url(#Arrow2Lend);" d="M 786,357 L 846,357"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_108" x="817.000000" y="377.000000">UshA_dCMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_109">
+	   <path id="MetabolicMap_Reaction_109:UshA_AMP" style="marker-end:url(#Arrow2Lend);" d="M 748,80 L 689,80"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_109" x="716.000000" y="97.000000">UshA_AMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_110">
+	   <path id="MetabolicMap_Reaction_110:UshA_GMP" style="marker-end:url(#Arrow2Lend);" d="M 749,260 L 689,260"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_110" x="716.000000" y="277.000000">UshA_GMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_111">
+	   <path id="MetabolicMap_Reaction_111:UshA_IMP" style="marker-end:url(#Arrow2Lend);" d="M 746,170 L 690,170"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_111" x="716.000000" y="168.000000">UshA_IMP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Reaction_112">
+	   <path id="MetabolicMap_Reaction_112:YicP" style="marker-end:url(#Arrow2Lend);" d="M 605,86 L 605,161"/>
+	   <text class="label" id="label:MetabolicMap_Reaction_112" x="590.000000" y="111.000000">YicP</text>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_001">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_001:AC:c" cx="490.000000" cy="515.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_001:AC:c" x="490.000000" y="518.000000" class="value">AC</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_002">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_002:AC:e" cx="490.000000" cy="565.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_002:AC:e" x="490.000000" y="568.000000" class="value">AC</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_003">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_003:ACCOA:c" cx="445.000000" cy="425.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_003:ACCOA:c" x="445.000000" y="428.000000" class="value">ACCOA</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_004">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_004:ACTP:c" cx="490.000000" cy="465.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_004:ACTP:c" x="490.000000" y="468.000000" class="value">ACTP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_005">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_005:AD:c" cx="605.000000" cy="80.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_005:AD:c" x="605.000000" y="83.000000" class="value">AD</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_006">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_006:ADN:c" cx="680.000000" cy="80.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_006:ADN:c" x="680.000000" y="83.000000" class="value">ADN</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_007">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_007:ADP:c" cx="825.000000" cy="80.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_007:ADP:c" x="825.000000" y="83.000000" class="value">ADP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_008">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_008:ADP:c" cx="385.000000" cy="270.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_008:ADP:c" x="385.000000" y="273.000000" class="value">ADP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_009">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_009:AKG:c" cx="560.000000" cy="400.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_009:AKG:c" x="560.000000" y="403.000000" class="value">AKG</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_010">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_010:AMP:c" cx="755.000000" cy="80.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_010:AMP:c" x="755.000000" y="83.000000" class="value">AMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_011">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_011:ASP:c" cx="560.000000" cy="380.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_011:ASP:c" x="560.000000" y="383.000000" class="value">ASP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_012">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_012:ATP:c" cx="460.000000" cy="270.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_012:ATP:c" x="460.000000" y="273.000000" class="value">ATP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_013">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_013:CDP:c" cx="605.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_013:CDP:c" x="605.000000" y="358.000000" class="value">CDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_014">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_014:CHOL:c" cx="135.000000" cy="335.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_014:CHOL:c" x="135.000000" y="338.000000" class="value">CHOL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_015">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_015:CMP:c" cx="930.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_015:CMP:c" x="930.000000" y="358.000000" class="value">CMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_016">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_016:CYTD:c" cx="980.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_016:CYTD:c" x="980.000000" y="358.000000" class="value">CYTD</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_017">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_017:DA:c" cx="680.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_017:DA:c" x="680.000000" y="68.000000" class="value">DA</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_018">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_018:DADP:c" cx="825.000000" cy="45.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_018:DADP:c" x="825.000000" y="48.000000" class="value">DADP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_019">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_019:DAMP:c" cx="755.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_019:DAMP:c" x="755.000000" y="68.000000" class="value">DAMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_020">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_020:DC:c" cx="855.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_020:DC:c" x="855.000000" y="358.000000" class="value">DC</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_021">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_021:DCDP:c" cx="680.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_021:DCDP:c" x="680.000000" y="358.000000" class="value">DCDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_022">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_022:DCMP:c" cx="780.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_022:DCMP:c" x="780.000000" y="358.000000" class="value">DCMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_023">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_023:DCTP:c" cx="730.000000" cy="405.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_023:DCTP:c" x="730.000000" y="408.000000" class="value">DCTP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_024">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_024:DG:c" cx="680.000000" cy="250.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_024:DG:c" x="680.000000" y="253.000000" class="value">DG</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_025">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_025:DGDP:c" cx="825.000000" cy="225.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_025:DGDP:c" x="825.000000" y="228.000000" class="value">DGDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_026">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_026:DGMP:c" cx="755.000000" cy="250.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_026:DGMP:c" x="755.000000" y="253.000000" class="value">DGMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_028">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_028:DPG:c" cx="270.000000" cy="260.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_028:DPG:c" x="270.000000" y="263.000000" class="value">DPG</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_029">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_029:DR1P:c" cx="930.000000" cy="480.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_029:DR1P:c" x="930.000000" y="483.000000" class="value">DR1P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_030">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_030:DR5P:c" cx="365.000000" cy="220.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_030:DR5P:c" x="365.000000" y="223.000000" class="value">DR5P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_031">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_031:DT:c" cx="855.000000" cy="505.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_031:DT:c" x="855.000000" y="508.000000" class="value">DT</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_032">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_032:DTDP:c" cx="705.000000" cy="505.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_032:DTDP:c" x="705.000000" y="508.000000" class="value">DTDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_033">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_033:DTMP:c" cx="780.000000" cy="505.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_033:DTMP:c" x="780.000000" y="508.000000" class="value">DTMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_034">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_034:DTTP:c" cx="645.000000" cy="505.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_034:DTTP:c" x="645.000000" y="508.000000" class="value">DTTP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_035">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_035:DU:c" cx="855.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_035:DU:c" x="855.000000" y="458.000000" class="value">DU</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_036">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_036:DUDP:c" cx="680.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_036:DUDP:c" x="680.000000" y="458.000000" class="value">DUDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_037">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_037:DUMP:c" cx="780.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_037:DUMP:c" x="780.000000" y="458.000000" class="value">DUMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_038">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_038:DUTP:c" cx="730.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_038:DUTP:c" x="730.000000" y="458.000000" class="value">DUTP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_039">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_039:E4P:c" cx="405.000000" cy="85.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_039:E4P:c" x="405.000000" y="88.000000" class="value">E4P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_040">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_040:ETN:c" cx="135.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_040:ETN:c" x="135.000000" y="358.000000" class="value">ETN</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_041">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_041:F1P:c" cx="160.000000" cy="95.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_041:F1P:c" x="160.000000" y="98.000000" class="value">F1P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_042">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_042:F6P:c" cx="230.000000" cy="140.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_042:F6P:c" x="230.000000" y="143.000000" class="value">F6P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_043">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_043:F6P:c" cx="345.000000" cy="85.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_043:F6P:c" x="345.000000" y="88.000000" class="value">F6P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_044">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_044:FDP:c" cx="230.000000" cy="185.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_044:FDP:c" x="230.000000" y="188.000000" class="value">FDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_045">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_045:FRU:e" cx="90.000000" cy="95.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_045:FRU:e" x="90.000000" y="98.000000" class="value">FRU</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_046">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_046:G1P:c" cx="330.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_046:G1P:c" x="330.000000" y="68.000000" class="value">G1P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_047">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_047:G2P:c" cx="270.000000" cy="340.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_047:G2P:c" x="270.000000" y="343.000000" class="value">G2P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_048">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_048:G3P:c" cx="270.000000" cy="300.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_048:G3P:c" x="270.000000" y="303.000000" class="value">G3P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_049">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_049:G6P:c" cx="230.000000" cy="95.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_049:G6P:c" x="230.000000" y="98.000000" class="value">G6P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_050">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_050:G6P:c" cx="230.000000" cy="95.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_050:G6P:c" x="230.000000" y="98.000000" class="value">G6P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_051">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_051:GDP:c" cx="825.000000" cy="260.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_051:GDP:c" x="825.000000" y="263.000000" class="value">GDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_052">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_052:GL:c" cx="135.000000" cy="305.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_052:GL:c" x="135.000000" y="308.000000" class="value">GL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_053">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_053:GL:e" cx="65.000000" cy="305.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_053:GL:e" x="65.000000" y="308.000000" class="value">GL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_054">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_054:GL:c" cx="135.000000" cy="395.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_054:GL:c" x="135.000000" y="398.000000" class="value">GL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_055">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_055:GL3P:c" cx="180.000000" cy="275.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_055:GL3P:c" x="180.000000" y="278.000000" class="value">GL3P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_056">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_056:GLC:e" cx="230.000000" cy="25.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_056:GLC:e" x="230.000000" y="28.000000" class="value">GLC</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_057">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_057:GLU:c" cx="485.000000" cy="400.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_057:GLU:c" x="485.000000" y="403.000000" class="value">GLU</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_058">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_058:GMP:c" cx="755.000000" cy="260.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_058:GMP:c" x="755.000000" y="263.000000" class="value">GMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_059">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_059:GN:c" cx="605.000000" cy="255.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_059:GN:c" x="605.000000" y="258.000000" class="value">GN</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_060">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_060:GPCH:c" cx="65.000000" cy="335.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_060:GPCH:c" x="65.000000" y="338.000000" class="value">GPCH</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_061">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_061:GPE:c" cx="65.000000" cy="355.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_061:GPE:c" x="65.000000" y="358.000000" class="value">GPE</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_062">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_062:GPG:c" cx="65.000000" cy="395.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_062:GPG:c" x="65.000000" y="398.000000" class="value">GPG</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_063">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_063:GPI:c" cx="65.000000" cy="415.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_063:GPI:c" x="65.000000" y="418.000000" class="value">GPI</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_064">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_064:GPS:c" cx="65.000000" cy="375.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_064:GPS:c" x="65.000000" y="378.000000" class="value">GPS</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_065">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_065:GSN:c" cx="680.000000" cy="260.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_065:GSN:c" x="680.000000" y="263.000000" class="value">GSN</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_066">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_066:HYXN:c" cx="605.000000" cy="170.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_066:HYXN:c" x="605.000000" y="173.000000" class="value">HYXN</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_067">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_067:IMP:c" cx="755.000000" cy="170.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_067:IMP:c" x="755.000000" y="173.000000" class="value">IMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_068">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_068:INOS:c" cx="135.000000" cy="415.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_068:INOS:c" x="135.000000" y="418.000000" class="value">INOS</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_069">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_069:INS:c" cx="680.000000" cy="170.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_069:INS:c" x="680.000000" y="173.000000" class="value">INS</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_070">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_070:LAC:c" cx="270.000000" cy="485.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_070:LAC:c" x="270.000000" y="488.000000" class="value">LAC</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_071">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_071:MAL:c" cx="485.000000" cy="330.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_071:MAL:c" x="485.000000" y="333.000000" class="value">MAL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_072">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_072:NAD:c" cx="460.000000" cy="320.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_072:NAD:c" x="460.000000" y="323.000000" class="value">NAD</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_073">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_073:NADH:c" cx="385.000000" cy="320.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_073:NADH:c" x="385.000000" y="323.000000" class="value">NADH</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_074">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_074:NADP:c" cx="460.000000" cy="295.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_074:NADP:c" x="460.000000" y="298.000000" class="value">NADP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_075">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_075:NADPH:c" cx="385.000000" cy="295.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_075:NADPH:c" x="385.000000" y="298.000000" class="value">NADPH</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_076">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_076:OA:c" cx="485.000000" cy="380.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_076:OA:c" x="485.000000" y="383.000000" class="value">OA</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_077">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_077:PEP:c" cx="270.000000" cy="380.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_077:PEP:c" x="270.000000" y="383.000000" class="value">PEP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_078">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_078:PI:e" cx="535.000000" cy="245.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_078:PI:e" x="535.000000" y="248.000000" class="value">PI</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_079">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_079:PI:c" cx="460.000000" cy="245.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_079:PI:c" x="460.000000" y="248.000000" class="value">PI</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_080">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_080:PPI:c" cx="385.000000" cy="245.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_080:PPI:c" x="385.000000" y="248.000000" class="value">PPI</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_081">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_081:PRPP:c" cx="405.000000" cy="205.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_081:PRPP:c" x="405.000000" y="208.000000" class="value">PRPP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_082">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_082:PYR:c" cx="270.000000" cy="425.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_082:PYR:c" x="270.000000" y="428.000000" class="value">PYR</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_083">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_083:R5P:c" cx="405.000000" cy="175.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_083:R5P:c" x="405.000000" y="178.000000" class="value">R5P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_084">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_084:RL5P:c" cx="405.000000" cy="153.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_084:RL5P:c" x="405.000000" y="156.000000" class="value">RL5P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_085">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_085:S7P:c" cx="345.000000" cy="175.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_085:S7P:c" x="345.000000" y="178.000000" class="value">S7P</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_086">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_086:SER:c" cx="135.000000" cy="375.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_086:SER:c" x="135.000000" y="378.000000" class="value">SER</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_087">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_087:T3P1:c" cx="270.000000" cy="220.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_087:T3P1:c" x="270.000000" y="223.000000" class="value">T3P1</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_088">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_088:T3P2:c" cx="345.000000" cy="130.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_088:T3P2:c" x="345.000000" y="133.000000" class="value">T3P2</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_089">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_089:T3P2:c" cx="180.000000" cy="220.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_089:T3P2:c" x="180.000000" y="223.000000" class="value">T3P2</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_090">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_090:THY:c" cx="930.000000" cy="505.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_090:THY:c" x="930.000000" y="508.000000" class="value">THY</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_091">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_091:UDP:c" cx="605.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_091:UDP:c" x="605.000000" y="458.000000" class="value">UDP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_092">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_092:UDPG:c" cx="405.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_092:UDPG:c" x="405.000000" y="68.000000" class="value">UDPG</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_093">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_093:UDPGAL:c" cx="480.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_093:UDPGAL:c" x="480.000000" y="68.000000" class="value">UDPGAL</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_094">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_094:UDPGALF:c" cx="548.000000" cy="65.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_094:UDPGALF:c" x="548.000000" y="68.000000" class="value">UDPGALF</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_095">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_095:UMP:c" cx="980.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_095:UMP:c" x="980.000000" y="458.000000" class="value">UMP</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_096">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_096:URA:c" cx="930.000000" cy="455.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_096:URA:c" x="930.000000" y="458.000000" class="value">URA</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_097">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_097:URI:c" cx="980.000000" cy="405.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_097:URI:c" x="980.000000" y="408.000000" class="value">URI</text>
+	   </g>
+   </a>
+   <a target="_top" xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=MetabolicMap_Metabolite_098">
+	   <g>
+		  <ellipse id="MetabolicMap_Metabolite_098:X5P:c" cx="405.000000" cy="130.000000" rx="5.000000" ry="5.000000"/>
+		  <text id="label:MetabolicMap_Metabolite_098:X5P:c" x="405.000000" y="133.000000" class="value">X5P</text>
+	   </g>
+   </a>
+
+</svg>

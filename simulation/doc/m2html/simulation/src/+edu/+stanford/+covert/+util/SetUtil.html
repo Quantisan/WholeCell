@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SetUtil</title>
+  <meta name="keywords" content="SetUtil">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; SetUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SetUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="SetUtil.html" class="code" title="">SetUtil</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="SetUtil.html" class="code" title="">SetUtil</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function x = unique(x)</a></li><li><a href="#_sub2" class="code">function tf = isunique(x)</a></li><li><a href="#_sub3" class="code">function x = unique_rows(x)</a></li><li><a href="#_sub4" class="code">function tf = isunique_rows(x)</a></li><li><a href="#_sub5" class="code">function ismember</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="SetUtil.html" class="code" title="">SetUtil</a>
+0002     <span class="comment">%unique</span>
+0003     <span class="comment">%- inputs should be finite</span>
+0004     <span class="comment">%- these methods will behave differently from the builtin unique method if</span>
+0005     <span class="comment">%  the inputs are infinite</span>
+0006     methods (Static)
+0007         <a name="_sub0" href="#_subfunctions" class="code">function x = unique(x)</a>
+0008             x = sort(x(:));
+0009             x = x([diff(x) ~= 0; true], 1);
+0010         <span class="keyword">end</span>
+0011         
+0012         <a name="_sub1" href="#_subfunctions" class="code">function tf = isunique(x)</a>
+0013             tf = all(diff(sort(x(:))));
+0014         <span class="keyword">end</span>
+0015         
+0016         <a name="_sub2" href="#_subfunctions" class="code">function x = unique_rows(x)</a>
+0017             x = sortrows(x);
+0018             x = x([any(diff(x, 1), 2); true], :);
+0019         <span class="keyword">end</span>
+0020         
+0021         <a name="_sub3" href="#_subfunctions" class="code">function tf = isunique_rows(x)</a>
+0022             tf = all(any(diff(sortrows(x), 1), 2));
+0023         <span class="keyword">end</span>
+0024     <span class="keyword">end</span>
+0025     
+0026     <span class="comment">%ismember</span>
+0027     methods (Static)
+0028         <a name="_sub4" href="#_subfunctions" class="code">function ismember</a>
+0029         <span class="keyword">end</span>
+0030     <span class="keyword">end</span>
+0031 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

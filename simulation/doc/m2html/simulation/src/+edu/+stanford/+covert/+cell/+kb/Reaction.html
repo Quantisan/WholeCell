@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Reaction</title>
+  <meta name="keywords" content="Reaction">
+  <meta name="description" content="Defines a reaction">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; Reaction.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Reaction
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a reaction</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a reaction
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Reaction.html" class="code" title="">Reaction</a>	Defines a reaction</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Reaction.html" class="code" title="">Reaction</a>	Defines a reaction</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Reaction(knowledgeBase, wid, wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function value = get.enzymeMolecularWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a reaction</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="Reaction.html" class="code" title="">Reaction</a> &lt; edu.stanford.covert.cell.kb.KnowledgeBaseObject
+0007     properties
+0008         process                             = edu.stanford.covert.cell.kb.Process.empty(0,0);
+0009         state                              = edu.stanford.covert.cell.kb.State.empty(0,0);
+0010 
+0011         stimulis                           = edu.stanford.covert.cell.kb.Stimuli.empty(0,0);
+0012         stimuliCompartments                = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0013         stimuliCoefficients                = [];
+0014 
+0015         metabolites                        = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0016         metaboliteCompartments             = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0017         metaboliteCoefficients             = [];
+0018 
+0019         rnas                               = edu.stanford.covert.cell.kb.TranscriptionUnit.empty(0,0);
+0020         rnaCompartments                    = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0021         rnaCoefficients                    = [];
+0022 
+0023         proteinMonomers                    = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0024         proteinMonomerCompartments         = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0025         proteinMonomerCoefficients         = [];
+0026 
+0027         proteinComplexs                    = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0028         proteinComplexCompartments         = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0029         proteinComplexCoefficients         = [];
+0030 
+0031         enzymes                            = edu.stanford.covert.cell.kb.Enzyme.empty(0,0);
+0032         enzymeCompartments                 = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0033 
+0034         coenzymes                          = edu.stanford.covert.cell.kb.Metabolite.empty(0,0);
+0035         coenzymeCompartments               = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0036         coenzymeCoefficients               = [];
+0037 
+0038         stableModifications                = [];
+0039         stableModificationCompartments     = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0040         stableModificationPositions        = [];
+0041 
+0042         parameters                         = edu.stanford.covert.cell.kb.Parameter.empty(0,0);
+0043 
+0044         pathways                           = edu.stanford.covert.cell.kb.Pathway.empty(0,0);
+0045     <span class="keyword">end</span>
+0046 
+0047     properties (SetAccess = protected)
+0048         type
+0049         ecNumber
+0050         spontaneous
+0051         direction
+0052         deltaG
+0053         keq
+0054         rateLawForward
+0055         kmForward
+0056         vmaxForward
+0057         vmaxUnitsForward
+0058         rateLawBackward
+0059         kmBackward
+0060         vmaxBackward
+0061         vmaxUnitsBackward
+0062         optimalpH
+0063         optimalTemp
+0064         activators
+0065         inhibitors
+0066         lowerBound
+0067         upperBound
+0068         boundUnits
+0069     <span class="keyword">end</span>
+0070 
+0071     <span class="comment">%computed properties</span>
+0072     properties (SetAccess = protected)
+0073         enzymeMolecularWeight
+0074     <span class="keyword">end</span>
+0075 
+0076     methods
+0077         <a name="_sub0" href="#_subfunctions" class="code">function this = Reaction(knowledgeBase, wid, wholeCellModelID, name, </a><span class="keyword">...</span>
+0078                 type, ecNumber, spontaneous, direction, deltaG, keq, <span class="keyword">...</span>
+0079                 rateLawForward, kmForward, vmaxForward, vmaxUnitsForward, <span class="keyword">...</span>
+0080                 rateLawBackward, kmBackward, vmaxBackward, vmaxUnitsBackward,  <span class="keyword">...</span>
+0081                 optimalpH, optimalTemp, <span class="keyword">...</span>
+0082                 activators, inhibitors, <span class="keyword">...</span>
+0083                 lowerBound, upperBound, boundUnits, <span class="keyword">...</span>
+0084                 comments, crossReferences)
+0085 
+0086             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0087 
+0088             this = edu.stanford.covert.cell.kb.Reaction.empty(size(wid,1),0);
+0089             this(size(wid,1),1) = edu.stanford.covert.cell.kb.Reaction;
+0090             <span class="keyword">for</span> i=1:size(wid,1)
+0091                 this(i,1).idx = i;
+0092                 this(i,1).knowledgeBase = knowledgeBase;
+0093                 this(i,1).wid = wid(i);
+0094                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0095                 this(i,1).name = name{i};
+0096                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0097                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0098                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0099                         this(i,1).crossReferences = crossReferences(i);
+0100                     <span class="keyword">else</span>
+0101                         this(i,1).crossReferences = struct;
+0102                         fields = fieldnames(crossReferences);
+0103                         <span class="keyword">for</span> j=1:size(fields,1)
+0104                             values = crossReferences.(fields{j});
+0105                             this(i,1).crossReferences.(fields{j}) = values(i);
+0106                         <span class="keyword">end</span>
+0107                     <span class="keyword">end</span>
+0108                 <span class="keyword">end</span>
+0109 
+0110                 this(i,1).type = type{i};
+0111                 this(i,1).ecNumber = ecNumber{i};
+0112                 this(i,1).spontaneous = spontaneous{i};
+0113                 this(i,1).direction = direction{i};
+0114                 this(i,1).deltaG = deltaG(i);
+0115                 this(i,1).keq = keq(i);
+0116                 this(i,1).rateLawForward = rateLawForward{i};
+0117                 this(i,1).kmForward = kmForward(i);
+0118                 this(i,1).vmaxForward = vmaxForward(i);
+0119                 this(i,1).vmaxUnitsForward = vmaxUnitsForward{i};
+0120                 this(i,1).rateLawBackward = rateLawBackward{i};
+0121                 this(i,1).kmBackward = kmBackward(i);
+0122                 this(i,1).vmaxBackward = vmaxBackward(i);
+0123                 this(i,1).vmaxUnitsBackward = vmaxUnitsBackward{i};
+0124                 this(i,1).optimalpH = optimalpH(i);
+0125                 this(i,1).optimalTemp = optimalTemp(i);
+0126                 this(i,1).activators = activators{i};
+0127                 this(i,1).inhibitors = inhibitors{i};
+0128                 this(i,1).lowerBound = lowerBound(i);
+0129                 this(i,1).upperBound = upperBound(i);
+0130                 this(i,1).boundUnits = boundUnits{i};
+0131             <span class="keyword">end</span>
+0132         <span class="keyword">end</span>
+0133 
+0134         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0135             <span class="keyword">for</span> i = 1:numel(this)
+0136                 this(i).process                             = [];
+0137                 this(i).state                              = [];
+0138 
+0139                 this(i).stimulis                           = [];
+0140                 this(i).stimuliCompartments                = [];
+0141                 this(i).stimuliCoefficients                = [];
+0142 
+0143                 this(i).metabolites                        = [];
+0144                 this(i).metaboliteCompartments             = [];
+0145                 this(i).metaboliteCoefficients             = [];
+0146 
+0147                 this(i).rnas                               = [];
+0148                 this(i).rnaCompartments                    = [];
+0149                 this(i).rnaCoefficients                    = [];
+0150 
+0151                 this(i).proteinMonomers                    = [];
+0152                 this(i).proteinMonomerCompartments         = [];
+0153                 this(i).proteinMonomerCoefficients         = [];
+0154 
+0155                 this(i).proteinComplexs                    = [];
+0156                 this(i).proteinComplexCompartments         = [];
+0157                 this(i).proteinComplexCoefficients         = [];
+0158 
+0159                 this(i).enzymes                            = [];
+0160                 this(i).enzymeCompartments                 = [];
+0161 
+0162                 this(i).coenzymes                          = [];
+0163                 this(i).coenzymeCompartments               = [];
+0164                 this(i).coenzymeCoefficients               = [];
+0165 
+0166                 this(i).stableModifications                = [];
+0167                 this(i).stableModificationCompartments     = [];
+0168                 this(i).stableModificationPositions        = [];
+0169 
+0170                 this(i).parameters                         = [];
+0171 
+0172                 this(i).pathways                           = [];
+0173 
+0174                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.KnowledgeBaseObject(this(i));
+0175             <span class="keyword">end</span>
+0176         <span class="keyword">end</span>
+0177 
+0178         <a name="_sub2" href="#_subfunctions" class="code">function value = get.enzymeMolecularWeight(this)</a>
+0179             <span class="comment">%retrieve</span>
+0180             <span class="keyword">if</span> ~isempty(this.enzymeMolecularWeight)
+0181                 value = this.enzymeMolecularWeight;
+0182                 <span class="keyword">return</span>;
+0183             <span class="keyword">end</span>
+0184             
+0185             <span class="comment">%compute</span>
+0186             value = this.enzymes.molecularWeight;
+0187             
+0188             <span class="comment">%store</span>
+0189             this.enzymeMolecularWeight = value;
+0190         <span class="keyword">end</span>
+0191     <span class="keyword">end</span>
+0192 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ReactionProcess</title>
+  <meta name="keywords" content="ReactionProcess">
+  <meta name="description" content="Builds on base process class. Provides additional support for processes">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+sim</a> &gt; ReactionProcess.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ReactionProcess
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Builds on base process class. Provides additional support for processes</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Builds on base process class. Provides additional support for processes
+ represented as reactions in database.
+ - reaction Stoichiometry Matrix
+ - reaction Catalysis Matrix
+ - reaction Modification Matrix
+ - enzyme bounds
+ - reaction bounds
+
+ Used to implement the following processes
+ - metabolism (flux-balance analysis)
+ - RNA, protein modification
+ - terminal organelle assembly
+ - tRNA aminoacylation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/5/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ReactionProcess.html" class="code" title="">ReactionProcess</a>	Builds on base process class. Provides additional support for processes</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="ReactionProcess.html" class="code" title="">ReactionProcess</a>	Builds on base process class. Provides additional support for processes</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ReactionProcess(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, options)</a></li><li><a href="#_sub3" class="code">function value = reactionIndexs(this, wholeCellModelIDs)</a></li><li><a href="#_sub4" class="code">function value = computeFixedConstantsNames(this)</a></li><li><a href="#_sub5" class="code">function initializeConstants_overrideReactions(this, simulation, wholeCellModelIDs)</a></li><li><a href="#_sub6" class="code">function initializeConstants_overrideSubstrates(this, wholeCellModelIDs)</a></li><li><a href="#_sub7" class="code">function initializeConstants_overrideEnzymes(this, wholeCellModelIDs)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Builds on base process class. Provides additional support for processes</span>
+0002 <span class="comment">% represented as reactions in database.</span>
+0003 <span class="comment">% - reaction Stoichiometry Matrix</span>
+0004 <span class="comment">% - reaction Catalysis Matrix</span>
+0005 <span class="comment">% - reaction Modification Matrix</span>
+0006 <span class="comment">% - enzyme bounds</span>
+0007 <span class="comment">% - reaction bounds</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Used to implement the following processes</span>
+0010 <span class="comment">% - metabolism (flux-balance analysis)</span>
+0011 <span class="comment">% - RNA, protein modification</span>
+0012 <span class="comment">% - terminal organelle assembly</span>
+0013 <span class="comment">% - tRNA aminoacylation</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0016 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0017 <span class="comment">% Last updated: 1/5/2010</span>
+0018 classdef <a href="ReactionProcess.html" class="code" title="">ReactionProcess</a> &lt; edu.stanford.covert.cell.sim.Process
+0019     <span class="comment">%Whole cell model IDs of the process's stimuli, subsrates, enzymes and</span>
+0020     <span class="comment">%reactions. Set by initializeConstants from the reactions associated</span>
+0021     <span class="comment">%with the process in the knowledge base</span>
+0022     properties
+0023         stimuliWholeCellModelIDs   = {};  <span class="comment">%stimuli Whole Cell model IDs</span>
+0024         substrateWholeCellModelIDs = {};  <span class="comment">%substrate Whole Cell model IDs</span>
+0025         enzymeWholeCellModelIDs    = {};  <span class="comment">%enzyme Whole Cell model IDs</span>
+0026         reactionWholeCellModelIDs  = {};  <span class="comment">%reaction Whole Cell model IDs</span>
+0027     <span class="keyword">end</span>
+0028 
+0029     <span class="comment">%constants set by initialize constants method from the knowledge base.</span>
+0030     <span class="comment">%these constants describe the reactions implemented by the process</span>
+0031     properties        
+0032         reactionNames               <span class="comment">%reaction names</span>
+0033         reactionTypes               <span class="comment">%reaction types</span>
+0034         reactionStoichiometryMatrix <span class="comment">%stoichiometries of metabolic reactions (substrates X reactions X compartments)</span>
+0035         reactionCatalysisMatrix     <span class="comment">%reactions and enzyme (reactions X monomers and complexes X compartments)</span>
+0036         reactionModificationMatrix  <span class="comment">%reactions X (RNAs, protein monomers) X compartments</span>
+0037         reactionCoenzymeMatrix      <span class="comment">%reactions X metabolites X compartments</span>
+0038         enzymeBounds                <span class="comment">%maximal flux bounds per enzyme for enzyme catalyzed reactions where kinetic data is available (reactions/enzyme/s)</span>
+0039         reactionBounds              <span class="comment">%maximal flux bounds for exchange reactions, (reactions/(gram dry biomass)/s)</span>
+0040     <span class="keyword">end</span>
+0041     
+0042     <span class="comment">%constructor</span>
+0043     methods
+0044         <span class="comment">%sets process meta data</span>
+0045         <a name="_sub0" href="#_subfunctions" class="code">function this = ReactionProcess(wholeCellModelID, name)</a>
+0046             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0047         <span class="keyword">end</span>
+0048     <span class="keyword">end</span>
+0049 
+0050     <span class="comment">%communication between process/simulation</span>
+0051     methods
+0052         <span class="comment">%Ues knowledge base to initialize process's constants including:</span>
+0053         <span class="comment">%- whole cell model IDs, names, and types of reactions associated with process</span>
+0054         <span class="comment">%- whole cell model IDs of stimuli, substrates, and enzymes</span>
+0055         <span class="comment">%  associated with reactions</span>
+0056         <span class="comment">%- mappings between process's reactions, stimuli, substrates, and</span>
+0057         <span class="comment">%  enzymes and the simulation's state</span>
+0058         <span class="comment">%- adjacency matrices describing</span>
+0059         <span class="comment">%  - substrate stoichiometry of reactions</span>
+0060         <span class="comment">%  - substrate coenzymes of reactions</span>
+0061         <span class="comment">%  - substrates modified by each reaction</span>
+0062         <span class="comment">%  - enzymes which catalyze each reaction</span>
+0063         <span class="comment">%- quantitative properties of reactions:</span>
+0064         <span class="comment">%  - reaction bounds</span>
+0065         <span class="comment">%  - enzyme kinetic rates</span>
+0066         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, options)</a>
+0067             <span class="comment">%options</span>
+0068             <span class="keyword">if</span> ~exist(<span class="string">'options'</span>,<span class="string">'var'</span>) || ~isstruct(options)
+0069                 options = struct(<span class="keyword">...</span>
+0070                     <span class="string">'retainSubstrateCompartments'</span>, false, <span class="keyword">...</span>
+0071                     <span class="string">'retainEnzymeCompartments'</span>, false, <span class="keyword">...</span>
+0072                     <span class="string">'retainModificationCompartments'</span>, false);
+0073             <span class="keyword">else</span>
+0074                 <span class="keyword">if</span> ~isfield(options, <span class="string">'retainSubstrateCompartments'</span>)
+0075                     options.retainSubstrateCompartments = false;
+0076                 <span class="keyword">end</span>
+0077                 <span class="keyword">if</span> ~isfield(options, <span class="string">'retainEnzymeCompartments'</span>)
+0078                     options.retainEnzymeCompartments = false;
+0079                 <span class="keyword">end</span>
+0080                 <span class="keyword">if</span> ~isfield(options, <span class="string">'retainModificationCompartments'</span>)
+0081                     options.retainModificationCompartments = false;
+0082                 <span class="keyword">end</span>
+0083             <span class="keyword">end</span>
+0084 
+0085             <span class="comment">%reactions</span>
+0086             process = findobj(knowledgeBase.processes, <span class="string">'wholeCellModelID'</span>, this.wholeCellModelID);
+0087             reactions = process.reactions;
+0088             reactionGlobalIndexs = [reactions.idx]';
+0089             
+0090             this.reactionWholeCellModelIDs        = {reactions.wholeCellModelID}';            
+0091             this.reactionNames                    = {reactions.name}';
+0092             this.reactionTypes                    = {reactions.type}';
+0093             
+0094             this.reactionCatalysisMatrix          = knowledgeBase.reactionCatalysisMatrix(reactionGlobalIndexs, :, :);
+0095             this.reactionModificationMatrix       = knowledgeBase.reactionModificationMatrix(reactionGlobalIndexs, :, :);
+0096             this.reactionCoenzymeMatrix           = knowledgeBase.reactionCoenzymeMatrix(reactionGlobalIndexs, :, :);
+0097             this.enzymeBounds                     = knowledgeBase.enzymeBounds(reactionGlobalIndexs, :);
+0098             this.reactionBounds                   = knowledgeBase.reactionBounds(reactionGlobalIndexs, :);
+0099 
+0100             reactionStimuliStoichiometryMatrix    = knowledgeBase.reactionStimuliStoichiometryMatrix(:, reactionGlobalIndexs, :);
+0101             reactionMetaboliteStoichiometryMatrix = knowledgeBase.reactionMetaboliteStoichiometryMatrix(:, reactionGlobalIndexs, :);
+0102             reactionRNAStoichiometryMatrix        = knowledgeBase.reactionRNAStoichiometryMatrix(:, reactionGlobalIndexs, :);
+0103             reactionMonomerStoichiometryMatrix    = knowledgeBase.reactionProteinMonomerStoichiometryMatrix(:, reactionGlobalIndexs, :);
+0104             reactionComplexStoichiometryMatrix    = knowledgeBase.reactionProteinComplexStoichiometryMatrix(:, reactionGlobalIndexs, :);
+0105 
+0106             <span class="comment">%substrates</span>
+0107             stimuliIndexs    = find(sum(sum(abs(reactionStimuliStoichiometryMatrix), 3), 2));
+0108             metaboliteIndexs = find(sum(sum(abs(reactionMetaboliteStoichiometryMatrix), 3), 2) | sum(sum(abs(this.reactionCoenzymeMatrix), 3), 1)');
+0109             rnaIndexs        = find(sum(sum(abs(reactionRNAStoichiometryMatrix), 3), 2));
+0110             monomerIndexs    = find(sum(sum(abs(reactionMonomerStoichiometryMatrix), 3), 2));
+0111             complexIndexs    = find(sum(sum(abs(reactionComplexStoichiometryMatrix), 3), 2));
+0112 
+0113             this.substrateWholeCellModelIDs = [
+0114                 this.stimulus.wholeCellModelIDs(stimuliIndexs);
+0115                 this.metabolite.wholeCellModelIDs(metaboliteIndexs);
+0116                 this.rna.wholeCellModelIDs(this.rna.matureIndexs(rnaIndexs));
+0117                 this.monomer.wholeCellModelIDs(this.monomer.matureIndexs(monomerIndexs));
+0118                 this.complex.wholeCellModelIDs(this.complex.matureIndexs(complexIndexs))];
+0119             this.reactionStoichiometryMatrix = [
+0120                 reactionStimuliStoichiometryMatrix(stimuliIndexs, :, :);
+0121                 reactionMetaboliteStoichiometryMatrix(metaboliteIndexs, :, :);
+0122                 reactionRNAStoichiometryMatrix(rnaIndexs, :, :);
+0123                 reactionMonomerStoichiometryMatrix(monomerIndexs, :, :);
+0124                 reactionComplexStoichiometryMatrix(complexIndexs, :, :)];
+0125             this.reactionCoenzymeMatrix = [
+0126                 zeros(size(this.reactionCoenzymeMatrix, 1), length(stimuliIndexs),         size(this.reactionCoenzymeMatrix, 3)) <span class="keyword">...</span>
+0127                 this.reactionCoenzymeMatrix(:, metaboliteIndexs, :)  <span class="keyword">...</span>
+0128                 zeros(size(this.reactionCoenzymeMatrix, 1), length(rnaIndexs),             size(this.reactionCoenzymeMatrix, 3)) <span class="keyword">...</span>
+0129                 zeros(size(this.reactionCoenzymeMatrix, 1), length(monomerIndexs),         size(this.reactionCoenzymeMatrix, 3)) <span class="keyword">...</span>
+0130                 zeros(size(this.reactionCoenzymeMatrix, 1), length(complexIndexs),         size(this.reactionCoenzymeMatrix, 3))];
+0131 
+0132             <span class="comment">%enzymes</span>
+0133             enzymeIndexs  = find(sum(sum(this.reactionCatalysisMatrix, 3), 1))';
+0134             this.reactionCatalysisMatrix = this.reactionCatalysisMatrix(:, enzymeIndexs, :);
+0135             enzymeRNAIndexs     = [];
+0136             enzymeMonomerIndexs = enzymeIndexs(enzymeIndexs &lt;= length(this.monomer.matureIndexs));
+0137             enzymeComplexIndexs = enzymeIndexs(enzymeIndexs &gt;  length(this.monomer.matureIndexs)) - length(this.monomer.matureIndexs);
+0138 
+0139             this.enzymeWholeCellModelIDs = { <span class="keyword">...</span>
+0140                 this.rna.wholeCellModelIDs{this.rna.matureIndexs(enzymeRNAIndexs)} <span class="keyword">...</span>
+0141                 this.monomer.wholeCellModelIDs{this.monomer.matureIndexs(enzymeMonomerIndexs)} <span class="keyword">...</span>
+0142                 this.complex.wholeCellModelIDs{this.complex.matureIndexs(enzymeComplexIndexs)}}';
+0143 
+0144             <span class="comment">%super class method</span>
+0145             <a href="#_sub2" class="code" title="subfunction initializeConstants(this, knowledgeBase, simulation, options)">initializeConstants</a>@edu.stanford.covert.cell.sim.Process(this, knowledgeBase, simulation, options);
+0146 
+0147             <span class="comment">%substrates</span>
+0148             <span class="keyword">if</span> ~options.retainSubstrateCompartments
+0149                 numSubstrates = size(this.reactionStoichiometryMatrix, 1);
+0150                 numReactions  = size(this.reactionStoichiometryMatrix, 2);
+0151 
+0152                 substrateCompartmentIndexs = [
+0153                     this.substrateStimulusCompartmentIndexs;
+0154                     this.substrateMetaboliteCompartmentIndexs;
+0155                     this.substrateRNACompartmentIndexs;
+0156                     this.substrateMonomerCompartmentIndexs;
+0157                     this.substrateComplexCompartmentIndexs];
+0158 
+0159                 this.reactionStoichiometryMatrix =  this.reactionStoichiometryMatrix(sub2ind(<span class="keyword">...</span>
+0160                     size(this.reactionStoichiometryMatrix),<span class="keyword">...</span>
+0161                     repmat((1:numSubstrates)', [1 numReactions]),<span class="keyword">...</span>
+0162                     repmat(1:numReactions, [numSubstrates 1]),<span class="keyword">...</span>
+0163                     repmat(substrateCompartmentIndexs, [1 numReactions])));
+0164 
+0165                 this.reactionCoenzymeMatrix =  this.reactionCoenzymeMatrix(sub2ind(<span class="keyword">...</span>
+0166                     size(this.reactionCoenzymeMatrix),<span class="keyword">...</span>
+0167                     repmat((1:numReactions)', [1 numSubstrates]),<span class="keyword">...</span>
+0168                     repmat(1:numSubstrates, [numReactions 1]),<span class="keyword">...</span>
+0169                     repmat(substrateCompartmentIndexs', [numReactions 1])));
+0170             <span class="keyword">end</span>
+0171 
+0172             <span class="comment">%enzymes</span>
+0173             <span class="keyword">if</span> ~options.retainEnzymeCompartments
+0174                 numReactions = size(this.reactionCatalysisMatrix, 1);
+0175                 numEnzymes   = size(this.reactionCatalysisMatrix, 2);
+0176                 enzymeCompartments = zeros(1, numEnzymes);
+0177                 enzymeCompartments(this.enzymeMonomerLocalIndexs) = this.enzymeMonomerCompartmentIndexs;
+0178                 enzymeCompartments(this.enzymeComplexLocalIndexs) = this.enzymeComplexCompartmentIndexs;
+0179                 this.reactionCatalysisMatrix = this.reactionCatalysisMatrix(sub2ind(<span class="keyword">...</span>
+0180                     size(this.reactionCatalysisMatrix),<span class="keyword">...</span>
+0181                     repmat((1:numReactions)', [1 numEnzymes]),<span class="keyword">...</span>
+0182                     repmat(1:numEnzymes, [numReactions 1]),<span class="keyword">...</span>
+0183                     repmat(enzymeCompartments, [numReactions 1])));
+0184             <span class="keyword">end</span>
+0185 
+0186             <span class="comment">%modifications</span>
+0187             <span class="keyword">if</span> ~options.retainModificationCompartments
+0188                 numReactions = size(this.reactionModificationMatrix, 1);
+0189                 numGenes = size(this.reactionModificationMatrix, 2);
+0190                 geneCompartments = zeros(1, numGenes);
+0191                 geneCompartments(this.gene.mRNAIndexs) = this.monomer.compartments(this.monomer.matureIndexs);
+0192                 geneCompartments(setdiff(1:numGenes, this.gene.mRNAIndexs)) = this.compartment.cytosolIndexs;
+0193 
+0194                 this.reactionModificationMatrix = this.reactionModificationMatrix(sub2ind(<span class="keyword">...</span>
+0195                     size(this.reactionModificationMatrix),<span class="keyword">...</span>
+0196                     repmat((1:numReactions)', [1 numGenes]),<span class="keyword">...</span>
+0197                     repmat(1:numGenes, [numReactions 1]),<span class="keyword">...</span>
+0198                     repmat(geneCompartments, [numReactions 1])));
+0199             <span class="keyword">end</span>
+0200         <span class="keyword">end</span>
+0201     <span class="keyword">end</span>
+0202 
+0203     <span class="comment">%helper methods of initialize constants</span>
+0204     methods
+0205         <span class="comment">%Computes indices of process's reactions within simulation</span>
+0206         <a name="_sub2" href="#_subfunctions" class="code">function value = reactionIndexs(this, wholeCellModelIDs)</a>
+0207             value = this.componentIndexs(wholeCellModelIDs, <span class="string">'reaction'</span>);
+0208         <span class="keyword">end</span>
+0209     <span class="keyword">end</span>
+0210 
+0211     <span class="comment">%get/set methods of annotation properties</span>
+0212     methods
+0213         <span class="comment">%Annotates as fixed constants:</span>
+0214         <a name="_sub3" href="#_subfunctions" class="code">function value = computeFixedConstantsNames(this)</a>
+0215             value = [this.computeFixedConstantsNames@edu.stanford.covert.cell.sim.Process();
+0216                 <span class="string">'reactionNames'</span>;
+0217                 <span class="string">'reactionTypes'</span>;
+0218                 <span class="string">'reactionStoichiometryMatrix'</span>;
+0219                 <span class="string">'reactionCatalysisMatrix'</span>;
+0220                 <span class="string">'reactionModificationMatrix'</span>;
+0221                 <span class="string">'reactionCoenzymeMatrix'</span>;
+0222                 <span class="string">'enzymeBounds'</span>;
+0223                 <span class="string">'reactionBounds'</span>;
+0224                 ];
+0225         <span class="keyword">end</span>
+0226     <span class="keyword">end</span>
+0227 
+0228     methods (Access = protected)
+0229         <a name="_sub4" href="#_subfunctions" class="code">function initializeConstants_overrideReactions(this, simulation, wholeCellModelIDs)</a>
+0230             <span class="comment">%map old substrates onto new</span>
+0231             [tfs, idxs] = ismember(wholeCellModelIDs, this.reactionWholeCellModelIDs);
+0232             assert(all(tfs));
+0233 
+0234             <span class="comment">%update properties</span>
+0235             this.reactionWholeCellModelIDs   = this.reactionWholeCellModelIDs(idxs);
+0236             this.reactionNames               = this.reactionNames(idxs);
+0237             this.reactionTypes               = this.reactionTypes(idxs);
+0238             this.reactionStoichiometryMatrix = this.reactionStoichiometryMatrix(:, idxs);
+0239             this.reactionCatalysisMatrix     = this.reactionCatalysisMatrix(idxs, :);
+0240             this.reactionModificationMatrix  = this.reactionModificationMatrix(idxs, :);
+0241             this.reactionCoenzymeMatrix      = this.reactionCoenzymeMatrix(idxs, :);
+0242             this.reactionBounds              = this.reactionBounds(idxs, :);
+0243             this.enzymeBounds                = this.enzymeBounds(idxs, :);
+0244 
+0245             <span class="comment">%trim substrates</span>
+0246             idxs = any(this.reactionStoichiometryMatrix, 2) | any(this.reactionCoenzymeMatrix, 1)';
+0247             this.initializeConstants_overrideSubstrates(this.substrateWholeCellModelIDs(idxs));
+0248 
+0249             <span class="comment">%trim enzymes</span>
+0250             idxs = any(this.reactionCatalysisMatrix, 1);
+0251             this.initializeConstants_overrideEnzymes(this.enzymeWholeCellModelIDs(idxs));
+0252         <span class="keyword">end</span>
+0253 
+0254         <a name="_sub5" href="#_subfunctions" class="code">function initializeConstants_overrideSubstrates(this, wholeCellModelIDs)           </a>
+0255             <span class="comment">%map old substrates onto new</span>
+0256             [~, idxs1, idxs2] = intersect(this.substrateWholeCellModelIDs, wholeCellModelIDs);
+0257 
+0258             <span class="comment">%map old reactionStoichiometryMatrix, reactionCoenzymeMatrix</span>
+0259             <span class="comment">%onto new</span>
+0260             reactionStoichiometryMatrix = zeros(length(wholeCellModelIDs), size(this.reactionStoichiometryMatrix, 2), size(this.reactionStoichiometryMatrix, 3));
+0261             reactionCoenzymeMatrix      = zeros(size(this.reactionCoenzymeMatrix, 1), length(wholeCellModelIDs), size(this.reactionCoenzymeMatrix, 3));
+0262 
+0263             reactionStoichiometryMatrix(idxs2, :, :) = this.reactionStoichiometryMatrix(idxs1, :, :);
+0264             reactionCoenzymeMatrix(:, idxs2, :) = this.reactionCoenzymeMatrix(:, idxs1, :);
+0265 
+0266             this.reactionStoichiometryMatrix = reactionStoichiometryMatrix;
+0267             this.reactionCoenzymeMatrix      = reactionCoenzymeMatrix;
+0268 
+0269             <span class="comment">%super class method</span>
+0270             this.initializeConstants_overrideSubstrates@edu.stanford.covert.cell.sim.Process(wholeCellModelIDs);
+0271         <span class="keyword">end</span>
+0272 
+0273         <a name="_sub6" href="#_subfunctions" class="code">function initializeConstants_overrideEnzymes(this, wholeCellModelIDs)</a>
+0274             <span class="comment">%sort</span>
+0275             wholeCellModelIDs = sort(wholeCellModelIDs);
+0276 
+0277             <span class="comment">%map old enzymes onto new</span>
+0278             [~, idxs1, idxs2] = intersect(this.enzymeWholeCellModelIDs, wholeCellModelIDs);
+0279 
+0280             <span class="comment">%map old reactionCatalysisMatrix onto new</span>
+0281             reactionCatalysisMatrix = zeros(size(this.reactionCatalysisMatrix, 1), length(wholeCellModelIDs), size(this.reactionCatalysisMatrix, 3));
+0282             reactionCatalysisMatrix(:, idxs2, :) = this.reactionCatalysisMatrix(:, idxs1, :);
+0283             this.reactionCatalysisMatrix = reactionCatalysisMatrix;
+0284 
+0285             <span class="comment">%super class method</span>
+0286             this.initializeConstants_overrideEnzymes@edu.stanford.covert.cell.sim.Process(wholeCellModelIDs);
+0287         <span class="keyword">end</span>
+0288     <span class="keyword">end</span>
+0289 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

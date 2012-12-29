@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of findNonInteractingRowsAndColumns</title>
+  <meta name="keywords" content="findNonInteractingRowsAndColumns">
+  <meta name="description" content="Factors a matrix into non-interacting blocks of rows and columns. Each">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; findNonInteractingRowsAndColumns.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>findNonInteractingRowsAndColumns
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>Factors a matrix into non-interacting blocks of rows and columns. Each</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [rowAssignments,colAssignments,blocks] = findNonInteractingRowsAndColumns(A) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Factors a matrix into non-interacting blocks of rows and columns. Each
+ block consists of the smallest set of rows and the smallest set of
+ columns such that entries of the matrix outside the columns in the rows
+ are zero and vice-versa.
+
+ Author: Jonathan Karr
+ Affiliation: Covert Lab, Depatment of Bioengineering, Stanford University
+ Last updated: 11/5/2008</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [rowAssignments,colAssignments]=assignRecursively_row(A,row,nBlocks,rowAssignments,colAssignments)</a></li><li><a href="#_sub2" class="code">function [rowAssignments,colAssignments]=assignRecursively_col(A,col,nBlocks,rowAssignments,colAssignments)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [rowAssignments,colAssignments,blocks] = findNonInteractingRowsAndColumns(A)</a>
+0002 <span class="comment">% Factors a matrix into non-interacting blocks of rows and columns. Each</span>
+0003 <span class="comment">% block consists of the smallest set of rows and the smallest set of</span>
+0004 <span class="comment">% columns such that entries of the matrix outside the columns in the rows</span>
+0005 <span class="comment">% are zero and vice-versa.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Author: Jonathan Karr</span>
+0008 <span class="comment">% Affiliation: Covert Lab, Depatment of Bioengineering, Stanford University</span>
+0009 <span class="comment">% Last updated: 11/5/2008</span>
+0010 
+0011 <span class="comment">%Test Cases</span>
+0012 <span class="comment">% A = [1 0 1;</span>
+0013 <span class="comment">%      0 0 0;</span>
+0014 <span class="comment">%      1 0 0];</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% A = [0 0 1;</span>
+0017 <span class="comment">%      0 1 0;</span>
+0018 <span class="comment">%      1 0 0];</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% A = [1 0 1;</span>
+0021 <span class="comment">%      0 1 0;</span>
+0022 <span class="comment">%      1 0 0];</span>
+0023 
+0024 <span class="comment">%assign rows, columns to blocks</span>
+0025 nBlocks=0;
+0026 rowAssignments=zeros(size(A,1),1);
+0027 colAssignments=zeros(size(A,2),1);
+0028 
+0029 <span class="comment">%assign empty rows and columns to single block</span>
+0030 <span class="keyword">for</span> i=1:size(A,1)
+0031     <span class="keyword">if</span>(isempty(find(A(i,:),1)))
+0032         nBlocks=1;
+0033         rowAssignments(i)=nBlocks;
+0034     <span class="keyword">end</span>
+0035 <span class="keyword">end</span>
+0036 <span class="keyword">for</span> i=1:size(A,2)
+0037     <span class="keyword">if</span>(isempty(find(A(:,i),1)))
+0038         nBlocks=1;
+0039         colAssignments(i)=nBlocks;
+0040     <span class="keyword">end</span>
+0041 <span class="keyword">end</span>
+0042 
+0043 <span class="comment">%assign remaining rows and columns</span>
+0044 <span class="keyword">for</span> i=1:size(A,1)
+0045     <span class="keyword">if</span>(rowAssignments(i)~=0); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0046     nBlocks=nBlocks+1;
+0047     rowAssignments(i)=nBlocks;
+0048     [rowAssignments,colAssignments]=<a href="#_sub1" class="code" title="subfunction [rowAssignments,colAssignments]=assignRecursively_row(A,row,nBlocks,rowAssignments,colAssignments)">assignRecursively_row</a>(A,i,nBlocks,rowAssignments,colAssignments);
+0049 <span class="keyword">end</span>
+0050 <span class="keyword">for</span> i=1:size(A,2)
+0051     <span class="keyword">if</span>(colAssignments(i)~=0); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0052     nBlocks=nBlocks+1;
+0053     colAssignments(i)=nBlocks;
+0054     [rowAssignments,colAssignments]=<a href="#_sub2" class="code" title="subfunction [rowAssignments,colAssignments]=assignRecursively_col(A,col,nBlocks,rowAssignments,colAssignments)">assignRecursively_col</a>(A,i,nBlocks,rowAssignments,colAssignments);
+0055 <span class="keyword">end</span>
+0056 
+0057 <span class="comment">%assemble blocks</span>
+0058 blocks=cell(nBlocks,1);
+0059 <span class="keyword">for</span> i=1:nBlocks
+0060     blocks{i}=A(rowAssignments==i,colAssignments==i);
+0061 <span class="keyword">end</span>
+0062 
+0063 <span class="comment">% helper function</span>
+0064 <a name="_sub1" href="#_subfunctions" class="code">function [rowAssignments,colAssignments]=assignRecursively_row(A,row,nBlocks,rowAssignments,colAssignments)</a>
+0065 <span class="keyword">for</span> i=1:size(A,2)
+0066     <span class="keyword">if</span>(colAssignments(i)==0 &amp;&amp; A(row,i)~=0)
+0067         colAssignments(i)=nBlocks;
+0068         [rowAssignments,colAssignments]=<a href="#_sub2" class="code" title="subfunction [rowAssignments,colAssignments]=assignRecursively_col(A,col,nBlocks,rowAssignments,colAssignments)">assignRecursively_col</a>(A,i,nBlocks,rowAssignments,colAssignments);
+0069     <span class="keyword">end</span>
+0070 <span class="keyword">end</span>
+0071 
+0072 <span class="comment">%helper function</span>
+0073 <a name="_sub2" href="#_subfunctions" class="code">function [rowAssignments,colAssignments]=assignRecursively_col(A,col,nBlocks,rowAssignments,colAssignments)</a>
+0074 <span class="keyword">for</span> i=1:size(A,1)
+0075     <span class="keyword">if</span>(rowAssignments(i)==0 &amp;&amp; A(i,col)~=0)
+0076         rowAssignments(i)=nBlocks;
+0077         [rowAssignments,colAssignments]=<a href="#_sub1" class="code" title="subfunction [rowAssignments,colAssignments]=assignRecursively_row(A,row,nBlocks,rowAssignments,colAssignments)">assignRecursively_row</a>(A,i,nBlocks,rowAssignments,colAssignments);
+0078     <span class="keyword">end</span>
+0079 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

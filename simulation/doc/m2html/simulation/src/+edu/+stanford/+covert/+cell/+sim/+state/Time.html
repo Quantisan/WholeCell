@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Time</title>
+  <meta name="keywords" content="Time">
+  <meta name="description" content="Time">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Time.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Time
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Time</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Time
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Time.html" class="code" title="">Time</a>	Time</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Time.html" class="code" title="">Time</a>	Time</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Time(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub3" class="code">function initialize(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Time</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 1/5/2011</span>
+0006 classdef <a href="Time.html" class="code" title="">Time</a> &lt; edu.stanford.covert.cell.sim.CellState
+0007     <span class="comment">%Annotations</span>
+0008     properties (Constant)
+0009         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0010             <span class="string">'verbosity'</span>;
+0011             <span class="string">'seed'</span>;
+0012             };
+0013         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0014             <span class="string">'cellCycleLength'</span>;            
+0015             <span class="string">'replicationDuration'</span>;
+0016             <span class="string">'cytokinesisDuration'</span>;
+0017             };
+0018         fittedConstantNames     = {   <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0019             <span class="string">'replicationInitiationDuration'</span>;
+0020             };
+0021         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0022             <span class="string">'values'</span>};
+0023         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0024     <span class="keyword">end</span>
+0025     
+0026     <span class="comment">%constants</span>
+0027     properties
+0028         cellCycleLength                  <span class="comment">%length of cell cycle (s) [PUB_0094, PUB_0556]</span>
+0029         replicationInitiationDuration    <span class="comment">%Duration of the replication initiation phase of the cell cycle (s)</span>
+0030         replicationDuration              <span class="comment">%Duration of the replication phase of the cell cycle (s)</span>
+0031         cytokinesisDuration              <span class="comment">%Duration of the cytokinesis phase of the cell cycle (s)</span>
+0032     <span class="keyword">end</span>
+0033     
+0034     <span class="comment">%state</span>
+0035     properties
+0036         values
+0037     <span class="keyword">end</span>
+0038     
+0039     <span class="comment">%alternative interface to state</span>
+0040     properties (Constant)
+0041         dryWeight = 0
+0042     <span class="keyword">end</span>
+0043     
+0044     <span class="comment">%constructor</span>
+0045     methods
+0046         <a name="_sub0" href="#_subfunctions" class="code">function this = Time(wholeCellModelID, name)</a>
+0047             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0048         <span class="keyword">end</span>
+0049     <span class="keyword">end</span>
+0050     
+0051     methods
+0052         <span class="comment">%allocate memory for state</span>
+0053         <a name="_sub1" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0054             this.values = zeros(1, 1, numTimePoints);
+0055         <span class="keyword">end</span>
+0056         
+0057         <span class="comment">%initialize state</span>
+0058         <a name="_sub2" href="#_subfunctions" class="code">function initialize(this)</a>
+0059             this.allocateMemory(1);
+0060         <span class="keyword">end</span>
+0061     <span class="keyword">end</span>
+0062 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

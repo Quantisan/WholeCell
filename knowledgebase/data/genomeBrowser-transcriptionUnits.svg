@@ -1,0 +1,3013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   viewBox="0 0 782 603" width="782" height="603">
+  <style type="text/css">
+    line.genome{
+      stroke:#000000;
+      stroke-width:2px;
+      fill:none;
+    }
+    polygon.unit{
+      stroke-width:1px;
+      fill-opacity:0.3;
+      stroke-opacity:1;
+    }
+    text{
+      font-family:Arial, "sans-serif";
+      text-anchor:middle;
+      alignment-baseline:middle;
+    }
+    text{
+      font-size:10px;
+    }
+    tspan.sub{
+      font-size:60%;
+    }
+  </style>
+<g id="genome">
+  <line class="genome" x1="0" x2="782" y1="27.641025641026" y2="27.641025641026"/>
+  <line class="genome" x1="0" x2="782" y1="63.538461538462" y2="63.538461538462"/>
+  <line class="genome" x1="0" x2="782" y1="99.435897435897" y2="99.435897435897"/>
+  <line class="genome" x1="0" x2="782" y1="135.33333333333" y2="135.33333333333"/>
+  <line class="genome" x1="0" x2="782" y1="171.23076923077" y2="171.23076923077"/>
+  <line class="genome" x1="0" x2="782" y1="207.12820512821" y2="207.12820512821"/>
+  <line class="genome" x1="0" x2="782" y1="243.02564102564" y2="243.02564102564"/>
+  <line class="genome" x1="0" x2="782" y1="278.92307692308" y2="278.92307692308"/>
+  <line class="genome" x1="0" x2="782" y1="314.82051282051" y2="314.82051282051"/>
+  <line class="genome" x1="0" x2="782" y1="350.71794871795" y2="350.71794871795"/>
+  <line class="genome" x1="0" x2="782" y1="386.61538461538" y2="386.61538461538"/>
+  <line class="genome" x1="0" x2="782" y1="422.51282051282" y2="422.51282051282"/>
+  <line class="genome" x1="0" x2="782" y1="458.41025641026" y2="458.41025641026"/>
+  <line class="genome" x1="0" x2="782" y1="494.30769230769" y2="494.30769230769"/>
+  <line class="genome" x1="0" x2="782" y1="530.20512820513" y2="530.20512820513"/>
+  <line class="genome" x1="0" x2="782" y1="566.10256410256" y2="566.10256410256"/>
+  <line class="genome" x1="0" x2="782" y1="602" y2="602"/>
+
+</g>
+<g id="units">
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_001" target="_top">
+      <g>
+        <polygon class="unit" points="15.721533,0.000000 36.870614,0.000000 41.870614,12.820513 36.870614,25.641026 15.721533,25.641026" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="28.796073273157" y="16.820512820513">TU_001</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_002" target="_top">
+      <g>
+        <polygon class="unit" points="41.893531,0.000000 58.252815,0.000000 63.252815,12.820513 58.252815,25.641026 41.893531,25.641026" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="52.573173170412" y="16.820512820513">TU_002</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_003" target="_top">
+      <g>
+        <polygon class="unit" points="65.200819,0.000000 162.803302,0.000000 167.803302,12.820513 162.803302,25.641026 65.200819,25.641026" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="116.50206007489" y="16.820512820513">TU_003</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_004" target="_top">
+      <g>
+        <polygon class="unit" points="167.161606,0.000000 190.877468,0.000000 195.877468,12.820513 190.877468,25.641026 167.161606,25.641026" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="181.51953709514" y="16.820512820513">TU_004</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_005" target="_top">
+      <g>
+        <polygon class="unit" points="195.969139,0.000000 205.453116,0.000000 210.453116,12.820513 205.453116,25.641026 195.969139,25.641026" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="203.21112750743" y="16.820512820513">TU_005</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_006" target="_top">
+      <g>
+        <polygon class="unit" points="209.834339,0.000000 222.274698,0.000000 227.274698,12.820513 222.274698,25.641026 209.834339,25.641026" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="218.55451871824" y="16.820512820513">TU_006</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_007" target="_top">
+      <g>
+        <polygon class="unit" points="227.412205,0.000000 252.846892,0.000000 257.846892,12.820513 252.846892,25.641026 227.412205,25.641026" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="242.62954854192" y="16.820512820513">TU_007</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_008" target="_top">
+      <g>
+        <polygon class="unit" points="257.846892,0.000000 270.906030,0.000000 275.906030,12.820513 270.906030,25.641026 257.846892,25.641026" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="266.87646101545" y="16.820512820513">TU_008</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_009" target="_top">
+      <g>
+        <polygon class="unit" points="276.570642,0.000000 286.604645,0.000000 291.604645,12.820513 286.604645,25.641026 276.570642,25.641026" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="284.08764368807" y="16.820512820513">TU_009</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_010" target="_top">
+      <g>
+        <polygon class="unit" points="291.077538,12.820513 296.077538,0.000000 310.855502,0.000000 310.855502,25.641026 296.077538,25.641026" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="300.96651990429" y="16.820512820513">TU_010</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_011" target="_top">
+      <g>
+        <polygon class="unit" points="310.970090,12.820513 315.970090,0.000000 330.748054,0.000000 330.748054,25.641026 315.970090,25.641026" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="320.85907191471" y="16.820512820513">TU_011</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_012" target="_top">
+      <g>
+        <polygon class="unit" points="329.900099,12.820513 334.900099,0.000000 348.715520,0.000000 348.715520,25.641026 334.900099,25.641026" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="339.30780966632" y="16.820512820513">TU_012</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_013" target="_top">
+      <g>
+        <polygon class="unit" points="350.503100,12.820513 355.503100,0.000000 352.221926,0.000000 352.221926,25.641026 355.503100,25.641026" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="351.36251284314" y="16.820512820513">TU_013</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_014" target="_top">
+      <g>
+        <polygon class="unit" points="352.359432,12.820513 357.359432,0.000000 354.101176,0.000000 354.101176,25.641026 357.359432,25.641026" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="353.23030430495" y="16.820512820513">TU_014</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_015" target="_top">
+      <g>
+        <polygon class="unit" points="356.484616,0.000000 435.982126,0.000000 440.982126,12.820513 435.982126,25.641026 356.484616,25.641026" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="398.73337114447" y="16.820512820513">TU_015</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_016" target="_top">
+      <g>
+        <polygon class="unit" points="441.211303,0.000000 507.141544,0.000000 512.141544,12.820513 507.141544,25.641026 441.211303,25.641026" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="476.67642343417" y="16.820512820513">TU_016</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_017" target="_top">
+      <g>
+        <polygon class="unit" points="513.104086,0.000000 534.894862,0.000000 539.894862,12.820513 534.894862,25.641026 513.104086,25.641026" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="526.49947420683" y="16.820512820513">TU_017</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_018" target="_top">
+      <g>
+        <polygon class="unit" points="539.528179,0.000000 555.749957,0.000000 560.749957,12.820513 555.749957,25.641026 539.528179,25.641026" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="550.1390679842" y="16.820512820513">TU_018</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_019" target="_top">
+      <g>
+        <polygon class="unit" points="560.749957,0.000000 590.997359,0.000000 595.997359,12.820513 590.997359,25.641026 560.749957,25.641026" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="578.37365793448" y="16.820512820513">TU_019</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_020" target="_top">
+      <g>
+        <polygon class="unit" points="596.684890,0.000000 601.699919,0.000000 606.699919,12.820513 601.699919,25.641026 596.684890,25.641026" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="601.69240409877" y="16.820512820513">TU_020</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_021" target="_top">
+      <g>
+        <polygon class="unit" points="606.837425,0.000000 621.684141,0.000000 626.684141,12.820513 621.684141,25.641026 606.837425,25.641026" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="616.7607830698" y="16.820512820513">TU_021</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_022" target="_top">
+      <g>
+        <polygon class="unit" points="626.707059,0.000000 646.985267,0.000000 651.985267,12.820513 646.985267,25.641026 626.707059,25.641026" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="639.34616326137" y="16.820512820513">TU_022</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_023" target="_top">
+      <g>
+        <polygon class="unit" points="656.637558,0.000000 672.171805,0.000000 677.171805,12.820513 672.171805,25.641026 656.637558,25.641026" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="666.90468145553" y="16.820512820513">TU_023</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_024" target="_top">
+      <g>
+        <polygon class="unit" points="677.263476,0.000000 685.372393,0.000000 690.372393,12.820513 685.372393,25.641026 677.263476,25.641026" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="683.81793420173" y="16.820512820513">TU_024</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_025" target="_top">
+      <g>
+        <polygon class="unit" points="689.661944,0.000000 695.089492,0.000000 700.089492,12.820513 695.089492,25.641026 689.661944,25.641026" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="694.87571800936" y="16.820512820513">TU_025</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_026" target="_top">
+      <g>
+        <polygon class="unit" points="700.089492,0.000000 708.954692,0.000000 713.954692,12.820513 708.954692,25.641026 700.089492,25.641026" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="707.02209193278" y="16.820512820513">TU_026</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_027" target="_top">
+      <g>
+        <polygon class="unit" points="713.725515,12.820513 718.725515,0.000000 726.559420,0.000000 726.559420,25.641026 718.725515,25.641026" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="720.14246753874" y="16.820512820513">TU_027</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_028" target="_top">
+      <g>
+        <polygon class="unit" points="726.605255,12.820513 731.605255,0.000000 740.814221,0.000000 740.814221,25.641026 731.605255,25.641026" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="733.70973803433" y="16.820512820513">TU_028</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_029" target="_top">
+      <g>
+        <polygon class="unit" points="741.593422,12.820513 746.593422,0.000000 782.000000,0.000000 782.000000,25.641026 746.593422,25.641026" style="fill:#33FF66;stroke:#33FF66;"/>
+          <polygon class="unit" points="0.000000,48.717949 0.000000,35.897436 59.399948,35.897436 59.399948,61.538462 0.000000,61.538462" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="791.49668491715" y="16.820512820513">TU_029</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_030" target="_top">
+      <g>
+        <polygon class="unit" points="65.427299,35.897436 106.262672,35.897436 111.262672,48.717949 106.262672,61.538462 65.427299,61.538462" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="88.344985829443" y="52.717948717949">TU_030</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_031" target="_top">
+      <g>
+        <polygon class="unit" points="114.700325,35.897436 127.484450,35.897436 132.484450,48.717949 127.484450,61.538462 114.700325,61.538462" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="123.592387894" y="52.717948717949">TU_031</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_032" target="_top">
+      <g>
+        <polygon class="unit" points="131.774002,48.717949 136.774002,35.897436 146.464239,35.897436 146.464239,61.538462 136.774002,61.538462" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="139.11912059799" y="52.717948717949">TU_032</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_033" target="_top">
+      <g>
+        <polygon class="unit" points="147.128852,35.897436 170.638454,35.897436 175.638454,48.717949 170.638454,61.538462 147.128852,61.538462" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="161.38365317648" y="52.717948717949">TU_033</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_034" target="_top">
+      <g>
+        <polygon class="unit" points="175.409277,35.897436 208.269296,35.897436 213.269296,48.717949 208.269296,61.538462 175.409277,61.538462" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="194.33928657624" y="52.717948717949">TU_034</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_035" target="_top">
+      <g>
+        <polygon class="unit" points="212.650518,35.897436 238.635231,35.897436 243.635231,48.717949 238.635231,61.538462 212.650518,61.538462" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="228.14287438198" y="52.717948717949">TU_035</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_036" target="_top">
+      <g>
+        <polygon class="unit" points="243.566477,48.717949 248.566477,35.897436 304.779619,35.897436 304.779619,61.538462 248.566477,61.538462" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="274.1730480144" y="52.717948717949">TU_036</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_037" target="_top">
+      <g>
+        <polygon class="unit" points="308.423531,35.897436 344.102425,35.897436 349.102425,48.717949 344.102425,61.538462 308.423531,61.538462" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="328.76297760983" y="52.717948717949">TU_037</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_038" target="_top">
+      <g>
+        <polygon class="unit" points="349.583696,35.897436 350.679801,35.897436 355.679801,48.717949 350.679801,61.538462 349.583696,61.538462" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="352.63174825368" y="52.717948717949">TU_038</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_039" target="_top">
+      <g>
+        <polygon class="unit" points="360.217503,35.897436 465.497411,35.897436 470.497411,48.717949 465.497411,61.538462 360.217503,61.538462" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="415.35745660913" y="52.717948717949">TU_039</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_040" target="_top">
+      <g>
+        <polygon class="unit" points="470.611999,35.897436 487.315048,35.897436 492.315048,48.717949 487.315048,61.538462 470.611999,61.538462" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="481.46352374516" y="52.717948717949">TU_040</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_041" target="_top">
+      <g>
+        <polygon class="unit" points="491.948365,35.897436 513.326623,35.897436 518.326623,48.717949 513.326623,61.538462 491.948365,61.538462" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="505.1374940525" y="52.717948717949">TU_041</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_042" target="_top">
+      <g>
+        <polygon class="unit" points="523.597691,48.717949 528.597691,35.897436 554.307391,35.897436 554.307391,61.538462 528.597691,61.538462" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="538.95254070156" y="52.717948717949">TU_042</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_043" target="_top">
+      <g>
+        <polygon class="unit" points="555.522028,35.897436 611.093474,35.897436 616.093474,48.717949 611.093474,61.538462 555.522028,61.538462" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="585.80775105331" y="52.717948717949">TU_043</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_044" target="_top">
+      <g>
+        <polygon class="unit" points="616.299733,35.897436 620.283466,35.897436 625.283466,48.717949 620.283466,61.538462 616.299733,61.538462" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="620.79159972142" y="52.717948717949">TU_044</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_045" target="_top">
+      <g>
+        <polygon class="unit" points="625.283466,35.897436 658.143485,35.897436 663.143485,48.717949 658.143485,61.538462 625.283466,61.538462" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="644.21347547563" y="52.717948717949">TU_045</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_046" target="_top">
+      <g>
+        <polygon class="unit" points="662.616378,48.717949 667.616378,35.897436 684.388180,35.897436 684.388180,61.538462 667.616378,61.538462" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="673.50227901172" y="52.717948717949">TU_046</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_047" target="_top">
+      <g>
+        <polygon class="unit" points="684.479851,48.717949 689.479851,35.897436 692.982313,35.897436 692.982313,61.538462 689.479851,61.538462" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="688.73108178928" y="52.717948717949">TU_047</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_048" target="_top">
+      <g>
+        <polygon class="unit" points="693.142736,48.717949 698.142736,35.897436 696.488719,35.897436 696.488719,61.538462 698.142736,61.538462" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="694.81572759432" y="52.717948717949">TU_048</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_049" target="_top">
+      <g>
+        <polygon class="unit" points="696.809566,48.717949 701.809566,35.897436 705.587040,35.897436 705.587040,61.538462 701.809566,61.538462" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="701.19830332577" y="52.717948717949">TU_049</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_050" target="_top">
+      <g>
+        <polygon class="unit" points="705.289110,48.717949 710.289110,35.897436 724.379543,35.897436 724.379543,61.538462 710.289110,61.538462" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="714.83432688131" y="52.717948717949">TU_050</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_051" target="_top">
+      <g>
+        <polygon class="unit" points="723.967025,48.717949 728.967025,35.897436 736.250905,35.897436 736.250905,61.538462 728.967025,61.538462" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="730.10896503217" y="52.717948717949">TU_051</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_052" target="_top">
+      <g>
+        <polygon class="unit" points="735.769634,48.717949 740.769634,35.897436 758.641485,35.897436 758.641485,61.538462 740.769634,61.538462" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="747.20555927154" y="52.717948717949">TU_052</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_053" target="_top">
+      <g>
+        <polygon class="unit" points="758.206049,48.717949 763.206049,35.897436 768.221078,35.897436 768.221078,61.538462 763.206049,61.538462" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="763.21356339514" y="52.717948717949">TU_053</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_054" target="_top">
+      <g>
+        <polygon class="unit" points="768.381502,35.897436 782.000000,35.897436 782.000000,48.717949 782.000000,61.538462 768.381502,61.538462" style="fill:#003DF5;stroke:#003DF5;"/>
+          <polygon class="unit" points="0.000000,71.794872 1.846996,71.794872 6.846996,84.615385 1.846996,97.435897 0.000000,97.435897" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="778.61424882257" y="52.717948717949">TU_054</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_055" target="_top">
+      <g>
+        <polygon class="unit" points="6.365724,84.615385 11.365724,71.794872 45.394545,71.794872 45.394545,97.435897 11.365724,97.435897" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="25.880134672008" y="88.615384615385">TU_055</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_056" target="_top">
+      <g>
+        <polygon class="unit" points="49.244716,84.615385 54.244716,71.794872 51.261473,71.794872 51.261473,97.435897 54.244716,97.435897" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="50.25309442211" y="88.615384615385">TU_056</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_057" target="_top">
+      <g>
+        <polygon class="unit" points="52.384439,71.794872 113.937401,71.794872 118.937401,84.615385 113.937401,97.435897 52.384439,97.435897" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="85.660920293203" y="88.615384615385">TU_057</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_058" target="_top">
+      <g>
+        <polygon class="unit" points="124.804329,71.794872 243.445249,71.794872 248.445249,84.615385 243.445249,97.435897 124.804329,97.435897" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="186.62478882078" y="88.615384615385">TU_058</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_059" target="_top">
+      <g>
+        <polygon class="unit" points="248.536919,71.794872 288.134738,71.794872 293.134738,84.615385 288.134738,97.435897 248.536919,97.435897" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="270.83582840869" y="88.615384615385">TU_059</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_060" target="_top">
+      <g>
+        <polygon class="unit" points="293.386832,71.794872 323.909246,71.794872 328.909246,84.615385 323.909246,97.435897 293.386832,97.435897" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="311.14803922245" y="88.615384615385">TU_060</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_061" target="_top">
+      <g>
+        <polygon class="unit" points="329.459271,71.794872 357.094057,71.794872 362.094057,84.615385 357.094057,97.435897 329.459271,97.435897" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="345.77666374751" y="88.615384615385">TU_061</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_062" target="_top">
+      <g>
+        <polygon class="unit" points="457.981658,71.794872 515.455271,71.794872 520.455271,84.615385 515.455271,97.435897 457.981658,97.435897" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="489.21846447707" y="88.615384615385">TU_062</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_063" target="_top">
+      <g>
+        <polygon class="unit" points="522.999135,71.794872 537.570839,71.794872 542.570839,84.615385 537.570839,97.435897 522.999135,97.435897" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="532.78498679483" y="88.615384615385">TU_063</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_064" target="_top">
+      <g>
+        <polygon class="unit" points="542.685427,71.794872 597.821437,71.794872 602.821437,84.615385 597.821437,97.435897 542.685427,97.435897" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="572.75343230887" y="88.615384615385">TU_064</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_065" target="_top">
+      <g>
+        <polygon class="unit" points="602.523507,71.794872 652.984309,71.794872 657.984309,84.615385 652.984309,97.435897 602.523507,97.435897" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="630.25390810859" y="88.615384615385">TU_065</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_066" target="_top">
+      <g>
+        <polygon class="unit" points="657.480120,71.794872 697.627963,71.794872 702.627963,84.615385 697.627963,97.435897 657.480120,97.435897" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="680.0540411946" y="88.615384615385">TU_066</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_067" target="_top">
+      <g>
+        <polygon class="unit" points="702.696716,71.794872 707.161720,71.794872 712.161720,84.615385 707.161720,97.435897 702.696716,97.435897" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="707.42921789559" y="88.615384615385">TU_067</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_068" target="_top">
+      <g>
+        <polygon class="unit" points="713.628452,71.794872 779.077421,71.794872 782.000000,84.615385 779.077421,97.435897 713.628452,97.435897" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <polygon class="unit" points="0.000000,107.692308 0.000000,107.692308 2.077421,120.512821 0.000000,133.333333 0.000000,133.333333" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="748.85293651177" y="88.615384615385">TU_068</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_069" target="_top">
+      <g>
+        <polygon class="unit" points="2.008668,120.512821 7.008668,107.692308 11.542425,107.692308 11.542425,133.333333 7.008668,133.333333" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="6.7755466525075" y="124.51282051282">TU_069</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_070" target="_top">
+      <g>
+        <polygon class="unit" points="16.905164,107.692308 39.933495,107.692308 44.933495,120.512821 39.933495,133.333333 16.905164,133.333333" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="30.91932953613" y="124.51282051282">TU_070</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_071" target="_top">
+      <g>
+        <polygon class="unit" points="44.773071,107.692308 65.670057,107.692308 70.670057,120.512821 65.670057,133.333333 44.773071,133.333333" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="57.721564070915" y="124.51282051282">TU_071</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_072" target="_top">
+      <g>
+        <polygon class="unit" points="70.715892,107.692308 93.400458,107.692308 98.400458,120.512821 93.400458,133.333333 70.715892,133.333333" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="84.558175135672" y="124.51282051282">TU_072</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_073" target="_top">
+      <g>
+        <polygon class="unit" points="98.400458,107.692308 151.748888,107.692308 156.748888,120.512821 151.748888,133.333333 98.400458,133.333333" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="127.57467297389" y="124.51282051282">TU_073</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_074" target="_top">
+      <g>
+        <polygon class="unit" points="158.032279,107.692308 162.497283,107.692308 167.497283,120.512821 162.497283,133.333333 158.032279,133.333333" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="162.76478082182" y="124.51282051282">TU_074</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_075" target="_top">
+      <g>
+        <polygon class="unit" points="167.497283,107.692308 178.081310,107.692308 183.081310,120.512821 178.081310,133.333333 167.497283,133.333333" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="175.28929657493" y="124.51282051282">TU_075</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_076" target="_top">
+      <g>
+        <polygon class="unit" points="183.081310,107.692308 191.121474,107.692308 196.121474,120.512821 191.121474,133.333333 183.081310,133.333333" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="189.60139188658" y="124.51282051282">TU_076</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_077" target="_top">
+      <g>
+        <polygon class="unit" points="195.961050,107.692308 210.945273,107.692308 215.945273,120.512821 210.945273,133.333333 195.961050,133.333333" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="205.9531613099" y="124.51282051282">TU_077</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_078" target="_top">
+      <g>
+        <polygon class="unit" points="215.968190,107.692308 232.396227,107.692308 237.396227,120.512821 232.396227,133.333333 215.968190,133.333333" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="226.68220888297" y="124.51282051282">TU_078</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_079" target="_top">
+      <g>
+        <polygon class="unit" points="237.235804,107.692308 258.545308,107.692308 263.545308,120.512821 258.545308,133.333333 237.235804,133.333333" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="250.39055572028" y="124.51282051282">TU_079</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_080" target="_top">
+      <g>
+        <polygon class="unit" points="264.209921,107.692308 268.812431,107.692308 273.812431,120.512821 268.812431,133.333333 264.209921,133.333333" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="269.01117612175" y="124.51282051282">TU_080</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_081" target="_top">
+      <g>
+        <polygon class="unit" points="274.202032,107.692308 279.904592,107.692308 284.904592,120.512821 279.904592,133.333333 274.202032,133.333333" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="279.55331197981" y="124.51282051282">TU_081</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_082" target="_top">
+      <g>
+        <polygon class="unit" points="285.133769,107.692308 327.481709,107.692308 332.481709,120.512821 327.481709,133.333333 285.133769,133.333333" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="308.80773898593" y="124.51282051282">TU_082</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_083" target="_top">
+      <g>
+        <polygon class="unit" points="333.673429,107.692308 371.552421,107.692308 376.552421,120.512821 371.552421,133.333333 333.673429,133.333333" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="355.11292485812" y="124.51282051282">TU_083</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_084" target="_top">
+      <g>
+        <polygon class="unit" points="376.185738,107.692308 403.408005,107.692308 408.408005,120.512821 403.408005,133.333333 376.185738,133.333333" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="392.29687144443" y="124.51282051282">TU_084</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_085" target="_top">
+      <g>
+        <polygon class="unit" points="408.499676,107.692308 430.909229,107.692308 435.909229,120.512821 430.909229,133.333333 408.499676,133.333333" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="422.20445252001" y="124.51282051282">TU_085</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_086" target="_top">
+      <g>
+        <polygon class="unit" points="440.126083,107.692308 479.861408,107.692308 484.861408,120.512821 479.861408,133.333333 440.126083,133.333333" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="462.49374564712" y="124.51282051282">TU_086</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_087" target="_top">
+      <g>
+        <polygon class="unit" points="486.167716,107.692308 498.058051,107.692308 503.058051,120.512821 498.058051,133.333333 486.167716,133.333333" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="494.61288348423" y="124.51282051282">TU_087</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_088" target="_top">
+      <g>
+        <polygon class="unit" points="505.349820,107.692308 598.781284,107.692308 603.781284,120.512821 598.781284,133.333333 505.349820,133.333333" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="554.56555175529" y="124.51282051282">TU_088</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_089" target="_top">
+      <g>
+        <polygon class="unit" points="603.208342,107.692308 613.517356,107.692308 618.517356,120.512821 613.517356,133.333333 603.208342,133.333333" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="610.86284900599" y="124.51282051282">TU_089</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_090" target="_top">
+      <g>
+        <polygon class="unit" points="618.356933,107.692308 635.059982,107.692308 640.059982,120.512821 635.059982,133.333333 618.356933,133.333333" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="629.20845716768" y="124.51282051282">TU_090</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_091" target="_top">
+      <g>
+        <polygon class="unit" points="639.830805,107.692308 654.127497,107.692308 659.127497,120.512821 654.127497,133.333333 639.830805,133.333333" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="649.4791510078" y="124.51282051282">TU_091</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_092" target="_top">
+      <g>
+        <polygon class="unit" points="659.631686,107.692308 659.971507,107.692308 664.971507,120.512821 659.971507,133.333333 659.631686,133.333333" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="662.30159668733" y="124.51282051282">TU_092</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_093" target="_top">
+      <g>
+        <polygon class="unit" points="665.040260,107.692308 709.932064,107.692308 714.932064,120.512821 709.932064,133.333333 665.040260,133.333333" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="689.98616215806" y="124.51282051282">TU_093</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_094" target="_top">
+      <g>
+        <polygon class="unit" points="715.115406,107.692308 723.911853,107.692308 728.911853,120.512821 723.911853,133.333333 715.115406,133.333333" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="722.01362924858" y="124.51282051282">TU_094</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_095" target="_top">
+      <g>
+        <polygon class="unit" points="728.338911,120.512821 733.338911,107.692308 741.654087,107.692308 741.654087,133.333333 733.338911,133.333333" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="734.99649873465" y="124.51282051282">TU_095</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_096" target="_top">
+      <g>
+        <polygon class="unit" points="742.593712,107.692308 750.633876,107.692308 755.633876,120.512821 750.633876,133.333333 742.593712,133.333333" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="749.11379370979" y="124.51282051282">TU_096</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_097" target="_top">
+      <g>
+        <polygon class="unit" points="755.633876,107.692308 768.555507,107.692308 773.555507,120.512821 768.555507,133.333333 755.633876,133.333333" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="764.59469104048" y="124.51282051282">TU_097</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_098" target="_top">
+      <g>
+        <polygon class="unit" points="773.211741,107.692308 782.000000,107.692308 782.000000,120.512821 782.000000,133.333333 773.211741,133.333333" style="fill:#6633FF;stroke:#6633FF;"/>
+          <polygon class="unit" points="0.000000,143.589744 12.865011,143.589744 17.865011,156.410256 12.865011,169.230769 0.000000,169.230769" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="786.5383760059" y="124.51282051282">TU_098</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_099" target="_top">
+      <g>
+        <polygon class="unit" points="17.567081,143.589744 31.726267,143.589744 36.726267,156.410256 31.726267,169.230769 17.567081,169.230769" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="27.146673884112" y="160.41025641026">TU_099</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_100" target="_top">
+      <g>
+        <polygon class="unit" points="37.070032,143.589744 61.885943,143.589744 66.885943,156.410256 61.885943,169.230769 37.070032,169.230769" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="51.977987367172" y="160.41025641026">TU_100</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_101" target="_top">
+      <g>
+        <polygon class="unit" points="66.656766,143.589744 76.071991,143.589744 81.071991,156.410256 76.071991,169.230769 66.656766,169.230769" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="73.864378115971" y="160.41025641026">TU_101</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_102" target="_top">
+      <g>
+        <polygon class="unit" points="81.392838,143.589744 107.790069,143.589744 112.790069,156.410256 107.790069,169.230769 81.392838,169.230769" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="97.091453533675" y="160.41025641026">TU_102</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_103" target="_top">
+      <g>
+        <polygon class="unit" points="111.323337,143.589744 122.594894,143.589744 127.594894,156.410256 122.594894,169.230769 111.323337,169.230769" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="119.45911570208" y="160.41025641026">TU_103</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_104" target="_top">
+      <g>
+        <polygon class="unit" points="128.167837,143.589744 134.007902,143.589744 139.007902,156.410256 134.007902,169.230769 128.167837,169.230769" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="133.58786952055" y="160.41025641026">TU_104</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_105" target="_top">
+      <g>
+        <polygon class="unit" points="139.214162,143.589744 151.517015,143.589744 156.517015,156.410256 151.517015,169.230769 139.214162,169.230769" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="147.86558830222" y="160.41025641026">TU_105</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_106" target="_top">
+      <g>
+        <polygon class="unit" points="156.356591,143.589744 166.115581,143.589744 171.115581,156.410256 166.115581,169.230769 156.356591,169.230769" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="163.73608630593" y="160.41025641026">TU_106</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_107" target="_top">
+      <g>
+        <polygon class="unit" points="170.680145,143.589744 189.102021,143.589744 194.102021,156.410256 189.102021,169.230769 170.680145,169.230769" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="182.39108323737" y="160.41025641026">TU_107</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_108" target="_top">
+      <g>
+        <polygon class="unit" points="194.445786,143.589744 285.379223,143.589744 290.379223,156.410256 285.379223,169.230769 194.445786,169.230769" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="242.41250456837" y="160.41025641026">TU_108</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_109" target="_top">
+      <g>
+        <polygon class="unit" points="291.295930,143.589744 335.087685,143.589744 340.087685,156.410256 335.087685,169.230769 291.295930,169.230769" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="315.69180762521" y="160.41025641026">TU_109</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_110" target="_top">
+      <g>
+        <polygon class="unit" points="339.583496,143.589744 367.012023,143.589744 372.012023,156.410256 367.012023,169.230769 339.583496,169.230769" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="355.79775925913" y="160.41025641026">TU_110</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_111" target="_top">
+      <g>
+        <polygon class="unit" points="373.089154,143.589744 375.147801,143.589744 380.147801,156.410256 375.147801,169.230769 373.089154,169.230769" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="376.6184775788" y="160.41025641026">TU_111</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_112" target="_top">
+      <g>
+        <polygon class="unit" points="380.285307,143.589744 394.925765,143.589744 399.925765,156.410256 394.925765,169.230769 380.285307,169.230769" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="390.10553617112" y="160.41025641026">TU_112</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_113" target="_top">
+      <g>
+        <polygon class="unit" points="399.490329,156.410256 404.490329,143.589744 423.393476,143.589744 423.393476,169.230769 404.490329,169.230769" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="411.44190244037" y="160.41025641026">TU_113</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_114" target="_top">
+      <g>
+        <polygon class="unit" points="424.218513,143.589744 429.233542,143.589744 434.233542,156.410256 429.233542,169.230769 424.218513,169.230769" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="429.22602727918" y="160.41025641026">TU_114</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_115" target="_top">
+      <g>
+        <polygon class="unit" points="434.416883,143.589744 447.269761,143.589744 452.269761,156.410256 447.269761,169.230769 434.416883,169.230769" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="443.34332225433" y="160.41025641026">TU_115</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_116" target="_top">
+      <g>
+        <polygon class="unit" points="452.269761,143.589744 455.359705,143.589744 460.359705,156.410256 455.359705,169.230769 452.269761,169.230769" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="456.31473289707" y="160.41025641026">TU_116</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_117" target="_top">
+      <g>
+        <polygon class="unit" points="460.130528,143.589744 488.452844,143.589744 493.452844,156.410256 488.452844,169.230769 460.130528,169.230769" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="476.79168591702" y="160.41025641026">TU_117</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_118" target="_top">
+      <g>
+        <polygon class="unit" points="493.521597,143.589744 495.076056,143.589744 500.076056,156.410256 495.076056,169.230769 493.521597,169.230769" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="496.79882636068" y="160.41025641026">TU_118</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_119" target="_top">
+      <g>
+        <polygon class="unit" points="506.309666,156.410256 511.309666,143.589744 516.049683,143.589744 516.049683,169.230769 511.309666,169.230769" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="511.17967473228" y="160.41025641026">TU_119</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_120" target="_top">
+      <g>
+        <polygon class="unit" points="515.545494,156.410256 520.545494,143.589744 533.742137,143.589744 533.742137,169.230769 520.545494,169.230769" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="524.64381563795" y="160.41025641026">TU_120</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_121" target="_top">
+      <g>
+        <polygon class="unit" points="534.200491,143.589744 536.121632,143.589744 541.121632,156.410256 536.121632,169.230769 534.200491,169.230769" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="537.66106165399" y="160.41025641026">TU_121</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_122" target="_top">
+      <g>
+        <polygon class="unit" points="540.479937,156.410256 545.479937,143.589744 559.776629,143.589744 559.776629,169.230769 545.479937,169.230769" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="550.12828319048" y="160.41025641026">TU_122</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_123" target="_top">
+      <g>
+        <polygon class="unit" points="560.899596,143.589744 589.634431,143.589744 594.634431,156.410256 589.634431,169.230769 560.899596,169.230769" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="577.76701328791" y="160.41025641026">TU_123</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_124" target="_top">
+      <g>
+        <polygon class="unit" points="593.305205,143.589744 616.127276,143.589744 621.127276,156.410256 616.127276,169.230769 593.305205,169.230769" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="607.21624063054" y="160.41025641026">TU_124</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_125" target="_top">
+      <g>
+        <polygon class="unit" points="621.127276,143.589744 657.287442,143.589744 662.287442,156.410256 657.287442,169.230769 621.127276,169.230769" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="641.70735903571" y="160.41025641026">TU_125</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_126" target="_top">
+      <g>
+        <polygon class="unit" points="664.212527,143.589744 698.378854,143.589744 703.378854,156.410256 698.378854,169.230769 664.212527,169.230769" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="683.79569056468" y="160.41025641026">TU_126</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_127" target="_top">
+      <g>
+        <polygon class="unit" points="768.167154,143.589744 782.000000,143.589744 782.000000,156.410256 782.000000,169.230769 768.167154,169.230769" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <polygon class="unit" points="0.000000,179.487179 15.956202,179.487179 20.956202,192.307692 15.956202,205.128205 0.000000,205.128205" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="785.56167812494" y="160.41025641026">TU_127</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_128" target="_top">
+      <g>
+        <polygon class="unit" points="25.608493,179.487179 83.242530,179.487179 88.242530,192.307692 83.242530,205.128205 25.608493,205.128205" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="56.925511484702" y="196.30769230769">TU_128</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_129" target="_top">
+      <g>
+        <polygon class="unit" points="93.490681,179.487179 93.490681,179.487179 95.851202,192.307692 93.490681,205.128205 93.490681,205.128205" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="94.670941393886" y="196.30769230769">TU_129</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_130" target="_top">
+      <g>
+        <polygon class="unit" points="119.043901,179.487179 190.611892,179.487179 195.611892,192.307692 190.611892,205.128205 119.043901,205.128205" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="157.3278966894" y="196.30769230769">TU_130</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_131" target="_top">
+      <g>
+        <polygon class="unit" points="195.726481,179.487179 227.280191,179.487179 232.280191,192.307692 227.280191,205.128205 195.726481,205.128205" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="214.0033357698" y="196.30769230769">TU_131</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_132" target="_top">
+      <g>
+        <polygon class="unit" points="232.280191,179.487179 233.513802,179.487179 238.513802,192.307692 233.513802,205.128205 232.280191,205.128205" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="235.39699625566" y="196.30769230769">TU_132</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_133" target="_top">
+      <g>
+        <polygon class="unit" points="238.215872,179.487179 275.819851,179.487179 280.819851,192.307692 275.819851,205.128205 238.215872,205.128205" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="259.51786145264" y="196.30769230769">TU_133</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_134" target="_top">
+      <g>
+        <polygon class="unit" points="280.521921,179.487179 283.268099,179.487179 288.268099,192.307692 283.268099,205.128205 280.521921,205.128205" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="284.39501030899" y="196.30769230769">TU_134</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_135" target="_top">
+      <g>
+        <polygon class="unit" points="288.841042,179.487179 303.068981,179.487179 308.068981,192.307692 303.068981,205.128205 288.841042,205.128205" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="298.45501106752" y="196.30769230769">TU_135</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_136" target="_top">
+      <g>
+        <polygon class="unit" points="308.068981,179.487179 321.609389,179.487179 326.609389,192.307692 321.609389,205.128205 308.068981,205.128205" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="317.33918486543" y="196.30769230769">TU_136</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_137" target="_top">
+      <g>
+        <polygon class="unit" points="326.907319,179.487179 351.104452,179.487179 356.104452,192.307692 351.104452,205.128205 326.907319,205.128205" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="341.5058854357" y="196.30769230769">TU_137</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_138" target="_top">
+      <g>
+        <polygon class="unit" points="355.806522,179.487179 376.634755,179.487179 381.634755,192.307692 376.634755,205.128205 355.806522,205.128205" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="368.72063833015" y="196.30769230769">TU_138</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_139" target="_top">
+      <g>
+        <polygon class="unit" points="382.528545,179.487179 405.694381,179.487179 410.694381,192.307692 405.694381,205.128205 382.528545,205.128205" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="396.61146298071" y="196.30769230769">TU_139</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_140" target="_top">
+      <g>
+        <polygon class="unit" points="412.436126,179.487179 426.801571,179.487179 431.801571,192.307692 426.801571,205.128205 412.436126,205.128205" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="422.11884821989" y="196.30769230769">TU_140</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_141" target="_top">
+      <g>
+        <polygon class="unit" points="432.718278,179.487179 438.352085,179.487179 443.352085,192.307692 438.352085,205.128205 432.718278,205.128205" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="438.03518159689" y="196.30769230769">TU_141</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_142" target="_top">
+      <g>
+        <polygon class="unit" points="445.414677,179.487179 447.748336,179.487179 452.748336,192.307692 447.748336,205.128205 445.414677,205.128205" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="449.08150656121" y="196.30769230769">TU_142</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_143" target="_top">
+      <g>
+        <polygon class="unit" points="452.840007,179.487179 465.555379,179.487179 470.555379,192.307692 465.555379,205.128205 452.840007,205.128205" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="461.69769306091" y="196.30769230769">TU_143</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_144" target="_top">
+      <g>
+        <polygon class="unit" points="470.555379,179.487179 480.108110,179.487179 485.108110,192.307692 480.108110,205.128205 470.555379,205.128205" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="477.83174446107" y="196.30769230769">TU_144</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_145" target="_top">
+      <g>
+        <polygon class="unit" points="485.199781,179.487179 487.533440,179.487179 492.533440,192.307692 487.533440,205.128205 485.199781,205.128205" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="488.86661058206" y="196.30769230769">TU_145</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_146" target="_top">
+      <g>
+        <polygon class="unit" points="492.533440,179.487179 507.173898,179.487179 512.173898,192.307692 507.173898,205.128205 492.533440,205.128205" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="502.35366917438" y="196.30769230769">TU_146</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_147" target="_top">
+      <g>
+        <polygon class="unit" points="512.173898,179.487179 513.201249,179.487179 518.201249,192.307692 513.201249,205.128205 512.173898,205.128205" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="515.18757369724" y="196.30769230769">TU_147</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_148" target="_top">
+      <g>
+        <polygon class="unit" points="518.270003,179.487179 523.216279,179.487179 528.216279,192.307692 523.216279,205.128205 518.270003,205.128205" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="523.243140554" y="196.30769230769">TU_148</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_149" target="_top">
+      <g>
+        <polygon class="unit" points="528.285032,179.487179 541.756687,179.487179 546.756687,192.307692 541.756687,205.128205 528.285032,205.128205" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="537.52085933567" y="196.30769230769">TU_149</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_150" target="_top">
+      <g>
+        <polygon class="unit" points="546.894193,179.487179 551.427951,179.487179 556.427951,192.307692 551.427951,205.128205 546.894193,205.128205" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="551.66107199746" y="196.30769230769">TU_150</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_151" target="_top">
+      <g>
+        <polygon class="unit" points="556.427951,179.487179 565.224398,179.487179 570.224398,192.307692 565.224398,205.128205 556.427951,205.128205" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="563.32617450127" y="196.30769230769">TU_151</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_152" target="_top">
+      <g>
+        <polygon class="unit" points="570.224398,179.487179 571.114244,179.487179 576.114244,192.307692 571.114244,205.128205 570.224398,205.128205" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="573.16932091657" y="196.30769230769">TU_152</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_153" target="_top">
+      <g>
+        <polygon class="unit" points="576.205914,179.487179 579.639623,179.487179 584.639623,192.307692 579.639623,205.128205 576.205914,205.128205" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="580.42276874065" y="196.30769230769">TU_153</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_154" target="_top">
+      <g>
+        <polygon class="unit" points="584.639623,179.487179 587.110789,179.487179 592.110789,192.307692 587.110789,205.128205 584.639623,205.128205" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="588.37520600749" y="196.30769230769">TU_154</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_155" target="_top">
+      <g>
+        <polygon class="unit" points="592.248295,179.487179 599.669681,179.487179 604.669681,192.307692 599.669681,205.128205 592.248295,205.128205" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="598.45898813259" y="196.30769230769">TU_155</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_156" target="_top">
+      <g>
+        <polygon class="unit" points="604.738434,179.487179 604.738434,179.487179 608.909453,192.307692 604.738434,205.128205 604.738434,205.128205" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="606.82394375909" y="196.30769230769">TU_156</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_157" target="_top">
+      <g>
+        <polygon class="unit" points="608.840700,179.487179 613.580717,179.487179 618.580717,192.307692 613.580717,205.128205 608.840700,205.128205" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="613.7107085968" y="196.30769230769">TU_157</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_158" target="_top">
+      <g>
+        <polygon class="unit" points="618.741141,179.487179 626.437539,179.487179 631.437539,192.307692 626.437539,205.128205 618.741141,205.128205" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="625.08934001751" y="196.30769230769">TU_158</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_159" target="_top">
+      <g>
+        <polygon class="unit" points="631.483375,179.487179 634.435812,179.487179 639.435812,192.307692 634.435812,205.128205 631.483375,205.128205" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="635.45959322572" y="196.30769230769">TU_159</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_160" target="_top">
+      <g>
+        <polygon class="unit" points="639.550400,179.487179 649.103131,179.487179 654.103131,192.307692 649.103131,205.128205 639.550400,205.128205" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="646.8267658031" y="196.30769230769">TU_160</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_161" target="_top">
+      <g>
+        <polygon class="unit" points="654.240637,179.487179 659.599432,179.487179 664.599432,192.307692 659.599432,205.128205 654.240637,205.128205" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="659.42003461615" y="196.30769230769">TU_161</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_162" target="_top">
+      <g>
+        <polygon class="unit" points="664.599432,179.487179 692.302971,179.487179 697.302971,192.307692 692.302971,205.128205 664.599432,205.128205" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="680.95120122191" y="196.30769230769">TU_162</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_163" target="_top">
+      <g>
+        <polygon class="unit" points="697.165465,179.487179 706.924455,179.487179 711.924455,192.307692 706.924455,205.128205 697.165465,205.128205" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="704.54495962598" y="196.30769230769">TU_163</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_164" target="_top">
+      <g>
+        <polygon class="unit" points="711.993208,179.487179 724.089802,179.487179 729.089802,192.307692 724.089802,205.128205 711.993208,205.128205" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="720.54150490625" y="196.30769230769">TU_164</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_165" target="_top">
+      <g>
+        <polygon class="unit" points="729.089802,179.487179 729.089802,179.487179 733.948352,192.307692 729.089802,205.128205 729.089802,205.128205" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="731.51907681062" y="196.30769230769">TU_165</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_166" target="_top">
+      <g>
+        <polygon class="unit" points="734.200446,179.487179 734.200446,179.487179 736.790145,192.307692 734.200446,205.128205 734.200446,205.128205" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="735.49529544405" y="196.30769230769">TU_166</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_167" target="_top">
+      <g>
+        <polygon class="unit" points="736.790145,179.487179 780.490229,179.487179 782.000000,192.307692 780.490229,205.128205 736.790145,205.128205" style="fill:#002EB8;stroke:#002EB8;"/>
+          <polygon class="unit" points="0.000000,215.384615 0.000000,215.384615 3.490229,228.205128 0.000000,241.025641 0.000000,241.025641" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="761.14018680311" y="196.30769230769">TU_167</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_168" target="_top">
+      <g>
+        <polygon class="unit" points="3.192299,215.384615 66.441170,215.384615 71.441170,228.205128 66.441170,241.025641 3.192299,241.025641" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="37.316734358946" y="232.20512820513">TU_168</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_169" target="_top">
+      <g>
+        <polygon class="unit" points="71.280746,215.384615 83.102328,215.384615 88.102328,228.205128 83.102328,241.025641 71.280746,241.025641" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="79.691536971017" y="232.20512820513">TU_169</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_170" target="_top">
+      <g>
+        <polygon class="unit" points="87.873151,215.384615 124.652094,215.384615 129.652094,228.205128 124.652094,241.025641 87.873151,241.025641" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="108.76262248395" y="232.20512820513">TU_170</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_171" target="_top">
+      <g>
+        <polygon class="unit" points="129.675012,215.384615 146.515567,215.384615 151.515567,228.205128 146.515567,241.025641 129.675012,241.025641" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="140.59528923796" y="232.20512820513">TU_171</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_172" target="_top">
+      <g>
+        <polygon class="unit" points="153.807336,215.384615 197.049066,215.384615 202.049066,228.205128 197.049066,241.025641 153.807336,241.025641" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="177.92820078748" y="232.20512820513">TU_172</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_173" target="_top">
+      <g>
+        <polygon class="unit" points="258.586999,215.384615 270.821099,215.384615 275.821099,228.205128 270.821099,241.025641 258.586999,241.025641" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="267.2040491246" y="232.20512820513">TU_173</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_174" target="_top">
+      <g>
+        <polygon class="unit" points="275.660675,215.384615 354.929009,215.384615 359.929009,228.205128 354.929009,241.025641 275.660675,241.025641" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="317.79484239996" y="232.20512820513">TU_174</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_175" target="_top">
+      <g>
+        <polygon class="unit" points="363.802098,215.384615 380.711407,215.384615 385.711407,228.205128 380.711407,241.025641 363.802098,241.025641" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="374.75675256346" y="232.20512820513">TU_175</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_176" target="_top">
+      <g>
+        <polygon class="unit" points="385.871831,215.384615 552.685727,215.384615 557.685727,228.205128 552.685727,241.025641 385.871831,241.025641" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="471.77877898758" y="232.20512820513">TU_176</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_177" target="_top">
+      <g>
+        <polygon class="unit" points="625.109562,215.384615 643.600190,215.384615 648.600190,228.205128 643.600190,241.025641 625.109562,241.025641" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="636.85487591281" y="232.20512820513">TU_177</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_178" target="_top">
+      <g>
+        <polygon class="unit" points="648.691861,215.384615 699.152663,215.384615 704.152663,228.205128 699.152663,241.025641 648.691861,241.025641" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="676.42226191051" y="232.20512820513">TU_178</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_179" target="_top">
+      <g>
+        <polygon class="unit" points="705.504806,215.384615 712.994945,215.384615 717.994945,228.205128 712.994945,241.025641 705.504806,241.025641" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="711.74987587833" y="232.20512820513">TU_179</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_180" target="_top">
+      <g>
+        <polygon class="unit" points="718.063699,215.384615 718.063699,215.384615 722.165964,228.205128 718.063699,241.025641 718.063699,241.025641" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="720.11483150484" y="232.20512820513">TU_180</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_181" target="_top">
+      <g>
+        <polygon class="unit" points="722.234718,215.384615 725.805932,215.384615 730.805932,228.205128 725.805932,241.025641 722.234718,241.025641" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="726.52032492294" y="232.20512820513">TU_181</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_182" target="_top">
+      <g>
+        <polygon class="unit" points="730.164237,228.205128 735.164237,215.384615 746.367042,215.384615 746.367042,241.025641 735.164237,241.025641" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="738.26563933002" y="232.20512820513">TU_182</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_183" target="_top">
+      <g>
+        <polygon class="unit" points="747.444173,215.384615 782.000000,215.384615 782.000000,228.205128 782.000000,241.025641 747.444173,241.025641" style="fill:#002EB8;stroke:#002EB8;"/>
+          <polygon class="unit" points="0.000000,251.282051 1.810597,251.282051 6.810597,264.102564 1.810597,276.923077 0.000000,276.923077" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="768.12738503231" y="232.20512820513">TU_183</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_184" target="_top">
+      <g>
+        <polygon class="unit" points="7.085609,251.282051 17.050859,251.282051 22.050859,264.102564 17.050859,276.923077 7.085609,276.923077" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="14.56823416242" y="268.10256410256">TU_184</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_185" target="_top">
+      <g>
+        <polygon class="unit" points="22.280036,251.282051 25.713744,251.282051 30.713744,264.102564 25.713744,276.923077 22.280036,276.923077" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="26.496890062681" y="268.10256410256">TU_185</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_186" target="_top">
+      <g>
+        <polygon class="unit" points="31.126263,264.102564 36.126263,251.282051 32.799254,251.282051 32.799254,276.923077 36.126263,276.923077" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="31.962758328219" y="268.10256410256">TU_186</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_187" target="_top">
+      <g>
+        <polygon class="unit" points="33.647208,251.282051 72.213731,251.282051 77.213731,264.102564 72.213731,276.923077 33.647208,276.923077" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="55.430469455726" y="268.10256410256">TU_187</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_188" target="_top">
+      <g>
+        <polygon class="unit" points="77.213731,251.282051 125.955706,251.282051 130.955706,264.102564 125.955706,276.923077 77.213731,276.923077" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="104.08471820934" y="268.10256410256">TU_188</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_189" target="_top">
+      <g>
+        <polygon class="unit" points="130.886953,264.102564 135.886953,251.282051 154.515088,251.282051 154.515088,276.923077 135.886953,276.923077" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="142.70102021114" y="268.10256410256">TU_189</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_190" target="_top">
+      <g>
+        <polygon class="unit" points="155.340124,251.282051 191.431537,251.282051 196.431537,264.102564 191.431537,276.923077 155.340124,276.923077" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="175.88583047739" y="268.10256410256">TU_190</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_191" target="_top">
+      <g>
+        <polygon class="unit" points="195.996101,251.282051 202.523697,251.282051 207.523697,264.102564 202.523697,276.923077 195.996101,276.923077" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="201.75989870293" y="268.10256410256">TU_191</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_192" target="_top">
+      <g>
+        <polygon class="unit" points="207.363273,264.102564 212.363273,251.282051 220.884708,251.282051 220.884708,276.923077 212.363273,276.923077" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="214.1239906495" y="268.10256410256">TU_192</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_193" target="_top">
+      <g>
+        <polygon class="unit" points="220.518025,264.102564 225.518025,251.282051 241.739803,251.282051 241.739803,276.923077 225.518025,276.923077" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="231.12891414228" y="268.10256410256">TU_193</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_194" target="_top">
+      <g>
+        <polygon class="unit" points="241.739803,264.102564 246.739803,251.282051 254.229942,251.282051 254.229942,276.923077 246.739803,276.923077" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="247.98487267186" y="268.10256410256">TU_194</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_195" target="_top">
+      <g>
+        <polygon class="unit" points="258.836397,251.282051 268.939153,251.282051 273.939153,264.102564 268.939153,276.923077 258.836397,276.923077" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="266.38777505017" y="268.10256410256">TU_195</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_196" target="_top">
+      <g>
+        <polygon class="unit" points="273.939153,251.282051 273.939153,251.282051 278.247678,264.102564 273.939153,276.923077 273.939153,276.923077" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="276.09341534558" y="268.10256410256">TU_196</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_197" target="_top">
+      <g>
+        <polygon class="unit" points="278.293513,251.282051 283.446048,251.282051 288.446048,264.102564 283.446048,276.923077 278.293513,276.923077" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="283.3697808563" y="268.10256410256">TU_197</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_198" target="_top">
+      <g>
+        <polygon class="unit" points="288.514802,251.282051 291.398486,251.282051 296.398486,264.102564 291.398486,276.923077 288.514802,276.923077" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="292.45664361222" y="268.10256410256">TU_198</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_199" target="_top">
+      <g>
+        <polygon class="unit" points="296.238062,251.282051 309.709717,251.282051 314.709717,264.102564 309.709717,276.923077 296.238062,276.923077" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="305.47388962826" y="268.10256410256">TU_199</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_200" target="_top">
+      <g>
+        <polygon class="unit" points="314.549294,251.282051 355.888856,251.282051 360.888856,264.102564 355.888856,276.923077 314.549294,276.923077" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="337.71907474193" y="268.10256410256">TU_200</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_201" target="_top">
+      <g>
+        <polygon class="unit" points="361.324292,251.282051 378.577366,251.282051 383.577366,264.102564 378.577366,276.923077 361.324292,276.923077" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="372.45082885691" y="268.10256410256">TU_201</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_202" target="_top">
+      <g>
+        <polygon class="unit" points="383.646119,251.282051 413.618509,251.282051 418.618509,264.102564 413.618509,276.923077 383.646119,276.923077" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="401.13231369683" y="268.10256410256">TU_202</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_203" target="_top">
+      <g>
+        <polygon class="unit" points="419.466463,251.282051 419.466463,251.282051 421.208207,264.102564 419.466463,276.923077 419.466463,276.923077" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="420.33733510781" y="268.10256410256">TU_203</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_204" target="_top">
+      <g>
+        <polygon class="unit" points="422.010326,251.282051 422.010326,251.282051 423.752070,264.102564 422.010326,276.923077 422.010326,276.923077" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="422.88119832574" y="268.10256410256">TU_204</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_205" target="_top">
+      <g>
+        <polygon class="unit" points="423.843741,251.282051 423.843741,251.282051 425.585485,264.102564 423.843741,276.923077 423.843741,276.923077" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="424.71461325757" y="268.10256410256">TU_205</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_206" target="_top">
+      <g>
+        <polygon class="unit" points="426.043839,251.282051 426.043839,251.282051 427.785583,264.102564 426.043839,276.923077 426.043839,276.923077" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="426.91471117578" y="268.10256410256">TU_206</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_207" target="_top">
+      <g>
+        <polygon class="unit" points="428.656455,251.282051 428.656455,251.282051 430.741965,264.102564 428.656455,276.923077 428.656455,276.923077" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="429.6992101035" y="268.10256410256">TU_207</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_208" target="_top">
+      <g>
+        <polygon class="unit" points="431.062812,251.282051 431.062812,251.282051 432.804557,264.102564 431.062812,276.923077 431.062812,276.923077" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="431.93368455168" y="268.10256410256">TU_208</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_209" target="_top">
+      <g>
+        <polygon class="unit" points="432.850392,251.282051 432.850392,251.282051 434.523383,264.102564 432.850392,276.923077 432.850392,276.923077" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="433.68688758025" y="268.10256410256">TU_209</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_210" target="_top">
+      <g>
+        <polygon class="unit" points="434.592136,251.282051 434.592136,251.282051 436.310963,264.102564 434.592136,276.923077 434.592136,276.923077" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="435.45154945214" y="268.10256410256">TU_210</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_211" target="_top">
+      <g>
+        <polygon class="unit" points="439.702780,251.282051 460.324754,251.282051 465.324754,264.102564 460.324754,276.923077 439.702780,276.923077" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="452.51376716154" y="268.10256410256">TU_211</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_212" target="_top">
+      <g>
+        <polygon class="unit" points="465.737272,251.282051 584.882381,251.282051 589.882381,264.102564 584.882381,276.923077 465.737272,276.923077" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="527.80982664341" y="268.10256410256">TU_212</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_213" target="_top">
+      <g>
+        <polygon class="unit" points="589.951134,251.282051 608.785528,251.282051 613.785528,264.102564 608.785528,276.923077 589.951134,276.923077" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="601.86833104628" y="268.10256410256">TU_213</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_214" target="_top">
+      <g>
+        <polygon class="unit" points="612.868821,251.282051 618.090109,251.282051 623.090109,264.102564 618.090109,276.923077 612.868821,276.923077" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="617.97946475979" y="268.10256410256">TU_214</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_215" target="_top">
+      <g>
+        <polygon class="unit" points="623.823475,264.102564 628.823475,251.282051 630.263345,251.282051 630.263345,276.923077 628.823475,276.923077" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="627.04340982906" y="268.10256410256">TU_215</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_216" target="_top">
+      <g>
+        <polygon class="unit" points="631.798830,251.282051 631.798830,251.282051 633.540574,264.102564 631.798830,276.923077 631.798830,276.923077" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="632.66970190113" y="268.10256410256">TU_216</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_217" target="_top">
+      <g>
+        <polygon class="unit" points="637.367828,251.282051 663.169199,251.282051 668.169199,264.102564 663.169199,276.923077 637.367828,276.923077" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="652.76851309139" y="268.10256410256">TU_217</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_218" target="_top">
+      <g>
+        <polygon class="unit" points="668.215034,251.282051 691.518377,251.282051 696.518377,264.102564 691.518377,276.923077 668.215034,276.923077" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="682.36670539722" y="268.10256410256">TU_218</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_219" target="_top">
+      <g>
+        <polygon class="unit" points="696.587130,251.282051 717.002844,251.282051 722.002844,264.102564 717.002844,276.923077 696.587130,276.923077" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="709.29498720857" y="268.10256410256">TU_219</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_220" target="_top">
+      <g>
+        <polygon class="unit" points="723.057058,251.282051 782.000000,251.282051 782.000000,264.102564 782.000000,276.923077 723.057058,276.923077" style="fill:#FF6633;stroke:#FF6633;"/>
+          <polygon class="unit" points="0.000000,287.179487 2.816279,287.179487 7.816279,300.000000 2.816279,312.820513 0.000000,312.820513" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="756.43666864342" y="268.10256410256">TU_220</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_221" target="_top">
+      <g>
+        <polygon class="unit" points="18.633427,287.179487 33.411391,287.179487 38.411391,300.000000 33.411391,312.820513 18.633427,312.820513" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="28.522409132596" y="304">TU_221</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_222" target="_top">
+      <g>
+        <polygon class="unit" points="38.411391,287.179487 44.457716,287.179487 49.457716,300.000000 44.457716,312.820513 38.411391,312.820513" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="43.934553403347" y="304">TU_222</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_223" target="_top">
+      <g>
+        <polygon class="unit" points="49.595222,287.179487 68.017098,287.179487 73.017098,300.000000 68.017098,312.820513 49.595222,312.820513" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="61.306159882498" y="304">TU_223</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_224" target="_top">
+      <g>
+        <polygon class="unit" points="73.108769,287.179487 78.673822,287.179487 83.673822,300.000000 78.673822,312.820513 73.108769,312.820513" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="78.391295278549" y="304">TU_224</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_225" target="_top">
+      <g>
+        <polygon class="unit" points="84.109258,287.179487 128.726050,287.179487 133.726050,300.000000 128.726050,312.820513 84.109258,312.820513" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="108.91765389363" y="304">TU_225</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_226" target="_top">
+      <g>
+        <polygon class="unit" points="135.857395,287.179487 137.778536,287.179487 142.778536,300.000000 137.778536,312.820513 135.857395,312.820513" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="139.31796523214" y="304">TU_226</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_227" target="_top">
+      <g>
+        <polygon class="unit" points="142.618112,287.179487 144.470500,287.179487 149.470500,300.000000 144.470500,312.820513 142.618112,312.820513" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="146.04430626332" y="304">TU_227</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_228" target="_top">
+      <g>
+        <polygon class="unit" points="149.310077,287.179487 151.506230,287.179487 156.506230,300.000000 151.506230,312.820513 149.310077,312.820513" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="152.90815341438" y="304">TU_228</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_229" target="_top">
+      <g>
+        <polygon class="unit" points="156.345806,287.179487 171.398782,287.179487 176.398782,300.000000 171.398782,312.820513 156.345806,312.820513" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="166.37229432005" y="304">TU_229</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_230" target="_top">
+      <g>
+        <polygon class="unit" points="176.169605,287.179487 180.840869,287.179487 185.840869,300.000000 180.840869,312.820513 176.169605,312.820513" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="181.00523724477" y="304">TU_230</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_231" target="_top">
+      <g>
+        <polygon class="unit" points="185.680445,287.179487 200.939680,287.179487 205.939680,300.000000 200.939680,312.820513 185.680445,312.820513" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="195.81006281935" y="304">TU_231</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_232" target="_top">
+      <g>
+        <polygon class="unit" points="206.627211,287.179487 232.199405,287.179487 237.199405,300.000000 232.199405,312.820513 206.627211,312.820513" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="221.91330791138" y="304">TU_232</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_233" target="_top">
+      <g>
+        <polygon class="unit" points="238.780725,287.179487 288.485243,287.179487 293.485243,300.000000 288.485243,312.820513 238.780725,312.820513" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="266.13298429861" y="304">TU_233</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_234" target="_top">
+      <g>
+        <polygon class="unit" points="293.416490,300.000000 298.416490,287.179487 317.525897,287.179487 317.525897,312.820513 298.416490,312.820513" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="305.47119342983" y="304">TU_234</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_235" target="_top">
+      <g>
+        <polygon class="unit" points="318.740534,287.179487 356.413267,287.179487 361.413267,300.000000 356.413267,312.820513 318.740534,312.820513" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="340.07690026824" y="304">TU_235</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_236" target="_top">
+      <g>
+        <polygon class="unit" points="361.550773,287.179487 399.911036,287.179487 404.911036,300.000000 399.911036,312.820513 361.550773,312.820513" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="383.23090422634" y="304">TU_236</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_237" target="_top">
+      <g>
+        <polygon class="unit" points="404.979789,287.179487 415.563816,287.179487 420.563816,300.000000 415.563816,312.820513 404.979789,312.820513" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="412.77180231556" y="304">TU_237</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_238" target="_top">
+      <g>
+        <polygon class="unit" points="420.701322,287.179487 464.080558,287.179487 469.080558,300.000000 464.080558,312.820513 420.701322,312.820513" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="444.89094015267" y="304">TU_238</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_239" target="_top">
+      <g>
+        <polygon class="unit" points="469.149311,287.179487 475.539402,287.179487 480.539402,300.000000 475.539402,312.820513 469.149311,312.820513" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="474.84435660155" y="304">TU_239</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_240" target="_top">
+      <g>
+        <polygon class="unit" points="480.378978,287.179487 494.744423,287.179487 499.744423,300.000000 494.744423,312.820513 480.378978,312.820513" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="490.06170053579" y="304">TU_240</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_241" target="_top">
+      <g>
+        <polygon class="unit" points="499.377740,300.000000 504.377740,287.179487 515.855557,287.179487 515.855557,312.820513 504.377740,312.820513" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="507.61664850813" y="304">TU_241</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_242" target="_top">
+      <g>
+        <polygon class="unit" points="515.557627,300.000000 520.557627,287.179487 530.591629,287.179487 530.591629,312.820513 520.557627,312.820513" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="523.07462815217" y="304">TU_242</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_243" target="_top">
+      <g>
+        <polygon class="unit" points="530.224946,300.000000 535.224946,287.179487 564.441053,287.179487 564.441053,312.820513 535.224946,312.820513" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="547.33299946903" y="304">TU_243</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_244" target="_top">
+      <g>
+        <polygon class="unit" points="565.472348,300.000000 570.472348,287.179487 607.251291,287.179487 607.251291,312.820513 570.472348,312.820513" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="586.3618198305" y="304">TU_244</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_245" target="_top">
+      <g>
+        <polygon class="unit" points="607.022114,300.000000 612.022114,287.179487 637.731814,287.179487 637.731814,312.820513 612.022114,312.820513" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="622.37696439777" y="304">TU_245</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_246" target="_top">
+      <g>
+        <polygon class="unit" points="638.190168,300.000000 643.190168,287.179487 654.874244,287.179487 654.874244,312.820513 643.190168,312.820513" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="646.53220612471" y="304">TU_246</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_247" target="_top">
+      <g>
+        <polygon class="unit" points="654.942997,300.000000 659.942997,287.179487 684.415142,287.179487 684.415142,312.820513 659.942997,312.820513" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="669.67906963915" y="304">TU_247</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_248" target="_top">
+      <g>
+        <polygon class="unit" points="684.529731,300.000000 689.529731,287.179487 729.883832,287.179487 729.883832,312.820513 689.529731,312.820513" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="707.20678152518" y="304">TU_248</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_249" target="_top">
+      <g>
+        <polygon class="unit" points="731.419317,300.000000 736.419317,287.179487 733.092309,287.179487 733.092309,312.820513 736.419317,312.820513" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="732.2558130314" y="304">TU_249</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_250" target="_top">
+      <g>
+        <polygon class="unit" points="733.917345,287.179487 754.058048,287.179487 759.058048,300.000000 754.058048,312.820513 733.917345,312.820513" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="746.48769643978" y="304">TU_250</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_251" target="_top">
+      <g>
+        <polygon class="unit" points="761.441487,287.179487 766.800281,287.179487 771.800281,300.000000 766.800281,312.820513 761.441487,312.820513" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="766.62088416001" y="304">TU_251</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_252" target="_top">
+      <g>
+        <polygon class="unit" points="770.952327,287.179487 770.952327,287.179487 772.648236,300.000000 770.952327,312.820513 770.952327,312.820513" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="771.80028134244" y="304">TU_252</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_253" target="_top">
+      <g>
+        <polygon class="unit" points="773.771202,287.179487 773.771202,287.179487 775.444194,300.000000 773.771202,312.820513 773.771202,312.820513" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="774.60769795682" y="304">TU_253</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_254" target="_top">
+      <g>
+        <polygon class="unit" points="775.627535,287.179487 782.000000,287.179487 782.000000,300.000000 782.000000,312.820513 775.627535,312.820513" style="fill:#66FF33;stroke:#66FF33;"/>
+          <polygon class="unit" points="0.000000,323.076923 6.274154,323.076923 11.274154,335.897436 6.274154,348.717949 0.000000,348.717949" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="784.45084437212" y="304">TU_254</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_255" target="_top">
+      <g>
+        <polygon class="unit" points="12.328367,323.076923 14.043250,323.076923 19.043250,335.897436 14.043250,348.717949 12.328367,348.717949" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="15.685808411312" y="339.89743589744">TU_255</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_256" target="_top">
+      <g>
+        <polygon class="unit" points="19.043250,323.076923 38.771433,323.076923 43.771433,335.897436 38.771433,348.717949 19.043250,348.717949" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="31.40734145181" y="339.89743589744">TU_256</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_257" target="_top">
+      <g>
+        <polygon class="unit" points="43.794351,323.076923 70.191582,323.076923 75.191582,335.897436 70.191582,348.717949 43.794351,348.717949" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="59.492966438881" y="339.89743589744">TU_257</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_258" target="_top">
+      <g>
+        <polygon class="unit" points="78.193799,323.076923 125.835725,323.076923 130.835725,335.897436 125.835725,348.717949 78.193799,348.717949" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="104.51476185879" y="339.89743589744">TU_258</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_259" target="_top">
+      <g>
+        <polygon class="unit" points="187.969518,335.897436 192.969518,323.076923 189.711262,323.076923 189.711262,348.717949 192.969518,348.717949" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="188.84038987995" y="339.89743589744">TU_259</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_260" target="_top">
+      <g>
+        <polygon class="unit" points="197.136592,323.076923 252.272602,323.076923 257.272602,335.897436 252.272602,348.717949 197.136592,348.717949" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="227.20459732863" y="339.89743589744">TU_260</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_261" target="_top">
+      <g>
+        <polygon class="unit" points="257.433026,323.076923 272.486002,323.076923 277.486002,335.897436 272.486002,348.717949 257.433026,348.717949" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="267.45951392576" y="339.89743589744">TU_261</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_262" target="_top">
+      <g>
+        <polygon class="unit" points="277.486002,323.076923 292.057706,323.076923 297.057706,335.897436 292.057706,348.717949 277.486002,348.717949" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="287.27185403292" y="339.89743589744">TU_262</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_263" target="_top">
+      <g>
+        <polygon class="unit" points="299.716158,323.076923 314.769134,323.076923 319.769134,335.897436 314.769134,348.717949 299.716158,348.717949" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="309.74264579124" y="339.89743589744">TU_263</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_264" target="_top">
+      <g>
+        <polygon class="unit" points="319.631628,323.076923 328.290569,323.076923 333.290569,335.897436 328.290569,348.717949 319.631628,348.717949" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="326.46109820093" y="339.89743589744">TU_264</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_265" target="_top">
+      <g>
+        <polygon class="unit" points="331.823837,335.897436 336.823837,323.076923 350.983023,323.076923 350.983023,348.717949 336.823837,348.717949" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="341.40342989539" y="339.89743589744">TU_265</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_266" target="_top">
+      <g>
+        <polygon class="unit" points="351.418459,335.897436 356.418459,323.076923 405.916718,323.076923 405.916718,348.717949 356.418459,348.717949" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="378.66758838497" y="339.89743589744">TU_266</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_267" target="_top">
+      <g>
+        <polygon class="unit" points="405.939635,335.897436 410.939635,323.076923 413.892073,323.076923 413.892073,348.717949 410.939635,348.717949" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="409.91585412946" y="339.89743589744">TU_267</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_268" target="_top">
+      <g>
+        <polygon class="unit" points="414.671274,335.897436 419.671274,323.076923 430.392807,323.076923 430.392807,348.717949 419.671274,348.717949" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="422.53204062916" y="339.89743589744">TU_268</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_269" target="_top">
+      <g>
+        <polygon class="unit" points="431.424103,335.897436 436.424103,323.076923 433.303353,323.076923 433.303353,348.717949 436.424103,348.717949" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="432.36372820113" y="339.89743589744">TU_269</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_270" target="_top">
+      <g>
+        <polygon class="unit" points="433.853378,335.897436 438.853378,323.076923 457.275254,323.076923 457.275254,348.717949 438.853378,348.717949" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="445.56431571036" y="339.89743589744">TU_270</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_271" target="_top">
+      <g>
+        <polygon class="unit" points="466.006892,335.897436 471.006892,323.076923 489.153756,323.076923 489.153756,348.717949 471.006892,348.717949" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="477.58032395755" y="339.89743589744">TU_271</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_272" target="_top">
+      <g>
+        <polygon class="unit" points="489.405850,335.897436 494.405850,323.076923 520.871834,323.076923 520.871834,348.717949 494.405850,348.717949" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="505.13884215172" y="339.89743589744">TU_272</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_273" target="_top">
+      <g>
+        <polygon class="unit" points="520.963505,335.897436 525.963505,323.076923 547.410515,323.076923 547.410515,348.717949 525.963505,348.717949" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="534.187009978" y="339.89743589744">TU_273</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_274" target="_top">
+      <g>
+        <polygon class="unit" points="548.533482,335.897436 553.533482,323.076923 552.681583,323.076923 552.681583,348.717949 553.533482,348.717949" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="550.60753246126" y="339.89743589744">TU_274</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_275" target="_top">
+      <g>
+        <polygon class="unit" points="553.139937,335.897436 558.139937,323.076923 575.599270,323.076923 575.599270,348.717949 558.139937,348.717949" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="564.36960329336" y="339.89743589744">TU_275</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_276" target="_top">
+      <g>
+        <polygon class="unit" points="576.011788,335.897436 581.011788,323.076923 600.671219,323.076923 600.671219,348.717949 581.011788,348.717949" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="588.34150352712" y="339.89743589744">TU_276</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_277" target="_top">
+      <g>
+        <polygon class="unit" points="601.312914,335.897436 606.312914,323.076923 634.222712,323.076923 634.222712,348.717949 606.312914,348.717949" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="617.7678131831" y="339.89743589744">TU_277</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_278" target="_top">
+      <g>
+        <polygon class="unit" points="636.124880,335.897436 641.124880,323.076923 648.546266,323.076923 648.546266,348.717949 641.124880,348.717949" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="642.33557326971" y="339.89743589744">TU_278</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_279" target="_top">
+      <g>
+        <polygon class="unit" points="648.867114,335.897436 653.867114,323.076923 715.603417,323.076923 715.603417,348.717949 653.867114,348.717949" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="682.2352657238" y="339.89743589744">TU_279</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_280" target="_top">
+      <g>
+        <polygon class="unit" points="716.588878,323.076923 761.136917,323.076923 766.136917,335.897436 761.136917,348.717949 716.588878,348.717949" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="741.36289727553" y="339.89743589744">TU_280</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_281" target="_top">
+      <g>
+        <polygon class="unit" points="766.068163,335.897436 771.068163,323.076923 781.102166,323.076923 781.102166,348.717949 771.068163,348.717949" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="773.58516470256" y="339.89743589744">TU_281</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_282" target="_top">
+      <g>
+        <polygon class="unit" points="780.941742,335.897436 782.000000,323.076923 782.000000,323.076923 782.000000,348.717949 782.000000,348.717949" style="fill:#B88A00;stroke:#B88A00;"/>
+          <polygon class="unit" points="0.000000,371.794872 3.941742,358.974359 17.207138,358.974359 17.207138,384.615385 3.941742,384.615385" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="790.07444024576" y="339.89743589744">TU_282</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_283" target="_top">
+      <g>
+        <polygon class="unit" points="18.605117,371.794872 23.605117,358.974359 56.877654,358.974359 56.877654,384.615385 23.605117,384.615385" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="37.74138561154" y="375.79487179487">TU_283</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_284" target="_top">
+      <g>
+        <polygon class="unit" points="61.025755,371.794872 66.025755,358.974359 62.698746,358.974359 62.698746,384.615385 66.025755,384.615385" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="61.862250808514" y="375.79487179487">TU_284</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_285" target="_top">
+      <g>
+        <polygon class="unit" points="62.882088,371.794872 67.882088,358.974359 64.830091,358.974359 64.830091,384.615385 67.882088,384.615385" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="63.856089546887" y="375.79487179487">TU_285</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_286" target="_top">
+      <g>
+        <polygon class="unit" points="64.853009,371.794872 69.853009,358.974359 66.548918,358.974359 66.548918,384.615385 69.853009,384.615385" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="65.700963322047" y="375.79487179487">TU_286</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_287" target="_top">
+      <g>
+        <polygon class="unit" points="67.626049,371.794872 72.626049,358.974359 69.321958,358.974359 69.321958,384.615385 72.626049,384.615385" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="68.47400340645" y="375.79487179487">TU_287</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_288" target="_top">
+      <g>
+        <polygon class="unit" points="69.436546,371.794872 74.436546,358.974359 71.407467,358.974359 71.407467,384.615385 74.436546,384.615385" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="70.422006771526" y="375.79487179487">TU_288</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_289" target="_top">
+      <g>
+        <polygon class="unit" points="72.049163,371.794872 77.049163,358.974359 83.164241,358.974359 83.164241,384.615385 77.049163,384.615385" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="77.60670153566" y="375.79487179487">TU_289</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_290" target="_top">
+      <g>
+        <polygon class="unit" points="90.772913,358.974359 119.026476,358.974359 124.026476,371.794872 119.026476,384.615385 90.772913,384.615385" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="107.399694178" y="375.79487179487">TU_290</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_291" target="_top">
+      <g>
+        <polygon class="unit" points="129.091285,358.974359 133.212524,358.974359 138.212524,371.794872 133.212524,384.615385 129.091285,384.615385" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="133.65190423324" y="375.79487179487">TU_291</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_292" target="_top">
+      <g>
+        <polygon class="unit" points="137.364569,358.974359 156.267717,358.974359 161.267717,371.794872 156.267717,384.615385 137.364569,384.615385" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="149.31614305712" y="375.79487179487">TU_292</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_293" target="_top">
+      <g>
+        <polygon class="unit" points="161.336470,358.974359 169.857905,358.974359 174.857905,371.794872 169.857905,384.615385 161.336470,384.615385" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="168.09718726512" y="375.79487179487">TU_293</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_294" target="_top">
+      <g>
+        <polygon class="unit" points="175.591271,358.974359 176.412363,358.974359 181.412363,371.794872 176.412363,384.615385 175.591271,384.615385" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="178.50181700329" y="375.79487179487">TU_294</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_295" target="_top">
+      <g>
+        <polygon class="unit" points="181.206104,358.974359 181.206104,358.974359 182.902013,371.794872 181.206104,384.615385 181.206104,384.615385" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="182.05405843372" y="375.79487179487">TU_295</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_296" target="_top">
+      <g>
+        <polygon class="unit" points="242.235904,371.794872 247.235904,358.974359 270.745506,358.974359 270.745506,384.615385 247.235904,384.615385" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="256.49070466628" y="375.79487179487">TU_296</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_297" target="_top">
+      <g>
+        <polygon class="unit" points="293.411098,358.974359 367.568788,358.974359 372.568788,371.794872 367.568788,384.615385 293.411098,384.615385" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="332.98994269716" y="375.79487179487">TU_297</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_298" target="_top">
+      <g>
+        <polygon class="unit" points="372.500034,371.794872 377.500034,358.974359 382.033792,358.974359 382.033792,384.615385 377.500034,384.615385" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="377.26691330102" y="375.79487179487">TU_298</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_299" target="_top">
+      <g>
+        <polygon class="unit" points="382.033792,371.794872 387.033792,358.974359 443.957381,358.974359 443.957381,384.615385 387.033792,384.615385" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="412.99558678518" y="375.79487179487">TU_299</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_300" target="_top">
+      <g>
+        <polygon class="unit" points="445.286607,371.794872 450.286607,358.974359 462.108189,358.974359 462.108189,384.615385 450.286607,384.615385" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="453.69739827195" y="375.79487179487">TU_300</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_301" target="_top">
+      <g>
+        <polygon class="unit" points="461.947765,371.794872 466.947765,358.974359 494.582551,358.974359 494.582551,384.615385 466.947765,384.615385" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="478.26515835856" y="375.79487179487">TU_301</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_302" target="_top">
+      <g>
+        <polygon class="unit" points="497.286838,371.794872 502.286838,358.974359 522.565047,358.974359 522.565047,384.615385 502.286838,384.615385" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="509.92594246271" y="375.79487179487">TU_302</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_303" target="_top">
+      <g>
+        <polygon class="unit" points="522.633800,371.794872 527.633800,358.974359 531.548780,358.974359 531.548780,384.615385 527.633800,384.615385" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="527.09128976203" y="375.79487179487">TU_303</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_304" target="_top">
+      <g>
+        <polygon class="unit" points="534.298902,371.794872 539.298902,358.974359 558.133296,358.974359 558.133296,384.615385 539.298902,384.615385" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="546.21609926975" y="375.79487179487">TU_304</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_305" target="_top">
+      <g>
+        <polygon class="unit" points="558.293720,371.794872 563.293720,358.974359 625.855060,358.974359 625.855060,384.615385 563.293720,384.615385" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="592.07439025231" y="375.79487179487">TU_305</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_306" target="_top">
+      <g>
+        <polygon class="unit" points="630.507351,371.794872 635.507351,358.974359 652.554165,358.974359 652.554165,384.615385 635.507351,384.615385" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="641.5307580386" y="375.79487179487">TU_306</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_307" target="_top">
+      <g>
+        <polygon class="unit" points="652.966684,371.794872 657.966684,358.974359 681.270027,358.974359 681.270027,384.615385 657.966684,384.615385" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="667.11835518104" y="375.79487179487">TU_307</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_308" target="_top">
+      <g>
+        <polygon class="unit" points="681.315862,371.794872 686.315862,358.974359 704.531479,358.974359 704.531479,384.615385 686.315862,384.615385" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="692.92367034664" y="375.79487179487">TU_308</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_309" target="_top">
+      <g>
+        <polygon class="unit" points="705.241927,371.794872 710.241927,358.974359 769.388532,358.974359 769.388532,384.615385 710.241927,384.615385" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="737.31522938374" y="375.79487179487">TU_309</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_310" target="_top">
+      <g>
+        <polygon class="unit" points="772.276160,371.794872 777.276160,358.974359 782.000000,358.974359 782.000000,384.615385 777.276160,384.615385" style="fill:#003DF5;stroke:#003DF5;"/>
+          <polygon class="unit" points="0.000000,407.692308 0.000000,394.871795 31.230066,394.871795 31.230066,420.512821 0.000000,420.512821" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="792.75311338514" y="375.79487179487">TU_310</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_311" target="_top">
+      <g>
+        <polygon class="unit" points="33.246823,407.692308 38.246823,394.871795 60.312611,394.871795 60.312611,420.512821 38.246823,420.512821" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="46.779716795729" y="411.69230769231">TU_311</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_312" target="_top">
+      <g>
+        <polygon class="unit" points="60.312611,407.692308 65.312611,394.871795 141.280798,394.871795 141.280798,420.512821 65.312611,420.512821" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="100.79670422496" y="411.69230769231">TU_312</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_313" target="_top">
+      <g>
+        <polygon class="unit" points="140.937032,407.692308 145.937032,394.871795 169.171622,394.871795 169.171622,420.512821 145.937032,420.512821" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="155.054327364" y="411.69230769231">TU_313</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_314" target="_top">
+      <g>
+        <polygon class="unit" points="169.332046,407.692308 174.332046,394.871795 253.600380,394.871795 253.600380,420.512821 174.332046,420.512821" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="211.46621304794" y="411.69230769231">TU_314</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_315" target="_top">
+      <g>
+        <polygon class="unit" points="254.837935,394.871795 268.309590,394.871795 273.309590,407.692308 268.309590,420.512821 254.837935,420.512821" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="264.07376274833" y="411.69230769231">TU_315</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_316" target="_top">
+      <g>
+        <polygon class="unit" points="273.470014,407.692308 278.470014,394.871795 287.610227,394.871795 287.610227,420.512821 278.470014,420.512821" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="280.54012060489" y="411.69230769231">TU_316</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_317" target="_top">
+      <g>
+        <polygon class="unit" points="288.137334,407.692308 293.137334,394.871795 366.492904,394.871795 366.492904,420.512821 293.137334,420.512821" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="327.31511905336" y="411.69230769231">TU_317</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_318" target="_top">
+      <g>
+        <polygon class="unit" points="367.867966,407.692308 372.867966,394.871795 387.645929,394.871795 387.645929,420.512821 372.867966,420.512821" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="377.75694736552" y="411.69230769231">TU_318</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_319" target="_top">
+      <g>
+        <polygon class="unit" points="388.677225,407.692308 393.677225,394.871795 419.180666,394.871795 419.180666,420.512821 393.677225,420.512821" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="403.92894551748" y="411.69230769231">TU_319</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_320" target="_top">
+      <g>
+        <polygon class="unit" points="419.730690,407.692308 424.730690,394.871795 440.196185,394.871795 440.196185,420.512821 424.730690,420.512821" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="429.96343754956" y="411.69230769231">TU_320</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_321" target="_top">
+      <g>
+        <polygon class="unit" points="438.454440,407.692308 443.454440,394.871795 463.870155,394.871795 463.870155,420.512821 443.454440,420.512821" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="451.16229769892" y="411.69230769231">TU_321</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_322" target="_top">
+      <g>
+        <polygon class="unit" points="464.809780,407.692308 469.809780,394.871795 506.038698,394.871795 506.038698,420.512821 469.809780,420.512821" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="485.42423923762" y="411.69230769231">TU_322</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_323" target="_top">
+      <g>
+        <polygon class="unit" points="506.382464,407.692308 511.382464,394.871795 525.679156,394.871795 525.679156,420.512821 511.382464,420.512821" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="516.03080975596" y="411.69230769231">TU_323</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_324" target="_top">
+      <g>
+        <polygon class="unit" points="526.068757,407.692308 531.068757,394.871795 538.352637,394.871795 538.352637,420.512821 531.068757,420.512821" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="532.21069652942" y="411.69230769231">TU_324</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_325" target="_top">
+      <g>
+        <polygon class="unit" points="540.736076,407.692308 545.736076,394.871795 560.445286,394.871795 560.445286,420.512821 545.736076,420.512821" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="550.59068122108" y="411.69230769231">TU_325</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_326" target="_top">
+      <g>
+        <polygon class="unit" points="562.049525,394.871795 562.049525,394.871795 564.112116,407.692308 562.049525,420.512821 562.049525,420.512821" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="563.08082044422" y="411.69230769231">TU_326</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_327" target="_top">
+      <g>
+        <polygon class="unit" points="564.157952,394.871795 564.157952,394.871795 566.174708,407.692308 564.157952,420.512821 564.157952,420.512821" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="565.16632992918" y="411.69230769231">TU_327</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_328" target="_top">
+      <g>
+        <polygon class="unit" points="567.801864,407.692308 572.801864,394.871795 632.063057,394.871795 632.063057,420.512821 572.801864,420.512821" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="599.93246057413" y="411.69230769231">TU_328</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_329" target="_top">
+      <g>
+        <polygon class="unit" points="636.898689,407.692308 641.898689,394.871795 638.823775,394.871795 638.823775,420.512821 641.898689,420.512821" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="637.8612319765" y="411.69230769231">TU_329</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_330" target="_top">
+      <g>
+        <polygon class="unit" points="638.961281,407.692308 643.961281,394.871795 640.680107,394.871795 640.680107,420.512821 643.961281,420.512821" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="639.8206941849" y="411.69230769231">TU_330</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_331" target="_top">
+      <g>
+        <polygon class="unit" points="640.840531,407.692308 645.840531,394.871795 642.559358,394.871795 642.559358,420.512821 645.840531,420.512821" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="641.69994449003" y="411.69230769231">TU_331</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_332" target="_top">
+      <g>
+        <polygon class="unit" points="642.605193,407.692308 647.605193,394.871795 644.324020,394.871795 644.324020,420.512821 647.605193,420.512821" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="643.46460636192" y="411.69230769231">TU_332</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_333" target="_top">
+      <g>
+        <polygon class="unit" points="644.530279,407.692308 649.530279,394.871795 646.226188,394.871795 646.226188,420.512821 649.530279,420.512821" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="645.37823319703" y="411.69230769231">TU_333</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_334" target="_top">
+      <g>
+        <polygon class="unit" points="646.294941,407.692308 651.294941,394.871795 648.036685,394.871795 648.036685,420.512821 651.294941,420.512821" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="647.16581275557" y="411.69230769231">TU_334</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_335" target="_top">
+      <g>
+        <polygon class="unit" points="648.197109,407.692308 653.197109,394.871795 649.893017,394.871795 649.893017,420.512821 653.197109,420.512821" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="649.0450630607" y="411.69230769231">TU_335</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_336" target="_top">
+      <g>
+        <polygon class="unit" points="650.397207,407.692308 655.397207,394.871795 688.807249,394.871795 688.807249,420.512821 655.397207,420.512821" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="669.60222798392" y="411.69230769231">TU_336</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_337" target="_top">
+      <g>
+        <polygon class="unit" points="690.113558,394.871795 700.766338,394.871795 705.766338,407.692308 700.766338,420.512821 690.113558,420.512821" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="697.93994752412" y="411.69230769231">TU_337</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_338" target="_top">
+      <g>
+        <polygon class="unit" points="705.835091,407.692308 710.835091,394.871795 714.475058,394.871795 714.475058,420.512821 710.835091,420.512821" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="710.15507450748" y="411.69230769231">TU_338</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_339" target="_top">
+      <g>
+        <polygon class="unit" points="715.002165,407.692308 720.002165,394.871795 723.871310,394.871795 723.871310,420.512821 720.002165,420.512821" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="719.4367375999" y="411.69230769231">TU_339</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_340" target="_top">
+      <g>
+        <polygon class="unit" points="724.925524,407.692308 729.925524,394.871795 743.465932,394.871795 743.465932,420.512821 729.925524,420.512821" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="734.19572780118" y="411.69230769231">TU_340</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_341" target="_top">
+      <g>
+        <polygon class="unit" points="742.205459,407.692308 747.205459,394.871795 766.589878,394.871795 766.589878,420.512821 747.205459,420.512821" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="754.39766858136" y="411.69230769231">TU_341</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_342" target="_top">
+      <g>
+        <polygon class="unit" points="766.589878,407.692308 771.589878,394.871795 770.279625,394.871795 770.279625,420.512821 771.589878,420.512821" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="768.43475165323" y="411.69230769231">TU_342</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_343" target="_top">
+      <g>
+        <polygon class="unit" points="770.669226,407.692308 775.669226,394.871795 782.000000,394.871795 782.000000,420.512821 775.669226,420.512821" style="fill:#002EB8;stroke:#002EB8;"/>
+          <polygon class="unit" points="0.000000,443.589744 0.000000,430.769231 8.997214,430.769231 8.997214,456.410256 0.000000,456.410256" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="780.83322012977" y="411.69230769231">TU_343</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_344" target="_top">
+      <g>
+        <polygon class="unit" points="9.295144,443.589744 14.295144,430.769231 27.766800,430.769231 27.766800,456.410256 14.295144,456.410256" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="18.530971803694" y="447.58974358974">TU_344</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_345" target="_top">
+      <g>
+        <polygon class="unit" points="27.468870,443.589744 32.468870,430.769231 79.492018,430.769231 79.492018,456.410256 32.468870,456.410256" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="53.480443941828" y="447.58974358974">TU_345</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_346" target="_top">
+      <g>
+        <polygon class="unit" points="80.385808,443.589744 85.385808,430.769231 111.233014,430.769231 111.233014,456.410256 85.385808,456.410256" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="95.809411180603" y="447.58974358974">TU_346</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_347" target="_top">
+      <g>
+        <polygon class="unit" points="111.324685,443.589744 116.324685,430.769231 126.289934,430.769231 126.289934,456.410256 116.324685,456.410256" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="118.80730973183" y="447.58974358974">TU_347</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_348" target="_top">
+      <g>
+        <polygon class="unit" points="126.496194,443.589744 131.496194,430.769231 141.117678,430.769231 141.117678,456.410256 131.496194,456.410256" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="133.80693564292" y="447.58974358974">TU_348</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_349" target="_top">
+      <g>
+        <polygon class="unit" points="140.842665,443.589744 145.842665,430.769231 157.320482,430.769231 157.320482,456.410256 145.842665,456.410256" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="149.08157379378" y="447.58974358974">TU_349</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_350" target="_top">
+      <g>
+        <polygon class="unit" points="157.480906,443.589744 162.480906,430.769231 171.071094,430.769231 171.071094,456.410256 162.480906,456.410256" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="164.27600004137" y="447.58974358974">TU_350</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_351" target="_top">
+      <g>
+        <polygon class="unit" points="171.919049,443.589744 176.919049,430.769231 229.511195,430.769231 229.511195,456.410256 176.919049,456.410256" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="200.71512181162" y="447.58974358974">TU_351</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_352" target="_top">
+      <g>
+        <polygon class="unit" points="229.282018,443.589744 234.282018,430.769231 242.459688,430.769231 242.459688,456.410256 234.282018,456.410256" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="235.87085312959" y="447.58974358974">TU_352</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_353" target="_top">
+      <g>
+        <polygon class="unit" points="242.643030,443.589744 247.643030,430.769231 247.707838,430.769231 247.707838,456.410256 247.643030,456.410256" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="245.17543390866" y="447.58974358974">TU_353</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_354" target="_top">
+      <g>
+        <polygon class="unit" points="249.059982,430.769231 267.550611,430.769231 272.550611,443.589744 267.550611,456.410256 249.059982,456.410256" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="260.80529620257" y="447.58974358974">TU_354</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_355" target="_top">
+      <g>
+        <polygon class="unit" points="275.048638,430.769231 298.145722,430.769231 303.145722,443.589744 298.145722,456.410256 275.048638,456.410256" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="289.09718036947" y="447.58974358974">TU_355</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_356" target="_top">
+      <g>
+        <polygon class="unit" points="303.237393,430.769231 307.771151,430.769231 312.771151,443.589744 307.771151,456.410256 303.237393,456.410256" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="308.00427185403" y="447.58974358974">TU_356</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_357" target="_top">
+      <g>
+        <polygon class="unit" points="312.473221,443.589744 317.473221,430.769231 399.835442,430.769231 399.835442,456.410256 317.473221,456.410256" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="356.15433150139" y="447.58974358974">TU_357</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_358" target="_top">
+      <g>
+        <polygon class="unit" points="403.914790,443.589744 408.914790,430.769231 425.755346,430.769231 425.755346,456.410256 408.914790,456.410256" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="414.83506816348" y="447.58974358974">TU_358</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_359" target="_top">
+      <g>
+        <polygon class="unit" points="483.897517,443.589744 488.897517,430.769231 668.614071,430.769231 668.614071,456.410256 488.897517,456.410256" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="576.25579406836" y="447.58974358974">TU_359</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_360" target="_top">
+      <g>
+        <polygon class="unit" points="670.676663,443.589744 675.676663,430.769231 682.273013,430.769231 682.273013,456.410256 675.676663,456.410256" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="676.47483777988" y="447.58974358974">TU_360</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_361" target="_top">
+      <g>
+        <polygon class="unit" points="684.083510,443.589744 689.083510,430.769231 707.917904,430.769231 707.917904,456.410256 689.083510,456.410256" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="696.00070680394" y="447.58974358974">TU_361</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_362" target="_top">
+      <g>
+        <polygon class="unit" points="708.009575,443.589744 713.009575,430.769231 726.824995,430.769231 726.824995,456.410256 713.009575,456.410256" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="717.41728497645" y="447.58974358974">TU_362</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_363" target="_top">
+      <g>
+        <polygon class="unit" points="727.077090,443.589744 732.077090,430.769231 782.000000,430.769231 782.000000,456.410256 732.077090,456.410256" style="fill:#F5B800;stroke:#F5B800;"/>
+          <polygon class="unit" points="0.000000,479.487179 0.000000,466.666667 6.656914,466.666667 6.656914,492.307692 0.000000,492.307692" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="757.86700191009" y="447.58974358974">TU_363</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_364" target="_top">
+      <g>
+        <polygon class="unit" points="7.665292,466.666667 14.124135,466.666667 19.124135,479.487179 14.124135,492.307692 7.665292,492.307692" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="13.394713796123" y="483.48717948718">TU_364</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_365" target="_top">
+      <g>
+        <polygon class="unit" points="18.917876,466.666667 28.401854,466.666667 33.401854,479.487179 28.401854,492.307692 18.917876,492.307692" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="26.159865259035" y="483.48717948718">TU_365</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_366" target="_top">
+      <g>
+        <polygon class="unit" points="34.158138,466.666667 34.158138,466.666667 35.876964,479.487179 34.158138,492.307692 34.158138,492.307692" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="35.01755114847" y="483.48717948718">TU_366</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_367" target="_top">
+      <g>
+        <polygon class="unit" points="36.885343,479.487179 41.885343,466.666667 59.069663,466.666667 59.069663,492.307692 41.885343,492.307692" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="47.97750294789" y="483.48717948718">TU_367</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_368" target="_top">
+      <g>
+        <polygon class="unit" points="59.367593,479.487179 64.367593,466.666667 61.361432,466.666667 61.361432,492.307692 64.367593,492.307692" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="60.36451258111" y="483.48717948718">TU_368</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_369" target="_top">
+      <g>
+        <polygon class="unit" points="68.488832,466.666667 91.310904,466.666667 96.310904,479.487179 91.310904,492.307692 68.488832,492.307692" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="82.39986829312" y="483.48717948718">TU_369</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_370" target="_top">
+      <g>
+        <polygon class="unit" points="96.310904,466.666667 112.738941,466.666667 117.738941,479.487179 112.738941,492.307692 96.310904,492.307692" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="107.02492259635" y="483.48717948718">TU_370</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_371" target="_top">
+      <g>
+        <polygon class="unit" points="119.068167,466.666667 119.068167,466.666667 120.924500,479.487179 119.068167,492.307692 119.068167,492.307692" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="119.99633323909" y="483.48717948718">TU_371</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_372" target="_top">
+      <g>
+        <polygon class="unit" points="122.734997,479.487179 127.734997,466.666667 138.181518,466.666667 138.181518,492.307692 127.734997,492.307692" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="130.45825719389" y="483.48717948718">TU_372</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_373" target="_top">
+      <g>
+        <polygon class="unit" points="139.281567,466.666667 146.977965,466.666667 151.977965,479.487179 146.977965,492.307692 139.281567,492.307692" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="145.62976575483" y="483.48717948718">TU_373</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_374" target="_top">
+      <g>
+        <polygon class="unit" points="152.046718,466.666667 158.505561,466.666667 163.505561,479.487179 158.505561,492.307692 152.046718,492.307692" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="157.77613967825" y="483.48717948718">TU_374</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_375" target="_top">
+      <g>
+        <polygon class="unit" points="163.436808,479.487179 168.436808,466.666667 170.976727,466.666667 170.976727,492.307692 168.436808,492.307692" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="167.20676773388" y="483.48717948718">TU_375</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_376" target="_top">
+      <g>
+        <polygon class="unit" points="174.391462,466.666667 178.856467,466.666667 183.856467,479.487179 178.856467,492.307692 174.391462,492.307692" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="179.12396479082" y="483.48717948718">TU_376</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_377" target="_top">
+      <g>
+        <polygon class="unit" points="183.925220,479.487179 188.925220,466.666667 233.060740,466.666667 233.060740,492.307692 188.925220,492.307692" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="208.49298023018" y="483.48717948718">TU_377</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_378" target="_top">
+      <g>
+        <polygon class="unit" points="236.590064,479.487179 241.590064,466.666667 255.886756,466.666667 255.886756,492.307692 241.590064,492.307692" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="246.23841013936" y="483.48717948718">TU_378</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_379" target="_top">
+      <g>
+        <polygon class="unit" points="256.184686,479.487179 261.184686,466.666667 283.250474,466.666667 283.250474,492.307692 261.184686,492.307692" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="269.71758011019" y="483.48717948718">TU_379</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_380" target="_top">
+      <g>
+        <polygon class="unit" points="301.767965,466.666667 310.908178,466.666667 315.908178,479.487179 310.908178,492.307692 301.767965,492.307692" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="308.83807121825" y="483.48717948718">TU_380</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_381" target="_top">
+      <g>
+        <polygon class="unit" points="315.335235,466.666667 331.488260,466.666667 336.488260,479.487179 331.488260,492.307692 315.335235,492.307692" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="325.91174777098" y="483.48717948718">TU_381</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_382" target="_top">
+      <g>
+        <polygon class="unit" points="336.259083,479.487179 341.259083,466.666667 364.562426,466.666667 364.562426,492.307692 341.259083,492.307692" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="350.41075479765" y="483.48717948718">TU_382</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_383" target="_top">
+      <g>
+        <polygon class="unit" points="367.312549,466.666667 373.496380,466.666667 378.496380,479.487179 373.496380,492.307692 367.312549,492.307692" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="372.90446424262" y="483.48717948718">TU_383</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_384" target="_top">
+      <g>
+        <polygon class="unit" points="379.023487,466.666667 382.457195,466.666667 387.457195,479.487179 382.457195,492.307692 379.023487,492.307692" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="383.24034092084" y="483.48717948718">TU_384</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_385" target="_top">
+      <g>
+        <polygon class="unit" points="387.525948,466.666667 387.525948,466.666667 391.490708,479.487179 387.525948,492.307692 387.525948,492.307692" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="389.50832821906" y="483.48717948718">TU_385</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_386" target="_top">
+      <g>
+        <polygon class="unit" points="391.834473,479.487179 396.834473,466.666667 397.930578,466.666667 397.930578,492.307692 396.834473,492.307692" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="394.88252573801" y="483.48717948718">TU_386</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_387" target="_top">
+      <g>
+        <polygon class="unit" points="399.397310,466.666667 409.843831,466.666667 414.843831,479.487179 409.843831,492.307692 399.397310,492.307692" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="407.12057040802" y="483.48717948718">TU_387</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_388" target="_top">
+      <g>
+        <polygon class="unit" points="414.683407,466.666667 431.111444,466.666667 436.111444,479.487179 431.111444,492.307692 414.683407,492.307692" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="425.39742550976" y="483.48717948718">TU_388</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_389" target="_top">
+      <g>
+        <polygon class="unit" points="436.157279,466.666667 477.061406,466.666667 482.061406,479.487179 477.061406,492.307692 436.157279,492.307692" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="459.1093425689" y="483.48717948718">TU_389</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_390" target="_top">
+      <g>
+        <polygon class="unit" points="482.611430,479.487179 487.611430,466.666667 500.670567,466.666667 500.670567,492.307692 487.611430,492.307692" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="491.64099876568" y="483.48717948718">TU_390</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_391" target="_top">
+      <g>
+        <polygon class="unit" points="500.441390,479.487179 505.441390,466.666667 523.038229,466.666667 523.038229,492.307692 505.441390,492.307692" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="511.73980995594" y="483.48717948718">TU_391</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_392" target="_top">
+      <g>
+        <polygon class="unit" points="523.038229,479.487179 528.038229,466.666667 561.379519,466.666667 561.379519,492.307692 528.038229,492.307692" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="542.2088743544" y="483.48717948718">TU_392</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_393" target="_top">
+      <g>
+        <polygon class="unit" points="562.960840,479.487179 567.960840,466.666667 585.213913,466.666667 585.213913,492.307692 567.960840,492.307692" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="574.0873764817" y="483.48717948718">TU_393</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_394" target="_top">
+      <g>
+        <polygon class="unit" points="584.915983,479.487179 589.915983,466.666667 607.237810,466.666667 607.237810,492.307692 589.915983,492.307692" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="596.07689682042" y="483.48717948718">TU_394</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_395" target="_top">
+      <g>
+        <polygon class="unit" points="607.077386,479.487179 612.077386,466.666667 633.593150,466.666667 633.593150,492.307692 612.077386,492.307692" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="620.33526813728" y="483.48717948718">TU_395</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_396" target="_top">
+      <g>
+        <polygon class="unit" points="633.295220,479.487179 638.295220,466.666667 652.660665,466.666667 652.660665,492.307692 638.295220,492.307692" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="642.97794254546" y="483.48717948718">TU_396</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_397" target="_top">
+      <g>
+        <polygon class="unit" points="652.683583,479.487179 657.683583,466.666667 671.567757,466.666667 671.567757,492.307692 657.683583,492.307692" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="662.12566973983" y="483.48717948718">TU_397</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_398" target="_top">
+      <g>
+        <polygon class="unit" points="671.407333,479.487179 676.407333,466.666667 710.229894,466.666667 710.229894,492.307692 676.407333,492.307692" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="690.81861342307" y="483.48717948718">TU_398</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_399" target="_top">
+      <g>
+        <polygon class="unit" points="710.229894,479.487179 715.229894,466.666667 717.426048,466.666667 717.426048,492.307692 715.229894,492.307692" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="713.82797081762" y="483.48717948718">TU_399</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_400" target="_top">
+      <g>
+        <polygon class="unit" points="717.563554,479.487179 722.563554,466.666667 730.878730,466.666667 730.878730,492.307692 722.563554,492.307692" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="724.22114171247" y="483.48717948718">TU_400</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_401" target="_top">
+      <g>
+        <polygon class="unit" points="731.955861,479.487179 736.955861,466.666667 768.922090,466.666667 768.922090,492.307692 736.955861,492.307692" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="750.43897523773" y="483.48717948718">TU_401</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_402" target="_top">
+      <g>
+        <polygon class="unit" points="769.586702,466.666667 782.000000,466.666667 782.000000,479.487179 782.000000,492.307692 769.586702,492.307692" style="fill:#6633FF;stroke:#6633FF;"/>
+          <polygon class="unit" points="0.000000,502.564103 24.709410,502.564103 29.709410,515.384615 24.709410,528.205128 0.000000,528.205128" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="790.64805646157" y="483.48717948718">TU_402</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_403" target="_top">
+      <g>
+        <polygon class="unit" points="29.548987,502.564103 37.795410,502.564103 42.795410,515.384615 37.795410,528.205128 29.548987,528.205128" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="36.172198125762" y="519.38461538462">TU_403</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_404" target="_top">
+      <g>
+        <polygon class="unit" points="42.634986,502.564103 52.668988,502.564103 57.668988,515.384615 52.668988,528.205128 42.634986,528.205128" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="50.151986981016" y="519.38461538462">TU_404</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_405" target="_top">
+      <g>
+        <polygon class="unit" points="57.989836,515.384615 62.989836,502.564103 59.708662,502.564103 59.708662,528.205128 62.989836,528.205128" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="58.849249063915" y="519.38461538462">TU_405</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_406" target="_top">
+      <g>
+        <polygon class="unit" points="68.325712,502.564103 78.015950,502.564103 83.015950,515.384615 78.015950,528.205128 68.325712,528.205128" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="75.670831063515" y="519.38461538462">TU_406</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_407" target="_top">
+      <g>
+        <polygon class="unit" points="82.947197,515.384615 87.947197,502.564103 100.043791,502.564103 100.043791,528.205128 87.947197,528.205128" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="91.495493693929" y="519.38461538462">TU_407</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_408" target="_top">
+      <g>
+        <polygon class="unit" points="99.883367,515.384615 104.883367,502.564103 129.699277,502.564103 129.699277,528.205128 104.883367,528.205128" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="114.79132217158" y="519.38461538462">TU_408</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_409" target="_top">
+      <g>
+        <polygon class="unit" points="129.699277,515.384615 134.699277,502.564103 139.989319,502.564103 139.989319,528.205128 134.699277,528.205128" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="134.84429798854" y="519.38461538462">TU_409</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_410" target="_top">
+      <g>
+        <polygon class="unit" points="143.908243,515.384615 148.908243,502.564103 160.179801,502.564103 160.179801,528.205128 148.908243,528.205128" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="152.04402181783" y="519.38461538462">TU_410</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_411" target="_top">
+      <g>
+        <polygon class="unit" points="160.248554,515.384615 165.248554,502.564103 271.399334,502.564103 271.399334,528.205128 165.248554,528.205128" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="215.82394375909" y="519.38461538462">TU_411</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_412" target="_top">
+      <g>
+        <polygon class="unit" points="277.976710,515.384615 282.976710,502.564103 297.960933,502.564103 297.960933,528.205128 282.976710,528.205128" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="287.96882132686" y="519.38461538462">TU_412</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_413" target="_top">
+      <g>
+        <polygon class="unit" points="297.685920,515.384615 302.685920,502.564103 308.319727,502.564103 308.319727,528.205128 302.685920,528.205128" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="303.00282376792" y="519.38461538462">TU_413</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_414" target="_top">
+      <g>
+        <polygon class="unit" points="307.953044,515.384615 312.953044,502.564103 316.730518,502.564103 316.730518,528.205128 312.953044,528.205128" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="312.34178107696" y="519.38461538462">TU_414</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_415" target="_top">
+      <g>
+        <polygon class="unit" points="316.822189,515.384615 321.822189,502.564103 362.245044,502.564103 362.245044,528.205128 321.822189,528.205128" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="339.53361628476" y="519.38461538462">TU_415</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_416" target="_top">
+      <g>
+        <polygon class="unit" points="364.720154,515.384615 369.720154,502.564103 395.498607,502.564103 395.498607,528.205128 369.720154,528.205128" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="380.10938049497" y="519.38461538462">TU_416</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_417" target="_top">
+      <g>
+        <polygon class="unit" points="395.888208,515.384615 400.888208,502.564103 441.173557,502.564103 441.173557,528.205128 400.888208,528.205128" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="418.53088216027" y="519.38461538462">TU_417</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_418" target="_top">
+      <g>
+        <polygon class="unit" points="444.061185,515.384615 449.061185,502.564103 472.020763,502.564103 472.020763,528.205128 449.061185,528.205128" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="458.04097394135" y="519.38461538462">TU_418</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_419" target="_top">
+      <g>
+        <polygon class="unit" points="472.249940,515.384615 477.249940,502.564103 508.322378,502.564103 508.322378,528.205128 477.249940,528.205128" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="490.28615905502" y="519.38461538462">TU_419</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_420" target="_top">
+      <g>
+        <polygon class="unit" points="516.824840,515.384615 521.824840,502.564103 527.321141,502.564103 527.321141,528.205128 521.824840,528.205128" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="522.07299043574" y="519.38461538462">TU_420</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_421" target="_top">
+      <g>
+        <polygon class="unit" points="527.344058,515.384615 532.344058,502.564103 566.304126,502.564103 566.304126,528.205128 532.344058,528.205128" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="546.82409201553" y="519.38461538462">TU_421</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_422" target="_top">
+      <g>
+        <polygon class="unit" points="566.349961,515.384615 571.349961,502.564103 575.539953,502.564103 575.539953,528.205128 571.349961,528.205128" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="570.9449572125" y="519.38461538462">TU_422</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_423" target="_top">
+      <g>
+        <polygon class="unit" points="575.654542,515.384615 580.654542,502.564103 608.426834,502.564103 608.426834,528.205128 580.654542,528.205128" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="592.04068777195" y="519.38461538462">TU_423</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_424" target="_top">
+      <g>
+        <polygon class="unit" points="608.472669,515.384615 613.472669,502.564103 627.700608,502.564103 627.700608,528.205128 613.472669,528.205128" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="618.08663864735" y="519.38461538462">TU_424</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_425" target="_top">
+      <g>
+        <polygon class="unit" points="627.700608,515.384615 632.700608,502.564103 663.360529,502.564103 663.360529,528.205128 632.700608,528.205128" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="645.53056840828" y="519.38461538462">TU_425</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_426" target="_top">
+      <g>
+        <polygon class="unit" points="663.727212,515.384615 668.727212,502.564103 675.873586,502.564103 675.873586,528.205128 668.727212,528.205128" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="669.80039856846" y="519.38461538462">TU_426</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_427" target="_top">
+      <g>
+        <polygon class="unit" points="675.713162,515.384615 680.713162,502.564103 690.059634,502.564103 690.059634,528.205128 680.713162,528.205128" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="682.88639764445" y="519.38461538462">TU_427</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_428" target="_top">
+      <g>
+        <polygon class="unit" points="690.128387,515.384615 695.128387,502.564103 697.187034,502.564103 697.187034,528.205128 695.128387,528.205128" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="693.65771036899" y="519.38461538462">TU_428</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_429" target="_top">
+      <g>
+        <polygon class="unit" points="697.255787,515.384615 702.255787,502.564103 717.377516,502.564103 717.377516,528.205128 702.255787,528.205128" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="707.31665161117" y="519.38461538462">TU_429</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_430" target="_top">
+      <g>
+        <polygon class="unit" points="716.598315,515.384615 721.598315,502.564103 727.507134,502.564103 727.507134,528.205128 721.598315,528.205128" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="722.0527241258" y="519.38461538462">TU_430</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_431" target="_top">
+      <g>
+        <polygon class="unit" points="727.644640,515.384615 732.644640,502.564103 759.179376,502.564103 759.179376,528.205128 732.644640,528.205128" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="743.4120080817" y="519.38461538462">TU_431</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_432" target="_top">
+      <g>
+        <polygon class="unit" points="760.714862,502.564103 766.554927,502.564103 771.554927,515.384615 766.554927,528.205128 760.714862,528.205128" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="766.13489439315" y="519.38461538462">TU_432</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_433" target="_top">
+      <g>
+        <polygon class="unit" points="771.486174,515.384615 776.486174,502.564103 782.000000,502.564103 782.000000,528.205128 776.486174,528.205128" style="fill:#3366FF;stroke:#3366FF;"/>
+          <polygon class="unit" points="0.000000,551.282051 0.000000,538.461538 5.001448,538.461538 5.001448,564.102564 0.000000,564.102564" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="779.24381115578" y="519.38461538462">TU_433</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_434" target="_top">
+      <g>
+        <polygon class="unit" points="5.070201,551.282051 10.070201,538.461538 27.735793,538.461538 27.735793,564.102564 10.070201,564.102564" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="16.40299719347" y="555.28205128205">TU_434</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_435" target="_top">
+      <g>
+        <polygon class="unit" points="27.392028,551.282051 32.392028,538.461538 72.402365,538.461538 72.402365,564.102564 32.392028,564.102564" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="49.897196229458" y="555.28205128205">TU_435</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_436" target="_top">
+      <g>
+        <polygon class="unit" points="72.402365,551.282051 77.402365,538.461538 98.368103,538.461538 98.368103,564.102564 77.402365,564.102564" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="85.385234003819" y="555.28205128205">TU_436</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_437" target="_top">
+      <g>
+        <polygon class="unit" points="101.141144,551.282051 106.141144,538.461538 172.415149,538.461538 172.415149,564.102564 106.141144,564.102564" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="136.77814631186" y="555.28205128205">TU_437</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_438" target="_top">
+      <g>
+        <polygon class="unit" points="173.904799,551.282051 178.904799,538.461538 219.602666,538.461538 219.602666,564.102564 178.904799,564.102564" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="196.75373226956" y="555.28205128205">TU_438</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_439" target="_top">
+      <g>
+        <polygon class="unit" points="220.886056,551.282051 225.886056,538.461538 230.007296,538.461538 230.007296,564.102564 225.886056,564.102564" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="225.4466759528" y="555.28205128205">TU_439</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_440" target="_top">
+      <g>
+        <polygon class="unit" points="230.144802,551.282051 235.144802,538.461538 240.228584,538.461538 240.228584,564.102564 235.144802,564.102564" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="235.18669277819" y="555.28205128205">TU_440</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_441" target="_top">
+      <g>
+        <polygon class="unit" points="241.099456,551.282051 246.099456,538.461538 282.190868,538.461538 282.190868,564.102564 246.099456,564.102564" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="261.64516201325" y="555.28205128205">TU_441</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_442" target="_top">
+      <g>
+        <polygon class="unit" points="282.328374,551.282051 287.328374,538.461538 347.964629,538.461538 347.964629,564.102564 287.328374,564.102564" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="315.14650149291" y="555.28205128205">TU_442</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_443" target="_top">
+      <g>
+        <polygon class="unit" points="347.322934,551.282051 352.322934,538.461538 404.777574,538.461538 404.777574,564.102564 352.322934,564.102564" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="376.05025375985" y="555.28205128205">TU_443</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_444" target="_top">
+      <g>
+        <polygon class="unit" points="405.648446,551.282051 410.648446,538.461538 444.264748,538.461538 444.264748,564.102564 410.648446,564.102564" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="424.95659706659" y="555.28205128205">TU_444</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_445" target="_top">
+      <g>
+        <polygon class="unit" points="444.333501,551.282051 449.333501,538.461538 450.292100,538.461538 450.292100,564.102564 449.333501,564.102564" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="447.31280039167" y="555.28205128205">TU_445</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_446" target="_top">
+      <g>
+        <polygon class="unit" points="454.623542,538.461538 480.539502,538.461538 485.539502,551.282051 480.539502,564.102564 454.623542,564.102564" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="470.08152207642" y="555.28205128205">TU_446</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_447" target="_top">
+      <g>
+        <polygon class="unit" points="486.066609,538.461538 486.066609,538.461538 490.512640,551.282051 486.066609,564.102564 486.066609,564.102564" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="488.28962411822" y="555.28205128205">TU_447</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_448" target="_top">
+      <g>
+        <polygon class="unit" points="491.337676,538.461538 496.077693,538.461538 501.077693,551.282051 496.077693,564.102564 491.337676,564.102564" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="496.20768485509" y="555.28205128205">TU_448</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_449" target="_top">
+      <g>
+        <polygon class="unit" points="503.621556,538.461538 510.424165,538.461538 515.424165,551.282051 510.424165,564.102564 503.621556,564.102564" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="509.52286079755" y="555.28205128205">TU_449</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_450" target="_top">
+      <g>
+        <polygon class="unit" points="515.355412,551.282051 520.355412,538.461538 554.727998,538.461538 554.727998,564.102564 520.355412,564.102564" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="535.04170488005" y="555.28205128205">TU_450</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_451" target="_top">
+      <g>
+        <polygon class="unit" points="554.819668,551.282051 559.819668,538.461538 589.723305,538.461538 589.723305,564.102564 559.819668,564.102564" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="572.27148683965" y="555.28205128205">TU_451</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_452" target="_top">
+      <g>
+        <polygon class="unit" points="589.562881,551.282051 594.562881,538.461538 606.384463,538.461538 606.384463,564.102564 594.562881,564.102564" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="597.97367241534" y="555.28205128205">TU_452</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_453" target="_top">
+      <g>
+        <polygon class="unit" points="607.759525,551.282051 612.759525,538.461538 635.169078,538.461538 635.169078,564.102564 612.759525,564.102564" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="621.46430122949" y="555.28205128205">TU_453</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_454" target="_top">
+      <g>
+        <polygon class="unit" points="637.139999,538.461538 652.674246,538.461538 657.674246,551.282051 652.674246,564.102564 637.139999,564.102564" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="647.40712251498" y="555.28205128205">TU_454</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_455" target="_top">
+      <g>
+        <polygon class="unit" points="657.238810,538.461538 668.991639,538.461538 673.991639,551.282051 668.991639,564.102564 657.238810,564.102564" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="665.61522455678" y="555.28205128205">TU_455</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_456" target="_top">
+      <g>
+        <polygon class="unit" points="673.991639,538.461538 681.619284,538.461538 686.619284,551.282051 681.619284,564.102564 673.991639,564.102564" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="680.30546169812" y="555.28205128205">TU_456</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_457" target="_top">
+      <g>
+        <polygon class="unit" points="686.642202,538.461538 708.983002,538.461538 713.983002,551.282051 708.983002,564.102564 686.642202,564.102564" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="700.31260214179" y="555.28205128205">TU_457</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_458" target="_top">
+      <g>
+        <polygon class="unit" points="714.441356,538.461538 735.819613,538.461538 740.819613,551.282051 735.819613,564.102564 714.441356,564.102564" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="727.63048462615" y="555.28205128205">TU_458</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_459" target="_top">
+      <g>
+        <polygon class="unit" points="750.101276,551.282051 755.101276,538.461538 768.847944,538.461538 768.847944,564.102564 755.101276,564.102564" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="759.47461022349" y="555.28205128205">TU_459</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_460" target="_top">
+      <g>
+        <polygon class="unit" points="768.847944,551.282051 773.847944,538.461538 782.000000,538.461538 782.000000,564.102564 773.847944,564.102564" style="fill:#FF6633;stroke:#FF6633;"/>
+          <polygon class="unit" points="0.000000,587.179487 0.000000,574.358974 4.632069,574.358974 4.632069,600.000000 0.000000,600.000000" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="777.74000648191" y="555.28205128205">TU_460</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_461" target="_top">
+      <g>
+        <polygon class="unit" points="7.978051,587.179487 12.978051,574.358974 17.305550,574.358974 17.305550,600.000000 12.978051,600.000000" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="12.641800384777" y="591.17948717949">TU_461</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_462" target="_top">
+      <g>
+        <polygon class="unit" points="21.224474,587.179487 26.224474,574.358974 39.833636,574.358974 39.833636,600.000000 26.224474,600.000000" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="30.529054813507" y="591.17948717949">TU_462</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_463" target="_top">
+      <g>
+        <polygon class="unit" points="39.191940,587.179487 44.191940,574.358974 66.395234,574.358974 66.395234,600.000000 44.191940,600.000000" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="52.793587391996" y="591.17948717949">TU_463</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_464" target="_top">
+      <g>
+        <polygon class="unit" points="66.761917,587.179487 71.761917,574.358974 74.989367,574.358974 74.989367,600.000000 71.761917,600.000000" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="70.875642157234" y="591.17948717949">TU_464</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_465" target="_top">
+      <g>
+        <polygon class="unit" points="74.622684,587.179487 79.622684,574.358974 90.550476,574.358974 90.550476,600.000000 79.622684,600.000000" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="82.58658003434" y="591.17948717949">TU_465</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_466" target="_top">
+      <g>
+        <polygon class="unit" points="90.550476,587.179487 95.550476,574.358974 97.127852,574.358974 97.127852,600.000000 95.550476,600.000000" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="93.839164178486" y="591.17948717949">TU_466</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_467" target="_top">
+      <g>
+        <polygon class="unit" points="111.130559,587.179487 116.130559,574.358974 148.784318,574.358974 148.784318,600.000000 116.130559,600.000000" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="129.95743833567" y="591.17948717949">TU_467</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_468" target="_top">
+      <g>
+        <polygon class="unit" points="148.807236,587.179487 153.807236,574.358974 159.166030,574.358974 159.166030,600.000000 153.807236,600.000000" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="153.98663278605" y="591.17948717949">TU_468</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_469" target="_top">
+      <g>
+        <polygon class="unit" points="158.340993,587.179487 163.340993,574.358974 174.039609,574.358974 174.039609,600.000000 163.340993,600.000000" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="166.19030092608" y="591.17948717949">TU_469</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_470" target="_top">
+      <g>
+        <polygon class="unit" points="174.268785,587.179487 179.268785,574.358974 194.253008,574.358974 194.253008,600.000000 179.268785,600.000000" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="184.260896848" y="591.17948717949">TU_470</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_471" target="_top">
+      <g>
+        <polygon class="unit" points="194.253008,587.179487 199.253008,574.358974 221.387549,574.358974 221.387549,600.000000 199.253008,600.000000" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="207.8202787221" y="591.17948717949">TU_471</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_472" target="_top">
+      <g>
+        <polygon class="unit" points="222.602187,574.358974 235.592571,574.358974 240.592571,587.179487 235.592571,600.000000 222.602187,600.000000" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="231.59737861935" y="591.17948717949">TU_472</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_473" target="_top">
+      <g>
+        <polygon class="unit" points="240.248805,574.358974 255.370534,574.358974 260.370534,587.179487 255.370534,600.000000 240.248805,600.000000" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="250.30966976741" y="591.17948717949">TU_473</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_474" target="_top">
+      <g>
+        <polygon class="unit" points="260.141357,587.179487 265.141357,574.358974 270.843917,574.358974 270.843917,600.000000 265.141357,600.000000" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="265.49263717168" y="591.17948717949">TU_474</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_475" target="_top">
+      <g>
+        <polygon class="unit" points="270.545987,574.358974 292.818034,574.358974 297.818034,587.179487 292.818034,600.000000 270.545987,600.000000" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="284.18201063309" y="591.17948717949">TU_475</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_476" target="_top">
+      <g>
+        <polygon class="unit" points="297.588857,587.179487 302.588857,574.358974 320.598215,574.358974 320.598215,600.000000 302.588857,600.000000" style="fill:#FF6633;stroke:#FF6633;"/>
+          <text x="309.09353601942" y="591.17948717949">TU_476</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_477" target="_top">
+      <g>
+        <polygon class="unit" points="333.271695,587.179487 338.271695,574.358974 381.582179,574.358974 381.582179,600.000000 338.271695,600.000000" style="fill:#33FF66;stroke:#33FF66;"/>
+          <text x="357.42693715996" y="591.17948717949">TU_477</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_478" target="_top">
+      <g>
+        <polygon class="unit" points="385.661527,587.179487 390.661527,574.358974 397.739148,574.358974 397.739148,600.000000 390.661527,600.000000" style="fill:#66FF33;stroke:#66FF33;"/>
+          <text x="391.70033754198" y="591.17948717949">TU_478</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_479" target="_top">
+      <g>
+        <polygon class="unit" points="397.784983,587.179487 402.784983,574.358974 409.450086,574.358974 409.450086,600.000000 402.784983,600.000000" style="fill:#CCFF33;stroke:#CCFF33;"/>
+          <text x="403.61753459891" y="591.17948717949">TU_479</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_480" target="_top">
+      <g>
+        <polygon class="unit" points="413.414846,574.358974 429.911636,574.358974 434.911636,587.179487 429.911636,600.000000 413.414846,600.000000" style="fill:#FFCC33;stroke:#FFCC33;"/>
+          <text x="424.16324067881" y="591.17948717949">TU_480</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_481" target="_top">
+      <g>
+        <polygon class="unit" points="434.842883,587.179487 439.842883,574.358974 464.108769,574.358974 464.108769,600.000000 439.842883,600.000000" style="fill:#3366FF;stroke:#3366FF;"/>
+          <text x="449.47582558147" y="591.17948717949">TU_481</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_482" target="_top">
+      <g>
+        <polygon class="unit" points="463.673332,587.179487 468.673332,574.358974 496.995649,574.358974 496.995649,600.000000 468.673332,600.000000" style="fill:#6633FF;stroke:#6633FF;"/>
+          <text x="480.33449065295" y="591.17948717949">TU_482</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_483" target="_top">
+      <g>
+        <polygon class="unit" points="496.697719,587.179487 501.697719,574.358974 514.550597,574.358974 514.550597,600.000000 501.697719,600.000000" style="fill:#CC33FF;stroke:#CC33FF;"/>
+          <text x="505.62415786897" y="591.17948717949">TU_483</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_484" target="_top">
+      <g>
+        <polygon class="unit" points="514.390173,587.179487 519.390173,574.358974 540.905936,574.358974 540.905936,600.000000 519.390173,600.000000" style="fill:#FF33CC;stroke:#FF33CC;"/>
+          <text x="527.64805473765" y="591.17948717949">TU_484</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_485" target="_top">
+      <g>
+        <polygon class="unit" points="540.264241,587.179487 545.264241,574.358974 549.110468,574.358974 549.110468,600.000000 545.264241,600.000000" style="fill:#33CCFF;stroke:#33CCFF;"/>
+          <text x="544.68735476041" y="591.17948717949">TU_485</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_486" target="_top">
+      <g>
+        <polygon class="unit" points="548.400020,587.179487 553.400020,574.358974 551.746002,574.358974 551.746002,600.000000 553.400020,600.000000" style="fill:#003DF5;stroke:#003DF5;"/>
+          <text x="550.07301112268" y="591.17948717949">TU_486</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_487" target="_top">
+      <g>
+        <polygon class="unit" points="552.341862,587.179487 557.341862,574.358974 573.769899,574.358974 573.769899,600.000000 557.341862,600.000000" style="fill:#002EB8;stroke:#002EB8;"/>
+          <text x="563.05588060875" y="591.17948717949">TU_487</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_488" target="_top">
+      <g>
+        <polygon class="unit" points="573.861570,587.179487 578.861570,574.358974 696.494111,574.358974 696.494111,600.000000 578.861570,600.000000" style="fill:#FF3366;stroke:#FF3366;"/>
+          <text x="635.17784048987" y="591.17948717949">TU_488</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_489" target="_top">
+      <g>
+        <polygon class="unit" points="696.631617,587.179487 701.631617,574.358974 716.203322,574.358974 716.203322,600.000000 701.631617,600.000000" style="fill:#33FFCC;stroke:#33FFCC;"/>
+          <text x="706.41746943504" y="591.17948717949">TU_489</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_490" target="_top">
+      <g>
+        <polygon class="unit" points="717.647136,587.179487 722.647136,574.358974 747.738058,574.358974 747.738058,600.000000 722.647136,600.000000" style="fill:#B88A00;stroke:#B88A00;"/>
+          <text x="732.69259717692" y="591.17948717949">TU_490</text>
+      </g>
+  </a>
+  <a xlink:href="../index.php?KnowledgeBaseID=MGEN243273&amp;WholeCellModelID=TU_491" target="_top">
+      <g>
+        <polygon class="unit" points="762.474131,587.179487 767.474131,574.358974 781.014539,574.358974 781.014539,600.000000 767.474131,600.000000" style="fill:#F5B800;stroke:#F5B800;"/>
+          <text x="771.74433522504" y="591.17948717949">TU_491</text>
+      </g>
+  </a>
+
+</g>
+</svg>

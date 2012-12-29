@@ -1,0 +1,697 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Constants</title>
+  <meta name="keywords" content="Constants">
+  <meta name="description" content="Constants">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; Constants.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Constants
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Constants</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Constants
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Constants.html" class="code" title="">Constants</a>	Constants</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Constants.html" class="code" title="">Constants</a>	Constants</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels, indentation] = printConstants(sim)</a></li><li><a href="#_sub3" class="code">function content = objectConstants(obj, propertyNames, processID, processName, fitted)</a></li><li><a href="#_sub4" class="code">function [content, colLabels, indentation] = printExpectedExpressions(sim)</a></li><li><a href="#_sub5" class="code">function [content, colLabels, indentation] = printCalculatedExperimentalComparison(sim)</a></li><li><a href="#_sub6" class="code">function [content, colLabels, indentation] = printBiomassNormalization(sim)</a></li><li><a href="#_sub7" class="code">function plotExperimental_Vs_Calculated_Gene_Expression(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub8" class="code">function plotExperimental_Vs_Calculated_Monomer_Expression(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub9" class="code">function plotExperimental_Vs_Calculated_TRNA_Expression(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub10" class="code">function plotExperimental_Vs_Calculated_NMP_Composition(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub11" class="code">function plotExperimental_Vs_Calculated_AA_Composition(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub12" class="code">function plotExperimental_Vs_Calculated_RNA_Weight_Fractions(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub13" class="code">function plotExperimental_Vs_Calculated_Gene_Decay_Rates(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub14" class="code">function formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, titleStr)</a></li><li><a href="#_sub15" class="code">function labelExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, labels, count)</a></li><li><a href="#_sub16" class="code">function plotExperimental_Calculated_Gene_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub17" class="code">function plotExperimental_Calculated_Monomer_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub18" class="code">function plotExperimental_Calculated_TRNA_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub19" class="code">function plotExperimental_Calculated_NMP_Composition_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub20" class="code">function plotExperimental_Calculated_AA_Composition_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub21" class="code">function plotExperimental_Calculated_RNA_Weight_Fraction_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub22" class="code">function plotExperimental_Calculated_Gene_Decay_Rate_Ratios(sim, axesHandle, showLabelsAndLegend)</a></li><li><a href="#_sub23" class="code">function formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, xAxisLabel)</a></li><li><a href="#_sub24" class="code">function labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, labels, count)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Constants</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 9/12/2010</span>
+0006 classdef <a href="Constants.html" class="code" title="">Constants</a>
+0007     methods (Static)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0009             import edu.stanford.covert.cell.sim.analysis.Constants;
+0010             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0011             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0012             
+0013             metaClass = meta.class.fromName(<span class="string">'edu.stanford.covert.cell.sim.analysis.Constants'</span>);
+0014             
+0015             <span class="comment">%% printing</span>
+0016             <span class="keyword">for</span> i = 1:numel(metaClass.Methods)
+0017                 <span class="keyword">if</span> numel(metaClass.Methods{i}.Name) &lt;= 5 || ~strcmp(<span class="string">'print'</span>, metaClass.Methods{i}.Name(1:5))
+0018                     <span class="keyword">continue</span>;
+0019                 <span class="keyword">end</span>
+0020                 
+0021                 func = str2func([<span class="string">'edu.stanford.covert.cell.sim.analysis.Constants.'</span> metaClass.Methods{i}.Name]);
+0022                 [content, colLabels, indentation] = func(sim);
+0023                 <span class="keyword">if</span> nargin == 1
+0024                     PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0025                 <span class="keyword">else</span>
+0026                     PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], metaClass.Methods{i}.Name(6:min(36, end)), struct(<span class="string">'indentation'</span>, indentation));
+0027                 <span class="keyword">end</span>
+0028             <span class="keyword">end</span>
+0029             
+0030             <span class="comment">%% plotting</span>
+0031             [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0032             
+0033             <span class="keyword">for</span> i = 1:numel(metaClass.Methods)
+0034                 <span class="keyword">if</span> numel(metaClass.Methods{i}.Name) &lt;= 4 || ~strcmp(<span class="string">'plot'</span>, metaClass.Methods{i}.Name(1:4))
+0035                     <span class="keyword">continue</span>;
+0036                 <span class="keyword">end</span>
+0037                 
+0038                 cla(axesHandle);
+0039                 func = str2func([<span class="string">'edu.stanford.covert.cell.sim.analysis.Constants.'</span> metaClass.Methods{i}.Name]);
+0040                 <span class="keyword">if</span> nargin == 1
+0041                     func(sim, PlotUtil.newAxesHandle());
+0042                 <span class="keyword">else</span>
+0043                     func(sim, axesHandle, false);
+0044                     saveas(figHandle, [fileName <span class="string">'-'</span> metaClass.Methods{i}.Name(5:end) <span class="string">'.pdf'</span>]);
+0045                 <span class="keyword">end</span>
+0046             <span class="keyword">end</span>
+0047             
+0048             close(figHandle);
+0049         <span class="keyword">end</span>
+0050     <span class="keyword">end</span>
+0051     
+0052     <span class="comment">%printing</span>
+0053     methods (Static)
+0054         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels, indentation] = printConstants(sim)</a>
+0055             <span class="comment">%import classes</span>
+0056             import edu.stanford.covert.cell.sim.analysis.Constants;
+0057             
+0058             <span class="comment">%initialize</span>
+0059             colLabels = {<span class="string">'Constant Name'</span>, <span class="string">'State/Process ID'</span>, <span class="string">'State/Process Name'</span>, <span class="string">'Parameter'</span>, <span class="string">'Fixed'</span>, <span class="string">'class'</span>, <span class="string">'size'</span>, <span class="string">'numel'</span>, <span class="string">'nnz'</span>};
+0060             content = cell(0, numel(colLabels));
+0061             
+0062             <span class="comment">%states</span>
+0063             <span class="keyword">for</span> i = 1:numel(sim.states)
+0064                 s = sim.states{i};
+0065                 content = [content;
+0066                     Constants.objectConstants(s, s.fixedConstantNames,  s.wholeCellModelID, s.name, <span class="string">'Y'</span>);
+0067                     Constants.objectConstants(s, s.fittedConstantNames, s.wholeCellModelID, s.name, <span class="string">'N'</span>)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0068             <span class="keyword">end</span>
+0069             
+0070             <span class="comment">%processes</span>
+0071             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0072                 m = sim.processes{i};
+0073                 content = [content;
+0074                     Constants.objectConstants(m, m.fixedConstantNames,  m.wholeCellModelID, m.name, <span class="string">'Y'</span>);
+0075                     Constants.objectConstants(m, m.fittedConstantNames, m.wholeCellModelID, m.name, <span class="string">'N'</span>)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0076             <span class="keyword">end</span>
+0077             
+0078             indentation = zeros(size(content, 1), 1);
+0079         <span class="keyword">end</span>
+0080         
+0081         <a name="_sub2" href="#_subfunctions" class="code">function content = objectConstants(obj, propertyNames, processID, processName, fitted)</a>
+0082             content = cell(numel(propertyNames), 9);
+0083             fieldNames = fieldnames(obj);
+0084             <span class="keyword">for</span> i = 1:numel(propertyNames)
+0085                 <span class="keyword">if</span> ~any(strcmp(fieldNames, propertyNames{i}))
+0086                     warning(<span class="string">'WholeCell:warning'</span>, <span class="string">'%s has no property %s'</span>, class(obj), propertyNames{i});
+0087                     <span class="keyword">continue</span>;
+0088                 <span class="keyword">end</span>
+0089                 propVal = obj.(propertyNames{i});
+0090                 
+0091                 <span class="keyword">if</span> ismember(propertyNames{i}, obj.parameterNames)
+0092                     parameter = <span class="string">'Y'</span>;
+0093                 <span class="keyword">else</span>
+0094                     parameter = <span class="string">'N'</span>;
+0095                 <span class="keyword">end</span>
+0096                 
+0097                 siz = size(propVal);
+0098                 siz = [sprintf(<span class="string">'%d x '</span>, siz(1:end-1)) sprintf(<span class="string">'%d'</span>, siz(end))];
+0099                 
+0100                 <span class="keyword">switch</span> class(propVal)
+0101                     <span class="keyword">case</span> <span class="string">'cell'</span>
+0102                         nnzVal = sum(cellfun(@(x) ~isempty(x), propVal));
+0103                     <span class="keyword">otherwise</span>
+0104                         <span class="keyword">try</span>
+0105                             nnzVal = nnz(propVal);
+0106                         <span class="keyword">catch</span> <span class="comment">%#ok&lt;CTCH&gt;</span>
+0107                             nnzVal = [];
+0108                         <span class="keyword">end</span>
+0109                 <span class="keyword">end</span>
+0110                 
+0111                 content(i, :) = {propertyNames{i}, processID, processName, parameter, fitted, class(propVal), siz, numel(propVal), nnzVal};
+0112             <span class="keyword">end</span>
+0113         <span class="keyword">end</span>
+0114         
+0115         <a name="_sub3" href="#_subfunctions" class="code">function [content, colLabels, indentation] = printExpectedExpressions(sim)</a>
+0116             r = sim.state(<span class="string">'Rna'</span>);
+0117             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0118             fitter = edu.stanford.covert.cell.sim.util.FitConstants(sim);
+0119             
+0120             <span class="comment">%% Fitted expressions</span>
+0121             [freeRnas, freeMons, ~, ~, ~, totRnas, totMons, totCpxs] = <span class="keyword">...</span>
+0122                 fitter.calcMacromolecularCounts(fitter.constructParameterVectorFromSimulation());
+0123             
+0124             geneRNAs     = r.matureRNAGeneComposition * totRnas;
+0125             geneFreeRNAs = r.matureRNAGeneComposition * freeRnas;
+0126             geneMonomers = zeros(size(sim.gene.wholeCellModelIDs));
+0127             geneMonomers(sim.gene.mRNAIndexs) = totMons;
+0128             geneComplexs = (sum(pc.proteinComplexComposition, 3) &gt; 0) * totCpxs;
+0129             geneFreeMonomers = zeros(size(sim.gene.wholeCellModelIDs));
+0130             geneFreeMonomers(sim.gene.mRNAIndexs) = freeMons;
+0131             
+0132             calc = [geneRNAs geneFreeRNAs geneMonomers geneFreeMonomers geneComplexs];
+0133             
+0134             <span class="comment">%% Experimentally observed expressions</span>
+0135             [freeRnas, freeMons, ~, ~, ~, totRnas, totMons, totCpxs] = <span class="keyword">...</span>
+0136                 fitter.calcMacromolecularCounts(fitter.initializeFittedConstants());
+0137             
+0138             geneRNAs     = r.matureRNAGeneComposition * totRnas;
+0139             geneFreeRNAs = r.matureRNAGeneComposition * freeRnas;
+0140             geneMonomers = zeros(size(sim.gene.wholeCellModelIDs));
+0141             geneMonomers(sim.gene.mRNAIndexs) = totMons;
+0142             geneComplexs = (sum(pc.proteinComplexComposition, 3) &gt; 0) * totCpxs;
+0143             geneFreeMonomers = zeros(size(sim.gene.wholeCellModelIDs));
+0144             geneFreeMonomers(sim.gene.mRNAIndexs) = freeMons;
+0145             
+0146             expt = [geneRNAs geneFreeRNAs geneMonomers geneFreeMonomers geneComplexs];
+0147             
+0148             <span class="comment">%% format output</span>
+0149             colLabels = {<span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="keyword">...</span>
+0150                 <span class="string">'Calc. Total RNA'</span>, <span class="string">'Calc. Free RNA'</span>, <span class="string">'Calc. Total Monomer'</span>, <span class="string">'Calc. Free Monomer'</span>, <span class="string">'Calc. Complex'</span>, <span class="keyword">...</span>
+0151                 <span class="string">'Expt. Total RNA'</span>, <span class="string">'Expt. Free RNA'</span>, <span class="string">'Expt. Total Monomer'</span>, <span class="string">'Expt. Free Monomer'</span>, <span class="string">'Expt. Complex'</span>};
+0152             content = [
+0153                 sim.gene.wholeCellModelIDs sim.gene.names num2cell(calc) num2cell(expt)
+0154                 ];
+0155             indentation = zeros(numel(sim.gene.names), 1);
+0156         <span class="keyword">end</span>
+0157         
+0158         <a name="_sub4" href="#_subfunctions" class="code">function [content, colLabels, indentation] = printCalculatedExperimentalComparison(sim)</a>
+0159             m = sim.state(<span class="string">'Metabolite'</span>);
+0160             r = sim.state(<span class="string">'Rna'</span>);
+0161             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0162             
+0163             aminoAcidIndexs   = m.aminoAcidIndexs;
+0164             
+0165             rnaBaseCnts = r.baseCounts(r.matureIndexs, m.nmpIndexs);
+0166             rnaLengths  = r.lengths(r.matureIndexs);
+0167             monAACnts   = pm.baseCounts(pm.matureIndexs, aminoAcidIndexs);
+0168             monLens     = pm.lengths(pm.matureIndexs);
+0169             
+0170             rnaExpr  = r.expression(r.matureIndexs) / sum(r.expression(r.matureIndexs));
+0171             geneExpr = r.geneExpression;
+0172             monExpr  = geneExpr(sim.gene.mRNAIndexs) ./ pm.halfLives(pm.matureIndexs);
+0173             monExpr  = monExpr / sum(monExpr);
+0174             tRNAExpr = geneExpr(sim.gene.tRNAIndexs) / sum(geneExpr(sim.gene.tRNAIndexs));
+0175             nmpComp  = sum(m.nmpComposition, 2);
+0176             aaComp   = sum(m.aaComposition, 2);
+0177             
+0178             exptGeneExpr = r.expectedGeneExpression(:,1);
+0179             exptMonExpr  = exptGeneExpr(sim.gene.mRNAIndexs) ./ pm.halfLives(pm.matureIndexs);
+0180             exptMonExpr  = exptMonExpr / sum(exptMonExpr);
+0181             exptTRNAExpr = exptGeneExpr(sim.gene.tRNAIndexs) / sum(exptGeneExpr(sim.gene.tRNAIndexs));
+0182             exptNMPComp  = m.experimentalNMPComposition;
+0183             exptAAComp   = m.experimentalAAComposition;
+0184             
+0185             <span class="comment">%initialize</span>
+0186             content = cell(0, 10);
+0187             colLabels = {
+0188                 <span class="string">'Quantity'</span>;
+0189                 <span class="string">'Expt. Produced'</span>; <span class="string">'Expt. Expressed'</span>; <span class="string">'Expt.  Difference'</span>; <span class="string">'Expt.  Ratio'</span>;
+0190                 <span class="string">'Sim. Prod'</span>; <span class="string">'Sim. Expressed'</span>; <span class="string">'Sim. Difference'</span>; <span class="string">'Sim. Ratio'</span>
+0191                 }';
+0192             
+0193             <span class="comment">%content</span>
+0194             content = [content;{
+0195                 0 <span class="string">'Deviation from experimental values'</span>  [] [] [] [] [] [] [] []
+0196                 1 <span class="string">'Gene expression'</span>    norm(geneExpr - exptGeneExpr, <span class="string">'fro'</span>) / norm(exptGeneExpr, <span class="string">'fro'</span>) [] [] [] [] [] [] []
+0197                 1 <span class="string">'tRNA expression'</span>    norm(tRNAExpr - exptTRNAExpr, <span class="string">'fro'</span>) / norm(exptTRNAExpr, <span class="string">'fro'</span>) [] [] [] [] [] [] []
+0198                 1 <span class="string">'Monomer expression'</span> norm(monExpr  - exptMonExpr,  <span class="string">'fro'</span>) / norm(exptMonExpr,  <span class="string">'fro'</span>) [] [] [] [] [] [] []
+0199                 1 <span class="string">'NMP production'</span>     norm(nmpComp  - exptNMPComp,  <span class="string">'fro'</span>) / norm(exptNMPComp,  <span class="string">'fro'</span>) [] [] [] [] [] [] []
+0200                 1 <span class="string">'AA production'</span>      norm(aaComp   - exptAAComp,   <span class="string">'fro'</span>) / norm(exptAAComp,   <span class="string">'fro'</span>) [] [] [] [] [] [] []
+0201                 }];
+0202             
+0203             content = [content;{
+0204                 0 <span class="string">'NMPs'</span> [] [] [] [] [] [] [] []
+0205                 }];
+0206             <span class="keyword">for</span> i = 1:length(m.nmpIndexs)
+0207                 content = [content;{
+0208                     1
+0209                     m.wholeCellModelIDs{m.nmpIndexs(i)}
+0210                     exptNMPComp(i)
+0211                     NaN
+0212                     NaN
+0213                     NaN
+0214                     nmpComp(i)
+0215                     rnaBaseCnts(:, i)' * rnaExpr / (rnaLengths' * rnaExpr)
+0216                     nmpComp(i) - rnaBaseCnts(:, i)' * rnaExpr / (rnaLengths' * rnaExpr)
+0217                     nmpComp(i) / (rnaBaseCnts(:, i)' * rnaExpr / (rnaLengths' * rnaExpr))
+0218                     }']; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0219             <span class="keyword">end</span>
+0220             
+0221             content = [content;{
+0222                 0 <span class="string">'Amino acids'</span> [] [] [] [] [] [] [] []
+0223                 }];
+0224             <span class="keyword">for</span> i = 1:length(aminoAcidIndexs)
+0225                 content = [content;{
+0226                     1
+0227                     m.wholeCellModelIDs{aminoAcidIndexs(i)}
+0228                     exptAAComp(i)
+0229                     monAACnts(:,i)' * exptMonExpr / (monLens' * exptMonExpr)
+0230                     exptAAComp(i) - monAACnts(:,i)' * exptMonExpr / (monLens' * exptMonExpr)
+0231                     exptAAComp(i) / (monAACnts(:,i)' * exptMonExpr / (monLens' * exptMonExpr))
+0232                     aaComp(i)
+0233                     monAACnts(:,i)' * monExpr / (monLens' * monExpr)
+0234                     aaComp(i) - monAACnts(:,i)' * monExpr / (monLens' * monExpr)
+0235                     aaComp(i) / (monAACnts(:,i)' * monExpr / (monLens' * monExpr))
+0236                     }']; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0237             <span class="keyword">end</span>
+0238             
+0239             <span class="comment">%format output</span>
+0240             indentation = cell2mat(content(:, 1));
+0241             content = content(:, 2:end);
+0242         <span class="keyword">end</span>
+0243         
+0244         <a name="_sub5" href="#_subfunctions" class="code">function [content, colLabels, indentation] = printBiomassNormalization(sim)</a>
+0245             import edu.stanford.covert.util.ConstantUtil;
+0246             
+0247             m = sim.state(<span class="string">'Metabolite'</span>);
+0248             metMWs = m.molecularWeights / ConstantUtil.nAvogadro;
+0249             cllInitDryWt = sim.state(<span class="string">'Mass'</span>).cellInitialDryWeight;
+0250             
+0251             <span class="comment">%initialize</span>
+0252             content = cell(0, 4);
+0253             colLabels = {<span class="string">'Quantity'</span>, <span class="string">'Value'</span>, <span class="string">'Units'</span>};
+0254             
+0255             <span class="comment">%content</span>
+0256             content = [content;{
+0257                 0 <span class="string">'Metabolism'</span> [] [];
+0258                 1 <span class="string">'Metabolism production'</span> sum(m.metabolismProduction, 2)' * metMWs / cllInitDryWt <span class="string">'cells'</span>
+0259                 1 <span class="string">'Biomass production'</span>    sum(m.biomassProduction, 2)'    * metMWs / cllInitDryWt <span class="string">'cells'</span>
+0260                 1 <span class="string">'Byproducts'</span>            sum(m.byproducts, 2)'           * metMWs / cllInitDryWt <span class="string">'cells'</span>
+0261                 }];
+0262             
+0263             <span class="comment">%format output</span>
+0264             indentation = cell2mat(content(:, 1));
+0265             content = content(:, 2:end);
+0266         <span class="keyword">end</span>
+0267     <span class="keyword">end</span>
+0268     
+0269     <span class="comment">%scatter plots of experimental vs calculated constants</span>
+0270     methods (Static = true)
+0271         <a name="_sub6" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_Gene_Expression(sim, axesHandle, showLabelsAndLegend)</a>
+0272             import edu.stanford.covert.cell.sim.analysis.Constants;
+0273             
+0274             r = sim.state(<span class="string">'Rna'</span>);
+0275             
+0276             calculated = r.geneExpression;
+0277             experimental = r.expectedGeneExpression(:, 1);
+0278             hold(axesHandle, <span class="string">'on'</span>);
+0279             h = zeros(3, 1);
+0280             h(1) = plot(axesHandle, calculated(sim.gene.mRNAIndexs), experimental(sim.gene.mRNAIndexs), <span class="string">'r.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0281             h(2) = plot(axesHandle, calculated(sim.gene.rRNAIndexs), experimental(sim.gene.rRNAIndexs), <span class="string">'g.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0282             h(3) = plot(axesHandle, calculated(sim.gene.sRNAIndexs), experimental(sim.gene.sRNAIndexs), <span class="string">'c.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0283             h(4) = plot(axesHandle, calculated(sim.gene.tRNAIndexs), experimental(sim.gene.tRNAIndexs), <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);            
+0284             hold(axesHandle, <span class="string">'off'</span>);
+0285             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'Gene'</span> <span class="string">'Expression'</span>});
+0286             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0287                 legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>}, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0288                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0289                     calculated, experimental, <span class="keyword">...</span>
+0290                     sim.gene.wholeCellModelIDs, 10);
+0291             <span class="keyword">end</span>
+0292         <span class="keyword">end</span>
+0293         
+0294         <a name="_sub7" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_Monomer_Expression(sim, axesHandle, showLabelsAndLegend)</a>
+0295             import edu.stanford.covert.cell.sim.analysis.Constants;
+0296             
+0297             r = sim.state(<span class="string">'Rna'</span>);
+0298             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0299             
+0300             calculated = r.geneExpression(sim.gene.mRNAIndexs) ./ pm.halfLives(pm.matureIndexs);
+0301             experimental = r.expectedGeneExpression(sim.gene.mRNAIndexs, sim.compartment.cytosolIndexs) ./ pm.halfLives(pm.matureIndexs);
+0302             
+0303             calculated = calculated / sum(calculated);
+0304             experimental = experimental / sum(experimental);
+0305             
+0306             plot(axesHandle, calculated, experimental, <span class="string">'r.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0307             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'Protein'</span> <span class="string">'Expression'</span>});
+0308             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0309                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0310                     calculated, experimental, <span class="keyword">...</span>
+0311                     sim.gene.wholeCellModelIDs(sim.gene.mRNAIndexs), 10);
+0312             <span class="keyword">end</span>
+0313         <span class="keyword">end</span>
+0314         
+0315         <a name="_sub8" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_TRNA_Expression(sim, axesHandle, showLabelsAndLegend)</a>
+0316             import edu.stanford.covert.cell.sim.analysis.Constants;
+0317             
+0318             r = sim.state(<span class="string">'Rna'</span>);
+0319             
+0320             calculated = r.geneExpression(sim.gene.tRNAIndexs);
+0321             experimental = r.expectedGeneExpression(sim.gene.tRNAIndexs, sim.compartment.cytosolIndexs);
+0322             
+0323             calculated = calculated / sum(calculated);
+0324             experimental = experimental / sum(experimental);
+0325             
+0326             plot(axesHandle, calculated, experimental, <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0327             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'tRNA'</span> <span class="string">'Expression'</span>});
+0328             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0329                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0330                     calculated, experimental, <span class="keyword">...</span>
+0331                     sim.gene.wholeCellModelIDs(sim.gene.tRNAIndexs), 3);
+0332             <span class="keyword">end</span>
+0333         <span class="keyword">end</span>
+0334         
+0335         <a name="_sub9" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_NMP_Composition(sim, axesHandle, showLabelsAndLegend)</a>
+0336             import edu.stanford.covert.cell.sim.analysis.Constants;
+0337             
+0338             m = sim.state(<span class="string">'Metabolite'</span>);
+0339             calculated = sum(m.nmpComposition, 2);
+0340             experimental = m.experimentalNMPComposition;
+0341             plot(axesHandle, calculated, experimental, <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0342             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'NMP'</span> <span class="string">'Composition'</span>});
+0343             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0344                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0345                     calculated, experimental, <span class="keyword">...</span>
+0346                     m.wholeCellModelIDs(m.nmpIndexs));
+0347             <span class="keyword">end</span>
+0348         <span class="keyword">end</span>
+0349         
+0350         <a name="_sub10" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_AA_Composition(sim, axesHandle, showLabelsAndLegend)</a>
+0351             import edu.stanford.covert.cell.sim.analysis.Constants;
+0352             
+0353             m = sim.state(<span class="string">'Metabolite'</span>);
+0354             calculated = sum(m.aaComposition, 2);
+0355             experimental = m.experimentalAAComposition;
+0356             plot(axesHandle, calculated, experimental, <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0357             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'AA'</span> <span class="string">'Composition'</span>});
+0358             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0359                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0360                     calculated, experimental, <span class="keyword">...</span>
+0361                     m.wholeCellModelIDs(m.aminoAcidIndexs), 3);
+0362             <span class="keyword">end</span>
+0363         <span class="keyword">end</span>
+0364         
+0365         <a name="_sub11" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_RNA_Weight_Fractions(sim, axesHandle, showLabelsAndLegend)</a>
+0366             import edu.stanford.covert.cell.sim.analysis.Constants;
+0367             
+0368             r = sim.state(<span class="string">'Rna'</span>);
+0369             
+0370             calculated = r.weightFractions;
+0371             experimental = r.expectedWeightFractions;
+0372             plot(axesHandle, calculated, experimental, <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0373             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, {<span class="string">'RNA'</span> <span class="string">'Composition'</span>});
+0374             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0375                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0376                     calculated, experimental, {<span class="string">'mRNA'</span>, <span class="string">'rRNA 5S'</span>, <span class="string">'rRNA 16S'</span>, <span class="string">'rRNA 23S'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>});
+0377             <span class="keyword">end</span>
+0378         <span class="keyword">end</span>
+0379         
+0380         <a name="_sub12" href="#_subfunctions" class="code">function plotExperimental_Vs_Calculated_Gene_Decay_Rates(sim, axesHandle, showLabelsAndLegend)</a>
+0381             import edu.stanford.covert.cell.sim.analysis.Constants;
+0382             
+0383             r = sim.state(<span class="string">'Rna'</span>);
+0384             
+0385             calculated = r.geneDecayRates;
+0386             experimental = r.expectedGeneDecayRates;
+0387             tfs = isfinite(experimental);
+0388             plot(axesHandle, experimental(tfs), calculated(tfs), <span class="string">'b.'</span>, <span class="string">'MarkerSize'</span>, 24);
+0389             Constants.formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated(tfs), experimental(tfs), {<span class="string">'RNA Decay'</span> <span class="string">'Rates'</span>});
+0390             minVal = min([calculated(tfs); experimental(tfs)]);
+0391             maxVal = max([calculated(tfs); experimental(tfs)]);
+0392             axis(axesHandle, [minVal maxVal minVal maxVal]);
+0393             axis(axesHandle, <span class="string">'square'</span>);
+0394             
+0395             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0396                 Constants.labelExperimentalCalculatedScatterPlot(axesHandle,<span class="keyword">...</span>
+0397                     calculated(tfs), experimental(tfs), sim.gene.wholeCellModelIDs, 10);
+0398             <span class="keyword">end</span>
+0399         <span class="keyword">end</span>
+0400         
+0401         <a name="_sub13" href="#_subfunctions" class="code">function formatAxesExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, titleStr)</a>
+0402             minVal = min([calculated; experimental]);
+0403             maxVal = max([calculated; experimental]);
+0404             range = maxVal - minVal;
+0405             minVal = max(0, minVal - range * 0);
+0406             maxVal = min(1, maxVal + range * 0);
+0407             line([0 1], [0 1], <span class="string">'Color'</span>, <span class="string">'k'</span>, <span class="string">'LineStyle'</span>, <span class="string">':'</span>);
+0408             axis(axesHandle, [minVal maxVal minVal maxVal]);
+0409             xlabel(axesHandle, <span class="string">'Model'</span>, <span class="string">'FontSize'</span>, 10);
+0410             ylabel(axesHandle, <span class="string">'Experiment'</span>, <span class="string">'FontSize'</span>, 10);
+0411             set(axesHandle, <span class="string">'XTick'</span>, []);
+0412             set(axesHandle, <span class="string">'YTick'</span>, []);
+0413             titleStr = [titleStr{1} <span class="string">' '</span> titleStr{2}];
+0414             title(axesHandle, titleStr, <span class="string">'FontSize'</span>, 12);
+0415             
+0416             axis(axesHandle, <span class="string">'square'</span>);
+0417             figHandle = get(axesHandle, <span class="string">'Parent'</span>);
+0418             pos = get(figHandle, <span class="string">'Position'</span>);
+0419             set(figHandle, <span class="string">'Position'</span>, [pos(1:2) max(pos(3:4)) max(pos(3:4))]);
+0420         <span class="keyword">end</span>
+0421         
+0422         <a name="_sub14" href="#_subfunctions" class="code">function labelExperimentalCalculatedScatterPlot(axesHandle, calculated, experimental, labels, count)</a>
+0423             <span class="keyword">if</span> ~exist(<span class="string">'count'</span>, <span class="string">'var'</span>)
+0424                 <span class="keyword">for</span> i = 1:length(calculated)
+0425                     <span class="keyword">if</span>(calculated(i) &lt; experimental(i))
+0426                         text(calculated(i), <span class="keyword">...</span>
+0427                             experimental(i), <span class="keyword">...</span>
+0428                             labels{i}, <span class="keyword">...</span>
+0429                             <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>,<span class="keyword">...</span>
+0430                             <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0431                             <span class="string">'Parent'</span>, axesHandle);
+0432                     <span class="keyword">else</span>
+0433                         text(calculated(i), <span class="keyword">...</span>
+0434                             experimental(i), <span class="keyword">...</span>
+0435                             labels{i}, <span class="keyword">...</span>
+0436                             <span class="string">'HorizontalAlignment'</span>, <span class="string">'left'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'top'</span>,<span class="keyword">...</span>
+0437                             <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0438                             <span class="string">'Parent'</span>, axesHandle);
+0439                     <span class="keyword">end</span>
+0440                 <span class="keyword">end</span>
+0441             <span class="keyword">else</span>
+0442                 [~, idxs] = sort(calculated ./ experimental);
+0443                 <span class="keyword">for</span> i = 1:count
+0444                     text(calculated(idxs(i)), <span class="keyword">...</span>
+0445                         experimental(idxs(i)), <span class="keyword">...</span>
+0446                         labels{idxs(i)},<span class="keyword">...</span>
+0447                         <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="keyword">...</span>
+0448                         <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0449                         <span class="string">'Parent'</span>, axesHandle);
+0450                     text(calculated(idxs(end - i + 1)), <span class="keyword">...</span>
+0451                         experimental(idxs(end - i + 1)), <span class="keyword">...</span>
+0452                         labels{idxs(end - i + 1)},<span class="keyword">...</span>
+0453                         <span class="string">'HorizontalAlignment'</span>, <span class="string">'left'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'top'</span>,<span class="keyword">...</span>
+0454                         <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0455                         <span class="string">'Parent'</span>, axesHandle);
+0456                 <span class="keyword">end</span>
+0457             <span class="keyword">end</span>
+0458         <span class="keyword">end</span>
+0459     <span class="keyword">end</span>
+0460     
+0461     <span class="comment">%plot experimental vs calculated constant ratios</span>
+0462     methods (Static = true)
+0463         <a name="_sub15" href="#_subfunctions" class="code">function plotExperimental_Calculated_Gene_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0464             import edu.stanford.covert.cell.sim.analysis.Constants;
+0465             
+0466             r = sim.state(<span class="string">'Rna'</span>);
+0467             
+0468             x = 1:length(sim.gene.wholeCellModelIDs);
+0469             expectedGeneExpression = r.expectedGeneExpression(:, 1);
+0470             ratios = log2(r.geneExpression ./ expectedGeneExpression);
+0471             
+0472             hold(axesHandle,<span class="string">'on'</span>);
+0473             h=zeros(3,1);
+0474             h(1) = bar(x(sim.gene.mRNAIndexs), ratios(sim.gene.mRNAIndexs),<span class="keyword">...</span>
+0475                 <span class="string">'Parent'</span>, axesHandle, <span class="string">'FaceColor'</span>, <span class="string">'r'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'r'</span>);
+0476             h(2) = bar(x(sim.gene.rRNAIndexs), ratios(sim.gene.rRNAIndexs),<span class="keyword">...</span>
+0477                 <span class="string">'Parent'</span>, axesHandle, <span class="string">'FaceColor'</span>, <span class="string">'g'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'g'</span>);
+0478             h(3) = bar(x(sim.gene.sRNAIndexs), ratios(sim.gene.sRNAIndexs),<span class="keyword">...</span>
+0479                 <span class="string">'Parent'</span>, axesHandle, <span class="string">'FaceColor'</span>, <span class="string">'c'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'c'</span>);
+0480             h(4) = bar(x(sim.gene.tRNAIndexs), ratios(sim.gene.tRNAIndexs),<span class="keyword">...</span>
+0481                 <span class="string">'Parent'</span>, axesHandle, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'EdgeColor'</span>, <span class="string">'b'</span>);            
+0482             hold(axesHandle, <span class="string">'off'</span>);
+0483             
+0484             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'Gene expression'</span>);
+0485             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0486                 legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>});
+0487                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, sim.gene.wholeCellModelIDs, 10);
+0488             <span class="keyword">end</span>
+0489         <span class="keyword">end</span>
+0490         
+0491         <a name="_sub16" href="#_subfunctions" class="code">function plotExperimental_Calculated_Monomer_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0492             import edu.stanford.covert.cell.sim.analysis.Constants;
+0493             
+0494             r = sim.state(<span class="string">'Rna'</span>);
+0495             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0496             
+0497             calculated = r.geneExpression(sim.gene.mRNAIndexs) ./ pm.halfLives(pm.matureIndexs);
+0498             experimental = r.expectedGeneExpression(sim.gene.mRNAIndexs, sim.compartment.cytosolIndexs) ./ pm.halfLives(pm.matureIndexs);
+0499             
+0500             calculated = calculated / sum(calculated);
+0501             experimental = experimental / sum(experimental);
+0502             
+0503             x = 1:length(sim.gene.mRNAIndexs);
+0504             ratios = log2(calculated ./ experimental);
+0505             bar(x, ratios, <span class="string">'FaceColor'</span>, <span class="string">'r'</span>, <span class="string">'Parent'</span>, axesHandle);
+0506             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'Monomer expression'</span>);
+0507             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0508                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0509                     sim.gene.wholeCellModelIDs(sim.gene.mRNAIndexs), 10);
+0510             <span class="keyword">end</span>
+0511         <span class="keyword">end</span>
+0512         
+0513         <a name="_sub17" href="#_subfunctions" class="code">function plotExperimental_Calculated_TRNA_Expression_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0514             import edu.stanford.covert.cell.sim.analysis.Constants;
+0515             
+0516             r = sim.state(<span class="string">'Rna'</span>);
+0517             
+0518             calculatedExpression = r.geneExpression(sim.gene.tRNAIndexs);
+0519             experimentalExpression = r.expectedGeneExpression(sim.gene.tRNAIndexs, sim.compartment.cytosolIndexs);
+0520             
+0521             calculatedExpression = calculatedExpression / sum(calculatedExpression);
+0522             experimentalExpression = experimentalExpression / sum(experimentalExpression);
+0523             
+0524             x = 1:length(sim.gene.tRNAIndexs);
+0525             ratios = log2(calculatedExpression ./ experimentalExpression);
+0526             bar(x,ratios, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle);
+0527             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'tRNA expression'</span>);
+0528             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0529                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0530                     sim.gene.wholeCellModelIDs(sim.gene.tRNAIndexs), 3);
+0531             <span class="keyword">end</span>
+0532         <span class="keyword">end</span>
+0533         
+0534         <a name="_sub18" href="#_subfunctions" class="code">function plotExperimental_Calculated_NMP_Composition_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0535             import edu.stanford.covert.cell.sim.analysis.Constants;
+0536             
+0537             m = sim.state(<span class="string">'Metabolite'</span>);
+0538             x = 1:length(m.nmpIndexs);
+0539             ratios = log2(sum(m.nmpComposition, 2) ./ m.experimentalNMPComposition);
+0540             bar(x, ratios, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle);
+0541             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'NMP composition'</span>);
+0542             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0543                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0544                     m.wholeCellModelIDs(m.nmpIndexs), 2);
+0545             <span class="keyword">end</span>
+0546         <span class="keyword">end</span>
+0547         
+0548         <a name="_sub19" href="#_subfunctions" class="code">function plotExperimental_Calculated_AA_Composition_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0549             import edu.stanford.covert.cell.sim.analysis.Constants;
+0550             
+0551             m = sim.state(<span class="string">'Metabolite'</span>);
+0552             x = 1:length(m.aminoAcidIndexs);
+0553             ratios = log2(sum(m.aaComposition, 2) ./ m.experimentalAAComposition);
+0554             bar(x, ratios, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle);
+0555             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'Amino acid composition'</span>);
+0556             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0557                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0558                     m.wholeCellModelIDs(m.aminoAcidIndexs), 3);
+0559             <span class="keyword">end</span>
+0560         <span class="keyword">end</span>
+0561         
+0562         <a name="_sub20" href="#_subfunctions" class="code">function plotExperimental_Calculated_RNA_Weight_Fraction_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0563             import edu.stanford.covert.cell.sim.analysis.Constants;
+0564             
+0565             r = sim.state(<span class="string">'Rna'</span>);
+0566             
+0567             ratios = log2(r.weightFractions ./ r.expectedWeightFractions);
+0568             x = 1:numel(ratios);
+0569             bar(x, ratios, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle);
+0570             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'RNA weight fraction'</span>);
+0571             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0572                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0573                     {<span class="string">'mRNA'</span>, <span class="string">'rRNA 5S'</span>, <span class="string">'rRNA 16S'</span>, <span class="string">'rRNA 23S'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>});
+0574             <span class="keyword">end</span>
+0575         <span class="keyword">end</span>
+0576         
+0577         <a name="_sub21" href="#_subfunctions" class="code">function plotExperimental_Calculated_Gene_Decay_Rate_Ratios(sim, axesHandle, showLabelsAndLegend)</a>
+0578             import edu.stanford.covert.cell.sim.analysis.Constants;
+0579             
+0580             r = sim.state(<span class="string">'Rna'</span>);
+0581             
+0582             x = 1:length(sim.gene.wholeCellModelIDs);
+0583             ratios = log2(r.geneDecayRates ./ r.expectedGeneDecayRates);
+0584             bar(x, ratios, <span class="string">'FaceColor'</span>, <span class="string">'b'</span>, <span class="string">'Parent'</span>, axesHandle);
+0585             Constants.formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="string">'Gene decay rate'</span>);
+0586             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; showLabelsAndLegend
+0587                 Constants.labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, <span class="keyword">...</span>
+0588                     sim.gene.wholeCellModelIDs, 10);
+0589             <span class="keyword">end</span>
+0590         <span class="keyword">end</span>
+0591         
+0592         <a name="_sub22" href="#_subfunctions" class="code">function formatAxesExperimentalCalculatedBarPlot(axesHandle, x, ratios, xAxisLabel)</a>
+0593             <span class="keyword">if</span> ~exist(<span class="string">'xAxisLabel'</span>, <span class="string">'var'</span>)
+0594                 xAxisLabel = <span class="string">'Index'</span>;
+0595             <span class="keyword">end</span>
+0596             
+0597             minVal = min(ratios);
+0598             maxVal = max(ratios);
+0599             range = maxVal - minVal;
+0600             minVal = minVal - range * 0.05;
+0601             maxVal = maxVal + range * 0.05;
+0602             
+0603             <span class="keyword">if</span> ~isnan(min(x)) &amp;&amp; ~isnan(max(x))
+0604                 xlim(axesHandle, [min(x)-0.5 max(x)+0.5]);
+0605             <span class="keyword">end</span>
+0606             <span class="keyword">if</span> ~isnan(minVal) &amp;&amp; ~isnan(maxVal)
+0607                 ylim(axesHandle, [minVal maxVal]);
+0608             <span class="keyword">end</span>
+0609             
+0610             xlabel(axesHandle, xAxisLabel, <span class="string">'FontSize'</span>, 16);
+0611             ylabel(axesHandle, <span class="string">'log_2(Calculated / Experimental)'</span>, <span class="string">'FontSize'</span>, 16);
+0612         <span class="keyword">end</span>
+0613         
+0614         <a name="_sub23" href="#_subfunctions" class="code">function labelExperimentalCalculatedBarPlot(axesHandle, x, ratios, labels, count)</a>
+0615             <span class="keyword">if</span> ~exist(<span class="string">'count'</span>, <span class="string">'var'</span>)
+0616                 <span class="keyword">for</span> i = 1:length(x)
+0617                     <span class="keyword">if</span>(ratios(i)&gt;0)
+0618                         text(x(i), ratios(i), labels{i},<span class="keyword">...</span>
+0619                             <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>, <span class="keyword">...</span>
+0620                             <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0621                             <span class="string">'Parent'</span>, axesHandle);
+0622                     <span class="keyword">else</span>
+0623                         text(x(i), ratios(i), labels{i},<span class="keyword">...</span>
+0624                             <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'top'</span>, <span class="keyword">...</span>
+0625                             <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0626                             <span class="string">'Parent'</span>, axesHandle);
+0627                     <span class="keyword">end</span>
+0628                 <span class="keyword">end</span>
+0629             <span class="keyword">else</span>
+0630                 [~, idxs] = sort(ratios);
+0631                 <span class="keyword">for</span> i = 1:count
+0632                     text(x(idxs(i)), ratios(idxs(i)), labels{idxs(i)},<span class="keyword">...</span>
+0633                         <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'top'</span>,<span class="keyword">...</span>
+0634                         <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0635                         <span class="string">'Parent'</span>, axesHandle);
+0636                     text(x(idxs(end-i+1)), ratios(idxs(end-i+1)), labels{idxs(end-i+1)},<span class="keyword">...</span>
+0637                         <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>, <span class="string">'bottom'</span>,<span class="keyword">...</span>
+0638                         <span class="string">'FontSize'</span>, 10, <span class="string">'Interpreter'</span>, <span class="string">'none'</span>, <span class="keyword">...</span>
+0639                         <span class="string">'Parent'</span>, axesHandle);
+0640                 <span class="keyword">end</span>
+0641             <span class="keyword">end</span>
+0642         <span class="keyword">end</span>
+0643     <span class="keyword">end</span>
+0644 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

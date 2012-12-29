@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=MarvinSpace
+Exec=/bin/sh "/usr/share/ChemAxon/MarvinBeans/MarvinSpace"
+Icon=/usr/share/ChemAxon/MarvinBeans/.install4j/MarvinSpace.png
+Categories=Application;

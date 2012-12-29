@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeAnimation</title>
+  <meta name="keywords" content="ChromosomeAnimation">
+  <meta name="description" content="ChromosomeAnimation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; ChromosomeAnimation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeAnimation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>ChromosomeAnimation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ChromosomeAnimation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 7/20/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeAnimation.html" class="code" title="">ChromosomeAnimation</a>	ChromosomeAnimation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeAnimation.html" class="code" title="">ChromosomeAnimation</a>	ChromosomeAnimation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ChromosomeAnimation(varargin)</a></li><li><a href="#_sub2" class="code">function [times, states] = loadSimulationData(this)</a></li><li><a href="#_sub3" class="code">function svg = drawFrame(this, timeIdx)</a></li><li><a href="#_sub4" class="code">function svg = drawArc(this, posStrnds, lens, r0, strokeColor, strokeWidth)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%ChromosomeAnimation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 7/20/2011</span>
+0006 classdef <a href="ChromosomeAnimation.html" class="code" title="">ChromosomeAnimation</a> &lt; edu.stanford.covert.cell.sim.analysis.Animation
+0007     properties (SetAccess = protected)
+0008         title = <span class="string">'Whole Cell DNA Animation'</span>
+0009         description = <span class="string">'Animation of dynamics of DNA in a single Mycoplasma genitalium whole-cell simulation.'</span>
+0010         author = <span class="string">'Jonathan Karr, Covert Lab, Department of Bioengineering, Stanford University'</span>        
+0011     <span class="keyword">end</span>
+0012     
+0013     methods
+0014         <a name="_sub0" href="#_subfunctions" class="code">function this = ChromosomeAnimation(varargin)</a>
+0015             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0016             
+0017             this = this@edu.stanford.covert.cell.sim.analysis.Animation(varargin{:});
+0018             
+0019             this.movieWidth = round((600/90 * this.movieDPI) / 2) * 2;
+0020             this.movieHeight = round((300/90 * this.movieDPI) / 2) * 2;
+0021         <span class="keyword">end</span>
+0022         
+0023         <a name="_sub1" href="#_subfunctions" class="code">function [times, states] = loadSimulationData(this)</a>
+0024             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0025             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0026             
+0027             stateNames = {
+0028                 <span class="string">'Time'</span>       <span class="string">'values'</span>
+0029                 <span class="string">'Chromosome'</span> <span class="string">'polymerizedRegions'</span>
+0030                 <span class="string">'Chromosome'</span> <span class="string">'monomerBoundSites'</span>
+0031                 <span class="string">'Chromosome'</span> <span class="string">'complexBoundSites'</span>
+0032                 };
+0033             simDir = SimulationDiskUtil.getSimulation([this.simGroupId filesep num2str(this.simId)]);
+0034             states = DiskLogger.load(simDir, stateNames, [], [], [], <span class="string">'extract'</span>);
+0035             times = states.Time.values;
+0036         <span class="keyword">end</span>
+0037         
+0038         <a name="_sub2" href="#_subfunctions" class="code">function svg = drawFrame(this, timeIdx)</a>
+0039             chr = this.simulation.state(<span class="string">'Chromosome'</span>);
+0040             
+0041             <span class="comment">%open svg</span>
+0042             svg = [];
+0043             svg = [svg sprintf(<span class="string">'&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;\n'</span>)];
+0044             svg = [svg sprintf(<span class="string">'&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;\n'</span>)];
+0045             svg = [svg sprintf(<span class="string">'&lt;svg width=&quot;%d&quot; height=&quot;%d&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;%d %d %d %d&quot;&gt;\n'</span>, 600, 300, 0, 0, 600, 300)];
+0046             
+0047             <span class="comment">%white background</span>
+0048             svg = [svg sprintf(<span class="string">'&lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:white; stroke:none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0049                 0, 0, 600, 300)];
+0050             
+0051             <span class="comment">%polymerized Regions</span>
+0052             [posStrnds, lens] = find(this.states.Chromosome.polymerizedRegions);
+0053             lens = lens(posStrnds(:, 3) == timeIdx, :);
+0054             posStrnds = posStrnds(posStrnds(:, 3) == timeIdx, 1:2);
+0055             svg = [svg sprintf(this.drawArc(posStrnds, lens, [95 105], <span class="string">'black'</span>, 2))];
+0056             
+0057             <span class="comment">%bound proteins</span>
+0058             [monPosStrnds, monIdxs] = find(this.states.Chromosome.monomerBoundSites);
+0059             [cpxPosStrnds, cpxIdxs] = find(this.states.Chromosome.complexBoundSites);
+0060             posStrnds = [
+0061                 monPosStrnds(monPosStrnds(:, 3) == timeIdx, 1:2)
+0062                 cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx, 1:2)
+0063                 ];
+0064             lens = [
+0065                 chr.monomerDNAFootprints(monIdxs(monPosStrnds(:, 3) == timeIdx, :))
+0066                 chr.complexDNAFootprints(cpxIdxs(cpxPosStrnds(:, 3) == timeIdx, :))
+0067                 ];
+0068             svg = [svg sprintf(this.drawArc(posStrnds, lens, [90 110], <span class="string">'red'</span>, 1))];
+0069             
+0070             <span class="comment">%close svg</span>
+0071             svg = [svg sprintf(<span class="string">'&lt;/svg&gt;\n'</span>)];
+0072         <span class="keyword">end</span>
+0073         
+0074         <a name="_sub3" href="#_subfunctions" class="code">function svg = drawArc(this, posStrnds, lens, r0, strokeColor, strokeWidth)</a>
+0075             chr = this.simulation.state(<span class="string">'Chromosome'</span>);
+0076             
+0077             svg = [];
+0078             <span class="keyword">for</span> j = 1:size(posStrnds, 1)
+0079                 theta = posStrnds(j, 1) / chr.sequenceLen * 2 * pi - pi/2;
+0080                 dTheta = lens(j) / chr.sequenceLen * 2 * pi;
+0081                 largeArc = dTheta &gt;= pi;
+0082                 r = r0(iseven(posStrnds(j, 2)) + 1);
+0083                 <span class="keyword">if</span> posStrnds(j, 2) &lt;= 2
+0084                     cx = 50 + 100;
+0085                 <span class="keyword">else</span>
+0086                     cx = 3*50 + 3*100;
+0087                 <span class="keyword">end</span>
+0088                 cy = 50 + 100;
+0089                 <span class="keyword">if</span> lens(j) == chr.sequenceLen
+0090                     svg = [svg sprintf(<span class="string">'&lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; stroke=&quot;%s&quot; stroke-width=&quot;%f&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0091                         cx, cy, r, <span class="keyword">...</span>
+0092                         strokeColor, strokeWidth)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0093                 <span class="keyword">else</span>
+0094                     svg = [svg sprintf(<span class="string">'&lt;path d=&quot;M%f,%f A%f,%f %d %d,%d %f %f&quot; stroke=&quot;%s&quot; stroke-width=&quot;%d&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0095                         cx + r*cos(theta), cy + r*sin(theta), <span class="keyword">...</span>
+0096                         r, r, 0, largeArc, 1, cx + r*cos(theta+dTheta), cy + r*sin(theta+dTheta), <span class="keyword">...</span>
+0097                         strokeColor, strokeWidth)];
+0098                 <span class="keyword">end</span>
+0099             <span class="keyword">end</span>
+0100         <span class="keyword">end</span>
+0101     <span class="keyword">end</span>
+0102 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

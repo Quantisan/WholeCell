@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SimulationEnsemble</title>
+  <meta name="keywords" content="SimulationEnsemble">
+  <meta name="description" content="SimulationEnsemble">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; SimulationEnsemble.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SimulationEnsemble
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SimulationEnsemble</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> SimulationEnsemble
+   Retrieves data from an ensemble (a batch) of simulations.
+   Data is stored and annotated
+   Statistics can be computed on the data
+
+ Author: Derek Macklin, macklin@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Creation Date: 7/12/2011
+ Last Updated: 8/1/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationEnsemble.html" class="code" title="">SimulationEnsemble</a>	SimulationEnsemble</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationEnsemble.html" class="code" title="">SimulationEnsemble</a>	SimulationEnsemble</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function incompSims = remainingSimulations(time, endTimes)</a></li><li><a href="#_sub2" class="code">function sData = createStateDataStruct(numTimePoints, nSims, selectedStates)</a></li><li><a href="#_sub3" class="code">function this = SimulationEnsemble(simID, selectedStates, timeSpan, selectedSimulations)</a></li><li><a href="#_sub4" class="code">function initializeStateData(this)</a></li><li><a href="#_sub5" class="code">function value = maximumSimulationTimePoints(this)</a></li><li><a href="#_sub6" class="code">function value = getPropertyIndices(this, props)</a></li><li><a href="#_sub7" class="code">function value = getCompletedWithReplication(this)</a></li><li><a href="#_sub8" class="code">function value = getCompletedWithoutError(this)</a></li><li><a href="#_sub9" class="code">function value = getEarliestTermination(this)</a></li><li><a href="#_sub10" class="code">function value = getTimeStamp(this)</a></li><li><a href="#_sub11" class="code">function [states, metadata, options, parameters, fittedConstants] = load(simGroupDir, stateNames,</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% SimulationEnsemble</span>
+0002 <span class="comment">%   Retrieves data from an ensemble (a batch) of simulations.</span>
+0003 <span class="comment">%   Data is stored and annotated</span>
+0004 <span class="comment">%   Statistics can be computed on the data</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Derek Macklin, macklin@stanford.edu</span>
+0007 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0008 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0009 <span class="comment">% Creation Date: 7/12/2011</span>
+0010 <span class="comment">% Last Updated: 8/1/2011</span>
+0011 
+0012 classdef <a href="SimulationEnsemble.html" class="code" title="">SimulationEnsemble</a> &lt; handle
+0013     properties
+0014         stateData
+0015     <span class="keyword">end</span>
+0016     
+0017     properties (SetAccess = protected)
+0018         directory
+0019         timeSpan
+0020         selectedSimulations
+0021     <span class="keyword">end</span>
+0022     
+0023     properties (Constant = true)
+0024         summaryLogToEnsemble = {
+0025             <span class="string">'runTime'</span>           <span class="string">'runTime'</span>               1
+0026             <span class="string">'mass'</span>              <span class="string">'mass'</span>                  1
+0027             <span class="string">'growth_rate'</span>       <span class="string">'growth'</span>                1
+0028             <span class="string">'ploidy'</span>            <span class="string">'ploidy'</span>                1
+0029             <span class="string">'atp'</span>               <span class="string">'metabolites'</span>           1
+0030             <span class="string">'adp'</span>               <span class="string">'metabolites'</span>           2
+0031             <span class="string">'amp'</span>               <span class="string">'metabolites'</span>           3
+0032             <span class="string">'ntps'</span>              <span class="string">'metabolites'</span>           4
+0033             <span class="string">'amino_acids'</span>       <span class="string">'metabolites'</span>           7
+0034             <span class="string">'lipids'</span>            <span class="string">'metabolites'</span>          10
+0035             <span class="string">'polysaccharides'</span>   <span class="string">'metabolites'</span>          11
+0036             <span class="string">'dntps'</span>             <span class="string">'metabolites'</span>          12
+0037             <span class="string">'antibiotics'</span>       <span class="string">'metabolites'</span>          13
+0038             <span class="string">'rnas'</span>              <span class="string">'rnas'</span>                  1
+0039             <span class="string">'mrnas'</span>             <span class="string">'rnas'</span>                  2
+0040             <span class="string">'rrnas'</span>             <span class="string">'rnas'</span>                  3
+0041             <span class="string">'srnas'</span>             <span class="string">'rnas'</span>                  4
+0042             <span class="string">'trnas'</span>             <span class="string">'rnas'</span>                  5
+0043             <span class="string">'immatureRnas'</span>      <span class="string">'rnas'</span>                  6
+0044             <span class="string">'damagedRnas'</span>       <span class="string">'rnas'</span>                  7
+0045             <span class="string">'monomers'</span>          <span class="string">'proteins'</span>              1
+0046             <span class="string">'matureMonomers'</span>    <span class="string">'proteins'</span>              2
+0047             <span class="string">'immatureMonomers'</span>  <span class="string">'proteins'</span>              3
+0048             <span class="string">'complexs'</span>          <span class="string">'proteins'</span>              4
+0049             <span class="string">'matureComplexs'</span>    <span class="string">'proteins'</span>              5
+0050             <span class="string">'immatureComplexs'</span>  <span class="string">'proteins'</span>              6
+0051             <span class="string">'damagedProteins'</span>   <span class="string">'proteins'</span>              7
+0052             <span class="string">'proteins'</span>          <span class="string">'proteins'</span>              [1 4]
+0053             <span class="string">'rnaPolymerases'</span>    <span class="string">'rnaPolymerases'</span>        1
+0054             <span class="string">'ribosomes'</span>         <span class="string">'ribosomes'</span>             1
+0055             <span class="string">'dnaA'</span>              <span class="string">'dnaA'</span>                  1
+0056             <span class="string">'dnaA_box1'</span>         <span class="string">'dnaAFunctionalBoxes'</span>   1
+0057             <span class="string">'dnaA_box2'</span>         <span class="string">'dnaAFunctionalBoxes'</span>   2
+0058             <span class="string">'dnaA_box3'</span>         <span class="string">'dnaAFunctionalBoxes'</span>   3
+0059             <span class="string">'dnaA_box4'</span>         <span class="string">'dnaAFunctionalBoxes'</span>   4
+0060             <span class="string">'dnaA_box5'</span>         <span class="string">'dnaAFunctionalBoxes'</span>   5
+0061             <span class="string">'dnaA_boxes'</span>        <span class="string">'dnaAFunctionalBoxes'</span>   1:5
+0062             <span class="string">'helicase1'</span>         <span class="string">'replisome'</span>             1
+0063             <span class="string">'helicase2'</span>         <span class="string">'replisome'</span>             2
+0064             <span class="string">'leadingPol1'</span>       <span class="string">'replisome'</span>             3
+0065             <span class="string">'leadingPol2'</span>       <span class="string">'replisome'</span>             4
+0066             <span class="string">'laggingPol1'</span>       <span class="string">'replisome'</span>             5
+0067             <span class="string">'laggingPol2'</span>       <span class="string">'replisome'</span>             6
+0068             <span class="string">'ftsZ'</span>              <span class="string">'ftsZ'</span>                  2
+0069             <span class="string">'ftsZRing1st'</span>       <span class="string">'ftsZRing'</span>              1
+0070             <span class="string">'ftsZRing2st'</span>       <span class="string">'ftsZRing'</span>              2
+0071             <span class="string">'ftsZRing2bt'</span>       <span class="string">'ftsZRing'</span>              3
+0072             <span class="string">'ftsZRingRbt'</span>       <span class="string">'ftsZRing'</span>              4
+0073             <span class="string">'pinchedDiameter'</span>   <span class="string">'pinchedDiameter'</span>       1
+0074             <span class="string">'supercoiled'</span>       <span class="string">'supercoiled'</span>           1
+0075             <span class="string">'superhelicity'</span>     <span class="string">'supercoiled'</span>           2
+0076             <span class="string">'atpUsage'</span>          <span class="string">'metaboliteUsages'</span>      1
+0077             <span class="string">'gtpUsage'</span>          <span class="string">'metaboliteUsages'</span>      2
+0078             <span class="string">'atpProduction'</span>     <span class="string">'metaboliteProductions'</span> 1
+0079             <span class="string">'gtpProduction'</span>     <span class="string">'metaboliteProductions'</span> 2
+0080             };
+0081     <span class="keyword">end</span>
+0082         
+0083     methods (Static = true)
+0084         <a name="_sub0" href="#_subfunctions" class="code">function incompSims = remainingSimulations(time, endTimes)</a>
+0085             <span class="comment">% Data for a Kaplan-Meier curve</span>
+0086             incompSims = zeros(1, length(time));
+0087             endTimes = sort(endTimes(~isnan(endTimes)));
+0088             nSims = length(endTimes);
+0089             
+0090             r1 = 1;
+0091             r2 = find(time &gt;= endTimes(1), 1);
+0092             incompSims(r1:r2) = nSims;
+0093             nSims = nSims - 1;
+0094             
+0095             <span class="keyword">for</span> i = 1:length(endTimes) - 1;
+0096                 r1 = find(time &gt;= endTimes(i), 1);
+0097                 r2 = find(time &gt;= endTimes(i+1), 1);
+0098                 incompSims(r1:r2) = nSims;
+0099                 nSims = nSims - 1;
+0100             <span class="keyword">end</span>
+0101             
+0102             incompSims(find(time &gt;= endTimes(end), 1):end) = nSims;
+0103         <span class="keyword">end</span>
+0104         
+0105         <a name="_sub1" href="#_subfunctions" class="code">function sData = createStateDataStruct(numTimePoints, nSims, selectedStates)</a>
+0106             
+0107             numProperties = size(selectedStates, 1);
+0108             
+0109             sData = struct;
+0110             sData.time = nan(1, numTimePoints);
+0111             sData.downsampleStepSec = NaN;
+0112             sData.values = nan(numProperties, 1, numTimePoints, nSims);
+0113             sData.simulationNumber = nan(nSims, 1);
+0114             sData.simulationStatus = nan(nSims, 1);
+0115             sData.simulationEndTimes = nan(nSims, 1);
+0116             sData.properties = selectedStates(:, 1);
+0117             <span class="keyword">if</span> size(selectedStates, 2) == 1
+0118                 sData.properties = selectedStates(:, 1);
+0119             <span class="keyword">else</span>
+0120                 sData.descriptions = selectedStates(:, 2);
+0121             <span class="keyword">end</span>
+0122         <span class="keyword">end</span>
+0123     <span class="keyword">end</span>
+0124     
+0125     methods
+0126         <a name="_sub2" href="#_subfunctions" class="code">function this = SimulationEnsemble(simID, selectedStates, timeSpan, selectedSimulations)</a>
+0127             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0128             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0129             
+0130             <span class="keyword">if</span> nargin &lt;= 1
+0131                 throw(MException(<span class="string">'SimulationEnsemble:error'</span>, <span class="string">'Insufficient arguments'</span>));
+0132             <span class="keyword">end</span>
+0133             
+0134             simDir = SimulationDiskUtil.getSimulation([simID filesep <span class="string">'1'</span>]);
+0135             this.directory = SimulationDiskUtil.getSimulationBatchDir(simDir);
+0136             
+0137             this.timeSpan = [0 Inf];
+0138             this.selectedSimulations = SimulationDiskUtil.getCompleteSimulations(this.directory);
+0139             
+0140             <span class="keyword">if</span> nargin &gt;= 3 &amp;&amp; ~isempty(timeSpan)
+0141                 this.timeSpan = timeSpan;
+0142             <span class="keyword">end</span>
+0143             
+0144             <span class="keyword">if</span> nargin &gt;= 4
+0145                 this.selectedSimulations = selectedSimulations;
+0146             <span class="keyword">end</span>
+0147             
+0148             this.stateData = SimulationEnsemble.createStateDataStruct(<span class="keyword">...</span>
+0149                 this.maximumSimulationTimePoints(), numel(this.selectedSimulations), selectedStates);
+0150             
+0151             this.initializeStateData();
+0152         <span class="keyword">end</span>
+0153         
+0154         <a name="_sub3" href="#_subfunctions" class="code">function initializeStateData(this)</a>
+0155             import edu.stanford.covert.cell.sim.util.SummaryLogger;
+0156             
+0157             <span class="comment">%identify properties which have (and haven't) been saved in summary</span>
+0158             [tfs, ensemblePropIdxs] = ismember(this.stateData.properties, this.summaryLogToEnsemble(:, 1));
+0159             
+0160             <span class="keyword">if</span> ~isempty(this.selectedSimulations)
+0161                 summaryFileName = sprintf(<span class="string">'%s/%d/summary.mat'</span>, this.directory, this.selectedSimulations(1));
+0162                 <span class="keyword">if</span> exist(summaryFileName, <span class="string">'file'</span>)
+0163                     summary = <a href="#_sub11" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants] = load(simGroupDir, stateNames, ">load</a>(summaryFileName);
+0164                     tfs(tfs) = ismember(this.summaryLogToEnsemble(ensemblePropIdxs(tfs), 2), fieldnames(summary));
+0165                     clear summary;
+0166                 <span class="keyword">end</span>
+0167             <span class="keyword">end</span>
+0168             
+0169             <span class="keyword">if</span> ~all(tfs)
+0170                 warning(<span class="string">'WholeCell:warning:undefinedSummaryProperty'</span>, <span class="string">'Undefined properties:\n- %s'</span>, strjoin(sprintf(<span class="string">'\n- '</span>), this.stateData.properties{~tfs}));
+0171             <span class="keyword">end</span>
+0172             
+0173             <span class="comment">%get data</span>
+0174             <span class="keyword">for</span> i = 1:length(this.selectedSimulations)
+0175                 this.stateData.simulationNumber(i) = this.selectedSimulations(i);
+0176                 summaryFileName = sprintf(<span class="string">'%s/%d/summary.mat'</span>, this.directory, this.selectedSimulations(i));
+0177                 
+0178                 <span class="keyword">if</span> ~exist(sprintf(<span class="string">'%s/%d/state-0.mat'</span>, this.directory, this.selectedSimulations(i)), <span class="string">'file'</span>)
+0179                     this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_DIDNT_START;
+0180                 <span class="keyword">elseif</span> ~exist(sprintf(<span class="string">'%s/%d/err.mat'</span>, this.directory, this.selectedSimulations(i)), <span class="string">'file'</span>) &amp;&amp; ~exist(sprintf(<span class="string">'%s/%d/summary.mat'</span>, this.directory, this.selectedSimulations(i)), <span class="string">'file'</span>)
+0181                     this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_STILL_RUNNING;
+0182                 <span class="keyword">elseif</span> ~exist(summaryFileName, <span class="string">'file'</span>)
+0183                     this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_TERMINATED_WITH_ERROR;
+0184                 <span class="keyword">else</span>                    
+0185                     summary = <a href="#_sub11" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants] = load(simGroupDir, stateNames, ">load</a>(summaryFileName);
+0186                     
+0187                     <span class="keyword">if</span> exist(sprintf(<span class="string">'%s/%d/err.mat'</span>, this.directory, this.selectedSimulations(i)), <span class="string">'file'</span>)
+0188                         this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_TERMINATED_WITH_ERROR;
+0189                     <span class="keyword">elseif</span> summary.pinchedDiameter(end) == 0
+0190                         this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_COMPLETED_WITH_DIVISION;
+0191                     <span class="keyword">else</span>
+0192                         this.stateData.simulationStatus(i) = SummaryLogger.SIM_STATUS_COMPLETED_WITHOUT_DIVISION;
+0193                     <span class="keyword">end</span>
+0194                     
+0195                     indStart = find(summary.time &gt;= this.timeSpan(1), 1, <span class="string">'first'</span>);
+0196                     indStop = find(summary.time &lt;= this.timeSpan(2), 1, <span class="string">'last'</span>);
+0197                     
+0198                     <span class="keyword">if</span> numel(summary.time(indStart:indStop)) &gt; sum(~isnan(this.stateData.time))
+0199                         this.stateData.time(1:(indStop - indStart + 1)) = summary.time(indStart:indStop);
+0200                     <span class="keyword">end</span>
+0201                     this.stateData.downsampleStepSec = diff(this.stateData.time(1:2));
+0202                     
+0203                     this.stateData.simulationEndTimes(i) = summary.time(end);
+0204                     
+0205                     <span class="keyword">for</span> j = 1:length(this.stateData.properties)
+0206                         <span class="keyword">if</span> ~tfs(j)
+0207                             <span class="keyword">continue</span>;
+0208                         <span class="keyword">end</span>
+0209                         
+0210                         results = double(summary.(this.summaryLogToEnsemble{ensemblePropIdxs(j), 2})(this.summaryLogToEnsemble{ensemblePropIdxs(j), 3}, indStart:indStop));
+0211                         <span class="keyword">if</span> size(results, 1) &gt; 1
+0212                             results = sum(results, 1);
+0213                         <span class="keyword">end</span>
+0214                         
+0215                         <span class="keyword">if</span> isequal(this.summaryLogToEnsemble{ensemblePropIdxs(j), 2}, <span class="string">'replisome'</span>)
+0216                             <span class="keyword">if</span> isodd(this.summaryLogToEnsemble{ensemblePropIdxs(j), 3})
+0217                                 results(results == 0) = NaN;
+0218                                 a = find(results &lt; 580076 / 3);     <span class="comment">% Ideally use 2, but want room for noise (like footprint size)--this is overkill</span>
+0219                                 results(a) = results(a) + 580076;
+0220                             <span class="keyword">else</span>
+0221                                 results(results == 0) = NaN;
+0222                                 a = find(results &gt; 580076 * 2 / 3); <span class="comment">% Ideally use 1/2, but want room for noise (like footprint size)---this is overkill</span>
+0223                                 results(a) = results(a) - 580076;
+0224                             <span class="keyword">end</span>
+0225                         <span class="keyword">end</span>
+0226                         this.stateData.values(j, 1, 1:length(results), i) = results;
+0227                     <span class="keyword">end</span>
+0228                     
+0229                     clear summary;
+0230                 <span class="keyword">end</span>
+0231             <span class="keyword">end</span>
+0232         <span class="keyword">end</span>
+0233         
+0234         <a name="_sub4" href="#_subfunctions" class="code">function value = maximumSimulationTimePoints(this)</a>
+0235             value = 0;
+0236             <span class="keyword">for</span> i = 1:length(this.selectedSimulations)
+0237                 <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0238                     summary = <a href="#_sub11" class="code" title="subfunction [states, metadata, options, parameters, fittedConstants] = load(simGroupDir, stateNames, ">load</a>([this.directory filesep num2str(this.selectedSimulations(i)) filesep <span class="string">'summary.mat'</span>], <span class="string">'time'</span>);
+0239                     value = max(value, sum(summary.time &gt;= this.timeSpan(1) &amp; summary.time &lt;= this.timeSpan(2)));
+0240                 <span class="keyword">end</span>
+0241             <span class="keyword">end</span>
+0242         <span class="keyword">end</span>
+0243         
+0244         <span class="comment">% 'props' is a cell array of properties</span>
+0245         <a name="_sub5" href="#_subfunctions" class="code">function value = getPropertyIndices(this, props)</a>
+0246             [~, value] = ismember(props, this.stateData.properties);
+0247             value(value == 0) = NaN;
+0248         <span class="keyword">end</span>
+0249         
+0250         <a name="_sub6" href="#_subfunctions" class="code">function value = getCompletedWithReplication(this)</a>
+0251             import edu.stanford.covert.cell.sim.util.SummaryLogger;
+0252             
+0253             value = sum(this.stateData.simulationStatus == SummaryLogger.SIM_STATUS_COMPLETED_WITH_DIVISION);
+0254         <span class="keyword">end</span>
+0255         
+0256         <a name="_sub7" href="#_subfunctions" class="code">function value = getCompletedWithoutError(this)</a>
+0257             import edu.stanford.covert.cell.sim.util.SummaryLogger;
+0258             
+0259             value = sum(<span class="keyword">...</span>
+0260                 this.stateData.simulationStatus == SummaryLogger.SIM_STATUS_COMPLETED_WITH_DIVISION | <span class="keyword">...</span>
+0261                 this.stateData.simulationStatus == SummaryLogger.SIM_STATUS_COMPLETED_WITHOUT_DIVISION);
+0262         <span class="keyword">end</span>
+0263         
+0264         <a name="_sub8" href="#_subfunctions" class="code">function value = getEarliestTermination(this)</a>
+0265             value = min(this.stateData.simulationEndTimes);
+0266         <span class="keyword">end</span>
+0267         
+0268         <a name="_sub9" href="#_subfunctions" class="code">function value = getTimeStamp(this)</a>
+0269             value = edu.stanford.covert.cell.sim.util.SimulationDiskUtil.getSimulationTimeStamp([this.directory filesep <span class="string">'1'</span>]);
+0270         <span class="keyword">end</span>
+0271     <span class="keyword">end</span>
+0272     
+0273     methods (Static = true)
+0274         <a name="_sub10" href="#_subfunctions" class="code">function [states, metadata, options, parameters, fittedConstants] = load(simGroupDir, stateNames, </a><span class="keyword">...</span>
+0275                 initTime, finTime, downsampleStepSec, <span class="keyword">...</span>
+0276                 downsampleType, selectedSimulations)
+0277             import edu.stanford.covert.cell.sim.util.DiskLogger;
+0278             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0279             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0280             
+0281             <span class="keyword">if</span> ~((isunix &amp;&amp; simGroupDir(1) == <span class="string">'/'</span>) || (ispc &amp;&amp; simGroupDir(2) == <span class="string">':'</span>))
+0282                 simGroupDir = [SimulationDiskUtil.getBaseDir() filesep simGroupDir];
+0283             <span class="keyword">end</span>
+0284             
+0285             simDir = [simGroupDir filesep <span class="string">'1'</span>];
+0286             metadata = DiskLogger.loadMetadata(simDir); metadata.downsampleStepSec = downsampleStepSec;
+0287             options = DiskLogger.loadOptions(simDir);
+0288             parameters = DiskLogger.loadParameters(simDir);
+0289             fittedConstants = DiskLogger.loadFittedConstants(simDir);
+0290             
+0291             <span class="keyword">if</span> ~exist(<span class="string">'selectedSimulations'</span>, <span class="string">'var'</span>) || isempty(selectedSimulations)
+0292                 selectedSimulations = SimulationDiskUtil.getCompleteSimulations(simGroupDir);
+0293             <span class="keyword">end</span>
+0294             nSims = numel(selectedSimulations);
+0295             
+0296             lengthSecs = zeros(nSims, 1);
+0297             states = struct();
+0298             <span class="keyword">for</span> j = 1:size(stateNames, 1)
+0299                 <span class="keyword">for</span> i = 1:nSims
+0300                     simDir = [simGroupDir filesep num2str(selectedSimulations(i))];
+0301                     <span class="keyword">if</span> j == 1
+0302                         tmp = DiskLogger.loadMetadata(simDir, <span class="string">'lengthSec'</span>);
+0303                         lengthSecs(i) = tmp.lengthSec;
+0304                     <span class="keyword">end</span>
+0305                     metadata.lengthSec = lengthSecs(i);
+0306                     tmpStates = DiskLogger.loadTimecourses(simDir, stateNames, initTime, finTime, downsampleStepSec, <span class="keyword">...</span>
+0307                         downsampleType, options, metadata);
+0308                     
+0309                     <span class="keyword">if</span> i == 1
+0310                         states.(stateNames{j, 1}).(stateNames{j, 2}) = tmpStates.(stateNames{j, 1}).(stateNames{j, 2});
+0311                         <span class="keyword">continue</span>;
+0312                     <span class="keyword">end</span>
+0313                     
+0314                     tmp1 = states.(stateNames{j, 1}).(stateNames{j, 2});
+0315                     tmp2 = tmpStates.(stateNames{j, 1}).(stateNames{j, 2});
+0316                     siz1 = size(tmp1); siz1 = [siz1 ones(1, 4-numel(siz1))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0317                     siz2 = size(tmp2); siz2 = [siz2 ones(1, 4-numel(siz2))]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0318                     <span class="keyword">if</span> isa(states.(stateNames{j, 1}).(stateNames{j, 2}), <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0319                         <span class="keyword">if</span> ~isequal(siz1(1:3), siz2(1:3))
+0320                             states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(1, states.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(0, siz2(1) - siz1(1)) siz1(2:end)]));
+0321                             states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(2, states.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(siz2(1), siz1(1)) max(0, siz2(2) - siz1(2)) siz1(3:end)]));
+0322                             states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(3, states.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(siz2(1:2), siz1(1:2)) max(0, siz2(3) - siz1(3)) siz1(4:end)]));
+0323                             
+0324                             tmpStates.(stateNames{j, 1}).(stateNames{j, 2}) = cat(1, tmpStates.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(0, siz1(1) - siz2(1)) siz2(2:end)]));
+0325                             tmpStates.(stateNames{j, 1}).(stateNames{j, 2}) = cat(2, tmpStates.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(siz1(1), siz2(1)) max(0, siz1(2) - siz2(2)) siz2(3:end)]));
+0326                             tmpStates.(stateNames{j, 1}).(stateNames{j, 2}) = cat(3, tmpStates.(stateNames{j, 1}).(stateNames{j, 2}), DiskLogger.allocateData(class(tmp1), [max(siz1(1:2), siz2(1:2)) max(0, siz1(3) - siz2(3)) siz2(4:end)]));
+0327                         <span class="keyword">end</span>
+0328                         
+0329                         states.(stateNames{j, 1}).(stateNames{j, 2}) = cat(4, <span class="keyword">...</span>
+0330                             states.(stateNames{j, 1}).(stateNames{j, 2}), tmpStates.(stateNames{j, 1}).(stateNames{j, 2}));
+0331                     <span class="keyword">else</span>
+0332                         states.(stateNames{j, 1}).(stateNames{j, 2}) = DiskLogger.allocateData(class(tmp1), [max(siz1(1:3), siz2(1:3)) siz1(4)+1], nnz(tmp1) / numel(tmp1));
+0333                         states.(stateNames{j, 1}).(stateNames{j, 2})(1:siz1(1), 1:siz1(2), 1:siz1(3), 1:siz1(4)) = tmp1;
+0334                         states.(stateNames{j, 1}).(stateNames{j, 2})(1:siz2(1), 1:siz2(2), 1:siz2(3), end) = tmp2;
+0335                     <span class="keyword">end</span>
+0336                     
+0337                     clear tmpStates tmp1 tmp2 siz1 siz2;
+0338                 <span class="keyword">end</span>
+0339             <span class="keyword">end</span>
+0340         <span class="keyword">end</span>
+0341     <span class="keyword">end</span>
+0342 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

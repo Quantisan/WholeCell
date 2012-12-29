@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of IOUtil</title>
+  <meta name="keywords" content="IOUtil">
+  <meta name="description" content="IO utility functions to">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="index.html">+util</a> &gt; IOUtil.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+util&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>IOUtil
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>IO utility functions to</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> IO utility functions to
+ - save data to files.
+ - read, edit mat file timestamps
+
+ Binary Format for matrices and cell arrays (with matrix and cell array
+ elements) inspired by Arvid Bottiger's write_matrix_bin,
+ 1. 1*uint32               Indicator of cell array
+ 2. 1*uint32               Dimensions of array
+ 3. dimensions*uint32      Lengths of dimensions
+ 4. a. Cell Array =&gt; recurse
+    b. Matrix
+       1*uint32            Indicator of character array
+       uint32 or float32   Dat%
+
+
+References:
+===============
+- write_matrix_bin by Arvid Bottiger
+   http://www.mathworks.com/matlabcentral/fileexchange/24483
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/14/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="IOUtil.html" class="code" title="">IOUtil</a>	IO utility functions to</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="IOUtil.html" class="code" title="">IOUtil</a>	IO utility functions to</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function writeBinary(filename, data)</a></li><li><a href="#_sub2" class="code">function data = readBinary(filename)</a></li><li><a href="#_sub3" class="code">function writeDataBinary(fid, data)</a></li><li><a href="#_sub4" class="code">function data = readDataBinary(fid)</a></li><li><a href="#_sub5" class="code">function writeMemmapFile(data, fileName)</a></li><li><a href="#_sub6" class="code">function result = readMemmapFile(fileName)</a></li><li><a href="#_sub7" class="code">function directories = getDirectoryNamesRecursively(directory)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% IO utility functions to</span>
+0002 <span class="comment">% - save data to files.</span>
+0003 <span class="comment">% - read, edit mat file timestamps</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Binary Format for matrices and cell arrays (with matrix and cell array</span>
+0006 <span class="comment">% elements) inspired by Arvid Bottiger's write_matrix_bin,</span>
+0007 <span class="comment">% 1. 1*uint32               Indicator of cell array</span>
+0008 <span class="comment">% 2. 1*uint32               Dimensions of array</span>
+0009 <span class="comment">% 3. dimensions*uint32      Lengths of dimensions</span>
+0010 <span class="comment">% 4. a. Cell Array =&gt; recurse</span>
+0011 <span class="comment">%    b. Matrix</span>
+0012 <span class="comment">%       1*uint32            Indicator of character array</span>
+0013 <span class="comment">%       uint32 or float32   Dat%</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%References:</span>
+0017 <span class="comment">%===============</span>
+0018 <span class="comment">%- write_matrix_bin by Arvid Bottiger</span>
+0019 <span class="comment">%   http://www.mathworks.com/matlabcentral/fileexchange/24483</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Author: Jonathan Karr</span>
+0022 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0023 <span class="comment">% Last updated: 7/14/2009</span>
+0024 classdef <a href="IOUtil.html" class="code" title="">IOUtil</a>
+0025     properties (Constant = true)
+0026         memmapfileHeaderSize = 1024
+0027         memmapfileDataField = <span class="string">'data'</span>
+0028     <span class="keyword">end</span>
+0029     
+0030     methods (Static)
+0031         <span class="comment">%Writes data to disk in binary format</span>
+0032         <a name="_sub0" href="#_subfunctions" class="code">function writeBinary(filename, data)</a>
+0033             import edu.stanford.covert.util.IOUtil;
+0034             
+0035             <span class="comment">%open file</span>
+0036             fid = fopen(filename, <span class="string">'w'</span>);
+0037             
+0038             <span class="comment">%write data</span>
+0039             IOUtil.writeDataBinary(fid, data);
+0040             
+0041             <span class="comment">%close file</span>
+0042             fclose(fid);
+0043         <span class="keyword">end</span>
+0044         
+0045         <span class="comment">%Reads data from disk in binary format</span>
+0046         <a name="_sub1" href="#_subfunctions" class="code">function data = readBinary(filename)</a>
+0047             import edu.stanford.covert.util.IOUtil;
+0048             
+0049             <span class="comment">%open file</span>
+0050             fid = fopen(filename, <span class="string">'r'</span>);
+0051             
+0052             <span class="comment">%read data</span>
+0053             data = IOUtil.readDataBinary(fid);
+0054             
+0055             <span class="comment">%close file</span>
+0056             fclose(fid);
+0057         <span class="keyword">end</span>
+0058     <span class="keyword">end</span>
+0059     
+0060     methods (Static, Access = protected)
+0061         <span class="comment">%Writes data to disk in binary format</span>
+0062         <a name="_sub2" href="#_subfunctions" class="code">function writeDataBinary(fid, data)</a>
+0063             import edu.stanford.covert.util.IOUtil;
+0064             
+0065             <span class="comment">%cell array, number of dimensions, size</span>
+0066             dataIsCell = iscell(data);
+0067             dataSize = size(data);
+0068             dimensions = length(dataSize);
+0069             fwrite(fid, [dataIsCell dimensions dataSize], <span class="string">'uint32'</span>);
+0070             
+0071             <span class="comment">%reshape data</span>
+0072             data = reshape(data,1,[]);
+0073             
+0074             <span class="comment">%write data</span>
+0075             <span class="keyword">if</span> dataIsCell
+0076                 <span class="keyword">for</span> i = 1:length(data)
+0077                     IOUtil.writeDataBinary(fid, data{i});
+0078                 <span class="keyword">end</span>
+0079             <span class="keyword">else</span>
+0080                 <span class="keyword">switch</span> class(data)
+0081                     <span class="keyword">case</span> <span class="string">'char'</span>,    dataType = 1;
+0082                     <span class="keyword">case</span> <span class="string">'uint8'</span>,   dataType = 2;
+0083                     <span class="keyword">case</span> <span class="string">'uint16'</span>,  dataType = 3;
+0084                     <span class="keyword">case</span> <span class="string">'uint32'</span>,  dataType = 4;
+0085                     <span class="keyword">case</span> <span class="string">'uint64'</span>,  dataType = 5;
+0086                     <span class="keyword">case</span> <span class="string">'int8'</span>,    dataType = 6;
+0087                     <span class="keyword">case</span> <span class="string">'int16'</span>,   dataType = 7;
+0088                     <span class="keyword">case</span> <span class="string">'int32'</span>,   dataType = 8;
+0089                     <span class="keyword">case</span> <span class="string">'int64'</span>,   dataType = 9;
+0090                     <span class="keyword">case</span> <span class="string">'single'</span>,  dataType = 10;
+0091                     <span class="keyword">case</span> <span class="string">'double'</span>,  dataType = 11;
+0092                     <span class="keyword">case</span> <span class="string">'logical'</span>, dataType = 12;
+0093                     <span class="keyword">otherwise</span>
+0094                         throw(MException(<span class="string">'IOUtil:unsupportedDatatype'</span>, <span class="string">'Data type ''%s'' not supported'</span>, class(data)));
+0095                 <span class="keyword">end</span>
+0096                 
+0097                 <span class="comment">%character, write no. dimensions, size</span>
+0098                 fwrite(fid,  dataType, <span class="string">'uint32'</span>);
+0099                 
+0100                 <span class="comment">%write data</span>
+0101                 <span class="keyword">switch</span> dataType
+0102                     <span class="keyword">case</span> 1,  fwrite(fid, data+0, <span class="string">'uint16'</span>);
+0103                     <span class="keyword">case</span> 2,  fwrite(fid, data, <span class="string">'uint16'</span>);  <span class="comment">%Note not using uint8</span>
+0104                     <span class="keyword">case</span> 3,  fwrite(fid, data, <span class="string">'uint16'</span>);
+0105                     <span class="keyword">case</span> 4,  fwrite(fid, data, <span class="string">'uint32'</span>);
+0106                     <span class="keyword">case</span> 5,  fwrite(fid, data, <span class="string">'float64'</span>); <span class="comment">%Note not using uint64</span>
+0107                     <span class="keyword">case</span> 6,  fwrite(fid, data, <span class="string">'int16'</span>);   <span class="comment">%Note not using int8</span>
+0108                     <span class="keyword">case</span> 7,  fwrite(fid, data, <span class="string">'int16'</span>);
+0109                     <span class="keyword">case</span> 8,  fwrite(fid, data, <span class="string">'int32'</span>);
+0110                     <span class="keyword">case</span> 9,  fwrite(fid, data, <span class="string">'float64'</span>); <span class="comment">%Note not using int64</span>
+0111                     <span class="keyword">case</span> 10, fwrite(fid, data, <span class="string">'float32'</span>);
+0112                     <span class="keyword">case</span> 11, fwrite(fid, data, <span class="string">'float64'</span>);
+0113                     <span class="keyword">case</span> 12, fwrite(fid, data, <span class="string">'uint16'</span>);  <span class="comment">%Note not using ubit1</span>
+0114                     <span class="keyword">otherwise</span>
+0115                         throw(MException(<span class="string">'IOUtil:unsupportedDatatype'</span>, <span class="string">'Data type ''%s'' not supported'</span>, dataType));
+0116                 <span class="keyword">end</span>
+0117             <span class="keyword">end</span>
+0118         <span class="keyword">end</span>
+0119         
+0120         <span class="comment">%Reads data from disk in binary format</span>
+0121         <a name="_sub3" href="#_subfunctions" class="code">function data = readDataBinary(fid)</a>
+0122             import edu.stanford.covert.util.IOUtil;
+0123             
+0124             <span class="comment">%cell array, number of dimensions, size</span>
+0125             dataIsCell = fread(fid, 1, <span class="string">'uint32'</span>);
+0126             dimensions = fread(fid, 1, <span class="string">'uint32'</span>);
+0127             dataSize = fread(fid, dimensions, <span class="string">'uint32'</span>)';
+0128             count = prod(dataSize);
+0129             
+0130             <span class="comment">%read data</span>
+0131             <span class="keyword">if</span> dataIsCell
+0132                 data = cell(count, 1);
+0133                 <span class="keyword">for</span> i = 1:count
+0134                     data{i} = IOUtil.readDataBinary(fid);
+0135                 <span class="keyword">end</span>
+0136             <span class="keyword">else</span>
+0137                 dataType = fread(fid, 1, <span class="string">'uint32'</span>);
+0138                 <span class="keyword">switch</span> dataType
+0139                     <span class="keyword">case</span> 1,  data = char(fread(fid, count, <span class="string">'uint16'</span>)); <span class="comment">%#ok&lt;FREAD&gt;</span>
+0140                     <span class="keyword">case</span> 2,  data = uint8(fread(fid, count, <span class="string">'uint16'</span>));
+0141                     <span class="keyword">case</span> 3,  data = uint16(fread(fid, count, <span class="string">'uint16'</span>));
+0142                     <span class="keyword">case</span> 4,  data = uint32(fread(fid, count, <span class="string">'uint32'</span>));
+0143                     <span class="keyword">case</span> 5,  data = uint64(fread(fid, count, <span class="string">'uint64'</span>));
+0144                     <span class="keyword">case</span> 6,  data = int8(fread(fid, count, <span class="string">'int16'</span>));
+0145                     <span class="keyword">case</span> 7,  data = int16(fread(fid, count, <span class="string">'int16'</span>));
+0146                     <span class="keyword">case</span> 8,  data = int32(fread(fid, count, <span class="string">'int32'</span>));
+0147                     <span class="keyword">case</span> 9,  data = int64(fread(fid, count, <span class="string">'int64'</span>));
+0148                     <span class="keyword">case</span> 10, data = single(fread(fid, count, <span class="string">'float32'</span>));
+0149                     <span class="keyword">case</span> 11, data = double(fread(fid, count, <span class="string">'float64'</span>));
+0150                     <span class="keyword">case</span> 12, data = logical(fread(fid, count, <span class="string">'uint16'</span>));
+0151                     <span class="keyword">otherwise</span>
+0152                         throw(MException(<span class="string">'IOUtil:unsupportedDatatype'</span>, <span class="string">'Data type ''%d'' not supported'</span>, dataType));
+0153                 <span class="keyword">end</span>
+0154             <span class="keyword">end</span>
+0155             
+0156             <span class="keyword">if</span> dimensions &gt; 1
+0157                 data = reshape(data, dataSize);
+0158             <span class="keyword">end</span>
+0159         <span class="keyword">end</span>
+0160     <span class="keyword">end</span>
+0161     
+0162     methods (Static)
+0163         <a name="_sub4" href="#_subfunctions" class="code">function writeMemmapFile(data, fileName)</a>
+0164             import edu.stanford.covert.util.IOUtil;
+0165             
+0166             <span class="comment">%write header</span>
+0167             format = {class(data) size(data) IOUtil.memmapfileDataField};
+0168             IOUtil.writeBinary(fileName, format);
+0169             
+0170             <span class="comment">%write spacing between header and data, and data</span>
+0171             fileInfo = dir(fileName);
+0172             <span class="keyword">if</span> fileInfo.bytes &gt; IOUtil.memmapfileHeaderSize
+0173                 throw(MException(<span class="string">'IOUtil:invalidHeader'</span>, <span class="string">'Header size cannot be greater than %d bytes'</span>, IOUtil.memmapfileHeaderSize));
+0174             <span class="keyword">end</span>
+0175             
+0176             fid = fopen(fileName, <span class="string">'a'</span>);
+0177             fwrite(fid, zeros(IOUtil.memmapfileHeaderSize - fileInfo.bytes, 1, <span class="string">'uint8'</span>), <span class="string">'uint8'</span>); <span class="comment">%spacing</span>
+0178             fwrite(fid, data, class(data)); <span class="comment">%data</span>
+0179             fclose(fid);
+0180         <span class="keyword">end</span>
+0181         
+0182         <a name="_sub5" href="#_subfunctions" class="code">function result = readMemmapFile(fileName)</a>
+0183             import edu.stanford.covert.util.IOUtil;
+0184             
+0185             format = IOUtil.readBinary(fileName);
+0186             <span class="keyword">if</span> all(format{2})
+0187                 result = memmapfile(fileName, <span class="keyword">...</span>
+0188                     <span class="string">'Offset'</span>, IOUtil.memmapfileHeaderSize, <span class="keyword">...</span>
+0189                     <span class="string">'Format'</span>, format, <span class="keyword">...</span>
+0190                     <span class="string">'Repeat'</span>, 1, <span class="keyword">...</span>
+0191                     <span class="string">'Writable'</span>, false);
+0192             <span class="keyword">else</span>
+0193                 result = struct(<span class="string">'Data'</span>, struct(format{3}, []));
+0194                 result.Data.(format{3}) = zeros(format{2}, format{1});
+0195             <span class="keyword">end</span>
+0196         <span class="keyword">end</span>
+0197     <span class="keyword">end</span>
+0198     
+0199     methods (Static)
+0200         <a name="_sub6" href="#_subfunctions" class="code">function directories = getDirectoryNamesRecursively(directory)</a>
+0201             import edu.stanford.covert.util.IOUtil;
+0202             <span class="keyword">if</span> directory(end) == <span class="string">'/'</span> || directory(end) == <span class="string">'\'</span>
+0203                 directory = directory(1:end-1);
+0204             <span class="keyword">end</span>
+0205             directories = {directory};
+0206             files = dir(directory);
+0207             files = files([files.isdir]);
+0208             <span class="keyword">for</span> i = 1:numel(files)
+0209                 <span class="keyword">if</span> files(i).name(1) ~= <span class="string">'.'</span>
+0210                     directories = [directories;
+0211                         IOUtil.getDirectoryNamesRecursively([directory filesep files(i).name])]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0212                 <span class="keyword">end</span>
+0213             <span class="keyword">end</span>
+0214         <span class="keyword">end</span>
+0215     <span class="keyword">end</span>
+0216 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

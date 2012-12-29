@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Metabolite</title>
+  <meta name="keywords" content="Metabolite">
+  <meta name="description" content="Defines a metabolite">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+kb</a> &gt; Metabolite.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+kb&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Metabolite
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Defines a metabolite</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Defines a metabolite
+
+ Author: Jonathan Karr
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/7/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Metabolite.html" class="code" title="">Metabolite</a>	Defines a metabolite</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="Metabolite.html" class="code" title="">Metabolite</a>	Defines a metabolite</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Metabolite(knowledgeBase, wid,wholeCellModelID, name,</a></li><li><a href="#_sub2" class="code">function deleteLinks(this)</a></li><li><a href="#_sub3" class="code">function value = get.halfLife(this)</a></li><li><a href="#_sub4" class="code">function value = get.molecularWeight(this)</a></li><li><a href="#_sub5" class="code">function value = get.density(this)</a></li><li><a href="#_sub6" class="code">function value = get.volume(this)</a></li><li><a href="#_sub7" class="code">function value = get.pI(this)</a></li><li><a href="#_sub8" class="code">function value = get.extinctionCoefficient(this)</a></li><li><a href="#_sub9" class="code">function value = get.absorbanceFactor(this)</a></li><li><a href="#_sub10" class="code">function structure = parseEmpiricalFormula(string)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Defines a metabolite</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 5/7/2009</span>
+0006 classdef <a href="Metabolite.html" class="code" title="">Metabolite</a> &lt; edu.stanford.covert.cell.kb.PhysicalObject
+0007     properties
+0008         reactions           = edu.stanford.covert.cell.kb.Reaction.empty(0,0);
+0009 
+0010         coenzymeReactions   = edu.stanford.covert.cell.kb.Reaction.empty(0,0);
+0011 
+0012         biomassCompartments = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0013         biomassCoefficients = [];
+0014 
+0015         mediaCompartments   = edu.stanford.covert.cell.kb.Compartment.empty(0,0);
+0016         mediaConcentrations = []; <span class="comment">%(mM)</span>
+0017         mediaInitialTimes   = [];
+0018         mediaFinalTimes     = [];
+0019 
+0020         regulatedProteinMonomers = edu.stanford.covert.cell.kb.ProteinMonomer.empty(0,0);
+0021         regulatedProteinComplexs = edu.stanford.covert.cell.kb.ProteinComplex.empty(0,0);
+0022     <span class="keyword">end</span>
+0023 
+0024     properties (SetAccess = protected)
+0025         traditionalName
+0026         iupacName
+0027         category
+0028         subcategory
+0029         empiricalFormula
+0030         smiles
+0031         charge
+0032         pKa
+0033         logP
+0034         logD
+0035         halfLife
+0036         exchangeLowerBound
+0037         exchangeUpperBound
+0038     <span class="keyword">end</span>
+0039 
+0040     <span class="comment">%computed properties</span>
+0041     properties (SetAccess = protected)
+0042         molecularWeight
+0043         density
+0044         volume
+0045         pI
+0046         extinctionCoefficient
+0047         absorbanceFactor
+0048     <span class="keyword">end</span>
+0049 
+0050     methods
+0051         <a name="_sub0" href="#_subfunctions" class="code">function this = Metabolite(knowledgeBase, wid,wholeCellModelID, name, </a><span class="keyword">...</span>
+0052                 traditionalName, iupacName, <span class="keyword">...</span>
+0053                 category, subcategory, <span class="keyword">...</span>
+0054                 empiricalFormula, smiles, charge, hydrophobic, pKa, pI, logP, logD, volume, molecularWeight, <span class="keyword">...</span>
+0055                 exchangeLowerBound, exchangeUpperBound, <span class="keyword">...</span>
+0056                 comments, crossReferences)
+0057 
+0058             <span class="keyword">if</span> nargin == 0; <span class="keyword">return</span>; <span class="keyword">end</span>;
+0059 
+0060             this = edu.stanford.covert.cell.kb.Metabolite.empty(size(wid,1),0);
+0061             this(size(wid,1),1) = edu.stanford.covert.cell.kb.Metabolite;
+0062             <span class="keyword">for</span> i = 1:size(wid,1)
+0063                 this(i,1).idx = i;
+0064                 this(i,1).knowledgeBase = knowledgeBase;
+0065                 this(i,1).wid = wid(i);
+0066                 this(i,1).wholeCellModelID = wholeCellModelID{i};
+0067                 this(i,1).name = name{i};
+0068                 <span class="keyword">if</span> exist(<span class="string">'comments'</span>,<span class="string">'var'</span>) &amp;&amp; ~isempty(comments); this(i,1).comments = comments{i}; <span class="keyword">end</span>;
+0069                 <span class="keyword">if</span> exist(<span class="string">'crossReferences'</span>,<span class="string">'var'</span>)
+0070                     <span class="keyword">if</span> size(crossReferences,1)&gt;1
+0071                         this(i,1).crossReferences = crossReferences(i);
+0072                     <span class="keyword">else</span>
+0073                         this(i,1).crossReferences = struct;
+0074                         fields = fieldnames(crossReferences);
+0075                         <span class="keyword">for</span> j = 1:size(fields,1)
+0076                             values = crossReferences.(fields{j});
+0077                             this(i,1).crossReferences.(fields{j}) = values(i);
+0078                         <span class="keyword">end</span>
+0079                     <span class="keyword">end</span>
+0080                 <span class="keyword">end</span>
+0081                 this(i,1).traditionalName = traditionalName{i};
+0082                 this(i,1).iupacName = iupacName{i};
+0083                 this(i,1).category = category{i};
+0084                 this(i,1).subcategory = subcategory{i};
+0085                 this(i,1).empiricalFormula = this.parseEmpiricalFormula(empiricalFormula{i});
+0086                 this(i,1).smiles = smiles{i};
+0087                 this(i,1).charge = charge(i);
+0088                 this(i,1).hydrophobic = hydrophobic(i);
+0089                 this(i,1).pKa = edu.stanford.covert.util.parseDoubles(<span class="string">', '</span>, pKa{i});
+0090                 <span class="comment">%this(i,1).pI = pI(i);</span>
+0091                 this(i,1).logP = logP(i);
+0092                 this(i,1).logD = logD(i);
+0093                 <span class="comment">%this(i,1).volume = volume(i);</span>
+0094                 this(i,1).exchangeLowerBound = exchangeLowerBound(i);
+0095                 this(i,1).exchangeUpperBound = exchangeUpperBound(i);
+0096             <span class="keyword">end</span>
+0097         <span class="keyword">end</span>
+0098 
+0099         <a name="_sub1" href="#_subfunctions" class="code">function deleteLinks(this)</a>
+0100             <span class="keyword">for</span> i = 1:numel(this)
+0101                 this(i).reactions           = [];
+0102 
+0103                 this(i).coenzymeReactions   = [];
+0104 
+0105                 this(i).biomassCompartments = [];
+0106                 this(i).biomassCoefficients = [];
+0107 
+0108                 this(i).mediaCompartments   = [];
+0109                 this(i).mediaConcentrations = [];
+0110                 this(i).mediaInitialTimes   = [];
+0111                 this(i).mediaFinalTimes     = [];
+0112 
+0113                 this(i).regulatedProteinMonomers = [];
+0114                 this(i).regulatedProteinComplexs = [];
+0115 
+0116                 <a href="#_sub2" class="code" title="subfunction deleteLinks(this)">deleteLinks</a>@edu.stanford.covert.cell.kb.PhysicalObject(this(i));
+0117             <span class="keyword">end</span>
+0118         <span class="keyword">end</span>
+0119 
+0120         <a name="_sub2" href="#_subfunctions" class="code">function value = get.halfLife(this)</a>
+0121             throw(MException(<span class="string">'Metabolite:error'</span>,<span class="string">'property is not defined'</span>));
+0122         <span class="keyword">end</span>
+0123 
+0124         <a name="_sub3" href="#_subfunctions" class="code">function value = get.molecularWeight(this)</a>
+0125             <span class="comment">%retrieve</span>
+0126             <span class="keyword">if</span> ~isempty(this.molecularWeight)
+0127                 value = this.molecularWeight;
+0128                 <span class="keyword">return</span>;
+0129             <span class="keyword">end</span>
+0130                 
+0131             <span class="comment">%compute</span>
+0132             fields = fieldnames(this.empiricalFormula);
+0133             value = 0;
+0134             <span class="keyword">for</span> i = 1:length(fields)
+0135                 <span class="keyword">if</span> ~isfield(edu.stanford.covert.util.ConstantUtil.elements,fields{i})
+0136                     value = 0;
+0137                     <span class="keyword">return</span>;
+0138                 <span class="keyword">end</span>
+0139                 value = value+<span class="keyword">...</span>
+0140                     this.empiricalFormula.(fields{i})*edu.stanford.covert.util.ConstantUtil.elements.(fields{i});
+0141             <span class="keyword">end</span>
+0142             
+0143             <span class="comment">%store</span>
+0144             this.molecularWeight = value;
+0145         <span class="keyword">end</span>
+0146 
+0147         <a name="_sub4" href="#_subfunctions" class="code">function value = get.density(this)</a>
+0148             throw(MException(<span class="string">'Metabolite:error'</span>,<span class="string">'property is not defined'</span>));
+0149         <span class="keyword">end</span>
+0150 
+0151         <a name="_sub5" href="#_subfunctions" class="code">function value = get.volume(this)</a>
+0152             throw(MException(<span class="string">'Metabolite:error'</span>,<span class="string">'property is not defined'</span>));
+0153         <span class="keyword">end</span>
+0154 
+0155         <a name="_sub6" href="#_subfunctions" class="code">function value = get.pI(this)</a>
+0156             value = mean(this.pKa);
+0157         <span class="keyword">end</span>
+0158 
+0159         <a name="_sub7" href="#_subfunctions" class="code">function value = get.extinctionCoefficient(this)</a>
+0160             throw(MException(<span class="string">'Metabolite:error'</span>,<span class="string">'property is not defined'</span>));
+0161         <span class="keyword">end</span>
+0162 
+0163         <a name="_sub8" href="#_subfunctions" class="code">function value = get.absorbanceFactor(this)</a>
+0164             throw(MException(<span class="string">'Metabolite:error'</span>,<span class="string">'property is not defined'</span>));
+0165         <span class="keyword">end</span>
+0166     <span class="keyword">end</span>
+0167     
+0168     methods (Static = true)
+0169         <a name="_sub9" href="#_subfunctions" class="code">function structure = parseEmpiricalFormula(string)</a>
+0170             <span class="keyword">if</span> ~regexp(string,<span class="string">'^(([A-Z][a-z]*)(\d+))+$'</span>);
+0171                 throw(MException(<span class="string">'Metabolite:invalidEmpiricalFormula'</span>,<span class="string">'Empirical formula must match pattern ''^(([A-Z][a-z]*)(\d+))+$''.'</span>))
+0172             <span class="keyword">end</span>
+0173             structure = struct;
+0174             tokens = regexp(string,<span class="string">'([A-Z][a-z]*)(\d+)'</span>,<span class="string">'tokens'</span>);
+0175             <span class="keyword">for</span> i = 1:length(tokens)
+0176                 tokens{i}{1} = tokens{i}{1};
+0177                 tokens{i}{2} = str2double(tokens{i}{2});
+0178                 <span class="keyword">if</span> isfield(structure,tokens{i}{1})
+0179                     structure.(tokens{i}{1}) = structure.(tokens{i}{1})+tokens{i}{2};
+0180                 <span class="keyword">else</span>
+0181                     structure.(tokens{i}{1}) = tokens{i}{2};
+0182                 <span class="keyword">end</span>
+0183             <span class="keyword">end</span>
+0184         <span class="keyword">end</span>
+0185     <span class="keyword">end</span>
+0186 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

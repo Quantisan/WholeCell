@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of initializeState</title>
+  <meta name="keywords" content="initializeState">
+  <meta name="description" content="Initialize state of organism to expectation values.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">@Simulation</a> &gt; initializeState.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/@Simulation&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>initializeState
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Initialize state of organism to expectation values.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function this = initializeState(this) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Initialize state of organism to expectation values.
+ - Time
+ - Numbers of metabolites, RNAs, protein monomers, protein complexes
+ - Resource allocation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/17/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Simulation.html" class="code" title="">Simulation</a>	Whole cell simulation class.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function this = initializeState(this)</a>
+0002 <span class="comment">% Initialize state of organism to expectation values.</span>
+0003 <span class="comment">% - Time</span>
+0004 <span class="comment">% - Numbers of metabolites, RNAs, protein monomers, protein complexes</span>
+0005 <span class="comment">% - Resource allocation</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0008 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0009 <span class="comment">% Last updated: 7/17/2009</span>
+0010 
+0011 <span class="comment">%% import classes</span>
+0012 import edu.stanford.covert.util.ComputationUtil;
+0013 import edu.stanford.covert.util.ConstantUtil;
+0014 import edu.stanford.covert.cell.sim.constant.Condition;
+0015 import edu.stanford.covert.cell.sim.Simulation;
+0016 
+0017 <span class="comment">%% data</span>
+0018 <span class="comment">%states</span>
+0019 g = this.gene;
+0020 t = this.state(<span class="string">'Time'</span>);
+0021 s = this.state(<span class="string">'Stimulus'</span>);
+0022 m = this.state(<span class="string">'Metabolite'</span>);
+0023 c = this.state(<span class="string">'Chromosome'</span>);
+0024 r = this.state(<span class="string">'Rna'</span>);
+0025 pm = this.state(<span class="string">'ProteinMonomer'</span>);
+0026 pc = this.state(<span class="string">'ProteinComplex'</span>);
+0027 mass = this.state(<span class="string">'Mass'</span>);
+0028 mr = this.state(<span class="string">'MetabolicReaction'</span>);
+0029 geom = this.state(<span class="string">'Geometry'</span>);
+0030 ftsZRing = this.state(<span class="string">'FtsZRing'</span>);
+0031 transcript = this.state(<span class="string">'Transcript'</span>);
+0032 polypeptide = this.state(<span class="string">'Polypeptide'</span>);
+0033 dnaRepair = this.process(<span class="string">'DNARepair'</span>);
+0034 
+0035 <span class="comment">%indices</span>
+0036 cIdx = this.compartment.cytosolIndexs;
+0037 
+0038 <span class="comment">%create local variables for convenience</span>
+0039 rnaMWs = 1 / ConstantUtil.nAvogadro * r.molecularWeights;
+0040 monMWs = 1 / ConstantUtil.nAvogadro * pm.molecularWeights;
+0041 
+0042 chrComp = [getBaseCounts(c.sequence); 0];
+0043 <span class="keyword">if</span> ~isempty(dnaRepair)
+0044     m6dAMPComp = 2 * size(dnaRepair.RM_MunI_RecognitionSites, 1);
+0045     chrComp(5) = m6dAMPComp;
+0046     chrComp(1) = chrComp(1) - m6dAMPComp;
+0047 <span class="keyword">end</span>
+0048 rnaComp = r.baseCounts;
+0049 monComp = pm.baseCounts;
+0050 
+0051 rnaExp = r.expression;
+0052 
+0053 <span class="comment">%% seed random number generator</span>
+0054 this.seedRandStream();
+0055 
+0056 <span class="comment">%% clear simulated properties</span>
+0057 this.allocateMemoryForState(1);
+0058 
+0059 <span class="comment">%% time</span>
+0060 t.initialize();
+0061 
+0062 <span class="comment">%% total cell mass</span>
+0063 totCellWt = this.randStream.random(<span class="string">'norm'</span>, 1, mass.cellInitialMassVariation);
+0064 
+0065 bComp = totCellWt * m.biomassComposition;
+0066 rnaWt = totCellWt * mass.cellInitialDryWeight * mass.dryWeightFractionRNA;
+0067 prtWt = totCellWt * mass.cellInitialDryWeight * mass.dryWeightFractionProtein;
+0068 
+0069 <span class="comment">%% metabolites</span>
+0070 m.counts = max(0, this.randStream.stochasticRound(bComp));
+0071 
+0072 <span class="comment">%% DNA</span>
+0073 <span class="comment">%Initialize the free dNTP pool. Chromosome is initialized below in</span>
+0074 <span class="comment">%initialize states section.</span>
+0075 c.initialize();
+0076 m.counts([m.dnmpIndexs; m.getIndexs(<span class="string">'m6dAMP'</span>)], cIdx) = <span class="keyword">...</span>
+0077     m.counts([m.dnmpIndexs; m.getIndexs(<span class="string">'m6dAMP'</span>)], cIdx) - chrComp;
+0078 
+0079 <span class="comment">%% RNAs</span>
+0080 <span class="comment">%initialize RNAs based on expected expression</span>
+0081 <span class="keyword">switch</span> this.macromoleculeStateInitialization
+0082     <span class="keyword">case</span> <span class="string">'expected'</span>
+0083         r.counts(:, cIdx) = this.randStream.stochasticRound(<span class="keyword">...</span>
+0084             mass.initialFractionNTPsInRNAs * rnaWt * rnaExp / (rnaMWs' * rnaExp));
+0085     <span class="keyword">case</span> <span class="string">'multinomial'</span>
+0086         prob = rnaExp;
+0087         idxs = this.randStream.randsample(numel(prob), ceil(2 * rnaWt / (rnaMWs' * prob)), true, prob);
+0088         idxs = idxs(1:find(cumsum(rnaMWs(idxs)) &gt; mass.initialFractionNTPsInRNAs * rnaWt, 1, <span class="string">'first'</span>) - 1);
+0089         r.counts(:, cIdx) = this.randStream.stochasticRound(histc(idxs, 1:numel(prob)));
+0090     <span class="keyword">otherwise</span>, throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Unsupported macromoleculeStateInitialization %s'</span>, this.macromoleculeStateInitialization));
+0091 <span class="keyword">end</span>
+0092 m.counts = m.counts - rnaComp' * r.counts;
+0093 
+0094 <span class="comment">%% protein monomers</span>
+0095 <span class="comment">%1. initialize protein monomers based on expected expression</span>
+0096 <span class="comment">%2. sort to appropriate compartment</span>
+0097 <span class="keyword">switch</span> this.macromoleculeStateInitialization
+0098     <span class="keyword">case</span> <span class="string">'expected'</span>
+0099         monExp = zeros(size(pm.wholeCellModelIDs));
+0100         monExp(pm.matureIndexs) = (r.matureRNAGeneComposition(g.mRNAIndexs, :) * r.expression(r.matureIndexs)) ./ <span class="keyword">...</span>
+0101             (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0102         monExp = monExp / sum(monExp);
+0103         
+0104         pm.counts(sub2ind(size(pm.counts), (1:size(pm.counts,1))', pm.compartments)) = <span class="keyword">...</span>
+0105             this.randStream.stochasticRound(mass.initialFractionAAsInMonomers * prtWt * monExp / (monMWs' * monExp));
+0106     <span class="keyword">case</span> <span class="string">'multinomial'</span>
+0107         n = pm.macromoleculeStateInitializationVariation;
+0108         
+0109         <span class="keyword">if</span> rnaWt &gt; 0
+0110             mRNAExp = rnaExp(r.matureIndexs(r.matureMRNAIndexs));
+0111             mRNAExp = mRNAExp / sum(mRNAExp);
+0112             mRNAProd = mRNAExp .* r.decayRates(r.matureIndexs(r.matureMRNAIndexs));
+0113             mRNAProd = mRNAProd / sum(mRNAProd);
+0114             mRNACnt = mRNAExp * rnaWt * r.weightFractionMRNA * ConstantUtil.nAvogadro / <span class="keyword">...</span>
+0115                 (mRNAExp' * r.molecularWeights(r.matureIndexs(r.matureMRNAIndexs)));
+0116             totMRNAProd = (sum(mRNACnt) * log(2) / t.cellCycleLength + r.decayRates(r.matureIndexs(r.matureMRNAIndexs))' * mRNACnt) * t.cellCycleLength / log(2);
+0117             
+0118             sample_mRNAProd = this.randStream.mnrnd(round(n * totMRNAProd), mRNAProd)';
+0119             sample_mRNAExp = zeros(size(sample_mRNAProd));
+0120             <span class="keyword">for</span> i = 1:numel(sample_mRNAExp)
+0121                 <span class="keyword">if</span> sample_mRNAProd(i) &gt; 0
+0122                     sample_mRNAExp(i) = sample_mRNAProd(i) * <span class="keyword">...</span>
+0123                         mean(this.randStream.random(<span class="string">'exponential'</span>, <span class="keyword">...</span>
+0124                         1 / r.decayRates(r.matureIndexs(r.matureMRNAIndexs(i))), <span class="keyword">...</span>
+0125                         [sample_mRNAProd(i) 1]));
+0126                 <span class="keyword">end</span>
+0127             <span class="keyword">end</span>
+0128         <span class="keyword">else</span>
+0129             sample_mRNAExp = r.expression(r.matureIndexs(r.matureMRNAIndexs));
+0130             sample_mRNAExp = sample_mRNAExp / sum(sample_mRNAExp);
+0131         <span class="keyword">end</span>
+0132         
+0133         <span class="keyword">if</span> prtWt &gt; 0
+0134             monProd = r.matureRNAGeneComposition(g.mRNAIndexs, r.matureMRNAIndexs) * sample_mRNAExp;
+0135             monProd = monProd / sum(monProd);
+0136             monExp = monProd ./ (log(2) / t.cellCycleLength + pm.decayRates(pm.matureIndexs));
+0137             monExp = monExp / sum(monExp);
+0138             monCnt = prtWt * ConstantUtil.nAvogadro / (monExp' * pm.molecularWeights(pm.matureIndexs)) * monExp;
+0139             totMonProd = monCnt' * (1 + t.cellCycleLength / log(2) * pm.decayRates(pm.matureIndexs));
+0140             
+0141             sample_monExp = this.randStream.mnrnd(round(n * totMonProd), monExp)';
+0142             sample_monExp = this.randStream.stochasticRound(n * sample_monExp * prtWt * mass.initialFractionAAsInMonomers * <span class="keyword">...</span>
+0143                 ConstantUtil.nAvogadro / (sample_monExp' * pm.molecularWeights(pm.matureIndexs)));
+0144             sample_monExp2 = zeros(size(sample_monExp));
+0145             tmp = cumsum(sample_monExp);
+0146             order = this.randStream.randperm(tmp(end));
+0147             <span class="keyword">for</span> i = 1:tmp(end)/2
+0148                 idx = find(order(i) &lt;= tmp, 1, <span class="string">'first'</span>);
+0149                 sample_monExp2(idx) = sample_monExp2(idx) + 1;
+0150             <span class="keyword">end</span>
+0151             pm.counts(sub2ind(size(pm.counts), pm.matureIndexs, pm.compartments(pm.matureIndexs))) = <span class="keyword">...</span>
+0152                 this.randStream.stochasticRound(2/n * sample_monExp2);
+0153         <span class="keyword">end</span>
+0154     <span class="keyword">otherwise</span>, throw(MException(<span class="string">'Simulation:error'</span>, <span class="string">'Unsupported macromoleculeStateInitialization %s'</span>, this.macromoleculeStateInitialization));
+0155 <span class="keyword">end</span>
+0156 m.counts(:, cIdx) = m.counts(:, cIdx) - monComp' * sum(pm.counts, 2);
+0157 
+0158 <span class="keyword">if</span> strcmp(this.macromoleculeStateInitialization, <span class="string">'expected'</span>)
+0159     pcComp = sum(pc.proteinComplexComposition, 3);
+0160     nonFormCpxIdxs = find(pc.formationProcesses(pc.matureIndexs) ~= this.processIndex(<span class="string">'MacromolecularComplexation'</span>));
+0161     
+0162     subunits = zeros(size(g.wholeCellModelIDs));
+0163     subunits(g.mRNAIndexs) = sum(pm.counts(pm.matureIndexs, :), 2);
+0164     subunits(g.rRNAIndexs) = sum(r.counts(r.matureRRNAIndexs, :), 2);
+0165     subunits(g.sRNAIndexs) = sum(r.counts(r.matureSRNAIndexs, :), 2);
+0166     subunits(g.tRNAIndexs) = sum(r.counts(r.matureTRNAIndexs, :), 2);
+0167     cpxs = floor(min(repmat(subunits, 1, numel(pc.matureIndexs)) ./ pcComp, [], 1))';
+0168     cpxs(nonFormCpxIdxs) = 0;
+0169     
+0170     [subs2Nets, cpxs2Nets, nets] = edu.stanford.covert.util.findNonInteractingRowsAndColumns(pcComp);
+0171     <span class="keyword">for</span> i = 1:numel(nets)
+0172         <span class="keyword">if</span> size(nets{i}, 2) &lt;= 1
+0173             <span class="keyword">continue</span>;
+0174         <span class="keyword">end</span>
+0175         
+0176         tmpSubIdxs = find(subs2Nets == i);
+0177         tmpCpxIdxs = find(cpxs2Nets == i);
+0178         tmpPcComp = pcComp(tmpSubIdxs, tmpCpxIdxs);
+0179         tmpSubs = subunits(tmpSubIdxs);
+0180         tmpCpxs = zeros(size(tmpCpxIdxs));
+0181         <span class="keyword">while</span> true
+0182             <span class="keyword">if</span> all(sum(tmpCpxIdxs, 1) == sum(tmpCpxIdxs(:, 1)))
+0183                 tmpRates = prod(repmat(tmpSubs / mean(tmpSubs), 1, numel(tmpCpxIdxs)) .^ tmpPcComp, 1)';
+0184             <span class="keyword">else</span>
+0185                 tmpRates = prod(repmat(tmpSubs / sum(totMons), 1, numel(tmpCpxIdxs)) .^ tmpPcComp, 1)';
+0186             <span class="keyword">end</span>
+0187             tmpRates(ismember(tmpCpxIdxs, nonFormCpxIdxs)) = 0;
+0188             <span class="keyword">if</span> ~any(tmpRates) || max(min(repmat(tmpSubs, 1, numel(tmpCpxIdxs)) ./ tmpPcComp, [], 1)) &lt; 1e-3
+0189                 <span class="keyword">break</span>;
+0190             <span class="keyword">end</span>
+0191             tmpCpxs = tmpCpxs + tmpRates * min(tmpSubs ./ (tmpPcComp * tmpRates));
+0192             tmpSubs = subunits(tmpSubIdxs) - tmpPcComp * tmpCpxs;
+0193         <span class="keyword">end</span>
+0194         cpxs(tmpCpxIdxs) = floor(tmpCpxs);
+0195     <span class="keyword">end</span>
+0196     
+0197     pc.counts(sub2ind(<span class="keyword">...</span>
+0198         size(pc.counts), <span class="keyword">...</span>
+0199         pc.matureIndexs, <span class="keyword">...</span>
+0200         pc.compartments(pc.matureIndexs))) = <span class="keyword">...</span>
+0201         cpxs;
+0202     
+0203     r.counts(r.matureIndexs(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)), :) = <span class="keyword">...</span>
+0204         r.counts(r.matureIndexs(setdiff(1:<span class="keyword">end</span>, r.matureMRNAIndexs)), :) - <span class="keyword">...</span>
+0205         sum(permute(pc.proteinComplexComposition(setdiff(1:<span class="keyword">end</span>, g.mRNAIndexs), :, :), [1 3 2]) .* <span class="keyword">...</span>
+0206         repmat(permute(cpxs, [2 3 1]), [numel(g.rRNAIndexs)+numel(g.sRNAIndexs)+numel(g.tRNAIndexs) size(pc.proteinComplexComposition, 3) 1]), 3);
+0207     pm.counts(pm.matureIndexs, :) = <span class="keyword">...</span>
+0208         pm.counts(pm.matureIndexs, :) - <span class="keyword">...</span>
+0209         sum(permute(pc.proteinComplexComposition(g.mRNAIndexs, :, :), [1 3 2]) .* <span class="keyword">...</span>
+0210         repmat(permute(cpxs, [2 3 1]), [numel(g.mRNAIndexs) size(pc.proteinComplexComposition, 3) 1]), 3);
+0211 <span class="keyword">end</span>
+0212 
+0213 <span class="comment">%% nucleotides</span>
+0214 V = totCellWt * mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) / geom.density; <span class="comment">%volume (L)</span>
+0215 m.counts(m.ntpIndexs([1 3]), cIdx)  = round(1e-3 * ConstantUtil.nAvogadro * V * m.meanNTPConcentration);
+0216 m.counts(m.ntpIndexs([2 4]), cIdx)  = 0;
+0217 m.counts(m.ndpIndexs([1 3]), cIdx)  = round(1e-3 * ConstantUtil.nAvogadro * V * m.meanNDPConcentration);
+0218 m.counts(m.ndpIndexs([2 4]), cIdx)  = 0;
+0219 m.counts(m.nmpIndexs, cIdx)         = round(1e-3 * ConstantUtil.nAvogadro * V * m.meanNMPConcentration);
+0220 m.counts(m.phosphateIndexs, cIdx)   = sum(m.counts(m.ndpIndexs, cIdx));
+0221 m.counts(m.diphosphateIndexs, cIdx) = sum(m.counts(m.nmpIndexs, cIdx));
+0222 m.counts(m.hydrogenIndexs, cIdx)    = sum(m.counts(m.ndpIndexs, cIdx)) + sum(m.counts(m.nmpIndexs, cIdx));
+0223 
+0224 <span class="comment">%% protein complexes: initialized by processes (see initialize processes section below)</span>
+0225 <span class="comment">%1. Macromolecular complexation</span>
+0226 <span class="comment">%2. Ribosome assembly</span>
+0227 <span class="comment">%3. Protein folding</span>
+0228 <span class="comment">%4. Protein activation</span>
+0229 
+0230 <span class="comment">%% initialize states</span>
+0231 mass.initialize();
+0232 geom.initialize();
+0233 ftsZRing.initialize();
+0234 transcript.initialize();
+0235 polypeptide.initialize();
+0236 
+0237 <span class="comment">%% apply media and stimulation conditions</span>
+0238 m.counts = Condition.applyConditions(m.counts, m.setCounts, t.values); <span class="comment">%media</span>
+0239 s.values = Condition.applyConditions(s.values, s.setValues, t.values); <span class="comment">%stimulation</span>
+0240 
+0241 <span class="comment">%% Assert metabolites non-negative</span>
+0242 negIdxs = find(any(m.counts &lt; min(0, -bComp) * 15e-2, 2));
+0243 <span class="keyword">if</span> ~isempty(negIdxs)
+0244     warnStr = cellfun(@(x, y) sprintf(<span class="string">'- %s: %.3e'</span>, x, y), m.wholeCellModelIDs(negIdxs), num2cell(m.counts(negIdxs)), <span class="string">'UniformOutput'</span>, false);
+0245     warning(<span class="string">'WholeCell:warning:initializeNegativeCounts'</span>, <span class="keyword">...</span>
+0246         [<span class="string">'Metabolites should be non-negative:\n'</span> repmat(<span class="string">'%s\n'</span>, 1, numel(negIdxs))], warnStr{:});
+0247 <span class="keyword">end</span>
+0248 m.counts = max(0, m.counts);
+0249 
+0250 <span class="comment">%% initialize processes</span>
+0251 <span class="comment">%- Initialize &quot;own&quot; state while preserving the cell mass</span>
+0252 <span class="comment">%- Processes &quot;own&quot; state includes, for example,</span>
+0253 <span class="comment">%  - RNA polymerases in transcription</span>
+0254 <span class="comment">%  - Ribosomes in translation</span>
+0255 <span class="comment">%- In particular, when processes incorporate free metabolites into the cell's mass</span>
+0256 <span class="comment">%  they must alter the counts of simulation's free metabolites</span>
+0257 <span class="comment">%- Processes should assume that energy is not limited, and should not account for</span>
+0258 <span class="comment">%  energy usage. Specifically, processes should not alter the simulation's</span>
+0259 <span class="comment">%  metabolite counts to account for energy usage.</span>
+0260 processes = this.processesInInitOrder;
+0261 <span class="keyword">for</span> i = 1:length(processes)
+0262     process = processes{i};
+0263     process.simulationStateSideEffects = [];
+0264     process.copyFromState();
+0265     process.initializeState();
+0266     process.copyToState();
+0267     <span class="keyword">if</span> ~isempty(process.simulationStateSideEffects)
+0268         process.simulationStateSideEffects.updateSimulationState(this);
+0269     <span class="keyword">end</span>
+0270 <span class="keyword">end</span>
+0271 this.state(<span class="string">'Polypeptide'</span>).abortedPolypeptides = this.state(<span class="string">'Polypeptide'</span>).abortedPolypeptides([], :);
+0272 this.state(<span class="string">'Transcript'</span>).abortedTranscripts = this.state(<span class="string">'Transcript'</span>).abortedTranscripts([], :);
+0273 
+0274 <span class="comment">%% Assert metabolites non-negative</span>
+0275 negIdxs = find(any(m.counts &lt; min(0, -bComp) * 15e-2, 2));
+0276 <span class="keyword">if</span> ~isempty(negIdxs)
+0277     warnStr = cellfun(@(x, y) sprintf(<span class="string">'- %s: %.3e'</span>, x, y), m.wholeCellModelIDs(negIdxs), num2cell(m.counts(negIdxs)), <span class="string">'UniformOutput'</span>, false);
+0278     warning(<span class="string">'WholeCell:warning'</span>, <span class="keyword">...</span>
+0279         [<span class="string">'Metabolites should be non-negative:\n'</span> repmat(<span class="string">'%s\n'</span>, 1, numel(negIdxs))], warnStr{:});
+0280 <span class="keyword">end</span>
+0281 m.counts = max(0, m.counts);
+0282 
+0283 <span class="comment">%% update cell volume</span>
+0284 mass.calcMass();
+0285 geom.calculateVolume();
+0286 
+0287 <span class="comment">%% apply media and stimulation conditions</span>
+0288 m.counts = Condition.applyConditions(m.counts, m.setCounts, t.values); <span class="comment">%media</span>
+0289 s.values = Condition.applyConditions(s.values, s.setValues, t.values); <span class="comment">%stimulation</span>
+0290 
+0291 <span class="comment">%% Synchronize process states with simulation</span>
+0292 <span class="keyword">for</span> i = 1:length(this.processes)
+0293     this.processes{i}.copyFromState();
+0294 <span class="keyword">end</span>
+0295 
+0296 <span class="comment">%% If cell is dead, rerun initialize state</span>
+0297 <span class="keyword">if</span> abs(mr.growth - mr.meanInitialGrowthRate) / mr.meanInitialGrowthRate &gt; mr.initialGrowthFilterWidth &amp;&amp; ~isempty(this.seed)
+0298     this.seed = this.randStream.randi([0 2^32-1], 1);
+0299     this.initializeState();
+0300 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,1179 @@
+/* Style sheet for Whole Cell Knowlege Base HTML interface.
+ *
+ * Author: Jonathan Karr, jkarr@stanford.edu
+ * Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ * Last Updated: 3/23/2010
+ */
+
+/*****************
+ * top-level formatting
+ *****************/
+
+body {
+	font-family: 'PT Sans', sans-serif;
+	padding:0px;
+	margin:0px;
+	font-size:12px;
+}
+
+h1{
+	margin-top:0px;
+	margin-bottom:4px;
+	font-size:14px;
+}
+
+iframe{
+    border:none;
+}
+
+a {
+	text-decoration:none;
+	cursor:pointer;
+	cursor:hand;
+}
+
+a img{
+    border:none;
+}
+
+a.coloredLink{
+	color: #3d80b3;
+}
+
+img.button{
+    cursor: hand;
+    cursor: pointer;
+}
+
+ul.buttons{
+    list-style:none;
+    padding:0px;
+    margin:0px;
+}
+
+ul.buttons img{
+    position:relative;
+    top:3px;
+    padding-right:2px;
+}
+
+a.objectReference{
+    color:#639502;
+}
+span.sup{
+    position: relative;
+    bottom: 6px;
+    font-size: 10px;
+}
+span.sub{
+    position: relative;
+    top: 2px;
+    font-size: 10px;
+}
+span.number{
+	color:#3d80b3;
+}
+span.symbol{
+	cursor:pointer;
+}
+span.required{
+	color:#BB2F2A;
+}
+span.error{
+	color:#BB2F2A;
+}
+
+input, textarea, select{
+    color: #000000;
+    background: #D5E4F6;
+    border: 1px solid #3d80b3;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+textarea{
+    height:200px;
+}
+
+input:hover, textarea:hover, select:hover{
+    background: #A476DA;
+}
+
+input:focus, textarea:focus, select:focus{
+    background: #ffe180;
+}
+
+input.button{
+    margin-right:10px;
+}
+
+/*****************
+ * two-column format:
+ * - header, navigation bar
+ * - side bar, main content
+ * - footer
+ *****************/
+
+/* header */
+#header {
+	z-index: 2;
+	position:fixed;
+	left:0px;
+	top:0px;
+	right:0px;
+	height: 65px;
+	overflow: hidden;
+	margin: 0px 0px 0px 0px;	
+	border-top:none;
+	border-right:none;
+	border-left:none;
+}
+
+#header .title {
+	position:relative;
+	font-size: 16px;
+	color: #222222;
+	top:0px;
+	left:70px;
+}
+
+#header  .banner{
+	position:absolute;
+	top:2px;
+	left:0px;
+}
+
+#header .menu{	
+	position:absolute;
+	top:47px;
+	height:18px;
+	list-style:none;
+	margin:0px;
+	padding:0px;
+	font-weight: normal;
+	left:66px;
+	text-align:left;
+}
+#header .menu li{
+	float:left;
+	display:inline;
+	margin:0px;
+	padding-top:2px;
+	padding-bottom:6px;
+}
+#header .menu li.spacer{
+	width:1px;
+	height:10px;
+	background: #222;
+}
+#header .menu li:nth-child(odd), #header .menu li ul li{
+	padding-left:4px;
+	padding-right:4px;
+}
+#header .menu li:first-child{
+	border-left:none;
+}
+#header .menu li:hover{
+	background-color:#fff;
+}
+#header .menu li:hover a{
+	color:#3d80b3;
+}
+#header .menu a{
+	color: #3d80b3;
+	margin:0px;
+	padding:0px;
+}
+
+#header .menu li ul{
+	background:#cccccc;
+	list-style:none;
+	position:fixed;
+	top:65px;	
+	visibility:hidden;
+	border-bottom:1px solid #aaaaaa;
+	border-left:1px solid #aaaaaa;
+	border-right:1px solid #aaaaaa;
+	width:auto;	
+	padding:0px;
+	margin:0px;
+	margin-left:-5px;
+}
+#header .menu li:hover ul{
+	visibility:visible;
+}
+#header .menu li ul li{
+	padding-bottom:2px;
+}
+#header .menu li:hover ul li{
+	float:none;
+	padding-top:1px;	
+	display:list-item;
+	text-align:left;
+}
+#header .menu li:hover ul li:hover{
+	background:#fff;
+}
+#header .menu li:hover ul li a{
+	white-space:nowrap;
+	color:#3d80b3;
+}
+#header .menu li:hover ul li:hover a{
+	color:#3d80b3;
+}
+ 
+#footer {
+	z-index: 3;
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	right:0px;
+	height: 28px;
+	overflow: hidden;
+	margin: 0px 0px 0px 0px;	
+	padding-top:4px;
+	padding-bottom:4px;
+	border-bottom:none;
+	border-right:none;
+	border-left:none;
+	text-align:center;
+	font-size:10px;
+}
+
+#container{
+	position:absolute;
+	left:0px;
+	right:0px;	
+	padding:0px;
+	width:800px;
+	margin:0 auto;
+	margin-top:75px;
+	padding-bottom:46px;
+}
+
+/*****************
+ * main
+ *****************/
+
+/******* View Table *******/
+#ViewTable.List{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#ViewTable.List th{
+    text-align:right;
+    padding-right:5px;
+    padding-left:5px;
+    color:white;
+    font-weight:bold;
+    background:#3d80b3;
+    border-right:1px solid white;
+    border-bottom:1px solid white;
+    width:200px;
+    vertical-align:top;
+}
+
+#ViewTable.List td{
+    padding-right:5px;
+    padding-left:5px;
+    vertical-align:top;
+    border-bottom:1px solid white;
+}
+
+#ViewTable.List tr:first-child th{
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+#ViewTable.List tr:first-child td:first-child{
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+#ViewTable.List tr:first-child td:last-child{
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    width:16px;
+}
+
+#ViewTable.List tr:last-child th{
+    border-bottom:none;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+#ViewTable.List tr:last-child td{
+    border-bottom:none;
+}
+
+#ViewTable.List tr:last-child td:last-child{
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#ViewTable.List tr:nth-child(even) td{
+    background:#EAF1FB;
+}
+
+#ViewTable.List tr:nth-child(odd) td{
+    background:#D5E4F6;
+}
+
+#ViewTable.List tr:hover td{
+    background:#ffe180;
+}
+
+#ViewTable.List tr.image:hover td{
+    background-color: #D5E4F6;
+}
+
+#ViewTable.List td ul{
+    margin:0px;
+}
+
+#ViewTable.List table{
+    width:100%;
+    border:none;
+}
+
+#ViewTable.List table th{
+    width:120px;
+    color:rgb(48,48,48);
+    font-weight:normal;
+    font-style: italic;
+    background:transparent;
+    border:none;
+}
+
+#ViewTable.List table td{
+    border:none;
+}
+
+#ViewTable.List tr.category td:last-child{
+    padding-right:0px;
+}
+#ViewTable.List tr.category table td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+    padding-right:5px;
+}
+
+#ViewTable.List table tr:nth-child(odd) td, #ViewTable.List table tr:nth-child(even) td{
+    background:transparent;
+}
+
+/******* View Table *******/
+#ViewTable.Table{
+    width:100%;
+}
+
+#ViewTable.Table tbody th{
+    text-align:right;
+    font-weight:bold;
+    padding:5px;
+    width:200px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#ViewTable.Table tbody td{
+    padding:5px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#ViewTable.Table tbody td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+}
+
+#ViewTable.Table td ul{
+    margin:0px;
+}
+
+#ViewTable.Table table{
+    width:100%;
+}
+
+#ViewTable.Table table th{
+    font-weight:normal;
+    font-style:italic;
+    border-bottom:none;
+    width:120px;
+}
+
+#ViewTable.Table table td{
+    border-bottom:none;
+}
+
+#ViewTable.Table tr.category td:last-child{
+    padding-right:0px;
+}
+#ViewTable.Table tr.category table td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+    padding-right:5px;
+}
+
+#ViewTable.Table tr:last-child th, #ViewTable.Table tr:last-child td{
+    border-bottom:none;
+}
+
+#ViewTable.Table tbody select, #ViewTable.Table tbody input, #ViewTable.Table tbody textarea{
+    width:100%;
+}
+
+#ViewTable.Table tbody tr:hover th, #ViewTable.Table tbody tr:hover td{
+    background: #A476DA;
+}
+
+#ViewTable.Table tbody tr.category:hover th, #ViewTable.Table tbody tr.category:hover td{
+    background: transparent;
+}
+
+#ViewTable.Table tbody tr.category table tr:hover th, #ViewTable.Table tbody tr.category table tr:hover td{
+    background: #A476DA;
+}
+
+/******* Edit List *******/
+#EditTable.List{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+
+#EditTable.List tbody th{
+    text-align:right;
+    font-weight:bold;
+    padding:5px;
+    width:200px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#EditTable.List tbody td{
+    padding:5px;
+    border-bottom:1px solid white;
+}
+
+#EditTable.List tbody td:nth-child(3){
+	width:4px;
+    min-width:4px;
+    max-width:4px;
+	padding-left:0px;
+}
+
+#EditTable.List tbody td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+}
+
+#EditTable.List table{
+    width:100%;
+}
+
+#EditTable.List table th{
+    font-weight:normal;
+    font-style:italic;
+    border-bottom:none;
+    width:160px;
+}
+
+#EditTable.List table td{
+    border-bottom:none;
+}
+
+#EditTable.List tr.category td:nth-child(3){
+	width:4px;
+    min-width:4px;
+    max-width:4px;
+	padding-left:0px;
+}
+
+#EditTable.List tr.category td:last-child{
+    padding-right:0px;
+}
+#EditTable.List tr.category table td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+    padding-right:5px;
+}
+
+#EditTable.List tfoot td{
+    padding-top:15px;
+    padding-bottom:5px;
+}
+
+#EditTable.List tbody select, #EditTable.List tbody input, #EditTable.List tbody textarea{
+    width:100%;
+}
+
+/******* Edit Table *******/
+#EditTable.Table{
+    width:100%;
+}
+
+#EditTable.Table tbody th{
+    text-align:right;
+    font-weight:bold;
+    padding:5px;
+    width:200px;
+    border-bottom:1px solid white;
+    vertical-align: top;
+}
+
+#EditTable.Table tbody td{
+    padding:5px;    
+    border-bottom:1px solid white;
+}
+
+#EditTable.Table tbody td:nth-child(3){
+	width:4px;
+    min-width:4px;
+    max-width:4px;
+	padding-left:0px;
+}
+
+#EditTable.Table tbody td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+}
+
+#EditTable.Table table{
+    width:100%;
+}
+
+#EditTable.Table table th{
+    font-weight:normal;
+    font-style:italic;
+    border-bottom:none;
+    width:160px;
+}
+
+#EditTable.Table table td{
+    border-bottom:none;
+}
+
+#EditTable.Table tr.category td:nth-child(3){
+	width:4px;
+    min-width:4px;
+    max-width:4px;
+	padding-left:0px;
+}
+
+#EditTable.Table tr.category td:last-child{
+    padding-right:0px;
+}
+#EditTable.Table tr.category table td:last-child{
+    width:16px;
+    min-width:16px;
+    max-width:16px;
+    padding-right:5px;
+}
+
+#EditTable.Table tfoot td{
+    padding-top:15px;
+}
+
+#EditTable.Table tbody select, #EditTable.Table tbody input, #EditTable.Table tbody textarea{
+    width:100%;
+}
+
+/******* View Table *******/
+#Object.List{
+    width:100%;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#Object.List img{
+    border:none;
+}
+
+#Object.List p{
+	margin-top:0px;
+}
+
+#Object.List ul{
+    padding-left:15px;
+    padding-bottom:0px;
+    margin:0px;
+	margin-top:-12px;
+}
+
+/******* View Table *******/
+#Object.Table{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#Object.Table thead th{
+    background:#3d80b3;
+    border-right: 1px solid white;
+    color:white;
+    font-weight:bold;
+    text-align:left;
+    padding-left:5px;
+    padding-right:5px;	
+}
+
+#Object.Table thead th:first-child{
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    width:35px;
+}
+
+#Object.Table thead th:last-child{
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border-right:none;
+    width:54px;
+    text-align:center;
+}
+
+#Object.Table tbody td{
+    border-top:1px solid white;
+    border-right:1px solid white;
+    text-align:left;
+    padding-left:5px;
+    padding-right:5px;
+	vertical-align:top;
+}
+
+#Object.Table tbody tr td:first-child{
+    text-align:right;
+    width:35px;
+}
+
+#Object.Table tbody tr td:last-child{
+    text-align:center;
+    border-right:none;
+    width:54px;
+}
+
+#Object.Table tbody tr:nth-child(even) td{
+    background:#D5E4F6;
+}
+
+#Object.Table tbody tr:nth-child(odd) td{
+    background:#EAF1FB;
+}
+
+#Object.Table tbody tr:hover td{
+    background:#ffe180;
+}
+
+#Object.Table tbody tr:last-child td:first-child{
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+#Object.Table tbody tr:last-child td:last-child{
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/******* Search Table *******/
+#Search.Table{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#Search.Table thead th{
+    background:#3d80b3;
+    color:white;
+    font-weight:bold;
+    text-align:left;
+    border-right: 1px solid white;
+    padding-right:5px;
+    padding-left:5px;
+}
+
+#Search.Table thead th:first-child{
+    text-align:right;
+}
+#Search.Table thead th:last-child{
+    text-align:center;
+}
+
+#Search.Table thead th:first-child{
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+#Search.Table thead th:last-child{
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border-right:none;
+}
+
+#Search.Table tbody td{
+    border-top:1px solid white;
+    border-right:1px solid white;
+    padding-right:5px;
+    padding-left:5px;
+}
+
+#Search.Table tbody tr td:first-child{
+    text-align:right;
+    width:35px;
+}
+
+#Search.Table tbody tr td:last-child{
+    text-align:center;
+    width:54px;
+    border-right:none;
+}
+
+#Search.Table tbody tr:nth-child(even) td{
+    background:#EAF1FB;
+}
+
+#Search.Table tbody tr:nth-child(odd) td{
+    background:#D5E4F6;
+}
+
+#Search.Table tbody tr:hover td{
+    background:#ffe180;
+}
+
+#Search.Table tbody tr:last-child td:first-child{
+    -moz-border-radius-bottomleft:10px;
+    -webkit-border-bottom-left-radius:4px;
+}
+
+#Search.Table tbody tr:last-child td:last-child{
+    -moz-border-radius-bottomright:10px;
+    -webkit-border-bottom-right-radius:4px;
+}
+
+/******* Search List *******/
+#Search.List{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#Search.List div{
+    padding:10px;
+    width:100%;
+}
+
+#Search.List div h1{
+	padding:0px;
+	margin-right:20px;
+}
+
+#Search.List div p{
+    font-weight:bold;
+    padding:0px;
+    margin:0px;
+}
+
+#Search.List div ul{
+    margin-bottom:15px;
+}
+
+#Search.List div ul:last-child{
+    margin-bottom:0px;
+}
+
+/*****************
+ * code
+ *****************/
+#Code{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#Code div{
+    width:100%;
+    padding:10px;
+    padding-left:40px;
+    padding-top:0px;
+}
+
+#Code div div{
+    width:auto;
+    padding:0px;
+}
+
+/*****************
+ * modal
+ *****************/
+p.modal{
+    padding:0px;
+    margin:0px;
+    margin-bottom:10px;
+}
+
+/*****************
+ * login
+ *****************/
+ 
+table.login th{
+    text-align:right;
+    font-weight:bold;
+    padding-right:5px;
+}
+
+table.login th,  table.login td{
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+/*****************
+ * about
+ *****************/
+#About,
+#Help{
+    width:100%;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    padding:0px;
+    margin:0px;
+}
+
+#About div,
+#Help div{
+    padding:10px;
+    padding-left:10px;
+    padding-right:10px;
+}
+#About div div.section,
+#Help div div.section{
+    margin-bottom:20px;
+    margin-top:0px;
+    padding-top:0px;
+}
+#About div div:last-child,
+#Help div div:last-child{
+    margin-bottom:0px;
+}
+#About div div.section h2,
+#Help div div.section h2{
+    text-decoration:underline;
+    margin:0px;
+    padding:0px;
+    margin-bottom:5px;
+}
+#About div div.section p,
+#Help div div.section p{
+    margin:0px;
+    padding:0px;
+    margin-bottom:10px;
+}
+#About div div.section p:last-child,
+#Help div div.section p:last-child{
+    margin-bottom:0px;
+}
+
+#Object div table,
+#About div div.section table,
+#Help div div.section table{
+	border-top:3px double #3d80b3;
+	border-bottom: 1px solid #3d80b3;
+}
+#Object div table thead th,
+#About div div.section table thead th,
+#Help  div div.section table thead th{
+	border-bottom: 1px solid #3d80b3;	
+}
+
+#Object div table th,
+#Object div table td,
+#About div div.section table th, 
+#About div div.section table td,
+#Help div div.section table th,
+#Help div div.section table td{
+	padding-left:5px;
+	padding-right:5px;
+	text-align:left;
+}
+
+/*****************
+ * search
+ *****************/
+#SearchBox form{
+    width:100%;
+}
+
+#SearchBox form table{
+    width:100%;
+	padding:10px;
+	margin:0px;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;   
+}
+
+#SearchBox form table th, #SearchBox form table td{
+    padding:5px;
+}
+
+#SearchBox form table th{
+    text-align:right;
+    font-weight:bold;
+    width:50px;
+}
+
+#SearchBox form table tbody tr td:last-child{
+    width:16px;
+    padding-right:20px;
+}
+
+#SearchBox form input.text{
+    width:100%;
+}
+
+/*****************
+ * import
+ *****************/
+#ImportBox form{
+    width:100%;
+}
+
+#ImportBox form table{
+    width:100%;
+	padding:10px;
+	margin:0px;
+    border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;   
+}
+
+#ImportBox form table th, #ImportBox form table td{
+    padding:5px;
+}
+
+#ImportBox form table th{
+    text-align:right;
+    font-weight:bold;
+    width:50px;
+}
+
+#ImportBox form table tbody tr td:last-child{
+    width:16px;
+    padding-right:20px;
+}
+
+#ImportBox form input.file{
+    width:100px;
+}
+
+#ImportBox div.response{
+	width:100%;
+	border: solid #3d80b3 1px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;  
+	margin-top:30px;
+	padding:10px;
+}
+
+/*****************
+ * comments
+ *****************/
+#Object.Table td.comments, 
+#ViewTable.List td.comments,
+#ViewTable.Table td.comments{
+	text-align:justify;
+	max-width:450px;
+}
+
+#Object.Table td.comments h1, 
+#ViewTable.List td.comments h1,
+#ViewTable.Table td.comments h1{
+	font-size:14px;
+}
+ 
+#Object.Table td.comments p, 
+#ViewTable.List td.comments p,
+#ViewTable.Table td.comments p{
+    padding:0px;
+    margin:0px;
+    margin-bottom:8px;	
+}
+
+#Object.Table td.comments p:last-child, 
+#ViewTable.List td.comments p:last-child,
+#ViewTable.Table td.comments p:last-child{
+    margin-bottom:0px;
+}
+
+#Object.Table td.comments ol, 
+#ViewTable.List td.comments ol,
+#ViewTable.Table td.comments ol{
+    margin:0px;
+    padding:0px;
+    padding-left:20px;
+}
+
+#Object.Table td.comments table, 
+#ViewTable.List td.comments table,
+#ViewTable.Table td.comments table{
+    width:auto;
+	margin:0 auto;
+	margin-top:10px;
+    margin-bottom:10px;
+    border-top:3px double #222;
+    border-bottom:1px solid #222;	
+}
+
+#Object.Table td.comments table thead th{
+	background:transparent;
+	color:#222;
+	border-right:none;
+	-moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+#Object.Table td.comments table tbody td{
+	border-right:none;
+	border-top:none;
+	-moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+
+#Object.Table td.comments table th, 
+#Object.Table td.comments table td, 
+#ViewTable.List td.comments table th,
+#ViewTable.List td.comments table td,
+#ViewTable.Table td.comments table th,
+#ViewTable.Table td.comments table td{
+    padding:0px;
+    margin:0px;
+    padding-right:40px;
+	width:auto;
+    min-width:none;
+    max-width:none;
+}
+
+#Object.Table td.comments table th, 
+#Object.Table td.comments table td, 
+#Object.Table td.comments table tr th:last-child, 
+#Object.Table td.comments table tr td:last-child, 
+#ViewTable.List td.comments table th,
+#ViewTable.List td.comments table td,
+#ViewTable.Table td.comments table th,
+#ViewTable.Table td.comments table td,
+#ViewTable.List td.comments table tr td:last-child,
+#ViewTable.Table td.comments table tr td:last-child,
+#ViewTable.List td.comments table tr th:last-child,
+#ViewTable.Table td.comments table tr th:last-child{
+    width:auto;
+    min-width:none;
+    max-width:none;	
+}
+
+#Object.Table td.comments table thead th,
+#ViewTable.List td.comments table thead th,
+#ViewTable.Table td.comments table thead th{
+    text-align:left;
+}
+
+#Object.Table td.comments table tbody tr:first-child td,
+#ViewTable.List td.comments table tbody tr:first-child td,
+#ViewTable.Table td.comments table tbody tr:first-child td{
+    border-top:1px solid #222;
+}
+
+#Object.Table td.comments table tr th:last-child,
+#ViewTable.List td.comments table tr th:last-child,
+#ViewTable.List td.comments table tr td:last-child,
+#ViewTable.Table td.comments table tr th:last-child,
+#ViewTable.Table td.comments table tr td:last-child{
+    padding-right:0px;
+}
+
+/*****************
+ * sequence
+ *****************/
+#ViewTable.Table table.sequence,
+#ViewTable.List table.sequence{
+    border:none;
+    width:auto;
+ }
+ 
+#ViewTable.Table table.sequence th.coordinate1,
+#ViewTable.Table table.sequence th.coordinate2,
+#ViewTable.List table.sequence th.coordinate1,
+#ViewTable.List table.sequence th.coordinate2{
+    background:transparent;
+    border:none;
+    width:auto;
+    font-weight:normal;
+    font-style: normal;
+    color:#000000;
+    padding-top:0px;
+    padding-bottom:0px;
+    margin:0px;
+}
+
+#ViewTable.Table table.sequence th.coordinate1,
+#ViewTable.List table.sequence th.coordinate1{
+    text-align:right;
+    padding-right:10px;
+}
+
+#ViewTable.Table table.sequence th.coordinate2,
+#ViewTable.List table.sequence th.coordinate2{
+    text-align:left;
+    padding-left:10px;
+}
+ 
+#ViewTable.Table table.sequence td,
+#ViewTable.List table.sequence td{
+    background:transparent;
+    border:none;
+    text-align:center;
+    font-family:Courier,monospace;
+    white-space:pre;
+    width:auto;
+    padding:0px;
+    margin:0px;
+ }

@@ -1,0 +1,696 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellState</title>
+  <meta name="keywords" content="CellState">
+  <meta name="description" content="CellState">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; CellState.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellState
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellState</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CellState
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellState.html" class="code" title="">CellState</a>	CellState</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="CellState.html" class="code" title="">CellState</a>	CellState</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels, indentation] = state(sim)</a></li><li><a href="#_sub3" class="code">function [content, colLabels, indentation] = processes(sim)</a></li><li><a href="#_sub4" class="code">function plotStateOnChromosome(sim, axesHandle)</a></li><li><a href="#_sub5" class="code">function [r, xoffset] = calcRadiusXOffset(strnd)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%CellState</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 9/12/2010</span>
+0006 classdef <a href="CellState.html" class="code" title="">CellState</a>
+0007     <span class="comment">%printing</span>
+0008     methods (Static)
+0009         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0010             import edu.stanford.covert.cell.sim.analysis.CellState;
+0011             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0012             import edu.stanford.covert.cell.sim.util.PrintUtil;            
+0013             
+0014             <span class="comment">%excel file</span>
+0015             [content, colLabels, indentation] = CellState.state(sim);
+0016             <span class="keyword">if</span> nargin == 1
+0017                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0018             <span class="keyword">else</span>                
+0019                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'State'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0020             <span class="keyword">end</span>
+0021             
+0022             [content, colLabels, indentation] = CellState.processes(sim);
+0023             <span class="keyword">if</span> nargin == 1
+0024                 PrintUtil.printToStdIO(content, colLabels, struct(<span class="string">'indentation'</span>, indentation));
+0025             <span class="keyword">else</span>                
+0026                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Process'</span>, struct(<span class="string">'indentation'</span>, indentation));
+0027             <span class="keyword">end</span>
+0028             
+0029             <span class="comment">% plots</span>
+0030             <span class="keyword">if</span> nargin == 1
+0031                 CellState.plotStateOnChromosome(sim, PlotUtil.newAxesHandle());
+0032             <span class="keyword">else</span>
+0033                 [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0034                 
+0035                 cla(axesHandle);
+0036                 CellState.plotStateOnChromosome(sim, axesHandle);
+0037                 saveas(figHandle, [fileName <span class="string">'-OnChromosome.pdf'</span>]);
+0038                 
+0039                 close(figHandle);
+0040             <span class="keyword">end</span>
+0041         <span class="keyword">end</span>
+0042         
+0043         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels, indentation] = state(sim)</a>
+0044             <span class="comment">%import classes</span>
+0045             import edu.stanford.covert.util.ConstantUtil;
+0046             import edu.stanford.covert.cell.sim.Simulation;
+0047                         
+0048             content = cell(0, 4);
+0049             colLabels = {<span class="string">'Quantity'</span>, <span class="string">'Value'</span>, <span class="string">'Units'</span>};
+0050             
+0051             <span class="comment">%% time</span>
+0052             time = sim.state(<span class="string">'Time'</span>);
+0053             content = [content;{
+0054                 0 <span class="string">'Time'</span> time.values(1)/ConstantUtil.secondsPerHour <span class="string">'h'</span>;
+0055                 }];
+0056             
+0057             <span class="comment">%% mass</span>
+0058             mass = sim.state(<span class="string">'Mass'</span>);
+0059             cellDryMass = sum(mass.cellDry);
+0060             content = [content;{
+0061                 0 <span class="string">'Mass'</span> sum(mass.cell) <span class="string">'g'</span>;
+0062                     1 <span class="string">'Dry'</span> sum(mass.cellDry) <span class="string">'g'</span>;
+0063                     1 <span class="string">'Metabolite'</span> sum(mass.metaboliteWt) <span class="string">'g'</span>;
+0064                         2 <span class="string">'Percent Dry'</span> sum(mass.metaboliteWt) / cellDryMass * 100 <span class="string">'%'</span>;
+0065                     1 <span class="string">'DNA'</span> sum(mass.dnaWt) <span class="string">'g'</span>;
+0066                         2 <span class="string">'Percent Dry'</span> sum(mass.dnaWt) / cellDryMass * 100 <span class="string">'%'</span>;
+0067                     1 <span class="string">'RNA'</span> sum(mass.rnaWt) <span class="string">'g'</span>;
+0068                         2 <span class="string">'Percent Dry'</span> sum(mass.rnaWt) / cellDryMass * 100 <span class="string">'%'</span>;
+0069                     1 <span class="string">'Protein'</span> sum(mass.proteinWt) <span class="string">'g'</span>;
+0070                         2 <span class="string">'Percent Dry'</span> sum(mass.proteinWt) / cellDryMass * 100 <span class="string">'%'</span>;
+0071                     1 <span class="string">'No. cells'</span> sum(mass.cellDry)/mass.cellInitialDryWeight <span class="string">'cells'</span>;
+0072                 }];
+0073             
+0074             <span class="comment">%% growth</span>
+0075             s = sim.state(<span class="string">'MetabolicReaction'</span>);
+0076             time = sim.state(<span class="string">'Time'</span>);
+0077             content = [content;{
+0078                 0 <span class="string">'Growth'</span> s.growth <span class="string">'cells/s'</span>;
+0079                     1 <span class="string">'Relative to expected rate'</span> s.growth / (1 / time.cellCycleLength * log(2) * exp(time.values / time.cellCycleLength * log(2))) [];
+0080                     1 <span class="string">'Doubling Time'</span>, s.doublingTime / ConstantUtil.secondsPerHour <span class="string">'h'</span>;
+0081                 }];
+0082             
+0083             <span class="comment">%% shape</span>
+0084             s = sim.state(<span class="string">'Geometry'</span>);
+0085             content = [content;{
+0086                 0 <span class="string">'Shape'</span> <span class="string">'Cyclinder with hemispherical caps'</span> []
+0087                     1 <span class="string">'Width'</span> s.width <span class="string">'m'</span>
+0088                     1 <span class="string">'Pinched Diameter'</span> s.pinchedDiameter <span class="string">'m'</span>
+0089                     1 <span class="string">'Cylindrical length'</span> s.cylindricalLength <span class="string">'m'</span>
+0090                     1 <span class="string">'Total length'</span> s.totalLength <span class="string">'m'</span>
+0091                     1 <span class="string">'Pinched circumference'</span> s.pinchedCircumference <span class="string">'m'</span>
+0092                     1 <span class="string">'Volume'</span> s.volume <span class="string">'L'</span>
+0093                     1 <span class="string">'Surface area'</span> s.surfaceArea' <span class="string">'m^2'</span>
+0094                     1 <span class="string">'Pinched'</span> s.pinched <span class="string">'true/false'</span>
+0095                 }];
+0096             
+0097             <span class="comment">%% FtsZ ring</span>
+0098             s = sim.state(<span class="string">'FtsZRing'</span>);
+0099             content = [content;{
+0100                 0 <span class="string">'FtsZ ring'</span> [] []
+0101                     1 <span class="string">'No. edges'</span> s.numEdges []
+0102                     1 <span class="string">'No. edges bound by 1 straight FtsZ 9-mer'</span> s.numEdgesOneStraight []
+0103                     1 <span class="string">'No. edges bound by 2 straight FtsZ 9-mers'</span> s.numEdgesTwoStraight []
+0104                     1 <span class="string">'No. edges bound by 2 bent FtsZ 9-mers'</span> s.numEdgesTwoBent []
+0105                     1 <span class="string">'No. edges bound by 1 bent FtsZ 9-mer'</span> s.numResidualBent []
+0106                 }];
+0107             
+0108             <span class="comment">%% stimuli</span>
+0109             content = [content;{
+0110                 0 <span class="string">'Stimuli'</span> <span class="string">''</span> []
+0111                 }];
+0112             stim = sim.state(<span class="string">'Stimulus'</span>);
+0113             <span class="keyword">for</span> i = 1:numel(stim.wholeCellModelIDs)
+0114                 value = stim.values(i, stim.values(i, :) ~= 0);
+0115                 <span class="keyword">if</span> numel(value) == 0
+0116                     value = 0;
+0117                 <span class="keyword">elseif</span> numel(value) &gt; 1
+0118                     value = mean(value);
+0119                 <span class="keyword">end</span>
+0120                 content = [content;{
+0121                     1 stim.wholeCellModelIDs{i} value []
+0122                     }]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0123             <span class="keyword">end</span>
+0124             
+0125             <span class="comment">%% metabolites</span>
+0126             c = sim.state(<span class="string">'Chromosome'</span>);
+0127             s = sim.state(<span class="string">'Metabolite'</span>);
+0128             
+0129             freedNTPs = s.counts(s.dntpIndexs, sim.compartment.cytosolIndexs);
+0130             freeNTPs = s.counts(s.ntpIndexs, sim.compartment.cytosolIndexs);
+0131             freeNDPs = s.counts(s.ndpIndexs, sim.compartment.cytosolIndexs);
+0132             freeNMPs = s.counts(s.nmpIndexs, sim.compartment.cytosolIndexs);
+0133             freeAAs = s.counts(s.aminoAcidIndexs, sim.compartment.cytosolIndexs);
+0134             
+0135             [mindNTPVal, mindNTPIdx] = min(freedNTPs);
+0136             [minNTPVal, minNTPIdx] = min(freeNTPs);
+0137             [minNDPVal, minNDPIdx] = min(freeNDPs);
+0138             [minNMPVal, minNMPIdx] = min(freeNMPs);
+0139             [minAAVal, minAAIdx] = min(freeAAs);
+0140             
+0141             freeNTPMass = freeNTPs' * s.molecularWeights(s.ntpIndexs) / ConstantUtil.nAvogadro;
+0142             freeAAMass = freeAAs' * s.molecularWeights(s.aminoAcidIndexs) / ConstantUtil.nAvogadro;
+0143             
+0144             content = [content;{
+0145                 0 <span class="string">'Metabolites'</span> [] []
+0146                     1 <span class="string">'Free'</span> sum(s.counts(:)) <span class="string">'molecules'</span>
+0147                     1 <span class="string">'dNTPs'</span> [] []
+0148                         2 <span class="string">'Free'</span> sum(freedNTPs) <span class="string">'molecules'</span>                        
+0149                         2 <span class="string">'Min free'</span> s.wholeCellModelIDs{s.dntpIndexs(mindNTPIdx)} []
+0150                         2 <span class="string">'Min free'</span> mindNTPVal <span class="string">'molecules'</span>
+0151                         2 <span class="string">'Incorporated into DNA'</span> (1 - sum(freedNTPs) / (sum(freedNTPs) + collapse(c.polymerizedRegions)))*100 <span class="string">'%'</span>
+0152                     1 <span class="string">'NTPs'</span> [] []
+0153                         2 <span class="string">'Free'</span> sum(freeNTPs) <span class="string">'molecules'</span>                        
+0154                         2 <span class="string">'Min free'</span> s.wholeCellModelIDs{s.ntpIndexs(minNTPIdx)} []
+0155                         2 <span class="string">'Min free'</span> minNTPVal <span class="string">'molecules'</span>
+0156                         2 <span class="string">'Incorporated into RNA'</span> (1 - freeNTPMass / (freeNTPMass + sum(sim.state(<span class="string">'Mass'</span>).rnaWt)))*100 <span class="string">'%'</span>
+0157                     1 <span class="string">'NDPs'</span> [] []
+0158                         2 <span class="string">'Free'</span> sum(freeNDPs) <span class="string">'molecules'</span>                       
+0159                         2 <span class="string">'Min free'</span> s.wholeCellModelIDs{s.ndpIndexs(minNDPIdx)} []
+0160                         2 <span class="string">'Min free'</span> minNDPVal <span class="string">'molecules'</span>
+0161                     1 <span class="string">'NMPs'</span> [] []
+0162                         2 <span class="string">'Free'</span> sum(freeNMPs) <span class="string">'molecules'</span>                        
+0163                         2 <span class="string">'Min free'</span> s.wholeCellModelIDs{s.nmpIndexs(minNMPIdx)} []
+0164                         2 <span class="string">'Min free'</span> minNMPVal <span class="string">'molecules'</span>
+0165                     1 <span class="string">'Amino acids'</span> [] []
+0166                         2 <span class="string">'Free'</span> sum(freeAAs) <span class="string">'molecules'</span>                        
+0167                         2 <span class="string">'Min free'</span> s.wholeCellModelIDs{s.aminoAcidIndexs(minAAIdx)} []
+0168                         2 <span class="string">'Min free'</span> minAAVal <span class="string">'molecules'</span>
+0169                         2 <span class="string">'Incorporated into Protein'</span> (1 - freeAAMass / (freeAAMass + sum(sim.state(<span class="string">'Mass'</span>).proteinWt)))*100 <span class="string">'%'</span>
+0170                     1 <span class="string">'Energy'</span> [] []
+0171                         2 <span class="string">'ATP'</span> sum(s.counts(s.getIndexs({<span class="string">'ATP'</span>}), :)) <span class="string">'molecules'</span>
+0172                         2 <span class="string">'ADP'</span> sum(s.counts(s.getIndexs({<span class="string">'ADP'</span>}), :)) <span class="string">'molecules'</span>
+0173                         2 <span class="string">'AMP'</span> sum(s.counts(s.getIndexs({<span class="string">'AMP'</span>}), :)) <span class="string">'molecules'</span>
+0174                         2 <span class="string">'PPi'</span> sum(s.counts(s.getIndexs({<span class="string">'PPI'</span>}), :)) <span class="string">'molecules'</span>
+0175                         2 <span class="string">'Pi'</span>  sum(s.counts(s.getIndexs({<span class="string">'PI'</span>}),  :)) <span class="string">'molecules'</span>
+0176                         2 <span class="string">'H2O'</span> sum(s.counts(s.getIndexs({<span class="string">'H2O'</span>}), :)) <span class="string">'molecules'</span>
+0177                         2 <span class="string">'H'</span>   sum(s.counts(s.getIndexs({<span class="string">'H'</span>}),   :)) <span class="string">'molecules'</span>
+0178                 }];
+0179             
+0180             <span class="comment">%% DNA</span>
+0181             c = sim.state(<span class="string">'Chromosome'</span>);
+0182             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0183             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0184             ri = sim.process(<span class="string">'ReplicationInitiation'</span>);
+0185             dr = sim.process(<span class="string">'DNARepair'</span>);
+0186             dnaABoxBound = <span class="keyword">...</span>
+0187                 ri.calculateDnaABoxStatus() == ri.dnaABoxStatus_DnaAATPBound | <span class="keyword">...</span>
+0188                 ri.calculateDnaABoxStatus() == ri.dnaABoxStatus_DnaAADPBound;
+0189             [polATPs, polADPs] = ri.calculateDnaAR1234Polymerization();
+0190             oriCComplexSize = ri.calculateDnaAR1234ComplexSize(polATPs, polADPs);
+0191             [~, boundMonomers] = find(c.monomerBoundSites);
+0192             [~, boundComplexs] = find(c.complexBoundSites);
+0193             occupiedBases = sum(c.monomerDNAFootprints(boundMonomers) + c.complexDNAFootprints(boundComplexs));
+0194                         
+0195             methylatedRMSites = nnz(c.damagedBases([
+0196                 dr.RM_MunI_RecognitionSites(:, dr.RM_MunI_MethylatedPositions(1))   ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0197                 dr.RM_MunI_RecognitionSites(:, dr.RM_MunI_MethylatedPositions(2)) 2*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0198                 dr.RM_MunI_RecognitionSites(:, dr.RM_MunI_MethylatedPositions(1)) 3*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0199                 dr.RM_MunI_RecognitionSites(:, dr.RM_MunI_MethylatedPositions(2)) 4*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0200                 ])) / 2;
+0201             polymerizedRMSites = sum(c.isRegionPolymerized([
+0202                 dr.RM_MunI_RecognitionSites(:, 1)   ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0203                 dr.RM_MunI_RecognitionSites(:, 1) 2*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0204                 dr.RM_MunI_RecognitionSites(:, 1) 3*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0205                 dr.RM_MunI_RecognitionSites(:, 1) 4*ones(size(dr.RM_MunI_RecognitionSites, 1), 1);
+0206                 ], 6, false)) / 2;
+0207             
+0208             content = [content;{
+0209                 0 <span class="string">'No. chromosomes'</span> collapse(c.polymerizedRegions)/c.sequenceLen [];
+0210                     1 <span class="string">'Bases'</span> collapse(c.polymerizedRegions) <span class="string">'nt'</span>;
+0211                     1 <span class="string">'Linking number'</span> collapse(c.linkingNumbers)/2 <span class="string">'Links'</span>;
+0212                     1 <span class="string">'Superhelical density'</span>, (collapse(c.linkingNumbers)  - collapse(c.linkingNumbers_minFreeEnergy)) / collapse(c.linkingNumbers_minFreeEnergy) [];
+0213                     1 <span class="string">'Bound proteins'</span> nnz(c.monomerBoundSites) + nnz(c.complexBoundSites) <span class="string">'molecules'</span>
+0214                         2 <span class="string">'Monomers'</span> nnz(c.monomerBoundSites) <span class="string">'molecules'</span>
+0215                             3 <span class="string">'GntR'</span> nnz(c.monomerBoundSites == pm.getIndexs({<span class="string">'MG_101_MONOMER'</span>})) <span class="string">'molecules'</span>
+0216                         2 <span class="string">'Complexes'</span> nnz(c.monomerBoundSites) <span class="string">'molecules'</span>
+0217                             3 <span class="string">'DnaA'</span> nnz(dnaABoxBound) <span class="string">'molecules'</span>
+0218                                 4 <span class="string">'7-mer'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_7mer, :)) <span class="string">'molecules'</span>
+0219                                 4 <span class="string">'8-mer'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_8mer, :)) <span class="string">'molecules'</span>
+0220                                 4 <span class="string">'9-mer'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_9mer, :)) <span class="string">'molecules'</span>
+0221                                 4 <span class="string">'OriC Complex'</span> oriCComplexSize(1) <span class="string">'molecules'</span>
+0222                                 4 <span class="string">'R1'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_R12345(1), :)) <span class="string">'molecules'</span>
+0223                                 4 <span class="string">'R2'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_R12345(2), :)) <span class="string">'molecules'</span>
+0224                                 4 <span class="string">'R3'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_R12345(3), :)) <span class="string">'molecules'</span>
+0225                                 4 <span class="string">'R4'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_R12345(3), :)) <span class="string">'molecules'</span>
+0226                                 4 <span class="string">'R5'</span> nnz(dnaABoxBound(ri.dnaABoxIndexs_R12345(5), :)) <span class="string">'molecules'</span>
+0227                             3 <span class="string">'Gyrase'</span> nnz(c.complexBoundSites == pc.getIndexs({<span class="string">'DNA_GYRASE'</span>})) <span class="string">'molecules'</span>
+0228                             3 <span class="string">'LuxR'</span> nnz(c.complexBoundSites == pc.getIndexs({<span class="string">'MG_428_DIMER'</span>})) <span class="string">'molecules'</span>
+0229                             3 <span class="string">'SMC'</span> nnz(c.complexBoundSites == pc.getIndexs({<span class="string">'MG_213_214_298_6MER_ADP'</span>})) <span class="string">'molecules'</span>
+0230                                 4 <span class="string">'Average spacing'</span> collapse(c.polymerizedRegions)/2 / nnz(c.complexBoundSites == pc.getIndexs({<span class="string">'MG_213_214_298_6MER_ADP'</span>})) <span class="string">'nt'</span>
+0231                         2 <span class="string">'Occupied'</span> occupiedBases <span class="string">'nt'</span>
+0232                         2 <span class="string">'Occupied'</span> occupiedBases / collapse(c.polymerizedRegions) / 2 * 100 <span class="string">'%'</span>
+0233                     1 <span class="string">'Damage'</span> [] []
+0234                         2 <span class="string">'Gap sites'</span> nnz(c.gapSites) <span class="string">'nt'</span>
+0235                         2 <span class="string">'Abasic sites'</span> nnz(c.abasicSites) <span class="string">'nt'</span>
+0236                         2 <span class="string">'Damaged bases'</span> nnz(c.damagedBases) <span class="string">'nt'</span>
+0237                             3 <span class="string">'m6AD'</span> nnz(c.damagedBases == c.metabolite.m6ADIndexs) <span class="string">'nt'</span>
+0238                             3 <span class="string">'methylated R/M sites'</span> methylatedRMSites <span class="string">'nt'</span>
+0239                             3 <span class="string">'methylated R/M sites'</span> methylatedRMSites/polymerizedRMSites*100 <span class="string">'%'</span>
+0240                         2 <span class="string">'Damaged sugar-phosphate'</span> nnz(c.damagedSugarPhosphates) <span class="string">'nt'</span>
+0241                         2 <span class="string">'Strand breaks'</span> nnz(c.strandBreaks) <span class="string">'nt'</span>
+0242                         2 <span class="string">'Intrastrand crosslinks'</span> nnz(c.intrastrandCrossLinks) <span class="string">'nt'</span>
+0243                         2 <span class="string">'Holliday junctions'</span> nnz(c.hollidayJunctions) <span class="string">'nt'</span>
+0244                 }];
+0245             
+0246             <span class="comment">%% RNA</span>
+0247             r = sim.state(<span class="string">'Rna'</span>);
+0248             
+0249             matureRNAs = sum(r.counts(r.matureIndexs, :), 2);
+0250             aminoacylatedRNAs = sum(r.counts(r.aminoacylatedIndexs, :), 2);
+0251             content = [content;{
+0252                 0 <span class="string">'RNA'</span> sum(r.counts(:)) <span class="string">'molecules'</span>
+0253                     1 <span class="string">'mRNA'</span> sum(matureRNAs(r.matureMRNAIndexs)) <span class="string">'molecules'</span>
+0254                         2 <span class="string">'No. species expressed'</span> nnz(r.counts(r.matureIndexs(r.matureMRNAIndexs), :)) []
+0255                     1 <span class="string">'rRNA'</span> sum(matureRNAs(r.matureRRNAIndexs)) <span class="string">'molecules'</span>
+0256                         2 <span class="string">'5S'</span>  matureRNAs(r.matureRibosomalRRNAIndexs(1)) <span class="string">'molecules'</span>
+0257                         2 <span class="string">'15S'</span> matureRNAs(r.matureRibosomalRRNAIndexs(2)) <span class="string">'molecules'</span>
+0258                         2 <span class="string">'23S'</span> matureRNAs(r.matureRibosomalRRNAIndexs(3)) <span class="string">'molecules'</span>
+0259                     1 <span class="string">'sRNA'</span> sum(matureRNAs(r.matureSRNAIndexs) + aminoacylatedRNAs(r.matureSRNAIndexs)) <span class="string">'molecules'</span>
+0260                         2 <span class="string">'scRNA'</span>   matureRNAs(r.matureSRNAIndexs(1))+aminoacylatedRNAs(r.matureSRNAIndexs(1)) <span class="string">'molecules'</span>
+0261                         2 <span class="string">'MG170'</span>   matureRNAs(r.matureSRNAIndexs(2))+aminoacylatedRNAs(r.matureSRNAIndexs(2)) <span class="string">'molecules'</span>
+0262                         2 <span class="string">'RNase P'</span> matureRNAs(r.matureSRNAIndexs(3))+aminoacylatedRNAs(r.matureSRNAIndexs(3)) <span class="string">'molecules'</span>
+0263                         2 <span class="string">'tmRNA'</span>   matureRNAs(r.matureSRNAIndexs(4))+aminoacylatedRNAs(r.matureSRNAIndexs(4)) <span class="string">'molecules'</span>
+0264                             3 <span class="string">'Free'</span> matureRNAs(r.matureSRNAIndexs(4)) <span class="string">'molecules'</span>
+0265                             4 <span class="string">'Aminoacylated'</span> aminoacylatedRNAs(r.matureSRNAIndexs(4)) <span class="string">'molecules'</span>
+0266                     1 <span class="string">'tRNA'</span> sum(matureRNAs(r.matureTRNAIndexs) + aminoacylatedRNAs(r.matureTRNAIndexs)) <span class="string">'molecules'</span>
+0267                         2 <span class="string">'Free'</span> sum(matureRNAs(r.matureTRNAIndexs)) <span class="string">'molecules'</span>
+0268                         2 <span class="string">'Aminoacylated'</span> sum(aminoacylatedRNAs(r.matureTRNAIndexs)) <span class="string">'molecules'</span>
+0269                         2 <span class="string">'No. species expressed'</span> nnz(matureRNAs(r.matureTRNAIndexs) + aminoacylatedRNAs(r.matureTRNAIndexs)) <span class="string">'molecules'</span>
+0270                     1 <span class="string">'Immature'</span> nnz(sim.process(<span class="string">'Transcription'</span>).transcripts.boundTranscriptionUnits) <span class="string">'molecules'</span>
+0271                     1 <span class="string">'Aborted'</span> size(sim.state(<span class="string">'Transcript'</span>).abortedTranscripts, 1) <span class="string">'molecules'</span>
+0272                 }];
+0273             
+0274             <span class="comment">%% Protein</span>
+0275             m = sim.state(<span class="string">'ProteinMonomer'</span>);
+0276             c = sim.state(<span class="string">'ProteinComplex'</span>);
+0277             
+0278             ribosomalMonomerIdxs = sum(c.proteinComplexComposition(sim.gene.mRNAIndexs, c.getIndexs({<span class="string">'RIBOSOME_70S'</span>}), :),3);
+0279             ribosomalMonomers = sum(m.counts(m.matureIndexs(ribosomalMonomerIdxs &gt; 0), :), 2);
+0280             [minRibosomalMonomers, minRibosomalMonomerIdx] = min(ribosomalMonomers);
+0281             minRibosomalMonomerID = m.wholeCellModelIDs{m.matureIndexs(minRibosomalMonomerIdx)};
+0282             
+0283             [idxs, ~, counts] = find(sum(m.counts(m.inactivatedIndexs, :), 2));
+0284             inactiveMonomers = cell(numel(idxs), 4);
+0285             inactiveMonomers(:, 1) = {2};
+0286             inactiveMonomers(:, 2) = m.wholeCellModelIDs(m.inactivatedIndexs(idxs));
+0287             inactiveMonomers(:, 3) = num2cell(counts);
+0288 
+0289             [idxs, ~, counts] = find(sum(c.counts(c.inactivatedIndexs, :), 2));
+0290             inactiveComplexs = cell(numel(idxs), 4);
+0291             inactiveComplexs(:, 1) = {2};
+0292             inactiveComplexs(:, 2) = c.wholeCellModelIDs(c.inactivatedIndexs(idxs));
+0293             inactiveComplexs(:, 3) = reshape(num2cell(counts), [], 1);
+0294             
+0295             content = [content;{
+0296                 0 <span class="string">'Protein'</span> sum(m.counts(:)) + sum(c.counts(:)) <span class="string">'molecules'</span>
+0297                     1 <span class="string">'Monomers'</span> sum(m.counts(:)) <span class="string">'molecules'</span>
+0298                         2 <span class="string">'Ribosomal proteins'</span> sum(ribosomalMonomers) <span class="string">'molecules'</span>
+0299                             3 <span class="string">'Min expressed species'</span> minRibosomalMonomers <span class="string">'molecules'</span>
+0300                             3 <span class="string">'Min expressed species'</span> minRibosomalMonomerID []
+0301                     1 <span class="string">'Complexs'</span> sum(c.counts(:)) <span class="string">'molecules'</span>
+0302                     1 <span class="string">'Bound'</span> sum(sum(m.counts(m.boundIndexs, :)))+sum(sum(c.counts(c.boundIndexs, :))) <span class="string">'molecules'</span>
+0303                         2 <span class="string">'Chromosome'</span> nnz(sim.state(<span class="string">'Chromosome'</span>).monomerBoundSites)+nnz(sim.state(<span class="string">'Chromosome'</span>).complexBoundSites) <span class="string">'molecules'</span>
+0304                         2 <span class="string">'RNA polymerase'</span> nnz(sim.process(<span class="string">'Transcription'</span>).transcripts.boundTranscriptionUnits) <span class="string">'molecules'</span>
+0305                         2 <span class="string">'Ribosome'</span> nnz(sim.state(<span class="string">'Ribosome'</span>).boundMRNAs) <span class="string">'molecules'</span>
+0306                     1 <span class="string">'Immature'</span> nnz(sim.state(<span class="string">'Ribosome'</span>).boundMRNAs) <span class="string">'molecules'</span>
+0307                     1 <span class="string">'Inactive'</span> sum(sum(m.counts(m.inactivatedIndexs, :)))+sum(sum(c.counts(c.inactivatedIndexs, :))) <span class="string">'molecules'</span>
+0308                         };
+0309                         inactiveMonomers;
+0310                         inactiveComplexs;
+0311                         {
+0312                     1 <span class="string">'Damaged'</span> sum(sum(m.counts(m.damagedIndexs, :)))+sum(sum(c.counts(c.damagedIndexs, :))) <span class="string">'molecules'</span>
+0313                     1 <span class="string">'Aborted'</span> size(sim.state(<span class="string">'Polypeptide'</span>).abortedPolypeptides, 1) <span class="string">'molecules'</span>
+0314                     1 <span class="string">'Cytosol'</span> sum(m.counts(:, sim.compartment.cytosolIndexs))+ sum(c.counts(:, sim.compartment.cytosolIndexs)) <span class="string">'molecules'</span>
+0315                     1 <span class="string">'Membrane'</span> sum(m.counts(:, sim.compartment.membraneIndexs))+ sum(c.counts(:, sim.compartment.membraneIndexs)) <span class="string">'molecules'</span>
+0316                     1 <span class="string">'Term. Org. Cytosol'</span> sum(m.counts(:, sim.compartment.terminalOrganelleCytosolIndexs))+ sum(c.counts(:, sim.compartment.terminalOrganelleCytosolIndexs)) <span class="string">'molecules'</span>
+0317                     1 <span class="string">'Term. Org. Membrane'</span> sum(m.counts(:, sim.compartment.terminalOrganelleMembraneIndexs))+ sum(c.counts(:, sim.compartment.terminalOrganelleMembraneIndexs)) <span class="string">'molecules'</span>
+0318                     1 <span class="string">'Extracellular'</span> sum(m.counts(:, sim.compartment.extracellularIndexs))+ sum(c.counts(:, sim.compartment.extracellularIndexs)) <span class="string">'molecules'</span>
+0319                 }];        
+0320             
+0321             <span class="comment">%% DNA Polymerase</span>
+0322             r = sim.process(<span class="string">'Replication'</span>);
+0323             free = r.enzymes(r.enzymeIndexs_core) + r.enzymeComposition(r.enzymeIndexs_core, :) * r.enzymes;
+0324             bound = r.boundEnzymes(r.enzymeIndexs_core) + r.enzymeComposition(r.enzymeIndexs_core, :) * r.boundEnzymes;            
+0325             content = [content;{
+0326                 0 <span class="string">'DNA polymerase'</span> free+bound <span class="string">'molecules'</span>
+0327                     1 <span class="string">'Free'</span> free <span class="string">'molecules'</span>
+0328                     1 <span class="string">'Bound'</span> bound <span class="string">'molecules'</span>
+0329                 }];
+0330             
+0331             <span class="comment">%% Transcription enzymes</span>
+0332             t = sim.process(<span class="string">'Transcription'</span>);
+0333             s = sim.state(<span class="string">'RNAPolymerase'</span>);
+0334             rna = t.rnaPolymerases;
+0335             rnaPolymeraseStateOccupancies = s.stateOccupancies*100;
+0336             content = [content;{
+0337                 0 <span class="string">'Transcription enzymes'</span> [] []                
+0338                     1 <span class="string">'RNA polymerase'</span> t.enzymes(t.enzymeIndexs_rnaPolymerase)+t.boundEnzymes(t.enzymeIndexs_rnaPolymerase) <span class="string">'molecules'</span>
+0339                         2 <span class="string">'Active'</span> rnaPolymeraseStateOccupancies(rna.activelyTranscribingIndex) <span class="string">' %'</span>
+0340                         2 <span class="string">'Specifically bound'</span> rnaPolymeraseStateOccupancies(rna.specificallyBoundIndex) <span class="string">' %'</span>
+0341                         2 <span class="string">'Non-specifically bound'</span> rnaPolymeraseStateOccupancies(rna.nonSpecificallyBoundIndex) <span class="string">' %'</span>
+0342                         2 <span class="string">'Free'</span> rnaPolymeraseStateOccupancies(rna.freeIndex) <span class="string">' %'</span>
+0343                     1 <span class="string">'Initiation/Elongation factors'</span> sum(t.enzymes(t.enzymeIndexs_transcriptionFactors)+t.boundEnzymes(t.enzymeIndexs_transcriptionFactors)) <span class="string">'molecules'</span>
+0344                         2 <span class="string">'Free'</span> sum(t.enzymes(t.enzymeIndexs_transcriptionFactors)) <span class="string">'molecules'</span>
+0345                         2 <span class="string">'Bound'</span> sum(t.boundEnzymes(t.enzymeIndexs_transcriptionFactors)) <span class="string">'molecules'</span>
+0346                 }];        
+0347             
+0348             <span class="comment">%% tRNA aminoacylation enzymes</span>
+0349             t = sim.process(<span class="string">'tRNAAminoacylation'</span>);
+0350             totEnzymes = t.enzymes + t.boundEnzymes;
+0351             content = [content;{
+0352                 0 <span class="string">'tRNA aminoacylation enzymes'</span> sum(totEnzymes) <span class="string">'molecules'</span>
+0353                     1 <span class="string">'tRNA synthetases'</span> sum(totEnzymes(t.enzymeIndexs_tRNASynthetases)) <span class="string">'molecules'</span>
+0354                     1 <span class="string">'tRNA transferases'</span> sum(totEnzymes(t.enzymeIndexs_tRNATransferases)) <span class="string">'molecules'</span>
+0355                 }];
+0356                                     
+0357             <span class="comment">%% Translation enzymes</span>
+0358             t = sim.process(<span class="string">'Translation'</span>);
+0359             r = sim.state(<span class="string">'Ribosome'</span>);
+0360             totEnzymes = t.enzymes + t.boundEnzymes;
+0361             content = [content;{
+0362                 0 <span class="string">'Translation enzymes'</span> [] []
+0363                     1 <span class="string">'Ribosome'</span> [] []
+0364                         2 <span class="string">'Ribosome 30S'</span> totEnzymes(t.enzymeIndexs_ribosome30S) <span class="string">'molecules'</span>
+0365                         2 <span class="string">'Ribosome 30S-IF3'</span> totEnzymes(t.enzymeIndexs_ribosome30SIF3) <span class="string">'molecules'</span>
+0366                         2 <span class="string">'Ribosome 50S'</span> totEnzymes(t.enzymeIndexs_ribosome50S) <span class="string">'molecules'</span>
+0367                         2 <span class="string">'Ribosome 70S'</span> totEnzymes(t.enzymeIndexs_ribosome70S) <span class="string">'molecules'</span>
+0368                             3 <span class="string">'Free'</span> t.enzymes(t.enzymeIndexs_ribosome70S) <span class="string">'molecules'</span>
+0369                             3 <span class="string">'Bound'</span> t.boundEnzymes(t.enzymeIndexs_ribosome70S) <span class="string">'molecules'</span>
+0370                             3 <span class="string">'Active'</span> nnz(r.boundMRNAs) <span class="string">'molecules'</span>
+0371                     1 <span class="string">'Translation factors'</span> sum(totEnzymes(t.enzymeIndexs_translationFactors)) <span class="string">'molecules'</span>
+0372                         1 <span class="string">'Free'</span> sum(t.enzymes(t.enzymeIndexs_translationFactors)) <span class="string">'molecules'</span>
+0373                         1 <span class="string">'Bound'</span> sum(t.boundEnzymes(t.enzymeIndexs_translationFactors)) <span class="string">'molecules'</span>
+0374                 }];                       
+0375             
+0376             <span class="comment">%% FtsZ</span>
+0377             f = sim.process(<span class="string">'FtsZPolymerization'</span>);
+0378             totEnzymes = f.enzymes + f.boundEnzymes;
+0379             content = [content;{
+0380                 0 <span class="string">'FtsZ'</span> [1 1 1 2:9] * totEnzymes <span class="string">'molecules'</span>
+0381                     1 <span class="string">'Free monomers'</span> totEnzymes(f.enzymeIndexs_FtsZ) <span class="string">'molecules'</span>
+0382                     1 <span class="string">'GDP 1-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_GDP) <span class="string">'molecules'</span>
+0383                     1 <span class="string">'GTP 1-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_GTP) <span class="string">'molecules'</span>
+0384                     1 <span class="string">'GTP 2-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(2)) <span class="string">'molecules'</span>
+0385                     1 <span class="string">'GTP 3-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(3)) <span class="string">'molecules'</span>
+0386                     1 <span class="string">'GTP 4-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(4)) <span class="string">'molecules'</span>
+0387                     1 <span class="string">'GTP 5-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(5)) <span class="string">'molecules'</span>
+0388                     1 <span class="string">'GTP 6-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(6)) <span class="string">'molecules'</span>
+0389                     1 <span class="string">'GTP 7-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(7)) <span class="string">'molecules'</span>
+0390                     1 <span class="string">'GTP 8-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(8)) <span class="string">'molecules'</span>
+0391                     1 <span class="string">'GTP 9-mer'</span> totEnzymes(f.enzymeIndexs_FtsZ_activated(9)) <span class="string">'molecules'</span>
+0392                     1 <span class="string">'Bound 9-mer'</span> f.boundEnzymes(f.enzymeIndexs_FtsZ_activated(9)) <span class="string">'molecules'</span>
+0393                 }];            
+0394             
+0395             <span class="comment">%% format output</span>
+0396             indentation = cell2mat(content(:, 1));
+0397             content = content(:, 2:end);
+0398         <span class="keyword">end</span>
+0399             
+0400         <span class="comment">%diagnostics</span>
+0401         <a name="_sub2" href="#_subfunctions" class="code">function [content, colLabels, indentation] = processes(sim)</a>
+0402             content = cell(0, 4);
+0403             colLabels = {<span class="string">'Quantity'</span>, <span class="string">'Value'</span>, <span class="string">'Units'</span>};
+0404             
+0405             <span class="comment">%% Transcription</span>
+0406             t = sim.process(<span class="string">'Transcription'</span>);
+0407             s = sim.state(<span class="string">'RNAPolymerase'</span>);
+0408             
+0409             <span class="comment">%building blocks</span>
+0410             availableNTPs = t.substrates(t.substrateIndexs_ntp);
+0411             rnaPolymeraseMaxNTPIncorporation = s.nActive * t.rnaPolymeraseElongationRate;
+0412             transcriptionFactors = t.enzymes(t.enzymeIndexs_transcriptionFactors);
+0413             
+0414             <span class="comment">%limits</span>
+0415             transcriptionNTPLimit = min(availableNTPs, <span class="keyword">...</span>
+0416                 availableNTPs / sum(availableNTPs) * rnaPolymeraseMaxNTPIncorporation);
+0417             <span class="keyword">if</span> abs(rnaPolymeraseMaxNTPIncorporation - sum(transcriptionNTPLimit)) &lt; 1e-6
+0418                 transcriptionLimitingFractor = <span class="string">'Active RNA Polymerases'</span>;
+0419             <span class="keyword">else</span>
+0420                 transcriptionLimitingFractor = <span class="string">'Available NMPs, NTPs'</span>;
+0421             <span class="keyword">end</span>
+0422             
+0423             <span class="comment">%limiting blocks</span>
+0424             [minNTPs, minNTP] = min(availableNTPs);
+0425             minNTP = t.substrateWholeCellModelIDs{t.substrateIndexs_ntp(minNTP)};
+0426             
+0427             [minTranscriptionFactors, minTranscriptionFactor] = min(transcriptionFactors);
+0428             minTranscriptionFactor = t.enzymeWholeCellModelIDs{t.enzymeIndexs_transcriptionFactors(minTranscriptionFactor)};
+0429             
+0430             <span class="comment">%print</span>
+0431             content = [content;{
+0432                 0 <span class="string">'Transcription'</span> [] []
+0433                     1 <span class="string">'Allocated ATP'</span> t.substrates(t.substrateIndexs_atp) <span class="string">'molecules'</span>
+0434                     1 <span class="string">'Available NTPs'</span> sum(availableNTPs) <span class="string">'molecules'</span>
+0435                     1 <span class="string">'Min NTP'</span> minNTPs <span class="string">'molecules'</span>
+0436                     1 <span class="string">'Min NTP'</span> minNTP []
+0437                     1 <span class="string">'Active RNA Polymerases'</span> s.nActive <span class="string">'molecules'</span>
+0438                     1 <span class="string">'RNA Polymerase Elongation Rate'</span> t.rnaPolymeraseElongationRate <span class="string">'nt/s'</span>
+0439                     1 <span class="string">'Max RNA Polymerase NTP Incorporation'</span>  rnaPolymeraseMaxNTPIncorporation <span class="string">'nt/s'</span>
+0440                     1 <span class="string">'Transcription factors'</span> sum(transcriptionFactors) <span class="string">'molecules'</span>
+0441                     1 <span class="string">'Min transcription factors'</span> minTranscriptionFactors <span class="string">'molecules'</span>
+0442                     1 <span class="string">'Min transcription factors'</span> minTranscriptionFactor []
+0443                     1 <span class="string">'Max NTP Incorporation'</span> sum(transcriptionNTPLimit) <span class="string">'nt/s'</span>
+0444                     1 <span class="string">'Limiting Factor'</span> transcriptionLimitingFractor []
+0445              }];
+0446             
+0447             <span class="comment">%% Translation</span>
+0448             t = sim.process(<span class="string">'Translation'</span>);
+0449             r = sim.state(<span class="string">'Ribosome'</span>);
+0450             
+0451             <span class="comment">%building blocks</span>
+0452             energy = t.substrates(t.substrateIndexs_gtp);
+0453             
+0454             aminoAcids = t.substrates(t.substrateIndexs_aminoAcids);
+0455             ribosomeMaxAAIncorporation = r.nActive * t.ribosomeElongationRate;
+0456             
+0457             tRNAs = t.freeTRNAs + t.aminoacylatedTRNAs;
+0458             translationFactors = t.enzymes(t.enzymeIndexs_translationFactors) + t.boundEnzymes(t.enzymeIndexs_translationFactors);
+0459             
+0460             <span class="comment">%limiting blocks</span>
+0461             [minAminoAcids, minAminoAcid] = min(aminoAcids);
+0462             minAminoAcid = t.substrateWholeCellModelIDs{t.substrateIndexs_aminoAcids(minAminoAcid)};
+0463             
+0464             [minTRNAs, minTRNA] = min(tRNAs);
+0465             minTRNA = t.freeTRNAWholeCellModelIDs{minTRNA};
+0466             
+0467             [minTranslationFactors, minTranslationFactor]=min(translationFactors);
+0468             minTranslationFactor = t.enzymeWholeCellModelIDs{t.enzymeIndexs_translationFactors(minTranslationFactor)};
+0469             
+0470             <span class="comment">%limits</span>
+0471             content = [content;{
+0472                 0 <span class="string">'Translation'</span> [] []
+0473                     1 <span class="string">'Allocated ATP'</span> energy <span class="string">'molecules'</span>
+0474                     1 <span class="string">'Available AAs'</span>  sum(aminoAcids) <span class="string">'molecules'</span>
+0475                     1 <span class="string">'Min Amino Acid'</span> minAminoAcids <span class="string">'molecules'</span>
+0476                     1 <span class="string">'Min Amino Acid'</span> minAminoAcid []
+0477                     1 <span class="string">'tRNAs'</span> sum(tRNAs) <span class="string">'molecules'</span>
+0478                     1 <span class="string">'Min tRNAs'</span> minTRNAs <span class="string">'molecules'</span>
+0479                     1 <span class="string">'Min tRNAs'</span> minTRNA []
+0480                     1 <span class="string">'Active Ribosomes'</span> r.nActive <span class="string">'molecules'</span>
+0481                     1 <span class="string">'Ribosome Elongation Rate'</span> t.ribosomeElongationRate <span class="string">'aa/s'</span>
+0482                     1 <span class="string">'Max Ribosome AA Incorporation'</span> ribosomeMaxAAIncorporation <span class="string">'aa/s'</span>
+0483                     1 <span class="string">'Translation factors'</span> sum(translationFactors) <span class="string">'molecules'</span>
+0484                     1 <span class="string">'Min translation factors'</span> minTranslationFactors <span class="string">'molecules'</span>
+0485                     1 <span class="string">'Min translation factors'</span> minTranslationFactor []
+0486                 }];
+0487             
+0488             <span class="comment">%% format output</span>
+0489             indentation = cell2mat(content(:, 1));
+0490             content = content(:, 2:end);
+0491         <span class="keyword">end</span>
+0492     <span class="keyword">end</span>
+0493     
+0494     <span class="comment">%plotting</span>
+0495     methods (Static)
+0496         <a name="_sub3" href="#_subfunctions" class="code">function plotStateOnChromosome(sim, axesHandle)</a>
+0497             c = sim.state(<span class="string">'Chromosome'</span>);
+0498             
+0499             cla(axesHandle);
+0500             hold on;
+0501             legendHandles = [];
+0502             
+0503             <span class="comment">%base chromosome</span>
+0504             <span class="keyword">for</span> i = 1:4
+0505                 [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(i);
+0506                 h = plot(axesHandle, xoffset + r*cos(pi/180 * (1:360)), r*sin(pi/180 * (1:360)), <span class="string">'Color'</span>, [0.7 0.7 0.7], <span class="string">'LineStyle'</span>, <span class="string">':'</span>);
+0507             <span class="keyword">end</span>
+0508             legendHandles = [legendHandles; h];
+0509             
+0510             <span class="comment">%polymerized regions</span>
+0511             <span class="keyword">for</span> i = 1:4
+0512                 [pos, lens] = find(c.polymerizedRegions(:, i));
+0513                 [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(i);
+0514                 <span class="keyword">for</span> j = 1:size(pos, 1)
+0515                     theta = 2*pi * (pos(j,1) + (0:lens(j)/360:lens(j)))/c.sequenceLen;
+0516                     h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [0.7 0.7 0.7], <span class="string">'LineWidth'</span>, 2);
+0517                 <span class="keyword">end</span>
+0518             <span class="keyword">end</span>
+0519             legendHandles = [legendHandles; h];
+0520             
+0521             <span class="comment">%polymerized transcription units</span>
+0522             <span class="keyword">for</span> i = 1:2
+0523                 <span class="keyword">for</span> j = 1:numel(c.transcriptionUnitWholeCellModelIDs)
+0524                     <span class="keyword">if</span> ~c.polymerizedTranscriptionUnits(j, i); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0525                     [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(2*(i-1) + c.transcriptionUnitStrands(j));
+0526                     theta = 2*pi * (c.transcriptionUnitStartCoordinates(j) + (0:c.transcriptionUnitLengths(j)/360:c.transcriptionUnitLengths(j))) / c.sequenceLen;
+0527                     h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [0 1 0], <span class="string">'LineWidth'</span>, 2);
+0528                 <span class="keyword">end</span>                
+0529             <span class="keyword">end</span>
+0530             legendHandles = [legendHandles; h];
+0531             
+0532             <span class="comment">%polymerized genes</span>
+0533             <span class="keyword">for</span> i = 1:2
+0534                 <span class="keyword">for</span> j = 1:numel(sim.gene.wholeCellModelIDs)
+0535                     <span class="keyword">if</span> ~c.polymerizedGenes(j, i); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0536                     [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(2*(i-1) + sim.gene.strands(j));
+0537                     theta = 2*pi * (sim.gene.startCoordinates(j) + (0:sim.gene.lengths(j)/360:sim.gene.lengths(j))) / c.sequenceLen;
+0538                     h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [0 0 1], <span class="string">'LineWidth'</span>, 2);
+0539                 <span class="keyword">end</span>
+0540             <span class="keyword">end</span>
+0541             legendHandles = [legendHandles; h];
+0542             
+0543             <span class="comment">%bound proteins</span>
+0544             [monomerPosStrnds, monomers] = find(c.monomerBoundSites);
+0545             [complexPosStrnds, complexs] = find(c.complexBoundSites);
+0546             posStrnds = [monomerPosStrnds; complexPosStrnds];
+0547             lens = [c.monomerDNAFootprints(monomers); c.complexDNAFootprints(complexs)];
+0548             ssStranded = [c.monomerDNAFootprintRegionStrandedness(monomers); c.complexDNAFootprintRegionStrandedness(complexs)] == c.dnaStrandedness_ssDNA;
+0549             <span class="keyword">for</span> i = 1:size(posStrnds, 1)
+0550                 [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(posStrnds(i,2));
+0551                 theta = 2*pi * (posStrnds(i,1) + (0:lens(i)/360:lens(i))) / c.sequenceLen;
+0552                 h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [1 1 0], <span class="string">'LineWidth'</span>, 4);
+0553                 <span class="keyword">if</span> ~ssStranded(i)
+0554                     [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(posStrnds(i, 2) -iseven(posStrnds(i, 2)) + isodd(posStrnds(i, 2)));
+0555                     plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [1 1 0], <span class="string">'LineWidth'</span>, 4);
+0556                 <span class="keyword">end</span>
+0557             <span class="keyword">end</span>
+0558             legendHandles = [legendHandles; h];
+0559             
+0560             <span class="comment">%damage</span>
+0561             posStrnds = find(c.getDamagedSites(1,1,1,1,1,1,1));
+0562             <span class="keyword">for</span> i = 1:size(posStrnds, 1)
+0563                 [r, xoffset] = <a href="#_sub5" class="code" title="subfunction [r, xoffset] = calcRadiusXOffset(strnd)">calcRadiusXOffset</a>(posStrnds(i,2));
+0564                 theta = 2*pi * posStrnds(i,1) / c.sequenceLen;
+0565                 h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [1 0 0], <span class="string">'LineWidth'</span>, 4);
+0566             <span class="keyword">end</span>
+0567             legendHandles = [legendHandles; h];
+0568             
+0569             <span class="comment">%expressed RNAs</span>
+0570             r = sim.state(<span class="string">'Rna'</span>);
+0571             genes = r.matureRNAGeneComposition * sum(r.counts(r.matureIndexs, :) + r.counts(r.aminoacylatedIndexs, :), 2);
+0572             <span class="keyword">for</span> i = 1:numel(sim.gene.wholeCellModelIDs)
+0573                 <span class="keyword">if</span> genes(i) == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0574                 
+0575                 r = 1 + [0.05;0.25] * iseven(sim.gene.strands(i)) - [0.05;0.25] * isodd(sim.gene.strands(i));
+0576                 xoffset = 0;
+0577                 
+0578                 theta = 2*pi * (sim.gene.startCoordinates(i) + sim.gene.lengths(i)/2) / c.sequenceLen;
+0579                 h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [1 0 1], <span class="string">'LineWidth'</span>, 2);
+0580             <span class="keyword">end</span>
+0581             legendHandles = [legendHandles; h];
+0582             
+0583             <span class="comment">%expressed proteins</span>
+0584             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0585             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0586              
+0587             monomers = <span class="keyword">...</span>
+0588                 sum(pm.counts(pm.matureIndexs, :) + pm.counts(pm.boundIndexs, :) + pm.counts(pm.inactivatedIndexs, :), 2) + <span class="keyword">...</span>
+0589                 sum(pc.proteinComplexComposition(sim.gene.mRNAIndexs, :, :), 3) * sum(pc.counts(pc.matureIndexs, :) + pc.counts(pc.boundIndexs, :) + pc.counts(pc.inactivatedIndexs, :), 2);
+0590             <span class="keyword">for</span> i = 1:numel(monomers)
+0591                 <span class="keyword">if</span> monomers(i) == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0592                 
+0593                 r = 1 + [0.05;0.25] * iseven(sim.gene.strands(sim.gene.mRNAIndexs(i))) - [0.05;0.25] * isodd(sim.gene.strands(sim.gene.mRNAIndexs(i)));
+0594                 xoffset = 0;
+0595                 
+0596                 theta = 2*pi * (sim.gene.startCoordinates(sim.gene.mRNAIndexs(i)) + sim.gene.lengths(sim.gene.mRNAIndexs(i))/2) / c.sequenceLen;
+0597                 h = plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [0 1 1], <span class="string">'LineWidth'</span>, 2);
+0598             <span class="keyword">end</span>
+0599             legendHandles = [legendHandles; h];
+0600             
+0601             <span class="comment">%ribosomes</span>
+0602             ribosome = sim.state(<span class="string">'Ribosome'</span>);
+0603             <span class="keyword">for</span> i = 1:numel(ribosome.boundMRNAs)
+0604                 <span class="keyword">if</span> ribosome.boundMRNAs(i) == 0; <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0605                 
+0606                 r = 1 + [0.05;0.25] * iseven(sim.gene.strands(sim.gene.mRNAIndexs(ribosome.boundMRNAs(i)))) - [0.05;0.25] * isodd(sim.gene.strands(sim.gene.mRNAIndexs(ribosome.boundMRNAs(i))));
+0607                 xoffset = 0;
+0608                 
+0609                 theta = 2*pi * (sim.gene.startCoordinates(sim.gene.mRNAIndexs(ribosome.boundMRNAs(i))) + ribosome.states(i)) / c.sequenceLen;
+0610                 plot(axesHandle, xoffset + r*cos(theta), r*sin(theta), <span class="string">'Color'</span>, [1 1 0], <span class="string">'LineWidth'</span>, 2);
+0611             <span class="keyword">end</span>
+0612 
+0613             <span class="comment">%legend</span>
+0614             legend(legendHandles, {
+0615                 <span class="string">'Chromosome'</span>
+0616                 <span class="string">'Polymerized'</span>
+0617                 <span class="string">'  Gene'</span>
+0618                 <span class="string">'  TU'</span>
+0619                 <span class="string">'Bnd Prot'</span>
+0620                 <span class="string">'Damage'</span>
+0621                 <span class="string">'Exp RNA'</span>
+0622                 <span class="string">'Exp Prot'</span>}, <span class="keyword">...</span>
+0623                 <span class="string">'Orientation'</span>, <span class="string">'Horizontal'</span>, <span class="keyword">...</span>
+0624                 <span class="string">'Location'</span>, <span class="string">'SouthOutside'</span>);
+0625             
+0626             <span class="comment">%format</span>
+0627             xlim([-1.4 2.5+1.4]);
+0628             ylim([-1.4 1.4]);
+0629             
+0630             set(axesHandle, <span class="string">'DataAspectRatio'</span>, [1 1 1])
+0631             set(axesHandle, <span class="string">'Visible'</span>, <span class="string">'off'</span>)
+0632             set(get(axesHandle, <span class="string">'Parent'</span>), <span class="string">'Color'</span>, [1 1 1]);
+0633             position = get(gca, <span class="string">'Position'</span>);
+0634             scale = 1.35;
+0635             set(gca, <span class="string">'Position'</span>, [position(1:2)-position(3:4)*(scale-1)/2 position(3:4)*scale]);
+0636             
+0637             <a name="_sub4" href="#_subfunctions" class="code">function [r, xoffset] = calcRadiusXOffset(strnd)</a>
+0638                 r = 1 + 0.05 * iseven(strnd) - 0.05 * isodd(strnd);
+0639                 xoffset = 2.5 * floor((strnd-1)/2);
+0640             <span class="keyword">end</span>
+0641         <span class="keyword">end</span>
+0642     <span class="keyword">end</span>
+0643 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

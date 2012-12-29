@@ -1,0 +1,843 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: transporters.col
+# Date and time generated: March 29, 2012, 18:01:32
+#
+UNIQUE-ID	NAME	REACTION-EQUATION	SUBUNIT-COMPOSITION
+MG_271_272_273_274_192MER	pyruvate dehydrogenase	[c]: COA + NAD + PYR <==> ACCOA + CO2 + NADH	12*MG_271_MONOMER,60*MG_272_MONOMER,60*MG_273_MONOMER,60*MG_274_MONOMER
+MG_271_272_273_274_192MER	pyruvate dehydrogenase	[c]: COA + NAD + PYR <==> ACCOA + CO2 + NADH	12*MG_271_MONOMER,60*MG_272_MONOMER,60*MG_273_MONOMER,60*MG_274_MONOMER
+MG_357_DIMER	acetate kinase	[c]: ACTP + ADP <==> AC + ATP	2*MG_357_MONOMER
+MG_357_DIMER	acetate kinase	[c]: ACTP + ADP <==> AC + ATP	2*MG_357_MONOMER
+MG_482_DIMER	holo-(acyl-carrier-protein) synthase	[c]: COA + MG_287_MONOMER ==> H + MG_287_MONOMER_ACP + PAP	2*MG_482_MONOMER
+MG_123_DIMER	arginine deaminase	[c]: ARG + H2O <==> CITR + H + NH3	2*MG_123_MONOMER
+MG_123_DIMER	arginine deaminase	[c]: ARG + H2O <==> CITR + H + NH3	2*MG_123_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + ATP <==> (2) ADP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + ATP <==> (2) ADP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + GTP <==> ADP + GDP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + GTP <==> ADP + GDP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + ITP <==> ADP + IDP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: AMP + ITP <==> ADP + IDP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: ATP + DAMP <==> ADP + DADP	1*MG_171_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: ATP + DAMP <==> ADP + DADP	1*MG_171_MONOMER
+MG_276_DIMER	adenine phosphoribosyltransferase	[c]: AD + PRPP ==> AMP + PPI	2*MG_276_MONOMER
+MG_235_MONOMER	apurinic endonuclease	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H	1*MG_235_MONOMER
+MG_498_MONOMER	formamidopyrimidine-DNA glycosylase	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H	1*MG_498_MONOMER
+MG_398_399_400_401_402_403_404_405_22MER	H(+)-transporting two-sector ATPase	ADP[c] + (4) H[e] + H[c] + PI[c] <==> ATP[c] + (4) H[c] + H2O[c]	1*MG_398_MONOMER,3*MG_399_MONOMER,1*MG_400_MONOMER,3*MG_401_MONOMER,1*MG_402_MONOMER,2*MG_403_MONOMER,10*MG_404_MONOMER,1*MG_405_MONOMER
+MG_398_399_400_401_402_403_404_405_22MER	H(+)-transporting two-sector ATPase	ADP[c] + (4) H[e] + H[c] + PI[c] <==> ATP[c] + (4) H[c] + H2O[c]	1*MG_398_MONOMER,3*MG_399_MONOMER,1*MG_400_MONOMER,3*MG_401_MONOMER,1*MG_402_MONOMER,2*MG_403_MONOMER,10*MG_404_MONOMER,1*MG_405_MONOMER
+MG_094_HEXAMER	replicative DNA helicase	[c]: ATP + H2O ==> ADP + H + PI	6*MG_094_MONOMER
+DNA_GYRASE	DNA gyrase	[c]: (2) ATP + (2) H2O ==> (2) ADP + (2) H + (2) PI	2*MG_003_MONOMER,2*MG_004_MONOMER
+MG_122_MONOMER	DNA topoisomerase I	 ==> 	1*MG_122_MONOMER
+MG_203_204_TETRAMER	topoisomerase IV	[c]: (2) ATP + (2) H2O ==> (2) ADP + (2) H + (2) PI	2*MG_203_MONOMER,2*MG_204_MONOMER
+MG_072_DIMER	preprotein translocase, SecA subunit	[c]: ATP + H2O ==> ADP + H + PI	2*MG_072_MONOMER
+MG_0001_048	signal recognition particle	[c]: GTP + H2O ==> GDP + H + PI	1*MG_0001,1*MG_048_MONOMER
+MG_333_DIMER	FMN-dependent NADH-azoreductase, putative	[c]: (2) H + methylRed + (2) NADH ==> aminodimethylaniline + anthranilate + (2) NAD	2*MG_333_MONOMER
+MG_052_DIMER	cytidine deaminase	[c]: CYTD + H2O ==> NH3 + URI	2*MG_052_MONOMER
+MG_052_DIMER	cytidine deaminase	[c]: DC + H2O ==> DU + NH3	2*MG_052_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA120[m] <==> CDPDG120[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA120[m] <==> CDPDG120[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA140[m] <==> CDPDG140[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA140[m] <==> CDPDG140[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA141[m] <==> CDPDG141[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA141[m] <==> CDPDG141[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA160[m] <==> CDPDG160[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA160[m] <==> CDPDG160[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA161[m] <==> CDPDG161[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA161[m] <==> CDPDG161[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA180[m] <==> CDPDG180[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA180[m] <==> CDPDG180[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA181[m] <==> CDPDG181[m] + PPI[c]	2*MG_437_MONOMER
+MG_437_DIMER	phosphatidate cytidylyltransferase	CTP[c] + H[c] + PA181[m] <==> CDPDG181[m] + PPI[c]	2*MG_437_MONOMER
+MG_356_MONOMER	choline/ethanolamine kinase, putative	[c]: ATP + CHOL ==> ADP + H + pCHOL	1*MG_356_MONOMER
+MG_330_MONOMER	cytidylate kinase	[c]: ATP + DCMP <==> ADP + DCDP	1*MG_330_MONOMER
+MG_330_MONOMER	cytidylate kinase	[c]: ATP + DCMP <==> ADP + DCDP	1*MG_330_MONOMER
+MG_330_MONOMER	cytidylate kinase	[c]: ATP + CMP <==> ADP + CDP	1*MG_330_MONOMER
+MG_330_MONOMER	cytidylate kinase	[c]: ATP + CMP <==> ADP + CDP	1*MG_330_MONOMER
+MG_434_HEXAMER	uridylate kinase	[c]: ATP + UMP <==> ADP + UDP	6*MG_434_MONOMER
+MG_434_HEXAMER	uridylate kinase	[c]: ATP + UMP <==> ADP + UDP	6*MG_434_MONOMER
+MG_264_MONOMER	dephospho-CoA kinase	[c]: ATP + DPCOA ==> ADP + COA + H	1*MG_264_MONOMER
+MG_130_MONOMER		[c]: H2O + U23CMP ==> H + U3MP	1*MG_130_MONOMER
+MG_130_MONOMER		[c]: C23CMP + H2O ==> C3MP + H	1*MG_130_MONOMER
+MG_130_MONOMER		[c]: A23CMP + H2O ==> A3MP + H	1*MG_130_MONOMER
+MG_130_MONOMER		[c]: G23CMP + H2O ==> G3MP + H	1*MG_130_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	[c]: MAN6P <==> MAN1P	3*MG_053_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	[c]: MAN6P <==> MAN1P	3*MG_053_MONOMER
+MG_336_DIMER	cysteine desulfurase	[c]: (2) H + SALA ==> ALA + SO2	2*MG_336_MONOMER
+MG_171_MONOMER	adenylate kinase	[c]: ATP + DA ==> ADP + DAMP + H	1*MG_171_MONOMER
+MG_106_DIMER	peptide deformylase	[c]: fMetMet + H2O ==> FOR + H + MetMet	2*MG_106_MONOMER
+MG_050_MONOMER	deoxyribose-phosphate aldolase	[c]: DR5P ==> ACAL + T3P1	1*MG_050_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: dINS + PI <==> DR1P + HYXN	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: dINS + PI <==> DR1P + HYXN	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DA + PI <==> AD + DR1P	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DA + PI <==> AD + DR1P	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DG + PI <==> DR1P + GN	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DG + PI <==> DR1P + GN	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: HYXN + R1P <==> (2) H + INS + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: HYXN + R1P <==> (2) H + INS + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: AD + R1P <==> ADN + (2) H + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: AD + R1P <==> ADN + (2) H + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: GN + R1P <==> GSN + (2) H + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: GN + R1P <==> GSN + (2) H + PI	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DU + PI <==> DR1P + URA	6*MG_049_MONOMER
+MG_049_HEXAMER	purine nucleoside phosphorylase	[c]: DU + PI <==> DR1P + URA	6*MG_049_MONOMER
+MG_235_MONOMER	apurinic endonuclease	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H	1*MG_235_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: ATP + DG ==> ADP + DGMP + H	2*MG_107_MONOMER
+MG_369_DIMER	DAK2 phosphatase domain protein	[c]: DHA + PEP ==> PYR + T3P2	2*MG_369_MONOMER
+MG_228_TETRAMER	dihydrofolate reductase	[c]: DHF + H + NADPH <==> NADP + THF	4*MG_228_MONOMER
+MG_228_TETRAMER	dihydrofolate reductase	[c]: DHF + H + NADPH <==> NADP + THF	4*MG_228_MONOMER
+MG_105_OCTAMER	putative DNA integrity scanning protein	[c]: (2) ATP ==> c_di_AMP + (2) PPI	8*MG_105_MONOMER
+MG_254_MONOMER	DNA ligase, NAD-dependent	[c]: (2) DR5P + NAD ==> AMP + dRibose5P_dRibose5P + H + NMN	1*MG_254_MONOMER
+DNA_POLYMERASE_CORE	DNA-directed DNA polymerase	[c]: DAMP + DATP ==> dApdAp + PPI	1*MG_031_MONOMER,1*MG_261_MONOMER
+DNA_POLYMERASE_CORE	DNA-directed DNA polymerase	[c]: DCMP + DCTP ==> dCpdCp + PPI	1*MG_031_MONOMER,1*MG_261_MONOMER
+DNA_POLYMERASE_CORE	DNA-directed DNA polymerase	[c]: DGMP + DGTP ==> dGpdGp + PPI	1*MG_031_MONOMER,1*MG_261_MONOMER
+DNA_POLYMERASE_CORE	DNA-directed DNA polymerase	[c]: DTMP + DTTP ==> dTpdTp + PPI	1*MG_031_MONOMER,1*MG_261_MONOMER
+MG_250_MONOMER	DNA primase	[c]: AMP + ATP ==> ApAp + PPI	1*MG_250_MONOMER
+MG_250_MONOMER	DNA primase	[c]: CMP + CTP ==> CpCp + PPI	1*MG_250_MONOMER
+MG_250_MONOMER	DNA primase	[c]: GMP + GTP ==> GpGp + PPI	1*MG_250_MONOMER
+MG_250_MONOMER	DNA primase	[c]: UMP + UTP ==> PPI + UpUp	1*MG_250_MONOMER
+MG_190_MONOMER	phosphoesterase	[c]: dApdAp + H2O ==> (2) DAMP + H	1*MG_190_MONOMER
+MG_190_MONOMER	phosphoesterase	[c]: dCpdCp + H2O ==> (2) DCMP + H	1*MG_190_MONOMER
+MG_190_MONOMER	phosphoesterase	[c]: dGpdGp + H2O ==> (2) DGMP + H	1*MG_190_MONOMER
+MG_190_MONOMER	phosphoesterase	[c]: dTpdTp + H2O ==> (2) DTMP + H	1*MG_190_MONOMER
+MG_254_MONOMER	DNA ligase, NAD-dependent	[c]: (2) DR5P + NAD ==> AMP + dRibose5P_dRibose5P + H + NMN	1*MG_254_MONOMER
+MG_001_MONOMER	DNA polymerase III, beta subunit	[c]: DAMP + DATP ==> dApdAp + PPI	1*MG_001_MONOMER
+MG_001_MONOMER	DNA polymerase III, beta subunit	[c]: DCMP + DCTP ==> dCpdCp + PPI	1*MG_001_MONOMER
+MG_001_MONOMER	DNA polymerase III, beta subunit	[c]: DGMP + DGTP ==> dGpdGp + PPI	1*MG_001_MONOMER
+MG_001_MONOMER	DNA polymerase III, beta subunit	[c]: DTMP + DTTP ==> dTpdTp + PPI	1*MG_001_MONOMER
+MG_438_MONOMER	type I restriction modification DNA specificity domain protein	[c]: AD + AMET ==> AHCYS + H + m6AD	1*MG_438_MONOMER
+MG_438_MONOMER	type I restriction modification DNA specificity domain protein	[c]: ATP + (2) dRibose5P_dRibose5P + (3) H2O ==> ADP + (4) DR5P + (3) H + PI	1*MG_438_MONOMER
+MG_184_DIMER	adenine-specific DNA modification methylase	[c]: AD + AMET ==> AHCYS + H + m6AD	2*MG_184_MONOMER
+MG_001_MONOMER	DNA polymerase III, beta subunit	[c]: dRibose5P_dRibose5P + H2O ==> (2) DR5P + H	1*MG_001_MONOMER
+MG_407_DIMER	enolase	[c]: G2P <==> H2O + PEP	2*MG_407_MONOMER
+MG_407_DIMER	enolase	[c]: G2P <==> H2O + PEP	2*MG_407_MONOMER
+MG_023_DIMER	fructose-1,6-bisphosphate aldolase, class II	[c]: FDP <==> T3P1 + T3P2	2*MG_023_MONOMER
+MG_023_DIMER	fructose-1,6-bisphosphate aldolase, class II	[c]: FDP <==> T3P1 + T3P2	2*MG_023_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	[c]: METTHF + NADP <==> (2) H + METHF + NADPH	2*MG_013_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	[c]: METTHF + NADP <==> (2) H + METHF + NADPH	2*MG_013_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	[c]: H2O + METHF <==> FTHF10 + H	2*MG_013_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	[c]: H2O + METHF <==> FTHF10 + H	2*MG_013_MONOMER
+MG_342_MONOMER	NADPH-dependent FMN reductase domain protein	[c]: FAD + H + NADH ==> FADH2 + NAD	1*MG_342_MONOMER
+MG_342_MONOMER	NADPH-dependent FMN reductase domain protein	[c]: H + NADPH + RIBFLV ==> NADP + RBFLVRD	1*MG_342_MONOMER
+MG_342_MONOMER	NADPH-dependent FMN reductase domain protein	[c]: FMN + H + NADH ==> FMNH2 + NAD	1*MG_342_MONOMER
+MG_342_MONOMER	NADPH-dependent FMN reductase domain protein	[c]: FMN + H + NADPH ==> FMNH2 + NADP	1*MG_342_MONOMER
+MG_063_DIMER	1-phosphofructokinase, putative	[c]: ATP + F1P ==> ADP + FDP + H	2*MG_063_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	[c]: ATP + TAG6P ==> ADP + H + TAG16P	3*MG_053_MONOMER
+MG_245_MONOMER	5-formyltetrahydrofolate cyclo-ligase, putative	[c]: ATP + FTHF10 + (3) H <==> ADP + METTHF + PI	1*MG_245_MONOMER
+MG_245_MONOMER	5-formyltetrahydrofolate cyclo-ligase, putative	[c]: ATP + FTHF10 + (3) H <==> ADP + METTHF + PI	1*MG_245_MONOMER
+MG_013_DIMER	methylenetetrahydrofolate dehydrogenase/methylenetetrahydrofolate cyclohydrolase	[c]: ATP + FOR + THF ==> ADP + FTHF10 + PI	2*MG_013_MONOMER
+MG_118_DIMER	UDP-glucose 4-epimerase	[c]: UDPGAL <==> UDPG	2*MG_118_MONOMER
+MG_118_DIMER	UDP-glucose 4-epimerase	[c]: UDPGAL <==> UDPG	2*MG_118_MONOMER
+MG_453_TETRAMER	UTP-glucose-1-phosphate uridylyltransferase	[c]: G1P + H + UTP <==> PPI + UDPG	4*MG_453_MONOMER
+MG_453_TETRAMER	UTP-glucose-1-phosphate uridylyltransferase	[c]: G1P + H + UTP <==> PPI + UDPG	4*MG_453_MONOMER
+MG_301_TETRAMER	glyceraldehyde-3-phosphate dehydrogenase, type I	[c]: NAD + PI + T3P1 <==> DPG + H + NADH	4*MG_301_MONOMER
+MG_301_TETRAMER	glyceraldehyde-3-phosphate dehydrogenase, type I	[c]: NAD + PI + T3P1 <==> DPG + H + NADH	4*MG_301_MONOMER
+MG_137_DIMER	UDP-galactopyranose mutase	[c]: UDPGAL ==> UDPGALF	2*MG_137_MONOMER
+MG_038_TETRAMER	glycerol kinase	[c]: ATP + GL ==> ADP + GL3P	4*MG_038_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPCH + H2O ==> CHOL + GL3P	2*MG_293_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPE + H2O ==> ETN + GL3P + H	2*MG_293_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPS + H2O ==> GL3P + SER	2*MG_293_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPG + H2O ==> GL + GL3P	2*MG_293_MONOMER
+MG_293_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPI + H2O ==> GL3P + INOS	2*MG_293_MONOMER
+MG_394_TETRAMER	serine hydroxymethyltransferase	[c]: (2) H + SER + THF ==> GLY + H2O + METTHF	4*MG_394_MONOMER
+MG_394_TETRAMER	serine hydroxymethyltransferase	[c]: THR ==> ACAL + GLY	4*MG_394_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	Ceramide16[m] + UDPGAL[c] ==> GalCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	Ceramide16[m] + UDPG[c] ==> GlcCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG160[m] + UDPGAL[c] ==> GalDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG160[m] + UDPG[c] ==> GlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG161[m] + UDPGAL[c] ==> GalDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG161[m] + UDPG[c] ==> GlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG181[m] + UDPGAL[c] ==> GalDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	DAG181[m] + UDPG[c] ==> GlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalCer16[m] + UDPGAL[c] ==> GalGalCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalCer16[m] + UDPG[c] ==> GlcGalCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG160[m] + UDPGAL[c] ==> GalGalDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG160[m] + UDPG[c] ==> GlcGalDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG161[m] + UDPGAL[c] ==> GalGalDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG161[m] + UDPG[c] ==> GlcGalDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG181[m] + UDPGAL[c] ==> GalGalDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalDAG181[m] + UDPG[c] ==> GlcGalDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG160[m] + UDPGAL[c] ==> GalGalGalDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG160[m] + UDPG[c] ==> GlcGalGalDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG161[m] + UDPGAL[c] ==> GalGalGalDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG161[m] + UDPG[c] ==> GlcGalGalDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG181[m] + UDPGAL[c] ==> GalGalGalDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGalDAG181[m] + UDPG[c] ==> GlcGalGalDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcCer16[m] + UDPGAL[c] ==> GalGalGlcCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG160[m] + UDPGAL[c] ==> GalGalGlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG160[m] + UDPG[c] ==> GlcGalGlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG161[m] + UDPGAL[c] ==> GalGalGlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG161[m] + UDPG[c] ==> GlcGalGlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG181[m] + UDPGAL[c] ==> GalGalGlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GalGlcDAG181[m] + UDPG[c] ==> GlcGalGlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcCer16[m] + UDPGAL[c] ==> GalGlcCer16[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG160[m] + UDPGAL[c] ==> GalGlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG160[m] + UDPG[c] ==> GlcGlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG161[m] + UDPGAL[c] ==> GalGlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG161[m] + UDPG[c] ==> GlcGlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG181[m] + UDPGAL[c] ==> GalGlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcDAG181[m] + UDPG[c] ==> GlcGlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcGlcDAG160[m] + UDPG[c] ==> GlcGlcGlcDAG160[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcGlcDAG161[m] + UDPG[c] ==> GlcGlcGlcDAG161[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	GlcGlcDAG181[m] + UDPG[c] ==> GlcGlcGlcDAG181[m] + H[c] + UDP[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	H2O[c] + PG160[m] ==> DAG160[m] + GL3P[c] + (2) H[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	H2O[c] + PG161[m] ==> DAG161[m] + GL3P[c]	1*MG_517_MONOMER
+MG_517_MONOMER	glycosyl transferase, group 2 family protein	H2O[c] + PG181[m] ==> DAG181[m] + GL3P[c]	1*MG_517_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: ATP + GMP <==> ADP + GDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: ATP + GMP <==> ADP + GDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: ATP + DGMP <==> ADP + DGDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: ATP + DGMP <==> ADP + DGDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: DATP + GMP <==> DADP + GDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: DATP + GMP <==> DADP + GDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: DATP + DGMP <==> DADP + DGDP	2*MG_107_MONOMER
+MG_107_DIMER	guanylate kinase	[c]: DATP + DGMP <==> DADP + DGDP	2*MG_107_MONOMER
+MG_430_MONOMER	2,3-bisphosphoglycerate-independent phosphoglycerate mutase	[c]: G3P <==> G2P	1*MG_430_MONOMER
+MG_430_MONOMER	2,3-bisphosphoglycerate-independent phosphoglycerate mutase	[c]: G3P <==> G2P	1*MG_430_MONOMER
+MG_039_DIMER	FAD-dependent glycerol-3-phosphate dehydrogenase, putative	[c]: FADH2 + H + T3P2 <==> FAD + GL3P	2*MG_039_MONOMER
+MG_039_DIMER	FAD-dependent glycerol-3-phosphate dehydrogenase, putative	[c]: FADH2 + H + T3P2 <==> FAD + GL3P	2*MG_039_MONOMER
+MG_470_MONOMER	CobQ/CobB/MinD/ParA nucleotide binding domain	[c]: GTP + H2O ==> GDP + H + PI	1*MG_470_MONOMER
+MG_384_MONOMER	GTPase1 Obg	[c]: GTP + H2O ==> GDP + H + PI	1*MG_384_MONOMER
+MG_221_OCTAMER	mraZ protein	[c]: GTP + H2O ==> GDP + H + PI	8*MG_221_MONOMER
+MG_387_MONOMER	GTP-binding protein Era	[c]: GTP + H2O ==> GDP + H + PI	1*MG_387_MONOMER
+MG_329_MONOMER	GTP-binding protein engA	[c]: GTP + H2O ==> GDP + H + PI	1*MG_329_MONOMER
+MG_335_MONOMER	GTP-binding protein engB, putative	[c]: GTP + H2O ==> GDP + H + PI	1*MG_335_MONOMER
+MG_387_MONOMER	GTP-binding protein Era	[c]: GTP + H2O ==> GDP + H + PI	1*MG_387_MONOMER
+MG_384_MONOMER	GTPase1 Obg	[c]: GTP + H2O ==> GDP + H + PI	1*MG_384_MONOMER
+MG_143_MONOMER	ribosome-binding factor A	[c]: GTP + H2O ==> GDP + H + PI	1*MG_143_MONOMER
+MG_442_MONOMER	ribosomal biogenesis GTPase	[c]: GTP + H2O ==> GDP + H + PI	1*MG_442_MONOMER
+MG_259_TETRAMER	modification methylase	[c]: (3) O2 + PPHG ==> (3) H2O2 + PPIX	4*MG_259_MONOMER
+MG_458_TETRAMER	hypoxanthine phosphoribosyltransferase	[c]: HYXN + PRPP ==> IMP + PPI	4*MG_458_MONOMER
+MG_458_TETRAMER	hypoxanthine phosphoribosyltransferase	[c]: GN + PRPP ==> GMP + PPI	4*MG_458_MONOMER
+MG_262_MONOMER	polI-like 5'-3' exonuclease, putative	[c]: dApdAp + H2O ==> (2) DAMP + H	1*MG_262_MONOMER
+MG_262_MONOMER	polI-like 5'-3' exonuclease, putative	[c]: dCpdCp + H2O ==> (2) DCMP + H	1*MG_262_MONOMER
+MG_262_MONOMER	polI-like 5'-3' exonuclease, putative	[c]: dGpdGp + H2O ==> (2) DGMP + H	1*MG_262_MONOMER
+MG_262_MONOMER	polI-like 5'-3' exonuclease, putative	[c]: dTpdTp + H2O ==> (2) DTMP + H	1*MG_262_MONOMER
+MG_358_359_10MER	Holliday junction DNA helicase	[c]: ATP + H2O ==> ADP + H + PI	4*MG_358_MONOMER,6*MG_359_MONOMER
+MG_352_DIMER	Holliday junction endonuclease	[c]: (2) dRibose5P_dRibose5P + (2) H2O ==> (4) DR5P + (2) H	2*MG_352_MONOMER
+MG_339_MONOMER	recombination protein, strand exchange	[c]: ATP + H2O ==> ADP + H + PI	1*MG_339_MONOMER
+MG_460_TETRAMER	L-lactate dehydrogenase/malate dehydrogenase	[c]: H + NADH + PYR <==> LAC + NAD	4*MG_460_MONOMER
+MG_460_TETRAMER	L-lactate dehydrogenase/malate dehydrogenase	[c]: H + NADH + PYR <==> LAC + NAD	4*MG_460_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: DIBUTYRIN + (2) H2O <==> (2) BUT + GL	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + METHYL_OCDCEA <==> CH3OH + H + OCDCEA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + MONOBUTYRIN <==> BUT + GL	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIBUTYRIN <==> (3) BUT + GL	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRILAURIN <==> (3) DDCA + GL + (3) H	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIMYRISTIN <==> GL + (3) H + (3) TTDCA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIOLEIN <==> GL + (3) H + (3) OCDCEA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRIPALMITIN <==> GL + (3) H + (3) HDCA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRISTEARIN <==> GL + (3) H + (3) OCDCA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRI_HDCEA_IN <==> GL + (3) H + (3) HDCEA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: (3) H2O + TRI_TTDCEA_IN <==> GL + H + (3) TTDCEA	1*MG_344_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_310_MONOMER
+MG_310_MONOMER	hydrolase, Putative esterase/lipase 1	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_310_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_327_MONOMER
+MG_327_MONOMER	hydrolase, Putative esterase/lipase 2	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_327_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_344_MONOMER
+MG_344_MONOMER	hydrolase, Putative esterase/lipase 3	[e]: H2O + TWEEN80 <==> H + OCDCEA + POE_SORBITAN	1*MG_344_MONOMER
+MG_270_MONOMER	lipoyltransferase/lipoate-protein ligase, putative	[c]: ATP + H + LIPOATE ==> LIPOYLAMP + PPI	1*MG_270_MONOMER
+MG_460_TETRAMER	L-lactate dehydrogenase/malate dehydrogenase	[c]: MAL + NAD <==> H + NADH + OA	4*MG_460_MONOMER
+MG_460_TETRAMER	L-lactate dehydrogenase/malate dehydrogenase	[c]: MAL + NAD <==> H + NADH + OA	4*MG_460_MONOMER
+MG_228_TETRAMER	dihydrofolate reductase	[c]: METTHF + NADH ==> MTHF + NAD	4*MG_228_MONOMER
+MG_047_TETRAMER	S-adenosylmethionine synthetase	[c]: ATP + H2O + MET ==> AMET + PI + PPI	4*MG_047_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPCH + H2O ==> CHOL + GL3P	2*MG_385_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPE + H2O ==> ETN + GL3P + H	2*MG_385_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPS + H2O ==> GL3P + SER	2*MG_385_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPG + H2O ==> GL + GL3P	2*MG_385_MONOMER
+MG_385_DIMER	glycerophosphoryl diester phosphodiesterase family protein	[c]: GPI + H2O ==> GL3P + INOS	2*MG_385_MONOMER
+MG_292_TETRAMER	alanyl-tRNA synthetase	[c]: ALA + ATP ==> AMP + PPI	4*MG_292_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_345_MONOMER	isoleucyl-tRNA synthetase	[c]: ATP + ILE ==> AMP + PPI	1*MG_345_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_005_DIMER	seryl-tRNA synthetase	[c]: ATP + SER ==> AMP + PPI	2*MG_005_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_375_DIMER	threonyl-tRNA synthetase	[c]: ATP + THR ==> AMP + PPI	2*MG_375_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_253_MONOMER	cysteinyl-tRNA synthetase	[c]: ATP + CYS ==> AMP + PPI	1*MG_253_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_283_DIMER	prolyl-tRNA synthetase	[c]: ATP + PRO ==> AMP + PPI	2*MG_283_MONOMER
+MG_445_DIMER	tRNA (guanine-N1)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP	2*MG_445_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_021_DIMER	methionyl-tRNA synthetase	[c]: ATP + MET ==> AMP + PPI	2*MG_021_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_345_MONOMER	isoleucyl-tRNA synthetase	[c]: ATP + ILE ==> AMP + PPI	1*MG_345_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_084_TETRAMER	tRNA(Ile)-lysidine synthetase	[c]: ATP + CMP + LYS ==> AMP + (2) H + k2CMP + PPI	4*MG_084_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_005_DIMER	seryl-tRNA synthetase	[c]: ATP + SER ==> AMP + PPI	2*MG_005_MONOMER
+MG_445_DIMER	tRNA (guanine-N1)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP	2*MG_445_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_021_DIMER	methionyl-tRNA synthetase	[c]: ATP + MET ==> AMP + PPI	2*MG_021_MONOMER
+MG_365_MONOMER	methionyl-tRNA formyltransferase	[c]: FTHF10 + MET ==> FMET + THF	1*MG_365_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_036_DIMER	aspartyl-tRNA synthetase	[c]: ASP + ATP ==> AMP + PPI	2*MG_036_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_194_195_TETRAMER	phenylalanyl-tRNA synthetase	[c]: ATP + PHE ==> AMP + PPI	2*MG_194_MONOMER,2*MG_195_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_378_MONOMER	arginyl-tRNA synthetase	[c]: ARG + ATP ==> AMP + PPI	1*MG_378_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_251_DIMER	glycyl-tRNA synthetase	[c]: ATP + GLY ==> AMP + PPI	2*MG_251_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_378_MONOMER	arginyl-tRNA synthetase	[c]: ARG + ATP ==> AMP + PPI	1*MG_378_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_126_DIMER	tryptophanyl-tRNA synthetase	[c]: ATP + TRP ==> AMP + PPI	2*MG_126_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_378_MONOMER	arginyl-tRNA synthetase	[c]: ARG + ATP ==> AMP + PPI	1*MG_378_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_251_DIMER	glycyl-tRNA synthetase	[c]: ATP + GLY ==> AMP + PPI	2*MG_251_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_266_MONOMER	leucyl-tRNA synthetase	[c]: ATP + LEU ==> AMP + PPI	1*MG_266_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_136_DIMER	lysyl-tRNA synthetase	[c]: ATP + LYS ==> AMP + PPI	2*MG_136_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_295_MONOMER	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER	1*MG_295_MONOMER
+MG_008_379_TETRAMER	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF	2*MG_008_MONOMER,2*MG_379_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_098_099_100_TRIMER	glutamyl-tRNA(Gln) and/or aspartyl-tRNA(Asn) amidotransferase	[c]: ATP + GLN + GLU + H2O ==> ADP + GLN + GLU + H + PI	1*MG_098_MONOMER,1*MG_099_MONOMER,1*MG_100_MONOMER
+MG_462_MONOMER	glutamyl-tRNA synthetase	[c]: ATP + GLU ==> AMP + PPI	1*MG_462_MONOMER
+MG_295_MONOMER	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER	1*MG_295_MONOMER
+MG_008_379_TETRAMER	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF	2*MG_008_MONOMER,2*MG_379_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_455_DIMER	tyrosyl-tRNA synthetase	[c]: ATP + TYR ==> AMP + PPI	2*MG_455_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_126_DIMER	tryptophanyl-tRNA synthetase	[c]: ATP + TRP ==> AMP + PPI	2*MG_126_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_005_DIMER	seryl-tRNA synthetase	[c]: ATP + SER ==> AMP + PPI	2*MG_005_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_005_DIMER	seryl-tRNA synthetase	[c]: ATP + SER ==> AMP + PPI	2*MG_005_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_266_MONOMER	leucyl-tRNA synthetase	[c]: ATP + LEU ==> AMP + PPI	1*MG_266_MONOMER
+MG_445_DIMER	tRNA (guanine-N1)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP	2*MG_445_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_136_DIMER	lysyl-tRNA synthetase	[c]: ATP + LYS ==> AMP + PPI	2*MG_136_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_375_DIMER	threonyl-tRNA synthetase	[c]: ATP + THR ==> AMP + PPI	2*MG_375_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_334_MONOMER	valyl-tRNA synthetase	[c]: ATP + VAL ==> AMP + PPI	1*MG_334_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_375_DIMER	threonyl-tRNA synthetase	[c]: ATP + THR ==> AMP + PPI	2*MG_375_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_462_MONOMER	glutamyl-tRNA synthetase	[c]: ATP + GLU ==> AMP + PPI	1*MG_462_MONOMER
+MG_295_MONOMER	tRNA U34 sulfurtransferase	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s2UMP + SER	1*MG_295_MONOMER
+MG_008_379_TETRAMER	tRNA uridine 5-carboxymethylaminomethyl modification enzyme	[c]: FTHF5 + GLY + s2UMP ==> cmnm5s2UMP + H2O + THF	2*MG_008_MONOMER,2*MG_379_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_113_DIMER	asparaginyl-tRNA synthetase	[c]: ASN + ATP ==> AMP + PPI	2*MG_113_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_035_DIMER	histidyl-tRNA synthetase	[c]: ATP + HIS ==> AMP + PPI	2*MG_035_MONOMER
+MG_182_DIMER	Pseudouridylate synthase	[c]: UMP ==> PSIURIMP	2*MG_182_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_266_MONOMER	leucyl-tRNA synthetase	[c]: ATP + LEU ==> AMP + PPI	1*MG_266_MONOMER
+MG_445_DIMER	tRNA (guanine-N1)-methyltransferase	[c]: AMET + GMP ==> AHCYS + H + m1GMP	2*MG_445_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_266_MONOMER	leucyl-tRNA synthetase	[c]: ATP + LEU ==> AMP + PPI	1*MG_266_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_378_MONOMER	arginyl-tRNA synthetase	[c]: ARG + ATP ==> AMP + PPI	1*MG_378_MONOMER
+MG_347_DIMER	tRNA (guanine-N(7)-)-methyltransferase	[c]: AMET + GMP ==> AHCYS + m7GMP	2*MG_347_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + CYS + H2O + UMP ==> AMP + H + PPI + s4UMP + SER	2*MG_372_MONOMER
+MG_380_MONOMER	methyltransferase GidB	[c]: AMET + GMP ==> AHCYS + H + m2GMP	1*MG_380_MONOMER
+MG_463_MONOMER	dimethyladenosine transferase	[c]: AMET + AMP ==> AHCYS + H + m6AMP	1*MG_463_MONOMER
+MG_463_MONOMER	dimethyladenosine transferase	[c]: AMET + m6AMP ==> AHCYS + H + m62AMP	1*MG_463_MONOMER
+MG_463_MONOMER	dimethyladenosine transferase	[c]: AMET + AMP ==> AHCYS + H + m6AMP	1*MG_463_MONOMER
+MG_463_MONOMER	dimethyladenosine transferase	[c]: AMET + m6AMP ==> AHCYS + H + m62AMP	1*MG_463_MONOMER
+MG_370_MONOMER	23S rRNA pseudouridine synthase; U1911, U1915, U1917	[c]: UMP ==> PSIURIMP	1*MG_370_MONOMER
+MG_370_MONOMER	23S rRNA pseudouridine synthase; U1911, U1915, U1917	[c]: UMP ==> PSIURIMP	1*MG_370_MONOMER
+MG_252_DIMER	23S rRNA methyltransferase	[c]: AMET + GMP ==> AHCYS + GmMP + H	2*MG_252_MONOMER
+MG_209_MONOMER	23S rRNA pseudouridine synthase; U955, U2504, U2580	[c]: UMP ==> PSIURIMP	1*MG_209_MONOMER
+MG_346_DIMER	23S rRNA methyltransferase	[c]: AMET + UMP ==> AHCYS + H + UmMP	2*MG_346_MONOMER
+MG_209_MONOMER	23S rRNA pseudouridine synthase; U955, U2504, U2580	[c]: UMP ==> PSIURIMP	1*MG_209_MONOMER
+MG_292_TETRAMER	alanyl-tRNA synthetase	[c]: ALA + ATP ==> AMP + PPI	4*MG_292_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_012_MONOMER	alpha-L-glutamate ligase	[c]: (4) ATP + (4) GLU + (4) H2O ==> (4) ADP + (4) H + (4) H2O + (4) PI	1*MG_012_MONOMER
+MG_312_MONOMER	high molecular weight cytadherence accessory protein 1	 ==> 	1*MG_312_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_318_MONOMER	P32 adhesin	 ==> 	1*MG_318_MONOMER
+MG_312_MONOMER	high molecular weight cytadherence accessory protein 1	 ==> 	1*MG_312_MONOMER
+MG_312_MONOMER	high molecular weight cytadherence accessory protein 1	 ==> 	1*MG_312_MONOMER
+MG_270_MONOMER	lipoyltransferase/lipoate-protein ligase, putative	[c]: LIPOYLAMP + LYS ==> AMP + (2) H + LIPOYLLYS	1*MG_270_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_218_MONOMER	high molecular weight cytadherence accessory protein 2	 ==> 	1*MG_218_MONOMER
+MG_218_MONOMER	high molecular weight cytadherence accessory protein 2	 ==> 	1*MG_218_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_312_MONOMER	high molecular weight cytadherence accessory protein 1	 ==> 	1*MG_312_MONOMER
+MG_317_MONOMER	high molecular weight cytadherence accessory protein 3	 ==> 	1*MG_317_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_312_MONOMER	high molecular weight cytadherence accessory protein 1	 ==> 	1*MG_312_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + TYR ==> ADP + H + pTYR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + THR ==> ADP + H + pTHR	2*MG_109_MONOMER
+MG_109_DIMER	serine/threonine protein kinase, putative	[c]: ATP + SER ==> ADP + H + pSER	2*MG_109_MONOMER
+MG_408_MONOMER	methionine-S-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXSL + MG_124_MONOMER	1*MG_408_MONOMER
+MG_408_MONOMER	methionine-S-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXSL + MG_124_MONOMER	1*MG_408_MONOMER
+MG_448_MONOMER	methionine-R-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXRL + MG_124_MONOMER	1*MG_448_MONOMER
+MG_448_MONOMER	methionine-R-sulfoxide reductase	[c]: H2O + MET + MG_124_MONOMER_ox <==> METSOXRL + MG_124_MONOMER	1*MG_448_MONOMER
+MG_498_MONOMER	formamidopyrimidine-DNA glycosylase	[c]: FAPydAMP + H2O ==> DR5P + FAPyAD	1*MG_498_MONOMER
+MG_498_MONOMER	formamidopyrimidine-DNA glycosylase	[c]: FAPydGMP + H2O ==> DR5P + FAPyGN	1*MG_498_MONOMER
+MG_498_MONOMER	formamidopyrimidine-DNA glycosylase	[c]: H2O + oxo8dAMP ==> DR5P + oxo8AD	1*MG_498_MONOMER
+MG_498_MONOMER	formamidopyrimidine-DNA glycosylase	[c]: H2O + oxo8dGMP ==> DR5P + oxo8GN	1*MG_498_MONOMER
+MG_383_DIMER	NH(3)-dependent NAD+ synthetase, putative	[c]: ATP + NAAD + NH3 ==> AMP + (3) H + NAD + PPI	2*MG_383_MONOMER
+MG_128_HEXAMER	inorganic polyphosphate/ATP-NAD kinase, probable	[c]: ATP + NAD <==> ADP + NADP	6*MG_128_MONOMER
+MG_128_HEXAMER	inorganic polyphosphate/ATP-NAD kinase, probable	[c]: ATP + NAD <==> ADP + NADP	6*MG_128_MONOMER
+MG_240_HEXAMER	nicotinamide-nucleotide adenylyltransferase/conserved hypothetical protein	[c]: ATP + H + NMN ==> NAD + PPI	6*MG_240_MONOMER
+MG_240_HEXAMER	nicotinamide-nucleotide adenylyltransferase/conserved hypothetical protein	[c]: ATP + NH3 + NR ==> ADP + NMN + PI	6*MG_240_MONOMER
+MG_244_DIMER	3-5' helicase	[c]: ATP + H2O ==> ADP + H + PI	2*MG_244_MONOMER
+MG_073_206_421_TETRAMER	DNA incision complex	[c]: ATP + (2) dRibose5P_dRibose5P + (3) H2O ==> ADP + (4) DR5P + (3) H + PI	1*MG_073_MONOMER,1*MG_206_MONOMER,2*MG_421_MONOMER
+MG_275_TETRAMER	NADH oxidase	[c]: H + NADH + O2 ==> H2O2 + NAD	4*MG_275_MONOMER
+MG_229_231_TETRAMER	ribonucleoside-diphosphate reductase	[c]: (2) ADP + MG_229_231_TETRAMER + O2 ==> (2) DADP + (2) H2O + MG_229_231_TETRAMER_ox	2*MG_229_MONOMER,2*MG_231_MONOMER
+MG_229_231_TETRAMER	ribonucleoside-diphosphate reductase	[c]: (2) CDP + MG_229_231_TETRAMER + O2 ==> (2) DCDP + (2) H2O + MG_229_231_TETRAMER_ox	2*MG_229_MONOMER,2*MG_231_MONOMER
+MG_229_231_TETRAMER	ribonucleoside-diphosphate reductase	[c]: (2) GDP + MG_229_231_TETRAMER + O2 ==> (2) DGDP + (2) H2O + MG_229_231_TETRAMER_ox	2*MG_229_MONOMER,2*MG_231_MONOMER
+MG_230_MONOMER	ribonucleotide reductase stimulatory protein	[c]: (2) FMNH2 + (2) MG_124_MONOMER + MG_229_231_TETRAMER_ox ==> (2) FMN + (2) H2O + (2) MG_124_MONOMER_ox + MG_229_231_TETRAMER	1*MG_230_MONOMER
+MG_229_231_TETRAMER	ribonucleoside-diphosphate reductase	[c]: MG_229_231_TETRAMER + O2 + (2) UDP ==> (2) DUDP + (2) H2O + MG_229_231_TETRAMER_ox	2*MG_229_MONOMER,2*MG_231_MONOMER
+MG_172_MONOMER	methionine aminopeptidase, type I	[c]: H2O + MetMet ==> (2) MET	1*MG_172_MONOMER
+MG_051_DIMER	pyrimidine-nucleoside phosphorylase	[c]: DU + PI <==> DR1P + URA	2*MG_051_MONOMER
+MG_051_DIMER	pyrimidine-nucleoside phosphorylase	[c]: DU + PI <==> DR1P + URA	2*MG_051_MONOMER
+MG_051_DIMER	pyrimidine-nucleoside phosphorylase	[c]: DT + PI <==> DR1P + THY	2*MG_051_MONOMER
+MG_051_DIMER	pyrimidine-nucleoside phosphorylase	[c]: DT + PI <==> DR1P + THY	2*MG_051_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_ALA + H2O ==> ALA + AMP	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_ARG + H2O ==> AMP + ARG + H	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_ASN + H2O ==> AMP + ASN	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_ASP + H2O ==> AMP + ASP	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_CYS + H2O ==> AMP + CYS	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_FMET + H2O ==> AMP + FMET	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_GLN + H2O ==> AMP + GLN	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_GLU + H2O ==> AMP + GLU + H	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_GLY + H2O ==> AMP + GLY	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_HIS + H2O ==> AMP + HIS	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_ILE + H2O ==> AMP + ILE	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_LEU + H2O ==> AMP + LEU	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_LYS + H2O ==> AMP + LYS	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_MET + H2O ==> AMP + MET	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_PHE + H2O ==> AMP + PHE	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_PRO + H2O ==> AMP + PRO	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_SER + H2O ==> AMP + SER	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_THR + H2O ==> AMP + THR	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_TRP + H2O ==> AMP + TRP	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_TYR + H2O ==> AMP + TYR	1*MG_083_MONOMER
+MG_083_MONOMER	peptidyl-tRNA hydrolase	[c]: AMP_VAL + H2O ==> AMP + VAL	1*MG_083_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: ATP + F6P ==> ADP + FDP + H	4*MG_215_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: F6P + GTP ==> FDP + GDP + H	4*MG_215_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: DATP + F6P ==> DADP + FDP + H	4*MG_215_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: F6P + ITP ==> FDP + H + IDP	4*MG_215_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: F6P + UTP <==> FDP + H + UDP	4*MG_215_MONOMER
+MG_215_TETRAMER	6-phosphofructokinase	[c]: F6P + UTP <==> FDP + H + UDP	4*MG_215_MONOMER
+MG_111_DIMER	glucose-6-phosphate isomerase	[c]: G6P <==> F6P	2*MG_111_MONOMER
+MG_111_DIMER	glucose-6-phosphate isomerase	[c]: G6P <==> F6P	2*MG_111_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: ADP + DPG <==> ATP + G3P	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: ADP + DPG <==> ATP + G3P	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DPG + GDP <==> G3P + GTP	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DPG + GDP <==> G3P + GTP	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DADP + DPG <==> DATP + G3P	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DADP + DPG <==> DATP + G3P	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DPG + IDP <==> G3P + ITP	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DPG + IDP <==> G3P + ITP	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DGDP + DPG <==> DGTP + G3P	1*MG_300_MONOMER
+MG_300_MONOMER	phosphoglycerate kinase	[c]: DGDP + DPG <==> DGTP + G3P	1*MG_300_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	[c]: G1P <==> G6P	3*MG_053_MONOMER
+MG_053_TRIMER	phosphoglucomutase/phosphomannomutase, putative	[c]: G1P <==> G6P	3*MG_053_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG160[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP160[m]	2*MG_114_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG160[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP160[m]	2*MG_114_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG161[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP161[m]	2*MG_114_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG161[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP161[m]	2*MG_114_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG181[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP181[m]	2*MG_114_MONOMER
+MG_114_DIMER	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	CDPDG181[m] + GL3P[c] <==> CMP[c] + (2) H[c] + PGP181[m]	2*MG_114_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	DDECG3P[c] + MG_287_MONOMER_ddcaACP[c] ==> MG_287_MONOMER_ACP[c] + PA120[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	MG_287_MONOMER_myrsACP[c] + TDECG3P[c] ==> MG_287_MONOMER_ACP[c] + PA140[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	MG_287_MONOMER_tdeACP[c] + TDECEG3P[c] ==> MG_287_MONOMER_ACP[c] + PA141[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	(2) H[c] + HDECG3P[c] + MG_287_MONOMER_palmACP[c] ==> MG_287_MONOMER_ACP[c] + PA160[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	HDECEG3P[c] + MG_287_MONOMER_hdeACP[c] ==> (2) H[c] + MG_287_MONOMER_ACP[c] + PA161[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	MG_287_MONOMER_ocdcaACP[c] + ODECG3P[c] ==> MG_287_MONOMER_ACP[c] + PA180[m]	1*MG_212_MONOMER
+MG_212_MONOMER	1-acyl-sn-glycerol-3-phosphate acyltransferase, putative	MG_287_MONOMER_octeACP[c] + ODEC11GP[c] ==> MG_287_MONOMER_ACP[c] + PA181[m]	1*MG_212_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_ddcaACP ==> DDECG3P + H + MG_287_MONOMER_ACP	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_myrsACP ==> H + MG_287_MONOMER_ACP + TDECG3P	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_tdeACP ==> H + MG_287_MONOMER_ACP + TDECEG3P	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_palmACP ==> (3) H + HDECG3P + MG_287_MONOMER_ACP	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + H + MG_287_MONOMER_hdeACP ==> HDECEG3P + MG_287_MONOMER_ACP	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_ocdcaACP ==> H + MG_287_MONOMER_ACP + ODECG3P	2*MG_368_MONOMER
+MG_368_DIMER	fatty acid/phospholipid synthesis protein PlsX	[c]: GL3P + MG_287_MONOMER_octeACP ==> H + MG_287_MONOMER_ACP + ODEC11GP	2*MG_368_MONOMER
+MG_037_MONOMER	nicotinate phosphoribosyltransferase	[c]: ATP + (3) H + H2O + NAC + PRPP ==> ADP + NAMN + PI + PPI	1*MG_037_MONOMER
+MG_351_HEXAMER	inorganic pyrophosphatase	[c]: H2O + PPI ==> H + (2) PI	6*MG_351_MONOMER
+MG_086_MONOMER	prolipoprotein diacylglyceryl transferase	CYS[c] + PG160[m] ==> diacylglycerolCys[c] + H[c] + SNGLYP[c]	1*MG_086_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: AlaAla + ATP + (2) H2O ==> ADP + (2) ALA + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ArgArg + ATP + (2) H2O ==> ADP + (2) ARG + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: AsnAsn + ATP + (2) H2O ==> ADP + (2) ASN + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: AspAsp + ATP + (2) H2O ==> ADP + (2) ASP + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + CysCys + (2) H2O ==> ADP + (2) CYS + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + GlnGln + (2) H2O ==> ADP + (2) GLN + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + GluGlu + (2) H2O ==> ADP + (2) GLU + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + GlyGly + (2) H2O ==> ADP + (2) GLY + H + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + HisHis ==> ADP + H + (2) HIS + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + IleIle ==> ADP + H + (2) ILE + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + LeuLeu ==> ADP + H + (2) LEU + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + LysLys ==> ADP + H + (2) LYS + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + MetMet ==> ADP + H + (2) MET + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + PhePhe ==> ADP + H + (2) PHE + PI	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + ProPro ==> ADP + H + PI + (2) PRO	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + SerSer ==> ADP + H + PI + (2) SER	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + ThrThr ==> ADP + H + PI + (2) THR	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + TrpTrp ==> ADP + H + PI + (2) TRP	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + TyrTyr ==> ADP + H + PI + (2) TYR	6*MG_457_MONOMER
+MG_457_HEXAMER	ATP-dependent metalloprotease FtsH	[c]: ATP + (2) H2O + ValVal ==> ADP + H + PI + (2) VAL	6*MG_457_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: AlaAla + ATP + (2) H2O ==> ADP + (2) ALA + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ArgArg + ATP + (2) H2O ==> ADP + (2) ARG + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: AsnAsn + ATP + (2) H2O ==> ADP + (2) ASN + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: AspAsp + ATP + (2) H2O ==> ADP + (2) ASP + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + CysCys + (2) H2O ==> ADP + (2) CYS + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + GlnGln + (2) H2O ==> ADP + (2) GLN + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + GluGlu + (2) H2O ==> ADP + (2) GLU + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + GlyGly + (2) H2O ==> ADP + (2) GLY + H + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + HisHis ==> ADP + H + (2) HIS + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + IleIle ==> ADP + H + (2) ILE + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + LeuLeu ==> ADP + H + (2) LEU + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + LysLys ==> ADP + H + (2) LYS + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + MetMet ==> ADP + H + (2) MET + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + PhePhe ==> ADP + H + (2) PHE + PI	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + ProPro ==> ADP + H + PI + (2) PRO	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + SerSer ==> ADP + H + PI + (2) SER	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + ThrThr ==> ADP + H + PI + (2) THR	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + TrpTrp ==> ADP + H + PI + (2) TRP	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + TyrTyr ==> ADP + H + PI + (2) TYR	6*MG_239_MONOMER
+MG_239_HEXAMER	ATP-dependent protease La	[c]: ATP + (2) H2O + ValVal ==> ADP + H + PI + (2) VAL	6*MG_239_MONOMER
+RIBOSOME_70S	70S ribosome	[c]: (2) ALA ==> AlaAla + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) ARG ==> ArgArg + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) ASN ==> AsnAsn + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) ASP ==> AspAsp + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) CYS ==> CysCys + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) GLN ==> GlnGln + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) GLU ==> GluGlu + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) GLY ==> GlyGly + H2O	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) HIS ==> H2O + HisHis	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) ILE ==> H2O + IleIle	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) LEU ==> H2O + LeuLeu	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) LYS ==> H2O + LysLys	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) MET ==> H2O + MetMet	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) PHE ==> H2O + PhePhe	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) PRO ==> H2O + ProPro	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) SER ==> H2O + SerSer	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) THR ==> H2O + ThrThr	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) TRP ==> H2O + TrpTrp	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) TYR ==> H2O + TyrTyr	1*RIBOSOME_30S,1*RIBOSOME_50S
+RIBOSOME_70S	70S ribosome	[c]: (2) VAL ==> H2O + ValVal	1*RIBOSOME_30S,1*RIBOSOME_50S
+MG_058_HEXAMER	ribose-phosphate pyrophosphokinase	[c]: ATP + R5P <==> AMP + H + PRPP	6*MG_058_MONOMER
+MG_058_HEXAMER	ribose-phosphate pyrophosphokinase	[c]: ATP + R5P <==> AMP + H + PRPP	6*MG_058_MONOMER
+MG_299_DIMER	phosphate acetyltransferase	[c]: ACCOA + PI <==> ACTP + COA	2*MG_299_MONOMER
+MG_299_DIMER	phosphate acetyltransferase	[c]: ACCOA + PI <==> ACTP + COA	2*MG_299_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: ADP + H + PEP <==> ATP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: ADP + H + PEP <==> ATP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: CDP + H + PEP <==> CTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: CDP + H + PEP <==> CTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DADP + H + PEP <==> DATP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DADP + H + PEP <==> DATP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DCDP + H + PEP <==> DCTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DCDP + H + PEP <==> DCTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DGDP + H + PEP <==> DGTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DGDP + H + PEP <==> DGTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DTDP + H + PEP <==> DTTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DTDP + H + PEP <==> DTTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DUDP + H + PEP <==> DUTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: DUDP + H + PEP <==> DUTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: GDP + H + PEP <==> GTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: GDP + H + PEP <==> GTP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + IDP + PEP <==> ITP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + IDP + PEP <==> ITP + PYR	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + PEP + TDP <==> PYR + TTP	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + PEP + TDP <==> PYR + TTP	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + PEP + UDP <==> PYR + UTP	4*MG_216_MONOMER
+MG_216_TETRAMER	pyruvate kinase	[c]: H + PEP + UDP <==> PYR + UTP	4*MG_216_MONOMER
+MG_278_DIMER	GTP pyrophosphokinase	[c]: ATP + GDP ==> AMP + H + PPGPP	2*MG_278_MONOMER
+MG_278_DIMER	GTP pyrophosphokinase	[c]: ATP + GTP ==> AMP + GDPTP + H	2*MG_278_MONOMER
+MG_145_MONOMER	riboflavin biosynthesis protein RibF	[c]: ATP + RIBFLV ==> ADP + FMN + H	1*MG_145_MONOMER
+MG_145_MONOMER	riboflavin biosynthesis protein RibF	[c]: ATP + FMN + H ==> FAD + PPI	1*MG_145_MONOMER
+MG_425_DIMER	ATP-dependent RNA helicase	[c]: ApAp + ATP + (2) H2O ==> ADP + (2) AMP + (2) H + PI	2*MG_425_MONOMER
+MG_425_DIMER	ATP-dependent RNA helicase	[c]: ATP + CpCp + (2) H2O ==> ADP + (2) CMP + (2) H + PI	2*MG_425_MONOMER
+MG_425_DIMER	ATP-dependent RNA helicase	[c]: ATP + GpGp + (2) H2O ==> ADP + (2) GMP + (2) H + PI	2*MG_425_MONOMER
+MG_425_DIMER	ATP-dependent RNA helicase	[c]: ATP + (2) H2O + UpUp ==> ADP + (2) H + PI + (2) UMP	2*MG_425_MONOMER
+MG_367_DIMER	ribonuclease III	[c]: ApAp + H2O ==> (2) AMP + H	2*MG_367_MONOMER
+MG_367_DIMER	ribonuclease III	[c]: CpCp + H2O ==> (2) CMP + H	2*MG_367_MONOMER
+MG_367_DIMER	ribonuclease III	[c]: GpGp + H2O ==> (2) GMP + H	2*MG_367_MONOMER
+MG_367_DIMER	ribonuclease III	[c]: H2O + UpUp ==> H + (2) UMP	2*MG_367_MONOMER
+MG_139_DIMER	ribonuclease J	[c]: ApAp + H2O ==> (2) AMP + H	2*MG_139_MONOMER
+MG_139_DIMER	ribonuclease J	[c]: CpCp + H2O ==> (2) CMP + H	2*MG_139_MONOMER
+MG_139_DIMER	ribonuclease J	[c]: GpGp + H2O ==> (2) GMP + H	2*MG_139_MONOMER
+MG_139_DIMER	ribonuclease J	[c]: H2O + UpUp ==> H + (2) UMP	2*MG_139_MONOMER
+MG_0003_465	ribonuclease P	[c]: ApAp + H2O ==> (2) AMP + H	1*MG_0003,1*MG_465_MONOMER
+MG_0003_465	ribonuclease P	[c]: CpCp + H2O ==> (2) CMP + H	1*MG_0003,1*MG_465_MONOMER
+MG_0003_465	ribonuclease P	[c]: GpGp + H2O ==> (2) GMP + H	1*MG_0003,1*MG_465_MONOMER
+MG_0003_465	ribonuclease P	[c]: H2O + UpUp ==> H + (2) UMP	1*MG_0003,1*MG_465_MONOMER
+MG_104_MONOMER	ribonuclease R	[c]: ApAp + H2O ==> (2) AMP + H	1*MG_104_MONOMER
+MG_104_MONOMER	ribonuclease R	[c]: CpCp + H2O ==> (2) CMP + H	1*MG_104_MONOMER
+MG_104_MONOMER	ribonuclease R	[c]: GpGp + H2O ==> (2) GMP + H	1*MG_104_MONOMER
+MG_104_MONOMER	ribonuclease R	[c]: H2O + UpUp ==> H + (2) UMP	1*MG_104_MONOMER
+MG_110_MONOMER	ribosome small subunit-dependent GTPase A	[c]: ApAp + GTP + (2) H2O ==> (2) AMP + GDP + (2) H + PI	1*MG_110_MONOMER
+MG_110_MONOMER	ribosome small subunit-dependent GTPase A	[c]: CpCp + GTP + (2) H2O ==> (2) CMP + GDP + (2) H + PI	1*MG_110_MONOMER
+MG_110_MONOMER	ribosome small subunit-dependent GTPase A	[c]: GpGp + GTP + (2) H2O ==> GDP + (2) GMP + (2) H + PI	1*MG_110_MONOMER
+MG_110_MONOMER	ribosome small subunit-dependent GTPase A	[c]: GTP + (2) H2O + UpUp ==> GDP + (2) H + PI + (2) UMP	1*MG_110_MONOMER
+RNA_POLYMERASE	DNA-directed RNA polymerase	[c]: AMP + ATP ==> ApAp + PPI	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+RNA_POLYMERASE	DNA-directed RNA polymerase	[c]: CMP + CTP ==> CpCp + PPI	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+RNA_POLYMERASE	DNA-directed RNA polymerase	[c]: GMP + GTP ==> GpGp + PPI	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+RNA_POLYMERASE	DNA-directed RNA polymerase	[c]: UMP + UTP ==> PPI + UpUp	1*MG_022_MONOMER,2*MG_177_MONOMER,1*MG_340_MONOMER,1*MG_341_MONOMER
+MG_112_DIMER	ribulose-phosphate 3-epimerase	[c]: RL5P <==> X5P	2*MG_112_MONOMER
+MG_112_DIMER	ribulose-phosphate 3-epimerase	[c]: RL5P <==> X5P	2*MG_112_MONOMER
+MG_396_DIMER	ribose 5-phosphate isomerase B	[c]: RL5P <==> R5P	2*MG_396_MONOMER
+MG_396_DIMER	ribose 5-phosphate isomerase B	[c]: RL5P <==> R5P	2*MG_396_MONOMER
+MG_009_MONOMER	deoxyribonuclease	[c]: dApdAp + H2O ==> (2) DAMP + H	1*MG_009_MONOMER
+MG_009_MONOMER	deoxyribonuclease	[c]: dCpdCp + H2O ==> (2) DCMP + H	1*MG_009_MONOMER
+MG_009_MONOMER	deoxyribonuclease	[c]: dGpdGp + H2O ==> (2) DGMP + H	1*MG_009_MONOMER
+MG_009_MONOMER	deoxyribonuclease	[c]: dTpdTp + H2O ==> (2) DTMP + H	1*MG_009_MONOMER
+MG_034_DIMER	thymidine kinase	[c]: ATP + DU ==> ADP + DUMP + H	2*MG_034_MONOMER
+MG_034_DIMER	thymidine kinase	[c]: ATP + DT ==> ADP + DTMP + H	2*MG_034_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + THMP <==> ADP + TPP	2*MG_372_MONOMER
+MG_372_DIMER	thiamine biosynthesis/tRNA modification protein ThiI	[c]: ATP + THMP <==> ADP + TPP	2*MG_372_MONOMER
+MG_227_DIMER	thymidylate synthase	[c]: DUMP + METTHF ==> DHF + DTMP + (2) H	2*MG_227_MONOMER
+MG_066_DIMER	transketolase	[c]: R5P + X5P <==> S7P + T3P1	2*MG_066_MONOMER
+MG_066_DIMER	transketolase	[c]: R5P + X5P <==> S7P + T3P1	2*MG_066_MONOMER
+MG_066_DIMER	transketolase	[c]: E4P + X5P <==> F6P + T3P1	2*MG_066_MONOMER
+MG_066_DIMER	transketolase	[c]: E4P + X5P <==> F6P + T3P1	2*MG_066_MONOMER
+MG_006_DIMER	thymidylate kinase	[c]: ATP + DTMP <==> ADP + DTDP	2*MG_006_MONOMER
+MG_006_DIMER	thymidylate kinase	[c]: ATP + DTMP <==> ADP + DTDP	2*MG_006_MONOMER
+MG_431_DIMER	triosephosphate isomerase	[c]: T3P2 <==> T3P1	2*MG_431_MONOMER
+MG_431_DIMER	triosephosphate isomerase	[c]: T3P2 <==> T3P1	2*MG_431_MONOMER
+MG_102_DIMER	thioredoxin-disulfide reductase	[c]: H + MG_124_MONOMER_ox + NADPH <==> MG_124_MONOMER + NADP	2*MG_102_MONOMER
+MG_102_DIMER	thioredoxin-disulfide reductase	[c]: H + MG_124_MONOMER_ox + NADPH <==> MG_124_MONOMER + NADP	2*MG_102_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + TRP[e] <==> H[c] + TRP[c]	2*MG_226_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + TRP[e] <==> H[c] + TRP[c]	2*MG_226_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + PHE[e] <==> H[c] + PHE[c]	2*MG_226_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + PHE[e] <==> H[c] + PHE[c]	2*MG_226_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + TYR[e] <==> H[c] + TYR[c]	2*MG_226_MONOMER
+MG_226_DIMER	amino acid transporter	H[e] + TYR[e] <==> H[c] + TYR[c]	2*MG_226_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + TRP[e] <==> H[c] + TRP[c]	2*MG_225_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + TRP[e] <==> H[c] + TRP[c]	2*MG_225_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + PHE[e] <==> H[c] + PHE[c]	2*MG_225_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + PHE[e] <==> H[c] + PHE[c]	2*MG_225_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + TYR[e] <==> H[c] + TYR[c]	2*MG_225_MONOMER
+MG_225_DIMER	amino acid transporter	H[e] + TYR[e] <==> H[c] + TYR[c]	2*MG_225_MONOMER
+MG_179_180_181_TETRAMER	metal ion (cobalt) ABC transporter	ATP[c] + CO[e] + H2O[c] ==> ADP[c] + CO[c] + H[c] + PI[c]	1*MG_179_MONOMER,1*MG_180_MONOMER,2*MG_181_MONOMER
+MG_302_303_304_TETRAMER	metal ion (cobalt) ABC transporter	ATP[c] + H2O[c] + NI[e] ==> ADP[c] + H[c] + NI[c] + PI[c]	2*MG_302_MONOMER,1*MG_303_MONOMER,1*MG_304_MONOMER
+MG_316_DIMER	DNA internalization-related competence protein ComEC/Rec2	(2) dApdAp[e] + H2O[e] ==> (2) DAMP[e] + dApdAp[c] + H[e]	2*MG_316_MONOMER
+MG_316_DIMER	DNA internalization-related competence protein ComEC/Rec2	(2) dCpdCp[e] + H2O[e] ==> (2) DCMP[e] + dCpdCp[c] + H[e]	2*MG_316_MONOMER
+MG_316_DIMER	DNA internalization-related competence protein ComEC/Rec2	(2) dGpdGp[e] + H2O[e] ==> (2) DGMP[e] + dGpdGp[c] + H[e]	2*MG_316_MONOMER
+MG_316_DIMER	DNA internalization-related competence protein ComEC/Rec2	(2) dTpdTp[e] + H2O[e] ==> (2) DTMP[e] + dTpdTp[c] + H[e]	2*MG_316_MONOMER
+MG_041_062_429_PENTAMER	PTS system, fructose-specific	FRU[e] + PEP[c] ==> F1P[c] + PYR[c]	1*MG_041_MONOMER,2*MG_062_MONOMER,2*MG_429_MONOMER
+MG_186_187_188_189_PENTAMER	Oligosaccharide or polyol ABC transporter	ATP[c] + GL[e] + H2O[c] ==> ADP[c] + GL[c] + H[c] + PI[c]	2*MG_186_MONOMER,1*MG_187_MONOMER,1*MG_188_MONOMER,1*MG_189_MONOMER
+MG_186_187_188_189_PENTAMER	Oligosaccharide or polyol ABC transporter	ATP[c] + GL3P[e] + H2O[c] ==> ADP[c] + GL3P[c] + H[c] + PI[c]	2*MG_186_MONOMER,1*MG_187_MONOMER,1*MG_188_MONOMER,1*MG_189_MONOMER
+MG_041_069_429_PENTAMER	PTS system, glucose-specific	GLC[e] + PEP[c] ==> G6P[c] + PYR[c]	1*MG_041_MONOMER,2*MG_069_MONOMER,2*MG_429_MONOMER
+MG_033_TETRAMER	glycerol uptake facilitator	GL[e] ==> GL[c]	4*MG_033_MONOMER
+MG_014_015_DIMER	multidrug ABC transporter	ATP[c] + doxorubicin[c] + H2O[c] ==> ADP[c] + doxorubicin[e] + H[c] + PI[c]	1*MG_014_MONOMER,1*MG_015_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + CA[e] + H2O[c] ==> ADP[c] + CA[c] + H[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + CU[e] + H2O[c] ==> ADP[c] + CU[c] + H[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + FE2[e] + H2O[c] ==> ADP[c] + FE2[c] + H[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + FE3[e] + H2O[c] ==> ADP[c] + FE3[c] + H[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + H2O[c] + MG[e] ==> ADP[c] + H[c] + MG[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + H2O[c] + MN[e] ==> ADP[c] + H[c] + MN[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + H2O[c] + MOBD[e] ==> ADP[c] + H[c] + MOBD[c] + PI[c]	1*MG_071_MONOMER
+MG_071_MONOMER	ATPase, P-type (transporting), HAD superfamily, subfamily IC	ATP[c] + H2O[c] + ZN[e] ==> ADP[c] + H[c] + PI[c] + ZN[c]	1*MG_071_MONOMER
+MG_322_323_TETRAMER	potassium uptake protein, TrkH family, putative	H[c] + NA[e] <==> H[e] + NA[c]	2*MG_322_MONOMER,2*MG_323_MONOMER
+MG_322_323_TETRAMER	potassium uptake protein, TrkH family, putative	H[c] + NA[e] <==> H[e] + NA[c]	2*MG_322_MONOMER,2*MG_323_MONOMER
+MG_447_MONOMER	multidrug efflux pump	acriflavine[c] + NA[e] ==> acriflavine[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	benzalkonium[c] + NA[e] ==> benzalkonium[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	berberine[c] + NA[e] ==> berberine[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	ciprofloxacin[c] + NA[e] ==> ciprofloxacin[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	crystalViolet[c] + NA[e] ==> crystalViolet[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	doxorubicin[c] + NA[e] ==> doxorubicin[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	enoxacin[c] + NA[e] ==> enoxacin[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	ethidium[c] + NA[e] ==> ethidium[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	lomefloxacin[c] + NA[e] ==> lomefloxacin[e] + NA[c]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	NA[e] + norfloxacin[c] ==> NA[c] + norfloxacin[e]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	NA[e] + novobiocin[c] ==> NA[c] + novobiocin[e]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	NA[e] + proflavine[c] ==> NA[c] + proflavine[e]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	NA[e] + rhodamine6G[c] ==> NA[c] + rhodamine6G[e]	1*MG_447_MONOMER
+MG_447_MONOMER	multidrug efflux pump	NA[e] + tetraphenylphosphonium[c] ==> NA[c] + tetraphenylphosphonium[e]	1*MG_447_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	AlaAla[e] + ATP[c] + H2O[c] ==> ADP[c] + AlaAla[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ArgArg[e] + ATP[c] + H2O[c] ==> ADP[c] + ArgArg[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	AsnAsn[e] + ATP[c] + H2O[c] ==> ADP[c] + AsnAsn[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	AspAsp[e] + ATP[c] + H2O[c] ==> ADP[c] + AspAsp[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + CysCys[e] + H2O[c] ==> ADP[c] + CysCys[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + GlnGln[e] + H2O[c] ==> ADP[c] + GlnGln[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + GluGlu[e] + H2O[c] ==> ADP[c] + GluGlu[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + GlyGly[e] + H2O[c] ==> ADP[c] + GlyGly[c] + H[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + HisHis[e] ==> ADP[c] + H[c] + HisHis[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + IleIle[e] ==> ADP[c] + H[c] + IleIle[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + LeuLeu[e] ==> ADP[c] + H[c] + LeuLeu[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + LysLys[e] ==> ADP[c] + H[c] + LysLys[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + MetMet[e] ==> ADP[c] + H[c] + MetMet[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + PhePhe[e] ==> ADP[c] + H[c] + PhePhe[c] + PI[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + ProPro[e] ==> ADP[c] + H[c] + PI[c] + ProPro[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + SerSer[e] ==> ADP[c] + H[c] + PI[c] + SerSer[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + ThrThr[e] ==> ADP[c] + H[c] + PI[c] + ThrThr[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + TrpTrp[e] ==> ADP[c] + H[c] + PI[c] + TrpTrp[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + TyrTyr[e] ==> ADP[c] + H[c] + PI[c] + TyrTyr[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_077_078_079_080_321_PENTAMER	oligopeptide ABC transporter	ATP[c] + H2O[c] + ValVal[e] ==> ADP[c] + H[c] + PI[c] + ValVal[c]	1*MG_077_MONOMER,1*MG_078_MONOMER,1*MG_079_MONOMER,1*MG_080_MONOMER,1*MG_321_MONOMER
+MG_289_290_291_PENTAMER	phosphonate ABC transporter	AEPP[e] + ATP[c] + H2O[c] ==> ADP[c] + AEPP[c] + H[c] + PI[c]	1*MG_289_MONOMER,2*MG_290_MONOMER,2*MG_291_MONOMER
+MG_410_411_412_PENTAMER	phosphate ABC transporter	ATP[c] + H2O[c] + PI[e] ==> ADP[c] + H[c] + (2) PI[c]	2*MG_410_MONOMER,2*MG_411_MONOMER,1*MG_412_MONOMER
+MG_040_119_120_121_PENTAMER	Monosaccharide (riboside/galactoside) ABC transporter	ATP[c] + H2O[c] + RIB[e] ==> ADP[c] + H[c] + PI[c] + RIB[c]	1*MG_040_MONOMER,2*MG_119_MONOMER,1*MG_120_MONOMER,1*MG_121_MONOMER
+MG_467_468_526_TETRAMER	salivaricin A ABC transporter	ATP[c] + H2O[c] + nisin[c] ==> ADP[c] + H[c] + nisin[e] + PI[c]	1*MG_467_MONOMER,2*MG_468_MONOMER,1*MG_526_MONOMER
+MG_042_043_044_045_PENTAMER	spermidine/putrescine (polyamine) ABC transporter	ATP[c] + H2O[c] + SPMD[e] ==> ADP[c] + H[c] + PI[c] + SPMD[c]	2*MG_042_MONOMER,1*MG_043_MONOMER,1*MG_044_MONOMER,1*MG_045_MONOMER
+MG_042_043_044_045_PENTAMER	spermidine/putrescine (polyamine) ABC transporter	ATP[c] + H2O[c] + PTRC[e] ==> ADP[c] + H[c] + PI[c] + PTRC[c]	2*MG_042_MONOMER,1*MG_043_MONOMER,1*MG_044_MONOMER,1*MG_045_MONOMER
+MG_390_DIMER	toxin ABC transporter, ATP-binding/permease protein	ATP[c] + H2O[c] + nisin[c] ==> ADP[c] + H[c] + nisin[e] + PI[c]	2*MG_390_MONOMER
+MG_322_323_TETRAMER	potassium uptake protein, TrkH family, putative	H[e] + K[e] <==> H[c] + K[c]	2*MG_322_MONOMER,2*MG_323_MONOMER
+MG_322_323_TETRAMER	potassium uptake protein, TrkH family, putative	H[e] + K[e] <==> H[c] + K[c]	2*MG_322_MONOMER,2*MG_323_MONOMER
+MG_061_MONOMER	Mycoplasma MFS transporter	G6P[e] + (2) PI[c] ==> G6P[c] + (2) PI[e]	1*MG_061_MONOMER
+MG_061_MONOMER	Mycoplasma MFS transporter	FUC1P[e] + (2) PI[c] ==> FUC1P[c] + (2) PI[e]	1*MG_061_MONOMER
+MG_061_MONOMER	Mycoplasma MFS transporter	MAN6P[e] + (2) PI[c] ==> MAN6P[c] + (2) PI[e]	1*MG_061_MONOMER
+MG_382_TETRAMER	uridine kinase	[c]: GTP + URI ==> GDP + H + UMP	4*MG_382_MONOMER
+MG_382_TETRAMER	uridine kinase	[c]: CYTD + GTP ==> CMP + GDP + H	4*MG_382_MONOMER
+MG_097_MONOMER	uracil-DNA glycosylase, putative	[c]: H2O + ho5dUMP ==> DR5P + ho5URA	1*MG_097_MONOMER
+MG_097_MONOMER	uracil-DNA glycosylase, putative	[c]: DUMP + H2O ==> DR5P + URA	1*MG_097_MONOMER
+MG_030_TRIMER	uracil phosphoribosyltransferase	[c]: PRPP + URA ==> PPI + UMP	3*MG_030_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: deoxyG6P + H2O ==> deoxyGLC + (2) H + PI	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: F6P + H2O ==> FRU + PI	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: G6P + H2O ==> GLC + PI	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: GL2P + H2O ==> GL + PI	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: H2O + MAN6P ==> MAN + PI	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: H2O + R5P ==> PI + RIB	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: H2O + SBT6P ==> H + PI + SBT	2*MG_265_MONOMER
+MG_265_DIMER	sugar phosphatase	[c]: H2O + SNGLYP ==> GL + PI	2*MG_265_MONOMER

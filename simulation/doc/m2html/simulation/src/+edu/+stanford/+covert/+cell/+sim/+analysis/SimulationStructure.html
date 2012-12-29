@@ -1,0 +1,752 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of SimulationStructure</title>
+  <meta name="keywords" content="SimulationStructure">
+  <meta name="description" content="SimulationStructure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; SimulationStructure.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>SimulationStructure
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>SimulationStructure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SimulationStructure
+ Outputs analysis of the structure of the simulation:
+ - which processes use which metabolites / gene products / enzymes
+ - which metabolites / gene products / enzymes aren't used by any process
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationStructure.html" class="code" title="">SimulationStructure</a>	SimulationStructure</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="SimulationStructure.html" class="code" title="">SimulationStructure</a>	SimulationStructure</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li><li><a href="#_sub2" class="code">function [content, colLabels] = processMetabolites(sim)</a></li><li><a href="#_sub3" class="code">function [content, colLabels] = unincludedMetabolites(sim)</a></li><li><a href="#_sub4" class="code">function [content, colLabels] = processGeneProducts(sim)</a></li><li><a href="#_sub5" class="code">function [content, colLabels] = unincludedGenes(sim)</a></li><li><a href="#_sub6" class="code">function [content, colLabels] = unincludedProteins(sim)</a></li><li><a href="#_sub7" class="code">function plotProcessMetaboliteSharing(sim, figHandle)</a></li><li><a href="#_sub8" class="code">function plotProcessMetabolites(sim, figHandle)</a></li><li><a href="#_sub9" class="code">function plotProcessSharedMetabolites(sim, figHandle)</a></li><li><a href="#_sub10" class="code">function plotProcessGeneProducts(sim, figHandle)</a></li><li><a href="#_sub11" class="code">function processNames = getShortProcessNames(sim)</a></li><li><a href="#_sub12" class="code">function [mDNAIdxs, mRNAIdxs, mProtIdxs, mOtherIdxs] = processIndexs(sim)</a></li><li><a href="#_sub13" class="code">function colors = barColors()</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%SimulationStructure</span>
+0002 <span class="comment">% Outputs analysis of the structure of the simulation:</span>
+0003 <span class="comment">% - which processes use which metabolites / gene products / enzymes</span>
+0004 <span class="comment">% - which metabolites / gene products / enzymes aren't used by any process</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0007 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0008 <span class="comment">% Last Updated: 9/12/2010</span>
+0009 classdef <a href="SimulationStructure.html" class="code" title="">SimulationStructure</a>
+0010     methods (Static = true)        
+0011         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0012             import edu.stanford.covert.cell.sim.analysis.SimulationStructure;
+0013             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0014             
+0015             <span class="comment">% excel file</span>
+0016             [content, colLabels] = SimulationStructure.processMetabolites(sim);
+0017             <span class="keyword">if</span> nargin == 1
+0018                 PrintUtil.printToStdIO(content, colLabels);
+0019             <span class="keyword">else</span>
+0020                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Process-Metabolites'</span>);
+0021             <span class="keyword">end</span>
+0022             
+0023             [content, colLabels] = SimulationStructure.processGeneProducts(sim);
+0024             <span class="keyword">if</span> nargin == 1
+0025                 PrintUtil.printToStdIO(content, colLabels);
+0026             <span class="keyword">else</span>
+0027                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Process-Gene Product'</span>);
+0028             <span class="keyword">end</span>
+0029             
+0030             [content, colLabels] = SimulationStructure.unincludedMetabolites(sim);
+0031             <span class="keyword">if</span> nargin == 1
+0032                 PrintUtil.printToStdIO(content, colLabels);
+0033             <span class="keyword">else</span>
+0034                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Unincluded Metabolites'</span>);
+0035             <span class="keyword">end</span>
+0036             
+0037             [content, colLabels] = SimulationStructure.unincludedGenes(sim);
+0038             <span class="keyword">if</span> nargin == 1
+0039                 PrintUtil.printToStdIO(content, colLabels);
+0040             <span class="keyword">else</span>
+0041                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Unincluded Genes'</span>);
+0042             <span class="keyword">end</span>
+0043             
+0044             [content, colLabels] = SimulationStructure.unincludedProteins(sim);
+0045             <span class="keyword">if</span> nargin == 1
+0046                 PrintUtil.printToStdIO(content, colLabels);
+0047             <span class="keyword">else</span>
+0048                 PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'Unincluded Proteins'</span>);
+0049             <span class="keyword">end</span>
+0050             
+0051             <span class="comment">% plots</span>
+0052             <span class="keyword">if</span> nargin == 1
+0053                 SimulationStructure.plotProcessMetaboliteSharing(sim);
+0054                 SimulationStructure.plotProcessMetabolites(sim);
+0055                 SimulationStructure.plotProcessSharedMetabolites(sim);
+0056                 SimulationStructure.plotProcessGeneProducts(sim);
+0057             <span class="keyword">else</span>
+0058                 [~, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0059                 
+0060                 clf(figHandle);
+0061                 SimulationStructure.plotProcessMetaboliteSharing(sim, figHandle);
+0062                 saveas(figHandle, [fileName <span class="string">'-ProcessMetaboliteSharing.pdf'</span>]);
+0063                 
+0064                 clf(figHandle);
+0065                 SimulationStructure.plotProcessMetabolites(sim, figHandle);
+0066                 saveas(figHandle, [fileName <span class="string">'-ProcessMetabolites.pdf'</span>]);
+0067                 
+0068                 clf(figHandle);
+0069                 SimulationStructure.plotProcessSharedMetabolites(sim, figHandle);
+0070                 saveas(figHandle, [fileName <span class="string">'-ProcessSharedMetabolites.pdf'</span>]);
+0071                 
+0072                 clf(figHandle);
+0073                 SimulationStructure.plotProcessGeneProducts(sim, figHandle);
+0074                 saveas(figHandle, [fileName <span class="string">'-ProcessGeneProducts.pdf'</span>]);
+0075                 
+0076                 close(figHandle);
+0077             <span class="keyword">end</span>
+0078         <span class="keyword">end</span>
+0079     <span class="keyword">end</span>
+0080     
+0081     <span class="comment">%analysis</span>
+0082     methods (Static)
+0083         <span class="comment">%which processes use which metabolites</span>
+0084         <a name="_sub1" href="#_subfunctions" class="code">function [content, colLabels] = processMetabolites(sim)</a>
+0085             colLabels = {<span class="string">'Process ID'</span>, <span class="string">'Process Name'</span>, <span class="string">'Metabolite ID'</span>, <span class="string">'Metabolite Name'</span>};
+0086             content = cell(0, numel(colLabels));
+0087             
+0088             <span class="keyword">for</span> i = 1:length(sim.processes)
+0089                 m = sim.processes{i};
+0090                 
+0091                 idxs = m.substrateMetaboliteLocalIndexs;
+0092                 
+0093                 content = [content;
+0094                     repmat({m.wholeCellModelID m.name}, numel(idxs), 1) <span class="keyword">...</span>
+0095                     m.substrateWholeCellModelIDs(idxs) <span class="keyword">...</span>
+0096                     m.substrateNames(idxs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0097             <span class="keyword">end</span>
+0098         <span class="keyword">end</span>
+0099         
+0100         <span class="comment">%which metabolites aren't used in any processes</span>
+0101         <a name="_sub2" href="#_subfunctions" class="code">function [content, colLabels] = unincludedMetabolites(sim)</a>
+0102             colLabels = {<span class="string">'Metabolite ID'</span>, <span class="string">'Metabolite Name'</span>};
+0103             
+0104             included = edu.stanford.covert.cell.sim.analysis.SimulationStructure.processMetabolites(sim);
+0105             
+0106             [~, idxs] = setdiff(sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs, unique(included(:,3)));
+0107             content = [
+0108                 sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(idxs) <span class="keyword">...</span>
+0109                 sim.state(<span class="string">'Metabolite'</span>).names(idxs)];
+0110         <span class="keyword">end</span>
+0111         
+0112         <span class="comment">%which processes use which gene products, and in which compartments, as enzymes</span>
+0113         <a name="_sub3" href="#_subfunctions" class="code">function [content, colLabels] = processGeneProducts(sim)</a>
+0114             colLabels = {<span class="string">'Process ID'</span>, <span class="string">'Process Name'</span>, <span class="string">'Gene ID'</span>, <span class="string">'Gene Name'</span>, <span class="string">'Product ID'</span>, <span class="string">'Product Name'</span>, <span class="string">'Product Compartment ID'</span>, <span class="string">'Product Compartment Name'</span>, <span class="string">'Implemented'</span>};
+0115             content = cell(0, numel(colLabels));
+0116             
+0117             <span class="keyword">for</span> i = 1:length(sim.processes)
+0118                 m = sim.processes{i};
+0119                 
+0120                 <span class="comment">%stimuli</span>
+0121                 stimuliGeneComposition = m.stimuliGeneComposition();
+0122                 <span class="keyword">for</span> j = 1:length(sim.gene.wholeCellModelIDs)
+0123                     <span class="keyword">for</span> k = 1:length(m.stimuliWholeCellModelIDs)
+0124                         <span class="keyword">if</span> ~stimuliGeneComposition(j, k); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0125                         
+0126                         <span class="keyword">if</span> size(m.stimuliCompartments, 2) == 1
+0127                             compartmentWholeCellModelID = sim.compartment.wholeCellModelIDs{m.stimuliCompartments(k)};
+0128                             compartmentName = sim.compartment.names{m.stimuliCompartments(k)};
+0129                         <span class="keyword">else</span>
+0130                             compartmentWholeCellModelID = cell(1,1);
+0131                             compartmentName = cell(1,1);
+0132                         <span class="keyword">end</span>
+0133                         
+0134                         content = [content;
+0135                             m.wholeCellModelID            m.name            <span class="keyword">...</span>
+0136                             sim.gene.wholeCellModelIDs(j) sim.gene.names(j)  <span class="keyword">...</span>
+0137                             m.stimuliWholeCellModelIDs(k) m.stimuliNames(k) <span class="keyword">...</span>
+0138                             compartmentWholeCellModelID   compartmentName   <span class="keyword">...</span>
+0139                             <span class="string">'Stimulus'</span>]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0140                     <span class="keyword">end</span>
+0141                 <span class="keyword">end</span>
+0142                 
+0143                 <span class="comment">%substrates</span>
+0144                 substrateGeneComposition = m.substrateGeneComposition();
+0145                 <span class="keyword">for</span> j = 1:length(sim.gene.wholeCellModelIDs)
+0146                     <span class="keyword">for</span> k = 1:length(m.substrateWholeCellModelIDs)
+0147                         <span class="keyword">if</span> ~substrateGeneComposition(j, k); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0148                         
+0149                         <span class="keyword">if</span> size(m.substrateCompartments, 2) == 1
+0150                             compartmentWholeCellModelID = sim.compartment.wholeCellModelIDs{m.substrateCompartments(k)};
+0151                             compartmentName = sim.compartment.names{m.substrateCompartments(k)};
+0152                         <span class="keyword">else</span>
+0153                             compartmentWholeCellModelID = cell(1,1);
+0154                             compartmentName = cell(1,1);
+0155                         <span class="keyword">end</span>
+0156                         
+0157                         content = [content;
+0158                             m.wholeCellModelID              m.name            <span class="keyword">...</span>
+0159                             sim.gene.wholeCellModelIDs(j)   sim.gene.names(j)  <span class="keyword">...</span>
+0160                             m.substrateWholeCellModelIDs(k) m.substrateNames(k) <span class="keyword">...</span>
+0161                             compartmentWholeCellModelID     compartmentName   <span class="keyword">...</span>
+0162                             <span class="string">'Substrate'</span>]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0163                     <span class="keyword">end</span>
+0164                 <span class="keyword">end</span>
+0165                 
+0166                 <span class="comment">%enzymes</span>
+0167                 enzymeGeneComposition = m.enzymeGeneComposition();
+0168                 <span class="keyword">for</span> j = 1:length(sim.gene.wholeCellModelIDs)
+0169                     <span class="keyword">for</span> k = 1:length(m.enzymeWholeCellModelIDs)
+0170                         <span class="keyword">if</span> ~enzymeGeneComposition(j, k); <span class="keyword">continue</span>; <span class="keyword">end</span>;
+0171                         
+0172                         <span class="keyword">if</span> size(m.enzymeCompartments, 2) == 1
+0173                             compartmentWholeCellModelID = sim.compartment.wholeCellModelIDs{m.enzymeCompartments(k)};
+0174                             compartmentName = sim.compartment.names{m.enzymeCompartments(k)};
+0175                         <span class="keyword">else</span>
+0176                             compartmentWholeCellModelID = cell(1,1);
+0177                             compartmentName = cell(1,1);
+0178                         <span class="keyword">end</span>
+0179                         
+0180                         content = [content;
+0181                             m.wholeCellModelID            m.name           <span class="keyword">...</span>
+0182                             sim.gene.wholeCellModelIDs(j) sim.gene.names(j) <span class="keyword">...</span>
+0183                             m.enzymeWholeCellModelIDs(k)  m.enzymeNames(k) <span class="keyword">...</span>
+0184                             compartmentWholeCellModelID   compartmentName  <span class="keyword">...</span>
+0185                             <span class="string">'Enzyme'</span>]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0186                     <span class="keyword">end</span>
+0187                 <span class="keyword">end</span>
+0188             <span class="keyword">end</span>
+0189         <span class="keyword">end</span>
+0190         
+0191         <span class="comment">%gene whose products aren't functionally used in any process</span>
+0192         <a name="_sub4" href="#_subfunctions" class="code">function [content, colLabels] = unincludedGenes(sim)</a>
+0193             colLabels = {<span class="string">'Gene ID'</span>,<span class="string">'Gene Name'</span>};
+0194             
+0195             included = edu.stanford.covert.cell.sim.analysis.SimulationStructure.processGeneProducts(sim);
+0196             
+0197             [~, idxs] = setdiff(sim.gene.wholeCellModelIDs, unique(included(:,3)));
+0198             content = [
+0199                 sim.gene.wholeCellModelIDs(idxs) <span class="keyword">...</span>
+0200                 sim.gene.names(idxs)];
+0201         <span class="keyword">end</span>
+0202         
+0203         <span class="comment">%protein monomers and complexes which aren't used in any process</span>
+0204         <a name="_sub5" href="#_subfunctions" class="code">function [content, colLabels] = unincludedProteins(sim)</a>
+0205             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0206             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0207             
+0208             colLabels = {<span class="string">'Protein ID'</span>, <span class="string">'Protein Name'</span>};
+0209             
+0210             includedMonomers = {};
+0211             includedComplexs = {};
+0212             <span class="keyword">for</span> i = 1:length(sim.processes)
+0213                 m = sim.processes{i};
+0214                 
+0215                 includedMonomers = [includedMonomers; m.stimuliWholeCellModelIDs(m.stimulusMonomerLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0216                 includedMonomers = [includedMonomers; m.substrateWholeCellModelIDs(m.substrateMonomerLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0217                 includedMonomers = [includedMonomers; m.enzymeWholeCellModelIDs(m.enzymeMonomerLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0218                 
+0219                 includedComplexs = [includedComplexs; m.stimuliWholeCellModelIDs(m.stimulusComplexLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0220                 includedComplexs = [includedComplexs; m.substrateWholeCellModelIDs(m.substrateComplexLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0221                 includedComplexs = [includedComplexs; m.enzymeWholeCellModelIDs(m.enzymeComplexLocalIndexs)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0222             <span class="keyword">end</span>
+0223             
+0224             [~, unincludedMonomerIdxs] = setdiff(pm.wholeCellModelIDs(pm.matureIndexs), unique(includedMonomers));
+0225             [~, unincludedComplexIdxs] = setdiff(pc.wholeCellModelIDs(pc.matureIndexs), unique(includedComplexs));
+0226             
+0227             unincludedMonomerIdxs(any(any(pc.proteinComplexComposition(sim.gene.mRNAIndexs(unincludedMonomerIdxs), setdiff(1:<span class="keyword">end</span>, unincludedComplexIdxs), :),3),2)) = [];
+0228             
+0229             content = [
+0230                 pm.wholeCellModelIDs(pm.matureIndexs(unincludedMonomerIdxs)) <span class="keyword">...</span>
+0231                 pm.names(pm.matureIndexs(unincludedMonomerIdxs));
+0232                 pc.wholeCellModelIDs(pc.matureIndexs(unincludedComplexIdxs)) <span class="keyword">...</span>
+0233                 pc.names(pc.matureIndexs(unincludedComplexIdxs))];
+0234         <span class="keyword">end</span>
+0235     <span class="keyword">end</span>
+0236     
+0237     <span class="comment">%plots</span>
+0238     methods (Static)
+0239         <a name="_sub6" href="#_subfunctions" class="code">function plotProcessMetaboliteSharing(sim, figHandle)</a>
+0240             import edu.stanford.covert.cell.sim.analysis.SimulationStructure;
+0241             
+0242             content = SimulationStructure.processMetabolites(sim);
+0243             [~, modIdxs] = ismember(content(:, 1), sim.processWholeCellModelIDs);
+0244             [~, metIdxs] = ismember(content(:, 3), sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs);
+0245             mat = zeros(numel(sim.processWholeCellModelIDs), numel(sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs));
+0246             mat(sub2ind(size(mat), modIdxs, metIdxs)) = 1;
+0247             
+0248             mat2 = ones(numel(sim.processWholeCellModelIDs));
+0249             <span class="keyword">for</span> i = 1:size(mat,1)
+0250                 <span class="keyword">for</span> j = 1:size(mat,1)
+0251                     mat2(i,j) = 1 + double(any(mat(i, :) &amp; mat(j, :)));
+0252                 <span class="keyword">end</span>
+0253             <span class="keyword">end</span>
+0254             mat2(sub2ind(size(mat2), 1:size(mat2,1), 1:size(mat2,1))) = <span class="keyword">...</span>
+0255                 double(mat2(sub2ind(size(mat2), 1:size(mat2,1), 1:size(mat2,1)))==1) + <span class="keyword">...</span>
+0256                 double(mat2(sub2ind(size(mat2), 1:size(mat2,1), 1:size(mat2,1)))~=1)*3;
+0257             
+0258             dist = pdist(mat2, <span class="string">'cityblock'</span>);
+0259             tree = linkage(dist, <span class="string">'average'</span>);
+0260             modOrder = optimalleaforder(tree, dist);
+0261             
+0262             <span class="comment">%plot</span>
+0263             <span class="keyword">if</span> ~exist(<span class="string">'figHandle'</span>, <span class="string">'var'</span>)
+0264                 axesHandle = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0265             <span class="keyword">else</span>
+0266                 axesHandle = subplot(1, 1, 1, <span class="string">'Parent'</span>, figHandle);
+0267             <span class="keyword">end</span>
+0268             
+0269             image(mat2(modOrder, modOrder), <span class="string">'Parent'</span>, axesHandle);
+0270             colormap(axesHandle, [
+0271                 1 1 1;
+0272                 0 0 0;
+0273                 0.5 0.5 0.5;
+0274                 ]);
+0275             
+0276             processNames = SimulationStructure.getShortProcessNames(sim);
+0277             
+0278             <span class="keyword">for</span> i=1:numel(sim.processWholeCellModelIDs)
+0279                 text(0, i, processNames{modOrder(i)}, <span class="string">'Parent'</span>, axesHandle, <span class="string">'FontSize'</span>, 10, <span class="string">'Rotation'</span>, 0,   <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'data'</span>);
+0280                 text(i, 0, processNames{modOrder(i)}, <span class="string">'Parent'</span>, axesHandle, <span class="string">'FontSize'</span>, 10, <span class="string">'Rotation'</span>, 270, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'data'</span>);
+0281             <span class="keyword">end</span>
+0282             
+0283             set(axesHandle, <span class="string">'XTick'</span>, 1:numel(processNames));
+0284             set(axesHandle, <span class="string">'YTick'</span>, 1:numel(processNames));
+0285             set(axesHandle, <span class="string">'XTickLabel'</span>, cell(size(processNames)));
+0286             set(axesHandle, <span class="string">'YTickLabel'</span>, cell(size(processNames)));
+0287             
+0288             ylabel(<span class="string">'Process'</span>, <span class="string">'FontSize'</span>, 18);
+0289             xlabel(<span class="string">'Process'</span>, <span class="string">'FontSize'</span>, 18);
+0290             set(axesHandle, <span class="string">'XAxisLocation'</span>,<span class="string">'top'</span>)
+0291             axesPos = get(axesHandle', <span class="string">'Position'</span>);
+0292             set(axesHandle, <span class="string">'Position'</span>, axesPos + [.11 -.1 -.1 -.1]);
+0293             xLabelPos = get(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>);
+0294             set(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>, xLabelPos + [0 -7 0]);
+0295             yLabelPos = get(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0296             set(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>, yLabelPos + [-6 0 0]);
+0297         <span class="keyword">end</span>
+0298         
+0299         <a name="_sub7" href="#_subfunctions" class="code">function plotProcessMetabolites(sim, figHandle)</a>
+0300             import edu.stanford.covert.cell.sim.analysis.SimulationStructure;
+0301             
+0302             content = SimulationStructure.processMetabolites(sim);
+0303             [~, modIdxs] = ismember(content(:, 1), sim.processWholeCellModelIDs);
+0304             [~, metIdxs] = ismember(content(:, 3), sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs);
+0305             mat = zeros(numel(sim.processWholeCellModelIDs), numel(sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs));
+0306             mat(sub2ind(size(mat), modIdxs, metIdxs)) = 1;
+0307             
+0308             [mDNAIdxs, mRNAIdxs, mProtIdxs, mOtherIdxs] = SimulationStructure.processIndexs(sim);
+0309             order = [mDNAIdxs; mRNAIdxs; mProtIdxs; mOtherIdxs];
+0310             
+0311             processWholeCellModelIDs = {sim.processWholeCellModelIDs{order}}'; <span class="comment">%#ok&lt;CCAT1&gt;</span>
+0312             processNames = SimulationStructure.getShortProcessNames(sim);
+0313             processNames = processNames(order(end:-1:1));
+0314             mat = mat(order, :);
+0315             
+0316             <span class="comment">%plot</span>
+0317             <span class="keyword">if</span> ~exist(<span class="string">'figHandle'</span>, <span class="string">'var'</span>)
+0318                 [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0319             <span class="keyword">else</span>
+0320                 axesHandle = subplot(1, 1, 1, <span class="string">'Parent'</span>, figHandle);
+0321             <span class="keyword">end</span>
+0322             
+0323             image(mat+1, <span class="string">'Parent'</span>, axesHandle);
+0324             colormap(axesHandle, [
+0325                 1 1 1;
+0326                 0 0 0]);
+0327             
+0328             set(axesHandle, <span class="string">'XTick'</span>, []);
+0329             set(axesHandle, <span class="string">'YTick'</span>, 1:numel(processWholeCellModelIDs))
+0330             set(axesHandle, <span class="string">'YTickLabel'</span>, cell(size(processNames)));
+0331             
+0332             ylabel(<span class="string">'Process'</span>, <span class="string">'FontSize'</span>, 28, <span class="string">'Units'</span>,<span class="string">'normalized'</span>);
+0333             xlabel(<span class="string">'Metabolite'</span>, <span class="string">'FontSize'</span>, 28);
+0334             set(axesHandle, <span class="string">'XAxisLocation'</span>,<span class="string">'top'</span>)
+0335             axesPos = get(axesHandle', <span class="string">'Position'</span>);
+0336             set(axesHandle, <span class="string">'Position'</span>, axesPos + [.15 -.10 -.08 -.08]);
+0337             xLabelPos = get(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>);
+0338             set(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>, xLabelPos + [0 -5.5 0]);
+0339             yLabelPos = get(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0340             set(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>, yLabelPos + [-.27 0 0]);
+0341             
+0342             <span class="comment">%process labels</span>
+0343             axisPos = get(axesHandle,<span class="string">'position'</span>);
+0344             props = {<span class="string">'FontSize'</span>, 10, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0345             <span class="keyword">for</span> i = 1:numel(processWholeCellModelIDs)
+0346                 text(-axisPos(3)/100, (i+0.1)/(numel(order)+1), processNames{i}, props{:});
+0347             <span class="keyword">end</span>
+0348             
+0349             <span class="comment">%process  category labels</span>
+0350             props = {<span class="string">'Rotation'</span>, 90, <span class="string">'FontSize'</span>, 14, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0351             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs)/2), <span class="string">'Other'</span>, props{:});
+0352             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs)/2), <span class="string">'Protein'</span>, props{:});
+0353             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs)/2), <span class="string">'RNA'</span>, props{:});
+0354             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + numel(mDNAIdxs)/2), <span class="string">'DNA'</span>, props{:});
+0355             
+0356             <span class="comment">%process category brackets</span>
+0357             props = {<span class="string">'LineWidth'</span>, 1};
+0358             margin = 0.2;
+0359             tickW = 0.015;
+0360             yTickW = -0.27+0.03;
+0361             
+0362             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; numel(mOtherIdxs)-margin]), props{:});
+0363             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; margin]), props{:});
+0364             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [numel(mOtherIdxs)-margin; numel(mOtherIdxs)-margin]), props{:});
+0365             
+0366             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; numel(mProtIdxs)-margin]), props{:});
+0367             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; margin]), props{:});
+0368             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [numel(mProtIdxs)-margin; numel(mProtIdxs)-margin]), props{:});
+0369             
+0370             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; numel(mRNAIdxs)-margin]), props{:});
+0371             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; margin]), props{:});
+0372             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [numel(mRNAIdxs)-margin; numel(mRNAIdxs)-margin]), props{:});
+0373             
+0374             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; numel(mDNAIdxs)-margin]), props{:});
+0375             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; margin]), props{:});
+0376             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [numel(mDNAIdxs)-margin; numel(mDNAIdxs)-margin]), props{:});
+0377         <span class="keyword">end</span>
+0378         
+0379         <a name="_sub8" href="#_subfunctions" class="code">function plotProcessSharedMetabolites(sim, figHandle)</a>
+0380             import edu.stanford.covert.cell.sim.analysis.SimulationStructure;
+0381             
+0382             content = SimulationStructure.processMetabolites(sim);
+0383             [~, modIdxs] = ismember(content(:, 1), sim.processWholeCellModelIDs);
+0384             [~, metIdxs] = ismember(content(:, 3), sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs);
+0385             mat = zeros(numel(sim.processWholeCellModelIDs), numel(sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs));
+0386             mat(sub2ind(size(mat), modIdxs, metIdxs)) = 1;
+0387             
+0388             idxs = find(sum(mat, 1) &gt; 4);
+0389             metaboliteWholeCellModelIDs = sim.state(<span class="string">'Metabolite'</span>).wholeCellModelIDs(idxs);
+0390             mat = mat(:, idxs);
+0391             
+0392             [~,idxs] = ismember({
+0393                 <span class="string">'ATP'</span>; <span class="string">'ADP'</span>; <span class="string">'AMP'</span>; <span class="string">'GTP'</span>; <span class="string">'GDP'</span>;
+0394                 <span class="string">'PI'</span>; <span class="string">'PPI'</span>;
+0395                 <span class="string">'H'</span>; <span class="string">'H2O'</span>;
+0396                 <span class="string">'ALA'</span>; <span class="string">'ARG'</span>; <span class="string">'ASN'</span>; <span class="string">'ASP'</span>; <span class="string">'CYS'</span>; <span class="string">'FMET'</span>; <span class="string">'GLN'</span>; <span class="string">'GLU'</span>; <span class="string">'GLY'</span>; <span class="string">'HIS'</span>; <span class="string">'ILE'</span>; <span class="string">'LEU'</span>; <span class="string">'LYS'</span>; <span class="string">'MET'</span>; <span class="string">'PHE'</span>; <span class="string">'PRO'</span>; <span class="string">'SER'</span>; <span class="string">'THR'</span>; <span class="string">'TRP'</span>; <span class="string">'TYR'</span>; <span class="string">'VAL'</span>}, <span class="keyword">...</span>
+0397                 metaboliteWholeCellModelIDs);
+0398             metaboliteWholeCellModelIDs = metaboliteWholeCellModelIDs(idxs);
+0399             mat = mat(:, idxs);
+0400             
+0401             nucleicAcidIndexs = (1:5)';
+0402             phosphateIndexs = (6:7)';
+0403             waterIndexs = (8:9)';
+0404             aminoAcidIndexs = (10:30)';
+0405             
+0406             [mDNAIdxs, mRNAIdxs, mProtIdxs, mOtherIdxs] = SimulationStructure.processIndexs(sim);
+0407             order = [mDNAIdxs; mRNAIdxs; mProtIdxs; mOtherIdxs];
+0408             
+0409             processWholeCellModelIDs = {sim.processWholeCellModelIDs{order}}'; <span class="comment">%#ok&lt;CCAT1&gt;</span>
+0410             processNames = SimulationStructure.getShortProcessNames(sim);
+0411             processNames = processNames(order(end:-1:1));
+0412             mat = mat(order, :);
+0413             
+0414             <span class="comment">%plot</span>
+0415             <span class="keyword">if</span> ~exist(<span class="string">'figHandle'</span>, <span class="string">'var'</span>)
+0416                 [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0417             <span class="keyword">else</span>
+0418                 axesHandle = subplot(1, 1, 1, <span class="string">'Parent'</span>, figHandle);
+0419             <span class="keyword">end</span>
+0420             
+0421             image(mat+1, <span class="string">'Parent'</span>, axesHandle);
+0422             colormap(axesHandle, [
+0423                 1 1 1;
+0424                 0 0 0]);
+0425             
+0426             set(axesHandle, <span class="string">'XTick'</span>, []);
+0427             set(axesHandle, <span class="string">'YTick'</span>, 1:numel(processWholeCellModelIDs))
+0428             set(axesHandle, <span class="string">'YTickLabel'</span>, cell(size(processNames)));
+0429             
+0430             ylabel(<span class="string">'Process'</span>, <span class="string">'FontSize'</span>, 28, <span class="string">'Units'</span>,<span class="string">'normalized'</span>);
+0431             xlabel(<span class="string">'Metabolite'</span>, <span class="string">'FontSize'</span>, 28);
+0432             set(axesHandle, <span class="string">'XAxisLocation'</span>,<span class="string">'top'</span>)
+0433             axesPos = get(axesHandle', <span class="string">'Position'</span>);
+0434             set(axesHandle, <span class="string">'Position'</span>, axesPos + [.15 -.10 -.08 -.08]);
+0435             xLabelPos = get(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>);
+0436             set(get(axesHandle,<span class="string">'XLabel'</span>), <span class="string">'Position'</span>, xLabelPos + [0 -5.5 0]);
+0437             yLabelPos = get(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0438             set(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>, yLabelPos + [-.27 0 0]);
+0439             
+0440             <span class="comment">%metabolite labels</span>
+0441             metIDs = metaboliteWholeCellModelIDs(sum(mat, 1) &gt; 4);
+0442             <span class="keyword">for</span> i = 1:numel(metIDs)
+0443                 x = 1/2 + find(strcmp(metaboliteWholeCellModelIDs, metIDs{i}));
+0444                 text(x, 0, metaboliteWholeCellModelIDs{i}, <span class="string">'Parent'</span>, axesHandle, <span class="string">'FontSize'</span>, 10, <span class="string">'Rotation'</span>, 270, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'data'</span>);
+0445             <span class="keyword">end</span>
+0446             
+0447             <span class="comment">%metabolite  category labels</span>
+0448             props = {<span class="string">'FontSize'</span>, 14, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0449             text(1/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs)/2),1.19, <span class="string">'NXP'</span>, props{:});
+0450             text(1/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs)/2), 1.19, <span class="string">'Pi'</span>, props{:});
+0451             text(1/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + numel(waterIndexs)/2), 1.19, <span class="string">'H'</span>, props{:});
+0452             text(1/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + numel(waterIndexs) + numel(aminoAcidIndexs)/2), 1.19, <span class="string">'Amino Acid'</span>, props{:});
+0453             
+0454             <span class="comment">%metabolite category brackets</span>
+0455             props = {<span class="string">'LineWidth'</span>, 1};
+0456             margin = 0.2;
+0457             tickW = -0.015;
+0458             yTickW = 1.15;
+0459             axisPos = get(axesHandle,<span class="string">'position'</span>);
+0460             
+0461             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + [margin; numel(nucleicAcidIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; 0]), props{:});
+0462             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + [margin; margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0463             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + [numel(nucleicAcidIndexs)-margin; numel(nucleicAcidIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0464             
+0465             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + [margin; numel(phosphateIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; 0]), props{:});
+0466             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + [margin; margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0467             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + [numel(phosphateIndexs)-margin; numel(phosphateIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0468             
+0469             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + [margin; numel(waterIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; 0]), props{:});
+0470             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + [margin; margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0471             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + [numel(waterIndexs)-margin; numel(waterIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0472             
+0473             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + numel(waterIndexs) + [margin; numel(aminoAcidIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; 0]), props{:});
+0474             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + numel(waterIndexs) + [margin; margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0475             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)/(numel(metaboliteWholeCellModelIDs)+1)*(1/2 + numel(nucleicAcidIndexs) + numel(phosphateIndexs) + numel(waterIndexs) + [numel(aminoAcidIndexs)-margin; numel(aminoAcidIndexs)-margin]), axisPos(2) + axisPos(4)*(yTickW + [0; tickW]), props{:});
+0476             
+0477             <span class="comment">%process labels</span>
+0478             props = {<span class="string">'FontSize'</span>, 10, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0479             <span class="keyword">for</span> i = 1:numel(processWholeCellModelIDs)
+0480                 text(-axisPos(3)/100, (i+0.1)/(numel(order)+1), processNames{i}, props{:});
+0481             <span class="keyword">end</span>
+0482             
+0483             <span class="comment">%process  category labels</span>
+0484             props = {<span class="string">'Rotation'</span>, 90, <span class="string">'FontSize'</span>, 14, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0485             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs)/2), <span class="string">'Other'</span>, props{:});
+0486             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs)/2), <span class="string">'Protein'</span>, props{:});
+0487             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs)/2), <span class="string">'RNA'</span>, props{:});
+0488             text(-0.27, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + numel(mDNAIdxs)/2), <span class="string">'DNA'</span>, props{:});
+0489             
+0490             <span class="comment">%process category brackets</span>
+0491             props = {<span class="string">'LineWidth'</span>, 1};
+0492             margin = 0.2;
+0493             tickW = 0.015;
+0494             yTickW = -0.27+0.03;
+0495             
+0496             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; numel(mOtherIdxs)-margin]), props{:});
+0497             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; margin]), props{:});
+0498             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [numel(mOtherIdxs)-margin; numel(mOtherIdxs)-margin]), props{:});
+0499             
+0500             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; numel(mProtIdxs)-margin]), props{:});
+0501             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; margin]), props{:});
+0502             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [numel(mProtIdxs)-margin; numel(mProtIdxs)-margin]), props{:});
+0503             
+0504             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; numel(mRNAIdxs)-margin]), props{:});
+0505             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; margin]), props{:});
+0506             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [numel(mRNAIdxs)-margin; numel(mRNAIdxs)-margin]), props{:});
+0507             
+0508             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; numel(mDNAIdxs)-margin]), props{:});
+0509             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; margin]), props{:});
+0510             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [numel(mDNAIdxs)-margin; numel(mDNAIdxs)-margin]), props{:});
+0511         <span class="keyword">end</span>
+0512         
+0513         <a name="_sub9" href="#_subfunctions" class="code">function plotProcessGeneProducts(sim, figHandle)</a>
+0514             import edu.stanford.covert.cell.sim.analysis.SimulationStructure;
+0515             
+0516             <span class="comment">%process names</span>
+0517             processNames = SimulationStructure.getShortProcessNames(sim);
+0518             
+0519             <span class="comment">%order processes</span>
+0520             [mDNAIdxs, mRNAIdxs, mProtIdxs, mOtherIdxs] = SimulationStructure.processIndexs(sim);
+0521             
+0522             order = [mDNAIdxs; mRNAIdxs; mProtIdxs; mOtherIdxs];
+0523             order = order(end:-1:1);
+0524             <span class="keyword">if</span> numel(order) &lt; numel(sim.processWholeCellModelIDs)
+0525                 throw(MException(<span class="string">'SimulationStructure:error'</span>, <span class="string">'Not all processes included'</span>));
+0526             <span class="keyword">end</span>
+0527             
+0528             <span class="comment">%count numbers of genes used in each process</span>
+0529             content = SimulationStructure.processGeneProducts(sim);
+0530             [~, mIdxs] = ismember(content(:,1), sim.processWholeCellModelIDs);
+0531             mCnts = histc(mIdxs, 1:numel(sim.processWholeCellModelIDs));
+0532             
+0533             <span class="comment">%bar graph</span>
+0534             <span class="keyword">if</span> ~exist(<span class="string">'figHandle'</span>, <span class="string">'var'</span>)
+0535                 [axesHandle, figHandle] = edu.stanford.covert.cell.sim.util.PlotUtil.newAxesHandle();
+0536             <span class="keyword">else</span>
+0537                 axesHandle = subplot(1, 1, 1, <span class="string">'Parent'</span>, figHandle);
+0538             <span class="keyword">end</span>
+0539             
+0540             hold on;
+0541             colors = SimulationStructure.barColors();
+0542             <span class="comment">%barh((1:numel(sim.processWholeCellModelIDs))', mCnts(order));</span>
+0543             barh((1:numel(mOtherIdxs))', mCnts(mOtherIdxs(end:-1:1)), <span class="string">'facecolor'</span>, colors(1, :), <span class="string">'Parent'</span>, axesHandle);
+0544             barh((1:numel(mProtIdxs))' + numel(mOtherIdxs), mCnts(mProtIdxs(end:-1:1)), <span class="string">'facecolor'</span>, colors(2, :), <span class="string">'Parent'</span>, axesHandle);
+0545             barh((1:numel(mRNAIdxs))' + numel(mOtherIdxs) + numel(mProtIdxs), mCnts(mRNAIdxs(end:-1:1)), <span class="string">'facecolor'</span>, colors(3, :), <span class="string">'Parent'</span>, axesHandle);
+0546             barh((1:numel(mDNAIdxs))' + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs), mCnts(mDNAIdxs(end:-1:1)), <span class="string">'facecolor'</span>, colors(4, :), <span class="string">'Parent'</span>, axesHandle);
+0547             
+0548             ylim([0 numel(sim.processWholeCellModelIDs)+1]);
+0549             xlim([1 max(mCnts)*1.1]);
+0550             set(axesHandle, <span class="string">'YTick'</span>, []);
+0551             set(axesHandle, <span class="string">'YTickLabel'</span>, []);
+0552             set(axesHandle, <span class="string">'XScale'</span>, <span class="string">'log'</span>);
+0553             set(axesHandle, <span class="string">'box'</span>, <span class="string">'on'</span>);
+0554             
+0555             <span class="comment">%axis labels</span>
+0556             ylabel(<span class="string">'Process'</span>, <span class="string">'FontSize'</span>, 18);
+0557             xlabel(<span class="string">'Genes'</span>, <span class="string">'FontSize'</span>, 18);
+0558             yLabelMargin  = 0.10;
+0559             
+0560             axisPos = get(axesHandle, <span class="string">'Position'</span>);
+0561             set(axesHandle, <span class="string">'Position'</span>, axisPos + [1.7*yLabelMargin 0 -yLabelMargin 0]);
+0562             axisPos = get(axesHandle, <span class="string">'Position'</span>);
+0563             
+0564             set(get(axesHandle, <span class="string">'YLabel'</span>), <span class="string">'Units'</span>, <span class="string">'normalized'</span>);
+0565             yLabelPos = get(get(axesHandle,<span class="string">'YLabel'</span>), <span class="string">'Position'</span>);
+0566             set(get(axesHandle, <span class="string">'YLabel'</span>), <span class="string">'Position'</span>, yLabelPos + [-2.1*yLabelMargin/axisPos(3) 0 0]);
+0567             
+0568             <span class="comment">%tick labels</span>
+0569             props = {<span class="string">'FontSize'</span>, 10, <span class="string">'HorizontalAlignment'</span>, <span class="string">'right'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0570             <span class="keyword">for</span> i = 1:numel(sim.processWholeCellModelIDs)
+0571                 <span class="keyword">if</span> ismember(order(i), mOtherIdxs)
+0572                     color = colors(1, :);
+0573                 <span class="keyword">elseif</span> ismember(order(i), mProtIdxs)
+0574                     color = colors(2, :);
+0575                 <span class="keyword">elseif</span> ismember(order(i), mRNAIdxs)
+0576                     color = colors(3, :);
+0577                 <span class="keyword">else</span>
+0578                     color = colors(4, :);
+0579                 <span class="keyword">end</span>
+0580                 text(-axisPos(3)/100, (i+0.1)/(numel(order)+1), processNames{order(i)}, props{:}, <span class="string">'Color'</span>, color);
+0581             <span class="keyword">end</span>
+0582             
+0583             <span class="comment">%category labels</span>
+0584             props = {<span class="string">'Rotation'</span>, 90, <span class="string">'FontSize'</span>, 14, <span class="string">'HorizontalAlignment'</span>, <span class="string">'center'</span>, <span class="string">'VerticalAlignment'</span>,<span class="string">'middle'</span>, <span class="string">'units'</span>, <span class="string">'normalized'</span>, <span class="string">'Parent'</span>, axesHandle};
+0585             yLabelPos = get(get(axesHandle,<span class="string">'ylabel'</span>), <span class="string">'position'</span>);
+0586             text(yLabelPos(1)+yLabelMargin - 0.06, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs)/2), <span class="string">'Other'</span>, props{:}, <span class="string">'Color'</span>, colors(1, :));
+0587             text(yLabelPos(1)+yLabelMargin - 0.06, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs)/2), <span class="string">'Protein'</span>, props{:}, <span class="string">'Color'</span>, colors(2, :));
+0588             text(yLabelPos(1)+yLabelMargin - 0.06, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs)/2), <span class="string">'RNA'</span>, props{:}, <span class="string">'Color'</span>, colors(3, :));
+0589             text(yLabelPos(1)+yLabelMargin - 0.06, 1/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + numel(mDNAIdxs)/2), <span class="string">'DNA'</span>, props{:}, <span class="string">'Color'</span>, colors(4, :));
+0590             
+0591             <span class="comment">%category brackets</span>
+0592             props = {<span class="string">'LineWidth'</span>, 1};
+0593             margin = 0.2;
+0594             tickW = 0.015;
+0595             yTickW = yLabelPos(1) + yLabelMargin + 0.03 - 0.05;
+0596             
+0597             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; numel(mOtherIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(1, :));
+0598             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [margin; margin]), props{:}, <span class="string">'Color'</span>, colors(1, :));
+0599             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + [numel(mOtherIdxs)-margin; numel(mOtherIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(1, :));
+0600             
+0601             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; numel(mProtIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(2, :));
+0602             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [margin; margin]), props{:}, <span class="string">'Color'</span>, colors(2, :));
+0603             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + [numel(mProtIdxs)-margin; numel(mProtIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(2, :));
+0604             
+0605             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; numel(mRNAIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(3, :));
+0606             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [margin; margin]), props{:}, <span class="string">'Color'</span>, colors(3, :));
+0607             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + [numel(mRNAIdxs)-margin; numel(mRNAIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(3, :));
+0608             
+0609             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; 0]),     axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; numel(mDNAIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(4, :));
+0610             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [margin; margin]), props{:}, <span class="string">'Color'</span>, colors(4, :));
+0611             annotation(figHandle, <span class="string">'line'</span>, axisPos(1) + axisPos(3)*(yTickW + [0; tickW]), axisPos(2) + axisPos(4)/(numel(order)+1)*(1/2 + numel(mOtherIdxs) + numel(mProtIdxs) + numel(mRNAIdxs) + [numel(mDNAIdxs)-margin; numel(mDNAIdxs)-margin]), props{:}, <span class="string">'Color'</span>, colors(4, :));
+0612         <span class="keyword">end</span>
+0613         
+0614         <a name="_sub10" href="#_subfunctions" class="code">function processNames = getShortProcessNames(sim)</a>
+0615             processNames = cellfun(@(x) x.name, sim.processes, <span class="string">'UniformOutput'</span>, false);
+0616             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ChromosomeCondensation'</span>)}     = <span class="string">'Condensation'</span>;
+0617             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ChromosomeSegregation'</span>)}      = <span class="string">'Segregation'</span>;
+0618             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_Cytokinesis'</span>)}                = <span class="string">'Cytokinesis'</span>;
+0619             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_DNADamage'</span>)}                  = <span class="string">'Damage'</span>;
+0620             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_DNARepair'</span>)}                  = <span class="string">'Repair'</span>;
+0621             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_FtsZPolymerization'</span>)}         = <span class="string">'FtsZ'</span>;
+0622             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_HostInteraction'</span>)}            = <span class="string">'Host Interaction'</span>;
+0623             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_MacromolecularComplexation'</span>)} = <span class="string">'Complexation'</span>;
+0624             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_Metabolism'</span>)}                 = <span class="string">'Metabolism'</span>;
+0625             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinActivation'</span>)}          = <span class="string">'Activation'</span>;
+0626             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinDecay'</span>)}               = <span class="string">'Degradation'</span>;
+0627             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinFolding'</span>)}             = <span class="string">'Folding'</span>;
+0628             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinModification'</span>)}        = <span class="string">'Modification'</span>;
+0629             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinProcessingI'</span>)}         = <span class="string">'Processing I'</span>;
+0630             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinProcessingII'</span>)}        = <span class="string">'Processing II'</span>;
+0631             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ProteinTranslocation'</span>)}       = <span class="string">'Translocation'</span>;
+0632             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_RNADecay'</span>)}                   = <span class="string">'Degradation'</span>;
+0633             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_RNAModification'</span>)}            = <span class="string">'Modification'</span>;
+0634             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_RNAProcessing'</span>)}              = <span class="string">'Processing'</span>;
+0635             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_Replication'</span>)}                = <span class="string">'Replication'</span>;
+0636             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_ReplicationInitiation'</span>)}      = <span class="string">'Rep Init'</span>;
+0637             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_RibosomeAssembly'</span>)}           = <span class="string">'Ribosome'</span>;
+0638             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_TerminalOrganelleAssembly'</span>)}  = <span class="string">'Term Org'</span>;
+0639             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_Transcription'</span>)}              = <span class="string">'Transcription'</span>;
+0640             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_TranscriptionalRegulation'</span>)}  = <span class="string">'Trans Reg'</span>;
+0641             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_Translation'</span>)}                = <span class="string">'Translation'</span>;
+0642             processNames{strcmp(sim.processWholeCellModelIDs, <span class="string">'Process_tRNAAminoacylation'</span>)}         = <span class="string">'Aminoacylation'</span>;
+0643         <span class="keyword">end</span>
+0644         
+0645         <a name="_sub11" href="#_subfunctions" class="code">function [mDNAIdxs, mRNAIdxs, mProtIdxs, mOtherIdxs] = processIndexs(sim)</a>
+0646             mDNAIdxs = find(ismember(sim.processWholeCellModelIDs, {
+0647                 <span class="string">'Process_ChromosomeCondensation'</span>;
+0648                 <span class="string">'Process_ChromosomeSegregation'</span>;
+0649                 <span class="string">'Process_DNADamage'</span>;
+0650                 <span class="string">'Process_DNARepair'</span>;
+0651                 <span class="string">'Process_Replication'</span>;
+0652                 <span class="string">'Process_ReplicationInitiation'</span>;
+0653                 <span class="string">'Process_DNASupercoiling'</span>;
+0654                 <span class="string">'Process_TranscriptionalRegulation'</span>}));
+0655             mRNAIdxs = find(ismember(sim.processWholeCellModelIDs, {
+0656                 <span class="string">'Process_RNADecay'</span>;
+0657                 <span class="string">'Process_RNAModification'</span>;
+0658                 <span class="string">'Process_RNAProcessing'</span>;
+0659                 <span class="string">'Process_Transcription'</span>;
+0660                 <span class="string">'Process_tRNAAminoacylation'</span>}));
+0661             mProtIdxs = find(ismember(sim.processWholeCellModelIDs, {
+0662                 <span class="string">'Process_MacromolecularComplexation'</span>;
+0663                 <span class="string">'Process_ProteinActivation'</span>;
+0664                 <span class="string">'Process_ProteinDecay'</span>;
+0665                 <span class="string">'Process_ProteinFolding'</span>;
+0666                 <span class="string">'Process_ProteinModification'</span>;
+0667                 <span class="string">'Process_ProteinProcessingI'</span>;
+0668                 <span class="string">'Process_ProteinProcessingII'</span>;
+0669                 <span class="string">'Process_ProteinTranslocation'</span>;
+0670                 <span class="string">'Process_RibosomeAssembly'</span>;
+0671                 <span class="string">'Process_TerminalOrganelleAssembly'</span>;
+0672                 <span class="string">'Process_Translation'</span>}));
+0673             mOtherIdxs = find(ismember(sim.processWholeCellModelIDs, {
+0674                 <span class="string">'Process_Cytokinesis'</span>;
+0675                 <span class="string">'Process_FtsZPolymerization'</span>;
+0676                 <span class="string">'Process_HostInteraction'</span>;
+0677                 <span class="string">'Process_Metabolism'</span>}));
+0678         <span class="keyword">end</span>
+0679         
+0680         <a name="_sub12" href="#_subfunctions" class="code">function colors = barColors()</a>
+0681             colors1 = [
+0682                 179 162 199;
+0683                 217 150 148;
+0684                 195 214 155;
+0685                 149 179 215;
+0686                 250 192 144;]/255;
+0687             colors2 = [
+0688                 96 74 123;
+0689                 149 55 53;
+0690                 119 147 60;
+0691                 55 96 146;
+0692                 228 108 10;]/255;
+0693             colors = (colors1+colors2)/2;
+0694         <span class="keyword">end</span>
+0695     <span class="keyword">end</span>
+0696 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

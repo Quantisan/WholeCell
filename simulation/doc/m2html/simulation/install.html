@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of install</title>
+  <meta name="keywords" content="install">
+  <meta name="description" content="Installs whole-cell model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">simulation</a> &gt; install.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>install
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>Installs whole-cell model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function install </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Installs whole-cell model
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 2/2/2012</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>	SETWARNINGS Turns on and off (mostly off) specific warnings.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function install</a>
+0002 <span class="comment">%Installs whole-cell model</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0005 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0006 <span class="comment">% Last updated: 2/2/2012</span>
+0007 
+0008 <span class="comment">% check MATLAB version</span>
+0009 <span class="keyword">if</span> verLessThan(<span class="string">'matlab'</span>, <span class="string">'7.9'</span>)
+0010     throw(MException(<span class="string">'install:newerMatlabVersionRequired'</span>, <span class="string">'The whole-cell model software requires MATLAB R2009b (7.9) or newer'</span>));
+0011 <span class="keyword">end</span>
+0012 
+0013 <span class="comment">%% set warnings and path</span>
+0014 <a href="setWarnings.html" class="code" title="function setWarnings()">setWarnings</a>()
+0015 stPath();
+0016 
+0017 <span class="comment">%% configure stored simulation results path</span>
+0018 dataFilePath = input(strrep(sprintf(<span class="string">'Enter an absolute file path where simulated data will be stored [%s%soutput%srunSimulation]: '</span>, pwd, filesep, filesep), <span class="string">'\'</span>,<span class="string">'\\'</span>), <span class="string">'s'</span>);
+0019 <span class="keyword">if</span> ~isdir(dataFilePath)
+0020     mkdir(dataFilePath);
+0021 <span class="keyword">end</span>
+0022 <span class="keyword">if</span> isempty(dataFilePath)
+0023     dataFilePath = sprintf(<span class="string">'%s%soutput%srunSimulation'</span>, pwd, filesep, filesep);
+0024 <span class="keyword">else</span>
+0025     dataFilePath = absolutepath(dataFilePath);
+0026 <span class="keyword">end</span>
+0027 
+0028 <span class="comment">%edit stored simulation results configuration</span>
+0029 fid = fopen(<span class="string">'src/+edu/+stanford/+covert/+cell/+sim/+util/SimulationDiskUtil.m'</span>, <span class="string">'r'</span>);
+0030 str = [];
+0031 <span class="keyword">while</span> ~feof(fid)
+0032     str = [str fgetl(fid) sprintf(<span class="string">'\n'</span>)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0033 <span class="keyword">end</span>
+0034 fclose(fid);
+0035 
+0036 str = strrep(str, <span class="string">'% value = ''/absolute_path/to/output/directory'';'</span>, <span class="keyword">...</span>
+0037     sprintf(<span class="string">'value = ''%s'';'</span>, strrep(dataFilePath, <span class="string">''''</span>, <span class="string">''''''</span>)));
+0038 
+0039 fid = fopen(<span class="string">'src/+edu/+stanford/+covert/+cell/+sim/+util/SimulationDiskUtil.m'</span>, <span class="string">'w'</span>);
+0040 fwrite(fid, str);
+0041 fclose(fid);
+0042 
+0043 <span class="comment">%% set server configuration</span>
+0044 reply = <span class="string">' '</span>;
+0045 <span class="keyword">while</span> ~(isequal(upper(reply), <span class="string">'Y'</span>) || isequal(upper(reply), <span class="string">'N'</span>) || isempty(reply))
+0046     reply = input(<span class="string">'Would you like to setup your server configuration? Y/N [N]: '</span>, <span class="string">'s'</span>);
+0047 <span class="keyword">end</span>
+0048 <span class="keyword">if</span> isequal(upper(reply), <span class="string">'N'</span>) || isempty(reply)
+0049     <span class="keyword">return</span>;
+0050 <span class="keyword">end</span>
+0051 
+0052 <span class="comment">%prompt user</span>
+0053 hostName = input(<span class="string">'Enter knowledge base server hostname: '</span>, <span class="string">'s'</span>);
+0054 schema = input(<span class="string">'Enter knowledge base schema: '</span>, <span class="string">'s'</span>);
+0055 userName = input(<span class="string">'Enter knowledge base username: '</span>, <span class="string">'s'</span>);
+0056 password = input(<span class="string">'Enter knowledge base password: '</span>, <span class="string">'s'</span>);
+0057 
+0058 <span class="comment">%edit knowledge base configuration</span>
+0059 fid = fopen(<span class="string">'config.m'</span>, <span class="string">'w'</span>);
+0060 fprintf(fid, <span class="string">'function dbConnectionParameters = config()\n'</span>);
+0061 fprintf(fid, <span class="string">'%%CONFIG Returns configuration values.\n'</span>);
+0062 fprintf(fid, <span class="string">'%%\n'</span>);
+0063 fprintf(fid, <span class="string">'%% Author: Jonathan Karr, jkarr@stanford.edu\n'</span>);
+0064 fprintf(fid, <span class="string">'%% Affilitation: Covert Lab, Department of Bioengineering, Stanford University\n'</span>);
+0065 fprintf(fid, <span class="string">'%% Last updated: 9/21/2010\n'</span>);
+0066 fprintf(fid, <span class="string">'\n'</span>);
+0067 fprintf(fid, <span class="string">'%% knowledgebase\n'</span>);
+0068 fprintf(fid, <span class="string">'dbConnectionParameters.hostName = ''%s'';\n'</span>, strrep(hostName, <span class="string">''''</span>, <span class="string">''''''</span>));
+0069 fprintf(fid, <span class="string">'dbConnectionParameters.schema   = ''%s'';\n'</span>, strrep(schema, <span class="string">''''</span>, <span class="string">''''''</span>));
+0070 fprintf(fid, <span class="string">'dbConnectionParameters.userName = ''%s'';\n'</span>, strrep(userName, <span class="string">''''</span>, <span class="string">''''''</span>));
+0071 fprintf(fid, <span class="string">'dbConnectionParameters.password = ''%s'';\n'</span>, strrep(password, <span class="string">''''</span>, <span class="string">''''''</span>));
+0072 fclose(fid);</pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

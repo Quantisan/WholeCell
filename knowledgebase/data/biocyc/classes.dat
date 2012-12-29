@@ -1,0 +1,690 @@
+# Copyright © 2012, Stanford University. All rights reserved.
+#
+# Authors:
+#    Jonathan R Karr, jkarr@stanford.edu
+#    Jayodita C Sanghvi, jayodita@stanford.edu
+#    Derek N Macklin, macklin@stanford.edu
+#    Jared M Jacobs, jmjacobs@stanford.edu
+#    Markus W Covert, mcovert@stanford.edu
+#
+# Affiliation:
+#    Covert Lab
+#    Department of Bioengineering
+#    Stanford University
+#    http://covertlab.stanford.edu
+#
+# The format of this file is defined at http://bioinformatics.ai.sri.com/ptools/flatfile-format.html.
+#
+# Species: Mycoplasma genitalium G37
+# Database: MGEN243273cyc
+# Version: 16.0
+# File Name: classes.dat
+# Date and time generated: March 29, 2012, 18:01:34
+#
+UNIQUE-ID - Chemicals
+COMMON-NAME - Chemicals
+TYPES - FRAMES
+//
+UNIQUE-ID - Compounds-And-Elements
+COMMON-NAME - Compound or element
+TYPES - Chemicals
+//
+UNIQUE-ID - Compounds
+COMMON-NAME - Compounds
+TYPES - Compounds-And-Elements
+//
+UNIQUE-ID - Macromolecules
+COMMON-NAME - Macromolecules
+TYPES - Chemicals
+//
+UNIQUE-ID - Polynucleotides
+COMMON-NAME - Polynucleotides
+TYPES - Macromolecules
+//
+UNIQUE-ID - RNAs
+COMMON-NAME - RNAs
+TYPES - Polynucleotides
+//
+UNIQUE-ID - mRNA
+COMMON-NAME - mRNA
+TYPES - RNAs
+TYPES - Genes
+//
+UNIQUE-ID - rRNA
+COMMON-NAME - rRNA
+TYPES - RNAs
+TYPES - Genes
+//
+UNIQUE-ID - sRNA
+COMMON-NAME - sRNA
+TYPES - RNAs
+TYPES - Genes
+//
+UNIQUE-ID - tRNA
+COMMON-NAME - tRNA
+TYPES - RNAs
+TYPES - Genes
+//
+UNIQUE-ID - Proteins
+COMMON-NAME - Proteins
+TYPES - Macromolecules
+//
+UNIQUE-ID - Complexes
+COMMON-NAME - Complexes
+TYPES - Macromolecules
+//
+UNIQUE-ID - Polypeptides
+COMMON-NAME - Polypeptides
+TYPES - Proteins
+//
+UNIQUE-ID - Protein-Complexes
+COMMON-NAME - Protein complexes
+TYPES - Complexes
+TYPES - Proteins
+//
+UNIQUE-ID - Protein-Small-Molecule-Complexes
+COMMON-NAME - Protein-small molecule complexes
+TYPES - Complexes
+TYPES - Proteins
+//
+UNIQUE-ID - Regulation
+COMMON-NAME - Regulation
+TYPES - FRAMES
+//
+UNIQUE-ID - Regulation-of-Transcription
+COMMON-NAME - Regulation of transcription
+TYPES - Regulation
+//
+UNIQUE-ID - Regulation-of-Transcription-Initiation
+COMMON-NAME - Regulation of transcription initiation
+TYPES - Regulation-of-Transcription
+//
+UNIQUE-ID - Regulation-of-Enzyme-Activity
+COMMON-NAME - Regulation of enzyme activity
+TYPES - Regulation
+//
+UNIQUE-ID - Polymer-Segments
+COMMON-NAME - Polymer segments
+TYPES - FRAMES
+//
+UNIQUE-ID - DNA-Segments
+COMMON-NAME - DNA segments
+TYPES - Polymer-Segments
+//
+UNIQUE-ID - DNA-Binding-Sites
+COMMON-NAME - DNA binding sites
+TYPES - DNA-Segments
+//
+UNIQUE-ID - Promoters
+COMMON-NAME - Promoters
+TYPES - DNA-Segments
+//
+UNIQUE-ID - Transcription-Units
+COMMON-NAME - Transcription units
+TYPES - DNA-Segments
+//
+UNIQUE-ID - DnaA-box
+COMMON-NAME - DnaA box
+TYPES - DNA-Binding-Sites
+//
+UNIQUE-ID - DnaA-box-7mer
+COMMON-NAME - 7-mer
+TYPES - DnaA-box
+//
+UNIQUE-ID - DnaA-box-8mer
+COMMON-NAME - 8-mer
+TYPES - DnaA-box
+//
+UNIQUE-ID - DnaA-box-9mer
+COMMON-NAME - 9-mer
+TYPES - DnaA-box
+//
+UNIQUE-ID - Publications
+COMMON-NAME - Publications
+TYPES - FRAMES
+//
+UNIQUE-ID - article
+COMMON-NAME - article
+TYPES - Publications
+//
+UNIQUE-ID - book
+COMMON-NAME - book
+TYPES - Publications
+//
+UNIQUE-ID - misc
+COMMON-NAME - misc
+TYPES - Publications
+//
+UNIQUE-ID - thesis
+COMMON-NAME - thesis
+TYPES - Publications
+//
+UNIQUE-ID - Generalized-Reactions
+COMMON-NAME - Generalized reactions
+TYPES - FRAMES
+//
+UNIQUE-ID - Reactions
+COMMON-NAME - Reactions
+TYPES - Generalized-Reactions
+//
+UNIQUE-ID - Reactions-Classified-By-Substrate
+COMMON-NAME - Reactions classified by substrate
+TYPES - Reactions
+//
+UNIQUE-ID - Reactions-Classified-By-Conversion-Type
+COMMON-NAME - Reactions classified by conversion type
+TYPES - Reactions
+//
+UNIQUE-ID - Unclassified-Reactions
+COMMON-NAME - Unclassified reactions
+TYPES - Reactions
+//
+UNIQUE-ID - Small-Molecule-Reactions
+COMMON-NAME - Small molecule reactions
+TYPES - Reactions-Classified-By-Substrate
+//
+UNIQUE-ID - Macromolecule-Reactions
+COMMON-NAME - Macromolecule reactions
+TYPES - Reactions-Classified-By-Substrate
+//
+UNIQUE-ID - Protein-Reactions
+COMMON-NAME - Protein reactions
+TYPES - Macromolecule-Reactions
+//
+UNIQUE-ID - Polynucleotide-Reactions
+COMMON-NAME - Polynucleotide reactions
+TYPES - Macromolecule-Reactions
+//
+UNIQUE-ID - Polysaccharide-Reactions
+COMMON-NAME - Polysaccharide reactions
+TYPES - Macromolecule-Reactions
+//
+UNIQUE-ID - Protein-Modification-Reactions
+COMMON-NAME - Protein modification reactions
+TYPES - Protein-Reactions
+TYPES - Chemical-Reactions
+//
+UNIQUE-ID - Simple-Reactions
+COMMON-NAME - Simple reactions
+TYPES - Reactions-Classified-By-Conversion-Type
+//
+UNIQUE-ID - Chemical-Reactions
+COMMON-NAME - Chemical reactions
+TYPES - Simple-Reactions
+//
+UNIQUE-ID - Pathways
+COMMON-NAME - Pathways
+TYPES - Generalized-Reactions
+//
+UNIQUE-ID - Enzymatic-Reactions
+COMMON-NAME - Enzymatic reactions
+TYPES - FRAMES
+//
+UNIQUE-ID - All-Genes
+COMMON-NAME - All genes
+TYPES - DNA-Segments
+//
+UNIQUE-ID - Genes
+COMMON-NAME - Genes
+TYPES - All-Genes
+//
+UNIQUE-ID - MultiFun
+COMMON-NAME - MultiFun
+TYPES - Genes
+//
+UNIQUE-ID - cyclic ribonucleotide monophosphate
+COMMON-NAME - cyclic ribonucleotide monophosphate
+TYPES - Compounds
+//
+UNIQUE-ID - nucleoside 3'-phosphate 
+COMMON-NAME - nucleoside 3'-phosphate 
+TYPES - Compounds
+//
+UNIQUE-ID - carboxy acid
+COMMON-NAME - carboxy acid
+TYPES - Compounds
+//
+UNIQUE-ID - vitamin
+COMMON-NAME - vitamin
+TYPES - Compounds
+//
+UNIQUE-ID - vitamin-CoA derivative
+COMMON-NAME - CoA derivative
+TYPES - vitamin
+//
+UNIQUE-ID - damaging agent
+COMMON-NAME - damaging agent
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic
+COMMON-NAME - antibiotic
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-acridine
+COMMON-NAME - acridine
+TYPES - antibiotic
+//
+UNIQUE-ID - nucleobase
+COMMON-NAME - nucleobase
+TYPES - Compounds
+//
+UNIQUE-ID - ribonucleoside
+COMMON-NAME - ribonucleoside
+TYPES - Compounds
+//
+UNIQUE-ID - ribonucleotide diphosphate
+COMMON-NAME - ribonucleotide diphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - amino acid
+COMMON-NAME - amino acid
+TYPES - Compounds
+//
+UNIQUE-ID - dipeptide
+COMMON-NAME - dipeptide
+TYPES - Compounds
+//
+UNIQUE-ID - vitamin-non-standard amino acid
+COMMON-NAME - non-standard amino acid
+TYPES - vitamin
+//
+UNIQUE-ID - ribonucleotide monophosphate
+COMMON-NAME - ribonucleotide monophosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified ribonucleotide monophosphate
+COMMON-NAME - modified ribonucleotide monophosphate
+TYPES - Compounds
+//
+UNIQUE-ID - ribonucleotide triphosphate
+COMMON-NAME - ribonucleotide triphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified deoxyribonucleoside
+COMMON-NAME - modified deoxyribonucleoside
+TYPES - Compounds
+//
+UNIQUE-ID - modified deoxyribonucleotide monophosphate
+COMMON-NAME - modified deoxyribonucleotide monophosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified nucleobase
+COMMON-NAME - modified nucleobase
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-macrolide
+COMMON-NAME - macrolide
+TYPES - antibiotic
+//
+UNIQUE-ID - ion
+COMMON-NAME - ion
+TYPES - Compounds
+//
+UNIQUE-ID - lipid
+COMMON-NAME - lipid
+TYPES - Compounds
+//
+UNIQUE-ID - lipid-glycerophospholipid, CDP-diacyl glycerol
+COMMON-NAME - glycerophospholipid, CDP-diacyl glycerol
+TYPES - lipid
+//
+UNIQUE-ID - antibiotic-beta-lactam
+COMMON-NAME - beta-lactam
+TYPES - antibiotic
+//
+UNIQUE-ID - lipid-sphingolipid, ceramide
+COMMON-NAME - sphingolipid, ceramide
+TYPES - lipid
+//
+UNIQUE-ID - alkylating agent
+COMMON-NAME - alkylating agent
+TYPES - Compounds
+//
+UNIQUE-ID - alkylating agent-methylation
+COMMON-NAME - methylation
+TYPES - alkylating agent
+//
+UNIQUE-ID - alcohol
+COMMON-NAME - alcohol
+TYPES - Compounds
+//
+UNIQUE-ID - reactive oxygen species
+COMMON-NAME - reactive oxygen species
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-fluoroquinolone
+COMMON-NAME - fluoroquinolone
+TYPES - antibiotic
+//
+UNIQUE-ID - lipid-glycerophospholipid, cardiolipin
+COMMON-NAME - glycerophospholipid, cardiolipin
+TYPES - lipid
+//
+UNIQUE-ID - antibiotic-lincosamide
+COMMON-NAME - lincosamide
+TYPES - antibiotic
+//
+UNIQUE-ID - gas
+COMMON-NAME - gas
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-phenylpropene
+COMMON-NAME - phenylpropene
+TYPES - antibiotic
+//
+UNIQUE-ID - deoxyribonucleoside
+COMMON-NAME - deoxyribonucleoside
+TYPES - Compounds
+//
+UNIQUE-ID - deoxyribonucleotide diphosphate
+COMMON-NAME - deoxyribonucleotide diphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - lipid-diacylglycerol
+COMMON-NAME - diacylglycerol
+TYPES - lipid
+//
+UNIQUE-ID - deoxyribonucleotide monophosphate
+COMMON-NAME - deoxyribonucleotide monophosphate
+TYPES - Compounds
+//
+UNIQUE-ID - dideoxynucleotide
+COMMON-NAME - dideoxynucleotide
+TYPES - Compounds
+//
+UNIQUE-ID - deoxyribonucleotide triphosphate
+COMMON-NAME - deoxyribonucleotide triphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - fatty acyl
+COMMON-NAME - fatty acyl
+TYPES - Compounds
+//
+UNIQUE-ID - lipid-glycerophospholipid
+COMMON-NAME - glycerophospholipid
+TYPES - lipid
+//
+UNIQUE-ID - carbohydrate
+COMMON-NAME - carbohydrate
+TYPES - Compounds
+//
+UNIQUE-ID - carbohydrate-sugar phosphate
+COMMON-NAME - sugar phosphate
+TYPES - carbohydrate
+//
+UNIQUE-ID - alkylating agent-ethylation
+COMMON-NAME - ethylation
+TYPES - alkylating agent
+//
+UNIQUE-ID - deoxy sugar
+COMMON-NAME - deoxy sugar
+TYPES - Compounds
+//
+UNIQUE-ID - vitamin-folate
+COMMON-NAME - folate
+TYPES - vitamin
+//
+UNIQUE-ID - glycerate
+COMMON-NAME - glycerate
+TYPES - Compounds
+//
+UNIQUE-ID - modified deoxyribonucleotide diphosphate
+COMMON-NAME - modified deoxyribonucleotide diphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified deoxyribonucleotide triphosphate
+COMMON-NAME - modified deoxyribonucleotide triphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified nucleobase-ethylation
+COMMON-NAME - ethylation
+TYPES - modified nucleobase
+//
+UNIQUE-ID - modified deoxyribonucleoside-ethylation
+COMMON-NAME - ethylation
+TYPES - modified deoxyribonucleoside
+//
+UNIQUE-ID - modified deoxyribonucleotide monophosphate-ethylation
+COMMON-NAME - ethylation
+TYPES - modified deoxyribonucleotide monophosphate
+//
+UNIQUE-ID - alkylating byproduct
+COMMON-NAME - alkylating byproduct
+TYPES - Compounds
+//
+UNIQUE-ID - alkylating byproduct-ethylation
+COMMON-NAME - ethylation
+TYPES - alkylating byproduct
+//
+UNIQUE-ID - vitamin-redox electron carrier
+COMMON-NAME - redox electron carrier
+TYPES - vitamin
+//
+UNIQUE-ID - modified amino acid
+COMMON-NAME - modified amino acid
+TYPES - Compounds
+//
+UNIQUE-ID - carbohydrate-sugar
+COMMON-NAME - sugar
+TYPES - carbohydrate
+//
+UNIQUE-ID - lipid-sphingolipid, neutral glycosphingolipids
+COMMON-NAME - sphingolipid, neutral glycosphingolipids
+TYPES - lipid
+//
+UNIQUE-ID - lipid-glycerolipid, glycosyldiradylglycerol
+COMMON-NAME - glycerolipid, glycosyldiradylglycerol
+TYPES - lipid
+//
+UNIQUE-ID - modified ribonucleotide diphosphate
+COMMON-NAME - modified ribonucleotide diphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-aminoglycoside
+COMMON-NAME - aminoglycoside
+TYPES - antibiotic
+//
+UNIQUE-ID - lipid-neutral glycosphingolipids
+COMMON-NAME - neutral glycosphingolipids
+TYPES - lipid
+//
+UNIQUE-ID - modified ribonucleoside
+COMMON-NAME - modified ribonucleoside
+TYPES - Compounds
+//
+UNIQUE-ID - reactive nitrogen species
+COMMON-NAME - reactive nitrogen species
+TYPES - Compounds
+//
+UNIQUE-ID - damaging Agent
+COMMON-NAME - damaging Agent
+TYPES - Compounds
+//
+UNIQUE-ID - modified ribonucleotide triphosphate
+COMMON-NAME - modified ribonucleotide triphosphate
+TYPES - Compounds
+//
+UNIQUE-ID - modified nucleobase-methylation
+COMMON-NAME - methylation
+TYPES - modified nucleobase
+//
+UNIQUE-ID - modified deoxyribonucleoside-methylation
+COMMON-NAME - methylation
+TYPES - modified deoxyribonucleoside
+//
+UNIQUE-ID - modified deoxyribonucleotide monophosphate-methylation
+COMMON-NAME - methylation
+TYPES - modified deoxyribonucleotide monophosphate
+//
+UNIQUE-ID - alkylating byproduct-methylation
+COMMON-NAME - methylation
+TYPES - alkylating byproduct
+//
+UNIQUE-ID - antibiotic-quinolone
+COMMON-NAME - quinolone
+TYPES - antibiotic
+//
+UNIQUE-ID - antibiotic-fluoroquinolone 
+COMMON-NAME - fluoroquinolone 
+TYPES - antibiotic
+//
+UNIQUE-ID - non-standard amino acid
+COMMON-NAME - non-standard amino acid
+TYPES - Compounds
+//
+UNIQUE-ID - lipid-glycerophospholipid, phosphatidyl inositol
+COMMON-NAME - glycerophospholipid, phosphatidyl inositol
+TYPES - lipid
+//
+UNIQUE-ID - antibiotic-penicillin
+COMMON-NAME - penicillin
+TYPES - antibiotic
+//
+UNIQUE-ID - lipid-glycerophospholipid, phosphatidylglycerol
+COMMON-NAME - glycerophospholipid, phosphatidylglycerol
+TYPES - lipid
+//
+UNIQUE-ID - lipid-glycerophospholipid, phosphatidylglycerol phosphate
+COMMON-NAME - glycerophospholipid, phosphatidylglycerol phosphate
+TYPES - lipid
+//
+UNIQUE-ID - carbohydrate-modified ribonucleotide diphosphate
+COMMON-NAME - modified ribonucleotide diphosphate
+TYPES - carbohydrate
+//
+UNIQUE-ID - polyamine
+COMMON-NAME - polyamine
+TYPES - Compounds
+//
+UNIQUE-ID - modified nucleoside
+COMMON-NAME - modified nucleoside
+TYPES - Compounds
+//
+UNIQUE-ID - antibiotic-rifamycin
+COMMON-NAME - rifamycin
+TYPES - antibiotic
+//
+UNIQUE-ID - carbohydrate-sugar alcohol
+COMMON-NAME - sugar alcohol
+TYPES - carbohydrate
+//
+UNIQUE-ID - lipid-sterol
+COMMON-NAME - sterol
+TYPES - lipid
+//
+UNIQUE-ID - antibiotic-tetracycline
+COMMON-NAME - tetracycline
+TYPES - antibiotic
+//
+UNIQUE-ID - lipid-glycerolipid
+COMMON-NAME - glycerolipid
+TYPES - lipid
+//
+UNIQUE-ID - carbohydrate-nucleotide sugar
+COMMON-NAME - nucleotide sugar
+TYPES - carbohydrate
+//
+UNIQUE-ID - chemical
+COMMON-NAME - chemical
+TYPES - Reactions
+//
+UNIQUE-ID - base excision repair
+COMMON-NAME - base excision repair
+TYPES - Reactions
+//
+UNIQUE-ID - base alkylation
+COMMON-NAME - base alkylation
+TYPES - Reactions
+//
+UNIQUE-ID - base ethylation
+COMMON-NAME - base ethylation
+TYPES - Reactions
+//
+UNIQUE-ID - radiation (gamma-ray) induced base oxidation
+COMMON-NAME - radiation (gamma-ray) induced base oxidation
+TYPES - Reactions
+//
+UNIQUE-ID - base methylation
+COMMON-NAME - base methylation
+TYPES - Reactions
+//
+UNIQUE-ID - base amination
+COMMON-NAME - base amination
+TYPES - Reactions
+//
+UNIQUE-ID - UV-B photodimerization
+COMMON-NAME - UV-B photodimerization
+TYPES - Reactions
+//
+UNIQUE-ID - photooxidation
+COMMON-NAME - photooxidation
+TYPES - Reactions
+//
+UNIQUE-ID - strand break
+COMMON-NAME - strand break
+TYPES - Reactions
+//
+UNIQUE-ID - base glucosyl transfer
+COMMON-NAME - base glucosyl transfer
+TYPES - Reactions
+//
+UNIQUE-ID - spontaneous base deamination
+COMMON-NAME - spontaneous base deamination
+TYPES - Reactions
+//
+UNIQUE-ID - spontaneous base loss
+COMMON-NAME - spontaneous base loss
+TYPES - Reactions
+//
+UNIQUE-ID - base reduction
+COMMON-NAME - base reduction
+TYPES - Reactions
+//
+UNIQUE-ID - DNA cleavage
+COMMON-NAME - DNA cleavage
+TYPES - Reactions
+//
+UNIQUE-ID - DNA ligation
+COMMON-NAME - DNA ligation
+TYPES - Reactions
+//
+UNIQUE-ID - DNA polymerization
+COMMON-NAME - DNA polymerization
+TYPES - Reactions
+//
+UNIQUE-ID - DNA restriction/modification
+COMMON-NAME - DNA restriction/modification
+TYPES - Reactions
+//
+UNIQUE-ID - homologous recombination
+COMMON-NAME - homologous recombination
+TYPES - Reactions
+//
+UNIQUE-ID - aminoacylation
+COMMON-NAME - aminoacylation
+TYPES - Reactions
+//
+UNIQUE-ID - transfer
+COMMON-NAME - transfer
+TYPES - Reactions
+//
+UNIQUE-ID - adduction
+COMMON-NAME - adduction
+TYPES - Reactions
+//
+UNIQUE-ID - ligation
+COMMON-NAME - ligation
+TYPES - Reactions
+//
+UNIQUE-ID - base excision repair, base excision
+COMMON-NAME - base excision repair, base excision
+TYPES - Reactions
+//
+UNIQUE-ID - nucleotide excision repair
+COMMON-NAME - nucleotide excision repair
+TYPES - Reactions
+//
+UNIQUE-ID - transport
+COMMON-NAME - transport
+TYPES - Reactions
+//

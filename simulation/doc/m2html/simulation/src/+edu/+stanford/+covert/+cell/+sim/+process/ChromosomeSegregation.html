@@ -1,0 +1,346 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ChromosomeSegregation</title>
+  <meta name="keywords" content="ChromosomeSegregation">
+  <meta name="description" content="Chromosome Segregation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; ChromosomeSegregation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ChromosomeSegregation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Chromosome Segregation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Chromosome Segregation
+
+ @wholeCellModelID Process_ChromosomeSegregation
+ @name             Chromosome Segregation
+ @description
+   Biology
+   ======================
+   Chromosome segregation in Mycoplasma genitalium has not been well described.
+   Chromosome segregation in M. genitalium is believed to result from two
+   factors
+   - entropically favorable segregation throughout DNA replication
+   - four chromosome segregation proteins which act to decatenate the
+     chromosomes following the completion of replication
+   Little is known about the times at which these two factors contribute to
+   chromosome segregation.
+
+   Bacterial chromosome segregation is believed to be entropically favorable
+   and occur during replication (Bloom et al. 2010, Jun et al. 2006). That is,
+   its believed to be entropically unfavorable for two chromosomes to be
+   located near each other, and so as the replication fork moves, the
+   replicated DNA molecules migrate away from each other toward the poles. We
+   assume that by the end of replication the chromosomes have already migrated
+   toward the poles.
+
+   Four proteins are believed to be involved in chromosome decatenation in M.
+   genitalium:
+   - MG_470_MONOMER  nucleotide binding domain protein CobQ/CobB/MinD/ParA
+   - MG_221_OCTAMER  MraZ
+   - MG_387_MONOMER  GTP binding protein Era
+   - MG_384_MONOMER  GTPase Obg
+   The specific function, kinetics, and metabolic costs of these proteins are
+   not known. Furthemore, because M. genitalium contains a reduced complement
+   of segregation proteins, it is difficult to infer their functions from
+   studies of other bacterial species.
+
+   Knowledge Base
+   ======================
+   The knowledge base contains the value of the gtpCost parameter.
+
+   Representation
+   ======================
+   The substrates and enzymes properties represent the counts of available
+   metabolites and segregation enzymes. gtpCost represents the energetic
+   (GTP) cost of chromosome segregation. The segregation status of the
+   chromosomes is represented as a boolean properties (segregated) of the
+   Chromosome class.
+
+   Initialization
+   ======================
+   Chromosome initializes to a state with 1 chromosome (which obviously
+   hasn't yet segregated from the second chromosome which will be later
+   produced).
+
+   Simulation
+   ======================
+   Because little is known about the molecular biology of chromosome
+   segregation, we have chosen to implement this process as a simple boolean
+   rule: chromosome segregation can occur if:
+   - the chromosome is replicated
+   - the chromosome is properly supercoiled
+   - there is at least one free molecule of each segregation proteins, and
+   - there is at least gtpCost free GTP molecules
+
+   Note, although the Glass et al. gene essentiality study suggests that the
+   cobQ/cobB/minD/parA gene is non-essential, we model this gene as essential
+   because we don't know its specific function and how the other segregation
+   proteins compensate in its absence.
+
+   References
+   ======================
+   1. Bloom, K., Joglekar, A. (2010). Towards building a chromosome segregation
+      machine. Nature 463: 446-456.
+   2. Jun, S., Mulder, B. (2006). Entropy-driven special organization of highly
+      confined polymers: Lessons for the bacterial chromosome. PNAS 103:
+      12388-12393.
+   3. Glass, J.I., Assad-Garcia, N., Alperovich, N., Yooseph, S., Lewis, M.R.,
+      Maruf, M., Hutchison III, C.A., Smith, H.O., Venter, J.C. (2006).
+      Essential genes of a minimal bacterium. PNAS 103: 425-430.
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Author: Jared Jacobs, jmjacobs@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 7/7/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSegregation.html" class="code" title="">ChromosomeSegregation</a>	Chromosome Segregation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="ChromosomeSegregation.html" class="code" title="">ChromosomeSegregation</a>	Chromosome Segregation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = ChromosomeSegregation(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub4" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a></li><li><a href="#_sub5" class="code">function initializeState(~)</a></li><li><a href="#_sub6" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub7" class="code">function evolveState(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Chromosome Segregation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_ChromosomeSegregation</span>
+0004 <span class="comment">% @name             Chromosome Segregation</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ======================</span>
+0008 <span class="comment">%   Chromosome segregation in Mycoplasma genitalium has not been well described.</span>
+0009 <span class="comment">%   Chromosome segregation in M. genitalium is believed to result from two</span>
+0010 <span class="comment">%   factors</span>
+0011 <span class="comment">%   - entropically favorable segregation throughout DNA replication</span>
+0012 <span class="comment">%   - four chromosome segregation proteins which act to decatenate the</span>
+0013 <span class="comment">%     chromosomes following the completion of replication</span>
+0014 <span class="comment">%   Little is known about the times at which these two factors contribute to</span>
+0015 <span class="comment">%   chromosome segregation.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   Bacterial chromosome segregation is believed to be entropically favorable</span>
+0018 <span class="comment">%   and occur during replication (Bloom et al. 2010, Jun et al. 2006). That is,</span>
+0019 <span class="comment">%   its believed to be entropically unfavorable for two chromosomes to be</span>
+0020 <span class="comment">%   located near each other, and so as the replication fork moves, the</span>
+0021 <span class="comment">%   replicated DNA molecules migrate away from each other toward the poles. We</span>
+0022 <span class="comment">%   assume that by the end of replication the chromosomes have already migrated</span>
+0023 <span class="comment">%   toward the poles.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   Four proteins are believed to be involved in chromosome decatenation in M.</span>
+0026 <span class="comment">%   genitalium:</span>
+0027 <span class="comment">%   - MG_470_MONOMER  nucleotide binding domain protein CobQ/CobB/MinD/ParA</span>
+0028 <span class="comment">%   - MG_221_OCTAMER  MraZ</span>
+0029 <span class="comment">%   - MG_387_MONOMER  GTP binding protein Era</span>
+0030 <span class="comment">%   - MG_384_MONOMER  GTPase Obg</span>
+0031 <span class="comment">%   The specific function, kinetics, and metabolic costs of these proteins are</span>
+0032 <span class="comment">%   not known. Furthemore, because M. genitalium contains a reduced complement</span>
+0033 <span class="comment">%   of segregation proteins, it is difficult to infer their functions from</span>
+0034 <span class="comment">%   studies of other bacterial species.</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   Knowledge Base</span>
+0037 <span class="comment">%   ======================</span>
+0038 <span class="comment">%   The knowledge base contains the value of the gtpCost parameter.</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   Representation</span>
+0041 <span class="comment">%   ======================</span>
+0042 <span class="comment">%   The substrates and enzymes properties represent the counts of available</span>
+0043 <span class="comment">%   metabolites and segregation enzymes. gtpCost represents the energetic</span>
+0044 <span class="comment">%   (GTP) cost of chromosome segregation. The segregation status of the</span>
+0045 <span class="comment">%   chromosomes is represented as a boolean properties (segregated) of the</span>
+0046 <span class="comment">%   Chromosome class.</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   Initialization</span>
+0049 <span class="comment">%   ======================</span>
+0050 <span class="comment">%   Chromosome initializes to a state with 1 chromosome (which obviously</span>
+0051 <span class="comment">%   hasn't yet segregated from the second chromosome which will be later</span>
+0052 <span class="comment">%   produced).</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   Simulation</span>
+0055 <span class="comment">%   ======================</span>
+0056 <span class="comment">%   Because little is known about the molecular biology of chromosome</span>
+0057 <span class="comment">%   segregation, we have chosen to implement this process as a simple boolean</span>
+0058 <span class="comment">%   rule: chromosome segregation can occur if:</span>
+0059 <span class="comment">%   - the chromosome is replicated</span>
+0060 <span class="comment">%   - the chromosome is properly supercoiled</span>
+0061 <span class="comment">%   - there is at least one free molecule of each segregation proteins, and</span>
+0062 <span class="comment">%   - there is at least gtpCost free GTP molecules</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   Note, although the Glass et al. gene essentiality study suggests that the</span>
+0065 <span class="comment">%   cobQ/cobB/minD/parA gene is non-essential, we model this gene as essential</span>
+0066 <span class="comment">%   because we don't know its specific function and how the other segregation</span>
+0067 <span class="comment">%   proteins compensate in its absence.</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%   References</span>
+0070 <span class="comment">%   ======================</span>
+0071 <span class="comment">%   1. Bloom, K., Joglekar, A. (2010). Towards building a chromosome segregation</span>
+0072 <span class="comment">%      machine. Nature 463: 446-456.</span>
+0073 <span class="comment">%   2. Jun, S., Mulder, B. (2006). Entropy-driven special organization of highly</span>
+0074 <span class="comment">%      confined polymers: Lessons for the bacterial chromosome. PNAS 103:</span>
+0075 <span class="comment">%      12388-12393.</span>
+0076 <span class="comment">%   3. Glass, J.I., Assad-Garcia, N., Alperovich, N., Yooseph, S., Lewis, M.R.,</span>
+0077 <span class="comment">%      Maruf, M., Hutchison III, C.A., Smith, H.O., Venter, J.C. (2006).</span>
+0078 <span class="comment">%      Essential genes of a minimal bacterium. PNAS 103: 425-430.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0081 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0082 <span class="comment">% Author: Jared Jacobs, jmjacobs@stanford.edu</span>
+0083 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0084 <span class="comment">% Last updated: 7/7/2010</span>
+0085 classdef  <a href="ChromosomeSegregation.html" class="code" title="">ChromosomeSegregation</a> &lt; edu.stanford.covert.cell.sim.Process &amp; edu.stanford.covert.cell.sim.ChromosomeProcessAspect
+0086     <span class="comment">%property annotations</span>
+0087     properties (Constant)
+0088         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0089         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0090             <span class="string">'gtpCost'</span>};
+0091         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0092         localStateNames__          = {}; <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0093     <span class="keyword">end</span>
+0094     
+0095     <span class="comment">%IDs, names, and local indices</span>
+0096     properties
+0097         stimuliWholeCellModelIDs   = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0098         
+0099         substrateWholeCellModelIDs = {   <span class="comment">%whole cell model IDs of substrates</span>
+0100             <span class="string">'GTP'</span>;<span class="string">'GDP'</span>;<span class="string">'H'</span>;<span class="string">'H2O'</span>;<span class="string">'PI'</span>};
+0101         substrateIndexs_gtp       = 1; <span class="comment">%index of ATP within substrateWholeCellModelIDs</span>
+0102         substrateIndexs_gdp       = 2; <span class="comment">%index of ADP within substrateWholeCellModelIDs</span>
+0103         substrateIndexs_hydrogen  = 3; <span class="comment">%index of hydrogen within substrateWholeCellModelIDs</span>
+0104         substrateIndexs_water     = 4; <span class="comment">%index of water within substrateWholeCellModelIDs</span>
+0105         substrateIndexs_phosphate = 5; <span class="comment">%index of inorganic phosphate within substrateWholeCellModelIDs</span>
+0106         
+0107         enzymeWholeCellModelIDs = {      <span class="comment">%whole cell model IDs of enzymes</span>
+0108             <span class="string">'MG_470_MONOMER'</span>       <span class="comment">%CobQ/CobB/MinD/ParA nucleotide binding domain</span>
+0109             <span class="string">'MG_221_OCTAMER'</span>       <span class="comment">%mraZ protein</span>
+0110             <span class="string">'MG_387_MONOMER'</span>       <span class="comment">%GTP-binding protein Era</span>
+0111             <span class="string">'MG_384_MONOMER'</span>       <span class="comment">%GTPase1 Obg</span>
+0112             <span class="string">'MG_203_204_TETRAMER'</span>  <span class="comment">%DNA topoisomerase IV</span>
+0113             };
+0114         enzymeIndexs_cobQ   = 1;
+0115         enzymeIndexs_mraZ   = 2;
+0116         enzymeIndexs_obg    = 3;
+0117         enzymeIndexs_era    = 4;
+0118         enzymeIndexs_topoIV = 5;
+0119     <span class="keyword">end</span>
+0120     
+0121     <span class="comment">%fixed biological constants</span>
+0122     properties
+0123         gtpCost <span class="comment">%number of GTP required for chromosome segregation (1); true value unknown</span>
+0124     <span class="keyword">end</span>
+0125     
+0126     <span class="comment">%constructor</span>
+0127     methods
+0128         <a name="_sub0" href="#_subfunctions" class="code">function this = ChromosomeSegregation(wholeCellModelID, name)</a>
+0129             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0130         <span class="keyword">end</span>
+0131     <span class="keyword">end</span>
+0132     
+0133     <span class="comment">%communication between process/simulation</span>
+0134     methods
+0135         <span class="comment">%set references to state objects</span>
+0136         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0137             this.storeObjectReferences@edu.stanford.covert.cell.sim.Process(simulation);
+0138             this.storeObjectReferences@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(simulation);
+0139         <span class="keyword">end</span>
+0140         
+0141         <span class="comment">%initialize constants</span>
+0142         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0143             this.initializeConstants@edu.stanford.covert.cell.sim.Process(<span class="keyword">...</span>
+0144                 knowledgeBase, simulation, varargin{:});
+0145             this.initializeConstants@edu.stanford.covert.cell.sim.ChromosomeProcessAspect(<span class="keyword">...</span>
+0146                 knowledgeBase, simulation, varargin{:});
+0147         <span class="keyword">end</span>
+0148     <span class="keyword">end</span>
+0149     
+0150     <span class="comment">%model</span>
+0151     methods
+0152         <span class="comment">%Calculate</span>
+0153         <span class="comment">%- contribution to FBA objective</span>
+0154         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0155         <a name="_sub3" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, ~)</a>
+0156             <span class="comment">%% initialize</span>
+0157             bmProd = zeros(size(this.substrateWholeCellModelIDs));
+0158             byProd = zeros(size(this.substrateWholeCellModelIDs));
+0159             minEnzExp = zeros(size(this.enzymeWholeCellModelIDs));
+0160             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0161             
+0162             <span class="comment">%% substrate and byproducts: GTP required to decatenate chromosomes, and its hydrolysis (GTP + H2O ==&gt; GDP + PI + H)</span>
+0163             bmProd(this.substrateIndexs_gtp)       = this.gtpCost;
+0164             bmProd(this.substrateIndexs_water)     = this.gtpCost;
+0165             byProd(this.substrateIndexs_gdp)       = this.gtpCost;
+0166             byProd(this.substrateIndexs_phosphate) = this.gtpCost;
+0167             byProd(this.substrateIndexs_hydrogen)  = this.gtpCost;
+0168             
+0169             <span class="comment">%% Segregation requires at least 1 copy of every enzyme</span>
+0170             minEnzExp(:) = 2;
+0171         <span class="keyword">end</span>
+0172         
+0173         <span class="comment">%initialization: chromosome state initializes chromosome to state with 1</span>
+0174         <span class="comment">%chromosome (which trivially is not segregated)</span>
+0175         <a name="_sub4" href="#_subfunctions" class="code">function initializeState(~)</a>
+0176         <span class="keyword">end</span>
+0177         
+0178         <span class="comment">%resource requirements</span>
+0179         <a name="_sub5" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0180             c = this.chromosome;
+0181             result = zeros(size(this.substrates));
+0182             <span class="keyword">if</span> <span class="keyword">...</span>
+0183                     ~c.segregated &amp;&amp; <span class="keyword">...</span>
+0184                     collapse(c.polymerizedRegions) == c.nCompartments * c.sequenceLen &amp;&amp; <span class="keyword">...</span>
+0185                     all(this.enzymes)
+0186                 
+0187                 result(this.substrateIndexs_gtp) = this.gtpCost;
+0188                 result(this.substrateIndexs_water) = result(this.substrateIndexs_gtp);
+0189             <span class="keyword">end</span>
+0190         <span class="keyword">end</span>
+0191         
+0192         <span class="comment">%simulation</span>
+0193         <a name="_sub6" href="#_subfunctions" class="code">function evolveState(this)</a>
+0194             c = this.chromosome;
+0195             
+0196             <span class="keyword">if</span> <span class="keyword">...</span>
+0197                     ~c.segregated &amp;&amp; <span class="keyword">...</span>
+0198                     collapse(c.polymerizedRegions) == c.nCompartments * c.sequenceLen &amp;&amp; <span class="keyword">...</span>
+0199                     collapse(c.supercoiled) == c.nCompartments &amp;&amp; <span class="keyword">...</span>
+0200                     all(this.enzymes) &amp;&amp; <span class="keyword">...</span>
+0201                     this.substrates(this.substrateIndexs_gtp) &gt;= this.gtpCost &amp;&amp; <span class="keyword">...</span>
+0202                     this.substrates(this.substrateIndexs_water) &gt;= this.gtpCost
+0203                 
+0204                 c.segregated = true;
+0205                 
+0206                 this.substrates(this.substrateIndexs_gtp)       = this.substrates(this.substrateIndexs_gtp)       - this.gtpCost;
+0207                 this.substrates(this.substrateIndexs_water)     = this.substrates(this.substrateIndexs_water)     - this.gtpCost;
+0208                 this.substrates(this.substrateIndexs_gdp)       = this.substrates(this.substrateIndexs_gdp)       + this.gtpCost;
+0209                 this.substrates(this.substrateIndexs_phosphate) = this.substrates(this.substrateIndexs_phosphate) + this.gtpCost;
+0210                 this.substrates(this.substrateIndexs_hydrogen)  = this.substrates(this.substrateIndexs_hydrogen)  + this.gtpCost;
+0211             <span class="keyword">end</span>
+0212         <span class="keyword">end</span>
+0213     <span class="keyword">end</span>
+0214 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

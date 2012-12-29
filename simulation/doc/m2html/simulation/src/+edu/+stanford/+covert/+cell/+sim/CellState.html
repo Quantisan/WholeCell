@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of CellState</title>
+  <meta name="keywords" content="CellState">
+  <meta name="description" content="CellState">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="index.html">+sim</a> &gt; CellState.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim&nbsp;<img alt=">" border="0" src="../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>CellState
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>CellState</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CellState
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 9/12/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="CellState.html" class="code" title="">CellState</a>	CellState</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="CellState.html" class="code" title="">CellState</a>	CellState</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = CellState(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function seedRandStream(this)</a></li><li><a href="#_sub3" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub4" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub5" class="code">function value = getOptions(this)</a></li><li><a href="#_sub6" class="code">function setOptions(this, value)</a></li><li><a href="#_sub7" class="code">function value = getParameters(this)</a></li><li><a href="#_sub8" class="code">function setParameters(this, value)</a></li><li><a href="#_sub9" class="code">function value = getFixedConstants(this)</a></li><li><a href="#_sub10" class="code">function setFixedConstants(this, value)</a></li><li><a href="#_sub11" class="code">function value = getFittedConstants(this)</a></li><li><a href="#_sub12" class="code">function setFittedConstants(this, value)</a></li><li><a href="#_sub13" class="code">function value = getTimeCourses(this)</a></li><li><a href="#_sub14" class="code">function setTimeCourses(this, value)</a></li><li><a href="#_sub15" class="code">function value = getAsStruct(this, fields)</a></li><li><a href="#_sub16" class="code">function setFromStruct(this, value, fields)</a></li><li><a href="#_sub17" class="code">function disp(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%CellState</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 9/12/2010</span>
+0006 classdef <a href="CellState.html" class="code" title="">CellState</a> &lt; handle
+0007     <span class="comment">%constants</span>
+0008     properties
+0009         wholeCellModelID  <span class="comment">%ID of the instance of this class</span>
+0010         name              <span class="comment">%name of the instance of this class</span>
+0011     <span class="keyword">end</span>
+0012     
+0013     <span class="comment">%constants</span>
+0014     properties
+0015         parameterNames    <span class="comment">%names of properties that are parameters</span>
+0016         parameterIndexs   <span class="comment">%names of properties that are indices into parameters</span>
+0017     <span class="keyword">end</span>
+0018     
+0019     <span class="comment">%helper objects</span>
+0020     properties
+0021         randStream        <span class="comment">%random stream</span>
+0022     <span class="keyword">end</span>
+0023     
+0024     <span class="comment">%options</span>
+0025     properties
+0026         verbosity = 0;    <span class="comment">%0 = no output, 5 = maximum output</span>
+0027         seed = [];        <span class="comment">%set to any number for reproducible random streams</span>
+0028     <span class="keyword">end</span>
+0029     
+0030     <span class="comment">%constructor</span>
+0031     methods
+0032         <a name="_sub0" href="#_subfunctions" class="code">function this = CellState(wholeCellModelID, name)</a>
+0033             this.wholeCellModelID = wholeCellModelID;
+0034             this.name = name;
+0035             
+0036             this.randStream = edu.stanford.covert.util.RandStream(<span class="string">'mcg16807'</span>);
+0037         <span class="keyword">end</span>
+0038     <span class="keyword">end</span>
+0039     
+0040     <span class="comment">%random numbers</span>
+0041     methods
+0042         <a name="_sub1" href="#_subfunctions" class="code">function seedRandStream(this)</a>
+0043             <span class="keyword">if</span> isempty(this.seed)
+0044                 this.seed = round(mod(now, 1) * 1e7);
+0045             <span class="keyword">end</span>
+0046             this.randStream.reset(this.seed);
+0047         <span class="keyword">end</span>
+0048     <span class="keyword">end</span>
+0049         
+0050     methods
+0051         <span class="comment">%Build object graph by storing references to other state objects and</span>
+0052         <span class="comment">%processes</span>
+0053         <a name="_sub2" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation) </a><span class="comment">%#ok&lt;MANU,INUSD&gt;</span>
+0054         <span class="keyword">end</span>
+0055     <span class="keyword">end</span>
+0056     
+0057     methods
+0058         <a name="_sub3" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0059             <span class="comment">%copy options from simulation</span>
+0060             this.verbosity   = simulation.verbosity;
+0061             this.seed        = simulation.seed;
+0062             
+0063             <span class="comment">%set values of parameter properties</span>
+0064             <span class="comment">%store annotation of parameter properties</span>
+0065             state = findobj(knowledgeBase.states,<span class="string">'wholeCellModelID'</span>,this.wholeCellModelID);
+0066             this.parameterNames = {state.parameters.name}';
+0067             this.parameterIndexs = {state.parameters.index}';
+0068             <span class="keyword">for</span> i = 1:length(state.parameters)
+0069                 p = state.parameters(i);
+0070                 <span class="keyword">if</span> ~isempty(p.index)
+0071                     this.(p.name)(this.(p.index),1) = p.defaultValue;
+0072                 <span class="keyword">else</span>
+0073                     this.(p.name) = p.defaultValue;
+0074                 <span class="keyword">end</span>
+0075             <span class="keyword">end</span>
+0076         <span class="keyword">end</span>
+0077     <span class="keyword">end</span>
+0078     
+0079     <span class="comment">%get/set methods of input/output properties. Creates structs with</span>
+0080     <span class="comment">%fields equal to that of properties of the process.</span>
+0081     methods
+0082         <span class="comment">%options</span>
+0083         <a name="_sub4" href="#_subfunctions" class="code">function value = getOptions(this)</a>
+0084             value = this.getAsStruct(this.optionNames);
+0085         <span class="keyword">end</span>
+0086         
+0087         <a name="_sub5" href="#_subfunctions" class="code">function setOptions(this, value)</a>
+0088             this.setFromStruct(value, this.optionNames);
+0089         <span class="keyword">end</span>
+0090         
+0091         <span class="comment">%parameters</span>
+0092         <a name="_sub6" href="#_subfunctions" class="code">function value = getParameters(this)</a>
+0093             value = this.getAsStruct(this.parameterNames);
+0094         <span class="keyword">end</span>
+0095         
+0096         <a name="_sub7" href="#_subfunctions" class="code">function setParameters(this, value)</a>
+0097             this.setFromStruct(value, this.parameterNames);
+0098         <span class="keyword">end</span>
+0099         
+0100         <span class="comment">%fixed constants</span>
+0101         <a name="_sub8" href="#_subfunctions" class="code">function value = getFixedConstants(this)</a>
+0102             value = this.getAsStruct(this.fixedConstantNames);
+0103         <span class="keyword">end</span>
+0104         
+0105         <a name="_sub9" href="#_subfunctions" class="code">function setFixedConstants(this, value)</a>
+0106             this.setFromStruct(value, this.fixedConstantNames);
+0107         <span class="keyword">end</span>
+0108         
+0109         <span class="comment">%fit constants</span>
+0110         <a name="_sub10" href="#_subfunctions" class="code">function value = getFittedConstants(this)</a>
+0111             value = this.getAsStruct(this.fittedConstantNames);
+0112         <span class="keyword">end</span>
+0113         
+0114         <a name="_sub11" href="#_subfunctions" class="code">function setFittedConstants(this, value)</a>
+0115             this.setFromStruct(value, this.fittedConstantNames);
+0116         <span class="keyword">end</span>
+0117         
+0118         <span class="comment">%time courses</span>
+0119         <a name="_sub12" href="#_subfunctions" class="code">function value = getTimeCourses(this)</a>
+0120             value = this.getAsStruct(this.stateNames);
+0121         <span class="keyword">end</span>
+0122         
+0123         <a name="_sub13" href="#_subfunctions" class="code">function setTimeCourses(this, value)</a>
+0124             this.setFromStruct(value, this.stateNames);
+0125         <span class="keyword">end</span>
+0126     <span class="keyword">end</span>
+0127     
+0128     methods (Access = private)
+0129         <span class="comment">%gets process property values in a struct</span>
+0130         <a name="_sub14" href="#_subfunctions" class="code">function value = getAsStruct(this, fields)</a>
+0131             value = struct;
+0132             validNames = fieldnames(this);
+0133             <span class="keyword">for</span> i = 1:length(fields)
+0134                 <span class="keyword">if</span> ismember(fields{i}, validNames)
+0135                     value.(fields{i}) = this.(fields{i});
+0136                 <span class="keyword">end</span>
+0137             <span class="keyword">end</span>
+0138         <span class="keyword">end</span>
+0139         
+0140         <span class="comment">%sets process property values according to struct values</span>
+0141         <a name="_sub15" href="#_subfunctions" class="code">function setFromStruct(this, value, fields)</a>
+0142             validNames = fieldnames(this);
+0143             <span class="keyword">for</span> i = 1:length(fields)
+0144                 <span class="keyword">if</span> isfield(value, fields{i}) &amp;&amp; ismember(fields{i}, validNames)
+0145                     <span class="keyword">try</span> <span class="comment">%#ok&lt;TRYNC&gt;</span>
+0146                         this.(fields{i}) = value.(fields{i});
+0147                     <span class="keyword">end</span>
+0148                 <span class="keyword">end</span>
+0149             <span class="keyword">end</span>
+0150         <span class="keyword">end</span>
+0151     <span class="keyword">end</span>
+0152     
+0153     <span class="comment">%printing</span>
+0154     methods
+0155         <a name="_sub16" href="#_subfunctions" class="code">function disp(this)</a>
+0156             metadata = metaclass(this);
+0157             fprintf(<span class="string">'%s %s CellState object with '</span>, this.name, metadata.Name);
+0158             <span class="keyword">if</span> ~isempty(this.stateNames)
+0159                 fprintf(<span class="string">'state properties:\n - %s'</span>, strjoin(sprintf(<span class="string">'\n - '</span>),this.stateNames{:}));
+0160             <span class="keyword">else</span>
+0161                 fprintf(<span class="string">'no state properties'</span>);
+0162             <span class="keyword">end</span>
+0163             fprintf(<span class="string">'\n\n'</span>);
+0164         <span class="keyword">end</span>
+0165     <span class="keyword">end</span>
+0166 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

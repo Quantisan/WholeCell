@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNAExpression</title>
+  <meta name="keywords" content="RNAExpression">
+  <meta name="description" content="RNA Expression Analysis">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; RNAExpression.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNAExpression
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNA Expression Analysis</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNA Expression Analysis
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 12/22/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAExpression.html" class="code" title="">RNAExpression</a>	RNA Expression Analysis</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAExpression.html" class="code" title="">RNAExpression</a>	RNA Expression Analysis</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function run(sim, fileName)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNA Expression Analysis</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 12/22/2011</span>
+0006 classdef <a href="RNAExpression.html" class="code" title="">RNAExpression</a>
+0007     methods (Static = true)
+0008         <a name="_sub0" href="#_subfunctions" class="code">function run(sim, fileName)</a>
+0009             <span class="comment">%import classes</span>
+0010             import edu.stanford.covert.cell.sim.util.PlotUtil;
+0011             import edu.stanford.covert.cell.sim.util.PrintUtil;
+0012             import edu.stanford.covert.util.ComputationUtil;
+0013             
+0014             <span class="comment">%load simulation</span>
+0015             g = sim.gene;
+0016             r = sim.state(<span class="string">'Rna'</span>);
+0017             
+0018             <span class="comment">%get data</span>
+0019             rnaExp = r.expectedGeneExpression(:, 1);
+0020             
+0021             exp_mRNAWt = 0.041;
+0022             exp_rRNAWt = [0.017; 0.271; 0.525];
+0023             exp_sRNAWt = 0;
+0024             exp_tRNAWt = 0.146;
+0025             assertEqual(1, exp_mRNAWt + sum(exp_rRNAWt) + exp_sRNAWt + exp_tRNAWt);
+0026             
+0027             <span class="comment">%calculate gene molecular weights approximately</span>
+0028             geneMWs = (r.matureRNAGeneComposition * (r.molecularWeights(r.aminoacylatedIndexs) ./ (r.matureRNAGeneComposition' * g.lengths))) <span class="keyword">...</span>
+0029                 .* g.lengths;
+0030             
+0031             <span class="comment">%check RNA MWs computed correctly</span>
+0032             monocistronicIdxs = find(sum(r.matureRNAGeneComposition(g.mRNAIndexs, :), 1) == 1);
+0033             monocistronicmRNAGeneIdxs = g.mRNAIndexs(any(r.matureRNAGeneComposition(g.mRNAIndexs, monocistronicIdxs), 2));
+0034             assertElementsAlmostEqual(geneMWs(monocistronicmRNAGeneIdxs), r.molecularWeights(r.aminoacylatedIndexs(monocistronicIdxs)), <span class="string">'relative'</span>, 1e-12);
+0035             assertElementsAlmostEqual(geneMWs(g.rRNAIndexs), r.molecularWeights(r.aminoacylatedIndexs(r.matureRRNAIndexs)), <span class="string">'relative'</span>, 1e-12);
+0036             assertElementsAlmostEqual(geneMWs(g.sRNAIndexs), r.molecularWeights(r.aminoacylatedIndexs(r.matureSRNAIndexs)), <span class="string">'relative'</span>, 1e-12);
+0037             assertElementsAlmostEqual(geneMWs(g.tRNAIndexs), r.molecularWeights(r.aminoacylatedIndexs(r.matureTRNAIndexs)), <span class="string">'relative'</span>, 1e-12);
+0038             assertElementsAlmostEqual(r.molecularWeights(r.aminoacylatedIndexs), r.matureRNAGeneComposition' * geneMWs, <span class="string">'relative'</span>, 1e-12);
+0039             
+0040             <span class="comment">%reconstruct gene expression</span>
+0041             mRNAWt = rnaExp(g.mRNAIndexs)' * geneMWs(g.mRNAIndexs);
+0042             rRNAWt = rnaExp(g.ribosomalRRNAIndexs) .* geneMWs(g.ribosomalRRNAIndexs);
+0043             sRNAWt = rnaExp(g.sRNAIndexs)' * geneMWs(g.sRNAIndexs);
+0044             tRNAWt = rnaExp(g.tRNAIndexs)' * geneMWs(g.tRNAIndexs);
+0045             
+0046             rnaExp(g.mRNAIndexs) = rnaExp(g.mRNAIndexs) * exp_mRNAWt / mRNAWt;
+0047             rnaExp(g.ribosomalRRNAIndexs) = rnaExp(g.ribosomalRRNAIndexs) .* exp_rRNAWt ./ rRNAWt;
+0048             rnaExp(g.sRNAIndexs) = rnaExp(g.sRNAIndexs) * exp_sRNAWt / sRNAWt;
+0049             rnaExp(g.tRNAIndexs) = rnaExp(g.tRNAIndexs) * exp_tRNAWt / tRNAWt;
+0050             
+0051             rnaExp = rnaExp / sum(rnaExp);
+0052             
+0053             exp_RNAWt = [exp_mRNAWt; exp_rRNAWt; exp_sRNAWt; exp_tRNAWt];
+0054             RNAwt = [mRNAWt; rRNAWt; sRNAWt; tRNAWt];
+0055             exp_RNAWt = exp_RNAWt / sum(exp_RNAWt);
+0056             RNAwt = RNAwt / sum(RNAwt);
+0057             
+0058             <span class="comment">%plot RNA weight fractions</span>
+0059             [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0060             
+0061             cla(axesHandle);
+0062             hold(axesHandle, <span class="string">'on'</span>);
+0063             h = [
+0064                 plot(axesHandle, RNAwt(1), exp_RNAWt(1), <span class="string">'r.'</span>)
+0065                 plot(axesHandle, RNAwt(2:4), exp_RNAWt(2:4), <span class="string">'g.'</span>)
+0066                 plot(axesHandle, RNAwt(5), exp_RNAWt(5), <span class="string">'b.'</span>)
+0067                 plot(axesHandle, RNAwt(6), exp_RNAWt(6), <span class="string">'c.'</span>)
+0068                 ];            
+0069             legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>}, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0070             xlabel(axesHandle, <span class="string">'Reconstruction - Earliest Stage'</span>, <span class="string">'FontSize'</span>, 12)
+0071             ylabel(axesHandle, <span class="string">'Reconstruction - Later Stage'</span>, <span class="string">'FontSize'</span>, 12)
+0072             set(axesHandle, <span class="string">'xscale'</span>, <span class="string">'log'</span>, <span class="string">'yscale'</span>, <span class="string">'log'</span>, <span class="string">'xlimmode'</span>, <span class="string">'auto'</span>,  <span class="string">'ylimmode'</span>, <span class="string">'auto'</span>, <span class="string">'xminortick'</span>, <span class="string">'off'</span>, <span class="string">'yminortick'</span>, <span class="string">'off'</span>)
+0073             axis(axesHandle, <span class="string">'equal'</span>);
+0074             xlim(axesHandle, [min([xlim(axesHandle) ylim(axesHandle)]) max([xlim(axesHandle) ylim(axesHandle)])]);
+0075             ylim(axesHandle, xlim(axesHandle));
+0076             line(xlim(axesHandle), ylim(axesHandle), <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineStyle'</span>, <span class="string">':'</span>, <span class="string">'Color'</span>, [0.5 0.5 0.5])
+0077             
+0078             saveas(figHandle, [fileName <span class="string">'-EarlyVsLaterPhaseReconstruction-WeightFractions.pdf'</span>]);
+0079             close(figHandle);
+0080             
+0081             <span class="comment">%plot all RNA</span>
+0082             [axesHandle, figHandle] = PlotUtil.newAxesHandle();
+0083             
+0084             cla(axesHandle);
+0085             hold(axesHandle, <span class="string">'on'</span>);
+0086             h = [
+0087                 plot(axesHandle, rnaExp(g.mRNAIndexs), r.expectedGeneExpression(g.mRNAIndexs, 1), <span class="string">'r.'</span>)
+0088                 plot(axesHandle, rnaExp(g.rRNAIndexs), r.expectedGeneExpression(g.rRNAIndexs, 1), <span class="string">'g.'</span>)
+0089                 plot(axesHandle, rnaExp(g.sRNAIndexs), r.expectedGeneExpression(g.sRNAIndexs, 1), <span class="string">'b.'</span>)
+0090                 plot(axesHandle, rnaExp(g.tRNAIndexs), r.expectedGeneExpression(g.tRNAIndexs, 1), <span class="string">'c.'</span>)
+0091                 ];
+0092             legend(h, {<span class="string">'mRNA'</span>, <span class="string">'rRNA'</span>, <span class="string">'sRNA'</span>, <span class="string">'tRNA'</span>}, <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>);
+0093             xlabel(axesHandle, <span class="string">'Reconstruction - Earliest Stage'</span>, <span class="string">'FontSize'</span>, 12)
+0094             ylabel(axesHandle, <span class="string">'Reconstruction - Later Stage'</span>, <span class="string">'FontSize'</span>, 12)
+0095             set(axesHandle, <span class="string">'xscale'</span>, <span class="string">'log'</span>, <span class="string">'yscale'</span>, <span class="string">'log'</span>, <span class="string">'xlimmode'</span>, <span class="string">'auto'</span>,  <span class="string">'ylimmode'</span>, <span class="string">'auto'</span>, <span class="string">'xminortick'</span>, <span class="string">'off'</span>, <span class="string">'yminortick'</span>, <span class="string">'off'</span>)
+0096             axis(axesHandle, <span class="string">'equal'</span>);
+0097             xlim(axesHandle, [min([xlim(axesHandle) ylim(axesHandle)]) max([xlim(axesHandle) ylim(axesHandle)])]);
+0098             ylim(axesHandle, xlim(axesHandle));
+0099             line(xlim(axesHandle), ylim(axesHandle), <span class="string">'Parent'</span>, axesHandle, <span class="string">'LineStyle'</span>, <span class="string">':'</span>, <span class="string">'Color'</span>, [0.5 0.5 0.5])
+0100             
+0101             saveas(figHandle, [fileName <span class="string">'-EarlyVsLaterPhaseReconstruction.pdf'</span>]);
+0102             close(figHandle);
+0103             
+0104             <span class="comment">%save to excel sheet</span>
+0105             content = [g.wholeCellModelIDs num2cell(rnaExp) num2cell(r.expectedGeneExpression(:, 1))];
+0106             colLabels = {<span class="string">'Gene'</span>, <span class="string">'Expression-Early Reconstruction'</span>, <span class="string">'Expression-Later Reconstruction'</span>};
+0107             PrintUtil.printToFile(content, colLabels, [fileName <span class="string">'.xls'</span>], <span class="string">'RNA Expression'</span>);
+0108         <span class="keyword">end</span>
+0109     <span class="keyword">end</span>
+0110 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

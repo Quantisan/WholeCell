@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of polymerize</title>
+  <meta name="keywords" content="polymerize">
+  <meta name="description" content="Computes the maximum polymerization for the available amounts of bases">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; polymerize.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>polymerize
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Computes the maximum polymerization for the available amounts of bases</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [progress, baseAmounts, baseCosts, energy, energyCost] = polymerize(sequences, baseAmounts, bases, basePadValue, energy, energyCostPerBase, randStream) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Computes the maximum polymerization for the available amounts of bases
+ for all active polymers using a greedy algorithm.
+
+ 1. Finds the most limited bases and the position at which they become limiting.
+ 2. Finds the energy limit of polymerization.
+ 3. Polymerizes all polymers up to, but not including, the limiting position.
+ 4. Polymerizes polymers at the limiting position according to base
+    availability.
+ 5. Culls polymers that cannot make additional progress.
+ 6. Repeats 1-5 until no additional bases can be polymerized.
+
+ Author: Markus Covert, mcovert@stanford.edu
+ Author: Jayodita Sanghvi, jayodita@stanfod.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 5/10/2010
+% optional arguments</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [elongation, baseUsage, limitingBases] = calculateElongationLimits(</a></li><li><a href="#_sub2" class="code">function counts = countBases(sequences, bases)</a></li><li><a href="#_sub3" class="code">function result = lengths(sequences, padValue)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Computes the maximum polymerization for the available amounts of bases</span>
+0002 <span class="comment">% for all active polymers using a greedy algorithm.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% 1. Finds the most limited bases and the position at which they become limiting.</span>
+0005 <span class="comment">% 2. Finds the energy limit of polymerization.</span>
+0006 <span class="comment">% 3. Polymerizes all polymers up to, but not including, the limiting position.</span>
+0007 <span class="comment">% 4. Polymerizes polymers at the limiting position according to base</span>
+0008 <span class="comment">%    availability.</span>
+0009 <span class="comment">% 5. Culls polymers that cannot make additional progress.</span>
+0010 <span class="comment">% 6. Repeats 1-5 until no additional bases can be polymerized.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% Author: Markus Covert, mcovert@stanford.edu</span>
+0013 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanfod.edu</span>
+0014 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0015 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0016 <span class="comment">% Last updated: 5/10/2010</span>
+0017 <a name="_sub0" href="#_subfunctions" class="code">function [progress, baseAmounts, baseCosts, energy, energyCost] = polymerize(</a><span class="keyword">...</span>
+0018     sequences, baseAmounts, bases, basePadValue, energy, energyCostPerBase, randStream)
+0019     <span class="comment">%% optional arguments</span>
+0020     <span class="keyword">if</span> nargin &lt; 5
+0021         energy = 0;
+0022         energyCostPerBase = 0;
+0023     <span class="keyword">end</span>
+0024     <span class="keyword">if</span> nargin &lt; 7
+0025         randStream = RandStream.getDefaultStream();
+0026     <span class="keyword">end</span>
+0027 
+0028     <span class="comment">%% variables</span>
+0029     nSequences    = size(sequences, 1);               <span class="comment">%number of sequences</span>
+0030     baseCosts     = zeros(length(bases), 1);          <span class="comment">%usage of bases, in order of bases</span>
+0031     energyCost    = 0;                                <span class="comment">%usage of energy</span>
+0032     progress      = zeros(nSequences, 1);             <span class="comment">%number of bases polymerized in each sequence</span>
+0033     activeSeqIdxs = 1:nSequences;                     <span class="comment">%indexs of sequences still being polymerized</span>
+0034     seqLengths    = <a href="#_sub3" class="code" title="subfunction result = lengths(sequences, padValue)">lengths</a>(sequences, basePadValue); <span class="comment">%lengths of sequences</span>
+0035     
+0036     <span class="comment">%% stop early if any baseAmounts &lt; 0</span>
+0037     <span class="keyword">if</span> any(baseAmounts &lt; 0) || any(isnan(baseAmounts))
+0038         <span class="keyword">return</span>;
+0039     <span class="keyword">end</span>
+0040 
+0041     <span class="comment">%% elongate sequences</span>
+0042     <span class="keyword">while</span> ~isempty(sequences) &amp;&amp; energy &gt;= energyCostPerBase
+0043         <span class="comment">%eliminate sequences with nothing to polymerize</span>
+0044         tf = progress(activeSeqIdxs) &lt; seqLengths(activeSeqIdxs);
+0045         activeSeqIdxs = activeSeqIdxs(tf);
+0046         sequences = sequences(tf, :);
+0047         <span class="keyword">if</span> isempty(sequences)
+0048             <span class="keyword">break</span>; 
+0049         <span class="keyword">end</span>
+0050 
+0051         <span class="comment">%calculate limit of elongation, the number of bases each of the active</span>
+0052         <span class="comment">%sequences can be elongated</span>
+0053         [elongation, baseUsage, limitingBases] = <a href="#_sub1" class="code" title="subfunction [elongation, baseUsage, limitingBases] = calculateElongationLimits(">calculateElongationLimits</a>(<span class="keyword">...</span>
+0054             sequences, bases, baseAmounts, energy, energyCostPerBase);
+0055         
+0056         <span class="comment">%elongate all active sequences up to elongation</span>
+0057         progress(activeSeqIdxs) = min([
+0058             progress(activeSeqIdxs) + elongation<span class="keyword">...</span>
+0059             seqLengths(activeSeqIdxs)], [], 2);
+0060         baseAmounts = baseAmounts - baseUsage;
+0061         baseCosts   = baseCosts   + baseUsage;
+0062         energy      = energy      - energyCostPerBase * sum(baseUsage);
+0063         energyCost  = energyCost  + energyCostPerBase * sum(baseUsage);
+0064         sequences   = sequences(:, elongation+1:end);
+0065         <span class="keyword">if</span> isempty(sequences)
+0066             <span class="keyword">break</span>; 
+0067         <span class="keyword">end</span>
+0068 
+0069         <span class="keyword">if</span> ~isempty(limitingBases)
+0070             <span class="comment">%eliminate sequences for which bases are not available</span>
+0071             tf = true(size(sequences, 1), 1);
+0072             <span class="keyword">for</span> i = 1:length(limitingBases)
+0073                 seqIdxs = find(sequences(:,1) == bases(limitingBases(i)));
+0074                 randOrder = randStream.randperm(numel(seqIdxs));
+0075                 tf(seqIdxs(randOrder(baseAmounts(limitingBases(i))+1:end))) = false;
+0076             <span class="keyword">end</span>
+0077             activeSeqIdxs = activeSeqIdxs(tf);
+0078             sequences = sequences(tf, :);
+0079         <span class="keyword">elseif</span> elongation == 0
+0080             <span class="comment">%limited energy and no limiting bases;</span>
+0081             <span class="comment">%randomly select sequences to receive one last base</span>
+0082             n = fix(energy / energyCostPerBase);
+0083             idxs = randStream.randperm(numel(activeSeqIdxs));
+0084             idxs = idxs(1:n);
+0085             progress(activeSeqIdxs(idxs)) = progress(activeSeqIdxs(idxs)) + 1;
+0086             baseUsage = <a href="#_sub2" class="code" title="subfunction counts = countBases(sequences, bases)">countBases</a>(sequences(idxs,1), bases);
+0087             baseUsage = baseUsage(:,2);
+0088             baseAmounts = baseAmounts - baseUsage;
+0089             baseCosts   = baseCosts   + baseUsage;
+0090             energy      = energy      - energyCostPerBase * n;
+0091             energyCost  = energyCost  + energyCostPerBase * n;
+0092             <span class="keyword">break</span>;
+0093         <span class="keyword">end</span>
+0094     <span class="keyword">end</span>
+0095 <span class="keyword">end</span>
+0096 
+0097 <a name="_sub1" href="#_subfunctions" class="code">function [elongation, baseUsage, limitingBases] = calculateElongationLimits(</a><span class="keyword">...</span>
+0098     sequences, bases, baseAmounts, energy, energyCostPerBase)
+0099 
+0100     cumBaseCounts = cumsum(<a href="#_sub2" class="code" title="subfunction counts = countBases(sequences, bases)">countBases</a>(sequences, bases), 2);
+0101     nBases = size(cumBaseCounts, 1);
+0102 
+0103     <span class="comment">%individual base limits</span>
+0104     baseLimits = zeros(nBases,1);
+0105     <span class="keyword">for</span> i = 1:nBases
+0106         baseLimits(i) = find(cumBaseCounts(i,:) &lt;= baseAmounts(i), 1, <span class="string">'last'</span>);
+0107     <span class="keyword">end</span>
+0108 
+0109     <span class="comment">%energy limit</span>
+0110     energyLimit = find(sum(cumBaseCounts) * energyCostPerBase &lt;= energy, 1, <span class="string">'last'</span>);
+0111 
+0112     <span class="comment">%elongate up to minimum of individual base and energy limits</span>
+0113     elongation = min([baseLimits; energyLimit]) - 1;
+0114     baseUsage = cumBaseCounts(:, elongation + 1);
+0115 
+0116     <span class="comment">%if applicable, find bases which are setting the elongation limit</span>
+0117     <span class="keyword">if</span> elongation + 1 &lt; size(cumBaseCounts, 2)
+0118         limitingBases = find(baseLimits == elongation + 1);
+0119     <span class="keyword">else</span>
+0120         limitingBases = [];
+0121     <span class="keyword">end</span>
+0122 <span class="keyword">end</span>
+0123 
+0124 <a name="_sub2" href="#_subfunctions" class="code">function counts = countBases(sequences, bases)</a>
+0125     counts = zeros(length(bases), size(sequences,2) + 1);
+0126     <span class="keyword">for</span> i = 1:length(bases)
+0127         counts(i, 2:end) = sum(sequences == bases(i), 1);
+0128     <span class="keyword">end</span>
+0129 <span class="keyword">end</span>
+0130 
+0131 <a name="_sub3" href="#_subfunctions" class="code">function result = lengths(sequences, padValue)</a>
+0132     present = sequences ~= padValue;
+0133     n = size(sequences, 1);
+0134     result = zeros(n, 1);
+0135     <span class="keyword">for</span> i = 1:n
+0136         result(i) = max([0 find(present(i,:), 1, <span class="string">'last'</span>)]);
+0137     <span class="keyword">end</span>
+0138 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

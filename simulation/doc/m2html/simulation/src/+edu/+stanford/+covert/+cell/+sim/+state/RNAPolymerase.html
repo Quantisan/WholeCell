@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNAPolymerase</title>
+  <meta name="keywords" content="RNAPolymerase">
+  <meta name="description" content="RNA Polymerase">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; RNAPolymerase.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNAPolymerase
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNA Polymerase</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNA Polymerase
+
+ @wholeCellModelID State_RNAPolymerase
+ @name             RNA Polymerases
+ @description
+
+   states represents the current state / pseudostate (actively
+   transcribing, specifically bound, non-specifically bound, free,
+   non-existent) of each RNA polymerase, where each state is indicated by the
+   enumeration:
+   - rnaPolymeraseActivelyTranscribingValue
+   - rnaPolymeraseSpecificallyBoundValue
+   - rnaPolymeraseNonSpecificallyBoundValue
+   - rnaPolymeraseFreeValue
+   - rnaPolymeraseNotExistValue (state exists as a way to account for memory
+     allocated for future RNA polymerases)
+
+ Information about positions of the polymerases on the DNA and the
+ progress of RNA polymerases transcribing specific transcrips is all
+ contained within the chromosomeState class and newTranscriptState class.
+
+ Author: Jayodita Sanghvi, jayodita@stanford.edu
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 12/13/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAPolymerase.html" class="code" title="">RNAPolymerase</a>	RNA Polymerase</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAPolymerase.html" class="code" title="">RNAPolymerase</a>	RNA Polymerase</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RNAPolymerase(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub4" class="code">function initialize(~)</a></li><li><a href="#_sub5" class="code">function degradeFreePolymerase(this, nPolymerases)</a></li><li><a href="#_sub6" class="code">function releasePolymerase(this, posStrnds, proteinIsDegraded)</a></li><li><a href="#_sub7" class="code">function value = get.stateOccupancies(this)</a></li><li><a href="#_sub8" class="code">function value = get.nActive(this)</a></li><li><a href="#_sub9" class="code">function value = get.nSpecificallyBound(this)</a></li><li><a href="#_sub10" class="code">function value = get.nNonSpecificallyBound(this)</a></li><li><a href="#_sub11" class="code">function value = get.nFree(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNA Polymerase</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID State_RNAPolymerase</span>
+0004 <span class="comment">% @name             RNA Polymerases</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   states represents the current state / pseudostate (actively</span>
+0008 <span class="comment">%   transcribing, specifically bound, non-specifically bound, free,</span>
+0009 <span class="comment">%   non-existent) of each RNA polymerase, where each state is indicated by the</span>
+0010 <span class="comment">%   enumeration:</span>
+0011 <span class="comment">%   - rnaPolymeraseActivelyTranscribingValue</span>
+0012 <span class="comment">%   - rnaPolymeraseSpecificallyBoundValue</span>
+0013 <span class="comment">%   - rnaPolymeraseNonSpecificallyBoundValue</span>
+0014 <span class="comment">%   - rnaPolymeraseFreeValue</span>
+0015 <span class="comment">%   - rnaPolymeraseNotExistValue (state exists as a way to account for memory</span>
+0016 <span class="comment">%     allocated for future RNA polymerases)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Information about positions of the polymerases on the DNA and the</span>
+0019 <span class="comment">% progress of RNA polymerases transcribing specific transcrips is all</span>
+0020 <span class="comment">% contained within the chromosomeState class and newTranscriptState class.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Author: Jayodita Sanghvi, jayodita@stanford.edu</span>
+0023 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0024 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0025 <span class="comment">% Last updated: 12/13/2010</span>
+0026 
+0027 classdef <a href="RNAPolymerase.html" class="code" title="">RNAPolymerase</a> &lt; edu.stanford.covert.cell.sim.CellState
+0028     <span class="comment">%property annotations</span>
+0029     properties (Constant)
+0030         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0031             <span class="string">'verbosity'</span>
+0032             <span class="string">'seed'</span>
+0033             };
+0034         fixedConstantNames      = {   <span class="comment">%names of process properties that are considered fixed constants</span>
+0035             <span class="string">'stateExpectations'</span>
+0036             };
+0037         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0038         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0039             <span class="string">'states'</span>
+0040             <span class="string">'positionStrands'</span>
+0041             <span class="string">'transcriptionFactorBindingProbFoldChange'</span>
+0042             <span class="string">'supercoilingBindingProbFoldChange'</span>
+0043             };
+0044         dependentStateNames     = {   <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0045             <span class="string">'stateOccupancies'</span>
+0046             <span class="string">'nActive'</span>
+0047             <span class="string">'nSpecificallyBound'</span>
+0048             <span class="string">'nNonSpecificallyBound'</span>
+0049             <span class="string">'nFree'</span>
+0050             };
+0051     <span class="keyword">end</span>
+0052     
+0053     <span class="comment">%constants</span>
+0054     properties (Constant)
+0055         activelyTranscribingIndex   = 1; <span class="comment">%index within rnaPolymeraseStateOccupancies</span>
+0056         specificallyBoundIndex      = 2; <span class="comment">%index within rnaPolymeraseStateOccupancies</span>
+0057         nonSpecificallyBoundIndex   = 3; <span class="comment">%index within rnaPolymeraseStateOccupancies</span>
+0058         freeIndex                   = 4; <span class="comment">%index within rnaPolymeraseStateOccupancies</span>
+0059         
+0060         activelyTranscribingValue   = 1; <span class="comment">%value within states</span>
+0061         specificallyBoundValue      = -3; <span class="comment">%value within states</span>
+0062         nonSpecificallyBoundValue   = -1; <span class="comment">%value within states</span>
+0063         freeValue                   = -2; <span class="comment">%value within states</span>
+0064         notExistValue               = 0; <span class="comment">%value within states</span>
+0065         
+0066         stateValues                 = [1; -3; -1; -2]; <span class="comment">%values of states</span>
+0067     <span class="keyword">end</span>
+0068     
+0069     <span class="comment">%fixed biological constants</span>
+0070     properties
+0071         stateExpectations       <span class="comment">%Expected fractional occupancies of RNA polymerase states</span>
+0072     <span class="keyword">end</span>
+0073     
+0074     <span class="comment">%state</span>
+0075     properties
+0076         states                                    <span class="comment">%RNA polymerase state (see Transcription process)</span>
+0077         positionStrands                           <span class="comment">%the position on the chromosome(s) for each RNApolymerase</span>
+0078         transcriptionFactorBindingProbFoldChange  <span class="comment">%fold change effect of currently active transcription factors on RNA polymerase binding probabilities [nTUs X 2]</span>
+0079         supercoilingBindingProbFoldChange         <span class="comment">%fold change in transcription probabilities due to supercoiling sigma, [# transcUnits x 2 chromosomes]</span>
+0080     <span class="keyword">end</span>
+0081     
+0082     properties (Dependent = true)
+0083         stateOccupancies        <span class="comment">%number of RNA polymerases in various states</span>
+0084         nActive                 <span class="comment">%number of actively transcribing RNA polymerases</span>
+0085         nSpecificallyBound      <span class="comment">%number of specifically bound RNA polymerases</span>
+0086         nNonSpecificallyBound   <span class="comment">%number of non-specifically bound RNA polymerases</span>
+0087         nFree                   <span class="comment">%number of free RNA polymerases</span>
+0088     <span class="keyword">end</span>
+0089     
+0090     <span class="comment">%dependent state</span>
+0091     properties (Constant)
+0092         dryWeight = 0;          <span class="comment">%dry weight of this class' state properties</span>
+0093     <span class="keyword">end</span>
+0094     
+0095     <span class="comment">%references to other parts of cell state</span>
+0096     properties
+0097         chromosome
+0098         transcripts
+0099     <span class="keyword">end</span>
+0100     
+0101     <span class="comment">%constructor</span>
+0102     methods
+0103         <a name="_sub0" href="#_subfunctions" class="code">function this = RNAPolymerase(wholeCellModelID, name)</a>
+0104             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0105         <span class="keyword">end</span>
+0106     <span class="keyword">end</span>
+0107     
+0108     methods
+0109         <span class="comment">%build object graph</span>
+0110         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0111             this.chromosome = simulation.state(<span class="string">'Chromosome'</span>);
+0112             this.transcripts = simulation.state(<span class="string">'Transcript'</span>);
+0113         <span class="keyword">end</span>
+0114     <span class="keyword">end</span>
+0115     
+0116     <span class="comment">%allocate memory for state</span>
+0117     methods
+0118         <a name="_sub2" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0119             nTUs = numel(this.chromosome.transcriptionUnitWholeCellModelIDs);
+0120             
+0121             this.states                                   = zeros(0, 1, numTimePoints);
+0122             this.positionStrands                          = zeros(0, 2, numTimePoints);
+0123             this.transcriptionFactorBindingProbFoldChange = zeros(nTUs, 2, numTimePoints);
+0124             this.supercoilingBindingProbFoldChange        = zeros(nTUs, 2, numTimePoints);
+0125         <span class="keyword">end</span>
+0126     <span class="keyword">end</span>
+0127     
+0128     <span class="comment">%initialize state</span>
+0129     methods
+0130         <a name="_sub3" href="#_subfunctions" class="code">function initialize(~)</a>
+0131         <span class="keyword">end</span>
+0132     <span class="keyword">end</span>
+0133     
+0134     <span class="comment">%external interface</span>
+0135     methods
+0136         <a name="_sub4" href="#_subfunctions" class="code">function degradeFreePolymerase(this, nPolymerases)</a>
+0137             idxs = find(this.states == this.freeValue, nPolymerases, <span class="string">'first'</span>);
+0138             this.states(idxs) = this.notExistValue;
+0139         <span class="keyword">end</span>
+0140         
+0141         <a name="_sub5" href="#_subfunctions" class="code">function releasePolymerase(this, posStrnds, proteinIsDegraded)</a>
+0142             import edu.stanford.covert.util.CircularSparseMat;
+0143             
+0144             c = this.chromosome;
+0145             t = this.transcripts;
+0146             
+0147             tfs = CircularSparseMat.ismember_subs(this.positionStrands, posStrnds, [c.sequenceLen c.nCompartments]);
+0148             idxs = find(tfs);
+0149             <span class="keyword">if</span> isempty(idxs)
+0150                 <span class="keyword">return</span>;
+0151             <span class="keyword">end</span>
+0152             
+0153             tfs(tfs) = this.states(tfs) &gt; this.activelyTranscribingValue;
+0154             idxs2 = find(tfs);
+0155             <span class="keyword">for</span> i = 1:numel(idxs2)
+0156                 <span class="keyword">if</span> t.boundTranscriptProgress(idxs2(i)) &lt;= 1
+0157                     <span class="keyword">continue</span>;
+0158                 <span class="keyword">end</span>
+0159                 t.abortedTranscripts = [
+0160                     t.abortedTranscripts
+0161                     t.boundTranscriptionUnits(idxs2(i)) t.boundTranscriptProgress(idxs2(i))-1
+0162                     ];
+0163             <span class="keyword">end</span>
+0164             <span class="keyword">if</span> proteinIsDegraded
+0165                 this.states(idxs) = this.notExistValue;
+0166             <span class="keyword">else</span>
+0167                 this.states(idxs) = this.freeValue;
+0168             <span class="keyword">end</span>
+0169             this.positionStrands(idxs, :) = 0;
+0170             t.boundTranscriptionUnits(idxs) = t.nullTranscriptValue;
+0171             t.boundTranscriptProgress(idxs) = t.nullTranscriptValue;
+0172             t.boundTranscriptChromosome(idxs) = t.nullTranscriptValue;
+0173         <span class="keyword">end</span>
+0174     <span class="keyword">end</span>
+0175     
+0176     <span class="comment">%getters</span>
+0177     methods
+0178         <span class="comment">%number of actively transcribing RNA polymerases</span>
+0179         <a name="_sub6" href="#_subfunctions" class="code">function value = get.stateOccupancies(this)</a>
+0180             numTimePoints = size(this.states,3);
+0181             
+0182             value = zeros(4,1,numTimePoints);
+0183             value(this.activelyTranscribingIndex,:,:) = this.nActive;
+0184             value(this.specificallyBoundIndex,:,:)    = this.nSpecificallyBound;
+0185             value(this.nonSpecificallyBoundIndex,:,:) = this.nNonSpecificallyBound;
+0186             value(this.freeIndex,:,:)                 = this.nFree;
+0187             
+0188             value = value ./ repmat(sum(sum(value,1),2), [4,1,1]);
+0189         <span class="keyword">end</span>
+0190         
+0191         <span class="comment">%number of actively transcribing RNA polymerases</span>
+0192         <a name="_sub7" href="#_subfunctions" class="code">function value = get.nActive(this)</a>
+0193             value = sum(this.states &gt;= this.activelyTranscribingValue);
+0194         <span class="keyword">end</span>
+0195         
+0196         <span class="comment">%number of specifically bound RNA polymerases</span>
+0197         <a name="_sub8" href="#_subfunctions" class="code">function value = get.nSpecificallyBound(this)</a>
+0198             value = sum(this.states == this.specificallyBoundValue);
+0199         <span class="keyword">end</span>
+0200         
+0201         <span class="comment">%number of non-specifically bound RNA polymerases</span>
+0202         <a name="_sub9" href="#_subfunctions" class="code">function value = get.nNonSpecificallyBound(this)</a>
+0203             value = sum(this.states == this.nonSpecificallyBoundValue);
+0204         <span class="keyword">end</span>
+0205         
+0206         <span class="comment">%number of free RNA polymerases</span>
+0207         <a name="_sub10" href="#_subfunctions" class="code">function value = get.nFree(this)</a>
+0208             value = sum(this.states == this.freeValue);
+0209         <span class="keyword">end</span>
+0210     <span class="keyword">end</span>
+0211 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

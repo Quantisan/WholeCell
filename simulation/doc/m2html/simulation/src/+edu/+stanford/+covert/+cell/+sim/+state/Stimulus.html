@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Stimulus</title>
+  <meta name="keywords" content="Stimulus">
+  <meta name="description" content="Stimulus">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+state</a> &gt; Stimulus.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+state&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>Stimulus
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Stimulus</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Stimulus
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 1/5/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Stimulus.html" class="code" title="">Stimulus</a>	Stimulus</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="Stimulus.html" class="code" title="">Stimulus</a>	Stimulus</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = Stimulus(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function storeObjectReferences(this, simulation)</a></li><li><a href="#_sub3" class="code">function initializeConstants(this, knowledgeBase, simulation)</a></li><li><a href="#_sub4" class="code">function allocateMemory(this, numTimePoints)</a></li><li><a href="#_sub5" class="code">function initialize(this)</a></li><li><a href="#_sub6" class="code">function value = getIndexs(this, wholeCellModelIDs)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Stimulus</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 1/5/2011</span>
+0006 classdef <a href="Stimulus.html" class="code" title="">Stimulus</a> &lt; edu.stanford.covert.cell.sim.CellState
+0007     <span class="comment">%Constants</span>
+0008     properties (Constant)
+0009         optionNames             = {   <span class="comment">%names of properties that are options</span>
+0010             <span class="string">'verbosity'</span>;
+0011             <span class="string">'seed'</span>;
+0012             };
+0013         fixedConstantNames      = {}; <span class="comment">%names of process properties that are considered fixed constants</span>
+0014         fittedConstantNames     = {}; <span class="comment">%names of process properties that are considered fitted constants, and should be stored with the simulation as such</span>
+0015         stateNames              = {   <span class="comment">%names of properties which are part of the simulation's state</span>
+0016             <span class="string">'values'</span>};
+0017         dependentStateNames     = {}; <span class="comment">%names of properties which can be calculated from the simulation's state</span>
+0018     <span class="keyword">end</span>
+0019     
+0020     <span class="comment">%constants</span>
+0021     properties
+0022         wholeCellModelIDs
+0023         names
+0024         setValues
+0025         
+0026         compartment
+0027     <span class="keyword">end</span>
+0028     
+0029     <span class="comment">%state</span>
+0030     properties
+0031         values
+0032     <span class="keyword">end</span>
+0033     
+0034     <span class="comment">%alternative interface to state</span>
+0035     properties (Constant)
+0036         dryWeight = 0
+0037     <span class="keyword">end</span>
+0038     
+0039     <span class="comment">%constructor</span>
+0040     methods
+0041         <a name="_sub0" href="#_subfunctions" class="code">function this = Stimulus(wholeCellModelID, name)</a>
+0042             this = this@edu.stanford.covert.cell.sim.CellState(wholeCellModelID, name);
+0043         <span class="keyword">end</span>
+0044     <span class="keyword">end</span>
+0045     
+0046     methods
+0047         <a name="_sub1" href="#_subfunctions" class="code">function storeObjectReferences(this, simulation)</a>
+0048             this.compartment = simulation.compartment;
+0049         <span class="keyword">end</span>
+0050         
+0051         <a name="_sub2" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation)</a>
+0052             import edu.stanford.covert.cell.sim.constant.Condition;
+0053             
+0054             this.initializeConstants@edu.stanford.covert.cell.sim.CellState(knowledgeBase, simulation);            
+0055             
+0056             this.wholeCellModelIDs  = {knowledgeBase.stimulis.wholeCellModelID}';
+0057             this.names  = {knowledgeBase.stimulis.name}';
+0058             this.setValues = zeros(0, 6);
+0059             
+0060             <span class="keyword">for</span> i = 1:knowledgeBase.numStimulis
+0061                 value = zeros(length(knowledgeBase.stimulis(i).compartments), 6);
+0062                 value(:, Condition.objectIndexs)      = knowledgeBase.stimulis(i).idx;
+0063                 value(:, Condition.compartmentIndexs) = [knowledgeBase.stimulis(i).compartments.idx];
+0064                 value(:, Condition.valueIndexs)       = knowledgeBase.stimulis(i).values;
+0065                 value(:, Condition.initialTimeIndexs) = knowledgeBase.stimulis(i).initialTimes;
+0066                 value(:, Condition.finalTimeIndexs)   = knowledgeBase.stimulis(i).finalTimes;
+0067                 value(:, Condition.objectCompartmentIndexs) = sub2ind(<span class="keyword">...</span>
+0068                     [knowledgeBase.numStimulis knowledgeBase.numCompartments],<span class="keyword">...</span>
+0069                     value(:, Condition.objectIndexs),<span class="keyword">...</span>
+0070                     value(:, Condition.compartmentIndexs));
+0071                 
+0072                 this.setValues = [this.setValues; value];
+0073             <span class="keyword">end</span>
+0074         <span class="keyword">end</span>
+0075         
+0076         <span class="comment">%allocate memory for state</span>
+0077         <a name="_sub3" href="#_subfunctions" class="code">function allocateMemory(this, numTimePoints)</a>
+0078             this.values = zeros([numel(this.wholeCellModelIDs), this.compartment.count, numTimePoints]);
+0079         <span class="keyword">end</span>
+0080                 
+0081         <span class="comment">%initialize state</span>
+0082         <a name="_sub4" href="#_subfunctions" class="code">function initialize(this)</a>
+0083             this.allocateMemory(1);
+0084         <span class="keyword">end</span>
+0085     <span class="keyword">end</span>
+0086     
+0087     <span class="comment">%helper methods</span>
+0088     methods
+0089         <a name="_sub5" href="#_subfunctions" class="code">function value = getIndexs(this, wholeCellModelIDs)</a>
+0090             [~, value] = ismember(wholeCellModelIDs, this.wholeCellModelIDs);
+0091         <span class="keyword">end</span>
+0092     <span class="keyword">end</span>
+0093 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

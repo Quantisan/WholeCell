@@ -1,0 +1,1012 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of OverviewAnimation</title>
+  <meta name="keywords" content="OverviewAnimation">
+  <meta name="description" content="OverviewAnimation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+analysis</a> &gt; OverviewAnimation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+analysis&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>OverviewAnimation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>OverviewAnimation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">OverviewAnimation
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affiliation: Covert Lab, Department of Bioengineering, Stanford University
+ Last Updated: 10/6/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="OverviewAnimation.html" class="code" title="">OverviewAnimation</a>	OverviewAnimation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="OverviewAnimation.html" class="code" title="">OverviewAnimation</a>	OverviewAnimation</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = OverviewAnimation(varargin)</a></li><li><a href="#_sub2" class="code">function [times, data] = loadSimulationData(this)</a></li><li><a href="#_sub3" class="code">function svg = drawFrame(this, timeIdx)</a></li><li><a href="#_sub4" class="code">function svg = drawCell(~, width, cylindricalLength, septumLength, W, H, nActive, nStalled, nFree30, nFree50, numEdges, ftsZRing1st, ftsZRing2st, ftsZRing2bt, ftsZRingRbt, zoomIn)</a></li><li><a href="#_sub5" class="code">function svg = drawCellDivision(~, width, numEdges, septumLength, W, H, ftsZRing1st, ftsZRing2st, ftsZRing2bt, ftsZRingRbt)</a></li><li><a href="#_sub6" class="code">function svg = drawArc(~, posStrnds, lens, cx, cy, r0, dr, strokeColor, strokeWidth, twoChrs, sequenceLen)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%OverviewAnimation</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affiliation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last Updated: 10/6/2011</span>
+0006 classdef <a href="OverviewAnimation.html" class="code" title="">OverviewAnimation</a> &lt; edu.stanford.covert.cell.sim.analysis.Animation
+0007     properties (SetAccess = protected)
+0008         title = <span class="string">'Whole-Cell Animation'</span>
+0009         description = <span class="string">'Animation of Mycoplasma genitalium whole-cell simulations.'</span>
+0010         author = <span class="string">'Jonathan Karr, Covert Lab, Department of Bioengineering, Stanford University'</span>
+0011 
+0012         displayAuthorList = false;
+0013         useTransitions = true;
+0014     <span class="keyword">end</span>
+0015     
+0016     methods
+0017         <a name="_sub0" href="#_subfunctions" class="code">function this = OverviewAnimation(varargin)</a>
+0018             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0019             
+0020             this = this@edu.stanford.covert.cell.sim.analysis.Animation(varargin{:});
+0021             
+0022             this.movieWidth = 800;
+0023             this.movieHeight = 600;
+0024             this.frameRate = 30;
+0025         <span class="keyword">end</span>
+0026         
+0027         <a name="_sub1" href="#_subfunctions" class="code">function [times, data] = loadSimulationData(this)</a>
+0028             import edu.stanford.covert.cell.sim.util.SimulationDiskUtil;
+0029             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0030             
+0031             <span class="comment">%% constants</span>
+0032             sim = this.simulation;
+0033             comp = sim.compartment;
+0034             mass = sim.state(<span class="string">'Mass'</span>);
+0035             met = sim.state(<span class="string">'Metabolite'</span>);
+0036             mr = sim.state(<span class="string">'MetabolicReaction'</span>);
+0037             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0038             
+0039             <span class="comment">%% metabolic map</span>
+0040             dbConnectionParameters = config();
+0041             database = edu.stanford.covert.db.MySQLDatabase(dbConnectionParameters);
+0042             database.setNullValue(0);
+0043             
+0044             kbWID = edu.stanford.covert.cell.kb.KnowledgeBaseUtil.selectLatestKnowledgeBase(database);
+0045             
+0046             database.prepareStatement(<span class="string">'CALL get_metabolicmapmetabolites(&quot;{Si}&quot;, null)'</span>, kbWID);
+0047             data = database.query();
+0048             metabolicMapMetabolites = struct;
+0049             [~, metabolicMapMetabolites.idxs] = ismember(data.Metabolite, met.wholeCellModelIDs);
+0050             [~, metabolicMapMetabolites.compIdxs] = ismember(data.Compartment, comp.wholeCellModelIDs);
+0051             [~, metabolicMapMetabolites.uidxs] = ismember(metabolicMapMetabolites.idxs, unique(metabolicMapMetabolites.idxs));
+0052             metabolicMapMetabolites.x = data.X;
+0053             metabolicMapMetabolites.y = cellfun(@str2double, data.Y);
+0054             
+0055             database.prepareStatement(<span class="string">'CALL get_metabolicmapreactions(&quot;{Si}&quot;, null)'</span>, kbWID);
+0056             data = database.query();
+0057             metabolicMapReactions = struct;
+0058             [~, metabolicMapReactions.idxs] = ismember(data.Reaction, mr.reactionWholeCellModelIDs);
+0059             [~, metabolicMapReactions.uidxs] = ismember(metabolicMapReactions.idxs, unique(metabolicMapReactions.idxs));
+0060             metabolicMapReactions.path = data.Path;
+0061             metabolicMapReactions.labelX = data.LabelX;
+0062             metabolicMapReactions.labelY = data.LabelY;
+0063             metabolicMapReactions.valueX = data.ValueX;
+0064             metabolicMapReactions.valueY = data.ValueY;
+0065             
+0066             <span class="comment">%% data</span>
+0067             stateNames = {
+0068                 <span class="string">'mass'</span>
+0069                 <span class="string">'growth_rate'</span>
+0070                 <span class="string">'dnaA_box1'</span>
+0071                 <span class="string">'dnaA_box2'</span>
+0072                 <span class="string">'dnaA_box3'</span>
+0073                 <span class="string">'dnaA_box4'</span>
+0074                 <span class="string">'dnaA_box5'</span>
+0075                 <span class="string">'ploidy'</span>
+0076                 <span class="string">'superhelicity'</span>
+0077                 <span class="string">'helicase1'</span>
+0078                 <span class="string">'helicase2'</span>
+0079                 <span class="string">'rnas'</span>
+0080                 <span class="string">'mrnas'</span>
+0081                 <span class="string">'rrnas'</span>
+0082                 <span class="string">'srnas'</span>
+0083                 <span class="string">'trnas'</span>
+0084                 <span class="string">'immatureRnas'</span>
+0085                 <span class="string">'matureMonomers'</span>
+0086                 <span class="string">'immatureMonomers'</span>
+0087                 <span class="string">'matureComplexs'</span>
+0088                 <span class="string">'immatureComplexs'</span>
+0089                 <span class="string">'lipids'</span>
+0090                 <span class="string">'polysaccharides'</span>
+0091                 <span class="string">'atp'</span>
+0092                 <span class="string">'ntps'</span>
+0093                 <span class="string">'dntps'</span>
+0094                 <span class="string">'amino_acids'</span>
+0095                 <span class="string">'atpUsage'</span>
+0096                 <span class="string">'gtpUsage'</span>
+0097                 <span class="string">'ftsZ'</span>
+0098                 <span class="string">'ftsZRing1st'</span>
+0099                 <span class="string">'ftsZRing2st'</span>
+0100                 <span class="string">'ftsZRing2bt'</span>
+0101                 <span class="string">'ftsZRingRbt'</span>
+0102                 <span class="string">'pinchedDiameter'</span>
+0103                 };
+0104             ensemble = SimulationEnsemble(this.simGroupId, stateNames, [], this.simId);
+0105             
+0106             ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'mass'</span>), :, :, :) = <span class="keyword">...</span>
+0107                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'mass'</span>), :, :, :) * <span class="keyword">...</span>
+0108                 mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) * 1e15;
+0109             ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'growth_rate'</span>), :, :, :) = <span class="keyword">...</span>
+0110                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'growth_rate'</span>), :, :, :) * <span class="keyword">...</span>
+0111                 3600 * mass.cellInitialDryWeight / (1 - mass.fractionWetWeight) * 1e15;
+0112             
+0113             ensemble.stateData.values = ensemble.stateData.values(:, :, 2:ensemble.stateData.simulationEndTimes(1)+1, :);
+0114             times = ensemble.stateData.time(2:ensemble.stateData.simulationEndTimes(1)+1);
+0115             
+0116             stateNames = {
+0117                 <span class="string">'Geometry'</span>           <span class="string">'width'</span>               <span class="string">':'</span>             <span class="string">':'</span>
+0118                 <span class="string">'Geometry'</span>           <span class="string">'totalLength'</span>         <span class="string">':'</span>             <span class="string">':'</span>
+0119                 <span class="string">'Geometry'</span>           <span class="string">'pinchedDiameter'</span>     <span class="string">':'</span>             <span class="string">':'</span>
+0120                 <span class="string">'Geometry'</span>           <span class="string">'cylindricalLength'</span>   <span class="string">':'</span>             <span class="string">':'</span>
+0121                 <span class="string">'Chromosome'</span>         <span class="string">'polymerizedRegions'</span>  <span class="string">':'</span>             <span class="string">':'</span>
+0122                 <span class="string">'Chromosome'</span>         <span class="string">'monomerBoundSites'</span>   <span class="string">':'</span>             <span class="string">':'</span>
+0123                 <span class="string">'Chromosome'</span>         <span class="string">'complexBoundSites'</span>   <span class="string">':'</span>             <span class="string">':'</span>
+0124                 <span class="string">'Ribosome'</span>           <span class="string">'states'</span>              <span class="string">':'</span>             <span class="string">':'</span>
+0125                 <span class="string">'Ribosome'</span>           <span class="string">'boundMRNAs'</span>          <span class="string">':'</span>             <span class="string">':'</span>
+0126                 <span class="string">'Ribosome'</span>           <span class="string">'mRNAPositions'</span>       <span class="string">':'</span>             <span class="string">':'</span>
+0127                 <span class="string">'Ribosome'</span>           <span class="string">'tmRNAPositions'</span>      <span class="string">':'</span>             <span class="string">':'</span>
+0128                 <span class="string">'Metabolite'</span>         <span class="string">'processUsages'</span>       met.ntpIndexs'  <span class="string">':'</span>
+0129                 <span class="string">'Metabolite'</span>         <span class="string">'counts'</span>              <span class="string">':'</span>             <span class="string">':'</span>
+0130                 <span class="string">'MetabolicReaction'</span>  <span class="string">'fluxs'</span>               <span class="string">':'</span>             <span class="string">':'</span>
+0131                 <span class="string">'ProteinComplex'</span>     <span class="string">'counts'</span>              pc.matureIndexs([pc.ribosome30SIndexs; pc.ribosome50SIndexs])  comp.cytosolIndexs
+0132                 };
+0133             states = SimulationEnsemble.load(this.simGroupId, stateNames, [], [], 1, <span class="string">'extract'</span>, 1);
+0134             states.Metabolite.processUsages = full(states.Metabolite.processUsages);
+0135             states.Metabolite.counts = full(states.Metabolite.counts);
+0136             states.Geometry.septumLength = (states.Geometry.width - states.Geometry.pinchedDiameter) / 2;            
+0137             states.ProteinComplex.ribosome30SCounts = states.ProteinComplex.counts(1, :, :, :);
+0138             states.ProteinComplex.ribosome50SCounts = states.ProteinComplex.counts(2, :, :, :);
+0139             states.ProteinComplex = rmfield(states.ProteinComplex, <span class="string">'counts'</span>);
+0140             
+0141             <span class="comment">%%</span>
+0142             data = struct;
+0143             data.ensemble = ensemble;
+0144             data.states = states;
+0145             data.metabolicMapMetabolites = metabolicMapMetabolites;
+0146             data.metabolicMapReactions = metabolicMapReactions;
+0147         <span class="keyword">end</span>
+0148         
+0149         <a name="_sub2" href="#_subfunctions" class="code">function svg = drawFrame(this, timeIdx)</a>
+0150             import edu.stanford.covert.cell.sim.util.SimulationEnsemble;
+0151             
+0152             sim = this.simulation;
+0153             chr = sim.state(<span class="string">'Chromosome'</span>);
+0154             pm = sim.state(<span class="string">'ProteinMonomer'</span>);
+0155             pc = sim.state(<span class="string">'ProteinComplex'</span>);
+0156             
+0157             sequenceLen = chr.sequenceLen;
+0158             
+0159             ensemble = this.states.ensemble;
+0160             states = this.states.states;
+0161             
+0162             t1 = find(ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ploidy'</span>), :, :) &gt; 1, 1, <span class="string">'first'</span>);
+0163             t2 = find(states.Geometry.pinchedDiameter &lt; states.Geometry.width, 1, <span class="string">'first'</span>) + 30 * 60;
+0164             transitionTimes = [
+0165                 t2
+0166                 t1 + 60 * 60
+0167                 t1 + 30 * 60
+0168                 t1 + (t2 - t1) * 1 / 3;
+0169                 t1 + (t2 - t1) * 2 / 3;
+0170                 ];
+0171             <span class="keyword">if</span> ~this.useTransitions
+0172                 transitionTimes(:) = Inf;
+0173             <span class="keyword">end</span>
+0174             tickLen = 4;
+0175             tAvg = 500;
+0176             
+0177             <span class="comment">%% open svg</span>
+0178             svg = [];
+0179             svg = [svg sprintf(<span class="string">'&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;\n'</span>)];
+0180             svg = [svg sprintf(<span class="string">'&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;\n'</span>)];
+0181             svg = [svg sprintf(<span class="string">'&lt;svg width=&quot;%d&quot; height=&quot;%d&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;%d %d %d %d&quot;&gt;\n'</span>, 800, 600, 0, 0, 800, 600)];
+0182             
+0183             <span class="comment">%definitions</span>
+0184             svg = [svg sprintf(<span class="string">'&lt;defs&gt;\n'</span>)];
+0185             svg = [svg sprintf(<span class="string">'  &lt;linearGradient id=&quot;cellBg&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0186             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#97b0fb;stop-opacity:0.05&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0187             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#89b8d6;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0188             svg = [svg sprintf(<span class="string">'  &lt;/linearGradient&gt;'</span>)];
+0189             svg = [svg sprintf(<span class="string">'  &lt;linearGradient id=&quot;barBg&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0190             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#97b0fb;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0191             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#89b8d6;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0192             svg = [svg sprintf(<span class="string">'  &lt;/linearGradient&gt;'</span>)];
+0193             svg = [svg sprintf(<span class="string">'  &lt;radialGradient id=&quot;metabolite&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0194             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#97b0fb;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0195             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#89b8d6;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0196             svg = [svg sprintf(<span class="string">'  &lt;/radialGradient&gt;'</span>)];
+0197             svg = [svg sprintf(<span class="string">'  &lt;radialGradient id=&quot;activeRibosome&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0198             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#FFFFFF;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0199             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#8BF763;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0200             svg = [svg sprintf(<span class="string">'  &lt;/radialGradient&gt;'</span>)];
+0201             svg = [svg sprintf(<span class="string">'  &lt;radialGradient id=&quot;stalledRibosome&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0202             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#FFFFFF;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0203             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#F96464;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0204             svg = [svg sprintf(<span class="string">'  &lt;/radialGradient&gt;'</span>)];
+0205             svg = [svg sprintf(<span class="string">'  &lt;radialGradient id=&quot;free30SRibosome&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0206             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#FFFFFF;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0207             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#CD64F9;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0208             svg = [svg sprintf(<span class="string">'  &lt;/radialGradient&gt;'</span>)];
+0209             svg = [svg sprintf(<span class="string">'  &lt;radialGradient id=&quot;free50SRibosome&quot; x1=&quot;0%%&quot; y1=&quot;0%%&quot; x2=&quot;0%%&quot; y2=&quot;100%%&quot;&gt;\n'</span>)];
+0210             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#FFFFFF;stop-opacity:0.25&quot; offset=&quot;0&quot;/&gt;\n'</span>)];
+0211             svg = [svg sprintf(<span class="string">'    &lt;stop style=&quot;stop-color:#F9B264;stop-opacity:1&quot; offset=&quot;1&quot;/&gt;\n'</span>)];
+0212             svg = [svg sprintf(<span class="string">'  &lt;/radialGradient&gt;'</span>)];
+0213             svg = [svg sprintf(<span class="string">'  &lt;marker id=&quot;EndArrowPos&quot;\n'</span>)];
+0214             svg = [svg sprintf(<span class="string">'    viewBox=&quot;0 0 10 10&quot; refX=&quot;0&quot; refY=&quot;5&quot; \n'</span>)];
+0215             svg = [svg sprintf(<span class="string">'    markerUnits=&quot;strokeWidth&quot;\n'</span>)];
+0216             svg = [svg sprintf(<span class="string">'    markerWidth=&quot;4&quot; markerHeight=&quot;3&quot;\n'</span>)];
+0217             svg = [svg sprintf(<span class="string">'    orient=&quot;auto&quot;&gt;\n'</span>)];
+0218             svg = [svg sprintf(<span class="string">'    &lt;path d=&quot;M 0 0 L 10 5 L 0 10 z&quot; style=&quot;fill:green;&quot; /&gt;\n'</span>)];
+0219             svg = [svg sprintf(<span class="string">'  &lt;/marker&gt;\n'</span>)];
+0220             svg = [svg sprintf(<span class="string">'  &lt;marker id=&quot;StartArrowNeg&quot;\n'</span>)];
+0221             svg = [svg sprintf(<span class="string">'    viewBox=&quot;0 0 10 10&quot; refX=&quot;0&quot; refY=&quot;5&quot; \n'</span>)];
+0222             svg = [svg sprintf(<span class="string">'    markerUnits=&quot;strokeWidth&quot;\n'</span>)];
+0223             svg = [svg sprintf(<span class="string">'    markerWidth=&quot;4&quot; markerHeight=&quot;3&quot;\n'</span>)];
+0224             svg = [svg sprintf(<span class="string">'    orient=&quot;auto&quot;&gt;\n'</span>)];
+0225             svg = [svg sprintf(<span class="string">'    &lt;path d=&quot;M 10 0 L 0 5 L 10 10 z&quot; style=&quot;fill:#ff241E;&quot; /&gt;\n'</span>)];
+0226             svg = [svg sprintf(<span class="string">'  &lt;/marker&gt;\n'</span>)];
+0227             svg = [svg sprintf(<span class="string">'&lt;/defs&gt;\n'</span>)];
+0228             
+0229             <span class="comment">%style</span>
+0230             svg = [svg sprintf(<span class="string">'&lt;style type=&quot;text/css&quot;&gt;\n'</span>)];
+0231             svg = [svg sprintf(<span class="string">'#background{fill:white; stroke:none;}\n'</span>)];
+0232             svg = [svg sprintf(<span class="string">'text{font-family:arial;}\n'</span>)];
+0233             svg = [svg sprintf(<span class="string">'#title text{font-variant:small-caps; fill:white; font-weight:bold;}\n'</span>)];
+0234             svg = [svg sprintf(<span class="string">'#time text{font-variant:small-caps; fill:white; font-weight:bold;}\n'</span>)];
+0235             svg = [svg sprintf(<span class="string">'text.sectionLabel{font-size:20px; font-weight:bold; text-anchor:middle;}\n'</span>)];
+0236             svg = [svg sprintf(<span class="string">'text.axisLabel{font-size:15px; font-weight:bold;}\n'</span>)];
+0237             svg = [svg sprintf(<span class="string">'text.legendLabel{font-size:15px; font-weight:normal;}\n'</span>)];            
+0238             svg = [svg sprintf(<span class="string">'text.tickLabel{font-size:12px; font-weight:bold;}\n'</span>)];
+0239             svg = [svg sprintf(<span class="string">'line.axis{stroke:black; stroke-width:1;}\n'</span>)];
+0240             svg = [svg sprintf(<span class="string">'circle.activeRibosome, circle.stalledRibosome, circle.free30SRibosome, circle.free50SRibosome{stroke:#666666; stroke-width:0.5;}\n'</span>)];
+0241             svg = [svg sprintf(<span class="string">'circle.activeRibosome{fill:url(#activeRibosome);}\n'</span>)];
+0242             svg = [svg sprintf(<span class="string">'circle.stalledRibosome{fill:url(#stalledRibosome);}\n'</span>)];
+0243             svg = [svg sprintf(<span class="string">'circle.free30SRibosome{fill:url(#free30SRibosome);}\n'</span>)];
+0244             svg = [svg sprintf(<span class="string">'circle.free50SRibosome{fill:url(#free50SRibosome);}\n'</span>)];            
+0245             svg = [svg sprintf(<span class="string">'rect.activeRibosome, rect.stalledRibosome, rect.free30SRibosome, rect.free50SRibosome{stroke:none; stroke-width:0.5; height:2}\n'</span>)];
+0246             svg = [svg sprintf(<span class="string">'rect.activeRibosome{fill:#8BF763;}\n'</span>)];
+0247             svg = [svg sprintf(<span class="string">'rect.stalledRibosome{fill:#F96464;}\n'</span>)];
+0248             svg = [svg sprintf(<span class="string">'rect.free30SRibosome{fill:#CD64F9;}\n'</span>)];
+0249             svg = [svg sprintf(<span class="string">'rect.free50SRibosome{fill:#F9B264;}\n'</span>)];
+0250             
+0251             svg = [svg sprintf(<span class="string">'&lt;/style&gt;\n'</span>)];
+0252             
+0253             <span class="comment">%white background</span>
+0254             svg = [svg sprintf(<span class="string">'&lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; id=&quot;background&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0255                 0, 0, 800, 600)];
+0256             
+0257             <span class="comment">%% title</span>
+0258             svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot; id=&quot;title&quot;&gt;\n'</span>, 0, 0)];
+0259             svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:#ff241E; stroke:none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0260                 0, 0, 800, 50)];
+0261             <span class="keyword">if</span> this.displayAuthorList
+0262                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:24px; text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0263                     4, 22, <span class="string">'A Whole-Cell Model Predicts Phenotype from Genotype'</span>)];
+0264                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:18px; text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0265                     4, 42, <span class="string">'Karr JR, Sanghvi JC, Macklin DN, Gutschow MV, Jacobs JM, Bolival B, Assad-Garcia N, Glass JI, and Covert MW'</span>)];
+0266             <span class="keyword">else</span>
+0267                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:24px; text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0268                     4, 32, <span class="string">'A Whole-Cell Model Predicts Phenotype from Genotype'</span>)];
+0269             <span class="keyword">end</span>
+0270             svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0271             
+0272             <span class="comment">%% footer</span>
+0273             svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot; id=&quot;time&quot;&gt;\n'</span>, 0, 570)];
+0274             svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:#ff241E; stroke:none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0275                 0, 0, 800, 30)];
+0276             svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:24px; text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0277                 664, 23, <span class="string">'Time'</span>)];
+0278             svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:18px; text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0279                 796, 23, datestr(this.times(timeIdx) / (24 * 60 * 60), <span class="string">'HH:MM:SS'</span>))];            
+0280             svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; style=&quot;font-size:24px; text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0281                 4, 23, <span class="string">'wholecell.stanford.edu'</span>)];
+0282             svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0283             
+0284             <span class="comment">%% top left</span>
+0285             H = 150;
+0286             W = 230;
+0287             
+0288             ftsZRing = this.simulation.state(<span class="string">'FtsZRing'</span>);
+0289             timeIdx2 = min(timeIdx, numel(this.times) - 1);
+0290             
+0291             svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 0, 100)];
+0292             svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2, -20, <span class="string">'Cell Growth'</span>)];
+0293             
+0294             rib = sim.state(<span class="string">'Ribosome'</span>);
+0295             ribStates = this.states.states.Ribosome.states(:, :, timeIdx);
+0296             nActive = sum(ribStates == rib.activeValue);
+0297             nStalled = sum(ribStates == rib.stalledValue);
+0298             nFree30 = this.states.states.ProteinComplex.ribosome30SCounts(:, :, timeIdx);
+0299             nFree50 = this.states.states.ProteinComplex.ribosome50SCounts(:, :, timeIdx);
+0300             
+0301             scale = min(W / max(states.Geometry.totalLength(:, :, 1:min(<span class="keyword">end</span>, transitionTimes(1)))), H / max(states.Geometry.width(:, :, 1:min(<span class="keyword">end</span>, transitionTimes(1)))));
+0302             svg = [svg this.drawCell(<span class="keyword">...</span>
+0303                 scale * states.Geometry.width(timeIdx), <span class="keyword">...</span>
+0304                 scale * states.Geometry.cylindricalLength(timeIdx), <span class="keyword">...</span>
+0305                 scale * states.Geometry.septumLength(timeIdx), <span class="keyword">...</span>
+0306                 W, H, nActive, nStalled, nFree30, nFree50, <span class="keyword">...</span>
+0307                 ftsZRing.calcNumEdges(states.Geometry.pinchedDiameter(timeIdx2), ftsZRing.filamentLengthInNm), <span class="keyword">...</span>
+0308                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ftsZRing1st'</span>), :, timeIdx2, 1), <span class="keyword">...</span>
+0309                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ftsZRing2st'</span>), :, timeIdx2, 1), <span class="keyword">...</span>
+0310                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ftsZRing2bt'</span>), :, timeIdx2, 1), <span class="keyword">...</span>
+0311                 ensemble.stateData.values(ensemble.getPropertyIndices(<span class="string">'ftsZRingRbt'</span>), :, timeIdx2, 1), <span class="keyword">...</span>
+0312                 this.times(timeIdx) &gt;= transitionTimes(1))];
+0313             
+0314             svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];            
+0315             
+0316             <span class="comment">%% bottom left</span>
+0317             <span class="keyword">if</span> this.times(timeIdx) &lt; transitionTimes(2)
+0318                 H = 150;
+0319                 W = 230;
+0320                 r = H/2;
+0321                 
+0322                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 0, 360)];
+0323                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2, -20, <span class="string">'Chromosome'</span>)];
+0324                 
+0325                 <span class="comment">%polymerized Regions</span>
+0326                 [posStrnds, lens] = find(states.Chromosome.polymerizedRegions);
+0327                 lens = lens(posStrnds(:, 3) == timeIdx, :);
+0328                 posStrnds = posStrnds(posStrnds(:, 3) == timeIdx, 1:2);
+0329                 twoChrs = any(posStrnds(:, 2) &gt; 2); 
+0330                 svg = [svg sprintf(this.drawArc(posStrnds, lens, W/2, H/2+5, r, 5, <span class="string">'grey'</span>, 1, twoChrs, sequenceLen))];
+0331                 
+0332                 <span class="comment">%bound proteins</span>
+0333                 [monPosStrnds, monIdxs] = find(states.Chromosome.monomerBoundSites);
+0334                 [cpxPosStrnds, cpxIdxs] = find(states.Chromosome.complexBoundSites);
+0335                 posStrnds = [
+0336                     monPosStrnds(monPosStrnds(:, 3) == timeIdx, 1:2)
+0337                     cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx &amp; ~ismembc(cpxIdxs, pc.rnaPolymeraseIndexs), 1:2)
+0338                     ];
+0339                 lens = [
+0340                     chr.monomerDNAFootprints(monIdxs(monPosStrnds(:, 3) == timeIdx, :))
+0341                     chr.complexDNAFootprints(cpxIdxs(cpxPosStrnds(:, 3) == timeIdx, :))
+0342                     ];
+0343                 svg = [svg sprintf(this.drawArc(posStrnds, 2 * lens, W/2, H/2+5, r, 10, <span class="string">'#ff241E'</span>, 2, twoChrs, sequenceLen))];
+0344                 
+0345                 posStrnds = cpxPosStrnds(cpxPosStrnds(:, 3) == timeIdx &amp; ismembc(cpxIdxs, pc.rnaPolymeraseIndexs), 1:2);
+0346                 lens = 10000 * ones(size(posStrnds, 1), 1);
+0347                 svg = [svg sprintf(this.drawArc(posStrnds, lens, W/2, H/2+5, r, 10, <span class="string">'darkblue'</span>, 2, twoChrs, sequenceLen))];
+0348                 
+0349                 <span class="comment">%key</span>
+0350                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:grey; stroke-width:2&quot;/&gt;\n'</span>, 20, H+36, 30, H+36)];
+0351                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:#ff241E; stroke-width:2&quot;/&gt;\n'</span>, 75, H+36, 85, H+36)];
+0352                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:darkblue; stroke-width:2&quot;/&gt;\n'</span>, 145, H+36, 155, H+36)];
+0353                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;legendLabel&quot; style=&quot;text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, 35, H+41, <span class="string">'DNA'</span>)];
+0354                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;legendLabel&quot; style=&quot;text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, 90, H+41, <span class="string">'Protein'</span>)];
+0355                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;legendLabel&quot; style=&quot;text-anchor:start&quot;&gt;%s&lt;/text&gt;\n'</span>, 160, H+41, <span class="string">'RNA Pol'</span>)];
+0356                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0357             <span class="keyword">else</span>
+0358                 H = 150;
+0359                 W = 165;
+0360                 dx = 5;
+0361                 
+0362                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 65, 360)];
+0363                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2-65, -20, <span class="string">'DNA Polymerase'</span>)];
+0364                 
+0365                 <span class="comment">%axes</span>
+0366                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, -dx, 0, -dx, H)];
+0367                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, -dx, 0, -dx-tickLen, 0)];
+0368                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, -dx, H/2, -dx-tickLen, H/2)];
+0369                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, -dx, H, -dx-tickLen, H)];
+0370                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;0&quot; y=&quot;0&quot; class=&quot;axisLabel&quot; transform=&quot;translate(%d, %d) rotate(270)&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0371                     -dx-36, H/2, <span class="string">'Position'</span>)];
+0372                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0373                     -dx-tickLen-2, 0+3, <span class="string">'oriC'</span>)];
+0374                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0375                     -dx-tickLen-2, H/2+3, <span class="string">'terC'</span>)];
+0376                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0377                     -dx-tickLen-2, H+3, <span class="string">'oriC'</span>)];
+0378                 
+0379                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, 0, H+dx, W, H+dx)];
+0380                 ticks = [0 5];
+0381                 <span class="keyword">if</span> this.times(end) / 3600 &gt;= 10
+0382                     ticks(end) = 10;
+0383                 <span class="keyword">end</span>
+0384                 <span class="keyword">for</span> i = 1:numel(ticks)
+0385                     svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0386                         W * ticks(i) / (this.times(end) / 3600), H+dx, W * ticks(i) / (this.times(end) / 3600), H+dx+tickLen)];
+0387                     svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%d&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0388                         W * ticks(i) / (this.times(end) / 3600), H+dx+tickLen+16, ticks(i))];
+0389                 <span class="keyword">end</span>
+0390                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;axisLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, W/2, H+dx+36, <span class="string">'Time (h)'</span>)];
+0391                 
+0392                 <span class="comment">%data</span>
+0393                 <span class="keyword">for</span> k = 1:2
+0394                     data = permute(ensemble.stateData.values(ensemble.getPropertyIndices([<span class="string">'helicase'</span> num2str(k)]), :, :, 1), [4 3 1 2]);
+0395                     
+0396                     minVal = 1;
+0397                     maxVal = sequenceLen;
+0398                     
+0399                     <span class="keyword">if</span> ~any(~isnan(data(1:timeIdx)) &amp; max(0, data(1:timeIdx)))
+0400                         <span class="keyword">continue</span>;
+0401                     <span class="keyword">end</span>
+0402                     
+0403                     path = sprintf(<span class="string">'M %f %f '</span>, W * this.times(find(~isnan(data), 1, <span class="string">'first'</span>)) / this.times(end), H * (1 - (data(find(~isnan(data), 1)) - minVal) / (maxVal - minVal)));
+0404                     idxs = find(diff(data)~=0 &amp; ~isnan(diff(data)) &amp; ~isnan(data(:, 2:end)) &amp; max(0, data(:, 2:end)));
+0405                     <span class="keyword">if</span> numel(idxs) &gt; tAvg
+0406                         idxs = idxs(1:floor(numel(idxs) / tAvg):end);
+0407                     <span class="keyword">end</span>
+0408                     idxs = idxs(idxs + 1 &lt;= timeIdx);
+0409                     idxs(end+1) = find(~isnan(data(1:timeIdx)), 1, <span class="string">'last'</span>) - 1;
+0410                     <span class="keyword">for</span> j = 1:numel(idxs)
+0411                         <span class="keyword">if</span> idxs(j) + 1 &gt; timeIdx
+0412                             <span class="keyword">break</span>;
+0413                         <span class="keyword">end</span>
+0414                         path = [path sprintf(<span class="string">'L %f %f '</span>, W * this.times(idxs(j)+1) / this.times(end), H * (1 - (data(idxs(j)+1) - minVal) / (maxVal - minVal)))];
+0415                     <span class="keyword">end</span>
+0416                     
+0417                     svg = [svg sprintf(<span class="string">'  &lt;path d=&quot;%s&quot; style=&quot;stroke:darkblue; stroke-width:2px; fill:none;&quot;/&gt;'</span>, path)];
+0418                 <span class="keyword">end</span>
+0419                 
+0420                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0421             <span class="keyword">end</span>
+0422             
+0423             <span class="comment">%% top middle</span>
+0424             H = 200;
+0425             W = 280;
+0426             
+0427             <span class="keyword">if</span> this.times(timeIdx) &lt; transitionTimes(3)
+0428                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 255, 100)];
+0429                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2+25, -20, <span class="string">'Metabolism'</span>)];
+0430                 
+0431                 mapMets = this.states.metabolicMapMetabolites;
+0432                 mapRxns = this.states.metabolicMapReactions;
+0433 
+0434                 minX = min(mapMets.x);
+0435                 minY = min(mapMets.y);
+0436                 scaleX = W / range(mapMets.x);
+0437                 scaleY = H / range(mapMets.y);
+0438                 mapMets.x = scaleX * (mapMets.x - minX);
+0439                 mapMets.y = scaleY * (mapMets.y - minY);
+0440                 <span class="keyword">for</span> i = 1:numel(mapRxns.path)
+0441                     [starts, ends, tokens] = regexp(mapRxns.path{i}, <span class="string">'(-*\d*\.*\d*),(-*\d*\.*\d*)'</span>, <span class="string">'start'</span>, <span class="string">'end'</span>, <span class="string">'tokens'</span>);
+0442                     <span class="keyword">for</span> j = 1:numel(starts)
+0443                         valX = num2str(scaleX * (str2double(tokens{j}{1}) - minX));
+0444                         valY = num2str(scaleY * (str2double(tokens{j}{2}) - minY));
+0445                         mapRxns.path{i} = [<span class="keyword">...</span>
+0446                             mapRxns.path{i}(1:starts(j)-1) <span class="keyword">...</span>
+0447                             valX <span class="keyword">...</span>
+0448                             <span class="string">','</span> <span class="keyword">...</span>
+0449                             valY <span class="keyword">...</span>
+0450                             mapRxns.path{i}(ends(j)+1:end) <span class="keyword">...</span>
+0451                             ];
+0452                         starts = starts + numel(valX) + numel(valY) - numel(tokens{j}{1}) - numel(tokens{j}{2});
+0453                         ends = ends + numel(valX) + numel(valY) - numel(tokens{j}{1}) - numel(tokens{j}{2});
+0454                     <span class="keyword">end</span>
+0455                 <span class="keyword">end</span>
+0456                 
+0457                 data = 2 + 7 * (states.Metabolite.counts(:, :, timeIdx) - min(states.Metabolite.counts, [], 3)) ./ <span class="keyword">...</span>
+0458                     (max(states.Metabolite.counts, [], 3) -  min(states.Metabolite.counts, [], 3));
+0459                 data(isnan(data)) = 5;
+0460                 <span class="keyword">for</span> i = 1:numel(mapMets.idxs)
+0461                     svg = [svg sprintf(<span class="string">'    &lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; style=&quot;stroke:none; fill:white&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0462                         mapMets.x(i), mapMets.y(i), data(mapMets.idxs(i), mapMets.compIdxs(i)))];
+0463                     svg = [svg sprintf(<span class="string">'    &lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; style=&quot;stroke:darkblue; stroke-width:0.5px; fill:url(#metabolite)&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0464                         mapMets.x(i), mapMets.y(i), data(mapMets.idxs(i), mapMets.compIdxs(i)))];
+0465                 <span class="keyword">end</span>
+0466                 
+0467                 data1 = states.MetabolicReaction.fluxs(:, :, timeIdx);
+0468                 data2 = 0.25 + 0.75 * (abs(data1) - min(abs(states.MetabolicReaction.fluxs), [], 3)) ./ <span class="keyword">...</span>
+0469                     (max(abs(states.MetabolicReaction.fluxs), [], 3) -  min(abs(states.MetabolicReaction.fluxs), [], 3));
+0470                 data2(isnan(data2)) = 0.25;
+0471                 <span class="keyword">for</span> i = 1:numel(mapRxns.idxs)
+0472                     <span class="keyword">if</span> data1(mapRxns.idxs(i)) == 0
+0473                         data2(mapRxns.idxs(i)) = 1;
+0474                         stroke = <span class="string">'lightgrey'</span>;
+0475                         style = <span class="string">'stroke-dasharray: 2, 2;'</span>;
+0476                         markerStart = <span class="string">'none'</span>;
+0477                         markerEnd = <span class="string">'none'</span>;
+0478                     <span class="keyword">elseif</span> data1(mapRxns.idxs(i)) &gt; 0
+0479                         stroke = <span class="string">'green'</span>;
+0480                         style = <span class="string">''</span>;
+0481                         markerStart = <span class="string">'none'</span>;
+0482                         markerEnd = <span class="string">'url(#EndArrowPos)'</span>;
+0483                     <span class="keyword">else</span>
+0484                         stroke = <span class="string">'#ff241E'</span>;
+0485                         style = <span class="string">''</span>;
+0486                         markerStart = <span class="string">'url(#StartArrowNeg)'</span>;
+0487                         markerEnd = <span class="string">'none'</span>;
+0488                     <span class="keyword">end</span>
+0489                     svg = [svg sprintf(<span class="string">'    &lt;path d=&quot;%s&quot; style=&quot;fill:none; stroke:%s; stroke-width:1px; opacity:%0.3f; %s; marker-start:%s; marker-end:%s&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0490                         mapRxns.path{i}, stroke, data2(mapRxns.idxs(i)), style, markerStart, markerEnd)];
+0491                 <span class="keyword">end</span>
+0492                 
+0493                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0494             <span class="keyword">else</span>
+0495                 H = 150;
+0496                 W = 230;
+0497                 dx = 5;
+0498                 
+0499                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 280, 100)];
+0500                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2, -20, <span class="string">'Energy Usage'</span>)];
+0501                 
+0502                 <span class="comment">%axes</span>
+0503                 svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;stroke:none; fill:rgb(210,210,210); stroke-width:1&quot;/&gt;\n'</span>, 0, 0, W, H)];
+0504                 
+0505                 <span class="comment">%data</span>
+0506                 data = permute(states.Metabolite.processUsages, [2 3 1]);
+0507                 nProcesses = size(data, 1);
+0508                 data = [data NaN(nProcesses, tAvg-mod(size(data, 2), tAvg))];
+0509                 data = permute(nanmean(reshape(data, [nProcesses tAvg size(data, 2) / tAvg]), 2), [1 3 2]);
+0510                 sums = sum(data, 2);
+0511                 data = data(sums &gt; 0, :);
+0512                 sums = sums(sums &gt; 0);
+0513                 nProcesses = numel(sums);
+0514                 [~, order] = sort(sums);
+0515                 data = data(order, :);
+0516                 
+0517                 data = log(max(1, data));
+0518                 data = data - min(data(:));
+0519                 maxVal = max(data(:));
+0520                 r = round(255 * max(0, (data - maxVal / 2) / (maxVal / 2)));
+0521                 g = round(255 * max(0, (maxVal / 2 - data) / (maxVal / 2)));
+0522                 rows = floor(H * (0:nProcesses) / nProcesses);
+0523                 rows(end) = H;
+0524                 rowHeights = diff(rows)+1;
+0525                 cols = floor(W * (0:ceil(numel(this.times) / tAvg)) / ceil(numel(this.times) / tAvg));
+0526                 cols(end) = W;
+0527                 colWidths = diff(cols) + 1;
+0528                 colWidths(ceil(timeIdx / tAvg)) = colWidths(ceil(timeIdx / tAvg)) * mod(timeIdx / tAvg, 1);
+0529                 <span class="keyword">if</span> ceil(timeIdx / tAvg) &gt; 1
+0530                     colWidths(ceil(timeIdx / tAvg) - 1) = <span class="keyword">...</span>
+0531                         + colWidths(ceil(timeIdx / tAvg) - 1) <span class="keyword">...</span>
+0532                         - 1 <span class="keyword">...</span>
+0533                         + min(1, colWidths(ceil(timeIdx / tAvg)));
+0534                 <span class="keyword">end</span>
+0535                 <span class="keyword">for</span> i = 1:ceil(timeIdx / tAvg)
+0536                     <span class="keyword">for</span> j = 1:nProcesses
+0537                         svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;stroke:none; stroke-width:1px; fill:rgb(%d, %d, 0);&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0538                             cols(i), rows(j), colWidths(i), rowHeights(j), <span class="keyword">...</span>
+0539                             r(j, i), g(j, i))];
+0540                     <span class="keyword">end</span>
+0541                 <span class="keyword">end</span>
+0542                 
+0543                 <span class="comment">%axes</span>
+0544                 svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;stroke:black; fill:none; stroke-width:1&quot;/&gt;\n'</span>, 0, 0, W, H)];
+0545                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;0&quot; y=&quot;0&quot; class=&quot;axisLabel&quot; transform=&quot;translate(%d, %d) rotate(270)&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0546                     -6, H/2, <span class="string">'Process'</span>)];
+0547                 
+0548                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, 0, H+dx, W, H+dx)];
+0549                 ticks = [0 5];
+0550                 <span class="keyword">if</span> this.times(end) / 3600 &gt;= 10
+0551                     ticks(end) = 10;
+0552                 <span class="keyword">end</span>
+0553                 <span class="keyword">for</span> i = 1:numel(ticks)
+0554                     svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:black; stroke-width:1&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0555                         W * ticks(i) / (this.times(end) / 3600), H+dx, W * ticks(i) / (this.times(end) / 3600), H+dx+tickLen)];
+0556                     svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%d&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0557                         W * ticks(i) / (this.times(end) / 3600), H+dx+tickLen+16, ticks(i))];
+0558                 <span class="keyword">end</span>
+0559                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;axisLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, W/2, H+dx+36, <span class="string">'Time (h)'</span>)];
+0560                 
+0561                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0562             <span class="keyword">end</span>
+0563             
+0564             <span class="comment">%% bottom middle</span>
+0565             <span class="keyword">if</span> this.times(timeIdx) &lt; transitionTimes(4)
+0566                 H = 150;
+0567                 W = 230;
+0568                 dx = 5;
+0569                 w = (W - dx * (5 - 1)) / 5;
+0570                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 280, 360)];
+0571                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2, -20, <span class="string">'Replication Initiation'</span>)];
+0572                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;fill:none; stroke:black;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0573                     -dx, 0, -dx, H)];
+0574                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;fill:none; stroke:black;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0575                     -dx, 0, -dx-tickLen, 0)];
+0576                 svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;fill:none; stroke:black;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0577                     -dx, H, -dx-tickLen, H)];
+0578                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;0&quot; y=&quot;0&quot; class=&quot;axisLabel&quot; transform=&quot;translate(%d, %d) rotate(270)&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, -dx-tickLen-8, H/2, <span class="string">'DnaA'</span>)];
+0579                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%d&lt;/text&gt;\n'</span>, -dx-tickLen-2, 3, 7)];
+0580                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%d&lt;/text&gt;\n'</span>, -dx-tickLen-2, H+3, 0)];
+0581                 
+0582                 <span class="keyword">for</span> i = 1:5
+0583                     data = permute(ensemble.stateData.values(ensemble.getPropertyIndices([<span class="string">'dnaA_box'</span> num2str(i)]), :, timeIdx, 1), [4 3 1 2]);
+0584                     
+0585                     svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; y=&quot;%d&quot; width=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:url(#barBg); stroke:darkblue;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0586                         round((i - 1) * (w + dx)), H * (1 - data/7), round(w), H * data / 7)];
+0587                     svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;fill:none; stroke:black;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0588                         round((i - 1) * (w + dx)), H+dx, round((i - 1) * (w + dx) + w), H+dx)];
+0589                     svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:middle&quot;&gt;R%d&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0590                         round((i - 1) * (w + dx) + w/2), H+dx+16, i)];
+0591                 <span class="keyword">end</span>
+0592                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;axisLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, W/2, H+dx+36, <span class="string">'Functional DnaA Boxes'</span>)];
+0593                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0594             <span class="keyword">else</span>
+0595                 H = 155;
+0596                 W = 230;
+0597                 dx = 5;
+0598                 
+0599                 lens = pm.lengths(pm.nascentIndexs);
+0600                 
+0601                 nRows = 20;
+0602                 nCols = ceil(numel(lens) / nRows);
+0603                 
+0604                 svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 280, 360)];
+0605                 svg = [svg sprintf(<span class="string">'  &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;sectionLabel&quot;&gt;%s&lt;/text&gt;\n'</span>, 230/2, -20, <span class="string">'Translation'</span>)];
+0606                 
+0607                 h = (H - dx * (nRows - 1)) / nRows;
+0608                 <span class="keyword">for</span> i = 1:nRows
+0609                     <span class="keyword">if</span> i == nRows
+0610                         norm = sum(lens(1:nCols));
+0611                     <span class="keyword">else</span>
+0612                         norm = sum(lens((i - 1) * nCols + 1:min(i * nCols, numel(lens))));
+0613                     <span class="keyword">end</span>
+0614                     w = (W - dx * (nCols - 1)) / norm;
+0615                     <span class="keyword">for</span> j = (i - 1) * nCols + 1:min(i * nCols, numel(lens))
+0616                         svg = [svg sprintf(<span class="string">'  &lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;fill:none; stroke:grey; stroke-width:1px;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0617                             dx * (j - (i - 1) * nCols - 1) + w * sum(lens((i - 1) * nCols + 1:j-1)), <span class="keyword">...</span>
+0618                             dx * (j - (i - 1) * nCols - 1) + w * sum(lens((i - 1) * nCols + 1:j)), <span class="keyword">...</span>
+0619                             (i - 1) * (h + dx) + h, (i - 1) * (h + dx) + h)];
+0620                         
+0621                         nascentLens = max(states.Ribosome.mRNAPositions(states.Ribosome.boundMRNAs(:, :, timeIdx) == j, :, timeIdx));
+0622                         abortedLens = max(states.Ribosome.tmRNAPositions(states.Ribosome.boundMRNAs(:, :, timeIdx) == j, :, timeIdx));
+0623                         <span class="keyword">for</span> k = 1:numel(nascentLens)
+0624                             <span class="keyword">if</span> abortedLens(k) == 0
+0625                                 color = <span class="string">'darkblue'</span>;
+0626                             <span class="keyword">else</span>
+0627                                 color = <span class="string">'#ff241E'</span>;
+0628                             <span class="keyword">end</span>
+0629                             
+0630                             svg = [svg sprintf(<span class="string">'  &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:%s; stroke:none; stroke-width:1px;&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0631                                 dx * (j - (i - 1) * nCols - 1) + w * sum(lens((i - 1) * nCols + 1:j-1)), <span class="keyword">...</span>
+0632                                 w * nascentLens(k), <span class="keyword">...</span>
+0633                                 (i - 1) * (h + dx), h, color)];
+0634                         <span class="keyword">end</span>
+0635                     <span class="keyword">end</span>
+0636                 <span class="keyword">end</span>
+0637                 
+0638                 svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0639             <span class="keyword">end</span>
+0640             
+0641             <span class="comment">%% right</span>
+0642             svg = [svg sprintf(<span class="string">'&lt;g transform=&quot;translate(%d, %d)&quot; id=&quot;right&quot;&gt;\n'</span>, 650, 70)];
+0643             
+0644             <span class="comment">%data</span>
+0645             <span class="keyword">if</span> this.times(timeIdx) &lt; transitionTimes(5)
+0646                 simIdxs = 1;
+0647                 states = {
+0648                     <span class="string">'growth_rate'</span>       {<span class="string">'Growth'</span> <span class="string">'(fg h&lt;tspan dy=&quot;-8&quot; style=&quot;font-size:60%&quot;&gt;-1&lt;/tspan&gt;&lt;tspan dy=&quot;8&quot;&gt;)&lt;/tspan&gt;'</span>}
+0649                     <span class="string">'matureComplexs'</span>    {<span class="string">'Cpx'</span>}
+0650                     <span class="string">'matureMonomers'</span>    {<span class="string">'Mon'</span>}
+0651                     <span class="string">'mrnas'</span>             {<span class="string">'mRNA'</span>}
+0652                     <span class="string">'rrnas'</span>             {<span class="string">'rRNA'</span>}
+0653                     <span class="string">'trnas'</span>             {<span class="string">'tRNA'</span>}
+0654                     <span class="string">'amino_acids'</span>       {<span class="string">'Amino'</span> <span class="string">'Acid'</span>}
+0655                     <span class="string">'ntps'</span>              {<span class="string">'NTP'</span>}
+0656                     };
+0657             <span class="keyword">else</span>
+0658                 simIdxs = 1:numel(this.simId);
+0659                 states = {
+0660                     <span class="string">'mass'</span>              {<span class="string">'Mass'</span> <span class="string">'(fg)'</span>}
+0661                     <span class="string">'growth_rate'</span>       {<span class="string">'Growth'</span> <span class="string">'(fg h&lt;tspan dy=&quot;-8&quot; style=&quot;font-size:60%&quot;&gt;-1&lt;/tspan&gt;&lt;tspan dy=&quot;8&quot;&gt;)&lt;/tspan&gt;'</span>}
+0662                     <span class="string">'matureComplexs'</span>    {<span class="string">'Cpx'</span>}
+0663                     <span class="string">'matureMonomers'</span>    {<span class="string">'Mon'</span>}
+0664                     <span class="string">'matureMonomers'</span>    {<span class="string">'RNA'</span>}
+0665                     <span class="string">'ploidy'</span>            {<span class="string">'Chr'</span> <span class="string">'Copy'</span> <span class="string">'No'</span>}
+0666                     <span class="string">'superhelicity'</span>     {<span class="string">'Super-'</span> <span class="string">'helicity'</span>}
+0667                     <span class="string">'dntps'</span>             {<span class="string">'dNTP'</span>}
+0668                     };
+0669             <span class="keyword">end</span>
+0670             dy = 16;
+0671             H = 430;
+0672             h = (H - dy * (size(states, 1) - 1)) / size(states, 1);
+0673             w = 132;
+0674             <span class="keyword">for</span> i = 1:size(states, 1)
+0675                 y = round((i-1) * (h + dy));
+0676                 <span class="comment">%open</span>
+0677                 svg = [svg sprintf(<span class="string">'  &lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 0, y)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0678                 
+0679                 <span class="comment">%axis</span>
+0680                 svg = [svg sprintf(<span class="string">'    &lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, -8, 0)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0681                 svg = [svg sprintf(<span class="string">'      &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; class=&quot;axis&quot;/&gt;\n'</span>, 0, 0, 0, h)];
+0682                 svg = [svg sprintf(<span class="string">'      &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; class=&quot;axis&quot;/&gt;\n'</span>, 0, 0, -tickLen, 0)];
+0683                 svg = [svg sprintf(<span class="string">'      &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; class=&quot;axis&quot;/&gt;\n'</span>, 0, h, -tickLen, h)];
+0684                 <span class="keyword">for</span> j = 1:numel(states{i,2})
+0685                     svg = [svg sprintf(<span class="string">'      &lt;text x=&quot;0&quot; y=&quot;0&quot; transform=&quot;translate(%d, %d) rotate(270)&quot; class=&quot;axisLabel&quot; style=&quot;text-anchor:middle; alignment-baseline:bottom&quot;&gt;%s&lt;/text&gt;\n'</span>, <span class="keyword">...</span>
+0686                         -18 * (numel(states{i,2}) - j + 1) - 36, round(h/2), states{i, 2}{j})];
+0687                 <span class="keyword">end</span>
+0688                 data = permute(ensemble.stateData.values(ensemble.getPropertyIndices(states{i, 1}), :, :, simIdxs), [4 3 1 2]);
+0689                 minVal = min(data(:));
+0690                 maxVal = max(data(:));
+0691                 <span class="keyword">if</span> minVal == ceil(minVal)
+0692                     minStr = sprintf(<span class="string">'%d'</span>, minVal);
+0693                 <span class="keyword">else</span>
+0694                     minStr = sprintf(<span class="string">'%.2f'</span>, minVal);
+0695                 <span class="keyword">end</span>
+0696                 <span class="keyword">if</span> maxVal == ceil(maxVal)
+0697                     maxStr = sprintf(<span class="string">'%d'</span>, maxVal);
+0698                 <span class="keyword">else</span>
+0699                     maxStr = sprintf(<span class="string">'%.2f'</span>, maxVal);
+0700                 <span class="keyword">end</span>
+0701                 svg = [svg sprintf(<span class="string">'      &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, -tickLen-2, h+3, minStr)];
+0702                 svg = [svg sprintf(<span class="string">'      &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:end&quot;&gt;%s&lt;/text&gt;\n'</span>, -tickLen-2, 0+3, maxStr)];
+0703                 svg = [svg sprintf(<span class="string">'    &lt;/g&gt;\n'</span>)];
+0704                 
+0705                 <span class="comment">%data</span>
+0706                 <span class="keyword">for</span> k = numel(simIdxs):-1:1
+0707                     path = sprintf(<span class="string">'M %f %f '</span>, w * this.times(1) / this.times(end), h * (1 - (data(k, 1) - minVal) / (maxVal - minVal)));
+0708                     idxs = find(diff(data(k, :)));
+0709                     <span class="keyword">if</span> numel(idxs) &gt; tAvg
+0710                         idxs = idxs(1:floor(numel(idxs)/tAvg):end);
+0711                     <span class="keyword">end</span>
+0712                     idxs = idxs(idxs + 1 &lt;= timeIdx);
+0713                     idxs(end+1) = find(~isnan(data(k, 1:timeIdx)), 1, <span class="string">'last'</span>) - 1;
+0714                     <span class="keyword">for</span> j = 1:numel(idxs)
+0715                         <span class="keyword">if</span> idxs(j) + 1 &gt; timeIdx
+0716                             <span class="keyword">break</span>;
+0717                         <span class="keyword">end</span>
+0718                         path = [path sprintf(<span class="string">'L %f %f '</span>, w * this.times(idxs(j)+1) / this.times(end), h * (1 - (data(k, idxs(j)+1) - minVal) / (maxVal - minVal)))];
+0719                     <span class="keyword">end</span>
+0720                     <span class="keyword">if</span> k == 1
+0721                         svg = [svg sprintf(<span class="string">'    &lt;path d=&quot;%s&quot; style=&quot;stroke:darkblue; stroke-width:2px; fill:none;&quot;/&gt;'</span>, path)];
+0722                     <span class="keyword">else</span>
+0723                         svg = [svg sprintf(<span class="string">'    &lt;path d=&quot;%s&quot; style=&quot;stroke:rgb(200,200,200); stroke-width:1px; fill:none;&quot;/&gt;'</span>, path)];
+0724                     <span class="keyword">end</span>
+0725                 <span class="keyword">end</span>
+0726                 
+0727                 <span class="comment">%close</span>
+0728                 svg = [svg sprintf(<span class="string">'  &lt;/g&gt;\n'</span>)];
+0729             <span class="keyword">end</span>
+0730             
+0731             <span class="comment">%time axes</span>
+0732             svg = [svg sprintf(<span class="string">'  &lt;g transform=&quot;translate(%d, %d)&quot;&gt;\n'</span>, 0, H + dy)];
+0733             svg = [svg sprintf(<span class="string">'    &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; class=&quot;axis&quot;/&gt;\n'</span>, 0, 0, w, 0)];
+0734             svg = [svg sprintf(<span class="string">'    &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;axisLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%s&lt;/text&gt;\n'</span>, 75, 36, <span class="string">'Time (h)'</span>)];
+0735             ticks = [0 5];
+0736             <span class="keyword">if</span> this.times(end) / 3600 &gt;= 10
+0737                 ticks(end) = 10;
+0738             <span class="keyword">end</span>
+0739             <span class="keyword">for</span> i = 1:numel(ticks)
+0740                 svg = [svg sprintf(<span class="string">'    &lt;line x1=&quot;%d&quot; y1=&quot;%d&quot; x2=&quot;%d&quot; y2=&quot;%d&quot; class=&quot;axis&quot;/&gt;\n'</span>, w * ticks(i) / (this.times(end) / 3600), 0, w * ticks(i) / (this.times(end) / 3600), tickLen)];
+0741                 svg = [svg sprintf(<span class="string">'    &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;tickLabel&quot; style=&quot;text-anchor:middle&quot;&gt;%d&lt;/text&gt;\n'</span>, w * ticks(i) / (this.times(end) / 3600), 18, ticks(i))];
+0742             <span class="keyword">end</span>
+0743             svg = [svg sprintf(<span class="string">'  &lt;/g&gt;\n'</span>)];
+0744             
+0745             <span class="comment">%close</span>
+0746             svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0747             
+0748             <span class="comment">%% close svg</span>
+0749             svg = [svg sprintf(<span class="string">'&lt;/svg&gt;\n'</span>)];
+0750         <span class="keyword">end</span>
+0751         
+0752         <a name="_sub3" href="#_subfunctions" class="code">function svg = drawCell(~, width, cylindricalLength, septumLength, W, H, nActive, nStalled, nFree30, nFree50, numEdges, ftsZRing1st, ftsZRing2st, ftsZRing2bt, ftsZRingRbt, zoomIn)</a>
+0753             <span class="comment">%initialize</span>
+0754             svg = [];
+0755             
+0756             <span class="comment">%start group</span>
+0757             svg = [svg sprintf(<span class="string">'&lt;g&gt;\n'</span>)];
+0758                      
+0759             <span class="comment">%rectangle clip</span>
+0760             svg = [svg <span class="keyword">...</span>
+0761                 sprintf(<span class="string">'  &lt;clipPath id=&quot;RectClip&quot;&gt;\n'</span>) <span class="keyword">...</span>
+0762                 sprintf(<span class="string">'    &lt;path d=&quot;M %d,0  L %d,0  L%d,%d  L%d,%d z&quot; style=&quot;fill:white;&quot;/&gt;'</span>, 0.05 * W, 0.95 * W, 0.95 * W, H, 0.05 * W, H) <span class="keyword">...</span>
+0763                 sprintf(<span class="string">'  &lt;/clipPath&gt;\n'</span>) <span class="keyword">...</span>
+0764                 ];
+0765             
+0766             <span class="comment">%open cell and contents</span>
+0767             <span class="keyword">if</span> zoomIn
+0768                 svg = [svg sprintf(<span class="string">'  &lt;g transform=&quot;translate(%d, %d) scale(0.95)&quot; clip-path=&quot;url(#RectClip)&quot;&gt;\n'</span>, 0.03 * W, -0.07 * H)];
+0769             <span class="keyword">else</span>
+0770                 svg = [svg sprintf(<span class="string">'  &lt;g transform=&quot;translate(%d, %d) scale(0.95)&quot;&gt;\n'</span>, 0.03 * W, -0.07 * H)];
+0771             <span class="keyword">end</span>
+0772             
+0773             <span class="comment">%background</span>
+0774             svg = [svg <span class="keyword">...</span>
+0775                 sprintf(<span class="string">'  &lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0776                 sprintf(<span class="string">'    M%0.4f,%0.4f a%0.4f,%0.4f 0 1 0 0,%0.4f\n'</span>, W/2 - septumLength - cylindricalLength/2, H/2 - width/2, width/2, width/2, width), <span class="keyword">...</span>
+0777                 sprintf(<span class="string">'    l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0778                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0779                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0780                 sprintf(<span class="string">'    l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0781                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 1 0 0,-%0.4f\n'</span>, width/2,width/2, width) <span class="keyword">...</span>
+0782                 sprintf(<span class="string">'    l-%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0783                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0784                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0785                 sprintf(<span class="string">'    z\n'</span>) <span class="keyword">...</span>
+0786                 <span class="string">'    &quot; style=&quot;stroke:none;fill:url(#cellBg)&quot;/&gt;\n'</span>];
+0787             
+0788             <span class="comment">%cell clip</span>
+0789             svg = [svg <span class="keyword">...</span>
+0790                 sprintf(<span class="string">'  &lt;clipPath id=&quot;CellClip&quot;&gt;\n'</span>) <span class="keyword">...</span>
+0791                 sprintf(<span class="string">'    &lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0792                 sprintf(<span class="string">'      M%0.4f,%0.4f a%0.4f,%0.4f 0 1 0 0,%0.4f\n'</span>, W/2 - septumLength - cylindricalLength/2, H/2 - width/2, width/2, width/2, width), <span class="keyword">...</span>
+0793                 sprintf(<span class="string">'      l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0794                 sprintf(<span class="string">'      a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0795                 sprintf(<span class="string">'      a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0796                 sprintf(<span class="string">'      l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0797                 sprintf(<span class="string">'      a%0.4f,%0.4f 0 1 0 0,-%0.4f\n'</span>, width/2, width/2, width) <span class="keyword">...</span>
+0798                 sprintf(<span class="string">'      l-%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0799                 sprintf(<span class="string">'      a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0800                 sprintf(<span class="string">'      a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0801                 sprintf(<span class="string">'      z\n'</span>) <span class="keyword">...</span>
+0802                 <span class="string">'      &quot; style=&quot;stroke:none;fill:url(#cellBg)&quot;/&gt;\n'</span> <span class="keyword">...</span>
+0803                 sprintf(<span class="string">'  &lt;/clipPath&gt;\n'</span>) <span class="keyword">...</span>
+0804                 ];
+0805             
+0806             <span class="comment">%ribosomes</span>
+0807             svg = [svg sprintf(<span class="string">'  &lt;g clip-path=&quot;url(#CellClip)&quot;&gt;\n'</span>)];            
+0808             nRibs = nActive + nStalled + nFree30 + nFree50;
+0809             cx = 0.05 * W + 0.9 * W * rand(nRibs, 1);
+0810             cy = 0.05 * H + 0.9 * H * rand(nRibs, 1);
+0811             r = [5 * ones(nActive, 1); 5 * ones(nStalled, 1); 3 * ones(nFree30, 1); 3 * ones(nFree50, 1)];
+0812             style = [
+0813                 repmat({<span class="string">'activeRibosome'</span>}, nActive, 1)
+0814                 repmat({<span class="string">'stalledRibosome'</span>}, nStalled, 1)
+0815                 repmat({<span class="string">'free30SRibosome'</span>}, nFree30, 1)
+0816                 repmat({<span class="string">'free50SRibosome'</span>}, nFree50, 1)
+0817                 ];
+0818             order = randperm(nRibs);
+0819             <span class="keyword">for</span> j = 1:nRibs
+0820                 i = order(j);
+0821                 svg = [svg sprintf(<span class="string">'    &lt;g transform=&quot;translate(%d,%d)&quot;&gt;\n'</span>, cx(i), cy(i))];
+0822                 svg = [svg sprintf(<span class="string">'      &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;%d&quot; style=&quot;fill:white;&quot;/&gt;\n'</span>, r(i))];
+0823                 svg = [svg sprintf(<span class="string">'      &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;%d&quot; class=&quot;%s&quot;/&gt;\n'</span>, r(i), style{i})];
+0824                 svg = [svg sprintf(<span class="string">'    &lt;/g&gt;\n'</span>)];
+0825             <span class="keyword">end</span>
+0826             svg = [svg sprintf(<span class="string">'  &lt;/g&gt;\n'</span>)];
+0827             
+0828             <span class="comment">%FtsZ</span>
+0829             <span class="keyword">if</span> ftsZRing1st || ftsZRing2st || ftsZRing2bt || ftsZRingRbt
+0830                 ftsZRing1st = ftsZRing1st / numEdges * 2 * (septumLength + 6);
+0831                 ftsZRing2st = ftsZRing2st / numEdges * 2 * (septumLength + 6);
+0832                 ftsZRing2bt = ftsZRing2bt / numEdges * 2 * (septumLength + 6);
+0833                 ftsZRingRbt = ftsZRingRbt / numEdges * 2 * (septumLength + 6);
+0834                 svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:#ff241E; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#CellClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0835                     W/2 - 6, W/2 - 6, 0, H/2 - septumLength + ftsZRing1st)];
+0836                 svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:#ff241E; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#CellClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0837                     W/2 - 2, W/2 - 2, 0, H/2 - septumLength + ftsZRing2st)];
+0838                 svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:green; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#CellClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0839                     W/2 + 2, W/2 + 2, H, H/2 + septumLength - ftsZRing2bt)];
+0840                 svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:green; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#CellClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0841                     W/2 + 6, W/2 + 6, H, H/2 + septumLength - ftsZRingRbt)];
+0842             <span class="keyword">end</span>
+0843             
+0844             <span class="comment">%membrane</span>
+0845             svg = [svg <span class="keyword">...</span>
+0846                 sprintf(<span class="string">'  &lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0847                 sprintf(<span class="string">'    M%0.4f,%0.4f a%0.4f,%0.4f 0 1 0 0,%0.4f\n'</span>, W/2 - septumLength - cylindricalLength/2, H/2 - width/2, width/2, width/2, width), <span class="keyword">...</span>
+0848                 sprintf(<span class="string">'    l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0849                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0850                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0851                 sprintf(<span class="string">'    l%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0852                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 1 0 0,-%0.4f\n'</span>, width/2,width/2, width) <span class="keyword">...</span>
+0853                 sprintf(<span class="string">'    l-%0.4f,0\n'</span>, cylindricalLength/2) <span class="keyword">...</span>
+0854                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0855                 sprintf(<span class="string">'    a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0856                 sprintf(<span class="string">'    z\n'</span>) <span class="keyword">...</span>
+0857                 <span class="string">'    &quot; style=&quot;stroke:darkblue;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;fill:none;&quot;/&gt;\n'</span>];
+0858             
+0859             <span class="comment">%close cell and contents</span>
+0860             svg = [svg sprintf(<span class="string">'  &lt;/g&gt;\n'</span>)];
+0861             
+0862             <span class="comment">%legend</span>
+0863             svg = [svg sprintf(<span class="string">'  &lt;g transform=&quot;translate(6, 5)&quot;&gt;\n'</span>)];
+0864             svg = [svg sprintf(<span class="string">'    &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 33, H, <span class="string">'axisLabel'</span>, <span class="string">'Ribosomes'</span>)];
+0865             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; class=&quot;%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 0, 10, 16 + H-5,    2, <span class="string">'activeRibosome'</span>,  13, 16 + H,    <span class="string">'legendLabel'</span>, <span class="string">'Active'</span>)];
+0866             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; class=&quot;%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 0, 10, 16 + H-5+16, 2, <span class="string">'stalledRibosome'</span>, 13, 16 + H+16, <span class="string">'legendLabel'</span>, <span class="string">'Stalled'</span>)];
+0867             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; class=&quot;%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 68, 10, 16 + H-5,    2, <span class="string">'free30SRibosome'</span>, 81, 16 + H,    <span class="string">'legendLabel'</span>, <span class="string">'Free 30S'</span>)];
+0868             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; class=&quot;%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 68, 10, 16 + H-5+16, 2, <span class="string">'free50SRibosome'</span>, 81, 16 + H+16, <span class="string">'legendLabel'</span>, <span class="string">'Free 50S'</span>)];
+0869             
+0870             svg = [svg sprintf(<span class="string">'    &lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 168, H, <span class="string">'axisLabel'</span>, <span class="string">'FtsZ'</span>)];
+0871             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 153, 10, 16 + H-5,    2, <span class="string">'#ff241E'</span>, 166, 16 + H,    <span class="string">'legendLabel'</span>, <span class="string">'Straight'</span>)];
+0872             svg = [svg sprintf(<span class="string">'    &lt;rect x=&quot;%d&quot; width=&quot;%d&quot; y=&quot;%d&quot; height=&quot;%d&quot; style=&quot;fill:%s&quot;/&gt;&lt;text x=&quot;%d&quot; y=&quot;%d&quot; class=&quot;%s&quot;&gt;%s&lt;/text&gt;\n'</span>, 153, 10, 16 + H-5+16, 2, <span class="string">'green'</span>,   166, 16 + H+16, <span class="string">'legendLabel'</span>, <span class="string">'Bent'</span>)];
+0873             svg = [svg sprintf(<span class="string">'  &lt;/g&gt;\n'</span>)];
+0874             
+0875             <span class="comment">%end group</span>
+0876             svg = [svg sprintf(<span class="string">'&lt;/g&gt;\n'</span>)];
+0877         <span class="keyword">end</span>
+0878         
+0879         <a name="_sub4" href="#_subfunctions" class="code">function svg = drawCellDivision(~, width, numEdges, septumLength, W, H, ftsZRing1st, ftsZRing2st, ftsZRing2bt, ftsZRingRbt)</a>
+0880             svg = [];
+0881             
+0882             <span class="comment">%background</span>
+0883             svg = [svg <span class="keyword">...</span>
+0884                 sprintf(<span class="string">'&lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0885                 sprintf(<span class="string">'  M%0.4f,%0.4f l0,%0.4f\n'</span>, W/2 - septumLength, H/2 - width/2, width), <span class="keyword">...</span>
+0886                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0887                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0888                 sprintf(<span class="string">'  l0,%0.4f\n'</span>, -width) <span class="keyword">...</span>
+0889                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0890                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0891                 <span class="string">'  &quot; style=&quot;stroke:none;fill:url(#cellBg)&quot;/&gt;\n'</span>];
+0892             
+0893             <span class="comment">%FtsZ</span>
+0894             svg = [svg <span class="keyword">...</span>
+0895                 sprintf(<span class="string">'&lt;clipPath id=&quot;FtsZClip&quot;&gt;&lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0896                 sprintf(<span class="string">'  M%0.4f,%0.4f l0,%0.4f\n'</span>, W/2 - septumLength, H/2 - width/2, width), <span class="keyword">...</span>
+0897                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0898                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0899                 sprintf(<span class="string">'  l0,%0.4f\n'</span>, -width) <span class="keyword">...</span>
+0900                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0901                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0902                 <span class="string">'  &quot; style=&quot;stroke:darkblue;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;fill:none&quot;/&gt;&lt;/clipPath&gt;\n'</span>];
+0903             
+0904             ftsZRing1st = ftsZRing1st / numEdges * 2 * (septumLength + 6);
+0905             ftsZRing2st = ftsZRing2st / numEdges * 2 * (septumLength + 6);
+0906             ftsZRing2bt = ftsZRing2bt / numEdges * 2 * (septumLength + 6);
+0907             ftsZRingRbt = ftsZRingRbt / numEdges * 2 * (septumLength + 6);
+0908             svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:#ff241E; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#FtsZClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0909                 W/2 - 6, W/2 - 6, 0, H/2 - septumLength + ftsZRing1st)];
+0910             svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:#ff241E; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#FtsZClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0911                 W/2 - 2, W/2 - 2, 0, H/2 - septumLength + ftsZRing2st)];
+0912             svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:green; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#FtsZClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0913                 W/2 + 2, W/2 + 2, H, H/2 + septumLength - ftsZRing2bt)];
+0914             svg = [svg sprintf(<span class="string">'&lt;line x1=&quot;%d&quot; x2=&quot;%d&quot; y1=&quot;%d&quot; y2=&quot;%d&quot; style=&quot;stroke:green; stroke-width:2px; fill:none&quot; clip-path=&quot;url(#FtsZClip)&quot;/&gt;'</span>, <span class="keyword">...</span>
+0915                 W/2 + 6, W/2 + 6, H, H/2 + septumLength - ftsZRingRbt)];
+0916             
+0917             <span class="comment">%outline</span>
+0918             svg = [svg <span class="keyword">...</span>
+0919                 sprintf(<span class="string">'&lt;path d=&quot;\n'</span>) <span class="keyword">...</span>
+0920                 sprintf(<span class="string">'  M%0.4f,%0.4f m0,%0.4f\n'</span>, W/2 - septumLength, H/2 - width/2, width), <span class="keyword">...</span>
+0921                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0922                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 %0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0923                 sprintf(<span class="string">'  m0,%0.4f\n'</span>, -width) <span class="keyword">...</span>
+0924                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0925                 sprintf(<span class="string">'  a%0.4f,%0.4f 0 0 0 -%0.4f,-%0.4f\n'</span>, septumLength, septumLength, septumLength, septumLength) <span class="keyword">...</span>
+0926                 <span class="string">'  &quot; style=&quot;stroke:rgb(0,0,0);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;fill:none&quot;/&gt;\n'</span>];
+0927         <span class="keyword">end</span>
+0928         
+0929         <a name="_sub5" href="#_subfunctions" class="code">function svg = drawArc(~, posStrnds, lens, cx, cy, r0, dr, strokeColor, strokeWidth, twoChrs, sequenceLen)</a>
+0930             svg = [];
+0931             <span class="keyword">for</span> j = 1:size(posStrnds, 1)
+0932                 theta = posStrnds(j, 1) / sequenceLen * 2 * pi - pi/2;
+0933                 dTheta = lens(j) / sequenceLen * 2 * pi;
+0934                 largeArc = dTheta &gt;= pi;
+0935                 tmpcx = cx;
+0936                 <span class="keyword">if</span> ~twoChrs
+0937                     r = r0 + (2 * iseven(posStrnds(j, 2)) - 1) * dr;
+0938                 <span class="keyword">else</span>
+0939                     r = r0/2 + (2 * iseven(posStrnds(j, 2)) - 1) * dr;
+0940                     <span class="keyword">if</span> posStrnds(j, 2) &gt; 2
+0941                         tmpcx = 3/2 * cx;
+0942                     <span class="keyword">else</span>
+0943                         tmpcx = cx / 2;
+0944                     <span class="keyword">end</span>
+0945                 <span class="keyword">end</span>
+0946                 <span class="keyword">if</span> lens(j) == sequenceLen
+0947                     svg = [svg sprintf(<span class="string">'&lt;circle cx=&quot;%d&quot; cy=&quot;%d&quot; r=&quot;%d&quot; stroke=&quot;%s&quot; stroke-width=&quot;%f&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0948                         tmpcx, cy, r, <span class="keyword">...</span>
+0949                         strokeColor, strokeWidth)]; <span class="comment">%#ok&lt;*AGROW&gt;</span>
+0950                 <span class="keyword">else</span>
+0951                     svg = [svg sprintf(<span class="string">'&lt;path d=&quot;M%f,%f A%f,%f %d %d,%d %f %f&quot; stroke=&quot;%s&quot; stroke-width=&quot;%d&quot; fill=&quot;none&quot;/&gt;\n'</span>, <span class="keyword">...</span>
+0952                         tmpcx + r*cos(theta), cy + r*sin(theta), <span class="keyword">...</span>
+0953                         r, r, 0, largeArc, 1, tmpcx + r*cos(theta+dTheta), cy + r*sin(theta+dTheta), <span class="keyword">...</span>
+0954                         strokeColor, strokeWidth)];
+0955                 <span class="keyword">end</span>
+0956             <span class="keyword">end</span>
+0957         <span class="keyword">end</span>
+0958     <span class="keyword">end</span>
+0959 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DatabaseLogger</title>
+  <meta name="keywords" content="DatabaseLogger">
+  <meta name="description" content="Database logger. Implements simulation logger interface.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+util</a> &gt; DatabaseLogger.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+util&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>DatabaseLogger
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>Database logger. Implements simulation logger interface.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">Database logger. Implements simulation logger interface.
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/10/2011</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DatabaseLogger.html" class="code" title="">DatabaseLogger</a>	Database logger. Implements simulation logger interface.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="DatabaseLogger.html" class="code" title="">DatabaseLogger</a>	Database logger. Implements simulation logger interface.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = DatabaseLogger(database, downsampleStepSec, metadata)</a></li><li><a href="#_sub2" class="code">function this = addMetadata(this, metadata)</a></li><li><a href="#_sub3" class="code">function this = initialize(this, sim)</a></li><li><a href="#_sub4" class="code">function this = append(this, sim)</a></li><li><a href="#_sub5" class="code">function this = finalize(this, sim)</a></li><li><a href="#_sub6" class="code">function validateMetadata(this)</a></li><li><a href="#_sub7" class="code">function copyFromState(this, sim, k)</a></li><li><a href="#_sub8" class="code">function copyRandStreamStates(this, sim, k)</a></li><li><a href="#_sub9" class="code">function metaStates = getMetaStates(sim, includeDependentStates)</a></li><li><a href="#_sub10" class="code">function log = allocateMemory(metaStates, segmentSizeStep)</a></li><li><a href="#_sub11" class="code">function data = allocateData(dataType, sz)</a></li><li><a href="#_sub12" class="code">function saveOptions(this, sim)</a></li><li><a href="#_sub13" class="code">function saveOptionsHelper(this, options, module)</a></li><li><a href="#_sub14" class="code">function saveParameters(this, sim)</a></li><li><a href="#_sub15" class="code">function saveParametersHelper(this, module)</a></li><li><a href="#_sub16" class="code">function saveFittedConstants(this, sim)</a></li><li><a href="#_sub17" class="code">function saveFittedConstantsHelper(this, module)</a></li><li><a href="#_sub18" class="code">function saveRandStreamStates(this, sim)</a></li><li><a href="#_sub19" class="code">function saveTimecourses(this, sim)</a></li><li><a href="#_sub20" class="code">function [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(sim, database, simulationWID)</a></li><li><a href="#_sub21" class="code">function value = loadMetadata(database, simulationWID)</a></li><li><a href="#_sub22" class="code">function value = loadOptions(sim, database, simulationWID)</a></li><li><a href="#_sub23" class="code">function value = loadParameters(sim, database, simulationWID)</a></li><li><a href="#_sub24" class="code">function value = loadFittedConstants(sim, database, simulationWID)</a></li><li><a href="#_sub25" class="code">function value = loadRandStreamStates(~, database, simulationWID)</a></li><li><a href="#_sub26" class="code">function states = loadTimecourses(sim, database, simulationWID)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%Database logger. Implements simulation logger interface.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0004 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0005 <span class="comment">% Last updated: 1/10/2011</span>
+0006 classdef <a href="DatabaseLogger.html" class="code" title="">DatabaseLogger</a> &lt; edu.stanford.covert.cell.sim.util.Logger
+0007     <span class="comment">%options</span>
+0008     properties (SetAccess = protected)
+0009         metadata          <span class="comment">%metadata</span>
+0010         downsampleStepSec <span class="comment">%max state history to cache in memory during a run (s)</span>
+0011         database          <span class="comment">%database instance</span>
+0012         simulationWID     <span class="comment">%simulation database ID</span>
+0013     <span class="keyword">end</span>
+0014     
+0015     <span class="comment">%saved data</span>
+0016     properties (SetAccess = protected)
+0017         log
+0018         randStreamStates
+0019     <span class="keyword">end</span>
+0020     
+0021     <span class="comment">%indices into simulation state</span>
+0022     properties (Access = protected)
+0023         stateIndex_time
+0024     <span class="keyword">end</span>
+0025     
+0026     methods
+0027         <a name="_sub0" href="#_subfunctions" class="code">function this = DatabaseLogger(database, downsampleStepSec, metadata)</a>
+0028             <span class="keyword">if</span> ~exist(<span class="string">'metadata'</span>, <span class="string">'var'</span>)
+0029                 metadata = struct;
+0030             <span class="keyword">end</span>
+0031             
+0032             this.database = database;
+0033             this.downsampleStepSec = downsampleStepSec;
+0034             this.metadata = metadata;
+0035         <span class="keyword">end</span>
+0036     <span class="keyword">end</span>
+0037     
+0038     methods
+0039         <a name="_sub1" href="#_subfunctions" class="code">function this = addMetadata(this, metadata)</a>
+0040             names = fieldnames(metadata);
+0041             <span class="keyword">for</span> i = 1:length(names)
+0042                 this.metadata.(names{i}) = metadata.(names{i});
+0043             <span class="keyword">end</span>
+0044         <span class="keyword">end</span>
+0045         
+0046         <a name="_sub2" href="#_subfunctions" class="code">function this = initialize(this, sim)</a>
+0047             <span class="comment">%% validate options</span>
+0048             <span class="comment">%segment length</span>
+0049             validateattributes(sim.lengthSec / this.downsampleStepSec, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>, <span class="string">'integer'</span>});
+0050             
+0051             <span class="comment">%downsample step</span>
+0052             validateattributes(sim.lengthSec / this.downsampleStepSec, {<span class="string">'numeric'</span>}, {<span class="string">'real'</span>, <span class="string">'nonnegative'</span>, <span class="string">'integer'</span>});
+0053             
+0054             <span class="comment">%metadata</span>
+0055             this.validateMetadata();
+0056             
+0057             <span class="comment">%% indices</span>
+0058             this.stateIndex_time = sim.stateIndex(<span class="string">'Time'</span>);
+0059             
+0060             <span class="comment">%% metdata</span>
+0061             <span class="comment">%start time</span>
+0062             this.metadata.startTime = datestr(clock, <span class="string">'yyyy-mm-dd HH:MM:SS'</span>);
+0063             this.metadata.endTime = [];
+0064             this.metadata.lengthSec = [];
+0065             
+0066             <span class="comment">%output directory</span>
+0067             this.metadata.outputDirectory = <span class="string">''</span>;
+0068             
+0069             <span class="comment">%segment step</span>
+0070             this.metadata.segmentSizeStep = this.downsampleStepSec;
+0071             
+0072             <span class="comment">%down sample step</span>
+0073             this.metadata.downsampleStepSec = this.downsampleStepSec;
+0074             
+0075             <span class="comment">%% allocate memory</span>
+0076             <span class="comment">%cell state</span>
+0077             metaStates = this.getMetaStates(sim);
+0078             this.log = this.allocateMemory(metaStates, sim.lengthSec / this.downsampleStepSec);
+0079             
+0080             <span class="comment">%rand stream state</span>
+0081             this.randStreamStates = struct(<span class="string">'simulation'</span>, [], <span class="string">'states'</span>, struct(), <span class="string">'processes'</span>, struct());
+0082             tmp = sim.getRandStreamStates();
+0083             this.randStreamStates.simulation = zeros(numel(tmp.simulation), sim.lengthSec / this.downsampleStepSec);
+0084             <span class="keyword">for</span> i = 1:numel(sim.states)
+0085                 o = sim.states{i};
+0086                 this.randStreamStates.states.(o.wholeCellModelID(7:end)) = zeros(numel(tmp.states.(o.wholeCellModelID(7:end))), sim.lengthSec / this.downsampleStepSec);
+0087             <span class="keyword">end</span>
+0088             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0089                 o = sim.processes{i};
+0090                 this.randStreamStates.processes.(o.wholeCellModelID(9:end)) = zeros(numel(tmp.processes.(o.wholeCellModelID(9:end))), sim.lengthSec / this.downsampleStepSec);
+0091             <span class="keyword">end</span>
+0092         <span class="keyword">end</span>
+0093         
+0094         <a name="_sub3" href="#_subfunctions" class="code">function this = append(this, sim)</a>
+0095             t = sim.states{this.stateIndex_time};
+0096             time = t.values;
+0097             i = time / this.downsampleStepSec;
+0098             <span class="keyword">if</span> mod(i, 1) ~= 0
+0099                 <span class="keyword">return</span>;
+0100             <span class="keyword">end</span>
+0101             
+0102             this.copyFromState(sim, i);
+0103             this.copyRandStreamStates(sim, i);
+0104         <span class="keyword">end</span>
+0105         
+0106         <a name="_sub4" href="#_subfunctions" class="code">function this = finalize(this, sim)</a>
+0107             <span class="comment">%reconnect to server</span>
+0108             this.database.reopen();
+0109             
+0110             <span class="comment">%meta data -- end time</span>
+0111             this.metadata.endTime = datestr(clock, <span class="string">'yyyy-mm-dd HH:MM:SS'</span>);
+0112             this.metadata.lengthSec = sim.states{this.stateIndex_time}.values;
+0113             
+0114             <span class="comment">%for convenience</span>
+0115             md = this.metadata;
+0116             
+0117             <span class="comment">%get contact, prompt for new contact if necessary</span>
+0118             contactWID = edu.stanford.covert.cell.kb.KnowledgeBaseUtil.getContact(<span class="keyword">...</span>
+0119                 md, md.knowledgeBaseWID, this.database);
+0120             
+0121             <span class="comment">%create simulation object in database, store meta data</span>
+0122             this.database.setNullValue(0);
+0123             this.database.prepareStatement(<span class="string">'CALL set_simulation(&quot;{S}&quot;,&quot;{S}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{Si}&quot;)'</span>, <span class="keyword">...</span>
+0124                 md.shortDescription, md.longDescription, contactWID,<span class="keyword">...</span>
+0125                 md.revision, md.differencesFromRevision, <span class="keyword">...</span>
+0126                 md.userName, md.hostName, md.ipAddress, md.outputDirectory, <span class="keyword">...</span>
+0127                 md.lengthSec, md.segmentSizeStep, md.downsampleStepSec,<span class="keyword">...</span>
+0128                 md.startTime, md.endTime, <span class="keyword">...</span>
+0129                 md.knowledgeBaseWID);
+0130             this.simulationWID = this.database.query().WID;
+0131             
+0132             <span class="comment">%append last data bits and trim</span>
+0133             t = sim.states{this.stateIndex_time};
+0134             time = t.values;
+0135             i = ceil(time / this.downsampleStepSec);
+0136             this.copyFromState(sim, i);
+0137             
+0138             states = sim.states;
+0139             <span class="keyword">for</span> j = 1:length(states)
+0140                 state = states{j};
+0141                 stateID = state.wholeCellModelID(7:end);
+0142                 names = state.stateNames;
+0143                 <span class="keyword">for</span> k = 1:length(names)
+0144                     name = names{k};
+0145                     this.log.(stateID).(name) = this.log.(stateID).(name)(:, :, 1:i);
+0146                 <span class="keyword">end</span>
+0147             <span class="keyword">end</span>
+0148             
+0149             <span class="comment">%append last rand stream state and trim</span>
+0150             this.copyRandStreamStates(sim, i);
+0151             this.randStreamStates.simulation = this.randStreamStates.simulation(:, 1:i);
+0152             <span class="keyword">for</span> k = 1:numel(sim.states)
+0153                 o = sim.states{k};
+0154                 this.randStreamStates.states.(o.wholeCellModelID(7:end)) = this.randStreamStates.states.(o.wholeCellModelID(7:end))(:, 1:i);
+0155             <span class="keyword">end</span>
+0156             <span class="keyword">for</span> k = 1:numel(sim.processes)
+0157                 o = sim.processes{k};
+0158                 this.randStreamStates.processes.(o.wholeCellModelID(9:end)) = this.randStreamStates.processes.(o.wholeCellModelID(9:end))(:, 1:i);
+0159             <span class="keyword">end</span>
+0160             
+0161             <span class="comment">%store to options, parameters, fitting constants, state to database</span>
+0162             this.saveOptions(sim);
+0163             this.saveParameters(sim);
+0164             this.saveFittedConstants(sim);
+0165             this.saveRandStreamStates(sim);
+0166             this.saveTimecourses(sim);
+0167             
+0168             <span class="comment">% set load error to false</span>
+0169             this.database.prepareStatement(<span class="string">'CALL set_simulation_success(&quot;{Si}&quot;)'</span>, this.simulationWID);
+0170             this.database.query();
+0171             
+0172             <span class="comment">%clear log</span>
+0173             this.log = [];
+0174         <span class="keyword">end</span>
+0175     <span class="keyword">end</span>
+0176     
+0177     methods
+0178         <a name="_sub5" href="#_subfunctions" class="code">function validateMetadata(this)</a>
+0179             <span class="keyword">if</span> <span class="keyword">...</span>
+0180                     ~isfield(this.metadata, <span class="string">'shortDescription'</span>) || <span class="keyword">...</span>
+0181                     ~isfield(this.metadata, <span class="string">'longDescription'</span>) || <span class="keyword">...</span>
+0182                     ~isfield(this.metadata, <span class="string">'email'</span>) || <span class="keyword">...</span>
+0183                     ~isfield(this.metadata, <span class="string">'firstName'</span>) || <span class="keyword">...</span>
+0184                     ~isfield(this.metadata, <span class="string">'lastName'</span>) || <span class="keyword">...</span>
+0185                     ~isfield(this.metadata, <span class="string">'affiliation'</span>) || <span class="keyword">...</span>
+0186                     ~isfield(this.metadata, <span class="string">'knowledgeBaseWID'</span>) || <span class="keyword">...</span>
+0187                     ~isfield(this.metadata, <span class="string">'revision'</span>) || <span class="keyword">...</span>
+0188                     ~isfield(this.metadata, <span class="string">'differencesFromRevision'</span>) || <span class="keyword">...</span>
+0189                     ~isfield(this.metadata, <span class="string">'userName'</span>) || <span class="keyword">...</span>
+0190                     ~isfield(this.metadata, <span class="string">'hostName'</span>) || <span class="keyword">...</span>
+0191                     ~isfield(this.metadata, <span class="string">'ipAddress'</span>)
+0192                 throw(MException(<span class="string">'DatabaseLogger:invalidMetadata'</span>, <span class="string">'Metadata missing'</span>));
+0193             <span class="keyword">end</span>
+0194         <span class="keyword">end</span>
+0195         
+0196         <span class="comment">%Copies the current state to a particular index in a segment.</span>
+0197         <a name="_sub6" href="#_subfunctions" class="code">function copyFromState(this, sim, k)</a>
+0198             import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0199             
+0200             states = sim.states;
+0201             <span class="keyword">for</span> i = 1:length(states)
+0202                 state = states{i};
+0203                 stateID = state.wholeCellModelID(7:end);
+0204                 names = state.stateNames;
+0205                 <span class="keyword">for</span> j = 1:length(names)
+0206                     name = names{j};
+0207                     data = state.(name);
+0208                     <span class="keyword">if</span>      size(data, 1) &gt; size(this.log.(stateID).(name), 1) || <span class="keyword">...</span>
+0209                             size(data, 2) &gt; size(this.log.(stateID).(name), 2)
+0210                         tmp = this.log.(stateID).(name);
+0211                         this.log.(stateID).(name) = DatabaseLogger.allocateData(class(tmp), [size(data) size(tmp, 3)]);
+0212                     <span class="keyword">end</span>
+0213                     
+0214                     <span class="keyword">if</span> isa(data, <span class="string">'edu.stanford.covert.util.SparseMat'</span>)
+0215                         <span class="keyword">if</span> k == 1
+0216                             this.log.(stateID).(name) = data;
+0217                         <span class="keyword">else</span>
+0218                             this.log.(stateID).(name) = cat(3, this.log.(stateID).(name), data);
+0219                         <span class="keyword">end</span>
+0220                     <span class="keyword">else</span>
+0221                         this.log.(stateID).(name)(1:size(data, 1), 1:size(data, 2), k) = data;
+0222                     <span class="keyword">end</span>
+0223                 <span class="keyword">end</span>
+0224             <span class="keyword">end</span>
+0225         <span class="keyword">end</span>
+0226         
+0227         <a name="_sub7" href="#_subfunctions" class="code">function copyRandStreamStates(this, sim, k)</a>
+0228             tmp = sim.getRandStreamStates();
+0229             this.randStreamStates.simulation(:, k) = tmp.simulation;
+0230             <span class="keyword">for</span> i = 1:numel(sim.states)
+0231                 o = sim.states{i};
+0232                 this.randStreamStates.states.(o.wholeCellModelID(7:end))(:, k) = tmp.states.(o.wholeCellModelID(7:end));
+0233             <span class="keyword">end</span>
+0234             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0235                 o = sim.processes{i};
+0236                 this.randStreamStates.processes.(o.wholeCellModelID(9:end))(:, k) = tmp.processes.(o.wholeCellModelID(9:end));
+0237             <span class="keyword">end</span>
+0238         <span class="keyword">end</span>
+0239     <span class="keyword">end</span>
+0240     
+0241     methods (Static)
+0242         <a name="_sub8" href="#_subfunctions" class="code">function metaStates = getMetaStates(sim, includeDependentStates)</a>
+0243             metaStates.names = cell(0, 1);
+0244             metaStates.properties = cell(0, 4);
+0245             <span class="keyword">for</span> i = 1:length(sim.states)
+0246                 state = sim.states{i};
+0247                 stateID = strrep(state.wholeCellModelID, <span class="string">'State_'</span>, <span class="string">''</span>);
+0248                 metaStates.names = [
+0249                     metaStates.names;
+0250                     stateID];
+0251                 names = state.stateNames;
+0252                 <span class="keyword">if</span> nargin &gt;= 2 &amp;&amp; includeDependentStates
+0253                     names = [names; state.dependentStateNames]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0254                 <span class="keyword">end</span>
+0255                 <span class="keyword">for</span> j = 1:length(names)
+0256                     metaStates.properties = [
+0257                         metaStates.properties;
+0258                         {stateID names{j} class(state.(names{j})) size(state.(names{j}))}];
+0259                 <span class="keyword">end</span>
+0260             <span class="keyword">end</span>
+0261         <span class="keyword">end</span>
+0262         
+0263         <span class="comment">%Allocates space for one segment's worth of time course data.</span>
+0264         <a name="_sub9" href="#_subfunctions" class="code">function log = allocateMemory(metaStates, segmentSizeStep)</a>
+0265             import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0266             
+0267             log = struct;
+0268             
+0269             <span class="keyword">for</span> i = 1:size(metaStates.names, 1)
+0270                 log.(metaStates.names{i, 1}) = struct;
+0271             <span class="keyword">end</span>
+0272             
+0273             <span class="keyword">for</span> i = 1:size(metaStates.properties, 1)
+0274                 log.(metaStates.properties{i, 1}).(metaStates.properties{i, 2}) = DatabaseLogger.allocateData(<span class="keyword">...</span>
+0275                     metaStates.properties{i, 3}, [metaStates.properties{i, 4}, segmentSizeStep]);
+0276             <span class="keyword">end</span>
+0277         <span class="keyword">end</span>
+0278         
+0279         <a name="_sub10" href="#_subfunctions" class="code">function data = allocateData(dataType, sz)</a>
+0280             import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0281             import edu.stanford.covert.util.CircularSparseMat;
+0282             import edu.stanford.covert.util.SparseMat;
+0283             
+0284             <span class="keyword">switch</span> dataType
+0285                 <span class="keyword">case</span> <span class="string">'edu.stanford.covert.util.SparseMat'</span>, data = SparseMat([], [], sz);
+0286                 <span class="keyword">case</span> <span class="string">'edu.stanford.covert.util.CircularSparseMat'</span>,  data = CircularSparseMat([], [], sz, 1);
+0287                 <span class="keyword">case</span> <span class="string">'char'</span>,     data = char(zeros(sz));
+0288                 <span class="keyword">case</span> <span class="string">'logical'</span>,  data = false(sz);
+0289                 <span class="keyword">case</span> <span class="string">'cell'</span>,     data = cell(sz);
+0290                 <span class="keyword">otherwise</span>,
+0291                     <span class="keyword">try</span>
+0292                         data = zeros(sz, dataType);
+0293                     <span class="keyword">catch</span> exception
+0294                         throw(MException(<span class="string">'DatabaseLogger:invalidDataType'</span>, sprintf(<span class="string">'%s is not a numeric data type'</span>, dataType)));
+0295                     <span class="keyword">end</span>
+0296             <span class="keyword">end</span>
+0297         <span class="keyword">end</span>
+0298     <span class="keyword">end</span>
+0299     
+0300     <span class="comment">%save to database</span>
+0301     methods (Access = protected)
+0302         <span class="comment">%Saves options to database</span>
+0303         <a name="_sub11" href="#_subfunctions" class="code">function saveOptions(this, sim)</a>
+0304             <span class="comment">%create option entries</span>
+0305             this.saveOptionsHelper(rmfield(sim.getOptions(), {<span class="string">'states'</span>,<span class="string">'processes'</span>}), []);
+0306             
+0307             <span class="comment">%states</span>
+0308             <span class="keyword">for</span> i = 1:length(sim.states)
+0309                 this.saveOptionsHelper(sim.states{i}.getOptions(), sim.states{i});
+0310             <span class="keyword">end</span>
+0311             
+0312             <span class="comment">%processes</span>
+0313             <span class="keyword">for</span> i = 1:length(sim.processes)
+0314                 this.saveOptionsHelper(sim.processes{i}.getOptions(), sim.processes{i});
+0315             <span class="keyword">end</span>
+0316         <span class="keyword">end</span>
+0317         
+0318         <a name="_sub12" href="#_subfunctions" class="code">function saveOptionsHelper(this, options, module)</a>
+0319             optionNames = fieldnames(options);
+0320             <span class="keyword">for</span> i = 1:length(optionNames)
+0321                 value = edu.stanford.covert.io.jsonFormat(options.(optionNames{i}));
+0322 
+0323                 <span class="keyword">if</span> ~isempty(module)
+0324                     this.database.prepareStatement(<span class="string">'CALL set_simulation_option(&quot;{S}&quot;,&quot;{S}&quot;,NULL,&quot;{S}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0325                         module.wholeCellModelID, optionNames{i}, value, this.simulationWID, this.metadata.knowledgeBaseWID);
+0326                 <span class="keyword">else</span>
+0327                     this.database.prepareStatement(<span class="string">'CALL set_simulation_option(NULL,&quot;{S}&quot;,NULL,&quot;{S}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0328                         optionNames{i}, value, this.simulationWID, this.metadata.knowledgeBaseWID);
+0329                 <span class="keyword">end</span>
+0330                 this.database.query();
+0331             <span class="keyword">end</span>
+0332         <span class="keyword">end</span>
+0333         
+0334         <span class="comment">% Saves parameters to database</span>
+0335         <a name="_sub13" href="#_subfunctions" class="code">function saveParameters(this, sim)</a>
+0336             <span class="comment">%states</span>
+0337             <span class="keyword">for</span> i = 1:length(sim.states)
+0338                 this.saveParametersHelper(sim.states{i});
+0339             <span class="keyword">end</span>
+0340             
+0341             <span class="comment">%processes</span>
+0342             <span class="keyword">for</span> i = 1:length(sim.processes)
+0343                 this.saveParametersHelper(sim.processes{i});
+0344             <span class="keyword">end</span>
+0345         <span class="keyword">end</span>
+0346         
+0347         <a name="_sub14" href="#_subfunctions" class="code">function saveParametersHelper(this, module)</a>
+0348             knowledgeBaseWID = this.metadata.knowledgeBaseWID;
+0349 
+0350             objectFieldNames = fieldnames(module);
+0351             <span class="keyword">for</span> i = 1:length(module.parameterNames)
+0352                 <span class="keyword">if</span> ~any(strcmp(module.parameterNames{i}, objectFieldNames))
+0353                     <span class="keyword">continue</span>;
+0354                 <span class="keyword">end</span>
+0355 
+0356                 <span class="keyword">if</span> isempty(module.parameterIndexs{i})
+0357                     value = module.(module.parameterNames{i});
+0358                 <span class="keyword">else</span>
+0359                     value = module.(module.parameterNames{i})(module.(module.parameterIndexs{i}));
+0360                 <span class="keyword">end</span>
+0361 
+0362                 <span class="keyword">if</span> iscell(value)
+0363                     value = strjoin(<span class="string">';'</span>,value{:});
+0364                 <span class="keyword">elseif</span> ~isempty(value)
+0365                     strValue = [];
+0366                     <span class="keyword">for</span> j = 1:length(value)
+0367                         strValue = [strValue num2str(value(j)) <span class="string">';'</span>]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0368                     <span class="keyword">end</span>
+0369                     value = strValue(1:end-1);
+0370                 <span class="keyword">end</span>
+0371 
+0372                 this.database.prepareStatement(<span class="string">'CALL set_simulation_parameter(&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{S}&quot;,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>, <span class="keyword">...</span>
+0373                     module.wholeCellModelID, module.parameterNames{i}, module.parameterIndexs{i}, value, this.simulationWID, knowledgeBaseWID);
+0374                 this.database.query();
+0375             <span class="keyword">end</span>
+0376         <span class="keyword">end</span>
+0377         
+0378         <span class="comment">%Saves fit contants to database</span>
+0379         <a name="_sub15" href="#_subfunctions" class="code">function saveFittedConstants(this, sim)</a>
+0380             <span class="comment">%create fit constants entries -- states</span>
+0381             <span class="keyword">for</span> i = 1:length(sim.states)
+0382                 this.saveFittedConstantsHelper(sim.states{i});
+0383             <span class="keyword">end</span>
+0384             
+0385             <span class="comment">%create fit constants entries -- processes</span>
+0386             <span class="keyword">for</span> i = 1:length(sim.processes)
+0387                 this.saveFittedConstantsHelper(sim.processes{i});
+0388             <span class="keyword">end</span>
+0389         <span class="keyword">end</span>
+0390         
+0391         <a name="_sub16" href="#_subfunctions" class="code">function saveFittedConstantsHelper(this, module)</a>
+0392             import edu.stanford.covert.io.jsonFormat;
+0393             
+0394             knowledgeBaseWID = this.metadata.knowledgeBaseWID;
+0395             
+0396             fittedConstantNames = module.fittedConstantNames;
+0397             <span class="keyword">for</span> i = 1:length(fittedConstantNames)
+0398                 fittedConstantName = fittedConstantNames{i};
+0399                 this.database.prepareStatement(<span class="keyword">...</span>
+0400                     <span class="string">'CALL set_simulation_fittedconstant(&quot;{S}&quot;,&quot;{S}&quot;,NULL,&quot;{S}&quot;,NULL,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0401                     module.wholeCellModelID, fittedConstantName, jsonFormat(module.(fittedConstantName)),<span class="keyword">...</span>
+0402                     this.simulationWID, knowledgeBaseWID);
+0403                 this.database.query();
+0404             <span class="keyword">end</span>
+0405         <span class="keyword">end</span>
+0406         
+0407         <span class="comment">%Saves rand stream states to database</span>
+0408         <a name="_sub17" href="#_subfunctions" class="code">function saveRandStreamStates(this, sim)</a>
+0409             import edu.stanford.covert.io.jsonFormat;
+0410             
+0411             knowledgeBaseWID = this.metadata.knowledgeBaseWID;
+0412             
+0413             <span class="comment">%create rand stream states entries -- simulation</span>
+0414             this.database.prepareStatement(<span class="keyword">...</span>
+0415                 <span class="string">'CALL set_simulation_randstreamstate(NULL,NULL,NULL,&quot;{S}&quot;,NULL,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0416                 jsonFormat(this.randStreamStates.simulation),<span class="keyword">...</span>
+0417                 this.simulationWID, knowledgeBaseWID);
+0418             this.database.query();
+0419             
+0420             <span class="comment">%create rand stream states entries -- states</span>
+0421             <span class="keyword">for</span> i = 1:length(sim.states)
+0422                 o = sim.states{i};
+0423                 this.database.prepareStatement(<span class="keyword">...</span>
+0424                     <span class="string">'CALL set_simulation_randstreamstate(&quot;{S}&quot;,NULL,NULL,&quot;{S}&quot;,NULL,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0425                     o.wholeCellModelID, jsonFormat(this.randStreamStates.states.(o.wholeCellModelID(7:end))),<span class="keyword">...</span>
+0426                     this.simulationWID, knowledgeBaseWID);
+0427                 this.database.query();
+0428             <span class="keyword">end</span>
+0429             
+0430             <span class="comment">%create rand stream states entries -- processes</span>
+0431             <span class="keyword">for</span> i = 1:length(sim.processes)
+0432                 o = sim.processes{i};
+0433                 this.database.prepareStatement(<span class="keyword">...</span>
+0434                     <span class="string">'CALL set_simulation_randstreamstate(&quot;{S}&quot;,NULL,NULL,&quot;{S}&quot;,NULL,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0435                     o.wholeCellModelID, jsonFormat(this.randStreamStates.processes.(o.wholeCellModelID(9:end))),<span class="keyword">...</span>
+0436                     this.simulationWID, knowledgeBaseWID);
+0437                 this.database.query();
+0438             <span class="keyword">end</span>
+0439         <span class="keyword">end</span>
+0440         
+0441         <span class="comment">%Saves time courses to database</span>
+0442         <a name="_sub18" href="#_subfunctions" class="code">function saveTimecourses(this, sim)</a>
+0443             import edu.stanford.covert.io.jsonFormat;
+0444             
+0445             knowledgeBaseWID = this.metadata.knowledgeBaseWID;
+0446             
+0447             <span class="keyword">for</span> i = 1:length(sim.states)
+0448                 state = sim.states{i};
+0449                 stateID = state.wholeCellModelID(7:end);
+0450                 names = state.stateNames;
+0451                 <span class="keyword">for</span> j = 1:length(names)
+0452                     this.database.prepareStatement(<span class="keyword">...</span>
+0453                         <span class="string">'CALL set_simulation_timecourse(&quot;{S}&quot;,&quot;{S}&quot;,NULL,&quot;{S}&quot;,NULL,&quot;{Si}&quot;,&quot;{Si}&quot;)'</span>,<span class="keyword">...</span>
+0454                         state.wholeCellModelID, names{j}, jsonFormat(this.log.(stateID).(names{j})), <span class="keyword">...</span>
+0455                         this.simulationWID, knowledgeBaseWID);
+0456                     this.database.query();
+0457                 <span class="keyword">end</span>
+0458             <span class="keyword">end</span>
+0459         <span class="keyword">end</span>
+0460     <span class="keyword">end</span>
+0461     
+0462     <span class="comment">%load from database</span>
+0463     methods (Static)
+0464         <span class="comment">%load simulation from database (already downsampled)</span>
+0465         <a name="_sub19" href="#_subfunctions" class="code">function [states, metadata, options, parameters, fittedConstants, randStreamStates] = load(sim, database, simulationWID)</a>
+0466             import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0467             
+0468             metadata = DatabaseLogger.loadMetadata(database, simulationWID);
+0469             options = DatabaseLogger.loadOptions(sim, database, simulationWID);
+0470             parameters = DatabaseLogger.loadParameters(sim, database, simulationWID);
+0471             fittedConstants = DatabaseLogger.loadFittedConstants(sim, database, simulationWID);
+0472             randStreamStates = DatabaseLogger.loadRandStreamStates(sim, database, simulationWID);
+0473             states = DatabaseLogger.loadTimecourses(sim, database, simulationWID);
+0474         <span class="keyword">end</span>
+0475         
+0476         <span class="comment">%Loads simulation meta data from database</span>
+0477         <a name="_sub20" href="#_subfunctions" class="code">function value = loadMetadata(database, simulationWID)</a>
+0478             database.setNullValue(0);
+0479             database.prepareStatement(<span class="string">'CALL get_simulation_summary(&quot;{Si}&quot;)'</span>, simulationWID);
+0480             result = database.query();
+0481             
+0482             value = struct;
+0483             value.knowledgeBaseWID        = uint32(result.KnowledgeBaseWID(1));
+0484             value.shortDescription        = result.ShortDescription{1};
+0485             value.longDescription         = result.LongDescription{1};
+0486             value.revision                = result.Revision(1);
+0487             value.differencesFromRevision = result.DifferencesFromRevision{1};
+0488             value.lengthSec               = result.Length(1);
+0489             value.downsampleStepSec       = result.SampleStep(1);
+0490             value.segmentSizeStep         = result.SegmentStep(1);
+0491             value.firstName               = result.FirstName{1};
+0492             value.lastName                = result.LastName{1};
+0493             value.affiliation             = result.Affiliation{1};
+0494             value.email                   = result.Email{1};
+0495             value.userName                = result.UserName{1};
+0496             value.hostName                = result.HostName{1};
+0497             value.ipAddress               = result.IPAddress{1};
+0498             value.outputDirectory         = result.OutputDirectory{1};
+0499             value.startTime               = result.StartDate{1}(1:19);
+0500             value.endTime                 = result.EndDate{1}(1:19);
+0501         <span class="keyword">end</span>
+0502         
+0503         <span class="comment">%Loads simulation options from database</span>
+0504         <a name="_sub21" href="#_subfunctions" class="code">function value = loadOptions(sim, database, simulationWID)</a>
+0505             database.setNullValue(0);
+0506             database.prepareStatement(<span class="string">'CALL get_simulation_options(&quot;{Si}&quot;)'</span>, simulationWID);
+0507             result = database.query();
+0508             
+0509             value = struct(<span class="string">'states'</span>, struct, <span class="string">'processes'</span>, struct);
+0510             <span class="keyword">for</span> i = 1:numel(sim.states)
+0511                 value.states.(sim.states{i}.wholeCellModelID(7:end)) = struct;
+0512             <span class="keyword">end</span>
+0513             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0514                 value.processes.(sim.processes{i}.wholeCellModelID(9:end)) = struct;
+0515             <span class="keyword">end</span>
+0516             
+0517             <span class="keyword">for</span> i = 1:length(result.WID)
+0518                 <span class="keyword">if</span> isempty(result.Module{i})
+0519                     value.(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0520                 <span class="keyword">elseif</span> result.Module{i}(1) == <span class="string">'S'</span>
+0521                     value.states.(result.Module{i}(7:end)).(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0522                 <span class="keyword">else</span>
+0523                     value.processes.(result.Module{i}(9:end)).(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0524                 <span class="keyword">end</span>
+0525             <span class="keyword">end</span>
+0526         <span class="keyword">end</span>
+0527         
+0528         <span class="comment">%Loads simulation parameters from database</span>
+0529         <a name="_sub22" href="#_subfunctions" class="code">function value = loadParameters(sim, database, simulationWID)</a>
+0530             database.setNullValue(0);
+0531             database.prepareStatement(<span class="string">'CALL get_simulation_parameters(&quot;{Si}&quot;)'</span>, simulationWID);
+0532             result = database.query();
+0533             
+0534             value = struct(<span class="string">'states'</span>, struct, <span class="string">'processes'</span>, struct);
+0535             <span class="keyword">for</span> i = 1:numel(sim.states)
+0536                 value.states.(sim.states{i}.wholeCellModelID(7:end)) = struct;
+0537             <span class="keyword">end</span>
+0538             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0539                 value.processes.(sim.processes{i}.wholeCellModelID(9:end)) = struct;
+0540             <span class="keyword">end</span>
+0541             
+0542             <span class="keyword">for</span> i = 1:length(result.WID)
+0543                 <span class="keyword">if</span> isempty(result.Value{i})
+0544                     tmp = {};
+0545                 <span class="keyword">else</span>
+0546                     tmp = strsplit(<span class="string">';'</span>, result.Value{i})';
+0547                     tmpNum = zeros(size(tmp));
+0548                     <span class="keyword">for</span> j = 1:length(tmp)
+0549                         tmpNum(j) = str2double(tmp{j});
+0550                     <span class="keyword">end</span>
+0551                     <span class="keyword">if</span> ~any(isnan(tmpNum))
+0552                         tmp = tmpNum;
+0553                     <span class="keyword">end</span>
+0554                 <span class="keyword">end</span>
+0555                 
+0556                 <span class="keyword">if</span> result.Module{i}(1) == <span class="string">'S'</span>
+0557                     <span class="keyword">if</span> isempty(result.Index{i})
+0558                         value.states.(result.Module{i}(7:end)).(result.Name{i}) = tmp;
+0559                     <span class="keyword">else</span>
+0560                         o = sim.state(result.Module{i}(7:end));
+0561                         value.states.(result.Module{i}(7:end)).(result.Name{i})(o.(result.Index{i}), 1) = tmp;
+0562                     <span class="keyword">end</span>
+0563                 <span class="keyword">else</span>
+0564                     <span class="keyword">if</span> isempty(result.Index{i})
+0565                         value.processes.(result.Module{i}(9:end)).(result.Name{i}) = tmp;
+0566                     <span class="keyword">else</span>
+0567                         o = sim.process(result.Module{i}(9:end));
+0568                         value.processes.(result.Module{i}(9:end)).(result.Name{i})(o.(result.Index{i}), 1) = tmp;
+0569                     <span class="keyword">end</span>
+0570                 <span class="keyword">end</span>
+0571             <span class="keyword">end</span>
+0572         <span class="keyword">end</span>
+0573         
+0574         <span class="comment">%Loads fitted constants from database</span>
+0575         <a name="_sub23" href="#_subfunctions" class="code">function value = loadFittedConstants(sim, database, simulationWID)</a>
+0576             database.setNullValue(0);
+0577             database.prepareStatement(<span class="string">'CALL get_simulation_fittedconstants(&quot;{Si}&quot;)'</span>, simulationWID);
+0578             result = database.query();
+0579             
+0580             value = struct(<span class="string">'states'</span>, struct, <span class="string">'processes'</span>, struct);
+0581             <span class="keyword">for</span> i = 1:numel(sim.states)
+0582                 value.states.(sim.states{i}.wholeCellModelID(7:end)) = struct;
+0583             <span class="keyword">end</span>
+0584             <span class="keyword">for</span> i = 1:numel(sim.processes)
+0585                 value.processes.(sim.processes{i}.wholeCellModelID(9:end)) = struct;
+0586             <span class="keyword">end</span>
+0587             
+0588             <span class="keyword">for</span> i = 1:length(result.WID)
+0589                 <span class="keyword">if</span> result.Module{i}(1) == <span class="string">'S'</span>
+0590                     value.states.(result.Module{i}(7:end)).(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0591                 <span class="keyword">else</span>
+0592                     value.processes.(result.Module{i}(9:end)).(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0593                 <span class="keyword">end</span>
+0594             <span class="keyword">end</span>
+0595         <span class="keyword">end</span>
+0596         
+0597         <span class="comment">%Loads rand stream states from database</span>
+0598         <a name="_sub24" href="#_subfunctions" class="code">function value = loadRandStreamStates(~, database, simulationWID)</a>
+0599             database.setNullValue(0);
+0600             database.prepareStatement(<span class="string">'CALL get_simulation_randstreamstates(&quot;{Si}&quot;)'</span>, simulationWID);
+0601             result = database.query();
+0602             
+0603             value = struct(<span class="string">'simulation'</span>, [], <span class="string">'states'</span>, struct, <span class="string">'processes'</span>, struct);
+0604             <span class="keyword">for</span> i = 1:length(result.WID)
+0605                 <span class="keyword">if</span> isempty(result.Module{i})
+0606                     value.simulation = edu.stanford.covert.io.jsonParse(result.Value{i});
+0607                 <span class="keyword">elseif</span> result.Module{i}(1) == <span class="string">'S'</span>
+0608                     value.states.(result.Module{i}(7:end)) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0609                 <span class="keyword">else</span>
+0610                     value.processes.(result.Module{i}(9:end)) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0611                 <span class="keyword">end</span>
+0612             <span class="keyword">end</span>
+0613         <span class="keyword">end</span>
+0614         
+0615         <span class="comment">%Loads time courses from database</span>
+0616         <a name="_sub25" href="#_subfunctions" class="code">function states = loadTimecourses(sim, database, simulationWID)</a>
+0617             import edu.stanford.covert.cell.sim.util.DatabaseLogger;
+0618             
+0619             database.setNullValue(0);
+0620             database.prepareStatement(<span class="string">'CALL get_simulation_timecourses(&quot;{Si}&quot;)'</span>, simulationWID);
+0621             result = database.query();
+0622             
+0623             metaStates = DatabaseLogger.getMetaStates(sim);
+0624             states = DatabaseLogger.allocateMemory(metaStates, 0);
+0625             
+0626             <span class="keyword">for</span> i = 1:length(result.WID)
+0627                 states.(result.Module{i}(7:end)).(result.Name{i}) = edu.stanford.covert.io.jsonParse(result.Value{i});
+0628             <span class="keyword">end</span>
+0629         <span class="keyword">end</span>
+0630     <span class="keyword">end</span>
+0631 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

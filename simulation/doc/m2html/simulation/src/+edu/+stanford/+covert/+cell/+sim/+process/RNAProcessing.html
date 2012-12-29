@@ -1,0 +1,722 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RNAProcessing</title>
+  <meta name="keywords" content="RNAProcessing">
+  <meta name="description" content="RNAProcessing">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../../../index.html">Home</a> &gt;  <a href="../../../../../../../index.html">simulation</a> &gt; <a href="#">src</a> &gt; <a href="#">+edu</a> &gt; <a href="#">+stanford</a> &gt; <a href="#">+covert</a> &gt; <a href="#">+cell</a> &gt; <a href="../index.html">+sim</a> &gt; <a href="index.html">+process</a> &gt; RNAProcessing.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../../../index.html"><img alt="<" border="0" src="../../../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for simulation/src/+edu/+stanford/+covert/+cell/+sim/+process&nbsp;<img alt=">" border="0" src="../../../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>RNAProcessing
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>RNAProcessing</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RNAProcessing
+
+ @wholeCellModelID Process_RNAProcessing
+ @name             RNA Processing
+ @description
+   Biology
+   ==================
+   Transcription produces mono- as well as polycistronic RNAs.
+   Following transcription polycistronic rRNA, tRNA, and tmRNA transcripts are
+   cleaved, modified, and aminoacylated. First, 45S rRNA transcripts are
+   cleaved by ribonuclease III (MG_367_DIMER) into 5S, 16S, and 23S rRNA
+   precursors [PUB_0038, PUB_0039]. Next these precursors are cleaved at their
+   3' and 5' ends by ribonuclease J and RsgA [PUB_0038]. Similarly the 5' ends
+   of each tRNA and tmRNA species are cleaved by ribonuclease P [PUB_0039,
+   PUB_0649]. Ribonuclease III also cleaves scRNA at two sites [PUB_0039].
+   Second, 13 enzymes formylate, lysidinate, methylate, pseudouridylate, and
+   thiolate 86 specific rRNA and tRNA bases. Third 19 tRNA synthetases
+   conjugate 19 amino acids to 37 tRNA and tmRNA species, and 2 tRNA
+   transferases complete the aminoacylation of the formylmethionine and
+   glutamine tRNAs.
+
+   rRNA, tRNA, and tmRNA cleavage, modification, and aminoacylation are modeled
+   motivated by mass-action kinetics. First, the maximum rate of maturation of
+   each RNA species is calculated based on (1) the abundance of immature
+   transcripts, (2) the abundance of substrates and enzymes required to cleave
+   or modify each RNA species, and (3) the experimentally measured kinetic rate
+   of each enzyme required to cleave or modify each RNA species. Second, RNA
+   maturations are randomly selected according to the calculated maximum rates.
+   Finally, steps (1) and (2) are repeated until insufficient resources are
+   available to mature additional RNAs.
+
+   This process simulates the cleavage of polycistronic r/s/t RNA transcripts
+   into individual genes:
+   - 30S RNA        -&gt; pre 16/17S RNA, p23S RNA, 9S RNA    RNAseIII (MG_367)
+   - pre 16/17S RNA -&gt; 16S RNA                             5' end:rnjA (MG_139); 3' end:rsgA (MG_110)
+   - p23S RNA       -&gt; 23S RNA                             5' end:rnjA (MG_139), deaD (MG_425)
+   - 9S RNA         -&gt;  5S RNA
+   - 3' end tRNA precursors                                RNAseIII (MG_367)
+   - 5' end tRNA precursors                                RNaseP (MG_0003, MG_465)
+   - scRNA (MG_0001) precusors                             RNAseIII (MG_367)
+   - 5' end tmRNA precursors                               RNaseP (MG_0003, MG_465)
+
+   Reactions
+   ++++++++++++++++++
+   DeaD           phosphorolytic                      3.6.4.13
+   RsgA           phosphorolytic                      3.6.5.2, 3.6.1.-
+   RNAaseIII      hydrolytic       endoribonuclease   3.1.26.3
+   RNAseP         hydrolytic       endoribonuclease   3.1.26.5
+   RNAseJ         hydrolytic       endoribonuclease   3.1.27.2
+
+   Cofactors
+   ++++++++++++++++++
+   DeaD           Mg2+                [PUB_0071]
+   RsgA       (1) Zn2+                [PUB_0096]
+   RNAaseIII      Mg2+                [PUB_0039]
+   RNAseJ     (2) Zn2+                [PUB_0096]
+   RNAseP     (3) Mg2+ or (3) Mn2+    [PUB_0012, PUB_0013, PUB_0043]
+
+   Kinetics:
+   ++++++++++++++++++
+   DeaD       1.48   1/s   B. subtilis  [PUB_0688]
+   RsgA       0.2917 1/s   E. coli      [PUB_0103]
+   RNAseP     0.027  1/s   B. subtilis  [PUB_0013]
+   RNAseP     6      1/s   B. subtilis  [PUB_0690]
+   RNAseIII   7.7    1/s   E. coli      [PUB_0691]
+   RNAseJ     0.37   1/s   B. subtilis  [PUB_0692]
+
+   Energy-Dependence
+   ++++++++++++++++++
+   DeaD       2.37  ATP  1/rxn   B. subtilis  [PUB_0069] (210 ATP/min B. subtilis [PUB_0069])/(1.48 rxn/s B. subtilis  [PUB_0688])
+   RsgA       1     GTP  1/rxn   E. coli      [PUB_0103]
+
+   Knowledge Base
+   ==================
+   The transcription unit organization was predicted by mapping the
+   experimentally determined genome organization of M. pnemoniae by Güell et al
+   [Table S5 &quot;Suboperons&quot;, PUB_0418] onto the M. genitalium genome by homology
+   with 4 modifications:
+   - r/s/tRNAs were organized into transcription units according to their
+     &quot;reference operons&quot; (table s4)
+   - All mRNAs Güell Serrano et al did not assign to a suboperon because of
+     insufficient evidence (low quality expression data), were assigned to
+     their own transcription units. None of these mRNAs are located within
+     suboperons.
+   - All 5 mRNA genes which don't have homologs in M. pneumoniae were assigned
+     to their own transcription units. These occur outside other transcription
+     units.
+   - Genes which have undergone rearrangements between M. pnuemoniae and M.
+     genitalium were assigned to their own transcription units
+
+   The promoter (-35 and -10 boxes and TSS) for each transcription unit was set
+   predicted for its 3' gene by Weiner et al [PUB_0411].
+
+   The composition of each transcription unit, and the location of its -35 and
+   -10 boxes and TSS relative to the start coordinate of the 3' gene was stored
+   in the knowledge base, and it used by the TranscriptionUnit and Gene classes
+   to compute the sequences of transcription unit, gene, and intergenic
+   segment.
+
+   The kinetics and energy requirement of each RNA processing enzyme are
+   organized as parameters in the knowledge base. These values were curated
+   several papers [PUB_0069, PUB_0103, PUB_0688, PUB_0690, PUB_0691, PUB_0692].
+
+   Representation
+   ==================
+   substrates and enzymes represent the counts of metabolites and RNA
+   processing enzymes. unprocessedRNAs, processedRNAs, and intergenicRNAs
+   represent counts of RNAs. unprocessedRNAs represents the counts of nascent
+   RNAs produced by the RNA polymerase. processedRNA represents the counts of
+   r/s/tRNA precursors produced from cleavage of nascent transcripts, and mRNAs
+   that remain joined as transcription units. intergenic RNAs represents the
+   counts of RNA segments between r/s/tRNA genes in transcripts that are
+   released during the processing of these transcripts.
+
+   enzymeSpecificRate_* are the kcats of the five RNA processing enzymes. We
+   assume that each enzyme has the same kcat for all reactions it catalyzes.
+   enzymeEnergyCost_* are the amount of ATP required by the phosphorolytic RNA
+   processing enzymes (DeaD and Rsga) per cleavage reaction.
+
+   rna.nascentRNAMatureRNAComposition, rna.intergenicRNAMatrix,
+   reactantByproductMatrix, and catalysisMatrix are adjacency matrices.
+   nascentRNAMatureRNAComposition represents the the processed RNAs that arise
+   from each unprocessed RNA (eg. the r/s/t RNAs that arise from transcripts
+   containing multiple genes). intergenicRNAMatrix represents the intergenic
+   RNA segments that arise from the cleavage of r/s/tRNA transcripts into their
+   individual genes. reactantByproductMatrix represents the amounts of
+   metabolites required to cleave each polycistronic transcript, and the
+   metabolic byproducts of their cleavage. catalysisMatrix represents the
+   amount of enzyme required to cleave each polycistronic transcript.
+
+   Initialization
+   ==================
+   All RNAs are initialized to the mature state. This is accomplished by the
+   simulation class initializeState method.
+
+   Simulation
+   ==================
+   For each RNA class (mRNA, rRNA, sRNA, tRNA) in a random order:
+   1. Determine maximum number of RNAs that can be processed based on available
+      - RNA processing enzymes and their kinetics
+      - free metabolites
+      - RNAs that need processing
+   2. Randomly select among unprocessed RNAs proportional to count
+   3. Update state:
+      a. Decrement unprocessed RNAs
+      b. Increment processed RNAs, intergenic RNAs
+      c. Decrement metabolic reactants
+      d. Increment metabolic byproducts%
+
+   References
+   ==================
+   1. Güell M, van Noort V, Yus E, Chen WH, Leigh-Bell J, Michalodimitrakis K,
+      Yamada T, Arumugam M, Doerks T, Kühner S, Rode M, Suyama M, Schmidt S,
+      Gavin AC, Bork P, Serrano L (2009). Transcriptome complexity in a
+      genome-reduced bacterium. Science. 326(5957): 1268-71. [PUB_0418]
+   2. Weiner J 3rd, Herrmann R, Browning GF (2000). Transcription in Mycoplasma
+      pneumoniae. Nucleic Acids Res. 28: 4488-96. [PUB_0411].
+   3. Cordin O, Banroques J, Tanner NK, Linder P (2006). The DEAD-box protein
+      family of RNA helicases. Gene. 367: 17-37. [PUB_0069]
+   4. Himeno H, Hanawa-Suetsugu K, Kimura T, Takagi K, Sugiyama W, Shirata S,
+      Mikami T, Odagiri F, Osanai Y, Watanabe D, Goto S, Kalachnyuk L, Ushida
+      C, Muto A (2004). A  novel GTPase activated by the small subunit of
+      ribosome. Nucleic Acids Res. 32 (17): 5303-9. [PUB_0103]
+   5. Theissen B, Karow AR, Köhler J, Gubaev A, Klostermeier D (2008).
+      Cooperative binding of ATP and RNA induces a closed conformation in a
+      DEAD box RNA helicase. Proc Natl Acad Sci U S A. 105(2): 548-53.
+      [PUB_0688]
+   6. Xiao S, Scott F, Fierke CA, Engelke DR (2002). Eukaryotic ribonuclease P:
+      a plurality of ribonucleoprotein enzymes. Annu Rev Biochem. 71: 165-89.
+      [PUB_0690]
+   7. Amarasinghe AK, Calin-Jageman I, Harmouch A, Sun W, Nicholson AW (2001).
+      Escherichia coli ribonuclease III: affinity purification of
+      hexahistidine-tagged enzyme and assays for substrate binding and
+      cleavage. Methods Enzymol. 342: 143-58. [PUB_0691]
+   8. Niranjanakumari S, Day-Storms JJ, Ahmed M, Hsieh J, Zahler NH, Venters
+      RA, Fierke CA (2007). Probing the architecture of the B. subtilis RNase P
+      holoenzyme active site by cross-linking and affinity cleavage. RNA.
+      13(4): 521-35. [PUB_0692]
+
+ Author: Jonathan Karr, jkarr@stanford.edu
+ Affilitation: Covert Lab, Department of Bioengineering, Stanford University
+ Last updated: 1/4/2010</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAProcessing.html" class="code" title="">RNAProcessing</a>	RNAProcessing</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="RNAProcessing.html" class="code" title="">RNAProcessing</a>	RNAProcessing</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function this = RNAProcessing(wholeCellModelID, name)</a></li><li><a href="#_sub2" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a></li><li><a href="#_sub3" class="code">function copyFromState(this)</a></li><li><a href="#_sub4" class="code">function copyToState(this)</a></li><li><a href="#_sub5" class="code">function allocateMemoryForState(this, numTimePoints)</a></li><li><a href="#_sub6" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a></li><li><a href="#_sub7" class="code">function initializeState(~)</a></li><li><a href="#_sub8" class="code">function result = calcResourceRequirements_Current(this)</a></li><li><a href="#_sub9" class="code">function evolveState(this)</a></li><li><a href="#_sub10" class="code">function evolveState_Helper(this, rnaType)</a></li><li><a href="#_sub11" class="code">function value = getDryWeight(this)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%RNAProcessing</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% @wholeCellModelID Process_RNAProcessing</span>
+0004 <span class="comment">% @name             RNA Processing</span>
+0005 <span class="comment">% @description</span>
+0006 <span class="comment">%   Biology</span>
+0007 <span class="comment">%   ==================</span>
+0008 <span class="comment">%   Transcription produces mono- as well as polycistronic RNAs.</span>
+0009 <span class="comment">%   Following transcription polycistronic rRNA, tRNA, and tmRNA transcripts are</span>
+0010 <span class="comment">%   cleaved, modified, and aminoacylated. First, 45S rRNA transcripts are</span>
+0011 <span class="comment">%   cleaved by ribonuclease III (MG_367_DIMER) into 5S, 16S, and 23S rRNA</span>
+0012 <span class="comment">%   precursors [PUB_0038, PUB_0039]. Next these precursors are cleaved at their</span>
+0013 <span class="comment">%   3' and 5' ends by ribonuclease J and RsgA [PUB_0038]. Similarly the 5' ends</span>
+0014 <span class="comment">%   of each tRNA and tmRNA species are cleaved by ribonuclease P [PUB_0039,</span>
+0015 <span class="comment">%   PUB_0649]. Ribonuclease III also cleaves scRNA at two sites [PUB_0039].</span>
+0016 <span class="comment">%   Second, 13 enzymes formylate, lysidinate, methylate, pseudouridylate, and</span>
+0017 <span class="comment">%   thiolate 86 specific rRNA and tRNA bases. Third 19 tRNA synthetases</span>
+0018 <span class="comment">%   conjugate 19 amino acids to 37 tRNA and tmRNA species, and 2 tRNA</span>
+0019 <span class="comment">%   transferases complete the aminoacylation of the formylmethionine and</span>
+0020 <span class="comment">%   glutamine tRNAs.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   rRNA, tRNA, and tmRNA cleavage, modification, and aminoacylation are modeled</span>
+0023 <span class="comment">%   motivated by mass-action kinetics. First, the maximum rate of maturation of</span>
+0024 <span class="comment">%   each RNA species is calculated based on (1) the abundance of immature</span>
+0025 <span class="comment">%   transcripts, (2) the abundance of substrates and enzymes required to cleave</span>
+0026 <span class="comment">%   or modify each RNA species, and (3) the experimentally measured kinetic rate</span>
+0027 <span class="comment">%   of each enzyme required to cleave or modify each RNA species. Second, RNA</span>
+0028 <span class="comment">%   maturations are randomly selected according to the calculated maximum rates.</span>
+0029 <span class="comment">%   Finally, steps (1) and (2) are repeated until insufficient resources are</span>
+0030 <span class="comment">%   available to mature additional RNAs.</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   This process simulates the cleavage of polycistronic r/s/t RNA transcripts</span>
+0033 <span class="comment">%   into individual genes:</span>
+0034 <span class="comment">%   - 30S RNA        -&gt; pre 16/17S RNA, p23S RNA, 9S RNA    RNAseIII (MG_367)</span>
+0035 <span class="comment">%   - pre 16/17S RNA -&gt; 16S RNA                             5' end:rnjA (MG_139); 3' end:rsgA (MG_110)</span>
+0036 <span class="comment">%   - p23S RNA       -&gt; 23S RNA                             5' end:rnjA (MG_139), deaD (MG_425)</span>
+0037 <span class="comment">%   - 9S RNA         -&gt;  5S RNA</span>
+0038 <span class="comment">%   - 3' end tRNA precursors                                RNAseIII (MG_367)</span>
+0039 <span class="comment">%   - 5' end tRNA precursors                                RNaseP (MG_0003, MG_465)</span>
+0040 <span class="comment">%   - scRNA (MG_0001) precusors                             RNAseIII (MG_367)</span>
+0041 <span class="comment">%   - 5' end tmRNA precursors                               RNaseP (MG_0003, MG_465)</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   Reactions</span>
+0044 <span class="comment">%   ++++++++++++++++++</span>
+0045 <span class="comment">%   DeaD           phosphorolytic                      3.6.4.13</span>
+0046 <span class="comment">%   RsgA           phosphorolytic                      3.6.5.2, 3.6.1.-</span>
+0047 <span class="comment">%   RNAaseIII      hydrolytic       endoribonuclease   3.1.26.3</span>
+0048 <span class="comment">%   RNAseP         hydrolytic       endoribonuclease   3.1.26.5</span>
+0049 <span class="comment">%   RNAseJ         hydrolytic       endoribonuclease   3.1.27.2</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%   Cofactors</span>
+0052 <span class="comment">%   ++++++++++++++++++</span>
+0053 <span class="comment">%   DeaD           Mg2+                [PUB_0071]</span>
+0054 <span class="comment">%   RsgA       (1) Zn2+                [PUB_0096]</span>
+0055 <span class="comment">%   RNAaseIII      Mg2+                [PUB_0039]</span>
+0056 <span class="comment">%   RNAseJ     (2) Zn2+                [PUB_0096]</span>
+0057 <span class="comment">%   RNAseP     (3) Mg2+ or (3) Mn2+    [PUB_0012, PUB_0013, PUB_0043]</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   Kinetics:</span>
+0060 <span class="comment">%   ++++++++++++++++++</span>
+0061 <span class="comment">%   DeaD       1.48   1/s   B. subtilis  [PUB_0688]</span>
+0062 <span class="comment">%   RsgA       0.2917 1/s   E. coli      [PUB_0103]</span>
+0063 <span class="comment">%   RNAseP     0.027  1/s   B. subtilis  [PUB_0013]</span>
+0064 <span class="comment">%   RNAseP     6      1/s   B. subtilis  [PUB_0690]</span>
+0065 <span class="comment">%   RNAseIII   7.7    1/s   E. coli      [PUB_0691]</span>
+0066 <span class="comment">%   RNAseJ     0.37   1/s   B. subtilis  [PUB_0692]</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   Energy-Dependence</span>
+0069 <span class="comment">%   ++++++++++++++++++</span>
+0070 <span class="comment">%   DeaD       2.37  ATP  1/rxn   B. subtilis  [PUB_0069] (210 ATP/min B. subtilis [PUB_0069])/(1.48 rxn/s B. subtilis  [PUB_0688])</span>
+0071 <span class="comment">%   RsgA       1     GTP  1/rxn   E. coli      [PUB_0103]</span>
+0072 <span class="comment">%</span>
+0073 <span class="comment">%   Knowledge Base</span>
+0074 <span class="comment">%   ==================</span>
+0075 <span class="comment">%   The transcription unit organization was predicted by mapping the</span>
+0076 <span class="comment">%   experimentally determined genome organization of M. pnemoniae by Güell et al</span>
+0077 <span class="comment">%   [Table S5 &quot;Suboperons&quot;, PUB_0418] onto the M. genitalium genome by homology</span>
+0078 <span class="comment">%   with 4 modifications:</span>
+0079 <span class="comment">%   - r/s/tRNAs were organized into transcription units according to their</span>
+0080 <span class="comment">%     &quot;reference operons&quot; (table s4)</span>
+0081 <span class="comment">%   - All mRNAs Güell Serrano et al did not assign to a suboperon because of</span>
+0082 <span class="comment">%     insufficient evidence (low quality expression data), were assigned to</span>
+0083 <span class="comment">%     their own transcription units. None of these mRNAs are located within</span>
+0084 <span class="comment">%     suboperons.</span>
+0085 <span class="comment">%   - All 5 mRNA genes which don't have homologs in M. pneumoniae were assigned</span>
+0086 <span class="comment">%     to their own transcription units. These occur outside other transcription</span>
+0087 <span class="comment">%     units.</span>
+0088 <span class="comment">%   - Genes which have undergone rearrangements between M. pnuemoniae and M.</span>
+0089 <span class="comment">%     genitalium were assigned to their own transcription units</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   The promoter (-35 and -10 boxes and TSS) for each transcription unit was set</span>
+0092 <span class="comment">%   predicted for its 3' gene by Weiner et al [PUB_0411].</span>
+0093 <span class="comment">%</span>
+0094 <span class="comment">%   The composition of each transcription unit, and the location of its -35 and</span>
+0095 <span class="comment">%   -10 boxes and TSS relative to the start coordinate of the 3' gene was stored</span>
+0096 <span class="comment">%   in the knowledge base, and it used by the TranscriptionUnit and Gene classes</span>
+0097 <span class="comment">%   to compute the sequences of transcription unit, gene, and intergenic</span>
+0098 <span class="comment">%   segment.</span>
+0099 <span class="comment">%</span>
+0100 <span class="comment">%   The kinetics and energy requirement of each RNA processing enzyme are</span>
+0101 <span class="comment">%   organized as parameters in the knowledge base. These values were curated</span>
+0102 <span class="comment">%   several papers [PUB_0069, PUB_0103, PUB_0688, PUB_0690, PUB_0691, PUB_0692].</span>
+0103 <span class="comment">%</span>
+0104 <span class="comment">%   Representation</span>
+0105 <span class="comment">%   ==================</span>
+0106 <span class="comment">%   substrates and enzymes represent the counts of metabolites and RNA</span>
+0107 <span class="comment">%   processing enzymes. unprocessedRNAs, processedRNAs, and intergenicRNAs</span>
+0108 <span class="comment">%   represent counts of RNAs. unprocessedRNAs represents the counts of nascent</span>
+0109 <span class="comment">%   RNAs produced by the RNA polymerase. processedRNA represents the counts of</span>
+0110 <span class="comment">%   r/s/tRNA precursors produced from cleavage of nascent transcripts, and mRNAs</span>
+0111 <span class="comment">%   that remain joined as transcription units. intergenic RNAs represents the</span>
+0112 <span class="comment">%   counts of RNA segments between r/s/tRNA genes in transcripts that are</span>
+0113 <span class="comment">%   released during the processing of these transcripts.</span>
+0114 <span class="comment">%</span>
+0115 <span class="comment">%   enzymeSpecificRate_* are the kcats of the five RNA processing enzymes. We</span>
+0116 <span class="comment">%   assume that each enzyme has the same kcat for all reactions it catalyzes.</span>
+0117 <span class="comment">%   enzymeEnergyCost_* are the amount of ATP required by the phosphorolytic RNA</span>
+0118 <span class="comment">%   processing enzymes (DeaD and Rsga) per cleavage reaction.</span>
+0119 <span class="comment">%</span>
+0120 <span class="comment">%   rna.nascentRNAMatureRNAComposition, rna.intergenicRNAMatrix,</span>
+0121 <span class="comment">%   reactantByproductMatrix, and catalysisMatrix are adjacency matrices.</span>
+0122 <span class="comment">%   nascentRNAMatureRNAComposition represents the the processed RNAs that arise</span>
+0123 <span class="comment">%   from each unprocessed RNA (eg. the r/s/t RNAs that arise from transcripts</span>
+0124 <span class="comment">%   containing multiple genes). intergenicRNAMatrix represents the intergenic</span>
+0125 <span class="comment">%   RNA segments that arise from the cleavage of r/s/tRNA transcripts into their</span>
+0126 <span class="comment">%   individual genes. reactantByproductMatrix represents the amounts of</span>
+0127 <span class="comment">%   metabolites required to cleave each polycistronic transcript, and the</span>
+0128 <span class="comment">%   metabolic byproducts of their cleavage. catalysisMatrix represents the</span>
+0129 <span class="comment">%   amount of enzyme required to cleave each polycistronic transcript.</span>
+0130 <span class="comment">%</span>
+0131 <span class="comment">%   Initialization</span>
+0132 <span class="comment">%   ==================</span>
+0133 <span class="comment">%   All RNAs are initialized to the mature state. This is accomplished by the</span>
+0134 <span class="comment">%   simulation class initializeState method.</span>
+0135 <span class="comment">%</span>
+0136 <span class="comment">%   Simulation</span>
+0137 <span class="comment">%   ==================</span>
+0138 <span class="comment">%   For each RNA class (mRNA, rRNA, sRNA, tRNA) in a random order:</span>
+0139 <span class="comment">%   1. Determine maximum number of RNAs that can be processed based on available</span>
+0140 <span class="comment">%      - RNA processing enzymes and their kinetics</span>
+0141 <span class="comment">%      - free metabolites</span>
+0142 <span class="comment">%      - RNAs that need processing</span>
+0143 <span class="comment">%   2. Randomly select among unprocessed RNAs proportional to count</span>
+0144 <span class="comment">%   3. Update state:</span>
+0145 <span class="comment">%      a. Decrement unprocessed RNAs</span>
+0146 <span class="comment">%      b. Increment processed RNAs, intergenic RNAs</span>
+0147 <span class="comment">%      c. Decrement metabolic reactants</span>
+0148 <span class="comment">%      d. Increment metabolic byproducts%</span>
+0149 <span class="comment">%</span>
+0150 <span class="comment">%   References</span>
+0151 <span class="comment">%   ==================</span>
+0152 <span class="comment">%   1. Güell M, van Noort V, Yus E, Chen WH, Leigh-Bell J, Michalodimitrakis K,</span>
+0153 <span class="comment">%      Yamada T, Arumugam M, Doerks T, Kühner S, Rode M, Suyama M, Schmidt S,</span>
+0154 <span class="comment">%      Gavin AC, Bork P, Serrano L (2009). Transcriptome complexity in a</span>
+0155 <span class="comment">%      genome-reduced bacterium. Science. 326(5957): 1268-71. [PUB_0418]</span>
+0156 <span class="comment">%   2. Weiner J 3rd, Herrmann R, Browning GF (2000). Transcription in Mycoplasma</span>
+0157 <span class="comment">%      pneumoniae. Nucleic Acids Res. 28: 4488-96. [PUB_0411].</span>
+0158 <span class="comment">%   3. Cordin O, Banroques J, Tanner NK, Linder P (2006). The DEAD-box protein</span>
+0159 <span class="comment">%      family of RNA helicases. Gene. 367: 17-37. [PUB_0069]</span>
+0160 <span class="comment">%   4. Himeno H, Hanawa-Suetsugu K, Kimura T, Takagi K, Sugiyama W, Shirata S,</span>
+0161 <span class="comment">%      Mikami T, Odagiri F, Osanai Y, Watanabe D, Goto S, Kalachnyuk L, Ushida</span>
+0162 <span class="comment">%      C, Muto A (2004). A  novel GTPase activated by the small subunit of</span>
+0163 <span class="comment">%      ribosome. Nucleic Acids Res. 32 (17): 5303-9. [PUB_0103]</span>
+0164 <span class="comment">%   5. Theissen B, Karow AR, Köhler J, Gubaev A, Klostermeier D (2008).</span>
+0165 <span class="comment">%      Cooperative binding of ATP and RNA induces a closed conformation in a</span>
+0166 <span class="comment">%      DEAD box RNA helicase. Proc Natl Acad Sci U S A. 105(2): 548-53.</span>
+0167 <span class="comment">%      [PUB_0688]</span>
+0168 <span class="comment">%   6. Xiao S, Scott F, Fierke CA, Engelke DR (2002). Eukaryotic ribonuclease P:</span>
+0169 <span class="comment">%      a plurality of ribonucleoprotein enzymes. Annu Rev Biochem. 71: 165-89.</span>
+0170 <span class="comment">%      [PUB_0690]</span>
+0171 <span class="comment">%   7. Amarasinghe AK, Calin-Jageman I, Harmouch A, Sun W, Nicholson AW (2001).</span>
+0172 <span class="comment">%      Escherichia coli ribonuclease III: affinity purification of</span>
+0173 <span class="comment">%      hexahistidine-tagged enzyme and assays for substrate binding and</span>
+0174 <span class="comment">%      cleavage. Methods Enzymol. 342: 143-58. [PUB_0691]</span>
+0175 <span class="comment">%   8. Niranjanakumari S, Day-Storms JJ, Ahmed M, Hsieh J, Zahler NH, Venters</span>
+0176 <span class="comment">%      RA, Fierke CA (2007). Probing the architecture of the B. subtilis RNase P</span>
+0177 <span class="comment">%      holoenzyme active site by cross-linking and affinity cleavage. RNA.</span>
+0178 <span class="comment">%      13(4): 521-35. [PUB_0692]</span>
+0179 <span class="comment">%</span>
+0180 <span class="comment">% Author: Jonathan Karr, jkarr@stanford.edu</span>
+0181 <span class="comment">% Affilitation: Covert Lab, Department of Bioengineering, Stanford University</span>
+0182 <span class="comment">% Last updated: 1/4/2010</span>
+0183 classdef <a href="RNAProcessing.html" class="code" title="">RNAProcessing</a> &lt; edu.stanford.covert.cell.sim.Process
+0184     <span class="comment">%property annotations</span>
+0185     properties (Constant)
+0186         optionNames__              = {}; <span class="comment">%names of option properties</span>
+0187         fixedConstantNames__       = {   <span class="comment">%names of fixed constant properties</span>
+0188             <span class="string">'enzymeSpecificRate_DeaD'</span>;
+0189             <span class="string">'enzymeSpecificRate_RsgA'</span>;
+0190             <span class="string">'enzymeSpecificRate_RNAseP'</span>;
+0191             <span class="string">'enzymeSpecificRate_RNAseIII'</span>;
+0192             <span class="string">'enzymeSpecificRate_RNAseJ'</span>;
+0193             <span class="string">'enzymeEnergyCost_DeaD'</span>;
+0194             <span class="string">'enzymeEnergyCost_RsgA'</span>;            
+0195             <span class="string">'reactantByproductMatrix'</span>;
+0196             <span class="string">'catalysisMatrix'</span>;
+0197             };            
+0198         fittedConstantNames__      = {}; <span class="comment">%names of fitted constant properties</span>
+0199         localStateNames__          = {   <span class="comment">%names of simulation state properties redundant with timecourses in this or other processes or the simulation</span>
+0200             <span class="string">'unprocessedRNAs'</span>;
+0201             <span class="string">'processedRNAs'</span>;
+0202             <span class="string">'intergenicRNAs'</span>};
+0203     <span class="keyword">end</span>
+0204     
+0205     <span class="comment">%IDs, names, and local indices</span>
+0206     properties
+0207         stimuliWholeCellModelIDs   = {}; <span class="comment">%whole cell model IDs of stimuli</span>
+0208         substrateWholeCellModelIDs = {  <span class="comment">%whole cell model IDs of substrates</span>
+0209             <span class="string">'ATP'</span>; <span class="string">'GTP'</span>;
+0210             <span class="string">'ADP'</span>; <span class="string">'GDP'</span>;
+0211             <span class="string">'PI'</span>; <span class="string">'H2O'</span>; <span class="string">'H'</span>};
+0212         substrateIndexs_NTPs = (1:2)';
+0213         substrateIndexs_ATP  = 1;
+0214         substrateIndexs_GTP  = 2;
+0215         substrateIndexs_NDPs = (3:4)';
+0216         substrateIndexs_ADP  = 3;
+0217         substrateIndexs_GDP  = 4;
+0218         substrateIndexs_PI   = 5;
+0219         substrateIndexs_H2O  = 6;
+0220         substrateIndexs_H    = 7;
+0221         
+0222         enzymeWholeCellModelIDs = {     <span class="comment">%whole cell model IDs of enzymes</span>
+0223             <span class="string">'MG_367_DIMER'</span>;             <span class="comment">%ribonuclease III</span>
+0224             <span class="string">'MG_139_DIMER'</span>;             <span class="comment">%ribonuclease J</span>
+0225             <span class="string">'MG_0003_465'</span>;              <span class="comment">%ribonuclease P</span>
+0226             <span class="string">'MG_110_MONOMER'</span>;           <span class="comment">%ribosome small subunit-dependent GTPase A</span>
+0227             <span class="string">'MG_425_DIMER'</span>};            <span class="comment">%ATP-dependent RNA helicase</span>
+0228         enzymeIndexs_RNAseIII = 1;      <span class="comment">%index within enzymes of ribonuclease III</span>
+0229         enzymeIndexs_RNAseJ   = 2;      <span class="comment">%index within enzymes of ribonuclease J</span>
+0230         enzymeIndexs_RNAseP   = 3;      <span class="comment">%index within enzymes of ribonuclease P</span>
+0231         enzymeIndexs_RsgA     = 4;      <span class="comment">%index within enzymes of ribosome small subunit-dependent GTPase A</span>
+0232         enzymeIndexs_DeaD     = 5;      <span class="comment">%index within enzymes of ATP-dependent RNA helicase</span>
+0233         
+0234         unprocessedRNAWholeCellModelIDs <span class="comment">%whole cell model IDs of unprocessed RNAs</span>
+0235         processedRNAWholeCellModelIDs   <span class="comment">%whole cell model IDs of processed RNAs</span>
+0236         intergenicRNAWholeCellModelIDs  <span class="comment">%whole cell model IDs of intergenic RNAs</span>
+0237         
+0238         unprocessedRNAIndexs_mRNA       <span class="comment">%indices of unprocessed mRNAs within unprocessedRNAs</span>
+0239         unprocessedRNAIndexs_rRNA       <span class="comment">%indices of unprocessed rRNAs within unprocessedRNAs</span>
+0240         unprocessedRNAIndexs_sRNA       <span class="comment">%indices of unprocessed sRNAs within unprocessedRNAs</span>
+0241         unprocessedRNAIndexs_tRNA       <span class="comment">%indices of unprocessed tRNAs within unprocessedRNAs</span>
+0242         unprocessedRNAIndexs_scRNA      <span class="comment">%indices of unprocessed scRNAs within unprocessedRNAs</span>
+0243         unprocessedRNAIndexs_tmRNA      <span class="comment">%indices of unprocessed tmRNAs within unprocessedRNAs</span>
+0244         
+0245         processedRNAIndexs_mRNA         <span class="comment">%indices of unprocessed mRNAs within processedRNAs</span>
+0246         processedRNAIndexs_rRNA         <span class="comment">%indices of unprocessed rRNAs within processedRNAs</span>
+0247         processedRNAIndexs_sRNA         <span class="comment">%indices of unprocessed sRNAs within processedRNAs</span>
+0248         processedRNAIndexs_tRNA         <span class="comment">%indices of unprocessed tRNAs within processedRNAs</span>
+0249         processedRNAIndexs_scRNA        <span class="comment">%indices of unprocessed scRNAs within processedRNAs</span>
+0250         processedRNAIndexs_tmRNA        <span class="comment">%indices of unprocessed tmRNAs within processedRNAs</span>
+0251     <span class="keyword">end</span>
+0252     
+0253     <span class="comment">%fixed biological constants</span>
+0254     properties
+0255         <span class="comment">%enzyme kcats (reactions catalyzed per second per enzyme)</span>
+0256         enzymeSpecificRate_DeaD         <span class="comment">% 1.48   1/s   B. subtilis  [PUB_0688]</span>
+0257         enzymeSpecificRate_RsgA         <span class="comment">% 0.2917 1/s   E. coli      [PUB_0103]</span>
+0258         enzymeSpecificRate_RNAseP       <span class="comment">% 6      1/s   B. subtilis  [PUB_0690]</span>
+0259         enzymeSpecificRate_RNAseIII     <span class="comment">% 7.7    1/s   E. coli      [PUB_0691]</span>
+0260         enzymeSpecificRate_RNAseJ       <span class="comment">% 0.37   1/s   B. subtilis  [PUB_0692]</span>
+0261         
+0262         <span class="comment">%NTP hydrolyzed per reaction</span>
+0263         enzymeEnergyCost_DeaD           <span class="comment">% 2.37 ATP/reaction   (210 ATP/min B. subtilis [PUB_0069])/(1.48 rxn/s B. subtilis  [PUB_0688])</span>
+0264         enzymeEnergyCost_RsgA           <span class="comment">% 1    GTP/reaction   [PUB_0103]</span>
+0265         
+0266         <span class="comment">%adjacency matrices</span>
+0267         reactantByproductMatrix         <span class="comment">%metabolites required to cleavage each transcription unit, and metabolic byproducts of cleavage [substrates X unprocessed RNAs]</span>
+0268         catalysisMatrix                 <span class="comment">%enzymes required to cleave each transcription unit, including the effect of their kcat [enzymes X unprocessed RNAs]</span>
+0269     <span class="keyword">end</span>
+0270     
+0271     <span class="comment">%global state (copied locally for convenience)</span>
+0272     properties
+0273         unprocessedRNAs                 <span class="comment">%counts of unprocessed RNAs</span>
+0274         processedRNAs                   <span class="comment">%counts of processed RNAs</span>
+0275         intergenicRNAs                  <span class="comment">%counts of intergenic RNAs</span>
+0276     <span class="keyword">end</span>
+0277     
+0278     <span class="comment">%constructor</span>
+0279     methods
+0280         <a name="_sub0" href="#_subfunctions" class="code">function this = RNAProcessing(wholeCellModelID, name)</a>
+0281             this = this@edu.stanford.covert.cell.sim.Process(wholeCellModelID, name);
+0282         <span class="keyword">end</span>
+0283     <span class="keyword">end</span>
+0284     
+0285     <span class="comment">%communication between process/simulation</span>
+0286     methods
+0287         <a name="_sub1" href="#_subfunctions" class="code">function initializeConstants(this, knowledgeBase, simulation, varargin)</a>
+0288             this.initializeConstants@edu.stanford.covert.cell.sim.Process(knowledgeBase, simulation, varargin{:});
+0289 
+0290             <span class="comment">%% RNAs</span>
+0291             s = this.rna;
+0292             this.unprocessedRNAWholeCellModelIDs = s.wholeCellModelIDs(s.nascentIndexs);
+0293             this.processedRNAWholeCellModelIDs   = s.wholeCellModelIDs(s.processedIndexs);
+0294             this.intergenicRNAWholeCellModelIDs  = s.wholeCellModelIDs(s.intergenicIndexs);
+0295             
+0296             this.processedRNAIndexs_mRNA = s.matureMRNAIndexs;
+0297             this.processedRNAIndexs_rRNA = s.matureRRNAIndexs;
+0298             this.processedRNAIndexs_sRNA = s.matureSRNAIndexs;
+0299             this.processedRNAIndexs_tRNA = s.matureTRNAIndexs;
+0300             this.processedRNAIndexs_scRNA = find(strcmp(<span class="string">'MG_0001'</span>, this.processedRNAWholeCellModelIDs));
+0301             this.processedRNAIndexs_tmRNA = find(strcmp(<span class="string">'MG_0004'</span>, this.processedRNAWholeCellModelIDs));                    
+0302             
+0303             <span class="comment">%% processing pathways</span>
+0304             <span class="comment">%unprocessed RNAs that are precursors to processed RNAs</span>
+0305             this.unprocessedRNAIndexs_mRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_mRNA, :),1));
+0306             this.unprocessedRNAIndexs_rRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_rRNA, :),1));
+0307             this.unprocessedRNAIndexs_sRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_sRNA, :),1));
+0308             this.unprocessedRNAIndexs_tRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_tRNA, :),1));
+0309             this.unprocessedRNAIndexs_scRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_scRNA, :),1));
+0310             this.unprocessedRNAIndexs_tmRNA = find(sum(this.rna.nascentRNAMatureRNAComposition(this.processedRNAIndexs_tmRNA, :),1));
+0311             
+0312             <span class="comment">%metabolites required to process each RNA, and released as</span>
+0313             <span class="comment">%byproducts</span>
+0314             this.reactantByproductMatrix = zeros(numel(this.substrateWholeCellModelIDs), numel(this.unprocessedRNAWholeCellModelIDs));
+0315             
+0316             this.reactantByproductMatrix(this.substrateIndexs_H2O, :) = -(sum(this.rna.nascentRNAMatureRNAComposition, 1) + sum(this.rna.intergenicRNAMatrix, 1) - 1);
+0317             this.reactantByproductMatrix(this.substrateIndexs_H,   :) =  (sum(this.rna.nascentRNAMatureRNAComposition, 1) + sum(this.rna.intergenicRNAMatrix, 1) - 1);
+0318             
+0319             energyIdxs_DeaD = [this.substrateIndexs_ATP; this.substrateIndexs_ADP; this.substrateIndexs_PI; this.substrateIndexs_H2O; this.substrateIndexs_H];
+0320             this.reactantByproductMatrix(energyIdxs_DeaD, this.unprocessedRNAIndexs_rRNA) = <span class="keyword">...</span>
+0321                 this.reactantByproductMatrix(energyIdxs_DeaD, this.unprocessedRNAIndexs_rRNA) + <span class="keyword">...</span>
+0322                 round(this.enzymeEnergyCost_RsgA) * repmat([-1; 1; 1; -1; 1], 1, numel(this.unprocessedRNAIndexs_rRNA));
+0323             
+0324             energyIdxs_RsgA = [this.substrateIndexs_GTP; this.substrateIndexs_GDP; this.substrateIndexs_PI; this.substrateIndexs_H2O; this.substrateIndexs_H];
+0325             this.reactantByproductMatrix(energyIdxs_RsgA, this.unprocessedRNAIndexs_rRNA) = <span class="keyword">...</span>
+0326                 this.reactantByproductMatrix(energyIdxs_RsgA, this.unprocessedRNAIndexs_rRNA) + <span class="keyword">...</span>
+0327                 round(this.enzymeEnergyCost_DeaD) * repmat([-1; 1; 1; -1; 1], 1, numel(this.unprocessedRNAIndexs_rRNA));
+0328             
+0329             <span class="comment">%enzymes required to process each RNA (including affect of kcats)</span>
+0330             catalysis = zeros(numel(this.enzymeWholeCellModelIDs), numel(this.unprocessedRNAWholeCellModelIDs));
+0331             catalysis(this.enzymeIndexs_DeaD,     this.unprocessedRNAIndexs_rRNA) = 1;
+0332             catalysis(this.enzymeIndexs_RNAseJ,   this.unprocessedRNAIndexs_rRNA) = 2;
+0333             catalysis(this.enzymeIndexs_RNAseIII, this.unprocessedRNAIndexs_rRNA) = 2;
+0334             catalysis(this.enzymeIndexs_RsgA,     this.unprocessedRNAIndexs_rRNA) = 1;
+0335             
+0336             catalysis(this.enzymeIndexs_RNAseIII, this.unprocessedRNAIndexs_scRNA) = 2;
+0337             catalysis(this.enzymeIndexs_RNAseP,   this.unprocessedRNAIndexs_tmRNA) = 1;
+0338             
+0339             catalysis(this.enzymeIndexs_RNAseIII, this.unprocessedRNAIndexs_tRNA) = 1;
+0340             catalysis(this.enzymeIndexs_RNAseP,   this.unprocessedRNAIndexs_tRNA) = 1;
+0341             
+0342             enzymeSpecificRates = zeros(5,1);
+0343             enzymeSpecificRates(this.enzymeIndexs_DeaD)     = this.enzymeSpecificRate_DeaD;
+0344             enzymeSpecificRates(this.enzymeIndexs_RsgA)     = this.enzymeSpecificRate_RsgA;
+0345             enzymeSpecificRates(this.enzymeIndexs_RNAseP)   = this.enzymeSpecificRate_RNAseP;
+0346             enzymeSpecificRates(this.enzymeIndexs_RNAseIII) = this.enzymeSpecificRate_RNAseIII;
+0347             enzymeSpecificRates(this.enzymeIndexs_RNAseJ)   = this.enzymeSpecificRate_RNAseJ;
+0348             
+0349             this.catalysisMatrix = catalysis ./ repmat(enzymeSpecificRates, 1, numel(this.unprocessedRNAWholeCellModelIDs));
+0350         <span class="keyword">end</span>
+0351         
+0352         <span class="comment">%retrieve state from simulation</span>
+0353         <a name="_sub2" href="#_subfunctions" class="code">function copyFromState(this)</a>
+0354             this.copyFromState@edu.stanford.covert.cell.sim.Process();
+0355             
+0356             this.unprocessedRNAs = this.rna.counts(this.rna.nascentIndexs,    this.compartment.cytosolIndexs, :);
+0357             this.processedRNAs   = this.rna.counts(this.rna.processedIndexs,  this.compartment.cytosolIndexs, :);
+0358             this.intergenicRNAs  = this.rna.counts(this.rna.intergenicIndexs, this.compartment.cytosolIndexs, :);
+0359         <span class="keyword">end</span>
+0360         
+0361         <span class="comment">%send state to simulation</span>
+0362         <a name="_sub3" href="#_subfunctions" class="code">function copyToState(this)</a>
+0363             this.copyToState@edu.stanford.covert.cell.sim.Process();
+0364 
+0365             this.rna.counts(this.rna.nascentIndexs,    this.compartment.cytosolIndexs, :) = this.unprocessedRNAs;
+0366             this.rna.counts(this.rna.processedIndexs,  this.compartment.cytosolIndexs, :) = this.processedRNAs;
+0367             this.rna.counts(this.rna.intergenicIndexs, this.compartment.cytosolIndexs, :) = this.intergenicRNAs;
+0368         <span class="keyword">end</span>
+0369     <span class="keyword">end</span>
+0370     
+0371     <span class="comment">%allocate memory for state</span>
+0372     methods
+0373         <a name="_sub4" href="#_subfunctions" class="code">function allocateMemoryForState(this, numTimePoints)</a>
+0374             this.allocateMemoryForState@edu.stanford.covert.cell.sim.Process(numTimePoints);
+0375 
+0376             this.unprocessedRNAs = zeros(length(this.unprocessedRNAWholeCellModelIDs), 1, numTimePoints);
+0377             this.processedRNAs   = zeros(length(this.processedRNAWholeCellModelIDs),   1, numTimePoints);
+0378             this.intergenicRNAs  = zeros(length(this.intergenicRNAWholeCellModelIDs),  1, numTimePoints);
+0379         <span class="keyword">end</span>
+0380     <span class="keyword">end</span>
+0381     
+0382     <span class="comment">%model</span>
+0383     methods
+0384         <span class="comment">%Calculate</span>
+0385         <span class="comment">%- contribution to FBA objective</span>
+0386         <span class="comment">%- minimum expression consistent with cell cycle length</span>
+0387         <a name="_sub5" href="#_subfunctions" class="code">function [bmProd, byProd, minEnzExp, maxEnzExp] = calcResourceRequirements_LifeCycle(this, ~, states)</a>
+0388             import edu.stanford.covert.util.ComputationUtil;
+0389             invMat = ComputationUtil.invertCompositionMatrix(this.rna.nascentRNAMatureRNAComposition);
+0390             
+0391             <span class="comment">%substrate and byproducts</span>
+0392             bmProd = max(0, -this.reactantByproductMatrix) * invMat * states.rnaProductions;
+0393             byProd = max(0,  this.reactantByproductMatrix) * invMat * states.rnaProductions;
+0394             
+0395             <span class="comment">%enzymes</span>
+0396             minEnzExp = 2 * this.catalysisMatrix * invMat * states.rnaProductions0;
+0397             maxEnzExp = Inf(size(this.enzymeWholeCellModelIDs));
+0398         <span class="keyword">end</span>
+0399         
+0400         <span class="comment">%initialization: RNAs initialized to the mature/aminoacylated state by</span>
+0401         <span class="comment">%simulation initializeState method</span>
+0402         <a name="_sub6" href="#_subfunctions" class="code">function initializeState(~)</a>
+0403         <span class="keyword">end</span>
+0404         
+0405         <span class="comment">%resource requirements</span>
+0406         <a name="_sub7" href="#_subfunctions" class="code">function result = calcResourceRequirements_Current(this)</a>
+0407             result = max(0, -this.reactantByproductMatrix) * min( <span class="keyword">...</span>
+0408                 ceil(min(this.enzymes(:, ones(size(this.catalysisMatrix, 2), 1)) ./ this.catalysisMatrix * this.stepSizeSec, [], 1))', <span class="keyword">...</span>
+0409                 this.unprocessedRNAs); <span class="comment">%#ok&lt;UDIM&gt;</span>
+0410         <span class="keyword">end</span>
+0411 
+0412         <span class="comment">%simulation</span>
+0413         <a name="_sub8" href="#_subfunctions" class="code">function evolveState(this)</a>
+0414             rnaTypes = {<span class="string">'mRNA'</span>; <span class="string">'rRNA'</span>; <span class="string">'sRNA'</span>; <span class="string">'tRNA'</span>};
+0415             
+0416             order = this.randStream.randperm(4);
+0417             <span class="keyword">for</span> i = 1:4
+0418                 this.evolveState_Helper(rnaTypes{order(i)});
+0419             <span class="keyword">end</span>
+0420         <span class="keyword">end</span>
+0421         
+0422         <a name="_sub9" href="#_subfunctions" class="code">function evolveState_Helper(this, rnaType)</a>
+0423             <span class="comment">%indices of unprocessed RNAs of selected type</span>
+0424             unprocessedRNAIndexs = this.([<span class="string">'unprocessedRNAIndexs_'</span> rnaType]);
+0425             
+0426             <span class="comment">%limit RNA processing by availability of</span>
+0427             <span class="comment">%- unprocessed RNAs</span>
+0428             <span class="comment">%- enzymes</span>
+0429             <span class="comment">%- free reactants</span>
+0430             <span class="comment">%</span>
+0431             <span class="comment">%Assumes that each RNA of this type uses same amount of substrates</span>
+0432             <span class="comment">%(except water and hydrogen) and enzymes. There is an assertion in</span>
+0433             <span class="comment">%the test class to check that this is true. For water and hydrogen</span>
+0434             <span class="comment">%this upper bound calculation uses that most amount of water and</span>
+0435             <span class="comment">%hydrogen required across all RNAs of the current type (Note: the</span>
+0436             <span class="comment">%correct stoichiometry of water and hydrogen are used to update</span>
+0437             <span class="comment">%state).</span>
+0438             totRNAs = sum(this.unprocessedRNAs(unprocessedRNAIndexs));
+0439             <span class="keyword">if</span> totRNAs == 0
+0440                 <span class="keyword">return</span>;
+0441             <span class="keyword">end</span>
+0442             
+0443             substrates = this.substrates ./ max(0, -min(this.reactantByproductMatrix(:, unprocessedRNAIndexs), [], 2));
+0444             numReactions = floor(min([
+0445                 totRNAs;
+0446                 this.randStream.stochasticRound((this.enzymes * this.stepSizeSec) ./ this.catalysisMatrix(:, unprocessedRNAIndexs(1)));
+0447                 substrates <span class="keyword">...</span>
+0448                 ]));
+0449             <span class="keyword">if</span> numReactions &lt;= 0
+0450                 <span class="keyword">return</span>;
+0451             <span class="keyword">end</span>
+0452             
+0453             <span class="comment">%randomly select RNAs to process</span>
+0454             processingRNAs = this.randStream.randCounts(this.unprocessedRNAs(unprocessedRNAIndexs), numReactions);
+0455             
+0456             <span class="comment">%increment processed RNAs</span>
+0457             this.processedRNAs = this.processedRNAs + <span class="keyword">...</span>
+0458                 this.rna.nascentRNAMatureRNAComposition(:, unprocessedRNAIndexs) * processingRNAs;
+0459             
+0460             <span class="comment">%increment intergenic RNAs</span>
+0461             this.intergenicRNAs = this.intergenicRNAs + <span class="keyword">...</span>
+0462                 this.rna.intergenicRNAMatrix(:, unprocessedRNAIndexs) * processingRNAs;
+0463             
+0464             <span class="comment">%decrement unprocessed RNAs</span>
+0465             this.unprocessedRNAs(unprocessedRNAIndexs) = <span class="keyword">...</span>
+0466                 this.unprocessedRNAs(unprocessedRNAIndexs) - processingRNAs;
+0467             
+0468             <span class="comment">%decrement reactants, increment byproducts</span>
+0469             this.substrates = this.substrates + <span class="keyword">...</span>
+0470                 this.reactantByproductMatrix(:, unprocessedRNAIndexs) * processingRNAs;
+0471         <span class="keyword">end</span>
+0472     <span class="keyword">end</span>
+0473     
+0474     <span class="comment">%get methods of dependent local state</span>
+0475     methods
+0476         <a name="_sub10" href="#_subfunctions" class="code">function value = getDryWeight(this)</a>
+0477             <span class="keyword">if</span> size(this.unprocessedRNAs, 3) == 1
+0478                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0479                     this.rna.molecularWeights(this.rna.nascentIndexs)'    * this.unprocessedRNAs + <span class="keyword">...</span>
+0480                     this.rna.molecularWeights(this.rna.processedIndexs)'  * this.processedRNAs   + <span class="keyword">...</span>
+0481                     this.rna.molecularWeights(this.rna.intergenicIndexs)' * this.intergenicRNAs) <span class="keyword">...</span>
+0482                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0483             <span class="keyword">else</span>
+0484                 value = this.getDryWeight@edu.stanford.covert.cell.sim.Process() + (<span class="keyword">...</span>
+0485                     permute(this.rna.molecularWeights(this.rna.nascentIndexs)'    * permute(this.unprocessedRNAs,[1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0486                     permute(this.rna.molecularWeights(this.rna.processedIndexs)'  * permute(this.processedRNAs,  [1 3 2]),[1 3 2]) + <span class="keyword">...</span>
+0487                     permute(this.rna.molecularWeights(this.rna.intergenicIndexs)' * permute(this.intergenicRNAs, [1 3 2]),[1 3 2])) <span class="keyword">...</span>
+0488                     / edu.stanford.covert.util.ConstantUtil.nAvogadro;
+0489             <span class="keyword">end</span>
+0490         <span class="keyword">end</span>
+0491     <span class="keyword">end</span>
+0492 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 19-Jul-2012 18:32:13 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
